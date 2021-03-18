@@ -22,7 +22,7 @@
 #' @return a leaflet map
 #'
 #' @examples
-#' \dontrun {
+#' \dontrun{
 #' # cluster enabled and  `deployment_id` column for hovering
 #' visualize_species_per_deployment(camtrapdp$deployments,
 #'                                  camtrapdp$observations)

@@ -31,7 +31,7 @@ This function visualizes the number of species detected by each deployment.
 Possible filtering about time period, ... (to be added)
 }
 \examples{
-\dontrun {
+\dontrun{
 # cluster enabled and  `deployment_id` column for hovering
 visualize_species_per_deployment(camtrapdp$deployments,
                                  camtrapdp$observations)

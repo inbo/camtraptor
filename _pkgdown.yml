@@ -1,0 +1,9 @@
+url: https://inbo.github.io/camtrapdp
+
+template:
+  params:
+    bootswatch: yeti
+
+authors:
+  Damiano Oldoni:
+    href: https://twitter.com/damianozingaro

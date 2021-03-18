@@ -38,3 +38,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# big files
+inst/extdata/gmu8-monitoring-faunabeheerzone-8-20210301093537

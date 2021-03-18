@@ -1,0 +1,35 @@
+Package: camtrapdp
+Title: Visualize camtrap-dp formatted data
+Version: 0.1.0.9001
+Authors@R: 
+    person(given = "Damiano",
+           family = "Oldoni",
+           role = c("aut", "cre"),
+           email = "damiano.oldoni@inbo.be",
+           comment = c(ORCID = "0000-0003-3445-7562"))
+Description: This package is a test environment for
+    visualization of camera trap data formatted following the [Camera Trap
+    Data Package standard](https://github.com/tdwg/camtrap-dp).
+License: MIT + file LICENSE
+BugReports: https://github.com/inbo/camera-traps/issues
+Depends: 
+    R (>= 3.5.0)
+Imports:
+    dplyr,
+    glue,
+    here,
+    jsonlite,
+    leaflet,
+    readr,
+    rlang
+Suggests: 
+    covr,
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

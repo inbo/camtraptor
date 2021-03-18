@@ -18,6 +18,14 @@ knitr::opts_chunk$set(
 
 This vignette shows how to visualize number of species per deployment in a leaflet by using function  `visualize_species_per_deployment()`.
 
+## Setup
+
+Load package:
+
+```{r load}
+library(camtrapdp)
+```
+
 ## Read data
 
 First, import camera trap data. This package accepts only data formatted using the TDWG [Camera Trap Data Pakckage](https://tdwg.github.io/camtrap-dp/) standard.

@@ -9,7 +9,7 @@
 #'   while visualizing maps. Default: TRUE
 #'
 #' @importFrom dplyr distinct group_by count left_join select %>%
-#' @importFrom leaflet leaflet addTiles addCircleMarkers
+#' @importFrom leaflet leaflet addTiles addCircleMarkers markerClusterOptions
 #' @importFrom glue glue
 #'
 #' @export

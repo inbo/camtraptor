@@ -34,22 +34,28 @@ To read data, use the function `read_camtrap-dp()`:
 
 ```{r read_data, message=FALSE, warning=FALSE}
 library(here)
-camtrap_dp_folder <- here("data", "mica-muskrat-and-coypu-20210302172233")
+camtrap_dp_folder <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
 camtrap_dp <- read_camtrap_dp(camtrap_dp_folder)
 ```
 
 ## Create map
 
-You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. 
+You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. You can benefit of the `cluster` mode, which is set to `TRUE` by default. You can also specify the column you want to show while hovering with the mouse over the deployment. By default the  `deployment_id` is used.
 
-You can benefit of the `cluster` mode (set to `TRUE` by default):
-
-```{r visualize_with_clusters}
+```{r visualize_with_clusters_and_default_hover_col}
 visualize_species_per_deployment(deployments = camtrap_dp$deployments,
                                  observations = camtrap_dp$observations)
 ```
 
-or you can deactivate it:
+Here below the column `location_name` is used instead:
+
+```{r visualize_with_clusters_spec_hover_col}
+visualize_species_per_deployment(deployments = camtrap_dp$deployments,
+                                 observations = camtrap_dp$observations,
+                                 hover_column = "location_name")
+```
+
+Deactivating the cluster mode:
 
 ```{r visualize_without_clusters}
 visualize_species_per_deployment(deployments = camtrap_dp$deployments,

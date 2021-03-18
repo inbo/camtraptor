@@ -34,7 +34,7 @@ To read data, use the function `read_camtrap-dp()`:
 
 ```{r read_data, message=FALSE, warning=FALSE}
 library(here)
-camtrap_dp_folder <- here("data", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
+camtrap_dp_folder <- here("data", "mica-muskrat-and-coypu-20210302172233")
 camtrap_dp <- read_camtrap_dp(camtrap_dp_folder)
 ```
 

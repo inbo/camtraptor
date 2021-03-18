@@ -4,7 +4,12 @@
 \alias{visualize_species_per_deployment}
 \title{Visualize number of species per deployment}
 \usage{
-visualize_species_per_deployment(deployments, observations, cluster = TRUE)
+visualize_species_per_deployment(
+  deployments,
+  observations,
+  cluster = TRUE,
+  hover_column = "deployment_id"
+)
 }
 \arguments{
 \item{deployments}{a tibble (data.frame) containing deployments}
@@ -13,6 +18,10 @@ visualize_species_per_deployment(deployments, observations, cluster = TRUE)
 
 \item{cluster}{a logical value indicating whether using the cluster option
 while visualizing maps. Default: TRUE}
+
+\item{hover_column}{character with the name of the column to use for showing
+location deployment information while hovering the mouse over. By default:
+\code{deployment_id}. Use \code{NULL} to disable hovering.}
 }
 \value{
 a leaflet map
@@ -20,4 +29,18 @@ a leaflet map
 \description{
 This function visualizes the number of species detected by each deployment.
 Possible filtering about time period, ... (to be added)
+}
+\examples{
+\dontrun {
+# cluster enabled and  `deployment_id` column for hovering
+visualize_species_per_deployment(camtrapdp$deployments,
+                                 camtrapdp$observations)
+# cluster disabled
+visualize_species_per_deployment(camtrapdp$deployments,
+                                 camtrapdp$observations,
+                                 cluster = FALSE)
+visualize_species_per_deployment(camtrapdp$deployments,
+                                 camtrapdp$observations,
+                                 hover_column = "location_name")
+}
 }

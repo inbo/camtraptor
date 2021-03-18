@@ -22,7 +22,9 @@ a list of tibbles (dataframes)
 This function reads cameratrap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package} (\href{https://github.com/tdwg/camtrap-dp}{Camtrap DP}) format.
 }
 \examples{
+\dontrun {
 library(here)
-camtrap_dp_folder <- here("data", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
-camtrap_dp <- read_camtrap_dp(camtrap_dp_folder)
+camtrap_dp_folder <- here("inst", "extdata", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
+gmu8 <- read_camtrap_dp(camtrap_dp_folder)
+}
 }

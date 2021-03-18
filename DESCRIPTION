@@ -20,7 +20,8 @@ Imports:
     here,
     jsonlite,
     leaflet,
-    readr
+    readr,
+    rlang
 Suggests: 
     covr,
     knitr,

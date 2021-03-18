@@ -30,6 +30,9 @@ a leaflet map
 This function visualizes the number of species detected by each deployment.
 Possible filtering about time period, ... (to be added)
 }
+\details{
+A message is returned if there are deployments without any observation.
+}
 \examples{
 \dontrun{
 # cluster enabled and  `deployment_id` column for hovering

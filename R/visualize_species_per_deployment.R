@@ -3,6 +3,8 @@
 #' This function visualizes the number of species detected by each deployment.
 #' Possible filtering about time period, ... (to be added)
 #'
+#' A message is returned if there are deployments without any observation.
+#'
 #' @param deployments a tibble (data.frame) containing deployments
 #' @param observations a tibble (data.frame) containing observations
 #' @param cluster a logical value indicating whether using the cluster option

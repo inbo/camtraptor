@@ -40,4 +40,4 @@ vignettes/*.pdf
 .Renviron
 
 # big files
-data/gmu8-monitoring-faunabeheerzone-8-20210301093537
+inst/extdata/gmu8-monitoring-faunabeheerzone-8-20210301093537

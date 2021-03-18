@@ -1,0 +1,57 @@
+---
+title: "Visualize number of species per deployment"
+author: "Damiano Oldoni"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualize number of species per deployment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows how to visualize number of species per deployment in a leaflet by using function  `visualize_species_per_deployment()`.
+
+## Read data
+
+First, import camera trap data. This package accepts only data formatted using the TDWG [Camera Trap Data Pakckage](https://tdwg.github.io/camtrap-dp/) standard.
+
+To read data, use the function `read_camtrap-dp()`:
+
+```{r read_data, message=FALSE, warning=FALSE}
+library(here)
+camtrap_dp_folder <- here("data", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
+camtrap_dp <- read_camtrap_dp(camtrap_dp_folder)
+```
+
+## Create map
+
+You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. 
+
+You can benefit of the `cluster` mode (set to `TRUE` by default):
+
+```{r visualize_with_clusters}
+visualize_species_per_deployment(deployments = camtrap_dp$deployments,
+                                 observations = camtrap_dp$observations)
+```
+
+or you can deactivate it:
+
+```{r visualize_without_clusters}
+visualize_species_per_deployment(deployments = camtrap_dp$deployments,
+                                 observations = camtrap_dp$observations,
+                                 cluster = FALSE)
+```
+
+
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))

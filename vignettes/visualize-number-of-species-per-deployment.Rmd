@@ -26,46 +26,29 @@ Load package:
 library(camtrapdp)
 ```
 
-## Read data
-
-First, import camera trap data. This package accepts only data formatted using the TDWG [Camera Trap Data Pakckage](https://tdwg.github.io/camtrap-dp/) standard.
-
-To read data, use the function `read_camtrap-dp()`:
-
-```{r read_data, message=FALSE, warning=FALSE}
-library(here)
-camtrap_dp_folder <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
-camtrap_dp <- read_camtrap_dp(camtrap_dp_folder)
-```
+This load automatically a camera trap data package, `camtrapdp`, containing camera trap data about musk rat and coypu. We will use this variable from now on.
 
 ## Create map
 
 You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. You can benefit of the `cluster` mode, which is set to `TRUE` by default. You can also specify the column you want to show while hovering with the mouse over the deployment. By default the  `deployment_id` is used.
 
 ```{r visualize_with_clusters_and_default_hover_col}
-visualize_species_per_deployment(deployments = camtrap_dp$deployments,
-                                 observations = camtrap_dp$observations)
+visualize_species_per_deployment(deployments = camtrapdp$deployments,
+                                 observations = camtrapdp$observations)
 ```
 
 Here below the column `location_name` is used instead:
 
 ```{r visualize_with_clusters_spec_hover_col}
-visualize_species_per_deployment(deployments = camtrap_dp$deployments,
-                                 observations = camtrap_dp$observations,
+visualize_species_per_deployment(deployments = camtrapdp$deployments,
+                                 observations = camtrapdp$observations,
                                  hover_column = "location_name")
 ```
 
 Deactivating the cluster mode:
 
 ```{r visualize_without_clusters}
-visualize_species_per_deployment(deployments = camtrap_dp$deployments,
-                                 observations = camtrap_dp$observations,
+visualize_species_per_deployment(deployments = camtrapdp$deployments,
+                                 observations = camtrapdp$observations,
                                  cluster = FALSE)
 ```
-
-
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))

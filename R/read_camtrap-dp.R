@@ -17,6 +17,10 @@
 #' library(here)
 #' camtrap_dp_folder <- here("inst", "extdata", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
 #' gmu8 <- read_camtrap_dp(camtrap_dp_folder)
+#'
+#' library(here)
+#' camtrap_dp_folder <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_folder)
 #' }
 read_camtrap_dp <- function(path) {
   # add asserts to check presence of the 4 files

@@ -30,7 +30,12 @@ This load automatically a camera trap data package, `camtrapdp`, containing came
 
 ## Create map
 
-You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. You can benefit of the `cluster` mode, which is set to `TRUE` by default. You can also specify the column you want to show while hovering with the mouse over the deployment. By default the  `deployment_id` is used.
+You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. You can benefit of the `cluster` mode, which is set to `TRUE` by default. You can also specify which information you want to show while hovering with the mouse over the deployment. By default the number of species (`n`) is shown. Other possible values are:
+
+- `deployment_id`
+- `location_id`
+- `location_name`
+- `NULL` to disable hovering
 
 ```{r visualize_with_clusters_and_default_hover_col}
 visualize_species_per_deployment(deployments = camtrapdp$deployments,
@@ -45,10 +50,11 @@ visualize_species_per_deployment(deployments = camtrapdp$deployments,
                                  hover_column = "location_name")
 ```
 
-Deactivating the cluster mode:
+Deactivating both cluster mode and hovering:
 
 ```{r visualize_without_clusters}
 visualize_species_per_deployment(deployments = camtrapdp$deployments,
                                  observations = camtrapdp$observations,
-                                 cluster = FALSE)
+                                 cluster = FALSE,
+                                 hover_column = NULL)
 ```

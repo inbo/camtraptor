@@ -135,7 +135,7 @@ Possible filtering about time period, ... (to be added)</p>
   <span class='va'>deployments</span>,
   <span class='va'>observations</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  hover_column <span class='op'>=</span> <span class='st'>"deployment_id"</span>
+  hover_column <span class='op'>=</span> <span class='st'>"n"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,8 +157,13 @@ while visualizing maps. Default: TRUE</p></td>
     <tr>
       <th>hover_column</th>
       <td><p>character with the name of the column to use for showing
-location deployment information while hovering the mouse over. By default:
-<code>deployment_id</code>. Use <code>NULL</code> to disable hovering.</p></td>
+location deployment information while hovering the mouse over. One from:</p><ul>
+<li><p><code>n</code>: number of species (default)</p></li>
+<li><p><code>deployment_id</code></p></li>
+<li><p><code>location_id</code></p></li>
+<li><p><code>location_name</code></p></li>
+<li><p><code>NULL</code>: hovering disabled</p></li>
+</ul></td>
     </tr>
     </table>
 

@@ -10,8 +10,12 @@
 #' @param cluster a logical value indicating whether using the cluster option
 #'   while visualizing maps. Default: TRUE
 #' @param hover_column character with the name of the column to use for showing
-#'   location deployment information while hovering the mouse over. By default:
-#'   `deployment_id`. Use `NULL` to disable hovering.
+#'   location deployment information while hovering the mouse over. One from:
+#'   - `n`: number of species (default)
+#'   - `deployment_id`
+#'   - `location_id`
+#'   - `location_name`
+#'   - `NULL`: hovering disabled
 #'
 #' @importFrom dplyr .data count distinct group_by left_join mutate one_of
 #'   select %>%
@@ -39,7 +43,7 @@
 visualize_species_per_deployment <- function(deployments,
                                              observations,
                                              cluster = TRUE,
-                                             hover_column = "deployment_id") {
+                                             hover_column = "n") {
 
   # get species detected by each deployment
   species <-

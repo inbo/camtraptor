@@ -8,7 +8,7 @@ visualize_species_per_deployment(
   deployments,
   observations,
   cluster = TRUE,
-  hover_column = "deployment_id"
+  hover_column = "n"
 )
 }
 \arguments{
@@ -20,8 +20,14 @@ visualize_species_per_deployment(
 while visualizing maps. Default: TRUE}
 
 \item{hover_column}{character with the name of the column to use for showing
-location deployment information while hovering the mouse over. By default:
-\code{deployment_id}. Use \code{NULL} to disable hovering.}
+location deployment information while hovering the mouse over. One from:
+\itemize{
+\item \code{n}: number of species (default)
+\item \code{deployment_id}
+\item \code{location_id}
+\item \code{location_name}
+\item \code{NULL}: hovering disabled
+}}
 }
 \value{
 a leaflet map

@@ -96,7 +96,7 @@ visualize_species_per_deployment(deployments = camtrapdp$deployments,
 
 Upper limit above number of detected species:
 
-```{r low_upper_limit}
+```{r high_upper_limit}
 visualize_species_per_deployment(deployments = camtrapdp$deployments,
                                  observations = camtrapdp$observations,
                                  relative_color_scale = FALSE,

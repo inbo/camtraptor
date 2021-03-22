@@ -44,14 +44,14 @@ labelFormat_scale <- function(max_color_scale = NULL,
                               digits = 3,
                               big.mark = ",",
                               transform = identity) {
-
   formatNum <- function(x, max_color_scale) {
     cuts_chrs <- format(round(transform(x), digits),
-                       trim = TRUE,
-                       scientific = FALSE,
-                       big.mark = big.mark)
+      trim = TRUE,
+      scientific = FALSE,
+      big.mark = big.mark
+    )
     if (!is.null(max_color_scale)) {
-      n = length(x)
+      n <- length(x)
       if (x[n] == max_color_scale) {
         cuts_chrs[n] <- paste0(cuts_chrs[n], "+")
       }

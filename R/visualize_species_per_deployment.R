@@ -23,7 +23,7 @@
 #'   scale
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr .data bind_rows count distinct group_by left_join mutate
+#' @importFrom dplyr .data bind_rows count distinct filter group_by left_join mutate
 #'   pull one_of select %>%
 #' @importFrom leaflet addLegend addTiles addCircleMarkers colorNumeric leaflet
 #'   markerClusterOptions

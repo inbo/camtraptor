@@ -221,7 +221,7 @@ visualize_species_per_deployment <- function(deployments,
         addCircleMarkers(
           lng = ~longitude,
           lat = ~latitude,
-          radius = ~ifelse(is.na(n), 5, n + 5),
+          radius = ~ifelse(is.na(n), 10, n + 10),
           color = ~pal(n),
           stroke = FALSE,
           fillOpacity = 0.5,

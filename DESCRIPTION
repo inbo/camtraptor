@@ -24,6 +24,7 @@ Imports:
     rlang
 Suggests: 
     covr,
+    lubridate,
     knitr,
     rmarkdown,
     testthat

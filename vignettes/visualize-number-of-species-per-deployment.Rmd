@@ -79,7 +79,7 @@ recent_obs <-
 
 # create new map
 visualize_species_per_deployment(deployments = camtrapdp$deployments,
-                                 observations = recent_obs_camtrapdp)
+                                 observations = recent_obs)
 ```
 
 ### Use absolute scale

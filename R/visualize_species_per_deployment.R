@@ -195,7 +195,7 @@ visualize_species_per_deployment <- function(deployments,
                           max(n_species$n, na.rm = TRUE),
                           max_color_scale)
   # define color palette
-  palette_colors <- c("white", "yellow", "red")
+  palette_colors <- c("white", "blue")
   pal <- colorNumeric(
     palette = palette_colors,
     domain = c(0, max_n_species))

@@ -25,6 +25,7 @@ Load packages:
 ```{r load}
 library(camtrapdp)
 library(lubridate)
+library(dplyr)
 ```
 
 This load automatically a camera trap data package, `camtrapdp`, containing camera trap data about musk rat and coypu. We will use this variable from now on.

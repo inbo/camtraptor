@@ -33,17 +33,21 @@ This load automatically a camera trap data package, `camtrapdp`, containing came
 
 ### Basic usage
 
-You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`. You can benefit of the `cluster` mode, which is set to `TRUE` by default. You can also specify which information you want to show while hovering with the mouse over the deployment. By default the number of species (`n`) is shown. Other possible values are:
-
-- `deployment_id`
-- `location_id`
-- `location_name`
-- `NULL` to disable hovering
+You can visualize the number of species detected by each deployment by using the function `visualize_species_per_deployment()`:
 
 ```{r visualize_with_clusters_and_default_hover_col}
 visualize_species_per_deployment(deployments = camtrapdp$deployments,
                                  observations = camtrapdp$observations)
 ```
+
+### Clustering and hovering
+
+You can specify which information you want to show while hovering with the mouse over the deployment. By default the number of species (`n`) is shown. Other possible values are:
+
+- `deployment_id`
+- `location_id`
+- `location_name`
+- `NULL` to disable hovering
 
 Here below the column `location_name` is used instead:
 
@@ -64,7 +68,7 @@ visualize_species_per_deployment(deployments = camtrapdp$deployments,
 
 ### Visualize deployments without observations
 
-It can happen that some deployments didn't observe any animal. They are shown in the map as grey circles and NA is showh while hovering over:
+It can happen that some deployments didn't observe any animal. They are shown in the map as gray circles and `"NA"` is shown while hovering over:
 
 ```{r show_deployments_without_observations}
 # create df with less observations

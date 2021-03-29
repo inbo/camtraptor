@@ -7,12 +7,21 @@
     <loc>https://inbo.github.io/camtrapdp/reference/camtrapdp.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_dep_no_obs.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_n_obs.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_n_species.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/map_dep.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/read_camtrap_dp.html</loc>
   </url>
   <url>
-    <loc>https://inbo.github.io/camtrapdp/reference/visualize_species_per_deployment.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtrapdp/articles/visualize-number-of-species-per-deployment.html</loc>
+    <loc>https://inbo.github.io/camtrapdp/articles/visualize-deployment-features.html</loc>
   </url>
 </urlset>

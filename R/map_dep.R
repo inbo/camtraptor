@@ -46,6 +46,7 @@
 #' @importFrom leaflet addLegend addTiles addCircleMarkers colorNumeric leaflet
 #'   markerClusterOptions
 #' @importFrom glue glue
+#' @importFrom grDevices rgb
 #' @importFrom htmltools HTML
 #' @importFrom lubridate is.POSIXt
 #' @importFrom purrr map2 map

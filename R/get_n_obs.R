@@ -32,5 +32,5 @@ get_n_obs <- function(deployments, observations) {
   # add them to n_species and return df with column n as integer
   n_obs %>%
     bind_rows(deployments_no_obs) %>%
-    mutate(n = as.integer(n))
+    mutate(n = as.integer(.data$n))
 }

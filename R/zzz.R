@@ -83,10 +83,6 @@ labelFormat_scale <- function(max_color_scale = NULL,
 #' @export
 #'
 #' @return a tibble (data.frame) with deployments not linked to any observations
-#'
-#' @noRd
-#'
-#' @keywords internal
 get_dep_no_obs <- function(deployments, observations) {
 
   # deployment with no observations

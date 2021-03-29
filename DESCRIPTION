@@ -27,7 +27,6 @@ Imports:
     tidyr
 Suggests: 
     covr,
-    lubridate,
     knitr,
     rmarkdown,
     testthat

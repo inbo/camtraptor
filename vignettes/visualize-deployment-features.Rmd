@@ -74,7 +74,7 @@ map_dep(deployments = camtrapdp$deployments,
         observations = camtrapdp$observations,
         feature = "n_species", 
         cluster = FALSE,
-        hover_column = NULL)
+        hover_columns = NULL)
 ```
 
 ### Visualize deployments without observations
@@ -112,16 +112,18 @@ Upper limit below number of detected species:
 
 ```{r low_upper_limit}
 map_dep(deployments = camtrapdp$deployments,
-                                 observations = camtrapdp$observations,
-                                 relative_color_scale = FALSE,
-                                 max_color_scale = 3)
+        observations = camtrapdp$observations,
+        feature = "n_species",
+        relative_color_scale = FALSE,
+        max_color_scale = 3)
 ```
 
 Upper limit above number of detected species:
 
 ```{r high_upper_limit}
 map_dep(deployments = camtrapdp$deployments,
-                                 observations = camtrapdp$observations,
-                                 relative_color_scale = FALSE,
-                                 max_color_scale = 10)
+        observations = camtrapdp$observations,
+        feature = "n_species",,
+        relative_color_scale = FALSE,
+        max_color_scale = 10)
 ```

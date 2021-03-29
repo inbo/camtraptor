@@ -1,6 +1,6 @@
 Package: camtrapdp
 Title: Visualize camtrap-dp formatted data
-Version: 0.1.0.9001
+Version: 0.1.0.9002
 Authors@R: 
     person(given = "Damiano",
            family = "Oldoni",
@@ -18,14 +18,17 @@ Imports:
     assertthat,
     dplyr,
     glue,
+    grDevices,
     here,
+    htmltools,
     jsonlite,
     leaflet,
+    lubridate,
     readr,
-    rlang
+    purrr,
+    tidyr
 Suggests: 
     covr,
-    lubridate,
     knitr,
     rmarkdown,
     testthat

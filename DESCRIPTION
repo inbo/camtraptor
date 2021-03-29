@@ -19,10 +19,12 @@ Imports:
     dplyr,
     glue,
     here,
+    htmltools,
     jsonlite,
     leaflet,
+    lubridate,
     readr,
-    rlang
+    tidyr
 Suggests: 
     covr,
     lubridate,

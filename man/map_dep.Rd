@@ -28,11 +28,21 @@ while visualizing maps. Default: TRUE}
 
 \item{hover_columns}{character with the name of the columns to use for
 showing location deployment information while hovering the mouse over. One
-or more from deployment columns. Use \code{NULL} to disable hovering. Default: -
-\code{n}: number of species/observations (column created internally by a
-\verb{get_n_*()} function) - \code{start}: start deployment - \code{end}: end deployment -
-\code{deployment_id} - \code{location_id} - \code{location_name} - \code{latitude} -
-\code{longitude}. See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
+or more from deployment columns. Use \code{NULL} to disable hovering. Default
+information:
+\itemize{
+\item \code{n}: number of species/observations (column created internally by a
+\verb{get_n_*()} function)
+\item \code{start}: start deployment
+\item \code{end}: end deployment
+\item \code{deployment_id}
+\item \code{location_id}
+\item \code{location_name}
+\item \code{latitude}
+\item \code{longitude}
+}
+
+See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
 list of all columns you can use}
 
 \item{relative_color_scale}{a logical indicating whether to use a relative

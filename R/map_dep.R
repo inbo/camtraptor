@@ -14,11 +14,20 @@
 #'   while visualizing maps. Default: TRUE
 #' @param hover_columns character with the name of the columns to use for
 #'   showing location deployment information while hovering the mouse over. One
-#'   or more from deployment columns. Use `NULL` to disable hovering. Default: -
-#'   `n`: number of species/observations (column created internally by a
-#'   `get_n_*()` function) - `start`: start deployment - `end`: end deployment -
-#'   `deployment_id` - `location_id` - `location_name` - `latitude` -
-#'   `longitude`. See [section Deployment of Camtrap DP
+#'   or more from deployment columns. Use `NULL` to disable hovering. Default
+#'   information:
+#'
+#'   - `n`: number of species/observations (column created internally by a
+#'   `get_n_*()` function)
+#'   - `start`: start deployment
+#'   - `end`: end deployment
+#'   - `deployment_id`
+#'   - `location_id`
+#'   - `location_name`
+#'   - `latitude`
+#'   - `longitude`
+#'
+#'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
 #'   list of all columns you can use
 #' @param relative_color_scale a logical indicating whether to use a relative

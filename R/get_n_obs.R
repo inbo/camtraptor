@@ -2,8 +2,14 @@
 #'
 #' Function to get the number of observations per deployment.
 #'
-#' @param deployments a tibble (data.frame) containing deployments
-#' @param observations a tibble (data.frame) containing observations
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `multimedia`
+#'
+#' and a list with metadata: `datapackage`
 #'
 #' @importFrom dplyr .data %>% bind_rows count group_by mutate select
 #'
@@ -12,10 +18,17 @@
 #' @return a tibble (data.frame) with the following columns: - `deployment_id`
 #'   deployment unique identifier - `n`: (integer) number of observations
 #'
-get_n_obs <- function(deployments, observations) {
+get_n_obs <- function(datapkg) {
+
+  # check input data package
+  check_datapkg(datapkg)
+
+  # extract observations and deployments
+  observations <- datapkg$observations
+  deployments <- datapkg$deployments
 
   # get deployments without observations
-  deployments_no_obs <- get_dep_no_obs(deployments, observations)
+  deployments_no_obs <- get_dep_no_obs(datapkg)
 
   # get number of observations collected by each deployment
   n_obs <-

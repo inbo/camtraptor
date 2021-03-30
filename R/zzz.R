@@ -1,3 +1,40 @@
+#' Check validity data package
+#'
+#' This function checks the validity of a camera trap data package. Up to now it
+#' checks whether the data package contains the 4 elements: `datapackage`,
+#' `observations`,  `multimedia` and `deployments` and their type (list for the
+#' metadata `datapakage`, data.frame for the other three). More checks can be
+#' added in the future...
+#'
+#' @param datapkg a camera trap data package
+#'
+#' @noRd
+#'
+#' @importFrom assertthat assert_that
+#' @keywords internal
+check_datapkg <- function(datapkg) {
+  # check validity data package: does it contain all 4 elements?
+  tables_absent <- names(camtrapdp)[!names(camtrapdp) %in% names(datapkg)]
+  n_tables_absent <- length(tables_absent)
+  assert_that(n_tables_absent == 0,
+              msg = glue("There are {n_tables_absent} elements not found in",
+                         " data package: {tables_absent*}",
+                         .transformer = collapse_transformer(
+                           sep = ", ",
+                           last = " and ")
+                         )
+              )
+
+
+  # check observations deployments and multimedia are data.frames
+  assert_that(is.data.frame(datapkg$observations))
+  assert_that(is.data.frame(datapkg$deployments))
+  assert_that(is.data.frame(datapkg$multimedia))
+
+  # check element datapackage (metadata) is a list
+  assert_that(is.list(datapkg$datapackage))
+}
+
 #' Print list of options
 #'
 #' @param regex Character. A regular expression to parse.
@@ -74,8 +111,13 @@ labelFormat_scale <- function(max_color_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param deployments a tibble (data.frame) containing deployments
-#' @param observations a tibble (data.frame) containing observations
+#' @param datapkg a camera trap data package object, as returned by `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `multimedia`
+#'
+#' and a list with metadata: `datapackage`
 #'
 #' @importFrom dplyr .data %>% anti_join distinct
 #' @importFrom  glue glue
@@ -83,7 +125,14 @@ labelFormat_scale <- function(max_color_scale = NULL,
 #' @export
 #'
 #' @return a tibble (data.frame) with deployments not linked to any observations
-get_dep_no_obs <- function(deployments, observations) {
+get_dep_no_obs <- function(datapkg) {
+
+  # check input data package
+  check_datapkg(datapkg)
+
+  # extract observations and deployments
+  observations <- datapkg$observations
+  deployments <- datapkg$deployments
 
   # deployment with no observations
   dep_no_obs <-

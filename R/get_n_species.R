@@ -2,8 +2,14 @@
 #'
 #' Function to get the number of identified species per deployment.
 #'
-#' @param deployments a tibble (data.frame) containing deployments
-#' @param observations a tibble (data.frame) containing observations
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `multimedia`
+#'
+#' and a list with metadata: `datapackage`
 #'
 #' @importFrom dplyr .data %>% bind_rows count distinct filter group_by mutate
 #'   pull select
@@ -14,10 +20,17 @@
 #'   deployment unique identifier - `n`: (integer) number of observed and
 #'   identified species
 #'
-get_n_species <- function(deployments, observations) {
+get_n_species <- function(datapkg) {
+
+  # check input data package
+  check_datapkg(datapkg)
+
+  # extract observations and deployments
+  observations <- datapkg$observations
+  deployments <- datapkg$deployments
 
   # get deployments without observations
-  deployments_no_obs <- get_dep_no_obs(deployments, observations)
+  deployments_no_obs <- get_dep_no_obs(datapkg)
 
   # get species detected by each deployment
   species <-

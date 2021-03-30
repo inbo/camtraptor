@@ -136,8 +136,7 @@ observations are shown as gray circles and a message is returned.</p>
     </div>
 
     <pre class="usage"><span class='fu'>map_dep</span><span class='op'>(</span>
-  <span class='va'>deployments</span>,
-  <span class='va'>observations</span>,
+  <span class='va'>datapkg</span>,
   <span class='va'>feature</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
   hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"deployment_id"</span>, <span class='st'>"location_id"</span>, <span class='st'>"location_name"</span>, <span class='st'>"latitude"</span>,
@@ -151,12 +150,14 @@ observations are shown as gray circles and a message is returned.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>deployments</th>
-      <td><p>a tibble (data.frame) containing deployments</p></td>
-    </tr>
-    <tr>
-      <th>observations</th>
-      <td><p>a tibble (data.frame) containing observations</p></td>
+      <th>datapkg</th>
+      <td><p>a camera trap data package object, as returned by <code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
+</ol>
+
+<p>and a list with metadata: <code>datapackage</code></p></td>
     </tr>
     <tr>
       <th>feature</th>
@@ -185,7 +186,7 @@ information:</p><ul>
 </ul>
 
 <p>See <a href='https://tdwg.github.io/camtrap-dp/data/#deployments'>section Deployment of Camtrap DP standard</a> for the full
-list of all columns you can use</p></td>
+list of columns you can use</p></td>
     </tr>
     <tr>
       <th>relative_color_scale</th>

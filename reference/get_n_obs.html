@@ -129,18 +129,21 @@
     <p>Function to get the number of observations per deployment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>deployments</span>, <span class='va'>observations</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>datapkg</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>deployments</th>
-      <td><p>a tibble (data.frame) containing deployments</p></td>
-    </tr>
-    <tr>
-      <th>observations</th>
-      <td><p>a tibble (data.frame) containing observations</p></td>
+      <th>datapkg</th>
+      <td><p>a camera trap data package object, as returned by
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
+</ol>
+
+<p>and a list with metadata: <code>datapackage</code></p></td>
     </tr>
     </table>
 

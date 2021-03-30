@@ -4,12 +4,17 @@
 \alias{get_dep_no_obs}
 \title{Get deployments with no observations}
 \usage{
-get_dep_no_obs(deployments, observations)
+get_dep_no_obs(datapkg)
 }
 \arguments{
-\item{deployments}{a tibble (data.frame) containing deployments}
+\item{datapkg}{a camera trap data package object, as returned by \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
+}
 
-\item{observations}{a tibble (data.frame) containing observations}
+and a list with metadata: \code{datapackage}}
 }
 \value{
 a tibble (data.frame) with deployments not linked to any observations

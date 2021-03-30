@@ -4,12 +4,18 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(deployments, observations)
+get_n_species(datapkg)
 }
 \arguments{
-\item{deployments}{a tibble (data.frame) containing deployments}
+\item{datapkg}{a camera trap data package object, as returned by
+\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
+}
 
-\item{observations}{a tibble (data.frame) containing observations}
+and a list with metadata: \code{datapackage}}
 }
 \value{
 a tibble (data.frame) with the following columns: - \code{deployment_id}

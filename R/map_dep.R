@@ -7,8 +7,13 @@
 #'
 #' Possible filtering about time period, ... (to be added)
 #'
-#' @param deployments a tibble (data.frame) containing deployments
-#' @param observations a tibble (data.frame) containing observations
+#' @param datapkg a camera trap data package object, as returned by `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `multimedia`
+#'
+#' and a list with metadata: `datapackage`
 #' @param feature character, one of: - `n_species` - `n_obs`
 #' @param cluster a logical value indicating whether using the cluster option
 #'   while visualizing maps. Default: TRUE
@@ -29,7 +34,7 @@
 #'
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
-#'   list of all columns you can use
+#'   list of columns you can use
 #' @param relative_color_scale a logical indicating whether to use a relative
 #'   color scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale is
 #'   used, specify a valid `max_color_scale`
@@ -60,35 +65,30 @@
 #' \dontrun{
 #' # show number of species
 #' map_dep(
-#'   camtrapdp$deployments,
-#'   camtrapdp$observations,
+#'   camtrapdp,
 #'   "n_species"
 #' )
 #'
 #' # show number of observations
 #' map_dep(
-#'   camtrapdp$deployments,
-#'   camtrapdp$observations,
+#'   camtrapdp,
 #'   "n_obs"
 #' )
 #'
 #' # cluster disabled
-#' map_dep(camtrapdp$deployments,
-#'   camtrapdp$observations,
+#' map_dep(camtrapdp,
 #'   "n_species"
 #'   cluster = FALSE
 #' )
 #'
 #' # show only number of observations and location name while hovering
-#' map_dep(camtrapdp$deployments,
-#'   camtrapdp$observations,
+#' map_dep(camtrapdp,
 #'   "n_obs",
 #'   hover_columns = c("location_name", "n")
 #' )
 #'
 #' # use absolute scale for colors
-#' map_dep(camtrapdp$deployments,
-#'   camtrapdp$observations,
+#' map_dep(camtrapdp,
 #'   "n_species",
 #'   relative_color_scale = FALSE,
 #'   max_color_scale = 4
@@ -96,14 +96,12 @@
 #'
 #' # change max and min size circles
 #' map_dep(
-#'   camtrapdp$deployments,
-#'   camtrapdp$observations,
+#'   camtrapdp,
 #'   "n_obs",
 #'   radius_range = c(40, 150)
 #' )
 #' }
-map_dep <- function(deployments,
-                    observations,
+map_dep <- function(datapkg,
                     feature,
                     cluster = TRUE,
                     hover_columns = c("n", "deployment_id",
@@ -114,8 +112,17 @@ map_dep <- function(deployments,
                     max_color_scale = NULL,
                     radius_range = c(10, 50)
 ) {
+  # check input data package
+  check_datapkg(datapkg)
+
+  # extract observations and deployments
+  observations <- datapkg$observations
+  deployments <- datapkg$deployments
+
+  # check feature
   possible_features <- c("n_species", "n_obs")
   feature <- match.arg(feature, choices = possible_features, several.ok = FALSE)
+
   # check cluster
   assert_that(cluster %in% c(TRUE, FALSE),
     msg = "cluster must be TRUE or FALSE"
@@ -164,9 +171,9 @@ map_dep <- function(deployments,
   }
 
   if (feature == "n_species") {
-    feat_df <- get_n_species(deployments, observations)
+    feat_df <- get_n_species(datapkg)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(deployments, observations)
+    feat_df <- get_n_obs(datapkg)
   }
 
   # add deployment information for maps

@@ -5,8 +5,7 @@
 \title{Visualize deployments features}
 \usage{
 map_dep(
-  deployments,
-  observations,
+  datapkg,
   feature,
   cluster = TRUE,
   hover_columns = c("n", "deployment_id", "location_id", "location_name", "latitude",
@@ -17,9 +16,14 @@ map_dep(
 )
 }
 \arguments{
-\item{deployments}{a tibble (data.frame) containing deployments}
+\item{datapkg}{a camera trap data package object, as returned by \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
+}
 
-\item{observations}{a tibble (data.frame) containing observations}
+and a list with metadata: \code{datapackage}}
 
 \item{feature}{character, one of: - \code{n_species} - \code{n_obs}}
 
@@ -43,7 +47,7 @@ information:
 }
 
 See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
-list of all columns you can use}
+list of columns you can use}
 
 \item{relative_color_scale}{a logical indicating whether to use a relative
 color scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale is
@@ -73,35 +77,30 @@ Possible filtering about time period, ... (to be added)
 \dontrun{
 # show number of species
 map_dep(
-  camtrapdp$deployments,
-  camtrapdp$observations,
+  camtrapdp,
   "n_species"
 )
 
 # show number of observations
 map_dep(
-  camtrapdp$deployments,
-  camtrapdp$observations,
+  camtrapdp,
   "n_obs"
 )
 
 # cluster disabled
-map_dep(camtrapdp$deployments,
-  camtrapdp$observations,
+map_dep(camtrapdp,
   "n_species"
   cluster = FALSE
 )
 
 # show only number of observations and location name while hovering
-map_dep(camtrapdp$deployments,
-  camtrapdp$observations,
+map_dep(camtrapdp,
   "n_obs",
   hover_columns = c("location_name", "n")
 )
 
 # use absolute scale for colors
-map_dep(camtrapdp$deployments,
-  camtrapdp$observations,
+map_dep(camtrapdp,
   "n_species",
   relative_color_scale = FALSE,
   max_color_scale = 4
@@ -109,8 +108,7 @@ map_dep(camtrapdp$deployments,
 
 # change max and min size circles
 map_dep(
-  camtrapdp$deployments,
-  camtrapdp$observations,
+  camtrapdp,
   "n_obs",
   radius_range = c(40, 150)
 )

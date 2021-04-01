@@ -77,9 +77,15 @@ map_dep(camtrapdp,
 If species is not specified or is wrong, an informative error message listing all valid values is returned:
 
 ```{r see_error_message}
-map_dep(camtrapdp,
-        feature = "rai",
-        species = "This is not a species name")
+testthat::expect_error(
+  map_dep(camtrapdp,
+          feature = "rai",
+          species = "This is not a species name"), 
+  paste0("Invalid value for species argument.\n",
+         "Valid inputs are: Anas platyrhynchos, Rattus norvegicus, ",
+         "Ondatra zibethicus, Myocastor coypus and Gallinula chloropus."
+        )
+)
 ```
 
 ### Clustering and hovering

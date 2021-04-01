@@ -7,6 +7,7 @@
 map_dep(
   datapkg,
   feature,
+  species = NULL,
   cluster = TRUE,
   hover_columns = c("n", "deployment_id", "location_id", "location_name", "latitude",
     "longitude", "start", "end"),
@@ -16,34 +17,37 @@ map_dep(
 )
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
+\item{datapkg}{a camera trap data package object, as returned by
+\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
+\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
 
-\item{feature}{character, one of: - \code{n_species} - \code{n_obs}}
+\item{feature}{character, one of: - \code{n_species} - \code{n_obs} - \code{rai}}
 
-\item{cluster}{a logical value indicating whether using the cluster option
-while visualizing maps. Default: TRUE}
+\item{species}{a character with a scientific name. Required for  \code{rai},
+optional for \code{n_obs}. Default: \code{NULL}}
+
+\item{cluster}{a logical value
+indicating whether using the cluster option while visualizing maps.
+Default: TRUE}
 
 \item{hover_columns}{character with the name of the columns to use for
 showing location deployment information while hovering the mouse over. One
 or more from deployment columns. Use \code{NULL} to disable hovering. Default
 information:
 \itemize{
-\item \code{n}: number of species/observations (column created internally by a
-\verb{get_n_*()} function)
+\item \code{n}: number of species, number of observations or RAI (column created
+internally by a \verb{get_*()} function)
 \item \code{start}: start deployment
-\item \code{end}: end deployment
-\item \code{deployment_id}
-\item \code{location_id}
-\item \code{location_name}
-\item \code{latitude}
-\item \code{longitude}
+\item \code{end}: end deployment -
+\item \code{deployment_id} deployment unique identifier
+\item \code{location_id} location unique identifier
+\item \code{location_name} location name
+\item \code{latitude}:
+\item \code{longitude}:
 }
 
 See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
@@ -65,8 +69,8 @@ the highest number of identified species/observations. Default: \code{c(10, 50)}
 a leaflet map
 }
 \description{
-This function visualizes deployments features such as number of species
-detected or number of observations on a dynamic map. The circle size and
+This function visualizes deployments features such as number of detected
+species, number of observations and RAI on a dynamic map. The circle size and
 color are proportional to the mapped feature. Deployments without
 observations are shown as gray circles and a message is returned.
 }
@@ -85,6 +89,19 @@ map_dep(
 map_dep(
   camtrapdp,
   "n_obs"
+)
+
+# show number of observations of Rattus norvegicus
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Rattus norvegicus"
+)
+# show RAI
+map_dep(
+  camtrapdp,
+  "rai",
+  species = "Rattus norvegicus"
 )
 
 # cluster disabled

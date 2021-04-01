@@ -12,6 +12,7 @@
 #'
 #' @importFrom assertthat assert_that
 #' @keywords internal
+#'
 check_datapkg <- function(datapkg) {
   # check validity data package: does it contain all 4 elements?
   tables_absent <- names(camtrapdp)[!names(camtrapdp) %in% names(datapkg)]
@@ -33,6 +34,72 @@ check_datapkg <- function(datapkg) {
 
   # check element datapackage (metadata) is a list
   assert_that(is.list(datapkg$datapackage))
+}
+
+#' Check input value against list of provided values
+#'
+#' Will return error message if an input value cannot be found in list of
+#' provided values. NULL values can be allowed (default) or not by setting
+#' argument `null_allowed` equal to `TRUE` or `FALSE`.
+#'
+#' @param arg Character. The input argument provided by the user.
+#' @param options Character vector of valid inputs for the argument.
+#' @param arg_name Character. The name of the argument used in the function to
+#'   test.
+#'
+#' @return If no error, `TRUE`.
+#'
+#' @keywords internal
+#'
+#' @noRd
+#'
+#' @importFrom assertthat assert_that
+#' @importFrom glue glue
+#'
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' # Valid inputs for species
+#' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")
+#'
+#' # Invalid inputs for project_type
+#' check_value("ddsf", c("Canis lupus", "Corvus monedula"), "species")
+#' }
+check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
+  max_print <- 20
+
+  # Drop NA
+  options <- options[!is.na(options)]
+
+  # Suppress long messages
+  if (length(options) > max_print) {
+    options_to_print <- c(options[1:max_print], "others..")
+  } else {
+    options_to_print <- options
+  }
+
+  # compose error message
+  msg_to_print <- glue(
+    "Invalid value for {arg_name} argument.
+        Valid inputs are: {options_to_print*}.",
+    .transformer = collapse_transformer(
+      sep = ", ",
+      last = " and "
+    )
+  )
+
+  # Provide user message
+  if (!is.null(arg)) {
+    assert_that(
+      all(arg %in% options),
+      msg = msg_to_print
+    )
+  } else {
+      assert_that(null_allowed == TRUE,
+                  msg = msg_to_print
+      )
+    }
 }
 
 #' Print list of options
@@ -185,7 +252,8 @@ mapdep_prefixes <- structure(list(
   info = c("deployment_id", "location_id", "location_name", "longitude",
            "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
            "camera_interval", "camera_height", "bait_use", "session", "array",
-           "feature_type", "habitat", "tags", "comments", "n_species", "n_obs"),
+           "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
+           "rai"),
   prefix = c("deployment ID: ",
              "location ID: ",
              "location name: ",
@@ -206,13 +274,19 @@ mapdep_prefixes <- structure(list(
              "tags: ",
              "comments: ",
              "species observed: ",
-             "observations: ")
+             "observations: ",
+             "RAI: ")
 ))
 
 #' Retrieve prefixes (fields) for text to show while hovering with mouse over a
 #' deployment
 #'
-#' @param feature character, one of: - `n_species` - `n_obs`
+#' @param feature character, one of:
+#'
+#' - `n_species`
+#' - `n_obs`
+#' - `rai`
+#'
 #' @param infos character vector with deployment fields
 #'
 #' @importFrom dplyr .data %>% filter
@@ -222,7 +296,7 @@ mapdep_prefixes <- structure(list(
 #' @keywords internal
 get_prefixes <- function(feature,
                          infos) {
-  infos[infos == "n"] <- feature # n can represent #species or #observations
+  infos[infos == "n"] <- feature # n can represent #species, #observations, rai
   # get all prefixes
   prefixes <- map_dep_prefixes()
   # return the prefixes we need

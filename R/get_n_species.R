@@ -12,7 +12,7 @@
 #' and a list with metadata: `datapackage`
 #'
 #' @importFrom dplyr .data %>% bind_rows count distinct filter group_by mutate
-#'   pull select
+#'   pull select ungroup
 #'
 #' @export
 
@@ -47,7 +47,8 @@ get_n_species <- function(datapkg) {
   n_species <-
     species %>%
     group_by(.data$deployment_id) %>%
-    count()
+    count() %>%
+    ungroup()
 
   # remove the count of NA as species and set n as integer
   n_species <- n_species %>%

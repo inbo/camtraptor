@@ -1,36 +1,38 @@
 #' Visualize deployments features
 #'
-#' This function visualizes deployments features such as number of species
-#' detected or number of observations on a dynamic map. The circle size and
+#' This function visualizes deployments features such as number of detected
+#' species, number of observations and RAI on a dynamic map. The circle size and
 #' color are proportional to the mapped feature. Deployments without
 #' observations are shown as gray circles and a message is returned.
 #'
 #' Possible filtering about time period, ... (to be added)
 #'
-#' @param datapkg a camera trap data package object, as returned by `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
+#'   1. `observations` 2. `deployments` 3. `multimedia`
 #'
-#' and a list with metadata: `datapackage`
-#' @param feature character, one of: - `n_species` - `n_obs`
-#' @param cluster a logical value indicating whether using the cluster option
-#'   while visualizing maps. Default: TRUE
+#'   and a list with metadata: `datapackage`
+#' @param feature character, one of: - `n_species` - `n_obs` - `rai`
+#' @param species a character with a scientific name. Required for  `rai`,
+#'   optional for `n_obs`. Default: `NULL`
+#' @param cluster a logical value
+#'   indicating whether using the cluster option while visualizing maps.
+#'   Default: TRUE
 #' @param hover_columns character with the name of the columns to use for
 #'   showing location deployment information while hovering the mouse over. One
 #'   or more from deployment columns. Use `NULL` to disable hovering. Default
 #'   information:
 #'
-#'   - `n`: number of species/observations (column created internally by a
-#'   `get_n_*()` function)
+#'   - `n`: number of species, number of observations or RAI (column created
+#'   internally by a `get_*()` function)
 #'   - `start`: start deployment
-#'   - `end`: end deployment
-#'   - `deployment_id`
-#'   - `location_id`
-#'   - `location_name`
-#'   - `latitude`
-#'   - `longitude`
+#'   - `end`: end deployment -
+#'   - `deployment_id` deployment unique identifier
+#'   - `location_id` location unique identifier
+#'   - `location_name` location name
+#'   - `latitude`:
+#'   - `longitude`:
 #'
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
@@ -46,8 +48,8 @@
 #'   the highest number of identified species/observations. Default: `c(10, 50)`
 #'
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr .data as_tibble bind_rows bind_cols count distinct filter
-#'   group_by left_join mutate pull one_of select %>%
+#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols count distinct filter
+#'   group_by left_join mutate pull one_of rename select
 #' @importFrom leaflet addLegend addTiles addCircleMarkers colorNumeric leaflet
 #'   markerClusterOptions
 #' @importFrom glue glue
@@ -73,6 +75,19 @@
 #' map_dep(
 #'   camtrapdp,
 #'   "n_obs"
+#' )
+#'
+#' # show number of observations of Rattus norvegicus
+#' map_dep(
+#'   camtrapdp,
+#'   "n_obs",
+#'   species = "Rattus norvegicus"
+#' )
+#' # show RAI
+#' map_dep(
+#'   camtrapdp,
+#'   "rai",
+#'   species = "Rattus norvegicus"
 #' )
 #'
 #' # cluster disabled
@@ -103,6 +118,7 @@
 #' }
 map_dep <- function(datapkg,
                     feature,
+                    species = NULL,
                     cluster = TRUE,
                     hover_columns = c("n", "deployment_id",
                                       "location_id", "location_name",
@@ -112,6 +128,15 @@ map_dep <- function(datapkg,
                     max_color_scale = NULL,
                     radius_range = c(10, 50)
 ) {
+
+  # define possible feature values
+  features <- c("n_species", "n_obs", "rai")
+
+  # check feature
+  check_value(feature, features, "feature", null_allowed = FALSE)
+  assert_that(length(feature) == 1,
+              msg = "feature must have length 1.")
+
   # check input data package
   check_datapkg(datapkg)
 
@@ -120,8 +145,13 @@ map_dep <- function(datapkg,
   deployments <- datapkg$deployments
 
   # check feature
-  possible_features <- c("n_species", "n_obs")
+  possible_features <- c("n_species", "n_obs", "rai")
   feature <- match.arg(feature, choices = possible_features, several.ok = FALSE)
+
+  # check species in combination with feature
+  if (!is.null(species) & feature == "n_species") {
+    warning("species argument ignored for feature = n_species")
+  }
 
   # check cluster
   assert_that(cluster %in% c(TRUE, FALSE),
@@ -133,8 +163,7 @@ map_dep <- function(datapkg,
     # check all hover_columns values are allowed
       possible_hover_columns <- map_dep_prefixes()$info
     possible_hover_columns <-
-      possible_hover_columns[possible_hover_columns != "n_species" &
-                               possible_hover_columns != "n_obs"]
+      possible_hover_columns[!possible_hover_columns %in% features]
     hover_columns <- match.arg(arg = hover_columns,
                                choices = c(possible_hover_columns, "n"),
                                several.ok = TRUE)
@@ -170,16 +199,20 @@ map_dep <- function(datapkg,
     max_color_scale <- NULL
   }
 
+  # calculate and get feature values
   if (feature == "n_species") {
     feat_df <- get_n_species(datapkg)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg)
+    feat_df <- get_n_obs(datapkg, species = species)
+  } else if (feature == "rai") {
+    feat_df <- get_rai(datapkg, species = species)
+    feat_df <- feat_df %>% rename(n = rai)
   }
 
   # add deployment information for maps
   # first, mandatory fields to make maps and join
   deploy_columns_to_add <- c("deployment_id", "latitude", "longitude")
-  # second, # columns for hovering text
+  # second, columns for hovering text
   deploy_columns_to_add <- unique(c(deploy_columns_to_add,
                              hover_columns[hover_columns != "n"]))
   feat_df <-
@@ -192,9 +225,8 @@ map_dep <- function(datapkg,
   # add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- get_prefixes(feature, hover_columns)
-    ## set n_species or n_obs to n in hover_info_df
-    hover_info_df$info[hover_info_df$info == "n_species" |
-                         hover_info_df$info == "n_obs"] <- "n"
+    ## set n_species or n_obs or rai to n in hover_info_df
+    hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <- as_tibble(map2(hover_info_df$prefix,
                                   hover_info_df$info,
                                   function(x,y) {
@@ -258,9 +290,10 @@ map_dep <- function(datapkg,
   # define title legend
   if (feature == "n_species") {
     title <- "Number of detected species"
-  }
-  if (feature == "n_obs") {
+  } else if (feature == "n_obs") {
     title <- "Number of observations"
+  } else if (feature == "rai") {
+    title <- "RAI"
   }
   # make basic start map
   leaflet_map <-

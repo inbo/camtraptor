@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Visualize deployments features — map_dep" />
-<meta property="og:description" content="This function visualizes deployments features such as number of species
-detected or number of observations on a dynamic map. The circle size and
+<meta property="og:description" content="This function visualizes deployments features such as number of detected
+species, number of observations and RAI on a dynamic map. The circle size and
 color are proportional to the mapped feature. Deployments without
 observations are shown as gray circles and a message is returned." />
 
@@ -75,7 +75,7 @@ observations are shown as gray circles and a message is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
       </span>
     </div>
 
@@ -129,8 +129,8 @@ observations are shown as gray circles and a message is returned." />
     </div>
 
     <div class="ref-description">
-    <p>This function visualizes deployments features such as number of species
-detected or number of observations on a dynamic map. The circle size and
+    <p>This function visualizes deployments features such as number of detected
+species, number of observations and RAI on a dynamic map. The circle size and
 color are proportional to the mapped feature. Deployments without
 observations are shown as gray circles and a message is returned.</p>
     </div>
@@ -138,6 +138,7 @@ observations are shown as gray circles and a message is returned.</p>
     <pre class="usage"><span class='fu'>map_dep</span><span class='op'>(</span>
   <span class='va'>datapkg</span>,
   <span class='va'>feature</span>,
+  species <span class='op'>=</span> <span class='cn'>NULL</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
   hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"deployment_id"</span>, <span class='st'>"location_id"</span>, <span class='st'>"location_name"</span>, <span class='st'>"latitude"</span>,
     <span class='st'>"longitude"</span>, <span class='st'>"start"</span>, <span class='st'>"end"</span><span class='op'>)</span>,
@@ -151,22 +152,27 @@ observations are shown as gray circles and a message is returned.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>datapkg</th>
-      <td><p>a camera trap data package object, as returned by <code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
+      <td><p>a camera trap data package object, as returned by
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
+<li><p><code>observations</code> 2. <code>deployments</code> 3. <code>multimedia</code></p></li>
 </ol>
 
 <p>and a list with metadata: <code>datapackage</code></p></td>
     </tr>
     <tr>
       <th>feature</th>
-      <td><p>character, one of: - <code>n_species</code> - <code>n_obs</code></p></td>
+      <td><p>character, one of: - <code>n_species</code> - <code>n_obs</code> - <code>rai</code></p></td>
+    </tr>
+    <tr>
+      <th>species</th>
+      <td><p>a character with a scientific name. Required for  <code>rai</code>,
+optional for <code>n_obs</code>. Default: <code>NULL</code></p></td>
     </tr>
     <tr>
       <th>cluster</th>
-      <td><p>a logical value indicating whether using the cluster option
-while visualizing maps. Default: TRUE</p></td>
+      <td><p>a logical value
+indicating whether using the cluster option while visualizing maps.
+Default: TRUE</p></td>
     </tr>
     <tr>
       <th>hover_columns</th>
@@ -174,15 +180,15 @@ while visualizing maps. Default: TRUE</p></td>
 showing location deployment information while hovering the mouse over. One
 or more from deployment columns. Use <code>NULL</code> to disable hovering. Default
 information:</p><ul>
-<li><p><code>n</code>: number of species/observations (column created internally by a
-<code>get_n_*()</code> function)</p></li>
+<li><p><code>n</code>: number of species, number of observations or RAI (column created
+internally by a <code>get_*()</code> function)</p></li>
 <li><p><code>start</code>: start deployment</p></li>
-<li><p><code>end</code>: end deployment</p></li>
-<li><p><code>deployment_id</code></p></li>
-<li><p><code>location_id</code></p></li>
-<li><p><code>location_name</code></p></li>
-<li><p><code>latitude</code></p></li>
-<li><p><code>longitude</code></p></li>
+<li><p><code>end</code>: end deployment -</p></li>
+<li><p><code>deployment_id</code> deployment unique identifier</p></li>
+<li><p><code>location_id</code> location unique identifier</p></li>
+<li><p><code>location_name</code> location name</p></li>
+<li><p><code>latitude</code>:</p></li>
+<li><p><code>longitude</code>:</p></li>
 </ul>
 
 <p>See <a href='https://tdwg.github.io/camtrap-dp/data/#deployments'>section Deployment of Camtrap DP standard</a> for the full

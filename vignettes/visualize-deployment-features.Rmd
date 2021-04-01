@@ -35,6 +35,12 @@ This load automatically a camera trap data package, `camtrapdp`, containing came
 
 ## Create map
 
+As some featues must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected:
+
+```{r species_list}
+get_species(camtrapdp)
+```
+
 ### Basic usage
 
 You can visualize the number of species detected by each deployment by using the function `map_dep()` with `feature` argument set to `n_species`:
@@ -44,16 +50,41 @@ map_dep(camtrapdp,
         feature = "n_species")
 ```
 
-To visualize the number of observations, set `feature` to `n_obs`:
+To visualize the number of observations, set `feature` = `n_obs`:
 
 ```{r visualize_n_obs_with_clusters_and_default_hover_col}
 map_dep(camtrapdp,
         feature = "n_obs")
 ```
 
+You can also specify which species you want to calculate the number  of observations:
+
+```{r visualize_n_obs_species}
+map_dep(camtrapdp,
+        feature = "n_obs",
+        species = "Rattus norvegicus")
+```
+
+
+To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
+
+```{r visualize_rai_with_clusters_and_default_hover_col}
+map_dep(camtrapdp,
+        feature = "rai",
+        species = "Rattus norvegicus")
+```
+
+If species is not specified or is wrong, an informative error message listing all valid values is returned:
+
+```{r see_error_message}
+map_dep(camtrapdp,
+        feature = "rai",
+        species = "This is not a species name")
+```
+
 ### Clustering and hovering
 
-You can specify which information you want to show while hovering with the mouse over the deployment. You can choose among all columns from deployments (see allowed fields in [camera trap data package standard documentation](https://tdwg.github.io/camtrap-dp/data/#deployments)) and `n` (number of species/observations).
+You can specify which information you want to show while hovering with the mouse over the deployment. You can choose among all columns from deployments (see allowed fields in [camera trap data package standard documentation](https://tdwg.github.io/camtrap-dp/data/#deployments)) and `n` (number of species, number of observations or RAI).
 
 Here below the lat/lon, the camera height and the tags are shown while hovering:
 
@@ -76,14 +107,14 @@ map_dep(camtrapdp,
         hover_columns = NULL)
 ```
 
-### Visualize deployments without observations
+### Visualize deployments without detected aniamals
 
-It can happen that some deployments didn't observe any animal. They are shown in the map as gray circles and a message is returned to the R console:
+It can happen that some deployments didn't observe any animal. While visualizing the number of species, they are shown in the map as gray circles and a message is returned to the R console:
 
 ```{r show_deployments_without_observations}
 # create data package with less observations
 camtrapdp_less_obs <- camtrapdp
-camtrapdp_less_obs$obs <- 
+camtrapdp_less_obs$observations <- 
   camtrapdp$observations %>% 
   filter(timestamp > lubridate::as_datetime("2020-06-30"))
 

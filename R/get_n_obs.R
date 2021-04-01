@@ -12,6 +12,7 @@
 #' and a list with metadata: `datapackage`
 #'
 #' @importFrom dplyr .data %>% bind_rows count group_by mutate select
+#' @importFrom dplyr .data %>% bind_rows count group_by mutate select ungroup
 #'
 #' @export
 
@@ -35,6 +36,8 @@ get_n_obs <- function(datapkg) {
     observations %>%
     group_by(.data$deployment_id) %>%
     count()
+    count() %>%
+    ungroup()
 
   # set up number of observations to 0 for deployments without observations
   deployments_no_obs <-

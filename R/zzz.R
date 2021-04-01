@@ -252,7 +252,6 @@ mapdep_prefixes <- structure(list(
   info = c("deployment_id", "location_id", "location_name", "longitude",
            "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
            "camera_interval", "camera_height", "bait_use", "session", "array",
-           "feature_type", "habitat", "tags", "comments", "n_species", "n_obs"),
            "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
            "rai"),
   prefix = c("deployment ID: ",
@@ -275,7 +274,6 @@ mapdep_prefixes <- structure(list(
              "tags: ",
              "comments: ",
              "species observed: ",
-             "observations: ")
              "observations: ",
              "RAI: ")
 ))
@@ -283,7 +281,6 @@ mapdep_prefixes <- structure(list(
 #' Retrieve prefixes (fields) for text to show while hovering with mouse over a
 #' deployment
 #'
-#' @param feature character, one of: - `n_species` - `n_obs`
 #' @param feature character, one of:
 #'
 #' - `n_species`
@@ -299,7 +296,6 @@ mapdep_prefixes <- structure(list(
 #' @keywords internal
 get_prefixes <- function(feature,
                          infos) {
-  infos[infos == "n"] <- feature # n can represent #species or #observations
   infos[infos == "n"] <- feature # n can represent #species, #observations, rai
   # get all prefixes
   prefixes <- map_dep_prefixes()

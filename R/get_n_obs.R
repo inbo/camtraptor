@@ -35,7 +35,6 @@ get_n_obs <- function(datapkg) {
   n_obs <-
     observations %>%
     group_by(.data$deployment_id) %>%
-    count()
     count() %>%
     ungroup()
 

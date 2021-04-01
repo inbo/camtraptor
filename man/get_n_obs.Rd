@@ -4,23 +4,33 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(datapkg)
+get_n_obs(datapkg, species = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
+\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{species}{a character with scientific name. If \code{NULL} (default) all
+observations of all species are taken into account}
 }
 \value{
 a tibble (data.frame) with the following columns: - \code{deployment_id}
 deployment unique identifier - \code{n}: (integer) number of observations
 }
 \description{
-Function to get the number of observations per deployment.
+Function to get the number of observations (of a subset of species) per
+deployment.
+}
+\examples{
+# get number of observations of all species (not identified individuals as well)
+get_n_obs(camtrapdp)
+
+# get number of observations of Gallinula chloropus
+get_n_obs(camtrapdp, species = "Gallinula chloropus")
+
 }

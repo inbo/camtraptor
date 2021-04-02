@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • camtrapdp</title>
+<title>Get effort — get_effort • camtrapdp</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get effort — get_effort" />
+<meta property="og:description" content="Function to get the effort (deployment duration) per deployment." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,90 +118,54 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get effort</h1>
+    <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/get_effort.R'><code>R/get_effort.R</code></a></small>
+    <div class="hidden name"><code>get_effort.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Function to get the effort (deployment duration) per deployment.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>datapkg</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="camtrapdp.html">camtrapdp</a></code> </p>
-        </td>
-        <td><p>Sample of camtrap-dp formatted data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dep_no_obs.html">get_dep_no_obs()</a></code> </p>
-        </td>
-        <td><p>Get deployments with no observations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_effort.html">get_effort()</a></code> </p>
-        </td>
-        <td><p>Get effort</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_n_obs.html">get_n_obs()</a></code> </p>
-        </td>
-        <td><p>Get number of observations for each deployment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_n_species.html">get_n_species()</a></code> </p>
-        </td>
-        <td><p>Get number of identified species for each deployment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_rai.html">get_rai()</a></code> </p>
-        </td>
-        <td><p>Get Relative Abundance Index (RAI)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_species.html">get_species()</a></code> </p>
-        </td>
-        <td><p>Get species</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="map_dep.html">map_dep()</a></code> </p>
-        </td>
-        <td><p>Visualize deployments features</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code> </p>
-        </td>
-        <td><p>Read camtrap-dp formatted data</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>datapkg</th>
+      <td><p>a camera trap data package object, as returned by
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
+</ol>
+
+<p>and a list with metadata: <code>datapackage</code></p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a tibble (data.frame) with the following columns:</p><ul>
+<li><p><code>deployment_id</code> deployment unique identifier</p></li>
+<li><p><code>effort</code>: a duration object (duration is a class from lubridate package)</p></li>
+</ul>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 2</span><span>
+#&gt;   deployment_id                        effort                
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;Duration&gt;</span><span>            
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 2594308s (~4.29 weeks)
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 1823035s (~3.01 weeks)
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a 274938s (~3.18 days)  
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> fff2f46e-8163-453c-9044-61fb77587f5d 356509s (~4.13 days)  </div><div class='input'>
+</div></span></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

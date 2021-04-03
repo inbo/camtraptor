@@ -3,10 +3,10 @@ test_that("get_n_obs returns the right structure of dataframe", {
   output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
 
   # type list
-  expect_type(get_n_obs(camtrapdp, "Anas platyrhynchos"), "list")
+  expect_type(output_anas_platyrhyncos, "list")
 
   # class tibble data.frame
-  expect_equal(class(get_n_obs(camtrapdp, "Anas platyrhynchos")),
+  expect_equal(class(output_anas_platyrhyncos),
                c("tbl_df", "tbl", "data.frame"))
 
   # columns deployment_id and rai only
@@ -16,6 +16,7 @@ test_that("get_n_obs returns the right structure of dataframe", {
 })
 
 test_that("species is case insensitive", {
+
   expect_equal(get_n_obs(camtrapdp, "Anas platyrhynchos"),
                get_n_obs(camtrapdp, toupper("Anas platyrhynchos")))
 })
@@ -24,5 +25,6 @@ test_that("if a species is selected, less observations are returned", {
 
   output_all_species <- get_n_obs(camtrapdp)
   output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
+
   expect_true(all(output_all_species$n >=  output_anas_platyrhyncos$n))
 })

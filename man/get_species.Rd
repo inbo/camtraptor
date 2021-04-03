@@ -18,7 +18,8 @@ get_species(datapkg)
 and a list with metadata: \code{datapackage}}
 }
 \value{
-a vector with the scientific names of all identified species
+a data.frame with all scientific names and vernacular names of
+identified species
 }
 \description{
 Function to get all identified species

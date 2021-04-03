@@ -14,7 +14,8 @@
 #'
 #' @export
 
-#' @return a vector with the scientific names of all identified species
+#' @return a data.frame with all scientific names and vernacular names of
+#'   identified species
 #'
 #' @examples
 #' get_species(camtrapdp)
@@ -27,9 +28,14 @@ get_species <- function(datapkg) {
   # extract observations and deployments
   observations <- datapkg$observations
 
-  # extract species
-  species <- unique(observations$scientific_name)
+  # extract scientific name and vernacular names
+  species <-
+    observations %>%
+    distinct(.data$scientific_name, .data$vernacular_name)
+
   # remove possible NA from vector
-  species[!is.na(species)]
+  species %>%
+    filter(!is.na(.data$scientific_name),
+           !is.na(.data$vernacular_name))
 
 }

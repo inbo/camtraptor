@@ -63,7 +63,7 @@ check_datapkg <- function(datapkg) {
 #' # Valid inputs for species
 #' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")
 #'
-#' # Invalid inputs for project_type
+#' # Invalid inputs for species
 #' check_value("ddsf", c("Canis lupus", "Corvus monedula"), "species")
 #' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {

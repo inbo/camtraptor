@@ -1,4 +1,4 @@
-test_that("get_n_obs returns the right dataframe", {
+test_that("get_n_obs returns the right structure of dataframe", {
 
   output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
 
@@ -18,4 +18,11 @@ test_that("get_n_obs returns the right dataframe", {
 test_that("species is case insensitive", {
   expect_equal(get_n_obs(camtrapdp, "Anas platyrhynchos"),
                get_n_obs(camtrapdp, toupper("Anas platyrhynchos")))
+})
+
+test_that("if a species is selected, less observations are returned", {
+
+  output_all_species <- get_n_obs(camtrapdp)
+  output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
+  expect_true(all(output_all_species$n >=  output_anas_platyrhyncos$n))
 })

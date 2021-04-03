@@ -7,7 +7,7 @@ test_that("get_rai returns the right dataframe", {
 
   # class tibble data.frame
   expect_equal(class(get_rai(camtrapdp, "Anas platyrhynchos")),
-              c("tbl_df", "tbl", "data.frame"))
+               c("tbl_df", "tbl", "data.frame"))
 
   # columns deployment_id and rai only
   expect_equal(names(output_anas_platyrhyncos),

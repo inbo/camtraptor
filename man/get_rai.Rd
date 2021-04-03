@@ -26,3 +26,7 @@ deployment unique identifier - \code{rai}: relative abundance index
 \description{
 Function to get the RAI (Relative Abundance Index) per deployment.
 }
+\examples{
+get_rai(camtrapdp, "Anas platyrhynchos")
+
+}

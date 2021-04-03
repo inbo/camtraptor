@@ -34,13 +34,13 @@ get_n_obs <- function(datapkg, species = NULL) {
 
   # check species
   valid_species <- get_species(datapkg)
-  check_value(species, valid_species, "species")
+  check_value(tolower(species), tolower(valid_species), "species")
 
   # select observations with the selected species
   if (!is.null(species)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(.data$scientific_name == species)
+      filter(tolower(.data$scientific_name) == tolower(species))
   }
 
   # extract observations and deployments

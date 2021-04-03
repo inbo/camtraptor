@@ -19,15 +19,17 @@
 #' @return a tibble (data.frame) with the following columns: - `deployment_id`
 #'   deployment unique identifier - `rai`: relative abundance index
 #'
+#' @examples
+#' get_rai(camtrapdp, "Anas platyrhynchos")
+#'
 get_rai <- function(datapkg, species) {
 
   # check input data package
   check_datapkg(datapkg)
 
-
   # check species
   valid_species <- get_species(datapkg)
-  check_value(species, valid_species, "species", null_allowed = FALSE)
+  check_value(tolower(species), tolower(valid_species), "species", null_allowed = FALSE)
 
   # get number of observations
   n_obs_df <- get_n_obs(datapkg, species = species)

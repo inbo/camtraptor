@@ -1,0 +1,35 @@
+#' Get scientific name based on its vernacular name
+#'
+#' This function returns the scientific name(s) of a vector of vernacular names
+#' based on the observations table of the given camera trap data package.
+#'
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'
+#'   1. `observations` 2. `deployments` 3. `multimedia`
+#'
+#'   and a list with metadata: `datapackage`
+#' @param vernacular_name a character vector with the vernacular name(s) of the
+#'   species as found in the `observations` table of the camera trap data
+#'   package
+#'
+#' @importFrom dplyr .data %>% distinct filter pull
+#'
+#' @return a character vector of scientific name(s)
+#'
+#' @examples
+#' get_scientific_name(camtrapdp, "Norway Rat")
+#'
+get_scientific_name <- function(datapkg, vernacular_name) {
+
+  check_datapkg(datapkg)
+
+  observations <- datapkg$observations
+
+  vernacular <- vernacular_name
+
+  observations %>%
+    filter(tolower(vernacular_name) == tolower(vernacular)) %>%
+    distinct(.data$scientific_name) %>%
+    pull()
+}

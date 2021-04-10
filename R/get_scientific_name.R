@@ -15,6 +15,8 @@
 #'
 #' @importFrom dplyr .data %>% distinct filter pull tibble
 #'
+#' @export
+#'
 #' @return a character vector of scientific name(s)
 #'
 #' @examples

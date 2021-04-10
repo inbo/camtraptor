@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, species)
+get_rai(datapkg, species = "all")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -17,16 +17,35 @@ get_rai(datapkg, species)
 
 and a list with metadata: \code{datapackage}}
 
-\item{species}{a character with scientific name}
+\item{species}{a character with scientific names or common names (case
+insensitive). If "all" (default), all scientific names are automatically
+selected}
 }
 \value{
-a tibble (data.frame) with the following columns: - \code{deployment_id}
-deployment unique identifier - \code{rai}: relative abundance index
+a tibble (data.frame) with the following columns:
+\itemize{
+\item \code{deployment_id} deployment unique identifier
+\item \code{scientific_name} scientific name
+\item \code{rai}: relative abundance index
+}
 }
 \description{
 Function to get the RAI (Relative Abundance Index) per deployment.
 }
 \examples{
-get_rai(camtrapdp, "Anas platyrhynchos")
+# all species
+get_rai(camtrapdp)
+
+# selected species
+get_rai(camtrapdp, c("Anas platyrhynchos", "Rattus norvegicus"))
+
+# with common names
+get_rai(camtrapdp, c("Mallard", "norway rat"))
+
+# mixed scientific and vernacular names
+get_rai(camtrapdp, c("Anas platyrhynchos", "norway rat"))
+
+# species argument is case insensitive
+get_rai(camtrapdp, c("ANAS plAtyRhynChOS"))
 
 }

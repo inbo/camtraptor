@@ -4,7 +4,7 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(datapkg, species = NULL)
+get_n_obs(datapkg, species = "all")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -15,18 +15,28 @@ get_n_obs(datapkg, species = NULL)
 
 and a list with metadata: \code{datapackage}}
 
-\item{species}{a character with scientific name. If \code{NULL} (default) all
-observations of all species are taken into account}
+\item{species}{a character with scientific names or common names (case
+insensitive). If "all" (default), all scientific names are automatically
+selected. If \code{NULL} all observations of all species are taken into account}
 }
 \value{
-a tibble (data.frame) with the following columns: - \code{deployment_id}
-deployment unique identifier - \code{n}: (integer) number of observations
+a tibble (data.frame) with the following columns:
+\itemize{
+\item \code{deployment_id}:  deployment unique identifier
+\item \code{scientific_name}: scientific name of the species. This column is omitted
+if argument \code{species} = NULL
+\item \code{n}: (integer) number of observations
+}
 }
 \description{
 Function to get the number of observations (of a subset of species) per
 deployment.
 }
 \examples{
+
+# get number of observations for each species
+get_n_obs(camtrapdp, species = "all")
+
 # get number of observations of all species (not identified individuals as well)
 get_n_obs(camtrapdp)
 

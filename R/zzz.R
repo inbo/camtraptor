@@ -247,14 +247,15 @@ get_dep_no_obs <- function(datapkg) {
 #' @importFrom purrr map_chr
 #' @importFrom assertthat assert_that
 #'
-#' @return a character with the scientific name corr
+#' @export
+#'
+#' @return a character vector with the correspondent scientific names
 #'
 #' @examples
 #' check_species(camtrapdp, c("Mallard", "Norway Rat"))
 #' # case insensitive
 #' check_species(camtrapdp, "MalLARD")
 #'
-#' @keywords internal
 check_species <- function(datapkg, species) {
 
   assert_that(!is.null(species) & length(species) > 0,

@@ -18,16 +18,15 @@ and a list with metadata: \code{datapackage}}
 \item{species}{a character vector with scientific or vernacular names.}
 }
 \value{
-a character with the scientific name corr
+a character vector with the correspondent scientific names
 }
 \description{
 Check names against all scientific and vernacular names contained in a camera
 trap data package
 }
 \examples{
-check_species(camtrapdp, c("Mallard", "Norway Rat")
+check_species(camtrapdp, c("Mallard", "Norway Rat"))
 # case insensitive
 check_species(camtrapdp, "MalLARD")
 
 }
-\keyword{internal}

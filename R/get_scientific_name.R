@@ -13,7 +13,7 @@
 #'   species as found in the `observations` table of the camera trap data
 #'   package
 #'
-#' @importFrom dplyr .data %>% distinct filter pull
+#' @importFrom dplyr .data %>% distinct filter pull tibble
 #'
 #' @return a character vector of scientific name(s)
 #'

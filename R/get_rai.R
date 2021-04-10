@@ -13,7 +13,8 @@
 #'
 #' @param species a character with scientific name
 #'
-#' @importFrom dplyr .data %>% group_by left_join select summarise
+#' @importFrom dplyr .data %>% group_by left_join select summarise ungroup
+#'
 #' @export
 
 #' @return a tibble (data.frame) with the following columns: - `deployment_id`
@@ -28,8 +29,7 @@ get_rai <- function(datapkg, species) {
   check_datapkg(datapkg)
 
   # check species
-  valid_species <- get_species(datapkg)
-  check_value(tolower(species), tolower(valid_species), "species", null_allowed = FALSE)
+  species <- check_species(datapkg, species)
 
   # get number of observations
   n_obs_df <- get_n_obs(datapkg, species = species)
@@ -37,14 +37,16 @@ get_rai <- function(datapkg, species) {
   # extract deployments
   deployments <- datapkg$deployments
 
-  # get deployment_duration
+  # get deployment duration (effort)
   dep_effort <- get_effort(datapkg)
 
   # calculate RAI
   n_obs_df %>%
     left_join(dep_effort,
               by = "deployment_id") %>%
-    group_by(.data$deployment_id) %>%
-    summarise(rai = n * 100 / (as.numeric(.data$effort)/24/60/60))
+    group_by(.data$deployment_id,
+             .data$scientific_name) %>%
+    summarise(rai = .data$n * 100 / (as.numeric(.data$effort)/24/60/60)) %>%
+    ungroup()
 
 }

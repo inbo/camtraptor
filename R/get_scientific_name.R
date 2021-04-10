@@ -28,8 +28,15 @@ get_scientific_name <- function(datapkg, vernacular_name) {
 
   vernacular <- vernacular_name
 
-  observations %>%
-    filter(tolower(vernacular_name) == tolower(vernacular)) %>%
-    distinct(.data$scientific_name) %>%
-    pull()
+  sn_vn <-
+    observations %>%
+    filter(tolower(vernacular_name) %in% tolower(vernacular)) %>%
+    distinct(.data$scientific_name, .data$vernacular_name) %>%
+    mutate(vernacular_name = tolower(.data$vernacular_name))
+
+  # maintain the order of vernacular_name while returning scientific names
+  tibble(vernacular_name = tolower(vernacular)) %>%
+    left_join(sn_vn,
+              by = "vernacular_name") %>%
+    pull(.data$scientific_name)
 }

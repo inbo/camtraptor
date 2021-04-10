@@ -33,4 +33,10 @@ get_n_obs(camtrapdp)
 # get number of observations of Gallinula chloropus
 get_n_obs(camtrapdp, species = "Gallinula chloropus")
 
+# get number of observations of Common Moorhen
+get_n_obs(camtrapdp, species = "Common Moorhen")
+
+# case insensitive
+get_n_obs(camtrapdp, species = "cOmmon moorhEn")
+
 }

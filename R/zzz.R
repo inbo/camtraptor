@@ -250,7 +250,7 @@ get_dep_no_obs <- function(datapkg) {
 #' @return a character with the scientific name corr
 #'
 #' @examples
-#' check_species(camtrapdp, c("Mallard", "Norway Rat")
+#' check_species(camtrapdp, c("Mallard", "Norway Rat"))
 #' # case insensitive
 #' check_species(camtrapdp, "MalLARD")
 #'

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to use function `map_dep()` to visualize on a leaflet map two important deployment features: 
+This vignette shows how to use function `map_dep()` to visualize two important deployment features on a leaflet map: 
 
 - number of identified species
 - number of observations
@@ -35,7 +35,7 @@ This load automatically a camera trap data package, `camtrapdp`, containing came
 
 ## Create map
 
-As some featues must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected:
+As some features must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected:
 
 ```{r species_list}
 get_species(camtrapdp)
@@ -57,7 +57,7 @@ map_dep(camtrapdp,
         feature = "n_obs")
 ```
 
-You can also specify which species you want to calculate the number  of observations:
+You can also specify which species you want to calculate the number of observations:
 
 ```{r visualize_n_obs_species}
 map_dep(camtrapdp,
@@ -74,7 +74,24 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
-If species is not specified or is wrong, an informative error message listing all valid values is returned:
+Common names are allowed as well:
+
+```{r common_name}
+map_dep(camtrapdp,
+        feature = "rai",
+        species = "muskrat")
+```
+
+Argument `species` is also case insensitive:
+
+```{r }
+map_dep(camtrapdp,
+        feature = "n_obs",
+        species = "ONDATRA zIBethICus")
+```
+
+
+If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
 ```{r see_error_message}
 testthat::expect_error(
@@ -82,9 +99,9 @@ testthat::expect_error(
           feature = "rai",
           species = "This is not a species name"), 
   paste0("Invalid value for species argument.\n",
-         "Valid inputs are: Anas platyrhynchos, Rattus norvegicus, ",
-         "Ondatra zibethicus, Myocastor coypus and Gallinula chloropus."
-        )
+         "Valid inputs are: anas platyrhynchos, rattus norvegicus, ",
+         "ondatra zibethicus, myocastor coypus, gallinula chloropus, ", 
+         "mallard, norway rat, muskrat, coypu and common moorhen.")
 )
 ```
 
@@ -143,7 +160,7 @@ map_dep(camtrapdp,
 
 By default the color palette is defined based on the actual number of detected species. However, sometimes can be useful to set up an absolute upper limit. This can be done by setting argument  `relative_color_scale` to  `FALSE` and specifying the upper limit in  `max_color_scale`.
 
-Upper limit below number of detected species:
+Upper limit lower than number of detected species:
 
 ```{r low_upper_limit}
 map_dep(camtrapdp,
@@ -152,7 +169,7 @@ map_dep(camtrapdp,
         max_color_scale = 3)
 ```
 
-Upper limit above number of detected species:
+Upper limit higher than number of detected species:
 
 ```{r high_upper_limit}
 map_dep(camtrapdp,

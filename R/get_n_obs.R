@@ -10,37 +10,66 @@
 #'
 #'   and a list with metadata: `datapackage`
 #'
-#' @param species a character with scientific name. If `NULL` (default) all
-#'   observations of all species are taken into account
+#' @param species a character with scientific names or common names (case
+#'   insensitive). If "all" (default), all scientific names are automatically
+#'   selected. If `NULL` all observations of all species are taken into account
 #'
-#' @importFrom dplyr .data %>% bind_rows count group_by mutate select ungroup
-#'
+#' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
+#'   select summarise ungroup
+#' @importFrom glue glue
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deployment_id`
-#'   deployment unique identifier - `n`: (integer) number of observations
+#' @return a tibble (data.frame) with the following columns:
+#' - `deployment_id`:  deployment unique identifier
+#' - `scientific_name`: scientific name of the species. This column is omitted
+#' if argument `species` = NULL
+#' - `n`: (integer) number of observations
 #'
 #' @examples
+#'
+#' # get number of observations for each species
+#' get_n_obs(camtrapdp, species = "all")
+#'
 #' # get number of observations of all species (not identified individuals as well)
 #' get_n_obs(camtrapdp)
 #'
 #' # get number of observations of Gallinula chloropus
 #' get_n_obs(camtrapdp, species = "Gallinula chloropus")
 #'
-get_n_obs <- function(datapkg, species = NULL) {
+#' # get number of observations of Common Moorhen
+#' get_n_obs(camtrapdp, species = "Common Moorhen")
+#'
+#' # case insensitive
+#' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
+#'
+get_n_obs <- function(datapkg, species = "all") {
 
   # check input data package
   check_datapkg(datapkg)
 
-  # check species
-  valid_species <- get_species(datapkg)
-  check_value(species, valid_species, "species")
-
-  # select observations with the selected species
+  # get observations of the selected species
   if (!is.null(species)) {
+    # if species == all retrieve all detected species
+    if ("all" %in% species) {
+      # if also other values are present, they will be ignored
+      if (length(species) > 1) {
+        ignored_species <- species[!species == "all"]
+        warning(glue(
+          "Value 'all' found in species.
+              All others values are ignored: {ignored_species*}.",
+          .transformer = collapse_transformer(
+            sep = ", ",
+            last = " and "
+          )
+        ))
+      }
+      species <- get_species(datapkg)$scientific_name
+    }
+    # check species and get scientific names
+    species <- check_species(datapkg, species)
     datapkg$observations <-
       datapkg$observations %>%
-      filter(.data$scientific_name == species)
+      filter(tolower(.data$scientific_name) %in% tolower(species))
   }
 
   # extract observations and deployments
@@ -50,21 +79,34 @@ get_n_obs <- function(datapkg, species = NULL) {
   # get deployments without observations
   deployments_no_obs <- get_dep_no_obs(datapkg)
 
-  # get number of observations collected by each deployment
+  # get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
-    group_by(.data$deployment_id) %>%
+    group_by(.data$deployment_id, .data$scientific_name) %>%
     count() %>%
     ungroup()
 
-  # set up number of observations to 0 for deployments without observations
-  deployments_no_obs <-
-    deployments_no_obs %>%
-    select(.data$deployment_id) %>%
-    mutate(n = 0)
+  # get all combinations deployments ID - scientific name
+  combinations_dep_species <-
+    expand.grid(deployments$deployment_id, unique(observations$scientific_name)) %>%
+    rename(deployment_id = .data$Var1,
+           scientific_name = .data$Var2) %>%
+    as_tibble()
 
-  # add them to n and return df with column n as integer
-  n_obs %>%
-    bind_rows(deployments_no_obs) %>%
+  # set 0 to combinations without observations (i.e. n = NA after join)
+  n_obs <-
+    combinations_dep_species %>%
+    left_join(n_obs,
+              by = c("deployment_id", "scientific_name")) %>%
+    mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     mutate(n = as.integer(.data$n))
+
+  if (!is.null(species)) {
+    return(n_obs)
+  } else {
+    # remove group on species and sum all observations per deployment
+    n_obs %>%
+      group_by(.data$deployment_id) %>%
+      summarise(n = sum(.data$n))
+  }
 }

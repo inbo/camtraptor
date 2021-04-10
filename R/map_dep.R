@@ -206,7 +206,7 @@ map_dep <- function(datapkg,
     feat_df <- get_n_obs(datapkg, species = species)
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species)
-    feat_df <- feat_df %>% rename(n = rai)
+    feat_df <- feat_df %>% rename(n = .data$rai)
   }
 
   # add deployment information for maps

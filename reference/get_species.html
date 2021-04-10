@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -149,13 +149,20 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a vector with the scientific names of all identified species</p>
+    <p>a data.frame with all scientific names and vernacular names of
+identified species</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>get_species</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Anas platyrhynchos"  "Rattus norvegicus"   "Ondatra zibethicus" 
-#&gt; [4] "Myocastor coypus"    "Gallinula chloropus"</div><div class='input'>
-</div></pre>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt;   scientific_name     vernacular_name
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Anas platyrhynchos  Mallard        
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Rattus norvegicus   Norway Rat     
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Ondatra zibethicus  Muskrat        
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Myocastor coypus    Coypu          
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Gallinula chloropus Common Moorhen </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -129,7 +129,7 @@
     <p>Function to get the RAI (Relative Abundance Index) per deployment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>datapkg</span>, <span class='va'>species</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>datapkg</span>, species <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,15 +147,96 @@
     </tr>
     <tr>
       <th>species</th>
-      <td><p>a character with scientific name</p></td>
+      <td><p>a character with scientific names or common names (case
+insensitive). If "all" (default), all scientific names are automatically
+selected</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a tibble (data.frame) with the following columns: - <code>deployment_id</code>
-deployment unique identifier - <code>rai</code>: relative abundance index</p>
+    <p>a tibble (data.frame) with the following columns:</p><ul>
+<li><p><code>deployment_id</code> deployment unique identifier</p></li>
+<li><p><code>scientific_name</code> scientific name</p></li>
+<li><p><code>rai</code>: relative abundance index</p></li>
+</ul>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># all species</span>
+<span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span><span>
+#&gt;    deployment_id                        scientific_name        rai
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   93.3 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus   3.33
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Myocastor coypus      6.66
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus    9.99
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus   669.  
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos   80.6 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus   0   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus      0   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus    4.74
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus     0   
+#&gt; </span><span style='color: #BCBCBC;'>11</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos  126.  
+#&gt; </span><span style='color: #BCBCBC;'>12</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus   0   
+#&gt; </span><span style='color: #BCBCBC;'>13</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus      0   
+#&gt; </span><span style='color: #BCBCBC;'>14</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus    0   
+#&gt; </span><span style='color: #BCBCBC;'>15</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus     0   
+#&gt; </span><span style='color: #BCBCBC;'>16</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos   48.5 
+#&gt; </span><span style='color: #BCBCBC;'>17</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus   0   
+#&gt; </span><span style='color: #BCBCBC;'>18</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus      0   
+#&gt; </span><span style='color: #BCBCBC;'>19</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus   24.2 
+#&gt; </span><span style='color: #BCBCBC;'>20</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.  </div><div class='input'>
+<span class='co'># selected species</span>
+<span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"Rattus norvegicus"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 3</span><span>
+#&gt;   deployment_id                        scientific_name      rai
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus  669. 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos  80.6
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos 126. 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  48.5
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
+<span class='co'># with common names</span>
+<span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Mallard"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of Mallard: Anas platyrhynchos</span></div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 3</span><span>
+#&gt;   deployment_id                        scientific_name      rai
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus  669. 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos  80.6
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos 126. 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  48.5
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
+<span class='co'># mixed scientific and vernacular names</span>
+<span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 3</span><span>
+#&gt;   deployment_id                        scientific_name      rai
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus  669. 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos  80.6
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos 126. 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus    0  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  48.5
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
+<span class='co'># species argument is case insensitive</span>
+<span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANAS plAtyRhynChOS"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 3</span><span>
+#&gt;   deployment_id                        scientific_name      rai
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos  80.6
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos 126. 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  48.5</div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

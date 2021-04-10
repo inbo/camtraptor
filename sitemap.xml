@@ -7,6 +7,9 @@
     <loc>https://inbo.github.io/camtrapdp/reference/camtrapdp.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_species.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_dep_no_obs.html</loc>
   </url>
   <url>
@@ -20,6 +23,9 @@
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_rai.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_scientific_name.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_species.html</loc>

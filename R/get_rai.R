@@ -11,23 +11,44 @@
 #'
 #' and a list with metadata: `datapackage`
 #'
-#' @param species a character with scientific name
+#' @param species a character with scientific names or common names (case
+#'   insensitive). If "all" (default), all scientific names are automatically
+#'   selected
 #'
 #' @importFrom dplyr .data %>% group_by left_join select summarise ungroup
 #'
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deployment_id`
-#'   deployment unique identifier - `rai`: relative abundance index
+#' @return a tibble (data.frame) with the following columns:
+#' - `deployment_id` deployment unique identifier
+#' - `scientific_name` scientific name
+#' - `rai`: relative abundance index
 #'
 #' @examples
-#' get_rai(camtrapdp, "Anas platyrhynchos")
+#' # all species
+#' get_rai(camtrapdp)
 #'
-get_rai <- function(datapkg, species) {
+#' # selected species
+#' get_rai(camtrapdp, c("Anas platyrhynchos", "Rattus norvegicus"))
+#'
+#' # with common names
+#' get_rai(camtrapdp, c("Mallard", "norway rat"))
+#'
+#' # mixed scientific and vernacular names
+#' get_rai(camtrapdp, c("Anas platyrhynchos", "norway rat"))
+#'
+#' # species argument is case insensitive
+#' get_rai(camtrapdp, c("ANAS plAtyRhynChOS"))
+#'
+get_rai <- function(datapkg, species = "all") {
 
   # check input data package
   check_datapkg(datapkg)
 
+  # get all identified species if species arg is equal to "all"
+  if ("all" %in% species) {
+    species <- get_species(datapkg)$scientific_name
+  }
   # check species
   species <- check_species(datapkg, species)
 
@@ -37,7 +58,7 @@ get_rai <- function(datapkg, species) {
   # extract deployments
   deployments <- datapkg$deployments
 
-  # get deployment duration (effort)
+  # get deployment duration (effort) in seconds
   dep_effort <- get_effort(datapkg)
 
   # calculate RAI

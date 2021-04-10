@@ -10,18 +10,26 @@
 #'
 #'   and a list with metadata: `datapackage`
 #'
-#' @param species a character with scientific name. If `NULL` (default) all
-#'   observations of all species are taken into account
+#' @param species a character with scientific names or common names (case
+#'   insensitive). If "all" (default), all scientific names are automatically
+#'   selected. If `NULL` all observations of all species are taken into account
 #'
 #' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
 #'   select summarise ungroup
 #' @importFrom glue glue
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deployment_id`
-#'   deployment unique identifier - `n`: (integer) number of observations
+#' @return a tibble (data.frame) with the following columns:
+#' - `deployment_id`:  deployment unique identifier
+#' - `scientific_name`: scientific name of the species. This column is omitted
+#' if argument `species` = NULL
+#' - `n`: (integer) number of observations
 #'
 #' @examples
+#'
+#' # get number of observations for each species
+#' get_n_obs(camtrapdp, species = "all")
+#'
 #' # get number of observations of all species (not identified individuals as well)
 #' get_n_obs(camtrapdp)
 #'
@@ -34,13 +42,29 @@
 #' # case insensitive
 #' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 #'
-get_n_obs <- function(datapkg, species = NULL) {
+get_n_obs <- function(datapkg, species = "all") {
 
   # check input data package
   check_datapkg(datapkg)
 
-  # select observations with the selected species
+  # get observations of the selected species
   if (!is.null(species)) {
+    # if species == all retrieve all detected species
+    if ("all" %in% species) {
+      # if also other values are present, they will be ignored
+      if (length(species) > 1) {
+        ignored_species <- species[!species == "all"]
+        warning(glue(
+          "Value 'all' found in species.
+              All others values are ignored: {ignored_species*}.",
+          .transformer = collapse_transformer(
+            sep = ", ",
+            last = " and "
+          )
+        ))
+      }
+      species <- get_species(datapkg)$scientific_name
+    }
     # check species and get scientific names
     species <- check_species(datapkg, species)
     datapkg$observations <-

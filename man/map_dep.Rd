@@ -25,7 +25,13 @@ map_dep(
 
 and a list with metadata: \code{datapackage}}
 
-\item{feature}{character, one of: - \code{n_species} - \code{n_obs} - \code{rai}}
+\item{feature}{character, deployment feature to visualize. One of:
+\itemize{
+\item \code{n_species}: number of identified species
+\item \code{n_obs}: number of observations
+\item \code{rai}: Relative Abundance Index
+\item \code{effort}: effort (duration) of the deployment
+}}
 
 \item{species}{a character with a scientific name. Required for  \code{rai},
 optional for \code{n_obs}. Default: \code{NULL}}
@@ -97,11 +103,18 @@ map_dep(
   "n_obs",
   species = "Rattus norvegicus"
 )
+
 # show RAI
 map_dep(
   camtrapdp,
   "rai",
   species = "Rattus norvegicus"
+)
+
+# show effort
+map_dep(
+  camtrapdp,
+  "effort"
 )
 
 # cluster disabled

@@ -13,7 +13,13 @@
 #'   1. `observations` 2. `deployments` 3. `multimedia`
 #'
 #'   and a list with metadata: `datapackage`
-#' @param feature character, one of: - `n_species` - `n_obs` - `rai`
+#' @param feature character, deployment feature to visualize. One of:
+#'
+#' - `n_species`: number of identified species
+#' - `n_obs`: number of observations
+#' - `rai`: Relative Abundance Index
+#' - `effort`: effort (duration) of the deployment
+#'
 #' @param species a character with a scientific name. Required for  `rai`,
 #'   optional for `n_obs`. Default: `NULL`
 #' @param cluster a logical value
@@ -83,11 +89,18 @@
 #'   "n_obs",
 #'   species = "Rattus norvegicus"
 #' )
+#'
 #' # show RAI
 #' map_dep(
 #'   camtrapdp,
 #'   "rai",
 #'   species = "Rattus norvegicus"
+#' )
+#'
+#' # show effort
+#' map_dep(
+#'   camtrapdp,
+#'   "effort"
 #' )
 #'
 #' # cluster disabled
@@ -130,7 +143,7 @@ map_dep <- function(datapkg,
 ) {
 
   # define possible feature values
-  features <- c("n_species", "n_obs", "rai")
+  features <- c("n_species", "n_obs", "rai", "effort")
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
@@ -144,13 +157,9 @@ map_dep <- function(datapkg,
   observations <- datapkg$observations
   deployments <- datapkg$deployments
 
-  # check feature
-  possible_features <- c("n_species", "n_obs", "rai")
-  feature <- match.arg(feature, choices = possible_features, several.ok = FALSE)
-
   # check species in combination with feature
-  if (!is.null(species) & feature == "n_species") {
-    warning("species argument ignored for feature = n_species")
+  if (!is.null(species) & feature %in% c("n_species", "effort")) {
+    warning(glue("species argument ignored for feature = {feature}"))
   }
 
   # check cluster
@@ -185,15 +194,19 @@ map_dep <- function(datapkg,
   # check combination relative_color_scale and max_color_scale
   if (relative_color_scale == FALSE) {
     assert_that(!is.null(max_color_scale),
-      msg = "If you use an absolute color scale, max_color_scale must be a number, not NULL"
+      msg = paste("If you use an absolute color scale,",
+                  "max_color_scale must be a number, not NULL")
     )
     assert_that(is.numeric(max_color_scale),
-      msg = "If you use an absolute color scale, max_color_scale must be a number"
+      msg = paste("If you use an absolute color scale,",
+                  "max_color_scale must be a number")
     )
     assert_that(max_color_scale == as.integer(max_color_scale),
-      msg = "If you use an absolute color scale, max_color_scale must be an integer"
+      msg = paste("If you use an absolute color scale,",
+                  "max_color_scale must be an integer")
     )
   }
+
   if (relative_color_scale == TRUE & !is.null(max_color_scale)) {
     warning("Relative color scale used: max_color_scale value ignored.")
     max_color_scale <- NULL
@@ -207,6 +220,8 @@ map_dep <- function(datapkg,
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species)
     feat_df <- feat_df %>% rename(n = .data$rai)
+  } else if (feature == "effort") {
+    feat_df <- get_effort(datapkg)
   }
 
   # add deployment information for maps

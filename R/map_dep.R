@@ -22,6 +22,17 @@
 #'
 #' @param species a character with a scientific name. Required for  `rai`,
 #'   optional for `n_obs`. Default: `NULL`
+#' @param effort_unit time unit to use while visualizing deployment effort
+#'   (duration). One of:
+#'
+#' - `second`
+#' - `minute`
+#' - `hour`
+#' - `day`
+#' - `month`
+#' - `year`
+#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
+#' while hovering and seconds shown in legend
 #' @param cluster a logical value
 #'   indicating whether using the cluster option while visualizing maps.
 #'   Default: TRUE

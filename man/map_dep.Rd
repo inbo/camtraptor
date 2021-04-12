@@ -37,6 +37,19 @@ and a list with metadata: \code{datapackage}}
 \item{species}{a character with a scientific name. Required for  \code{rai},
 optional for \code{n_obs}. Default: \code{NULL}}
 
+\item{effort_unit}{time unit to use while visualizing deployment effort
+(duration). One of:
+\itemize{
+\item \code{second}
+\item \code{minute}
+\item \code{hour}
+\item \code{day}
+\item \code{month}
+\item \code{year}
+\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
+while hovering and seconds shown in legend
+}}
+
 \item{cluster}{a logical value
 indicating whether using the cluster option while visualizing maps.
 Default: TRUE}

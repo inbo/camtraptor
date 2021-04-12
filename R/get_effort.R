@@ -32,3 +32,66 @@ get_effort <- function(datapkg) {
     mutate(effort = as.duration(.data$end - .data$start)) %>%
     select(.data$deployment_id, .data$effort)
 }
+
+#' Transform efforts to common units.
+#'
+#' This function is useful for visualization and communication purposes. Efforts
+#' are duration objects and so they are always expressed in seconds. Although
+#' they are also returned on screen in common units, e.g. "2594308s (~4.29
+#' weeks)", the values in seconds are used in color scales, not very handy to be
+#' interpreted. Converting them in the most suitable time unit is also useful
+#' for communication purposes (reports, research articles, ...). Obviously the
+#' conversion can be not always precise, e.g. month is not always 30 days long.
+#'
+#' @importFrom lubridate dseconds dminutes dhours ddays dweeks dmonths dyears
+#'
+#' @param effort a vector of duration objects
+#' @param unit common unit to express duration objects. One of:
+#'
+#' - `second`
+#' - `minute`
+#' - `hour`
+#' - `day`
+#' - `month`
+#' - `year`
+#'
+#' @export
+#'
+#' @return a numeric vector
+#'
+#' @examples
+#' # create efforts (durations) to transform
+#' efforts <- c(lubridate::duration("2hours 2minutes 1second"),
+#'             lubridate::duration("3days 2hours"))
+#' # transform effort to hours
+#' get_effort_in_common_units(efforts, "hour")
+#' # transform effort to days
+#' get_effort_in_common_units(efforts, "day")
+transform_effort_to_common_units <- function(effort, unit) {
+
+  # only one unit allowed
+  assert_that(length(unit) == 1,
+              msg = "unit must have length 1")
+
+  # define possible unit values
+  units <- c("second", "minute", "hour", "day", "week", "month", "year")
+
+  # check effort_unit
+  check_value(unit, units, "unit", null_allowed = FALSE)
+
+  if (unit == "second") {
+    effort / dseconds()
+  } else if (unit == "minute") {
+    effort / dminutes()
+  } else if (unit == "hour") {
+    effort / dhours()
+  } else if (unit == "day") {
+    effort / ddays()
+  } else if (unit == "week") {
+    effort / dweeks()
+  } else if (unit == "month") {
+    effort / dmonths()
+  } else if (unit == "year") {
+    effort / dyears()
+  }
+}

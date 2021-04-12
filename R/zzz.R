@@ -131,8 +131,8 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #'   [labelFormat()](https://github.com/rstudio/leaflet/commit/bb3ab964486b357ddc160a7032cfdce6cd8fbe35)
 #'    function
 #'
-#' @param max_color_scale a number indicating the maximum value of the absolute
-#'   color scale (`NULL` if relative scale is used, default)
+#' @param max_scale a number indicating the maximum value of the absolute scale
+#'   (`NULL` if relative scale is used, default)
 #' @param prefix a prefix of legend labels
 #' @param suffix a suffix of legend labels
 #' @param digits the number of digits of numeric values in labels
@@ -142,21 +142,21 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #' @noRd
 #'
 #' @keywords internal
-labelFormat_scale <- function(max_color_scale = NULL,
+labelFormat_scale <- function(max_scale = NULL,
                               prefix = "",
                               suffix = "",
                               digits = 3,
                               big.mark = ",",
                               transform = identity) {
-  formatNum <- function(x, max_color_scale) {
+  formatNum <- function(x, max_scale) {
     cuts_chrs <- format(round(transform(x), digits),
       trim = TRUE,
       scientific = FALSE,
       big.mark = big.mark
     )
-    if (!is.null(max_color_scale)) {
+    if (!is.null(max_scale)) {
       n <- length(x)
-      if (x[n] == max_color_scale) {
+      if (x[n] == max_scale) {
         cuts_chrs[n] <- paste0(cuts_chrs[n], "+")
       }
     }
@@ -167,7 +167,7 @@ labelFormat_scale <- function(max_color_scale = NULL,
     switch(
       type,
       numeric = (function(cuts) {
-        paste0(prefix, formatNum(cuts, max_color_scale), suffix)
+        paste0(prefix, formatNum(cuts, max_scale), suffix)
       })(...)
     )
   }

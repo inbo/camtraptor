@@ -20,6 +20,8 @@ This vignette shows how to use function `map_dep()` to visualize two important d
 
 - number of identified species
 - number of observations
+- RAI (Relative Abundance Index)
+- effort (duration of a deployment)
 
 ## Setup
 
@@ -43,12 +45,16 @@ get_species(camtrapdp)
 
 ### Basic usage
 
+#### Number of species
+
 You can visualize the number of species detected by each deployment by using the function `map_dep()` with `feature` argument set to `n_species`:
 
 ```{r visualize_n_species_with_clusters_and_default_hover_col}
 map_dep(camtrapdp,
         feature = "n_species")
 ```
+
+#### Number of observations
 
 To visualize the number of observations, set `feature` = `n_obs`:
 
@@ -65,6 +71,7 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
+#### RAI
 
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
 
@@ -74,7 +81,7 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
-Common names are allowed as well:
+Common names are allowed as values of `species` as well:
 
 ```{r common_name}
 map_dep(camtrapdp,
@@ -82,14 +89,13 @@ map_dep(camtrapdp,
         species = "muskrat")
 ```
 
-Argument `species` is also case insensitive:
+Values of `species` are also interpreted case insensitive:
 
-```{r }
+```{r arg_species_case_insensitive}
 map_dep(camtrapdp,
-        feature = "n_obs",
+        feature = "rai",
         species = "ONDATRA zIBethICus")
 ```
-
 
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
@@ -103,6 +109,32 @@ testthat::expect_error(
          "ondatra zibethicus, myocastor coypus, gallinula chloropus, ", 
          "mallard, norway rat, muskrat, coypu and common moorhen.")
 )
+```
+
+#### Effort
+
+Visualize duration of the deployments, also called _effort_, as number of active hours:
+
+```{r effort_in_hours}
+map_dep(camtrapdp, 
+        feature = "effort",
+        effort_unit = "hour")
+```
+
+The same using days as time unit
+
+```{r effort_in_days}
+map_dep(camtrapdp, 
+        feature = "effort",
+        effort_unit = "day")
+```
+
+or months
+
+```{r effort_in_months}
+map_dep(camtrapdp, 
+        feature = "effort",
+        effort_unit = "month")
 ```
 
 ### Clustering and hovering
@@ -158,22 +190,22 @@ map_dep(camtrapdp,
 
 ### Use absolute scale
 
-By default the color palette is defined based on the actual number of detected species. However, sometimes can be useful to set up an absolute upper limit. This can be done by setting argument  `relative_color_scale` to  `FALSE` and specifying the upper limit in  `max_color_scale`.
+By default the color palette and the radius are defined based on the actual feature values. However, sometimes can be useful to set up an absolute upper limit. This can be done by setting argument  `relative_color_scale` to  `FALSE` and specifying the upper limit in  `max_color_scale`.
 
-Upper limit lower than number of detected species:
+Upper limit lower than number of observations:
 
 ```{r low_upper_limit}
 map_dep(camtrapdp,
-        feature = "n_species",
+        feature = "n_obs",
         relative_color_scale = FALSE,
-        max_color_scale = 3)
+        max_color_scale = 200)
 ```
 
-Upper limit higher than number of detected species:
+Upper limit higher than number of observations:
 
 ```{r high_upper_limit}
 map_dep(camtrapdp,
-        feature = "n_species",,
+        feature = "n_obs",,
         relative_color_scale = FALSE,
-        max_color_scale = 10)
+        max_color_scale = 1000)
 ```

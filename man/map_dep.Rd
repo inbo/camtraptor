@@ -12,8 +12,8 @@ map_dep(
   cluster = TRUE,
   hover_columns = c("n", "deployment_id", "location_id", "location_name", "latitude",
     "longitude", "start", "end"),
-  relative_color_scale = TRUE,
-  max_color_scale = NULL,
+  relative_scale = TRUE,
+  max_scale = NULL,
   radius_range = c(10, 50)
 )
 }
@@ -73,17 +73,19 @@ created internally by a \verb{get_*()} function)
 See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
 list of columns you can use}
 
-\item{relative_color_scale}{a logical indicating whether to use a relative
-color scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale is
-used, specify a valid \code{max_color_scale}}
+\item{relative_scale}{a logical indicating whether to use a relative color
+and radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale
+is used, specify a valid \code{max_scale}}
 
-\item{max_color_scale}{a number indicating the max value used in the color
-scale}
+\item{max_scale}{a number indicating the max value used to map color
+and radius}
 
 \item{radius_range}{a vector of length 2 containing the lower and upper limit
 of the circle radius. The lower value is used for deployments with zero
-observations/identified species. The upper value for the deployment(s) with
-the highest number of identified species/observations. Default: \code{c(10, 50)}}
+feature value, i.e. no observations, no identified species, zero RAI or
+zero effort. The upper value is used for the deployment(s) with the highest
+feature value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
+= \code{FALSE}). Default: \code{c(10, 50)}}
 }
 \value{
 a leaflet map
@@ -157,11 +159,11 @@ map_dep(camtrapdp,
   hover_columns = c("location_name", "n")
 )
 
-# use absolute scale for colors
+# use absolute scale for colors and radius
 map_dep(camtrapdp,
   "n_species",
-  relative_color_scale = FALSE,
-  max_color_scale = 4
+  relative_scale = FALSE,
+  max_scale = 4
 )
 
 # change max and min size circles

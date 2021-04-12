@@ -54,15 +54,17 @@
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
 #'   list of columns you can use
-#' @param relative_color_scale a logical indicating whether to use a relative
-#'   color scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale is
-#'   used, specify a valid `max_color_scale`
-#' @param max_color_scale a number indicating the max value used in the color
-#'   scale
+#' @param relative_scale a logical indicating whether to use a relative color
+#'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
+#'   is used, specify a valid `max_scale`
+#' @param max_scale a number indicating the max value used to map color
+#'   and radius
 #' @param radius_range a vector of length 2 containing the lower and upper limit
 #'   of the circle radius. The lower value is used for deployments with zero
-#'   observations/identified species. The upper value for the deployment(s) with
-#'   the highest number of identified species/observations. Default: `c(10, 50)`
+#'   feature value, i.e. no observations, no identified species, zero RAI or
+#'   zero effort. The upper value is used for the deployment(s) with the highest
+#'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
+#'   = `FALSE`). Default: `c(10, 50)`
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols count distinct filter
@@ -140,11 +142,11 @@
 #'   hover_columns = c("location_name", "n")
 #' )
 #'
-#' # use absolute scale for colors
+#' # use absolute scale for colors and radius
 #' map_dep(camtrapdp,
 #'   "n_species",
-#'   relative_color_scale = FALSE,
-#'   max_color_scale = 4
+#'   relative_scale = FALSE,
+#'   max_scale = 4
 #' )
 #'
 #' # change max and min size circles
@@ -163,8 +165,8 @@ map_dep <- function(datapkg,
                                       "location_id", "location_name",
                                       "latitude", "longitude",
                                       "start", "end"),
-                    relative_color_scale = TRUE,
-                    max_color_scale = NULL,
+                    relative_scale = TRUE,
+                    max_scale = NULL,
                     radius_range = c(10, 50)
 ) {
 
@@ -232,21 +234,21 @@ map_dep <- function(datapkg,
     }
   }
 
-  # check combination relative_color_scale and max_color_scale
-  if (relative_color_scale == FALSE) {
-    assert_that(!is.null(max_color_scale),
-                msg = paste("If you use an absolute color scale,",
-                            "max_color_scale must be a number, not NULL")
+  # check combination relative_scale and max_scale
+  if (relative_scale == FALSE) {
+    assert_that(!is.null(max_scale),
+                msg = paste("If you use an absolute scale,",
+                            "max_scale must be a number, not NULL")
     )
-    assert_that(is.numeric(max_color_scale),
-                msg = paste("If you use an absolute color scale,",
-                            "max_color_scale must be a number")
+    assert_that(is.numeric(max_scale),
+                msg = paste("If you use an absolute scale,",
+                            "max_scale must be a number")
     )
   }
 
-  if (relative_color_scale == TRUE & !is.null(max_color_scale)) {
-    warning("Relative color scale used: max_color_scale value ignored.")
-    max_color_scale <- NULL
+  if (relative_scale == TRUE & !is.null(max_scale)) {
+    warning("Relative scale used: max_scale value ignored.")
+    max_scale <- NULL
   }
 
   # calculate and get feature values
@@ -306,21 +308,21 @@ map_dep <- function(datapkg,
   }
 
   # Set upper limit if absolute value is used and it is lower than some values
-  if (relative_color_scale == FALSE) {
-    # set all n > max_color_scale to max_color_scale
+  if (relative_scale == FALSE) {
+    # set all n > max_scale to max_scale
     feat_df <-
       feat_df %>%
-      mutate(n = ifelse(.data$n > max_color_scale,
-                        max_color_scale,
+      mutate(n = ifelse(.data$n > max_scale,
+                        max_scale,
                         .data$n
       ))
   }
 
   # max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
-  max_n <- ifelse(is.null(max_color_scale),
+  max_n <- ifelse(is.null(max_scale),
                   max(feat_df$n, na.rm = TRUE),
-                  max_color_scale
+                  max_scale
   )
   # define color palette
   palette_colors <- c("white", "blue")
@@ -343,7 +345,7 @@ map_dep <- function(datapkg,
   # define size scale for avoiding too small or too big circles
   radius_max <- radius_range[2]
   radius_min <- radius_range[1]
-  conv_factor <- (radius_max - radius_min)/max(feat_df$n, na.rm = TRUE)
+  conv_factor <- (radius_max - radius_min)/max_n
 
   # define title legend
   title <- get_legend_title(feature)
@@ -351,6 +353,9 @@ map_dep <- function(datapkg,
   title <- add_unit_to_legend_title(title,
                                     unit = effort_unit,
                                     use_brackets = TRUE)
+
+  # define legend values
+  legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
   # make basic start map
   leaflet_map <-
@@ -370,13 +375,13 @@ map_dep <- function(datapkg,
     ) %>%
     addLegend("bottomright",
               pal = pal_without_na,
-              values = ~n,
+              values = legend_values,
               title = title,
               opacity = 1,
               bins = bins,
               na.label = "",
               labFormat = labelFormat_scale(
-                max_color_scale = max_color_scale
+                max_scale = max_scale
               )
     )
 }

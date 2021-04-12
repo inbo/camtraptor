@@ -30,8 +30,8 @@
 #'   or more from deployment columns. Use `NULL` to disable hovering. Default
 #'   information:
 #'
-#'   - `n`: number of species, number of observations or RAI (column created
-#'   internally by a `get_*()` function)
+#'   - `n`: number of species, number of observations, RAI or effort (column
+#'   created internally by a `get_*()` function)
 #'   - `start`: start deployment
 #'   - `end`: end deployment -
 #'   - `deployment_id` deployment unique identifier
@@ -97,10 +97,24 @@
 #'   species = "Rattus norvegicus"
 #' )
 #'
-#' # show effort
+#' # show effort (basic duration in seconds)
 #' map_dep(
 #'   camtrapdp,
 #'   "effort"
+#' )
+#'
+#' # show effort (days)
+#' map_dep(
+#'   camtrapdp,
+#'   "effort",
+#'   effort_unit = "day"
+#' )
+#'
+#' # show effort (months)
+#' map_dep(
+#'   camtrapdp,
+#'   "effort",
+#'   effort_unit = "month"
 #' )
 #'
 #' # cluster disabled

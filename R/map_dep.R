@@ -146,6 +146,7 @@
 map_dep <- function(datapkg,
                     feature,
                     species = NULL,
+                    effort_unit = NULL,
                     cluster = TRUE,
                     hover_columns = c("n", "deployment_id",
                                       "location_id", "location_name",
@@ -156,16 +157,30 @@ map_dep <- function(datapkg,
                     radius_range = c(10, 50)
 ) {
 
+  # check input data package
+  check_datapkg(datapkg)
+
   # define possible feature values
   features <- c("n_species", "n_obs", "rai", "effort")
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
   assert_that(length(feature) == 1,
-              msg = "feature must have length 1.")
+              msg = "feature must have length 1")
 
-  # check input data package
-  check_datapkg(datapkg)
+  # define possible effort_unit values
+  effort_units <- c("second", "minute", "hour", "day", "week", "month", "year")
+
+  # check effort_unit in combination with feature
+  if (!is.null(effort_unit) & feature != "effort") {
+    warning(glue("effort_unit argument ignored for feature = {feature}"))
+    effort_unit <- NULL
+  }
+
+  # check effort_unit
+  check_value(effort_unit, effort_units, "effort_unit", null_allowed = TRUE)
+  assert_that(length(effort_unit) <= 1,
+              msg = "effort_unit must have length 1 or be NULL")
 
   # extract observations and deployments
   observations <- datapkg$observations
@@ -174,17 +189,18 @@ map_dep <- function(datapkg,
   # check species in combination with feature
   if (!is.null(species) & feature %in% c("n_species", "effort")) {
     warning(glue("species argument ignored for feature = {feature}"))
+    species <- NULL
   }
 
   # check cluster
   assert_that(cluster %in% c(TRUE, FALSE),
-    msg = "cluster must be TRUE or FALSE"
+              msg = "cluster must be TRUE or FALSE"
   )
 
   # check hover_columns
   if (!is.null(hover_columns)) {
     # check all hover_columns values are allowed
-      possible_hover_columns <- map_dep_prefixes()$info
+    possible_hover_columns <- map_dep_prefixes()$info
     possible_hover_columns <-
       possible_hover_columns[!possible_hover_columns %in% features]
     hover_columns <- match.arg(arg = hover_columns,
@@ -208,16 +224,12 @@ map_dep <- function(datapkg,
   # check combination relative_color_scale and max_color_scale
   if (relative_color_scale == FALSE) {
     assert_that(!is.null(max_color_scale),
-      msg = paste("If you use an absolute color scale,",
-                  "max_color_scale must be a number, not NULL")
+                msg = paste("If you use an absolute color scale,",
+                            "max_color_scale must be a number, not NULL")
     )
     assert_that(is.numeric(max_color_scale),
-      msg = paste("If you use an absolute color scale,",
-                  "max_color_scale must be a number")
-    )
-    assert_that(max_color_scale == as.integer(max_color_scale),
-      msg = paste("If you use an absolute color scale,",
-                  "max_color_scale must be an integer")
+                msg = paste("If you use an absolute color scale,",
+                            "max_color_scale must be a number")
     )
   }
 
@@ -236,6 +248,11 @@ map_dep <- function(datapkg,
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(datapkg)
+    if (!is.null(effort_unit)) {
+      feat_df$effort <- transform_effort_to_common_units(feat_df$effort,
+                                                         unit = effort_unit)
+    }
+    feat_df <- feat_df %>% rename(n = .data$effort)
   }
 
   # add deployment information for maps
@@ -243,18 +260,18 @@ map_dep <- function(datapkg,
   deploy_columns_to_add <- c("deployment_id", "latitude", "longitude")
   # second, columns for hovering text
   deploy_columns_to_add <- unique(c(deploy_columns_to_add,
-                             hover_columns[hover_columns != "n"]))
+                                    hover_columns[hover_columns != "n"]))
   feat_df <-
     feat_df %>%
     left_join(deployments %>%
-      select(one_of(deploy_columns_to_add)),
-    by = "deployment_id"
+                select(one_of(deploy_columns_to_add)),
+              by = "deployment_id"
     )
 
   # add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- get_prefixes(feature, hover_columns)
-    ## set n_species or n_obs or rai to n in hover_info_df
+    ## set n_species or n_obs or rai or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <- as_tibble(map2(hover_info_df$prefix,
                                   hover_info_df$info,
@@ -264,7 +281,7 @@ map_dep <- function(datapkg,
                                       info <- format(info)
                                     }
                                     paste0(x, as.character(feat_df[[y]]))
-                                    }), .name_repair = "minimal") %>%
+                                  }), .name_repair = "minimal") %>%
       unite(col = "hover_info", sep = "</p><p>")
     hover_infos <-
       hover_infos %>%
@@ -283,16 +300,16 @@ map_dep <- function(datapkg,
     feat_df <-
       feat_df %>%
       mutate(n = ifelse(.data$n > max_color_scale,
-        as.integer(max_color_scale),
-        .data$n
+                        max_color_scale,
+                        .data$n
       ))
   }
 
   # max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(is.null(max_color_scale),
-    max(feat_df$n, na.rm = TRUE),
-    max_color_scale
+                  max(feat_df$n, na.rm = TRUE),
+                  max_color_scale
   )
   # define color palette
   palette_colors <- c("white", "blue")
@@ -309,7 +326,8 @@ map_dep <- function(datapkg,
   )
 
   # define bins for ticks of legend
-  bins <- ifelse(max_n < 6, max_n + 1, 6)
+  # bins <- ifelse(max_n < 6, as.integer(max_n) + 1, 6)
+  bins <- 6
 
   # define size scale for avoiding too small or too big circles
   radius_max <- radius_range[2]
@@ -317,13 +335,12 @@ map_dep <- function(datapkg,
   conv_factor <- (radius_max - radius_min)/max(feat_df$n, na.rm = TRUE)
 
   # define title legend
-  if (feature == "n_species") {
-    title <- "Number of detected species"
-  } else if (feature == "n_obs") {
-    title <- "Number of observations"
-  } else if (feature == "rai") {
-    title <- "RAI"
-  }
+  title <- get_legend_title(feature)
+  # add unit to legend title (for effort)
+  title <- add_unit_to_legend_title(title,
+                                    unit = effort_unit,
+                                    use_brackets = TRUE)
+
   # make basic start map
   leaflet_map <-
     leaflet(feat_df) %>%
@@ -341,14 +358,14 @@ map_dep <- function(datapkg,
       clusterOptions = if (cluster == TRUE) markerClusterOptions() else NULL
     ) %>%
     addLegend("bottomright",
-      pal = pal_without_na, values = 0:max_n,
-      title = title,
-      opacity = 1,
-      bins = bins,
-      na.label = "",
-      labFormat = labelFormat_scale(
-        max_color_scale = max_color_scale,
-        digits = 1
-      )
+              pal = pal_without_na,
+              values = ~n,
+              title = title,
+              opacity = 1,
+              bins = bins,
+              na.label = "",
+              labFormat = labelFormat_scale(
+                max_color_scale = max_color_scale
+              )
     )
 }

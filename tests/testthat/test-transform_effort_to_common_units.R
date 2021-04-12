@@ -1,4 +1,4 @@
-library(duration)
+library(lubridate)
 
 test_that("transform_effort_to_common_units returns error if multiple units are given", {
 

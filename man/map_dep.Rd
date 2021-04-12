@@ -8,6 +8,7 @@ map_dep(
   datapkg,
   feature,
   species = NULL,
+  effort_unit = NULL,
   cluster = TRUE,
   hover_columns = c("n", "deployment_id", "location_id", "location_name", "latitude",
     "longitude", "start", "end"),
@@ -45,8 +46,8 @@ showing location deployment information while hovering the mouse over. One
 or more from deployment columns. Use \code{NULL} to disable hovering. Default
 information:
 \itemize{
-\item \code{n}: number of species, number of observations or RAI (column created
-internally by a \verb{get_*()} function)
+\item \code{n}: number of species, number of observations, RAI or effort (column
+created internally by a \verb{get_*()} function)
 \item \code{start}: start deployment
 \item \code{end}: end deployment -
 \item \code{deployment_id} deployment unique identifier
@@ -111,10 +112,24 @@ map_dep(
   species = "Rattus norvegicus"
 )
 
-# show effort
+# show effort (basic duration in seconds)
 map_dep(
   camtrapdp,
   "effort"
+)
+
+# show effort (days)
+map_dep(
+  camtrapdp,
+  "effort",
+  effort_unit = "day"
+)
+
+# show effort (months)
+map_dep(
+  camtrapdp,
+  "effort",
+  effort_unit = "month"
 )
 
 # cluster disabled

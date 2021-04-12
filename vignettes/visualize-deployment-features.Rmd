@@ -190,7 +190,7 @@ map_dep(camtrapdp,
 
 ### Use absolute scale
 
-By default the color palette and the radius are defined based on the actual feature values. However, sometimes can be useful to set up an absolute upper limit. This can be done by setting argument  `relative_scale` to  `FALSE` and specifying the upper limit in  `max_scale`.
+By default the upper limit of color palette and radius are defined based on the actual feature values. However, sometimes can be useful to set up an absolute upper limit. This can be done by setting argument `relative_scale` to  `FALSE` and specifying the upper limit in  `max_scale`.
 
 Upper limit lower than number of observations:
 

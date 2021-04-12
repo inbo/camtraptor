@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   visualize-deployment-features: visualize-deployment-features.html
-last_built: 2021-04-10T19:49Z
+last_built: 2021-04-12T13:20Z
 urls:
   reference: https://inbo.github.io/camtrapdp/reference
   article: https://inbo.github.io/camtrapdp/articles

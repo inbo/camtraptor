@@ -64,9 +64,9 @@ get_effort <- function(datapkg) {
 #' efforts <- c(lubridate::duration("2hours 2minutes 1second"),
 #'             lubridate::duration("3days 2hours"))
 #' # transform effort to hours
-#' get_effort_in_common_units(efforts, "hour")
+#' transform_effort_to_common_units(efforts, "hour")
 #' # transform effort to days
-#' get_effort_in_common_units(efforts, "day")
+#' transform_effort_to_common_units(efforts, "day")
 transform_effort_to_common_units <- function(effort, unit) {
 
   # only one unit allowed

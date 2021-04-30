@@ -44,6 +44,6 @@ Function to get the effort (deployment duration) per deployment.
 get_effort(camtrapdp)
 
 # effort expressed as days
-get_effort(camtrapdp, effort_unit = "day")
+get_effort(camtrapdp, unit = "day")
 
 }

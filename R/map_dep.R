@@ -201,9 +201,11 @@ map_dep <- function(datapkg,
   deployments <- datapkg$deployments
 
   # check species in combination with feature and remove from hover in case
-  if (!is.null(species) & feature %in% c("n_species", "effort")) {
-    warning(glue("species argument ignored for feature = {feature}"))
-    species <- NULL
+  if (is.null(species) | (!is.null(species) & feature %in% c("n_species", "effort"))) {
+    if (!is.null(species) & feature %in% c("n_species", "effort")) {
+      warning(glue("species argument ignored for feature = {feature}"))
+      species <- NULL
+    }
     hover_columns <- hover_columns[hover_columns != "species"]
   } else {
     # convert species to scientific_name in hover_columns

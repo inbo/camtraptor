@@ -17,12 +17,13 @@
 map_dep_prefixes <- function() as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
-  info = c("deployment_id", "location_id", "location_name", "longitude",
+  info = c("scientific_name", "deployment_id", "location_id", "location_name", "longitude",
            "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
            "camera_interval", "camera_height", "bait_use", "session", "array",
            "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
            "rai", "effort"),
-  prefix = c("deployment ID: ",
+  prefix = c("species: ",
+             "deployment ID: ",
              "location ID: ",
              "location name: ",
              "longitude: ",

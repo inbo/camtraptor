@@ -43,6 +43,7 @@
 #'
 #'   - `n`: number of species, number of observations, RAI or effort (column
 #'   created internally by a `get_*()` function)
+#'   -  `species`: species name(s)
 #'   - `start`: start deployment
 #'   - `end`: end deployment -
 #'   - `deployment_id` deployment unique identifier
@@ -161,7 +162,7 @@ map_dep <- function(datapkg,
                     species = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
-                    hover_columns = c("n", "deployment_id",
+                    hover_columns = c("n", "species", "deployment_id",
                                       "location_id", "location_name",
                                       "latitude", "longitude",
                                       "start", "end"),
@@ -199,10 +200,18 @@ map_dep <- function(datapkg,
   observations <- datapkg$observations
   deployments <- datapkg$deployments
 
-  # check species in combination with feature
-  if (!is.null(species) & feature %in% c("n_species", "effort")) {
-    warning(glue("species argument ignored for feature = {feature}"))
-    species <- NULL
+  # check species in combination with feature and remove from hover in case
+  if (is.null(species) | (!is.null(species) & feature %in% c("n_species", "effort"))) {
+    if (!is.null(species) & feature %in% c("n_species", "effort")) {
+      warning(glue("species argument ignored for feature = {feature}"))
+      species <- NULL
+    }
+    hover_columns <- hover_columns[hover_columns != "species"]
+  } else {
+    # convert species to scientific_name in hover_columns
+    hover_columns <- replace(hover_columns,
+                             hover_columns== "species",
+                             "scientific_name")
   }
 
   # check cluster
@@ -219,9 +228,10 @@ map_dep <- function(datapkg,
     hover_columns <- match.arg(arg = hover_columns,
                                choices = c(possible_hover_columns, "n"),
                                several.ok = TRUE)
-    # check all hover_columns are in deployments
+    # check all hover_columns are in deployments except scientific_name
     not_found_cols <- hover_columns[!hover_columns %in% names(deployments) &
-                                      hover_columns != "n"]
+                                      hover_columns != "n" &
+                                      hover_columns != "scientific_name"]
     n_not_found_cols <- length(not_found_cols)
     if (n_not_found_cols > 0) {
       warning(glue("There are {n_not_found_cols} columns defined in",
@@ -273,7 +283,8 @@ map_dep <- function(datapkg,
   deploy_columns_to_add <- c("deployment_id", "latitude", "longitude")
   # second, columns for hovering text
   deploy_columns_to_add <- unique(c(deploy_columns_to_add,
-                                    hover_columns[hover_columns != "n"]))
+                                    hover_columns[hover_columns != "n" &
+                                                    hover_columns != "scientific_name"]))
   feat_df <-
     feat_df %>%
     left_join(deployments %>%

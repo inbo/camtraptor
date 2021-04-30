@@ -10,8 +10,8 @@ map_dep(
   species = NULL,
   effort_unit = NULL,
   cluster = TRUE,
-  hover_columns = c("n", "deployment_id", "location_id", "location_name", "latitude",
-    "longitude", "start", "end"),
+  hover_columns = c("n", "species", "deployment_id", "location_id", "location_name",
+    "latitude", "longitude", "start", "end"),
   relative_scale = TRUE,
   max_scale = NULL,
   radius_range = c(10, 50)
@@ -61,6 +61,7 @@ information:
 \itemize{
 \item \code{n}: number of species, number of observations, RAI or effort (column
 created internally by a \verb{get_*()} function)
+\item \code{species}: species name(s)
 \item \code{start}: start deployment
 \item \code{end}: end deployment -
 \item \code{deployment_id} deployment unique identifier

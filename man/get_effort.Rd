@@ -4,7 +4,7 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg)
+get_effort(datapkg, unit = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -16,6 +16,18 @@ get_effort(datapkg)
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{unit}{time unit to use while returning deployment effort
+(duration). One of:
+\itemize{
+\item \code{second}
+\item \code{minute}
+\item \code{hour}
+\item \code{day}
+\item \code{month}
+\item \code{year}
+\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks))
+}}
 }
 \value{
 a tibble (data.frame) with the following columns:
@@ -28,6 +40,10 @@ a tibble (data.frame) with the following columns:
 Function to get the effort (deployment duration) per deployment.
 }
 \examples{
+# efforts expressed as Durations
 get_effort(camtrapdp)
+
+# effort expressed as days
+get_effort(camtrapdp, unit = "day")
 
 }

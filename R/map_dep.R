@@ -182,19 +182,11 @@ map_dep <- function(datapkg,
   assert_that(length(feature) == 1,
               msg = "feature must have length 1")
 
-  # define possible effort_unit values
-  effort_units <- c("second", "minute", "hour", "day", "week", "month", "year")
-
   # check effort_unit in combination with feature
   if (!is.null(effort_unit) & feature != "effort") {
     warning(glue("effort_unit argument ignored for feature = {feature}"))
     effort_unit <- NULL
   }
-
-  # check effort_unit
-  check_value(effort_unit, effort_units, "effort_unit", null_allowed = TRUE)
-  assert_that(length(effort_unit) <= 1,
-              msg = "effort_unit must have length 1 or be NULL")
 
   # extract observations and deployments
   observations <- datapkg$observations
@@ -270,11 +262,7 @@ map_dep <- function(datapkg,
     feat_df <- get_rai(datapkg, species = species)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg)
-    if (!is.null(effort_unit)) {
-      feat_df$effort <- transform_effort_to_common_units(feat_df$effort,
-                                                         unit = effort_unit)
-    }
+    feat_df <- get_effort(datapkg, unit = effort_unit)
     feat_df <- feat_df %>% rename(n = .data$effort)
   }
 

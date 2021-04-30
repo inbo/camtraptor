@@ -42,10 +42,12 @@ check_datapkg <- function(datapkg) {
 #' provided values. NULL values can be allowed (default) or not by setting
 #' argument `null_allowed` equal to `TRUE` or `FALSE`.
 #'
-#' @param arg Character. The input argument provided by the user.
-#' @param options Character vector of valid inputs for the argument.
-#' @param arg_name Character. The name of the argument used in the function to
-#'   test.
+#' @param arg character containing the input argument provided by the user
+#' @param options haracter vector of valid inputs for the argument
+#' @param arg_name character with the name of the argument used in the function
+#'   to test
+#' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values
+#'   allowed?
 #'
 #' @return If no error, `TRUE`.
 #'
@@ -80,9 +82,16 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   }
 
   # compose error message
+  if (null_allowed == TRUE) {
+    string_to_print <- "Invalid value for {arg_name} argument.
+        Valid inputs are: NULL, {options_to_print*}."
+  } else {
+    string_to_print <- "Invalid value for {arg_name} argument.
+        Valid inputs are: {options_to_print*}."
+  }
+
   msg_to_print <- glue(
-    "Invalid value for {arg_name} argument.
-        Valid inputs are: {options_to_print*}.",
+    string_to_print,
     .transformer = collapse_transformer(
       sep = ", ",
       last = " and "

@@ -10,8 +10,18 @@
 #' 3. `multimedia`
 #'
 #' and a list with metadata: `datapackage`
+#' @param unit time unit to use while returning deployment effort
+#'   (duration). One of:
 #'
-#' @importFrom dplyr .data %>% mutate %>% select
+#' - `second`
+#' - `minute`
+#' - `hour`
+#' - `day`
+#' - `month`
+#' - `year`
+#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
+#'
+#' @importFrom dplyr .data %>% mutate %>% select mutate
 #' @importFrom lubridate as.duration
 #' @export
 
@@ -20,17 +30,43 @@
 #' - `effort`: a duration object (duration is a class from lubridate package)
 #'
 #' @examples
+#' # efforts expressed as Durations
 #' get_effort(camtrapdp)
 #'
-get_effort <- function(datapkg) {
+#' # effort expressed as days
+#' get_effort(camtrapdp, unit = "day")
+#'
+get_effort <- function(datapkg, unit = NULL) {
+
+  # define possible unit values
+  units <- c("second",
+             "minute",
+             "hour",
+             "day",
+             "month",
+             "year")
+
+  # check unit
+  check_value(unit, units, "unit", null_allowed = TRUE)
 
   # get deployments
   deployments <- datapkg$deployments
 
   # calculate effort of deployments
-  deployments %>%
+  effort_df <-
+    deployments %>%
     mutate(effort = as.duration(.data$end - .data$start)) %>%
     select(.data$deployment_id, .data$effort)
+  # convert effort in specified effort time units (arg units)
+  if (!is.null(unit)) {
+    effort_df$effort <- transform_effort_to_common_units(
+      effort = effort_df$effort,
+      unit = unit)
+    effort_df$effort_unit <- unit
+  } else {
+    effort_df$effort_unit <- "Duration"
+  }
+  return(effort_df)
 }
 
 #' Transform efforts to common units.
@@ -73,11 +109,11 @@ transform_effort_to_common_units <- function(effort, unit) {
   assert_that(length(unit) == 1,
               msg = "unit must have length 1")
 
-  # define possible unit values
-  units <- c("second", "minute", "hour", "day", "week", "month", "year")
+  # define possible effort_unit values
+  effort_units <- c("second", "minute", "hour", "day", "week", "month", "year")
 
   # check effort_unit
-  check_value(unit, units, "unit", null_allowed = FALSE)
+  check_value(unit, effort_units, "effort_unit", null_allowed = FALSE)
 
   if (unit == "second") {
     effort / dseconds()

@@ -38,6 +38,17 @@
 #'
 get_effort <- function(datapkg, unit = NULL) {
 
+  # define possible unit values
+  units <- c("second",
+             "minute",
+             "hour",
+             "day",
+             "month",
+             "year")
+
+  # check unit
+  check_value(unit, units, "unit", null_allowed = TRUE)
+
   # get deployments
   deployments <- datapkg$deployments
 

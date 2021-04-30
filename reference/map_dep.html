@@ -141,8 +141,8 @@ observations are shown as gray circles and a message is returned.</p>
   species <span class='op'>=</span> <span class='cn'>NULL</span>,
   effort_unit <span class='op'>=</span> <span class='cn'>NULL</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"deployment_id"</span>, <span class='st'>"location_id"</span>, <span class='st'>"location_name"</span>, <span class='st'>"latitude"</span>,
-    <span class='st'>"longitude"</span>, <span class='st'>"start"</span>, <span class='st'>"end"</span><span class='op'>)</span>,
+  hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"species"</span>, <span class='st'>"deployment_id"</span>, <span class='st'>"location_id"</span>, <span class='st'>"location_name"</span>,
+    <span class='st'>"latitude"</span>, <span class='st'>"longitude"</span>, <span class='st'>"start"</span>, <span class='st'>"end"</span><span class='op'>)</span>,
   relative_scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
   max_scale <span class='op'>=</span> <span class='cn'>NULL</span>,
   radius_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>50</span><span class='op'>)</span>
@@ -202,6 +202,7 @@ or more from deployment columns. Use <code>NULL</code> to disable hovering. Defa
 information:</p><ul>
 <li><p><code>n</code>: number of species, number of observations, RAI or effort (column
 created internally by a <code>get_*()</code> function)</p></li>
+<li><p><code>species</code>: species name(s)</p></li>
 <li><p><code>start</code>: start deployment</p></li>
 <li><p><code>end</code>: end deployment -</p></li>
 <li><p><code>deployment_id</code> deployment unique identifier</p></li>

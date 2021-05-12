@@ -43,7 +43,7 @@ check_datapkg <- function(datapkg) {
 #' argument `null_allowed` equal to `TRUE` or `FALSE`.
 #'
 #' @param arg character containing the input argument provided by the user
-#' @param options haracter vector of valid inputs for the argument
+#' @param options character vector of valid inputs for the argument
 #' @param arg_name character with the name of the argument used in the function
 #'   to test
 #' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values

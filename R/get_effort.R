@@ -20,7 +20,8 @@
 #' - `month`
 #' - `year`
 #' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
-#'
+#' @param ... filter predicates
+#' @param verbose (logical) Show the predicate filtering expression
 #' @importFrom dplyr .data %>% mutate %>% select mutate
 #' @importFrom lubridate as.duration
 #' @export
@@ -28,7 +29,7 @@
 #' @return a tibble (data.frame) with the following columns:
 #' - `deployment_id` deployment unique identifier
 #' - `effort`: a duration object (duration is a class from lubridate package)
-#'
+#' @family get_functions
 #' @examples
 #' # efforts expressed as Durations
 #' get_effort(camtrapdp)
@@ -36,7 +37,7 @@
 #' # effort expressed as days
 #' get_effort(camtrapdp, unit = "day")
 #'
-get_effort <- function(datapkg, unit = NULL) {
+get_effort <- function(datapkg, unit = NULL, verbose = TRUE, ...) {
 
   # define possible unit values
   units <- c("second",
@@ -51,6 +52,12 @@ get_effort <- function(datapkg, unit = NULL) {
 
   # get deployments
   deployments <- datapkg$deployments
+
+  # apply filtering
+  deployments <- apply_filter_predicate(
+    df = deployments,
+    ...,
+    verbose = verbose)
 
   # calculate effort of deployments
   effort_df <-

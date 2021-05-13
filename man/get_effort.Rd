@@ -4,7 +4,7 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg, unit = NULL)
+get_effort(datapkg, unit = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -28,6 +28,10 @@ and a list with metadata: \code{datapackage}}
 \item \code{year}
 \item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks))
 }}
+
+\item{verbose}{(logical) Show the predicate filtering expression}
+
+\item{...}{filter predicates}
 }
 \value{
 a tibble (data.frame) with the following columns:
@@ -47,3 +51,8 @@ get_effort(camtrapdp)
 get_effort(camtrapdp, unit = "day")
 
 }
+\seealso{
+Other get_functions: 
+\code{\link{filter_predicate}}
+}
+\concept{get_functions}

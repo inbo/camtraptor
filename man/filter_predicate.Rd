@@ -168,4 +168,8 @@ pred_na("scientific_name")
 pred_notna("scientific_name")
 
 }
+\seealso{
+Other get_functions: 
+\code{\link{get_effort}()}
+}
 \concept{get_functions}

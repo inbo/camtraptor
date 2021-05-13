@@ -259,14 +259,14 @@ pred_or <- function(...) {
   pred_and_or_primitive(..., symbol = " | ")
 }
 #' @export
-filter_data <- function(df, ..., verbose = FALSE) {
+apply_filter_predicate <- function(df, ..., verbose = TRUE) {
   filters <- pred_and(...)
   arg <- unlist(filters$arg)
   # check that all arg values are valid column names in df
   check_value(arg = arg,
               options = names(df),
               null_allowed = FALSE,
-              arg_name = "arg")
+              arg_name = "predicate's arg")
   filter_expr <- glue("df %>% filter", filters$expr)
   if (verbose == TRUE) message(filter_expr)
   filter_expr <- parse(text = filter_expr)

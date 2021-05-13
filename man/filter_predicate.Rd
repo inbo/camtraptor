@@ -51,16 +51,28 @@ class \code{filter_predicate}, created by any \verb{pred*} function}
 
 \item{key}{(character) the key for the predicate. See "Keys" below}
 }
+\value{
+a predicate object. An object of class predicate is a list with the
+following slots:
+\enumerate{
+\item \code{arg}: a (list of) character with all arguments in the predicate(s)
+\item \code{value}:  a (list of) character with all values in the predicate(s)
+\item \code{type}:  a (list of) character with all predicate types, see section
+"predicate methods" here below
+\item \code{expr}: a character: body of a filter expression
+}
+}
 \description{
 Filter predicate
 }
-\section{predicate methods and their equivalent types}{
+\section{Predicate methods and their equivalent types}{
 
 
 \verb{pred*} functions are named for the 'type' of operation they do, inspired  by
 GBIF \href{https://www.gbif.org/developer/occurrence#predicates}{occurrence predicates}
 
-The following functions take one key and one value:
+The following functions take one key and one value and are associated to the
+following types:
 \itemize{
 \item \code{pred}: equals
 \item \code{pred_lt}: lessThan
@@ -83,7 +95,7 @@ a key to be NA, so only accepts one key:
 \item \code{pred_notna}: isNotNA
 }
 
-The following two functions accept multiple individual predicates,
+The following two functions accept multiple individual filter predicates,
 separating them by either "and" or "or":
 \itemize{
 \item \code{pred_and}: and
@@ -107,14 +119,26 @@ one of the locations in: "B_ML_val 05_molenkreek", "B_ML_val 03_De Val" and
 
 \section{What happens internally}{
 
-Internally, the input to \verb{pred*} functions turns into a character string.
-For example ...
 
-\code{pred("tags", "boven de stroom")} gives:\preformatted{(tags == "boven de stroom")
+Internally, the input to \verb{pred*} functions turn into a character string,
+which forms the body of a filter expression.
+For example:
+
+\code{pred("tags", "boven de stroom")} gives:\preformatted{$arg
+[1] "tags"
+
+$value
+[1] "boven de stroom"
+
+$type
+[1] "equals"
+
+$expr
+(tags == "boven de stroom")
 
 }
 
-\code{pred_gt("latitude", 51.27)} gives:\preformatted{(latitude > 51.27)
+\code{pred_gt("latitude", 51.27)} gives, (only \code{expr} slot shown):\preformatted{(latitude > 51.27)
 }
 
 \code{pred_or()} gives:\preformatted{((tags == "boven de stroom") | (latitude > 51.28))

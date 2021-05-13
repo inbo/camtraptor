@@ -9,13 +9,23 @@
 #' @importFrom glue glue glue_collapse double_quote
 #' @importFrom lubridate is.POSIXct
 #' @importFrom purrr map map_chr
-#' @section predicate methods and their equivalent types:
+#'
+#' @return a predicate object. An object of class predicate is a list with the
+#'   following slots:
+#'   1. `arg`: a (list of) character with all arguments in the predicate(s)
+#'   2. `value`:  a (list of) character with all values in the predicate(s)
+#'   3. `type`:  a (list of) character with all predicate types, see section
+#'   "predicate methods" here below
+#'   4. `expr`: a character: body of a filter expression
+#'
+#' @section Predicate methods and their equivalent types:
 #'
 #' `pred*` functions are named for the 'type' of operation they do, inspired  by
 #' GBIF [occurrence
 #' predicates](https://www.gbif.org/developer/occurrence#predicates)
 #'
-#' The following functions take one key and one value:
+#' The following functions take one key and one value and are associated to the
+#' following types:
 #' - `pred`: equals
 #' - `pred_lt`: lessThan
 #' - `pred_lte`: lessThanOrEquals
@@ -32,7 +42,7 @@
 #' - `pred_na`: isNA
 #' - `pred_notna`: isNotNA
 #'
-#' The following two functions accept multiple individual predicates,
+#' The following two functions accept multiple individual filter predicates,
 #' separating them by either "and" or "or":
 #' - `pred_and`: and
 #' - `pred_or`: or
@@ -48,17 +58,29 @@
 #' - `pred_in`: in
 #'
 #' @section What happens internally:
-#' Internally, the input to `pred*` functions turns into a character string.
-#' For example ...
+#'
+#' Internally, the input to `pred*` functions turn into a character string,
+#' which forms the body of a filter expression.
+#' For example:
 #'
 #' `pred("tags", "boven de stroom")` gives:
 #'
 #' ```
+#' $arg
+#' [1] "tags"
+#'
+#' $value
+#' [1] "boven de stroom"
+#'
+#' $type
+#' [1] "equals"
+#'
+#' $expr
 #' (tags == "boven de stroom")
 #'
 #' ```
 #'
-#' `pred_gt("latitude", 51.27)` gives:
+#' `pred_gt("latitude", 51.27)` gives, (only `expr` slot shown):
 #'
 #' ```
 #' (latitude > 51.27)

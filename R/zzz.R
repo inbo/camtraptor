@@ -187,21 +187,22 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param datapkg a camera trap data package object, as returned by `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
 #' 1. `observations`
 #' 2. `deployments`
 #' 3. `multimedia`
 #'
 #' and a list with metadata: `datapackage`
-#'
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% anti_join distinct
 #' @importFrom  glue glue
 #'
 #' @export
 #'
 #' @return a tibble (data.frame) with deployments not linked to any observations
-get_dep_no_obs <- function(datapkg) {
+get_dep_no_obs <- function(datapkg, ...) {
 
   # check input data package
   check_datapkg(datapkg)
@@ -209,6 +210,9 @@ get_dep_no_obs <- function(datapkg) {
   # extract observations and deployments
   observations <- datapkg$observations
   deployments <- datapkg$deployments
+
+  # apply filtering (do not show filtering expression, verbose = FALSE)
+  deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
 
   # deployment with no observations
   dep_no_obs <-

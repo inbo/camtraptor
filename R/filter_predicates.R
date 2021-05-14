@@ -5,8 +5,7 @@
 #' @param value (various) the value for the predicate
 #' @param ...,.list For `pred_or()` or `pred_and()`, one or more objects of
 #' class `filter_predicate`, created by any `pred*` function
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue glue_collapse double_quote
+#' @importFrom glue glue double_quote
 #' @importFrom lubridate is.POSIXct
 #' @importFrom purrr map map_chr
 #'
@@ -195,6 +194,7 @@ pred_lte <- function(arg, value) {
   pred_primitive(arg, value, symbol = "<=", type = "lessThanOrEquals")
 }
 #' @rdname filter_predicate
+#' @importFrom glue glue double_quote glue_collapse
 #' @export
 pred_in <- function(arg, value) {
   # check arg and value
@@ -205,24 +205,33 @@ pred_in <- function(arg, value) {
   # build expr
   if (any(all(is.POSIXct(value)), class(value) == "Date")) {
     value <- double_quote(value)
-    predicate$expr <- glue(
-      "({arg} %in% as_datetime(c(",
-      glue_collapse(value, sep = ","),
-      ")))"
-    )
+    if (length(value) > 0) {
+      predicate$expr <- glue(
+        "({arg} %in% as_datetime(c(",
+        glue_collapse(value, sep = ","),
+        ")))"
+      )
+    } else {
+      predicate$expr <- glue("({arg} %in% as_datetime(character(0)))")
+    }
   } else {
     if (is.character(value)){
       value <- double_quote(value)
     }
-    predicate$expr <- glue(
-      "({arg} %in% c(",
-      glue_collapse(value, sep = ","),
-      "))"
-    )
+    if (length(value) > 0) {
+      predicate$expr <- glue(
+        "({arg} %in% c(",
+        glue_collapse(value, sep = ","),
+        "))"
+      )
+    } else {
+      predicate$expr <- glue("({arg} %in% character(0))")
+    }
   }
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
+#' @importFrom glue glue
 #' @export
 pred_notin <- function(arg, value) {
   # build predicate object starting from the "in" predicate
@@ -234,6 +243,7 @@ pred_notin <- function(arg, value) {
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
+#' @importFrom glue glue
 #' @export
 pred_na <- function(arg) {
   # check arg
@@ -245,6 +255,7 @@ pred_na <- function(arg) {
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
+#' @importFrom glue glue
 #' @export
 pred_notna <- function(arg) {
   # build predicate object
@@ -253,8 +264,10 @@ pred_notna <- function(arg) {
   predicate$expr <- glue("(!is.na({arg}))")
   return(structure(predicate, class = "filter_predicate"))
 }
+#' @importFrom purrr map map_chr
+#' @importFrom glue glue glue_collapse
 #' @export
-pred_and_or_primitive <- function(..., symbol) {
+pred_and_or_primitive <- function(symbol, ...) {
   preds <- list(...)
   # build predicate object
   predicate <- list(
@@ -263,36 +276,39 @@ pred_and_or_primitive <- function(..., symbol) {
     type = map(preds,  ~.[["type"]])
   )
   # build expr
-  expr <- map_chr(preds, ~.[["expr"]])
-  expr <- glue_collapse(expr, sep = symbol)
-  expr <- glue("(", expr, ")")
+  filter_expr <- map_chr(preds, ~.[["expr"]])
+  filter_expr <- glue_collapse(filter_expr, sep = symbol)
+  filter_expr <- glue("(", filter_expr, ")")
   # add expr to predicate
-  predicate$expr <- expr
+  predicate$expr <- filter_expr
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
 #' @export
 pred_and <- function(...) {
-  pred_and_or_primitive(..., symbol = " & ")
+  pred_and_or_primitive(symbol = " & ", ...)
 }
 #' @rdname filter_predicate
 #' @export
 pred_or <- function(...) {
-  pred_and_or_primitive(..., symbol = " | ")
+  pred_and_or_primitive(symbol = " | ", ...)
 }
+#' @importFrom glue glue
 #' @export
-apply_filter_predicate <- function(df, ..., verbose = TRUE) {
-  filters <- pred_and(...)
-  arg <- unlist(filters$arg)
-  # check that all arg values are valid column names in df
-  check_value(arg = arg,
-              options = names(df),
-              null_allowed = FALSE,
-              arg_name = "predicate's arg")
-  filter_expr <- glue("df %>% filter", filters$expr)
-  if (verbose == TRUE) message(filter_expr)
-  filter_expr <- parse(text = filter_expr)
-  eval(filter_expr)
+apply_filter_predicate <- function(df, verbose, ...) {
+  preds <- list(...)
+  if (length(preds) > 0) {
+    filters <- pred_and(...)
+    arg <- unlist(filters$arg)
+    # check that all arg values are valid column names in df
+    check_value(arg = arg,
+                options = names(df),
+                null_allowed = FALSE,
+                arg_name = "predicate's arg")
+    filter_expr <- glue("df %>% filter", filters$expr)
+    if (verbose == TRUE) message(filter_expr)
+    eval(parse(text = filter_expr))
+  } else df
 }
 
 # helpers
@@ -300,21 +316,24 @@ check_filter_arg_value <- function(arg, value) {
   check_filter_arg(arg)
   check_filter_value(value)
 }
+#' @importFrom assertthat assert_that
 check_filter_arg <- function(arg) {
   # check arg
   assert_that(is.character(arg), msg = "'arg' must be a character")
   assert_that(length(arg) == 1, msg = "'arg' must be length 1")
 }
+#' @importFrom assertthat assert_that
 check_filter_value_type <- function(value) {
   # check value
   assert_that(
     any(is.character(value),
         is.numeric(value),
-        is.Date(value),
+        class(value) == "Date",
         is.POSIXct(value)),
     msg = "'value' must be a character, a number, a date or a datetime(POSIXct)"
   )
 }
+#' @importFrom assertthat assert_that
 check_filter_value_length <- function(value) {
   assert_that(length(value) == 1, msg = "'value' must be length 1")
 }
@@ -322,11 +341,13 @@ check_filter_value <- function(value) {
   check_filter_value_type(value)
   check_filter_value_length(value)
 }
+#' @importFrom assertthat assert_that
 check_filter_symbol <- function(symbol) {
   # check symbol
   assert_that(is.character(symbol), msg = "'symbol' must be a character")
   assert_that(length(symbol) == 1, msg = "'symbol' must be length 1")
 }
+#' @importFrom assertthat assert_that
 check_filter_type <- function(type) {
   # check type
   assert_that(is.character(type), msg = "'type' must be a character")

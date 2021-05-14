@@ -11,6 +11,8 @@
 #'
 #' and a list with metadata: `datapackage`
 #'
+#' @param ... filter predicates for filtering on deployments
+#'
 #' @importFrom dplyr .data %>% bind_rows count distinct filter group_by mutate
 #'   pull select ungroup
 #'
@@ -20,7 +22,15 @@
 #'   deployment unique identifier - `n`: (integer) number of observed and
 #'   identified species
 #'
-get_n_species <- function(datapkg) {
+#' @examples
+#'
+#' # get number of species
+#' get_n_species(camtrapdp)
+#'
+#' # get number of species for deployments with latitude >= 51.28
+#' get_n_species(camtrapdp, pred_gte("latitude", 51.28))
+#'
+get_n_species <- function(datapkg, ...) {
 
   # check input data package
   check_datapkg(datapkg)
@@ -29,12 +39,22 @@ get_n_species <- function(datapkg) {
   observations <- datapkg$observations
   deployments <- datapkg$deployments
 
-  # get deployments without observations
-  deployments_no_obs <- get_dep_no_obs(datapkg)
+  # apply filtering
+  deployments <- apply_filter_predicate(
+    df = deployments,
+    verbose = TRUE,
+    ...)
 
-  # get species detected by each deployment
+  # get deployments without observations among the filtered deployments
+  deployments_no_obs <- get_dep_no_obs(
+    datapkg,
+    pred_in("deployment_id",deployments$deployment_id)
+  )
+
+  # get species detected by each deployment after filtering
   species <-
     observations %>%
+    filter(.data$deployment_id %in% deployments$deployment_id) %>%
     distinct(.data$deployment_id, .data$scientific_name)
 
   # get deployments with unidentified observations

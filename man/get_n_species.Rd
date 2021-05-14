@@ -4,7 +4,7 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(datapkg)
+get_n_species(datapkg, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -16,6 +16,8 @@ get_n_species(datapkg)
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates for filtering on deployments}
 }
 \value{
 a tibble (data.frame) with the following columns: - \code{deployment_id}

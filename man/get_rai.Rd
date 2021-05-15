@@ -36,18 +36,21 @@ Function to get the RAI (Relative Abundance Index) per deployment.
 }
 \examples{
 # all species
-get_rai(camtrapdp)
+get_rai(camtrapdp, species = "all")
 
 # selected species
-get_rai(camtrapdp, c("Anas platyrhynchos", "Rattus norvegicus"))
+get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
 
 # with common names
-get_rai(camtrapdp, c("Mallard", "norway rat"))
+get_rai(camtrapdp, species = c("Mallard", "norway rat"))
 
 # mixed scientific and vernacular names
-get_rai(camtrapdp, c("Anas platyrhynchos", "norway rat"))
+get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 
 # species argument is case insensitive
-get_rai(camtrapdp, c("ANAS plAtyRhynChOS"))
+get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+
+# apply filtering: deployments with latitude >= 51.28
+get_rai(camtrapdp, species = "all", pred_gte("latitude", 51.28))
 
 }

@@ -51,4 +51,7 @@ get_n_obs(camtrapdp, species = "Common Moorhen")
 # case insensitive
 get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 
+# applying filter: deployments with latitude >= 51.28
+get_n_obs(camtrapdp, species = NULL, pred_gte("latitude", 51.28))
+
 }

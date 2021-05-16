@@ -11,7 +11,7 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @param species a character with scientific names or common names (case
-#'   insensitive). If "all", all scientific names are automatically
+#'   insensitive). If "all", default, all scientific names are automatically
 #'   selected. If `NULL` all observations of all species are taken into account
 #' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
@@ -28,9 +28,10 @@
 #' @examples
 #'
 #' # get number of observations for each species
-#' get_n_obs(camtrapdp, species = "all")
+#' get_n_obs(camtrapdp)
 #'
-#' # get number of observations of all species (not identified individuals as well)
+#' # get number of observations of all species (not identified individuals as
+#' well)
 #' get_n_obs(camtrapdp, species = NULL)
 #'
 #' # get number of observations of Gallinula chloropus
@@ -42,10 +43,10 @@
 #' # case insensitive
 #' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 #'
-#' # applying filter: deployments with latitude >= 51.28
-#' get_n_obs(camtrapdp, species = NULL, pred_gte("latitude", 51.28))
+#' # applying filter(s), e.g. deployments with latitude >= 51.28
+#' get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
 #'
-get_n_obs <- function(datapkg, species, ...) {
+get_n_obs <- function(datapkg, ..., species = "all") {
 
   # check input data package
   check_datapkg(datapkg)

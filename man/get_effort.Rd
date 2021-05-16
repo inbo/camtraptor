@@ -4,7 +4,7 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg, unit, ...)
+get_effort(datapkg, ..., unit = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -17,6 +17,8 @@ get_effort(datapkg, unit, ...)
 
 and a list with metadata: \code{datapackage}}
 
+\item{...}{filter predicates}
+
 \item{unit}{time unit to use while returning deployment effort
 (duration). One of:
 \itemize{
@@ -26,10 +28,8 @@ and a list with metadata: \code{datapackage}}
 \item \code{day}
 \item \code{month}
 \item \code{year}
-\item \code{NULL} duration objects (e.g. 2594308s (~4.29 weeks))
+\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks))
 }}
-
-\item{...}{filter predicates}
 }
 \value{
 a tibble (data.frame) with the following columns:

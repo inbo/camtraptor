@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, species, ...)
+get_rai(datapkg, ..., species = "all")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -17,11 +17,11 @@ get_rai(datapkg, species, ...)
 
 and a list with metadata: \code{datapackage}}
 
+\item{...}{filter predicates for filtering on deployments}
+
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
 selected}
-
-\item{...}{filter predicates for filtering on deployments}
 }
 \value{
 a tibble (data.frame) with the following columns:

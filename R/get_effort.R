@@ -19,7 +19,7 @@
 #' - `day`
 #' - `month`
 #' - `year`
-#' - `NULL` duration objects (e.g. 2594308s (~4.29 weeks))
+#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
 #' @param ... filter predicates
 #' @importFrom dplyr .data %>% mutate %>% select mutate
 #' @importFrom lubridate as.duration
@@ -36,7 +36,7 @@
 #' # effort expressed as days
 #' get_effort(camtrapdp, unit = "day")
 #'
-get_effort <- function(datapkg, unit, ...) {
+get_effort <- function(datapkg, ..., unit = NULL) {
 
   # define possible unit values
   units <- c("second",

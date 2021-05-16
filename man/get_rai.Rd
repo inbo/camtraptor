@@ -50,7 +50,7 @@ get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 # species argument is case insensitive
 get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
 
-# apply filtering: deployments with latitude >= 51.28
-get_rai(camtrapdp, species = "all", pred_gte("latitude", 51.28))
+# apply filter(s): deployments with latitude >= 51.28
+get_rai(camtrapdp, pred_gte("latitude", 51.28))
 
 }

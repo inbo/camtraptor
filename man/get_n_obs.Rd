@@ -53,6 +53,6 @@ get_n_obs(camtrapdp, species = "Common Moorhen")
 get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 
 # applying filter(s), e.g. deployments with latitude >= 51.28
-get_n_obs(camtrapdp, pred_gte("latitude", 51.28), species = NULL)
+get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
 
 }

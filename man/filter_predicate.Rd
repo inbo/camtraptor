@@ -2,13 +2,13 @@
 % Please edit documentation in R/filter_predicates.R
 \name{filter_predicate}
 \alias{filter_predicate}
-\alias{pred_primitive}
 \alias{pred}
 \alias{pred_not}
 \alias{pred_gt}
 \alias{pred_gte}
 \alias{pred_lt}
 \alias{pred_lte}
+\alias{pred_primitive}
 \alias{pred_in}
 \alias{pred_notin}
 \alias{pred_na}
@@ -17,8 +17,6 @@
 \alias{pred_or}
 \title{Filter predicate}
 \usage{
-pred_primitive(arg, value, symbol, type)
-
 pred(arg, value)
 
 pred_not(arg, value)
@@ -30,6 +28,8 @@ pred_gte(arg, value)
 pred_lt(arg, value)
 
 pred_lte(arg, value)
+
+pred_primitive(arg, value, symbol, type)
 
 pred_in(arg, value)
 
@@ -44,12 +44,12 @@ pred_and(...)
 pred_or(...)
 }
 \arguments{
+\item{arg}{(character) the key for the predicate. See "Keys" below}
+
 \item{value}{(various) the value for the predicate}
 
-\item{..., .list}{For \code{pred_or()} or \code{pred_and()}, one or more objects of
-class \code{filter_predicate}, created by any \verb{pred*} function}
-
-\item{key}{(character) the key for the predicate. See "Keys" below}
+\item{...}{for \code{pred_or()} or \code{pred_and()}: one or more objects of
+class \code{filter_predicate}, created by any other \verb{pred*} function}
 }
 \value{
 a predicate object. An object of class predicate is a list with the
@@ -186,7 +186,6 @@ pred_notin("start", start_dates)
 # one arg, no value predicates
 pred_na("scientific_name")
 pred_notna("scientific_name")
-
 }
 \seealso{
 Other get_functions: 

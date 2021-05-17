@@ -10,6 +10,8 @@ apply_filter_predicate(df, verbose, ...)
 \item{df}{data.frame we want to apply filter(s) expression(s)}
 
 \item{verbose}{Show (\code{TRUE}) or not (\code{FALSE}) the filter predicate expression}
+
+\item{...}{filter predicates to apply to \code{df}}
 }
 \value{
 a data.frame

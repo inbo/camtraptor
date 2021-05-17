@@ -1,10 +1,10 @@
 #' Filter predicate
 #'
 #' @name filter_predicate
-#' @param key (character) the key for the predicate. See "Keys" below
+#' @param arg (character) the key for the predicate. See "Keys" below
 #' @param value (various) the value for the predicate
-#' @param ...,.list For `pred_or()` or `pred_and()`, one or more objects of
-#' class `filter_predicate`, created by any `pred*` function
+#' @param ... for `pred_or()` or `pred_and()`: one or more objects of
+#' class `filter_predicate`, created by any other `pred*` function
 #' @importFrom glue glue double_quote
 #' @importFrom lubridate is.POSIXct
 #' @importFrom purrr map map_chr
@@ -136,28 +136,6 @@
 #' # one arg, no value predicates
 #' pred_na("scientific_name")
 #' pred_notna("scientific_name")
-#'
-#' @export
-pred_primitive <- function(arg, value, symbol, type) {
-  # checks
-  check_filter_arg_value(arg, value)
-  check_filter_value(value)
-  check_filter_symbol(symbol)
-  check_filter_type(type)
-  # build predicate object
-  predicate <- list(arg = arg, value = value, type = type)
-  # build expr
-  if (any(is.POSIXct(value), class(value) == "Date")) {
-    value <- double_quote(value)
-    predicate$expr <- glue("({arg} {symbol} as_datetime({value}))")
-  } else {
-    if (is.character(value)){
-      value <- double_quote(value)
-    }
-    predicate$expr <- glue("({arg} {symbol} {value})")
-  }
-  return(structure(predicate, class = "filter_predicate"))
-}
 #' @rdname filter_predicate
 #' @export
 pred <- function(arg, value) {
@@ -190,6 +168,27 @@ pred_lt <- function(arg, value) {
 #' @export
 pred_lte <- function(arg, value) {
   pred_primitive(arg, value, symbol = "<=", type = "lessThanOrEquals")
+}
+#' @rdname filter_predicate
+pred_primitive <- function(arg, value, symbol, type) {
+  # checks
+  check_filter_arg_value(arg, value)
+  check_filter_value(value)
+  check_filter_symbol(symbol)
+  check_filter_type(type)
+  # build predicate object
+  predicate <- list(arg = arg, value = value, type = type)
+  # build expr
+  if (any(is.POSIXct(value), class(value) == "Date")) {
+    value <- double_quote(value)
+    predicate$expr <- glue("({arg} {symbol} as_datetime({value}))")
+  } else {
+    if (is.character(value)){
+      value <- double_quote(value)
+    }
+    predicate$expr <- glue("({arg} {symbol} {value})")
+  }
+  return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
 #' @importFrom glue glue double_quote glue_collapse
@@ -264,7 +263,6 @@ pred_notna <- function(arg) {
 }
 #' @importFrom purrr map map_chr
 #' @importFrom glue glue glue_collapse
-#' @export
 pred_and_or_primitive <- function(symbol, ...) {
   preds <- list(...)
   # build predicate object
@@ -299,6 +297,7 @@ pred_or <- function(...) {
 #'
 #' @param df data.frame we want to apply filter(s) expression(s)
 #' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
+#' @param ... filter predicates to apply to `df`
 #'
 #' @importFrom glue glue
 #'
@@ -369,12 +368,18 @@ check_filter_value <- function(value) {
   check_filter_value_type(value)
   check_filter_value_length(value)
 }
+#' Check filter symbol
+#'
+#' @param symbol character with symbol for filter predicate, e.g. "=="
 #' @importFrom assertthat assert_that
 check_filter_symbol <- function(symbol) {
   # check symbol
   assert_that(is.character(symbol), msg = "'symbol' must be a character")
   assert_that(length(symbol) == 1, msg = "'symbol' must be length 1")
 }
+#' Check filter type
+#'
+#' @param type character with type for filter predicate, e.g. "equals"
 #' @importFrom assertthat assert_that
 check_filter_type <- function(type) {
   # check type

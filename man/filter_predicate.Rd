@@ -8,7 +8,6 @@
 \alias{pred_gte}
 \alias{pred_lt}
 \alias{pred_lte}
-\alias{pred_primitive}
 \alias{pred_in}
 \alias{pred_notin}
 \alias{pred_na}
@@ -28,8 +27,6 @@ pred_gte(arg, value)
 pred_lt(arg, value)
 
 pred_lte(arg, value)
-
-pred_primitive(arg, value, symbol, type)
 
 pred_in(arg, value)
 

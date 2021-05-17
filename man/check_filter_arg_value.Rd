@@ -2,10 +2,29 @@
 % Please edit documentation in R/filter_predicates.R
 \name{check_filter_arg_value}
 \alias{check_filter_arg_value}
-\title{Check filter argument type}
+\title{Check filter argument and value}
 \usage{
 check_filter_arg_value(arg, value)
 }
+\arguments{
+\item{arg}{the argument of the filter predicate}
+
+\item{value}{the value of the filter predicate}
+}
+\value{
+\code{TRUE} or an error message
+}
 \description{
-Check filter argument type
+This help function checks the argument (\code{arg}) and the value (\code{value}) of a basic
+one argument - one value filter predicate
+}
+\examples{
+\dontrun{
+check_filter_arg_value("latitude", 5)
+check_filter_arg_value("location_name", 35)
+# this returns an error: arg should be always a character
+check_filter_arg_value(arg = 5, value = 1)
+# this returns an error: two values instead of one
+check_filter_arg_value(arg = "location_name", value = c(1,4))
+}
 }

@@ -169,7 +169,24 @@ pred_lt <- function(arg, value) {
 pred_lte <- function(arg, value) {
   pred_primitive(arg, value, symbol = "<=", type = "lessThanOrEquals")
 }
-#' @rdname filter_predicate
+#' Primitive filter predicate constructor
+#'
+#' This function is a primitive function to build all basic one arg - one value
+#' filter predicates
+#'
+#' @param arg a character with the argument of the filter predicate
+#' @param value the value the filter predicate uses to value `arg`. It can be a
+#'   number, a character, a date object or a POSIXct object
+#' @param symbol a character with the symbol relation of the filter predicate
+#' @param type a character with the type of the filter predicate
+#' @importFrom lubridate is.POSIXct
+#'
+#' @return a filter predicate object
+#'
+#' @examples
+#' \dontrun{
+#' pred_primitive(arg = "a", value = 5, symbol = ">", type = "greaterThan")
+#' }
 pred_primitive <- function(arg, value, symbol, type) {
   # checks
   check_filter_arg_value(arg, value)
@@ -340,8 +357,25 @@ apply_filter_predicate <- function(df, verbose, ...) {
 
 ## helpers
 
-#' Check filter argument type
+#' Check filter argument and value
 #'
+#' This help function checks the argument (`arg`) and the value (`value`) of a basic
+#' one argument - one value filter predicate
+#'
+#' @param arg the argument of the filter predicate
+#' @param value  the value of the filter predicate
+#'
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' \dontrun{
+#' check_filter_arg_value("latitude", 5)
+#' check_filter_arg_value("location_name", 35)
+#' # this returns an error: arg should be always a character
+#' check_filter_arg_value(arg = 5, value = 1)
+#' # this returns an error: two values instead of one
+#' check_filter_arg_value(arg = "location_name", value = c(1,4))
+#' }
 check_filter_arg_value <- function(arg, value) {
   check_filter_arg(arg)
   check_filter_value(value)

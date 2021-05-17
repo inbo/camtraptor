@@ -26,3 +26,4 @@ check_filter_symbol(5)
 check_filter_symbol(c("==", "\%in\%"))
 }
 }
+\keyword{internal}

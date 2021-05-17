@@ -26,3 +26,4 @@ check_filter_type(5)
 check_filter_type(c("in", "equals"))
 }
 }
+\keyword{internal}

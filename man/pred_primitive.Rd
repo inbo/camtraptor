@@ -28,3 +28,4 @@ filter predicates
 pred_primitive(arg = "a", value = 5, symbol = ">", type = "greaterThan")
 }
 }
+\keyword{internal}

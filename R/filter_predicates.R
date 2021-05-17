@@ -183,6 +183,8 @@ pred_lte <- function(arg, value) {
 #'
 #' @return a filter predicate object
 #'
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' pred_primitive(arg = "a", value = 5, symbol = ">", type = "greaterThan")
@@ -367,6 +369,8 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #'
 #' @return `TRUE` or an error message
 #'
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' check_filter_arg_value("latitude", 5)
@@ -391,6 +395,8 @@ check_filter_arg_value <- function(arg, value) {
 #'
 #' @return `TRUE` or an error message
 #'
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' check_filter_arg("latitude")
@@ -414,6 +420,8 @@ check_filter_arg <- function(arg) {
 #' @importFrom lubridate is.POSIXct
 #'
 #' @return `TRUE` or an error message
+#'
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -442,6 +450,9 @@ check_filter_value_type <- function(value) {
 #' @importFrom assertthat assert_that
 #'
 #' @return `TRUE` or an error message
+#'
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' check_filter_value_length(5)
@@ -460,6 +471,8 @@ check_filter_value_length <- function(value) {
 #' @param value value of a basic filter predicate
 #'
 #' @return `TRUE` or an error message
+#'
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -483,6 +496,8 @@ check_filter_value <- function(value) {
 #'
 #' @return `TRUE` or an error message
 #'
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' check_filter_symbol("==")
@@ -505,7 +520,10 @@ check_filter_symbol <- function(symbol) {
 #' @param type character with type for filter predicate, e.g. "equals"
 #'
 #' @importFrom assertthat assert_that
+#'
 #' @return `TRUE` or an error message
+#'
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

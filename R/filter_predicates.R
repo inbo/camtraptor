@@ -291,8 +291,38 @@ pred_and <- function(...) {
 pred_or <- function(...) {
   pred_and_or_primitive(symbol = " | ", ...)
 }
+
+#' Intermediate function to apply filter predicates on a data.frame
+#'
+#' This function is used internally by all the `get_*()` functions to filter on
+#' deployments.
+#'
+#' @param df data.frame we want to apply filter(s) expression(s)
+#' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
+#'
 #' @importFrom glue glue
+#'
+#' @return a data.frame
 #' @export
+#'
+#' @examples
+#' # and
+#' apply_filter_predicate(camtrapdp$deployments,
+#'                        verbose = TRUE,
+#'                        pred_gte("latitude", 51.28),
+#'                        pred_lt("longitude", 3.56))
+#' # equivalent of
+#' apply_filter_predicate(camtrapdp$deployments,
+#'                        verbose = TRUE,
+#'                        pred_and(pred_gte("latitude", 51.28),
+#'                                 pred_lt("longitude", 3.56)))
+#'
+#'
+#' # or
+#' apply_filter_predicate(camtrapdp$deployments,
+#'                        verbose = TRUE,
+#'                        pred_or(pred_gte("latitude", 51.28),
+#'                                 pred_lt("longitude", 3.56)))
 apply_filter_predicate <- function(df, verbose, ...) {
   preds <- list(...)
   if (length(preds) > 0) {

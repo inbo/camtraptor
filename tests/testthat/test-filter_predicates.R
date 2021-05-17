@@ -5,12 +5,18 @@ test_that("right class for all filter predicates", {
   expect_s3_class(pred_gte(arg = "a", value = 1), class = "filter_predicate")
   expect_s3_class(pred_lt(arg = "a", value = 1), class = "filter_predicate")
   expect_s3_class(pred_lte(arg = "a", value = 1), class = "filter_predicate")
-  expect_s3_class(pred_in(arg = "a",
-                          value = c(1, 2)),
-                  class = "filter_predicate")
-  expect_s3_class(pred_notin(arg = "a",
-                             value = c(1, 2)),
-                  class = "filter_predicate")
+  expect_s3_class(pred_in(
+    arg = "a",
+    value = c(1, 2)
+  ),
+  class = "filter_predicate"
+  )
+  expect_s3_class(pred_notin(
+    arg = "a",
+    value = c(1, 2)
+  ),
+  class = "filter_predicate"
+  )
   expect_s3_class(pred_na(arg = "a"), class = "filter_predicate")
 })
 
@@ -44,7 +50,7 @@ test_that("right length predicate slots for all filter predicates", {
   expect_equal(length(not_pred$expr), 1)
 
   # check length of all slots (arg, value, type, expr) for pred_in()
-  in_pred <- pred_in(arg = "a", value = c(1,2))
+  in_pred <- pred_in(arg = "a", value = c(1, 2))
   expect_equal(length(in_pred$arg), 1)
   expect_equal(length(in_pred$value), 2)
   expect_equal(length(in_pred$type), 1)
@@ -52,9 +58,11 @@ test_that("right length predicate slots for all filter predicates", {
 
   # check length of all slots (arg, value, type, expr) for combination
   # predicates by pred_and
-  and_pred <- pred_and(basic_pred,
-                       not_pred,
-                       in_pred)
+  and_pred <- pred_and(
+    basic_pred,
+    not_pred,
+    in_pred
+  )
   expect_equal(length(and_pred$arg), 3)
   expect_equal(length(and_pred$value), 3)
   expect_equal(length(and_pred$type), 3)
@@ -72,9 +80,11 @@ test_that("right length predicate slots for all filter predicates", {
 
   # check length of all slots (arg, value, type, expr) for combination
   # predicates by pred_or
-  or_pred <- pred_or(basic_pred,
-                       not_pred,
-                       in_pred)
+  or_pred <- pred_or(
+    basic_pred,
+    not_pred,
+    in_pred
+  )
   expect_equal(length(or_pred$arg), 3)
   expect_equal(length(or_pred$value), 3)
   expect_equal(length(or_pred$type), 3)
@@ -91,14 +101,13 @@ test_that("specific tests: pred_na and pred_notna", {
   expect_equal(na_pred$type, "na")
   expect_equal(na_pred$expr, glue("(is.na(a))"))
 
-  #pred_notna
+  # pred_notna
   expect_error(pred_notna(arg = "a", value = "b"))
   notna_pred <- pred_notna(arg = "a")
   expect_equal(notna_pred$arg, "a")
   expect_true(is.na(notna_pred$value))
   expect_equal(notna_pred$type, "notNa")
   expect_equal(notna_pred$expr, glue("(!is.na(a))"))
-
 })
 
 test_that("specific tests: pred and pred_not", {
@@ -168,46 +177,68 @@ test_that("specific tests: pred_and and pred_or", {
   notna_pred <- pred_notna(arg = "col4")
   # pred_and
   and_pred <- pred_and(basic_pred, in_pred, lt_pred, notna_pred)
-  expect_equal(and_pred$arg, list(basic_pred$arg,
-                                  in_pred$arg,
-                                  lt_pred$arg,
-                                  notna_pred$arg))
-  expect_equal(and_pred$value, list(basic_pred$value,
-                                  in_pred$value,
-                                  lt_pred$value,
-                                  notna_pred$value))
-  expect_equal(and_pred$type, list(basic_pred$type,
-                                    in_pred$type,
-                                    lt_pred$type,
-                                    notna_pred$type))
-  expect_equal(and_pred$expr, glue("(",
-                                   glue_collapse(c(basic_pred$expr,
-                                                   in_pred$expr,
-                                                   lt_pred$expr,
-                                                   notna_pred$expr),
-                                                 sep = " & "),
-                                   ")"))
+  expect_equal(and_pred$arg, list(
+    basic_pred$arg,
+    in_pred$arg,
+    lt_pred$arg,
+    notna_pred$arg
+  ))
+  expect_equal(and_pred$value, list(
+    basic_pred$value,
+    in_pred$value,
+    lt_pred$value,
+    notna_pred$value
+  ))
+  expect_equal(and_pred$type, list(
+    basic_pred$type,
+    in_pred$type,
+    lt_pred$type,
+    notna_pred$type
+  ))
+  expect_equal(and_pred$expr, glue(
+    "(",
+    glue_collapse(c(
+      basic_pred$expr,
+      in_pred$expr,
+      lt_pred$expr,
+      notna_pred$expr
+    ),
+    sep = " & "
+    ),
+    ")"
+  ))
   # pred_or
   or_pred <- pred_or(basic_pred, in_pred, lt_pred, notna_pred)
-  expect_equal(or_pred$arg, list(basic_pred$arg,
-                                 in_pred$arg,
-                                 lt_pred$arg,
-                                 notna_pred$arg))
-  expect_equal(or_pred$value, list(basic_pred$value,
-                                   in_pred$value,
-                                   lt_pred$value,
-                                   notna_pred$value))
-  expect_equal(or_pred$type, list(basic_pred$type,
-                                   in_pred$type,
-                                   lt_pred$type,
-                                   notna_pred$type))
-  expect_equal(or_pred$expr, glue("(",
-                                  glue_collapse(c(basic_pred$expr,
-                                                  in_pred$expr,
-                                                  lt_pred$expr,
-                                                  notna_pred$expr),
-                                                sep = " | "),
-                                  ")"))
+  expect_equal(or_pred$arg, list(
+    basic_pred$arg,
+    in_pred$arg,
+    lt_pred$arg,
+    notna_pred$arg
+  ))
+  expect_equal(or_pred$value, list(
+    basic_pred$value,
+    in_pred$value,
+    lt_pred$value,
+    notna_pred$value
+  ))
+  expect_equal(or_pred$type, list(
+    basic_pred$type,
+    in_pred$type,
+    lt_pred$type,
+    notna_pred$type
+  ))
+  expect_equal(or_pred$expr, glue(
+    "(",
+    glue_collapse(c(
+      basic_pred$expr,
+      in_pred$expr,
+      lt_pred$expr,
+      notna_pred$expr
+    ),
+    sep = " | "
+    ),
+    ")"
+  ))
 })
 
 test_that("specific tests: nesting pred_and and pred_or", {
@@ -216,8 +247,10 @@ test_that("specific tests: nesting pred_and and pred_or", {
   lt_pred <- pred_lt(arg = "col3", value = 3)
   notna_pred <- pred_notna(arg = "col4")
   # nested pred_and and pred_or
-  nested_pred <- pred_and(pred_and(basic_pred, in_pred),
-                       pred_or(lt_pred, notna_pred))
+  nested_pred <- pred_and(
+    pred_and(basic_pred, in_pred),
+    pred_or(lt_pred, notna_pred)
+  )
   expect_equal(length(nested_pred$arg), 2)
   expect_equal(nested_pred$arg[[1]], pred_and(basic_pred, in_pred)$arg)
   expect_equal(nested_pred$arg[[2]], pred_or(lt_pred, notna_pred)$arg)
@@ -225,10 +258,17 @@ test_that("specific tests: nesting pred_and and pred_or", {
   expect_equal(nested_pred$value[[2]], pred_or(lt_pred, notna_pred)$value)
   expect_equal(nested_pred$type[[1]], pred_and(basic_pred, in_pred)$type)
   expect_equal(nested_pred$type[[2]], pred_or(lt_pred, notna_pred)$type)
-  expect_equal(nested_pred$expr,
-               glue("(",
-                 glue_collapse(c(pred_and(basic_pred, in_pred)$expr,
-                                 pred_or(lt_pred, notna_pred)$expr),
-                               sep = " & "),
-                 ")"))
+  expect_equal(
+    nested_pred$expr,
+    glue(
+      "(",
+      glue_collapse(c(
+        pred_and(basic_pred, in_pred)$expr,
+        pred_or(lt_pred, notna_pred)$expr
+      ),
+      sep = " & "
+      ),
+      ")"
+    )
+  )
 })

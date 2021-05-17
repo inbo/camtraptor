@@ -17,10 +17,12 @@ map_legend_title <- function() as_tibble(mapdep_legend_titles)
 
 mapdep_legend_titles <- structure(list(
   feature = c("n_species", "n_obs", "rai", "effort"),
-  legend_title = c("Number of detected species",
-                   "Number of observations",
-                   "RAI",
-                   "Effort")
+  legend_title = c(
+    "Number of detected species",
+    "Number of observations",
+    "RAI",
+    "Effort"
+  )
 ))
 
 #' Retrieve legend title for deployment visualizations
@@ -65,7 +67,6 @@ get_legend_title <- function(feat) {
 add_unit_to_legend_title <- function(title,
                                      unit = NULL,
                                      use_brackets = TRUE) {
-
   if (is.null(unit)) {
     title
   } else {

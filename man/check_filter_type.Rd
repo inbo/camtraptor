@@ -9,6 +9,20 @@ check_filter_type(type)
 \arguments{
 \item{type}{character with type for filter predicate, e.g. "equals"}
 }
+\value{
+\code{TRUE} or an error message
+}
 \description{
-Check filter type
+Check that the filter predicate type is a character and has
+length one.
+}
+\examples{
+check_filter_type("in")
+check_filter_type("equals")
+\dontrun{
+# error: not a character
+check_filter_type(5)
+# error: length > 1
+check_filter_type(c("in", "equals"))
+}
 }

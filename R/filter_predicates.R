@@ -338,18 +338,55 @@ apply_filter_predicate <- function(df, verbose, ...) {
   } else df
 }
 
-# helpers
+## helpers
+
+#' Check filter argument type
+#'
 check_filter_arg_value <- function(arg, value) {
   check_filter_arg(arg)
   check_filter_value(value)
 }
+#' Check filter argument
+#'
+#' Check that the filter argument in a filter predicate is a character and has
+#' length one.
+#'
+#' @param arg character with the argument name of the filter predicate
+#'
 #' @importFrom assertthat assert_that
+#'
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' check_filter_arg("latitude")
+#' check_filter_arg("location_name")
+#' \dontrun{
+#' check_filter_arg(5)
+#' }
 check_filter_arg <- function(arg) {
   # check arg
   assert_that(is.character(arg), msg = "'arg' must be a character")
   assert_that(length(arg) == 1, msg = "'arg' must be length 1")
 }
+#' Check filter value type
+#'
+#' Check that the value argument in a filter predicate is one of the supported
+#' types. Required for basic filter predicates.  Used in `check_filter_value()`.
+#'
+#' @param value a character, a number, a Date or a POSIXct object
+#'
 #' @importFrom assertthat assert_that
+#' @importFrom lubridate is.POSIXct
+#'
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' check_filter_value_type("a")
+#' check_filter_value_type(5)
+#' # this gives an error
+#' \dontrun{
+#' check_filter_value_type(list(5))
+#' }
 check_filter_value_type <- function(value) {
   # check value
   assert_that(
@@ -360,18 +397,64 @@ check_filter_value_type <- function(value) {
     msg = "'value' must be a character, a number, a date or a datetime(POSIXct)"
   )
 }
+#' Check filter value length
+#'
+#' Check that the value in filter predicates has length one. Required for
+#' basic filter predicates. Used in `check_filter_value()`.
+#'
 #' @importFrom assertthat assert_that
+#'
+#' @return `TRUE` or an error message
+#' @examples
+#' check_filter_value_length(5)
+#' check_filter_value_length("a")
+#' \dontrun{
+#' check_filter_value_length(c("a", "aa"))
+#' }
 check_filter_value_length <- function(value) {
   assert_that(length(value) == 1, msg = "'value' must be length 1")
 }
+#' Check filter value
+#'
+#' Check that the value argument in a filter predicate has length one and it is
+#' one of the supported types. This is required for basic filter predicates.
+#'
+#' @param value value of a basic filter predicate
+#'
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' check_filter_value("b")
+#' check_filter_value(5)
+#' check_filter_value(lubridate::as_datetime("2021-01-01"))
+#' \dontun{
+#' # this returns an error messge
+#' check_filter_value(list(5))
+#' }
 check_filter_value <- function(value) {
   check_filter_value_type(value)
   check_filter_value_length(value)
 }
 #' Check filter symbol
 #'
+#' Check that the symbol used in a filter predicate is a character and has
+#' length one.
+#'
 #' @param symbol character with symbol for filter predicate, e.g. "=="
+#'
 #' @importFrom assertthat assert_that
+#'
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' check_filter_symbol("==")
+#' check_filter_symbol("!=")
+#' \dontrun{
+#' # error: not a character
+#' check_filter_symbol(5)
+#' # error: length > 1
+#' check_filter_symbol(c("==", "%in%"))
+#' }
 check_filter_symbol <- function(symbol) {
   # check symbol
   assert_that(is.character(symbol), msg = "'symbol' must be a character")
@@ -379,8 +462,23 @@ check_filter_symbol <- function(symbol) {
 }
 #' Check filter type
 #'
+#' Check that the filter predicate type is a character and has
+#' length one.
+#
 #' @param type character with type for filter predicate, e.g. "equals"
+#'
 #' @importFrom assertthat assert_that
+#' @return `TRUE` or an error message
+#'
+#' @examples
+#' check_filter_type("in")
+#' check_filter_type("equals")
+#' \dontrun{
+#' # error: not a character
+#' check_filter_type(5)
+#' # error: length > 1
+#' check_filter_type(c("in", "equals"))
+#' }
 check_filter_type <- function(type) {
   # check type
   assert_that(is.character(type), msg = "'type' must be a character")

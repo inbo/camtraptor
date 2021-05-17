@@ -9,6 +9,20 @@ check_filter_symbol(symbol)
 \arguments{
 \item{symbol}{character with symbol for filter predicate, e.g. "=="}
 }
+\value{
+\code{TRUE} or an error message
+}
 \description{
-Check filter symbol
+Check that the symbol used in a filter predicate is a character and has
+length one.
+}
+\examples{
+check_filter_symbol("==")
+check_filter_symbol("!=")
+\dontrun{
+# error: not a character
+check_filter_symbol(5)
+# error: length > 1
+check_filter_symbol(c("==", "\%in\%"))
+}
 }

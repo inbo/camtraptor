@@ -4,10 +4,37 @@
     <loc>https://inbo.github.io/camtrapdp/index.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/apply_filter_predicate.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/camtrapdp.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_arg.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_arg_value.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_symbol.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_type.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_value.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_value_length.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/check_filter_value_type.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/check_species.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/filter_predicate.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_dep_no_obs.html</loc>
@@ -34,10 +61,16 @@
     <loc>https://inbo.github.io/camtrapdp/reference/map_dep.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/pred_primitive.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/read_camtrap_dp.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/transform_effort_to_common_units.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/filter-predicates.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/articles/visualize-deployment-features.html</loc>

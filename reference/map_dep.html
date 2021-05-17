@@ -98,6 +98,9 @@ observations are shown as gray circles and a message is returned." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/filter-predicates.html">filter predicates</a>
+    </li>
+    <li>
       <a href="../articles/visualize-deployment-features.html">Visualize deployment features</a>
     </li>
   </ul>
@@ -138,6 +141,7 @@ observations are shown as gray circles and a message is returned.</p>
     <pre class="usage"><span class='fu'>map_dep</span><span class='op'>(</span>
   <span class='va'>datapkg</span>,
   <span class='va'>feature</span>,
+  <span class='va'>...</span>,
   species <span class='op'>=</span> <span class='cn'>NULL</span>,
   effort_unit <span class='op'>=</span> <span class='cn'>NULL</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -168,6 +172,10 @@ observations are shown as gray circles and a message is returned.</p>
 <li><p><code>rai</code>: Relative Abundance Index</p></li>
 <li><p><code>effort</code>: effort (duration) of the deployment</p></li>
 </ul></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>filter predicates for subsetting deployments</p></td>
     </tr>
     <tr>
       <th>species</th>
@@ -240,9 +248,9 @@ feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_sca
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a leaflet map</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Possible filtering about time period, ... (to be added)</p>
+    <div class='dont-index'><p>Check documentation about filter predicates: <code><a href='filter_predicate.html'>pred()</a></code>, <code><a href='filter_predicate.html'>pred_in()</a></code>, <code><a href='filter_predicate.html'>pred_and()</a></code>, ...</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"></pre>

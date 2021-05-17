@@ -17,9 +17,9 @@ Check that the filter predicate type is a character and has
 length one.
 }
 \examples{
+\dontrun{
 check_filter_type("in")
 check_filter_type("equals")
-\dontrun{
 # error: not a character
 check_filter_type(5)
 # error: length > 1

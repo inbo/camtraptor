@@ -22,7 +22,7 @@ This vignette shows what filter predicates are and how to use them in `get_*()` 
 
 Load packages:
 
-```{r load}
+```{r load_pkgs}
 library(camtrapdp)
 library(lubridate)
 library(dplyr)

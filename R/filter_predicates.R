@@ -358,9 +358,10 @@ check_filter_arg_value <- function(arg, value) {
 #' @return `TRUE` or an error message
 #'
 #' @examples
+#' \dontrun{
 #' check_filter_arg("latitude")
 #' check_filter_arg("location_name")
-#' \dontrun{
+#' # this returns an error
 #' check_filter_arg(5)
 #' }
 check_filter_arg <- function(arg) {
@@ -381,10 +382,10 @@ check_filter_arg <- function(arg) {
 #' @return `TRUE` or an error message
 #'
 #' @examples
+#' \dontrun{
 #' check_filter_value_type("a")
 #' check_filter_value_type(5)
-#' # this gives an error
-#' \dontrun{
+#' # this returns an error
 #' check_filter_value_type(list(5))
 #' }
 check_filter_value_type <- function(value) {
@@ -406,9 +407,10 @@ check_filter_value_type <- function(value) {
 #'
 #' @return `TRUE` or an error message
 #' @examples
+#' \dontrun{
 #' check_filter_value_length(5)
 #' check_filter_value_length("a")
-#' \dontrun{
+#' # this returns an error
 #' check_filter_value_length(c("a", "aa"))
 #' }
 check_filter_value_length <- function(value) {
@@ -424,9 +426,9 @@ check_filter_value_length <- function(value) {
 #' @return `TRUE` or an error message
 #'
 #' @examples
+#' \dontrun{
 #' check_filter_value("b")
 #' check_filter_value(5)
-#' \dontrun{
 #' # this returns an error messge
 #' check_filter_value(list(5))
 #' }
@@ -446,9 +448,9 @@ check_filter_value <- function(value) {
 #' @return `TRUE` or an error message
 #'
 #' @examples
+#' \dontrun{
 #' check_filter_symbol("==")
 #' check_filter_symbol("!=")
-#' \dontrun{
 #' # error: not a character
 #' check_filter_symbol(5)
 #' # error: length > 1
@@ -470,9 +472,9 @@ check_filter_symbol <- function(symbol) {
 #' @return `TRUE` or an error message
 #'
 #' @examples
+#' \dontrun{
 #' check_filter_type("in")
 #' check_filter_type("equals")
-#' \dontrun{
 #' # error: not a character
 #' check_filter_type(5)
 #' # error: length > 1

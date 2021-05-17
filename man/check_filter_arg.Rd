@@ -17,9 +17,10 @@ Check that the filter argument in a filter predicate is a character and has
 length one.
 }
 \examples{
+\dontrun{
 check_filter_arg("latitude")
 check_filter_arg("location_name")
-\dontrun{
+# this returns an error
 check_filter_arg(5)
 }
 }

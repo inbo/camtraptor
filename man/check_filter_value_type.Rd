@@ -17,10 +17,10 @@ Check that the value argument in a filter predicate is one of the supported
 types. Required for basic filter predicates.  Used in \code{check_filter_value()}.
 }
 \examples{
+\dontrun{
 check_filter_value_type("a")
 check_filter_value_type(5)
-# this gives an error
-\dontrun{
+# this returns an error
 check_filter_value_type(list(5))
 }
 }

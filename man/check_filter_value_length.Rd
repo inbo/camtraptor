@@ -14,9 +14,10 @@ Check that the value in filter predicates has length one. Required for
 basic filter predicates. Used in \code{check_filter_value()}.
 }
 \examples{
+\dontrun{
 check_filter_value_length(5)
 check_filter_value_length("a")
-\dontrun{
+# this returns an error
 check_filter_value_length(c("a", "aa"))
 }
 }

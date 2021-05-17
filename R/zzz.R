@@ -15,7 +15,9 @@
 #'
 check_datapkg <- function(datapkg) {
   # check validity data package: does it contain all 4 elements?
-  tables_absent <- names(camtrapdp)[!names(camtrapdp) %in% names(datapkg)]
+  tables_absent <- names(camtrapdp::camtrapdp)[
+    !names(camtrapdp::camtrapdp) %in% names(datapkg)
+  ]
   n_tables_absent <- length(tables_absent)
   assert_that(n_tables_absent == 0,
               msg = glue("There are {n_tables_absent} elements not found in",

@@ -39,8 +39,7 @@ deployment.
 # get number of observations for each species
 get_n_obs(camtrapdp)
 
-# get number of observations of all species (not identified individuals as
-well)
+# get number of obs of all species, not identified individuals as well
 get_n_obs(camtrapdp, species = NULL)
 
 # get number of observations of Gallinula chloropus

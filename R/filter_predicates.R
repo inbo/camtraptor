@@ -26,6 +26,7 @@
 #' The following functions take one key and one value and are associated to the
 #' following types:
 #' - `pred`: equals
+#' - `pred_not`: notEquals
 #' - `pred_lt`: lessThan
 #' - `pred_lte`: lessThanOrEquals
 #' - `pred_gt`: greaterThan
@@ -46,15 +47,12 @@
 #' - `pred_and`: and
 #' - `pred_or`: or
 #'
-#' The not predicate accepts one predicate; that is, this negates whatever
-#' predicate is passed in, e.g., not the location "B_ML_val 05_molenkreek":
-#' - `pred_not`: not
-#'
 #' The following function is special in that it accepts a single key but many
 #' values, stating that you want to search for all the listed values, e.g.
 #' one of the locations in: "B_ML_val 05_molenkreek", "B_ML_val 03_De Val" and
 #' "B_ML_val 06_Oostpolderkreek"
 #' - `pred_in`: in
+#' - `pred_notin`: notIn
 #'
 #' @section What happens internally:
 #'

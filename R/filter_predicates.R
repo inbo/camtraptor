@@ -426,7 +426,6 @@ check_filter_value_length <- function(value) {
 #' @examples
 #' check_filter_value("b")
 #' check_filter_value(5)
-#' check_filter_value(lubridate::as_datetime("2021-01-01"))
 #' \dontun{
 #' # this returns an error messge
 #' check_filter_value(list(5))

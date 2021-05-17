@@ -122,6 +122,8 @@ Notice how these two predicates return `filter_predicate` objects with the same 
 
 The filter predicates are useful to select a subset of deployments for the `get_*()` functions and the visualization function `map_dep()`.
 
+### One predicate
+
 Apply get_* functions only  to the deployments with location name _B_ML_val 06_Oostpolderkreek_ or _ _B_ML_val 07_Sint-Anna_:
 
 ```{r example_location_name_get_n_obs}
@@ -141,3 +143,58 @@ get_n_species(camtrapdp,
               pred_in("location_name",
                       c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")))
 ```
+
+### Multiple predicates
+
+As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names _B_ML_val 06_Oostpolderkreek_ and _B_ML_val 07_Sint-Anna_, or deployments souther than 51.28 degrees:
+
+```{r pred_or_get_n_species}
+get_n_species(camtrapdp,
+              pred_or(
+                pred_in("location_name",
+                        c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")),
+                pred_lt("latitude", 51.28)))
+```
+
+Same syntax is valid for visualizing such information via `map_dep()` function:
+
+```{r exmaple_map_Dep_with_multiple_predicates}
+map_dep(camtrapdp,
+        feature = "n_species", 
+        pred_or(
+          pred_in("location_name",
+                  c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")),
+          pred_lt("latitude", 51.28)))
+```
+
+Notice also that you can pass as much predicates as you want to get_* functions or `map_dep()` by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51.28 degrees AND eastern than 3.59 degrees, you can simplify this:
+
+```{r example_pred_and_get_n_species}
+get_n_species(camtrapdp,
+              pred_and(pred_lt("latitude", 51.28),
+                       pred_gt("longitude", 3.59)))
+```
+
+by omitting the  `pred_and()`:
+
+```{r example_pred_and_get_n_species_simplified}
+get_n_species(camtrapdp,
+              pred_lt("latitude", 51.28),
+              pred_gt("longitude", 3.59))
+```
+
+This is similar to the behvaior of dplyr's  `filter()` function, where this:
+
+```{r example_dplyr_filter_and}
+camtrapdp$deployments %>%
+  filter(latitude < 51.28 & longitude > 3.59)
+```
+
+is exactly the same as this:
+
+```{r example_dplyr_filter_and_simplified}
+camtrapdp$deployments %>%
+  filter(latitude < 51.28, longitude > 3.59)
+```
+
+Happy filtering!

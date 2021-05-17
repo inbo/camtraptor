@@ -426,7 +426,7 @@ check_filter_value_length <- function(value) {
 #' @examples
 #' check_filter_value("b")
 #' check_filter_value(5)
-#' \dontun{
+#' \dontrun{
 #' # this returns an error messge
 #' check_filter_value(list(5))
 #' }

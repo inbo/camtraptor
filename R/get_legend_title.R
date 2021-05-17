@@ -43,7 +43,7 @@ get_legend_title <- function(feat) {
   # return the legend title we need
   titles %>%
     filter(.data$feature == feat) %>%
-    pull(legend_title)
+    pull(.data$legend_title)
 }
 
 

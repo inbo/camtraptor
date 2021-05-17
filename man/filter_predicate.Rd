@@ -162,7 +162,7 @@ pred_lte("longitude", 3.59)
 pred_not("location_name", "B_ML_val 03_De Val")
 
 # and, or predicates
-pred_and(pred_lt("longitude", 3.59),pred_gt("latitude", 51.28))
+pred_and(pred_lt("longitude", 3.59), pred_gt("latitude", 51.28))
 pred_or(pred_gte("count", 2), pred("vernacular_name", "Norway Rat"))
 
 # use Dates as argument

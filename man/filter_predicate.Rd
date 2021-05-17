@@ -179,7 +179,7 @@ pred_or(pred_gte("start", start_date), pred_lte("end", end_date))
 locations <- c("B_ML_val 03_De Val", "B_ML_val 05_molenkreek")
 pred_in("location_name", locations)
 pred_notin("location_name", locations)
-start_dates <- as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33"))
+start_dates <- lubridate::as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33"))
 pred_in("start", start_dates)
 pred_notin("start", start_dates)
 

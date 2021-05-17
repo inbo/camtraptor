@@ -6,7 +6,8 @@ test_that("get_rai returns error if no species is specified", {
 
 test_that("get_rai returns the right dataframe", {
 
-  output_anas_platyrhyncos <- get_rai(camtrapdp, "Anas platyrhynchos")
+  output_anas_platyrhyncos <- get_rai(camtrapdp,
+                                      species = "Anas platyrhynchos")
 
   # type list
   expect_type(output_anas_platyrhyncos, "list")
@@ -60,6 +61,6 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
 
 test_that("species is case insensitive", {
 
-  expect_equal(get_rai(camtrapdp, "Anas platyrhynchos"),
-               get_rai(camtrapdp, toupper("Anas platyrhynchos")))
+  expect_equal(get_rai(camtrapdp, species = "Anas platyrhynchos"),
+               get_rai(camtrapdp, species = toupper("Anas platyrhynchos")))
 })

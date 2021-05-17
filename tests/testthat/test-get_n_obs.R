@@ -1,7 +1,8 @@
 test_that("get_n_obs returns the right structure of dataframe", {
 
   # species arg specified
-  output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
+  output_anas_platyrhyncos <- get_n_obs(camtrapdp,
+                                        species = "Anas platyrhynchos")
 
   # type list
   expect_type(output_anas_platyrhyncos, "list")
@@ -50,7 +51,8 @@ test_that("get_n_obs returns always the right number of rows", {
   n_deployments <- length(deployments)
 
   # calculate get_n_obs for a species undetected in one deployment
-  output_ondatra_zibethicus <- get_n_obs(camtrapdp, "Ondatra zibethicus")
+  output_ondatra_zibethicus <- get_n_obs(camtrapdp,
+                                         species = "Ondatra zibethicus")
 
   # number of rows should be equal to number of deployments
   expect_equal(nrow(output_ondatra_zibethicus), n_deployments)
@@ -77,8 +79,8 @@ test_that("species = 'all' returns the same of using a vector with all species",
 
 test_that("species is case insensitive", {
 
-  expect_equal(get_n_obs(camtrapdp, "Anas platyrhynchos"),
-               get_n_obs(camtrapdp, toupper("Anas platyrhynchos")))
+  expect_equal(get_n_obs(camtrapdp, species = "Anas platyrhynchos"),
+               get_n_obs(camtrapdp, species = toupper("Anas platyrhynchos")))
 })
 
 test_that("species accepts use of common names and return the same as using scientic name", {
@@ -89,8 +91,8 @@ test_that("species accepts use of common names and return the same as using scie
   vn <- "Mallard"
 
   # get number of observations for both cases
-  output_anas_platyrhyncos <- get_n_obs(camtrapdp, scn)
-  output_mallard <- get_n_obs(camtrapdp, vn)
+  output_anas_platyrhyncos <- get_n_obs(camtrapdp,species = scn)
+  output_mallard <- get_n_obs(camtrapdp, species = vn)
 
   # same outputs
   expect_equal(output_anas_platyrhyncos, output_mallard)
@@ -100,7 +102,8 @@ test_that("species accepts use of common names and return the same as using scie
 test_that("if subset of species is specified, less observations are returned", {
 
   output_all_species <- get_n_obs(camtrapdp)
-  output_anas_platyrhyncos <- get_n_obs(camtrapdp, "Anas platyrhynchos")
+  output_anas_platyrhyncos <- get_n_obs(camtrapdp,
+                                        species = "Anas platyrhynchos")
 
   expect_true(sum(output_all_species$n) >=  sum(output_anas_platyrhyncos$n))
 

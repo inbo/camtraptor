@@ -437,6 +437,8 @@ check_filter_value_type <- function(value) {
 #' Check that the value in filter predicates has length one. Required for
 #' basic filter predicates. Used in `check_filter_value()`.
 #'
+#' @param value value of the filter predicate
+#'
 #' @importFrom assertthat assert_that
 #'
 #' @return `TRUE` or an error message

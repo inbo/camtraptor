@@ -6,6 +6,9 @@
 \usage{
 check_filter_value_length(value)
 }
+\arguments{
+\item{value}{value of the filter predicate}
+}
 \value{
 \code{TRUE} or an error message
 }

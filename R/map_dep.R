@@ -5,8 +5,6 @@
 #' color are proportional to the mapped feature. Deployments without
 #' observations are shown as gray circles and a message is returned.
 #'
-#' Possible filtering about time period, ... (to be added)
-#'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
@@ -66,15 +64,17 @@
 #'   zero effort. The upper value is used for the deployment(s) with the highest
 #'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`). Default: `c(10, 50)`
+#' @param ... filter predicates for subsetting deployments
 #'
+#' @seealso Check documentation about filter predicates: [pred()], [pred_in()], [pred_and()], ...
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols count distinct filter
 #'   group_by left_join mutate pull one_of rename select
-#' @importFrom leaflet addLegend addTiles addCircleMarkers colorNumeric leaflet
-#'   markerClusterOptions
+#' @importFrom leaflet addControl addLegend addTiles addCircleMarkers
+#'   colorNumeric leaflet markerClusterOptions setView
 #' @importFrom glue glue
 #' @importFrom grDevices rgb
-#' @importFrom htmltools HTML
+#' @importFrom htmltools HTML tags
 #' @importFrom lubridate is.POSIXt
 #' @importFrom purrr map2 map
 #' @importFrom tidyr unite
@@ -159,6 +159,7 @@
 #' }
 map_dep <- function(datapkg,
                     feature,
+                    ...,
                     species = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
@@ -191,6 +192,10 @@ map_dep <- function(datapkg,
   # extract observations and deployments
   observations <- datapkg$observations
   deployments <- datapkg$deployments
+
+  # get average lat lon for empyt map without deployments (after filtering)
+  avg_lat <- mean(deployments$latitude, na.rm = TRUE)
+  avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
   # check species in combination with feature and remove from hover in case
   if (is.null(species) | (!is.null(species) & feature %in% c("n_species", "effort"))) {
@@ -255,15 +260,34 @@ map_dep <- function(datapkg,
 
   # calculate and get feature values
   if (feature == "n_species") {
-    feat_df <- get_n_species(datapkg)
+    feat_df <- get_n_species(datapkg, ...)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg, species = species)
+    feat_df <- get_n_obs(datapkg, species = species, ...)
   } else if (feature == "rai") {
-    feat_df <- get_rai(datapkg, species = species)
+    feat_df <- get_rai(datapkg, species = species, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg, unit = effort_unit)
+    feat_df <- get_effort(datapkg, unit = effort_unit, ...)
     feat_df <- feat_df %>% rename(n = .data$effort)
+  }
+
+  # define title legend
+  title <- get_legend_title(feature)
+  # add unit to legend title (for effort)
+  title <- add_unit_to_legend_title(title,
+                                    unit = effort_unit,
+                                    use_brackets = TRUE)
+
+  # add informative message if no deployments left after applying filters and
+  # return empty map
+  if (nrow(feat_df) == 0) {
+    message("No deployments left.")
+    leaflet_map <-
+      leaflet(feat_df) %>%
+      setView(lng = avg_lon, lat = avg_lat, zoom = 10) %>%
+      addTiles() %>%
+      addControl(tags$b(title), position = "bottomright")
+    return(leaflet_map)
   }
 
   # add deployment information for maps
@@ -323,6 +347,7 @@ map_dep <- function(datapkg,
                   max(feat_df$n, na.rm = TRUE),
                   max_scale
   )
+
   # define color palette
   palette_colors <- c("white", "blue")
   pal <- colorNumeric(
@@ -344,14 +369,11 @@ map_dep <- function(datapkg,
   # define size scale for avoiding too small or too big circles
   radius_max <- radius_range[2]
   radius_min <- radius_range[1]
-  conv_factor <- (radius_max - radius_min)/max_n
-
-  # define title legend
-  title <- get_legend_title(feature)
-  # add unit to legend title (for effort)
-  title <- add_unit_to_legend_title(title,
-                                    unit = effort_unit,
-                                    use_brackets = TRUE)
+  if (max_n != 0) {
+    conv_factor <- (radius_max - radius_min)/max_n
+  } else {
+    conv_factor <- 0
+  }
 
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)

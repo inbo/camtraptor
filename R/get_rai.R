@@ -14,6 +14,7 @@
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected
+#' @param ... filter predicates for filtering on deployments
 #'
 #' @importFrom dplyr .data %>% group_by left_join select summarise ungroup
 #'
@@ -26,21 +27,24 @@
 #'
 #' @examples
 #' # all species
-#' get_rai(camtrapdp)
+#' get_rai(camtrapdp, species = "all")
 #'
 #' # selected species
-#' get_rai(camtrapdp, c("Anas platyrhynchos", "Rattus norvegicus"))
+#' get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
 #'
 #' # with common names
-#' get_rai(camtrapdp, c("Mallard", "norway rat"))
+#' get_rai(camtrapdp, species = c("Mallard", "norway rat"))
 #'
 #' # mixed scientific and vernacular names
-#' get_rai(camtrapdp, c("Anas platyrhynchos", "norway rat"))
+#' get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 #'
 #' # species argument is case insensitive
-#' get_rai(camtrapdp, c("ANAS plAtyRhynChOS"))
+#' get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
 #'
-get_rai <- function(datapkg, species = "all") {
+#' # apply filter(s): deployments with latitude >= 51.28
+#' get_rai(camtrapdp, pred_gte("latitude", 51.28))
+#'
+get_rai <- function(datapkg, ..., species = "all") {
 
   # check input data package
   check_datapkg(datapkg)
@@ -53,13 +57,13 @@ get_rai <- function(datapkg, species = "all") {
   species <- check_species(datapkg, species)
 
   # get number of observations
-  n_obs_df <- get_n_obs(datapkg, species = species)
+  n_obs_df <- get_n_obs(datapkg, species = species, ...)
 
   # extract deployments
   deployments <- datapkg$deployments
 
-  # get deployment duration (effort) in seconds
-  dep_effort <- get_effort(datapkg)
+  # get deployment duration (effort) in seconds (standard duration in lubridate)
+  dep_effort <- get_effort(datapkg, unit = NULL, ...)
 
   # calculate RAI
   n_obs_df %>%
@@ -69,5 +73,4 @@ get_rai <- function(datapkg, species = "all") {
              .data$scientific_name) %>%
     summarise(rai = .data$n * 100 / (as.numeric(.data$effort)/24/60/60)) %>%
     ungroup()
-
 }

@@ -4,7 +4,7 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(datapkg, species = "all")
+get_n_obs(datapkg, ..., species = "all")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -15,8 +15,10 @@ get_n_obs(datapkg, species = "all")
 
 and a list with metadata: \code{datapackage}}
 
+\item{...}{filter predicates for filtering on deployments}
+
 \item{species}{a character with scientific names or common names (case
-insensitive). If "all" (default), all scientific names are automatically
+insensitive). If "all", default, all scientific names are automatically
 selected. If \code{NULL} all observations of all species are taken into account}
 }
 \value{
@@ -35,10 +37,10 @@ deployment.
 \examples{
 
 # get number of observations for each species
-get_n_obs(camtrapdp, species = "all")
-
-# get number of observations of all species (not identified individuals as well)
 get_n_obs(camtrapdp)
+
+# get number of obs of all species, not identified individuals as well
+get_n_obs(camtrapdp, species = NULL)
 
 # get number of observations of Gallinula chloropus
 get_n_obs(camtrapdp, species = "Gallinula chloropus")
@@ -48,5 +50,8 @@ get_n_obs(camtrapdp, species = "Common Moorhen")
 
 # case insensitive
 get_n_obs(camtrapdp, species = "cOmmon moorhEn")
+
+# applying filter(s), e.g. deployments with latitude >= 51.28
+get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
 
 }

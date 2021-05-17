@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, species = "all")
+get_rai(datapkg, ..., species = "all")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -16,6 +16,8 @@ get_rai(datapkg, species = "all")
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates for filtering on deployments}
 
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
@@ -34,18 +36,21 @@ Function to get the RAI (Relative Abundance Index) per deployment.
 }
 \examples{
 # all species
-get_rai(camtrapdp)
+get_rai(camtrapdp, species = "all")
 
 # selected species
-get_rai(camtrapdp, c("Anas platyrhynchos", "Rattus norvegicus"))
+get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
 
 # with common names
-get_rai(camtrapdp, c("Mallard", "norway rat"))
+get_rai(camtrapdp, species = c("Mallard", "norway rat"))
 
 # mixed scientific and vernacular names
-get_rai(camtrapdp, c("Anas platyrhynchos", "norway rat"))
+get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 
 # species argument is case insensitive
-get_rai(camtrapdp, c("ANAS plAtyRhynChOS"))
+get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+
+# apply filter(s): deployments with latitude >= 51.28
+get_rai(camtrapdp, pred_gte("latitude", 51.28))
 
 }

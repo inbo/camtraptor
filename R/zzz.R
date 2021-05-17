@@ -15,7 +15,9 @@
 #'
 check_datapkg <- function(datapkg) {
   # check validity data package: does it contain all 4 elements?
-  tables_absent <- names(camtrapdp)[!names(camtrapdp) %in% names(datapkg)]
+  tables_absent <- names(camtrapdp::camtrapdp)[
+    !names(camtrapdp::camtrapdp) %in% names(datapkg)
+  ]
   n_tables_absent <- length(tables_absent)
   assert_that(n_tables_absent == 0,
               msg = glue("There are {n_tables_absent} elements not found in",
@@ -43,7 +45,7 @@ check_datapkg <- function(datapkg) {
 #' argument `null_allowed` equal to `TRUE` or `FALSE`.
 #'
 #' @param arg character containing the input argument provided by the user
-#' @param options haracter vector of valid inputs for the argument
+#' @param options character vector of valid inputs for the argument
 #' @param arg_name character with the name of the argument used in the function
 #'   to test
 #' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values
@@ -187,21 +189,22 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param datapkg a camera trap data package object, as returned by `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#' @param datapkg a camera trap data package object, as returned by
+#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
 #' 1. `observations`
 #' 2. `deployments`
 #' 3. `multimedia`
 #'
 #' and a list with metadata: `datapackage`
-#'
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% anti_join distinct
 #' @importFrom  glue glue
 #'
 #' @export
 #'
 #' @return a tibble (data.frame) with deployments not linked to any observations
-get_dep_no_obs <- function(datapkg) {
+get_dep_no_obs <- function(datapkg, ...) {
 
   # check input data package
   check_datapkg(datapkg)
@@ -209,6 +212,9 @@ get_dep_no_obs <- function(datapkg) {
   # extract observations and deployments
   observations <- datapkg$observations
   deployments <- datapkg$deployments
+
+  # apply filtering (do not show filtering expression, verbose = FALSE)
+  deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
 
   # deployment with no observations
   dep_no_obs <-

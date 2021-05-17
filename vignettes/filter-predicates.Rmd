@@ -1,0 +1,200 @@
+---
+title: "filter predicates"
+author: "Damiano Oldoni"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Filter predicates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows what filter predicates are and how to use them in `get_*()` functions or in `map_dep()`.
+
+## Setup
+
+Load packages:
+
+```{r load_pkgs}
+library(camtrapdp)
+library(lubridate)
+library(dplyr)
+```
+
+By loading pacakge `camtrapdp`, a camera trap data package called `camtrapdp` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+
+## Filter predicates
+
+All filter predicates are functions starting with `pred` prefix. They can be distinguished in four categories based on the type of inputs they accept:
+
+1. one argument, one value
+2. one argument, no value
+3. one argument, multiple values (vector)
+4. multiple predicates
+
+They are called filter predicates because they build (dplyr) filter statement. Filter predicates return objects of class  `filter_predicate`, which are a particular kind of list with the following slots:
+
+1. `arg`, the argument
+2. `value`, the value
+3. `type`, the type of filter predicate
+4. `expr`, the filter dplyr expression
+
+### One argument - one value predicates
+
+This filter predicates accept one argument and one value.
+
+#### `pred()`, `pred_not()`
+
+The `pred()` is the most basic predicates and refers to equality statements. Example, if you want to select rows where column `a` is equal to 5:
+
+```{r pred}
+pred(arg = "a", value = 5)
+```
+
+The opposite operator of `pred()` (equals) is `pred_not` (notEquals):
+
+```{r pred_not}
+pred_not(arg = "a", value = 5)
+```
+
+#### `pred_gt()`, `pred_gte()`, `pred_lt()`, `pred_lte()`
+
+These predicates express `>` (greaterThan), `>=` (greaterThanOrEqual),`<` (lessThan) and `<=` (lessThanOrEqual) respectively. Example: if you want to select rows where column `a` is greater than 5:
+
+```{r pred_gt}
+pred_gt(arg = "a", value = 5)
+```
+
+### One argument - no value predicates
+
+The predicate `pred_na()` compares the argument against NA. To select rows where column `a` is NA: 
+
+```{r pred_na}
+pred_na(arg = "a")
+```
+
+To select all the rows where `a` is not NA, you can use the opposite predicate `pred_notna()`:
+
+```{r pred_notna}
+pred_notna(arg = "a")
+```
+
+### One argument - multiple value predicates
+
+These predicates accept a vector with multiple values as argument. To get rows where column `a` is one of the values `c(1,3,5)`:
+
+```{r pred_in}
+pred_in(arg = "a", value = c(1,3,5))
+```
+
+The opposite of `pred_in()` is  `pred_notin()`:
+
+```{r pred_notin}
+pred_notin(arg = "a", value = c(1,3,5))
+```
+
+### multiple predicates: `pred_and()` and  `pred_or()`
+
+You can combine the predicates described above to make more complex filter statements by using `pred_and()` (AND operator) and  `pred_or()` (OR operator).
+
+Some examples. Select rows where column  `a` is equal to 5 and column `b` is not NA:
+
+```{r pred_and}
+pred_and(pred("a", 5), pred_notna("b"))
+```
+
+Select rows where column `a` is equal to 5 or column `b` is not NA:
+
+```{r pred_or}
+pred_or(pred("a", 5), pred_notna("b"))
+```
+
+Notice how these two predicates return `filter_predicate` objects with the same structure as any other predicate, but with slots  `arg`, `value` and  `type` as long as the number of input predicates they combine.
+
+## How to use filter predicates
+
+The filter predicates are useful to select a subset of deployments for the `get_*()` functions and the visualization function `map_dep()`.
+
+### One predicate
+
+Apply get_* functions only  to the deployments with location name _B_ML_val 06_Oostpolderkreek_ or _ _B_ML_val 07_Sint-Anna_:
+
+```{r example_location_name_get_n_obs}
+get_n_obs(camtrapdp,
+          pred_in("location_name",
+                  c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")))
+```
+
+```{r example_location_name_get_effort}
+get_effort(camtrapdp,
+           pred_in("location_name",
+                   c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")))
+```
+
+```{r example_location_name_get_n_species}
+get_n_species(camtrapdp,
+              pred_in("location_name",
+                      c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")))
+```
+
+### Multiple predicates
+
+As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names _B_ML_val 06_Oostpolderkreek_ and _B_ML_val 07_Sint-Anna_, or deployments souther than 51.28 degrees:
+
+```{r pred_or_get_n_species}
+get_n_species(camtrapdp,
+              pred_or(
+                pred_in("location_name",
+                        c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")),
+                pred_lt("latitude", 51.28)))
+```
+
+Same syntax is valid for visualizing such information via `map_dep()` function:
+
+```{r exmaple_map_Dep_with_multiple_predicates}
+map_dep(camtrapdp,
+        feature = "n_species", 
+        pred_or(
+          pred_in("location_name",
+                  c("B_ML_val 06_Oostpolderkreek", "B_ML_val 07_Sint-Anna")),
+          pred_lt("latitude", 51.28)))
+```
+
+Notice also that you can pass as much predicates as you want to get_* functions or `map_dep()` by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51.28 degrees AND eastern than 3.59 degrees, you can simplify this:
+
+```{r example_pred_and_get_n_species}
+get_n_species(camtrapdp,
+              pred_and(pred_lt("latitude", 51.28),
+                       pred_gt("longitude", 3.59)))
+```
+
+by omitting the  `pred_and()`:
+
+```{r example_pred_and_get_n_species_simplified}
+get_n_species(camtrapdp,
+              pred_lt("latitude", 51.28),
+              pred_gt("longitude", 3.59))
+```
+
+This is similar to the behvaior of dplyr's  `filter()` function, where this:
+
+```{r example_dplyr_filter_and}
+camtrapdp$deployments %>%
+  filter(latitude < 51.28 & longitude > 3.59)
+```
+
+is exactly the same as this:
+
+```{r example_dplyr_filter_and_simplified}
+camtrapdp$deployments %>%
+  filter(latitude < 51.28, longitude > 3.59)
+```
+
+Happy filtering!

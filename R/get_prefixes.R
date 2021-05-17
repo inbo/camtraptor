@@ -17,35 +17,39 @@
 map_dep_prefixes <- function() as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
-  info = c("scientific_name", "deployment_id", "location_id", "location_name", "longitude",
-           "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
-           "camera_interval", "camera_height", "bait_use", "session", "array",
-           "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
-           "rai", "effort"),
-  prefix = c("species: ",
-             "deployment ID: ",
-             "location ID: ",
-             "location name: ",
-             "longitude: ",
-             "latitude: ",
-             "start: ",
-             "end: ",
-             "setup by: ",
-             "camera ID: ",
-             "camera model: ",
-             "camera interval: ",
-             "camera height: ",
-             "bait use: ",
-             "session: ",
-             "array: ",
-             "feature type: ",
-             "habitat: ",
-             "tags: ",
-             "comments: ",
-             "species observed: ",
-             "observations: ",
-             "RAI: ",
-             "Effort: ")
+  info = c(
+    "scientific_name", "deployment_id", "location_id", "location_name", "longitude",
+    "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
+    "camera_interval", "camera_height", "bait_use", "session", "array",
+    "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
+    "rai", "effort"
+  ),
+  prefix = c(
+    "species: ",
+    "deployment ID: ",
+    "location ID: ",
+    "location name: ",
+    "longitude: ",
+    "latitude: ",
+    "start: ",
+    "end: ",
+    "setup by: ",
+    "camera ID: ",
+    "camera model: ",
+    "camera interval: ",
+    "camera height: ",
+    "bait use: ",
+    "session: ",
+    "array: ",
+    "feature type: ",
+    "habitat: ",
+    "tags: ",
+    "comments: ",
+    "species observed: ",
+    "observations: ",
+    "RAI: ",
+    "Effort: "
+  )
 ))
 
 #' Retrieve prefixes (fields) for text to show while hovering with mouse over a

@@ -11,11 +11,11 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @param species a character with scientific names or common names (case
-#'   insensitive). If "all" (default), all scientific names are automatically
+#'   insensitive). If "all", default, all scientific names are automatically
 #'   selected. If `NULL` all observations of all species are taken into account
-#'
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
-#'   select summarise ungroup
+#'   select summarise ungroup relocate
 #' @importFrom glue glue
 #' @export
 
@@ -28,10 +28,10 @@
 #' @examples
 #'
 #' # get number of observations for each species
-#' get_n_obs(camtrapdp, species = "all")
-#'
-#' # get number of observations of all species (not identified individuals as well)
 #' get_n_obs(camtrapdp)
+#'
+#' # get number of obs of all species, not identified individuals as well
+#' get_n_obs(camtrapdp, species = NULL)
 #'
 #' # get number of observations of Gallinula chloropus
 #' get_n_obs(camtrapdp, species = "Gallinula chloropus")
@@ -42,7 +42,10 @@
 #' # case insensitive
 #' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 #'
-get_n_obs <- function(datapkg, species = "all") {
+#' # applying filter(s), e.g. deployments with latitude >= 51.28
+#' get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
+#'
+get_n_obs <- function(datapkg, ..., species = "all") {
 
   # check input data package
   check_datapkg(datapkg)
@@ -76,8 +79,18 @@ get_n_obs <- function(datapkg, species = "all") {
   observations <- datapkg$observations
   deployments <- datapkg$deployments
 
-  # get deployments without observations
-  deployments_no_obs <- get_dep_no_obs(datapkg)
+  # apply filtering
+  deployments <- apply_filter_predicate(
+    df = deployments,
+    verbose = TRUE,
+    ...)
+
+  deployment_id <- deployments$deployment_id
+
+  deployments_no_obs <- get_dep_no_obs(
+    datapkg,
+    pred_in("deployment_id",deployment_id)
+  )
 
   # get number of observations collected by each deployment for each species
   n_obs <-

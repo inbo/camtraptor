@@ -4,7 +4,7 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg, unit = NULL)
+get_effort(datapkg, ..., unit = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -16,6 +16,8 @@ get_effort(datapkg, unit = NULL)
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates}
 
 \item{unit}{time unit to use while returning deployment effort
 (duration). One of:
@@ -47,3 +49,8 @@ get_effort(camtrapdp)
 get_effort(camtrapdp, unit = "day")
 
 }
+\seealso{
+Other get_functions: 
+\code{\link{filter_predicate}}
+}
+\concept{get_functions}

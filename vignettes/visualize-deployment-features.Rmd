@@ -4,7 +4,7 @@ author: "Damiano Oldoni"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Visualize number of species per deployment}
+  %\VignetteIndexEntry{Visualize deployment features}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -205,7 +205,19 @@ Upper limit higher than number of observations:
 
 ```{r high_upper_limit}
 map_dep(camtrapdp,
-        feature = "n_obs",,
+        feature = "n_obs",
         relative_scale = FALSE,
         max_scale = 1000)
 ```
+
+### Use filter predicates
+
+You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 3.9:
+
+```{r example_filter_predicates_map}
+map_dep(camtrapdp,
+        pred_gt("longitude", 3.2),
+        feature = "n_obs")
+```
+
+More about filter predicates in [filter predicates](https://inbo.github.io/camtrapdp/articles/filter-predicates.html) article.

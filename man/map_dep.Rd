@@ -7,6 +7,7 @@
 map_dep(
   datapkg,
   feature,
+  ...,
   species = NULL,
   effort_unit = NULL,
   cluster = TRUE,
@@ -33,6 +34,8 @@ and a list with metadata: \code{datapackage}}
 \item \code{rai}: Relative Abundance Index
 \item \code{effort}: effort (duration) of the deployment
 }}
+
+\item{...}{filter predicates for subsetting deployments}
 
 \item{species}{a character with a scientific name. Required for  \code{rai},
 optional for \code{n_obs}. Default: \code{NULL}}
@@ -96,9 +99,6 @@ This function visualizes deployments features such as number of detected
 species, number of observations and RAI on a dynamic map. The circle size and
 color are proportional to the mapped feature. Deployments without
 observations are shown as gray circles and a message is returned.
-}
-\details{
-Possible filtering about time period, ... (to be added)
 }
 \examples{
 \dontrun{
@@ -174,4 +174,7 @@ map_dep(
   radius_range = c(40, 150)
 )
 }
+}
+\seealso{
+Check documentation about filter predicates: \code{\link[=pred]{pred()}}, \code{\link[=pred_in]{pred_in()}}, \code{\link[=pred_and]{pred_and()}}, ...
 }

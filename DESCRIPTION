@@ -1,6 +1,6 @@
 Package: camtrapdp
 Title: Visualize camtrap-dp formatted data
-Version: 0.1.0.9006
+Version: 0.1.0.9007
 Authors@R: c(
     person(given = "Damiano",
            family = "Oldoni",

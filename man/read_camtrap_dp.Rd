@@ -4,10 +4,15 @@
 \alias{read_camtrap_dp}
 \title{Read camtrap-dp formatted data}
 \usage{
-read_camtrap_dp(path)
+read_camtrap_dp(path, multimedia = TRUE)
 }
 \arguments{
 \item{path}{a path to the folder containing camera trap files}
+
+\item{multimedia}{(logical) if \code{TRUE}, the default, multimedia are read and
+loaded into memory. If \code{FALSE} the multimedia file is not read. This flag
+can be handy in case of very large camtrap-dp data packages due to the high
+number of multimedia records}
 }
 \value{
 a list of tibbles (dataframes)
@@ -18,11 +23,12 @@ This function reads cameratrap data formatted following the \href{https://github
 \examples{
 \dontrun{
 library(here)
-camtrap_dp_folder <- here("inst", "extdata", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
-gmu8 <- read_camtrap_dp(camtrap_dp_folder)
-
-library(here)
+# read multimedia file (default)
 camtrap_dp_folder <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_folder)
+
+# do not read multimedia file
+camtrap_dp_folder <- here("inst", "extdata", "gmu8-monitoring-faunabeheerzone-8-20210301093537")
+gmu8 <- read_camtrap_dp(camtrap_dp_folder, multimedia = FALSE)
 }
 }

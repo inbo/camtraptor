@@ -41,7 +41,16 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
 
   # read files
   datapackage <- read_json(path = here(path, datapackage))
-  deployments <- read_csv(file = here(path, deployments))
+  deployments <- read_csv(file = here(path, deployments),
+                          col_types = cols(
+                            .default = col_character(),
+                            longitude = col_number(),
+                            latitude = col_number(),
+                            start = col_datetime(format = ""),
+                            end = col_datetime(format = ""),
+                            camera_interval = col_number(),
+                            camera_height = col_number()
+                          ))
   if (multimedia == TRUE) {
     multimedia <- "multimedia.csv"
     multimedia <- read_csv(

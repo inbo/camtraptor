@@ -18,15 +18,6 @@ test_that("camtrap dp data are structured correctly", {
   expect_true(is.data.frame(mica$observations))
 })
 
-
-test_that("multimedia are loaded if flag multimedia is set to TRUE", {
-  # load data (multimedia is TRUE by default)
-  mica <- read_camtrap_dp(
-    "./inst/extdata/mica-muskrat-and-coypu-20210302172233/"
-  )
-  expect_true(is.data.frame(mica$multimedia))
-})
-
 test_that("multimedia are not loaded if flag multimedia is set to FALSE", {
   # load data (multimedia is TRUE by default)
   mica <- read_camtrap_dp(

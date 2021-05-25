@@ -34,7 +34,6 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   # define files
   datapackage <- "datapackage.json"
   deployments <- "deployments.csv"
-  multimedia <- "multimedia.csv"
   observations <- "observations.csv"
 
   # read files
@@ -50,6 +49,7 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
                             camera_height = col_number()
                           ))
   if (multimedia == TRUE) {
+    multimedia <- "multimedia.csv"
     multimedia <- read_csv(
       file = here(path, multimedia),
       col_types = cols(

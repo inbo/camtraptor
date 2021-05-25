@@ -1,5 +1,5 @@
 ---
-title: "filter predicates"
+title: "Filter predicates"
 author: "Damiano Oldoni"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

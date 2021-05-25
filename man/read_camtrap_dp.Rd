@@ -9,13 +9,16 @@ read_camtrap_dp(path, multimedia = TRUE)
 \arguments{
 \item{path}{Path to the folder containing the camera trap data files.}
 
-\item{multimedia}{If \code{TRUE}, read multimedia records into memory. If \code{FALSE}, ignore multimedia file to speed up reading larger Camtrap DP packages.}
+\item{multimedia}{If \code{TRUE}, read multimedia records into memory. If \code{FALSE},
+ignore multimedia file to speed up reading larger Camtrap DP packages.}
 }
 \value{
 a list of tibbles (dataframes)
 }
 \description{
-This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format.
+This function reads camera trap data formatted following the
+\href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)}
+format.
 }
 \examples{
 \dontrun{

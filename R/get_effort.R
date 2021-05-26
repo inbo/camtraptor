@@ -49,6 +49,8 @@ get_effort <- function(datapkg, ..., unit = NULL) {
   # check unit
   check_value(unit, units, "unit", null_allowed = TRUE)
 
+  # check datapackage
+  check_datapkg(datapkg)
   # get deployments
   deployments <- datapkg$deployments
 

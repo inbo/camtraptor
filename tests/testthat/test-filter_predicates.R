@@ -272,3 +272,10 @@ test_that("specific tests: nesting pred_and and pred_or", {
     )
   )
 })
+
+test_that("apply_filter_predicate returns error if input is not a df", {
+  expect_error(
+    apply_filter_predicate("a", pred(arg = "col1", value = "b")),
+    "Predicates must be applied to a df"
+  )
+})

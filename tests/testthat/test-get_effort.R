@@ -7,6 +7,11 @@ test_that("get_effort returns error for invalid effort units", {
   expect_error(get_effort(camtrapdp, unit = "bad_unit"))
 })
 
+test_that("get_effort returns error for invalid datapackage", {
+  expect_error(get_effort(camtrapdp$deployments))
+})
+
+
 test_that("values in column effort_unit are all the same", {
   effort_df <- get_effort(camtrapdp)
   distinct_efffort_unit_values <- unique(effort_df$effort_unit)

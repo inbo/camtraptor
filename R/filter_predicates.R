@@ -319,6 +319,7 @@ pred_or <- function(...) {
 #' @param ... filter predicates to apply to `df`
 #'
 #' @importFrom glue glue
+#' @importFrom assertthat assert_that
 #'
 #' @return a data.frame
 #' @export
@@ -342,6 +343,7 @@ pred_or <- function(...) {
 #'                        pred_or(pred_gte("latitude", 51.28),
 #'                                 pred_lt("longitude", 3.56)))
 apply_filter_predicate <- function(df, verbose, ...) {
+  assert_that(is.data.frame(df), msg = "Predicates must be applied to a df")
   preds <- list(...)
   if (length(preds) > 0) {
     filters <- pred_and(...)

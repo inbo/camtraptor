@@ -14,8 +14,8 @@
 #'   insensitive). If "all", default, all scientific names are automatically
 #'   selected. If `NULL` all observations of all species are taken into account
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
-#'   select summarise ungroup relocate
+#' @importFrom dplyr .data %>% as_tibble bind_rows group_by n_distinct mutate
+#'   rename select summarise ungroup relocate
 #' @importFrom glue glue
 #' @export
 
@@ -96,7 +96,7 @@ get_n_obs <- function(datapkg, ..., species = "all") {
   n_obs <-
     observations %>%
     group_by(.data$deployment_id, .data$scientific_name) %>%
-    count() %>%
+    summarise(n = n_distinct(sequence_id)) %>%
     ungroup()
 
   # get all combinations deployments ID - scientific name
@@ -120,6 +120,7 @@ get_n_obs <- function(datapkg, ..., species = "all") {
     # remove group on species and sum all observations per deployment
     n_obs %>%
       group_by(.data$deployment_id) %>%
-      summarise(n = sum(.data$n))
+      summarise(n = sum(.data$n)) %>%
+      ungroup()
   }
 }

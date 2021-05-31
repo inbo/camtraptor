@@ -162,3 +162,19 @@ test_that(paste(
                      pred("deployment_id", deploy_id))
   expect_equal(n_obs$n, n_obs_via_sequence_id)
 })
+
+test_that("sex filters data correctly", {
+  sex_value <- "female"
+  n_obs_females <- get_n_obs(camtrapdp, species = NULL, sex = sex_value)
+  tot_n_obs_females <- sum(n_obs_females$n)
+  expect_equal(tot_n_obs_females, 1)
+  expect_equal(nrow(n_obs_females), nrow(camtrapdp$deployments))
+})
+
+test_that("age filters data correctly", {
+  age_value <- "juvenile"
+  n_obs_juvenile <- get_n_obs(camtrapdp, species = NULL, age = age_value)
+  tot_n_obs_juvenile <- sum(n_obs_juvenile$n)
+  expect_equal(tot_n_obs_juvenile, 13)
+  expect_equal(nrow(n_obs_juvenile), nrow(camtrapdp$deployments))
+})

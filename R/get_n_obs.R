@@ -1,7 +1,8 @@
 #' Get number of observations for each deployment
 #'
 #' Function to get the number of observations (of a subset of species) per
-#' deployment.
+#' deployment. The number of observations is defined as the number of distinct
+#' sequences (`sequence_id`).
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
@@ -13,9 +14,15 @@
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all", default, all scientific names are automatically
 #'   selected. If `NULL` all observations of all species are taken into account
+#' @param sex a character defining the sex class to filter on, e.g. `"female"`
+#'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
+#'   sex classes are taken into account.
+#' @param age a character vector defining the age class to filter on, e.g.
+#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
+#'   of all age classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% as_tibble bind_rows count group_by mutate rename
-#'   select summarise ungroup relocate
+#' @importFrom dplyr .data %>% as_tibble bind_rows group_by n_distinct mutate
+#'   rename select summarise ungroup relocate
 #' @importFrom glue glue
 #' @export
 
@@ -42,13 +49,31 @@
 #' # case insensitive
 #' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 #'
+#' # specify age
+#' get_n_obs(camtrapdp, age = "adult")
+#'
+#' # specify sex
+#' get_n_obs(camtrapdp, sex = "female")
+#'
+#' # specify both sex and age
+#' get_n_obs(camtrapdp, sex = "undefined", age = "adult")
+#'
 #' # applying filter(s), e.g. deployments with latitude >= 51.28
 #' get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
 #'
-get_n_obs <- function(datapkg, ..., species = "all") {
+get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
 
   # check input data package
   check_datapkg(datapkg)
+
+  # avoid to call variables like column names to make life easier using filter()
+  sex_value <- sex
+  age_value <- age
+
+
+  # check sex and age values
+  check_value(sex_value, unique(datapkg$observation$sex), "sex")
+  check_value(age_value, unique(datapkg$observation$age), "age")
 
   # get observations of the selected species
   if (!is.null(species)) {
@@ -75,6 +100,20 @@ get_n_obs <- function(datapkg, ..., species = "all") {
       filter(tolower(.data$scientific_name) %in% tolower(species))
   }
 
+  # get observations of the specified sex
+  if (!is.null(sex)) {
+    datapkg$observations <-
+      datapkg$observations %>%
+      filter(sex == sex_value)
+  }
+
+  # get observations of the specified age
+  if (!is.null(age)) {
+    datapkg$observations <-
+      datapkg$observations %>%
+      filter(age == age_value)
+  }
+
   # extract observations and deployments
   observations <- datapkg$observations
   deployments <- datapkg$deployments
@@ -95,13 +134,15 @@ get_n_obs <- function(datapkg, ..., species = "all") {
   # get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
-    group_by(.data$deployment_id, .data$scientific_name) %>%
-    count() %>%
+    group_by(.data$deployment_id,
+             .data$scientific_name) %>%
+    summarise(n = n_distinct(sequence_id)) %>%
     ungroup()
 
-  # get all combinations deployments ID - scientific name
+  # get all combinations deployments ID-scientific name-sex-age
   combinations_dep_species <-
-    expand.grid(deployments$deployment_id, unique(observations$scientific_name)) %>%
+    expand.grid(deployments$deployment_id,
+                unique(observations$scientific_name)) %>%
     rename(deployment_id = .data$Var1,
            scientific_name = .data$Var2) %>%
     as_tibble()
@@ -115,11 +156,16 @@ get_n_obs <- function(datapkg, ..., species = "all") {
     mutate(n = as.integer(.data$n))
 
   if (!is.null(species)) {
-    return(n_obs)
+    # sum all observations per deployment-species
+    n_obs %>%
+      group_by(.data$deployment_id, .data$scientific_name) %>%
+      summarise(n = sum(.data$n)) %>%
+      ungroup()
   } else {
-    # remove group on species and sum all observations per deployment
+    # sum all observations per deployment
     n_obs %>%
       group_by(.data$deployment_id) %>%
-      summarise(n = sum(.data$n))
+      summarise(n = sum(.data$n)) %>%
+      ungroup()
   }
 }

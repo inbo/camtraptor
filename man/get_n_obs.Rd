@@ -4,7 +4,7 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(datapkg, ..., species = "all")
+get_n_obs(datapkg, ..., species = "all", sex = NULL, age = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -20,6 +20,14 @@ and a list with metadata: \code{datapackage}}
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all", default, all scientific names are automatically
 selected. If \code{NULL} all observations of all species are taken into account}
+
+\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
+or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+sex classes are taken into account.}
+
+\item{age}{a character vector defining the age class to filter on, e.g.
+\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
+of all age classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:
@@ -32,7 +40,8 @@ if argument \code{species} = NULL
 }
 \description{
 Function to get the number of observations (of a subset of species) per
-deployment.
+deployment. The number of observations is defined as the number of distinct
+sequences (\code{sequence_id}).
 }
 \examples{
 
@@ -50,6 +59,15 @@ get_n_obs(camtrapdp, species = "Common Moorhen")
 
 # case insensitive
 get_n_obs(camtrapdp, species = "cOmmon moorhEn")
+
+# specify age
+get_n_obs(camtrapdp, age = "adult")
+
+# specify sex
+get_n_obs(camtrapdp, sex = "female")
+
+# specify both sex and age
+get_n_obs(camtrapdp, sex = "undefined", age = "adult")
 
 # applying filter(s), e.g. deployments with latitude >= 51.28
 get_n_obs(camtrapdp, pred_gte("latitude", 51.28))

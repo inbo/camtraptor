@@ -32,7 +32,8 @@ if argument \code{species} = NULL
 }
 \description{
 Function to get the number of observations (of a subset of species) per
-deployment.
+deployment. The number of observations is defined as the number of distinct
+sequences.
 }
 \examples{
 

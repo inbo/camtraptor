@@ -1,7 +1,8 @@
 #' Get number of observations for each deployment
 #'
 #' Function to get the number of observations (of a subset of species) per
-#' deployment.
+#' deployment. The number of observations is defined as the number of distinct
+#' sequences.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:

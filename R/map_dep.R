@@ -31,6 +31,12 @@
 #' - `year`
 #' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
 #' while hovering and seconds shown in legend
+#' @param sex a character defining the sex class to filter on, e.g. `"female"`.
+#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   account. Optional argument for `n_obs`
+#' @param age a character vector defining the age class to filter on, e.g.
+#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
+#'   of all age classes are taken into account. Optional argument for `n_obs`
 #' @param cluster a logical value
 #'   indicating whether using the cluster option while visualizing maps.
 #'   Default: TRUE
@@ -104,6 +110,22 @@
 #'   species = "Rattus norvegicus"
 #' )
 #'
+#' # show number of observations of juvenile individuals of Anas platyrhynchos
+#' map_dep(
+#'   camtrapdp,
+#'   "n_obs",
+#'   species = "Anas platyrhynchos",
+#'   age = "juvenile"
+#' )
+#'
+#' # show number of observations of female or undefined individuals of Anas platyrhynchos
+#' map_dep(
+#'   camtrapdp,
+#'   "n_obs",
+#'   species = "Anas platyrhynchos",
+#'   sex = c("female", "undefined")
+#' )
+#'
 #' # show RAI
 #' map_dep(
 #'   camtrapdp,
@@ -161,6 +183,8 @@ map_dep <- function(datapkg,
                     feature,
                     ...,
                     species = NULL,
+                    sex = NULL,
+                    age = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
                     hover_columns = c("n", "species", "deployment_id",
@@ -187,6 +211,16 @@ map_dep <- function(datapkg,
   if (!is.null(effort_unit) & feature != "effort") {
     warning(glue("effort_unit argument ignored for feature = {feature}"))
     effort_unit <- NULL
+  }
+
+  # check sex and age in combination with feature
+  if (!is.null(sex) & feature != "n_obs") {
+    warning(glue("sex argument ignored for feature = {feature}"))
+    sex <- NULL
+  }
+  if (!is.null(age) & feature != "n_obs") {
+    warning(glue("age argument ignored for feature = {feature}"))
+    age <- NULL
   }
 
   # extract observations and deployments
@@ -262,7 +296,7 @@ map_dep <- function(datapkg,
   if (feature == "n_species") {
     feat_df <- get_n_species(datapkg, ...)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg, species = species, ...)
+    feat_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)

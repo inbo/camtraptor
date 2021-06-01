@@ -201,5 +201,5 @@ test_that("multiple age values allowed", {
   n_obs_juvenile_adult <- get_n_obs(camtrapdp, species = NULL, age = age_value)
   tot_n_obs_juvenile_adult <- sum(n_obs_juvenile_adult$n)
   expect_equal(tot_n_obs_juvenile_adult, 252)
-  expect_equal(nrow(n_obs_juvenile), nrow(camtrapdp$deployments))
+  expect_equal(nrow(n_obs_juvenile_adult), nrow(camtrapdp$deployments))
 })

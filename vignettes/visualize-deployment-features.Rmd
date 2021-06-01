@@ -71,6 +71,27 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
+You can filter by sex:
+
+```{r filter_sex}
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+```
+
+and age:
+
+```{r filter_age}
+map_dep(
+  camtrapdp,
+  "n_obs",
+  age = c("juvenile", "subadult")
+)
+```
+
 #### RAI
 
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:

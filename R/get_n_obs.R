@@ -104,14 +104,14 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
   if (!is.null(sex)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(sex == sex_value)
+      filter(sex %in% sex_value)
   }
 
   # get observations of the specified age
   if (!is.null(age)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(age == age_value)
+      filter(age %in% age_value)
   }
 
   # extract observations and deployments

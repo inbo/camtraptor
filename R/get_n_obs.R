@@ -136,7 +136,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
     observations %>%
     group_by(.data$deployment_id,
              .data$scientific_name) %>%
-    summarise(n = n_distinct(sequence_id)) %>%
+    summarise(n = n_distinct(.data$sequence_id)) %>%
     ungroup()
 
   # get all combinations deployments ID-scientific name-sex-age

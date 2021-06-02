@@ -155,13 +155,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
     mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     mutate(n = as.integer(.data$n))
 
-  if (!is.null(species)) {
-    # sum all observations per deployment-species
-    n_obs %>%
-      group_by(.data$deployment_id, .data$scientific_name) %>%
-      summarise(n = sum(.data$n)) %>%
-      ungroup()
-  } else {
+  if (is.null(species)) {
     # sum all observations per deployment
     n_obs %>%
       group_by(.data$deployment_id) %>%

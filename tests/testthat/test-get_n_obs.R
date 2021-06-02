@@ -72,6 +72,18 @@ test_that(paste(
   expect_equal(nrow(output_ondatra_zibethicus), n_deployments)
 })
 
+test_that(
+  "get_n_obs returns rows ordered by the original order of deployments", {
+    # get the original order of deployment IDs
+    deployment_ids <- unique(camtrapdp$deployments$deployment_id)
+
+    # apply function
+    n_obs <- get_n_obs(camtrapdp)
+    deployments_in_n_obs <- unique(n_obs$deployment_id)
+    expect_equal(deployments_in_n_obs, deployment_ids)
+  }
+)
+
 test_that("species = 'all' returns the same of using a vector with all species", {
   all_species <- get_species(camtrapdp)
   all_deployments <- unique(camtrapdp$deployments$deployment_id)
@@ -186,13 +198,14 @@ test_that("multiple sex values allowed", {
 
 test_that("age filters data correctly", {
   age_value <- "juvenile"
+  n_obs_juvenile_via_distinct <-
+    camtrapdp$observations %>%
+    filter(age %in% age_value) %>%
+    distinct(sequence_id) %>%
+    nrow
   n_obs_juvenile <- get_n_obs(camtrapdp, species = NULL, age = age_value)
   tot_n_obs_juvenile <- sum(n_obs_juvenile$n)
-  expect_equal(tot_n_obs_juvenile,
-               camtrapdp$observations %>%
-                 filter(age %in% age_value) %>%
-                 distinct(sequence_id) %>%
-                 nrow)
+  expect_equal(tot_n_obs_juvenile, n_obs_juvenile_via_distinct)
   expect_equal(nrow(n_obs_juvenile), nrow(camtrapdp$deployments))
 })
 

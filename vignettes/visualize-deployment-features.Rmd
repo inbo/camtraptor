@@ -92,6 +92,35 @@ map_dep(
 )
 ```
 
+#### Number of individuals
+
+To visualize the number of observed individuals, set `feature` = `n_individuals`:
+
+```{r visualize_n_individuas_with_clusters_and_default_hover_col}
+map_dep(camtrapdp,
+        feature = "n_individuals")
+```
+
+As for observations, you can specify a species:
+
+```{r specify_species_individuals}
+map_dep(camtrapdp,
+        feature = "n_individuals",
+        species = "Rattus norvegicus")
+```
+
+and filter by sex and/or age:
+
+
+```{r filter_sex_individuals}
+map_dep(
+  camtrapdp,
+  "n_individuals",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+```
+
 #### RAI
 
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
@@ -131,6 +160,7 @@ testthat::expect_error(
          "mallard, norway rat, muskrat, coypu and common moorhen.")
 )
 ```
+
 
 #### Effort
 

@@ -2,7 +2,7 @@ test_that("get_n_individuals returns the right structure of dataframe", {
 
   # species arg specified
   output_anas_platyrhyncos <- get_n_individuals(camtrapdp,
-                                        species = "Anas platyrhynchos"
+    species = "Anas platyrhynchos"
   )
 
   # type list
@@ -65,7 +65,7 @@ test_that(paste(
 
   # calculate get_n_individuals for a species undetected in one deployment
   output_ondatra_zibethicus <- get_n_individuals(camtrapdp,
-                                         species = "Ondatra zibethicus"
+    species = "Ondatra zibethicus"
   )
 
   # number of rows should be equal to number of deployments
@@ -73,7 +73,8 @@ test_that(paste(
 })
 
 test_that(
-  "get_n_individuals returns rows ordered by the original order of deployments", {
+  "get_n_individuals returns rows ordered by the original order of deployments",
+  {
     # get the original order of deployment IDs
     deployment_ids <- unique(camtrapdp$deployments$deployment_id)
 
@@ -95,7 +96,7 @@ test_that("species = 'all' returns the same of using a vector with all species",
   output_all_species_default <- get_n_individuals(camtrapdp, species = "all")
   # calculate number of individuals for all species specifying the species
   output_all_species <- get_n_individuals(camtrapdp,
-                                  species = all_species$scientific_name
+    species = all_species$scientific_name
   )
 
   expect_equal(output_all_species, output_all_species_default)
@@ -129,7 +130,7 @@ test_that(paste(
 test_that("if subset of species is specified, less individuals are returned", {
   output_all_species <- get_n_individuals(camtrapdp)
   output_anas_platyrhyncos <- get_n_individuals(camtrapdp,
-                                        species = "Anas platyrhynchos"
+    species = "Anas platyrhynchos"
   )
 
   expect_true(sum(output_all_species$n) >= sum(output_anas_platyrhyncos$n))
@@ -152,7 +153,7 @@ test_that("get_n_individuals returns a warning if 'all' is used with other value
 
   # use 'all' with other species
   expect_warning(get_n_individuals(camtrapdp,
-                           species = c("all", all_species[1])
+    species = c("all", all_species[1])
   ))
 })
 
@@ -168,8 +169,9 @@ test_that(paste(
     pull(count) %>%
     sum()
   n_individuals <- get_n_individuals(camtrapdp,
-                     species = "Mallard",
-                     pred("deployment_id", deploy_id))
+    species = "Mallard",
+    pred("deployment_id", deploy_id)
+  )
   expect_equal(n_individuals$n, n_individuals_via_count)
 })
 
@@ -198,13 +200,18 @@ test_that("multiple sex values allowed", {
     pull(count) %>%
     sum()
   n_individuals_females_undefined <- get_n_individuals(camtrapdp,
-                                                       species = NULL,
-                                                       sex = sex_value)
+    species = NULL,
+    sex = sex_value
+  )
   tot_n_individuals_females_undefined <- sum(n_individuals_females_undefined$n)
-  expect_equal(tot_n_individuals_females_undefined,
-               n_individuals_females_undefined_via_count)
-  expect_equal(nrow(n_individuals_females_undefined),
-               nrow(camtrapdp$deployments))
+  expect_equal(
+    tot_n_individuals_females_undefined,
+    n_individuals_females_undefined_via_count
+  )
+  expect_equal(
+    nrow(n_individuals_females_undefined),
+    nrow(camtrapdp$deployments)
+  )
 })
 
 test_that("age filters data correctly", {
@@ -228,11 +235,14 @@ test_that("multiple age values allowed", {
     pull(count) %>%
     sum()
   n_individuals_juvenile_adult <- get_n_individuals(camtrapdp,
-                                                    species = NULL,
-                                                    age = age_value)
+    species = NULL,
+    age = age_value
+  )
   tot_n_individuals_juvenile_adult <- sum(n_individuals_juvenile_adult$n)
-  expect_equal(tot_n_individuals_juvenile_adult,
-               n_individuals_juvenile_adult_via_count)
+  expect_equal(
+    tot_n_individuals_juvenile_adult,
+    n_individuals_juvenile_adult_via_count
+  )
   expect_equal(nrow(n_individuals_juvenile_adult), nrow(camtrapdp$deployments))
 })
 

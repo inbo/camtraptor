@@ -73,7 +73,8 @@ test_that(paste(
 })
 
 test_that(
-  "get_n_obs returns rows ordered by the original order of deployments", {
+  "get_n_obs returns rows ordered by the original order of deployments",
+  {
     # get the original order of deployment IDs
     deployment_ids <- unique(camtrapdp$deployments$deployment_id)
 
@@ -170,8 +171,9 @@ test_that(paste(
     n_distinct()
   # one sequence_id linked to two observations (different age, sex and count)
   n_obs <- get_n_obs(camtrapdp,
-                     species = "Mallard",
-                     pred("deployment_id", deploy_id))
+    species = "Mallard",
+    pred("deployment_id", deploy_id)
+  )
   expect_equal(n_obs$n, n_obs_via_sequence_id)
 })
 
@@ -185,14 +187,18 @@ test_that("sex filters data correctly", {
 
 test_that("multiple sex values allowed", {
   sex_value <- c("female", "undefined")
-  n_obs_females_undefined <- get_n_obs(camtrapdp, species = NULL,
-                                       sex = sex_value)
+  n_obs_females_undefined <- get_n_obs(camtrapdp,
+    species = NULL,
+    sex = sex_value
+  )
   tot_n_obs_females_undefined <- sum(n_obs_females_undefined$n)
-  expect_equal(tot_n_obs_females_undefined,
-               camtrapdp$observations %>%
-                 filter(sex %in% sex_value) %>%
-                 distinct(sequence_id) %>%
-                 nrow)
+  expect_equal(
+    tot_n_obs_females_undefined,
+    camtrapdp$observations %>%
+      filter(sex %in% sex_value) %>%
+      distinct(sequence_id) %>%
+      nrow()
+  )
   expect_equal(nrow(n_obs_females_undefined), nrow(camtrapdp$deployments))
 })
 
@@ -202,7 +208,7 @@ test_that("age filters data correctly", {
     camtrapdp$observations %>%
     filter(age %in% age_value) %>%
     distinct(sequence_id) %>%
-    nrow
+    nrow()
   n_obs_juvenile <- get_n_obs(camtrapdp, species = NULL, age = age_value)
   tot_n_obs_juvenile <- sum(n_obs_juvenile$n)
   expect_equal(tot_n_obs_juvenile, n_obs_juvenile_via_distinct)

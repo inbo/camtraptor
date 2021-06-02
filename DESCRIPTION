@@ -29,8 +29,9 @@ Imports:
     jsonlite,
     leaflet,
     lubridate,
-    readr,
     purrr,
+    readr,
+    stringr,
     tidyr
 Suggests: 
     covr,

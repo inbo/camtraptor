@@ -47,6 +47,7 @@
 #' get_n_obs(camtrapdp, species = "Common Moorhen")
 #'
 #' # case insensitive
+#' get_n_obs(camtrapdp, species = "galliNULa CHloropUs")
 #' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
 #'
 #' # specify age

@@ -162,7 +162,7 @@ map_dep(
   camtrapdp,
   "n_individuals",
   species = "Anas platyrhynchos",
-  sex = c("female", "undefined"),
+  sex = "female",
   age = "adult"
 )
 

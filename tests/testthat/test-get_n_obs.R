@@ -171,10 +171,40 @@ test_that("sex filters data correctly", {
   expect_equal(nrow(n_obs_females), nrow(camtrapdp$deployments))
 })
 
+test_that("multiple sex values allowed", {
+  sex_value <- c("female", "undefined")
+  n_obs_females_undefined <- get_n_obs(camtrapdp, species = NULL,
+                                       sex = sex_value)
+  tot_n_obs_females_undefined <- sum(n_obs_females_undefined$n)
+  expect_equal(tot_n_obs_females_undefined,
+               camtrapdp$observations %>%
+                 filter(sex %in% sex_value) %>%
+                 distinct(sequence_id) %>%
+                 nrow)
+  expect_equal(nrow(n_obs_females_undefined), nrow(camtrapdp$deployments))
+})
+
 test_that("age filters data correctly", {
   age_value <- "juvenile"
   n_obs_juvenile <- get_n_obs(camtrapdp, species = NULL, age = age_value)
   tot_n_obs_juvenile <- sum(n_obs_juvenile$n)
-  expect_equal(tot_n_obs_juvenile, 13)
+  expect_equal(tot_n_obs_juvenile,
+               camtrapdp$observations %>%
+                 filter(age %in% age_value) %>%
+                 distinct(sequence_id) %>%
+                 nrow)
   expect_equal(nrow(n_obs_juvenile), nrow(camtrapdp$deployments))
+})
+
+test_that("multiple age values allowed", {
+  age_value <- c("juvenile", "adult")
+  n_obs_juvenile_adult <- get_n_obs(camtrapdp, species = NULL, age = age_value)
+  tot_n_obs_juvenile_adult <- sum(n_obs_juvenile_adult$n)
+  expect_equal(tot_n_obs_juvenile_adult, 252)
+  expect_equal(nrow(n_obs_juvenile_adult), nrow(camtrapdp$deployments))
+})
+
+test_that("error returned if age or sex is not present", {
+  expect_error(get_n_obs(camtrapdp, age = "bad"))
+  expect_error(get_n_obs(camtrapdp, sex = "bad"))
 })

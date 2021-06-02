@@ -9,6 +9,8 @@ map_dep(
   feature,
   ...,
   species = NULL,
+  sex = NULL,
+  age = NULL,
   effort_unit = NULL,
   cluster = TRUE,
   hover_columns = c("n", "species", "deployment_id", "location_id", "location_name",
@@ -39,6 +41,14 @@ and a list with metadata: \code{datapackage}}
 
 \item{species}{a character with a scientific name. Required for  \code{rai},
 optional for \code{n_obs}. Default: \code{NULL}}
+
+\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}.
+If \code{NULL}, default, all observations of all sex classes are taken into
+account. Optional argument for \code{n_obs}}
+
+\item{age}{a character vector defining the age class to filter on, e.g.
+\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
+of all age classes are taken into account. Optional argument for \code{n_obs}}
 
 \item{effort_unit}{time unit to use while visualizing deployment effort
 (duration). One of:
@@ -119,6 +129,14 @@ map_dep(
   camtrapdp,
   "n_obs",
   species = "Rattus norvegicus"
+)
+
+# show number of observations of juvenile individuals of Anas platyrhynchos
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Anas platyrhynchos",
+  age = "juvenile"
 )
 
 # show RAI

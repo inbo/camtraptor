@@ -104,14 +104,14 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
   if (!is.null(sex)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(sex == sex_value)
+      filter(sex %in% sex_value)
   }
 
   # get observations of the specified age
   if (!is.null(age)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(age == age_value)
+      filter(age %in% age_value)
   }
 
   # extract observations and deployments
@@ -136,7 +136,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
     observations %>%
     group_by(.data$deployment_id,
              .data$scientific_name) %>%
-    summarise(n = n_distinct(sequence_id)) %>%
+    summarise(n = n_distinct(.data$sequence_id)) %>%
     ungroup()
 
   # get all combinations deployments ID-scientific name-sex-age

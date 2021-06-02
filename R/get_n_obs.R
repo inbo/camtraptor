@@ -157,9 +157,15 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
 
   if (is.null(species)) {
     # sum all observations per deployment
-    n_obs %>%
+    n_obs <-
+      n_obs %>%
       group_by(.data$deployment_id) %>%
       summarise(n = sum(.data$n)) %>%
       ungroup()
   }
+
+  # order result by deployments and following same order as in deployments df
+  deployments %>%
+    select(deployment_id) %>%
+    left_join(n_obs, by = "deployment_id")
 }

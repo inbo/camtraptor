@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get number of observations for each deployment — get_n_obs • camtrapdp</title>
+<title>Get number of individuals for each deployment — get_n_individuals • camtrapdp</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Get number of observations for each deployment — get_n_obs" />
-<meta property="og:description" content="Function to get the number of observations (of a subset of species) per
-deployment. The number of observations is defined as the number of distinct
-sequences (sequence_id)." />
+<meta property="og:title" content="Get number of individuals for each deployment — get_n_individuals" />
+<meta property="og:description" content="Function to get the number of individuals (of a subset of species) per
+deployment. The number of observed individuals is stored in field count of
+observations." />
 
 
 
@@ -125,18 +125,18 @@ sequences (sequence_id)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get number of observations for each deployment</h1>
-    <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/get_n_obs.R'><code>R/get_n_obs.R</code></a></small>
-    <div class="hidden name"><code>get_n_obs.Rd</code></div>
+    <h1>Get number of individuals for each deployment</h1>
+    <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/get_n_individuals.R'><code>R/get_n_individuals.R</code></a></small>
+    <div class="hidden name"><code>get_n_individuals.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to get the number of observations (of a subset of species) per
-deployment. The number of observations is defined as the number of distinct
-sequences (<code>sequence_id</code>).</p>
+    <p>Function to get the number of individuals (of a subset of species) per
+deployment. The number of observed individuals is stored in field <code>count</code> of
+<code>observations</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>datapkg</span>, <span class='va'>...</span>, species <span class='op'>=</span> <span class='st'>"all"</span>, sex <span class='op'>=</span> <span class='cn'>NULL</span>, age <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>datapkg</span>, <span class='va'>...</span>, species <span class='op'>=</span> <span class='st'>"all"</span>, sex <span class='op'>=</span> <span class='cn'>NULL</span>, age <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,48 +180,48 @@ of all age classes are taken into account.</p></td>
 <li><p><code>deployment_id</code>:  deployment unique identifier</p></li>
 <li><p><code>scientific_name</code>: scientific name of the species. This column is omitted
 if argument <code>species</code> = NULL</p></li>
-<li><p><code>n</code>: (integer) number of observations</p></li>
+<li><p><code>n</code>: (integer) number of individuals</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># get number of observations for each species</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     28
-#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus     200
+#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     87
+#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus     217
 #&gt; <span style='color: #BCBCBC;'> 3</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus      3
 #&gt; <span style='color: #BCBCBC;'> 4</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Myocastor coypus        2
 #&gt; <span style='color: #BCBCBC;'> 5</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
-#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     17
+#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     46
 #&gt; <span style='color: #BCBCBC;'> 7</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus       0
 #&gt; <span style='color: #BCBCBC;'> 8</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus      1
 #&gt; <span style='color: #BCBCBC;'> 9</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus        0
 #&gt; <span style='color: #BCBCBC;'>10</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus     0
-#&gt; <span style='color: #BCBCBC;'>11</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      4
+#&gt; <span style='color: #BCBCBC;'>11</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos     10
 #&gt; <span style='color: #BCBCBC;'>12</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0
 #&gt; <span style='color: #BCBCBC;'>13</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0
 #&gt; <span style='color: #BCBCBC;'>14</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0
 #&gt; <span style='color: #BCBCBC;'>15</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
-#&gt; <span style='color: #BCBCBC;'>16</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      1
+#&gt; <span style='color: #BCBCBC;'>16</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      5
 #&gt; <span style='color: #BCBCBC;'>17</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       7
 #&gt; <span style='color: #BCBCBC;'>18</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      1
 #&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># get number of obs of all species, not identified individuals as well</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 2</span>
 #&gt;   deployment_id                            n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4   478
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1   228
-#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a    42
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d    78</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4   310
+#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1    47
+#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a    10
+#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d    13</div><div class='input'>
 <span class='co'># get number of observations of Gallinula chloropus</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Gallinula chloropus"</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Gallinula chloropus"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
@@ -230,7 +230,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># get number of observations of Common Moorhen</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Common Moorhen"</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Common Moorhen"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Scientific name of Common Moorhen: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
@@ -239,14 +239,14 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># case insensitive</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"galliNULa CHloropUs"</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"galliNULa CHloropUs"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
 #&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'><span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"cOmmon moorhEn"</span><span class='op'>)</span>
+#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'><span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"cOmmon moorhEn"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Scientific name of cOmmon moorhEn: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
@@ -255,16 +255,16 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify age</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     20
-#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus     188
+#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     57
+#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus     205
 #&gt; <span style='color: #BCBCBC;'> 3</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus      3
 #&gt; <span style='color: #BCBCBC;'> 4</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Myocastor coypus        2
 #&gt; <span style='color: #BCBCBC;'> 5</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
-#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     13
+#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     24
 #&gt; <span style='color: #BCBCBC;'> 7</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus       0
 #&gt; <span style='color: #BCBCBC;'> 8</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus      1
 #&gt; <span style='color: #BCBCBC;'> 9</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus        0
@@ -280,33 +280,61 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify sex</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
-#&gt;   deployment_id                        scientific_name        n
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     0
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     0
-#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos     0
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos     1</div><div class='input'>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+#&gt;    deployment_id                        scientific_name         n
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'> 3</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'> 4</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'> 5</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'> 7</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'> 8</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'> 9</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>10</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'>11</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'>12</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'>13</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'>14</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>15</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'>16</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      1
+#&gt; <span style='color: #BCBCBC;'>17</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'>18</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify both sex and age</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"undefined"</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span>
-#&gt;   deployment_id                        scientific_name        n
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus      0
-#&gt; <span style='color: #BCBCBC;'>2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus     0
-#&gt; <span style='color: #BCBCBC;'>3</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus      0
-#&gt; <span style='color: #BCBCBC;'>4</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus     0
-#&gt; <span style='color: #BCBCBC;'>5</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus      0
-#&gt; <span style='color: #BCBCBC;'>6</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus     0
-#&gt; <span style='color: #BCBCBC;'>7</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus      4
-#&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus     1</div><div class='input'>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"undefined"</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+#&gt;    deployment_id                        scientific_name         n
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'> 2</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'> 3</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'> 4</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'> 5</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'> 6</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'> 7</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'> 8</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'> 9</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>10</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'>11</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0
+#&gt; <span style='color: #BCBCBC;'>12</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0
+#&gt; <span style='color: #BCBCBC;'>13</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'>14</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>15</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
+#&gt; <span style='color: #BCBCBC;'>16</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       4
+#&gt; <span style='color: #BCBCBC;'>17</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      1
+#&gt; <span style='color: #BCBCBC;'>18</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      0
+#&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0
+#&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># applying filter(s), e.g. deployments with latitude &gt;= 51.28</span>
-<span class='fu'>get_n_obs</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     17
+#&gt; <span style='color: #BCBCBC;'>1</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     46
 #&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Rattus norvegicus       0
 #&gt; <span style='color: #BCBCBC;'>3</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Ondatra zibethicus      1
 #&gt; <span style='color: #BCBCBC;'>4</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Myocastor coypus        0

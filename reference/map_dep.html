@@ -75,7 +75,7 @@ observations are shown as gray circles and a message is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9011</span>
       </span>
     </div>
 
@@ -171,6 +171,7 @@ observations are shown as gray circles and a message is returned.</p>
       <td><p>character, deployment feature to visualize. One of:</p><ul>
 <li><p><code>n_species</code>: number of identified species</p></li>
 <li><p><code>n_obs</code>: number of observations</p></li>
+<li><p><code>n_individuals</code>: number of individuals</p></li>
 <li><p><code>rai</code>: Relative Abundance Index</p></li>
 <li><p><code>effort</code>: effort (duration) of the deployment</p></li>
 </ul></td>
@@ -188,13 +189,14 @@ optional for <code>n_obs</code>. Default: <code>NULL</code></p></td>
       <th>sex</th>
       <td><p>a character defining the sex class to filter on, e.g. <code>"female"</code>.
 If <code>NULL</code>, default, all observations of all sex classes are taken into
-account. Optional argument for <code>n_obs</code></p></td>
+account. Optional argument for <code>n_obs</code> and <code>n_individuals</code></p></td>
     </tr>
     <tr>
       <th>age</th>
       <td><p>a character vector defining the age class to filter on, e.g.
 <code>"adult"</code> or <code><a href='https://rdrr.io/r/base/c.html'>c("subadult", "adult")</a></code>. If <code>NULL</code>, default, all observations
-of all age classes are taken into account. Optional argument for <code>n_obs</code></p></td>
+of all age classes are taken into account. Optional argument for <code>n_obs</code>
+and <code>n_individuals</code></p></td>
     </tr>
     <tr>
       <th>effort_unit</th>

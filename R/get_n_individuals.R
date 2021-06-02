@@ -48,6 +48,7 @@
 #'
 #' # case insensitive
 #' get_n_individuals(camtrapdp, species = "cOmmon moorhEn")
+#' get_n_individuals(camtrapdp, species = "galliNULa CHloropUs")
 #'
 #' # specify age
 #' get_n_individuals(camtrapdp, age = "adult")

@@ -104,7 +104,7 @@ test_that("species = 'all' returns the same of using a vector with all species",
 test_that("species is case insensitive", {
   expect_equal(
     get_n_obs(camtrapdp, species = "Anas platyrhynchos"),
-    get_n_obs(camtrapdp, species = toupper("Anas platyrhynchos"))
+    get_n_obs(camtrapdp, species = toupper("ANAS platYrhyncHOS"))
   )
 })
 

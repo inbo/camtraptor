@@ -139,7 +139,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
     summarise(n = n_distinct(.data$sequence_id)) %>%
     ungroup()
 
-  # get all combinations deployments ID-scientific name-sex-age
+  # get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(deployments$deployment_id,
                 unique(observations$scientific_name)) %>%

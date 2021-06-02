@@ -203,3 +203,8 @@ test_that("multiple age values allowed", {
   expect_equal(tot_n_obs_juvenile_adult, 252)
   expect_equal(nrow(n_obs_juvenile_adult), nrow(camtrapdp$deployments))
 })
+
+test_that("error returned if age or sex is not present", {
+  expect_error(get_n_obs(camtrapdp, age = "bad"))
+  expect_error(get_n_obs(camtrapdp, sex = "bad"))
+})

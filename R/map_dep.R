@@ -15,6 +15,7 @@
 #'
 #' - `n_species`: number of identified species
 #' - `n_obs`: number of observations
+#' -  `n_individuals`: number of individuals
 #' - `rai`: Relative Abundance Index
 #' - `effort`: effort (duration) of the deployment
 #'
@@ -33,10 +34,11 @@
 #' while hovering and seconds shown in legend
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL`, default, all observations of all sex classes are taken into
-#'   account. Optional argument for `n_obs`
+#'   account. Optional argument for `n_obs` and `n_individuals`
 #' @param age a character vector defining the age class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
 #'   of all age classes are taken into account. Optional argument for `n_obs`
+#'   and `n_individuals`
 #' @param cluster a logical value
 #'   indicating whether using the cluster option while visualizing maps.
 #'   Default: TRUE
@@ -74,8 +76,8 @@
 #'
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()], [pred_and()], ...
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols count distinct filter
-#'   group_by left_join mutate pull one_of rename select
+#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols left_join mutate
+#'   one_of rename select
 #' @importFrom leaflet addControl addLegend addTiles addCircleMarkers
 #'   colorNumeric leaflet markerClusterOptions setView
 #' @importFrom glue glue
@@ -97,7 +99,8 @@
 #'   "n_species"
 #' )
 #'
-#' # show number of observations
+#' # show number of observations  (observations of unidentified species included
+#' if any)
 #' map_dep(
 #'   camtrapdp,
 #'   "n_obs"
@@ -124,6 +127,22 @@
 #'   "n_obs",
 #'   species = "Anas platyrhynchos",
 #'   sex = c("female", "undefined")
+#' )
+#'
+#' # show number of individuals (individuals of unidentified species included if
+#' any)
+#' map_dep(
+#'   camtrapdp,
+#'   "n_individuals"
+#' )
+#'
+#' # same filters by age and sex as for number of observations apply
+#' map_dep(
+#'   camtrapdp,
+#'   "n_individuals",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
 #' )
 #'
 #' # show RAI
@@ -200,7 +219,7 @@ map_dep <- function(datapkg,
   check_datapkg(datapkg)
 
   # define possible feature values
-  features <- c("n_species", "n_obs", "rai", "effort")
+  features <- c("n_species", "n_obs", "n_individuals", "rai", "effort")
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
@@ -214,11 +233,11 @@ map_dep <- function(datapkg,
   }
 
   # check sex and age in combination with feature
-  if (!is.null(sex) & feature != "n_obs") {
+  if (!is.null(sex) & !feature %in% c("n_obs", "n_individuals")) {
     warning(glue("sex argument ignored for feature = {feature}"))
     sex <- NULL
   }
-  if (!is.null(age) & feature != "n_obs") {
+  if (!is.null(age) & !feature %in% c("n_obs", "n_individuals")) {
     warning(glue("age argument ignored for feature = {feature}"))
     age <- NULL
   }
@@ -297,6 +316,12 @@ map_dep <- function(datapkg,
     feat_df <- get_n_species(datapkg, ...)
   } else if (feature == "n_obs") {
     feat_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+  } else if (feature == "n_individuals") {
+    feat_df <- get_n_individuals(datapkg,
+                                 species = species,
+                                 sex = sex,
+                                 age = age,
+                                 ...)
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
@@ -378,7 +403,9 @@ map_dep <- function(datapkg,
   # max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(is.null(max_scale),
-                  max(feat_df$n, na.rm = TRUE),
+                  ifelse(!all(is.na(feat_df$n)),
+                         max(feat_df$n, na.rm = TRUE),
+                         0),
                   max_scale
   )
 

@@ -22,7 +22,7 @@ mapdep_prefixes <- structure(list(
     "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
     "camera_interval", "camera_height", "bait_use", "session", "array",
     "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
-    "rai", "effort"
+    "n_individuals", "rai", "effort"
   ),
   prefix = c(
     "species: ",
@@ -47,6 +47,7 @@ mapdep_prefixes <- structure(list(
     "comments: ",
     "species observed: ",
     "observations: ",
+    "individuals: ",
     "RAI: ",
     "Effort: "
   )

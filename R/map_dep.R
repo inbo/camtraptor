@@ -331,7 +331,7 @@ map_dep <- function(datapkg,
                                  age = age,
                                  ...)
   } else if (feature == "rai") {
-    feat_df <- get_rai(datapkg, species = species, ...)
+    feat_df <- get_rai(datapkg, species = species, sex = sex, age = age, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(datapkg, unit = effort_unit, ...)

@@ -4,7 +4,14 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, ..., species = "all", sex = NULL, age = NULL)
+get_rai(
+  datapkg,
+  ...,
+  feature = "n_obs",
+  species = "all",
+  sex = NULL,
+  age = NULL
+)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -21,7 +28,11 @@ and a list with metadata: \code{datapackage}}
 
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
-selected}
+selected
+@param feature a character, \code{"n_obs"}, the default, or
+\code{"n_individuals"}. If \code{"_obs"} is used, RAI is calculated using the
+number of observations, while if \code{"n_individuals"} is used, RAI is
+calculated using the number of detected individuals.}
 
 \item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
 or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all

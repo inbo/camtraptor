@@ -14,6 +14,10 @@
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected
+#'   @param feature a character, `"n_obs"`, the default, or
+#'     `"n_individuals"`. If `"_obs"` is used, RAI is calculated using the
+#'     number of observations, while if `"n_individuals"` is used, RAI is
+#'     calculated using the number of detected individuals.
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`
 #'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
 #'   sex classes are taken into account.
@@ -32,8 +36,14 @@
 #' - `rai`: relative abundance index
 #'
 #' @examples
+#' # calculate RAI based on number of observations (default)
+#' get_rai(camtrapdp) # or
+#' get_rai(camtrapdp, feature = "n_obs")
+#' # calculate RAI based on number of individuals (default)
+#' get_rai(camtrapdp, feature = "n_individuals")
+#'
 #' # all species
-#' get_rai(camtrapdp) # species = "all" by default
+#' get_rai(camtrapdp) # or
 #' get_rai(camtrapdp, species = "all")
 #'
 #' # selected species
@@ -59,10 +69,23 @@
 #' # apply filter(s): deployments with latitude >= 51.28
 #' get_rai(camtrapdp, pred_gte("latitude", 51.28))
 #'
-get_rai <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
+get_rai <- function(datapkg, ...,
+                    feature = "n_obs",
+                    species = "all",
+                    sex = NULL,
+                    age = NULL
+                    ) {
 
   # check input data package
   check_datapkg(datapkg)
+
+  # define possible feature values
+  features <- c("n_obs", "n_individuals")
+
+  # check feature
+  check_value(feature, features, "feature", null_allowed = FALSE)
+  assert_that(length(feature) == 1,
+              msg = "feature must have length 1")
 
   # get all identified species if species arg is equal to "all"
   if ("all" %in% species) {
@@ -71,8 +94,13 @@ get_rai <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
   # check species
   species <- check_species(datapkg, species)
 
-  # get number of observations
-  n_obs_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+  if (feature == "n_obs") {
+    # get number of observations
+    n_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+  } else {
+    # get number of individuals
+    n_df <- get_n_individuals(datapkg, species = species, sex = sex, age = age, ...)
+  }
 
   # extract deployments
   deployments <- datapkg$deployments
@@ -81,7 +109,7 @@ get_rai <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
   dep_effort <- get_effort(datapkg, unit = NULL, ...)
 
   # calculate RAI
-  n_obs_df %>%
+  n_df %>%
     left_join(dep_effort,
               by = "deployment_id") %>%
     group_by(.data$deployment_id,

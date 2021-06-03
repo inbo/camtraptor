@@ -130,6 +130,16 @@ map_dep(camtrapdp,
         feature = "rai",
         species = "Rattus norvegicus")
 ```
+As for number of observations and number of individuals, you can  filter by sex and/or age:
+
+```{r filter_sex_rai}
+map_dep(
+  camtrapdp,
+  "rai",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+```
 
 Common names are allowed as values of `species` as well:
 

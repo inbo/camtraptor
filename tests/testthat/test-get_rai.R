@@ -70,3 +70,23 @@ test_that("species is case insensitive", {
     get_rai(camtrapdp, species = toupper("Anas platyrhynchos"))
   )
 })
+
+test_that("sex filters data correctly", {
+  sex_value <- "female"
+  n_obs_females <- get_n_obs(camtrapdp, species = "Mallard", sex = sex_value)
+  rai_females <- get_rai(camtrapdp, species = "Mallard", sex = sex_value)
+  # same first two cols as in get_n_obs
+  expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
+  expect_equal(nrow(n_obs_females), nrow(rai_females))
+  expect_equal(n_obs_females[,1:2], rai_females[, 1:2])
+})
+
+test_that("age filters data correctly", {
+  age_value <- "subadult"
+  n_obs_subadult <- get_n_obs(camtrapdp, species = "Mallard", age = age_value)
+  rai_subadult <- get_rai(camtrapdp, species = "Mallard", age = age_value)
+  # same first two cols as in get_n_obs
+  expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
+  expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))
+  expect_equal(n_obs_subadult[,1:2], rai_subadult[, 1:2])
+})

@@ -27,6 +27,7 @@
 #'
 #' @examples
 #' # all species
+#' get_rai(camtrapdp) # species = "all" by default
 #' get_rai(camtrapdp, species = "all")
 #'
 #' # selected species
@@ -41,10 +42,18 @@
 #' # species argument is case insensitive
 #' get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
 #'
+#' # specify sex
+#' get_rai(camtrapdp, sex = "female")
+#' get_rai(camtrapdp, sex = c("female", "undefined"))
+#'
+#' # specify age
+#' get_rai(camtrapdp, age = "adult")
+#' get_rai(camtrapdp, age = c("adult", "subadult"))
+#'
 #' # apply filter(s): deployments with latitude >= 51.28
 #' get_rai(camtrapdp, pred_gte("latitude", 51.28))
 #'
-get_rai <- function(datapkg, ..., species = "all") {
+get_rai <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
 
   # check input data package
   check_datapkg(datapkg)
@@ -57,7 +66,7 @@ get_rai <- function(datapkg, ..., species = "all") {
   species <- check_species(datapkg, species)
 
   # get number of observations
-  n_obs_df <- get_n_obs(datapkg, species = species, ...)
+  n_obs_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
 
   # extract deployments
   deployments <- datapkg$deployments

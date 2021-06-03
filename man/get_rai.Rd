@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, ..., species = "all")
+get_rai(datapkg, ..., species = "all", sex = NULL, age = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -36,6 +36,7 @@ Function to get the RAI (Relative Abundance Index) per deployment.
 }
 \examples{
 # all species
+get_rai(camtrapdp) # species = "all" by default
 get_rai(camtrapdp, species = "all")
 
 # selected species
@@ -49,6 +50,14 @@ get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 
 # species argument is case insensitive
 get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+
+# specify sex
+get_rai(camtrapdp, sex = "female")
+get_rai(camtrapdp, sex = c("female", "undefined"))
+
+# specify age
+get_rai(camtrapdp, age = "adult")
+get_rai(camtrapdp, age = c("adult", "subadult"))
 
 # apply filter(s): deployments with latitude >= 51.28
 get_rai(camtrapdp, pred_gte("latitude", 51.28))

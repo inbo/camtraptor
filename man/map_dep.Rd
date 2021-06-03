@@ -173,6 +173,14 @@ map_dep(
   species = "Rattus norvegicus"
 )
 
+# same filters by age and sex as for number of observations apply
+map_dep(
+  camtrapdp,
+  "rai",
+  species = "Anas platyrhynchos",
+  sex = "female",
+  age = "adult"
+)
 # show effort (basic duration in seconds)
 map_dep(
   camtrapdp,

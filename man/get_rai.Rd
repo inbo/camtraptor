@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, ..., species = "all")
+get_rai(datapkg, ..., species = "all", sex = NULL, age = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -22,6 +22,14 @@ and a list with metadata: \code{datapackage}}
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
 selected}
+
+\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
+or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+sex classes are taken into account.}
+
+\item{age}{a character vector defining the age class to filter on, e.g.
+\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
+of all age classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:
@@ -36,6 +44,7 @@ Function to get the RAI (Relative Abundance Index) per deployment.
 }
 \examples{
 # all species
+get_rai(camtrapdp) # species = "all" by default
 get_rai(camtrapdp, species = "all")
 
 # selected species
@@ -49,6 +58,14 @@ get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 
 # species argument is case insensitive
 get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+
+# specify sex
+get_rai(camtrapdp, sex = "female")
+get_rai(camtrapdp, sex = c("female", "undefined"))
+
+# specify age
+get_rai(camtrapdp, age = "adult")
+get_rai(camtrapdp, age = c("adult", "subadult"))
 
 # apply filter(s): deployments with latitude >= 51.28
 get_rai(camtrapdp, pred_gte("latitude", 51.28))

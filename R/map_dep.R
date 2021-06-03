@@ -152,6 +152,14 @@
 #'   species = "Rattus norvegicus"
 #' )
 #'
+#' # same filters by age and sex as for number of observations apply
+#' map_dep(
+#'   camtrapdp,
+#'   "rai",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
+#' )
 #' # show effort (basic duration in seconds)
 #' map_dep(
 #'   camtrapdp,
@@ -233,11 +241,11 @@ map_dep <- function(datapkg,
   }
 
   # check sex and age in combination with feature
-  if (!is.null(sex) & !feature %in% c("n_obs", "n_individuals")) {
+  if (!is.null(sex) & !feature %in% c("n_obs", "n_individuals", "rai")) {
     warning(glue("sex argument ignored for feature = {feature}"))
     sex <- NULL
   }
-  if (!is.null(age) & !feature %in% c("n_obs", "n_individuals")) {
+  if (!is.null(age) & !feature %in% c("n_obs", "n_individuals", "rai")) {
     warning(glue("age argument ignored for feature = {feature}"))
     age <- NULL
   }

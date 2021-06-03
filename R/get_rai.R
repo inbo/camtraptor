@@ -14,6 +14,12 @@
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected
+#' @param sex a character defining the sex class to filter on, e.g. `"female"`
+#'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
+#'   sex classes are taken into account.
+#' @param age a character vector defining the age class to filter on, e.g.
+#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
+#'   of all age classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @importFrom dplyr .data %>% group_by left_join select summarise ungroup

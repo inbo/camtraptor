@@ -22,6 +22,14 @@ and a list with metadata: \code{datapackage}}
 \item{species}{a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
 selected}
+
+\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
+or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+sex classes are taken into account.}
+
+\item{age}{a character vector defining the age class to filter on, e.g.
+\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
+of all age classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:

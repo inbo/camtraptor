@@ -69,7 +69,7 @@ get_rai <- function(datapkg, ...,
                     ) {
   get_rai_primitive(datapkg, ...,
                     use = "n_obs",
-                    species,
+                    species = species,
                     sex, age)
 }
 

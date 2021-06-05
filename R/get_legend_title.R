@@ -16,12 +16,18 @@
 map_legend_title <- function() as_tibble(mapdep_legend_titles)
 
 mapdep_legend_titles <- structure(list(
-  feature = c("n_species", "n_obs", "n_individuals", "rai", "effort"),
+  feature = c("n_species",
+              "n_obs",
+              "n_individuals",
+              "rai",
+              "rai_individuals",
+              "effort"),
   legend_title = c(
     "Number of detected species",
     "Number of observations",
     "Number of individuals",
     "RAI",
+    "RAI (individuals)",
     "Effort"
   )
 ))

@@ -181,6 +181,23 @@ map_dep(
   sex = "female",
   age = "adult"
 )
+
+# show RAI calculated by using number of detected individuals
+map_dep(
+  camtrapdp,
+  "rai_individuals",
+  species = "Rattus norvegicus"
+)
+
+# same filters by age and sex as for basic RAI apply
+map_dep(
+  camtrapdp,
+  "rai_individuals",
+  species = "Anas platyrhynchos",
+  sex = "female",
+  age = "adult"
+)
+
 # show effort (basic duration in seconds)
 map_dep(
   camtrapdp,

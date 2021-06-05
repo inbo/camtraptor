@@ -160,6 +160,23 @@
 #'   sex = "female",
 #'   age = "adult"
 #' )
+#'
+#' # show RAI calculated by using number of detected individuals
+#' map_dep(
+#'   camtrapdp,
+#'   "rai_individuals",
+#'   species = "Rattus norvegicus"
+#' )
+#'
+#' # same filters by age and sex as for basic RAI apply
+#' map_dep(
+#'   camtrapdp,
+#'   "rai_individuals",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
+#' )
+#'
 #' # show effort (basic duration in seconds)
 #' map_dep(
 #'   camtrapdp,
@@ -227,7 +244,12 @@ map_dep <- function(datapkg,
   check_datapkg(datapkg)
 
   # define possible feature values
-  features <- c("n_species", "n_obs", "n_individuals", "rai", "effort")
+  features <- c("n_species",
+                "n_obs",
+                "n_individuals",
+                "rai",
+                "rai_individuals",
+                "effort")
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
@@ -241,11 +263,17 @@ map_dep <- function(datapkg,
   }
 
   # check sex and age in combination with feature
-  if (!is.null(sex) & !feature %in% c("n_obs", "n_individuals", "rai")) {
+  if (!is.null(sex) & !feature %in% c("n_obs",
+                                      "n_individuals",
+                                      "rai",
+                                      "rai_individuals")) {
     warning(glue("sex argument ignored for feature = {feature}"))
     sex <- NULL
   }
-  if (!is.null(age) & !feature %in% c("n_obs", "n_individuals", "rai")) {
+  if (!is.null(age) & !feature %in% c("n_obs",
+                                      "n_individuals",
+                                      "rai",
+                                      "rai_individuals")) {
     warning(glue("age argument ignored for feature = {feature}"))
     age <- NULL
   }
@@ -259,7 +287,8 @@ map_dep <- function(datapkg,
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
   # check species in combination with feature and remove from hover in case
-  if (is.null(species) | (!is.null(species) & feature %in% c("n_species", "effort"))) {
+  if (is.null(species) | (!is.null(species) & feature %in% c("n_species",
+                                                             "effort"))) {
     if (!is.null(species) & feature %in% c("n_species", "effort")) {
       warning(glue("species argument ignored for feature = {feature}"))
       species <- NULL
@@ -268,7 +297,7 @@ map_dep <- function(datapkg,
   } else {
     # convert species to scientific_name in hover_columns
     hover_columns <- replace(hover_columns,
-                             hover_columns== "species",
+                             hover_columns == "species",
                              "scientific_name")
   }
 
@@ -333,6 +362,12 @@ map_dep <- function(datapkg,
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species, sex = sex, age = age, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
+  } else if (feature == "rai_individuals") {
+    feat_df <- get_rai_individuals(datapkg,
+                                   species = species,
+                                   sex = sex,
+                                   age = age, ...)
+    feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(datapkg, unit = effort_unit, ...)
     feat_df <- feat_df %>% rename(n = .data$effort)
@@ -374,7 +409,7 @@ map_dep <- function(datapkg,
   # add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- get_prefixes(feature, hover_columns)
-    ## set n_species or n_obs or rai or effort to n in hover_info_df
+    ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <- as_tibble(map2(hover_info_df$prefix,
                                   hover_info_df$info,

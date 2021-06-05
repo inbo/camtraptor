@@ -5,7 +5,7 @@ test_that("get_rai_individuals returns error if no species is specified", {
 
 test_that("get_rai_individuals returns the right dataframe", {
   output_anas_platyrhyncos <- get_rai_individuals(camtrapdp,
-                                      species = "Anas platyrhynchos"
+    species = "Anas platyrhynchos"
   )
 
   # type list
@@ -37,7 +37,7 @@ test_that("get_rai_individuals returns the right number of rows: all species sel
 
   # calculate rai for all species
   output_all_species <- get_rai_individuals(camtrapdp,
-                                species = all_species$scientific_name
+    species = all_species$scientific_name
   )
 
   # number of rows should be equal to number of species by number of deployments
@@ -58,7 +58,7 @@ test_that("get_rai_individuals returns the same if 'all' is used instead of vect
   output_all_species_default <- get_rai_individuals(camtrapdp, species = "all")
   # calculate rai for all species specifying the species
   output_all_species <- get_rai_individuals(camtrapdp,
-                                species = all_species$scientific_name
+    species = all_species$scientific_name
   )
 
   expect_equal(output_all_species, output_all_species_default)

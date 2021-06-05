@@ -70,7 +70,7 @@ get_rai <- function(datapkg, ...,
   get_rai_primitive(datapkg, ...,
                     use = "n_obs",
                     species = species,
-                    sex, age)
+                    sex = sex, age = age)
 }
 
 #' Get Relative Abundance Index (RAI) based on number of individuals

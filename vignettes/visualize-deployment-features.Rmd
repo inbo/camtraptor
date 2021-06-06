@@ -171,6 +171,17 @@ testthat::expect_error(
 )
 ```
 
+#### RAI (individuals)
+
+You can also visualize the RAI based on number of detected individuals instead of the standard RAI which is based on the number of observations. Set `feature = "rai_individuals"`:
+
+```{r show_rai_individuals}
+map_dep(camtrapdp,
+        feature = "rai_individuals",
+        species = "Rattus norvegicus")
+```
+
+Everything described in previous section about visualizing RAI holds true for RAI based on individuals as well.
 
 #### Effort
 

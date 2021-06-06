@@ -58,8 +58,7 @@ get_rai_individuals(camtrapdp,
 get_rai_individuals(camtrapdp, species = c("Mallard", "norway rat"))
 
 # mixed scientific and vernacular names
-get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "norway
-rat"))
+get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
 
 # species argument is case insensitive
 get_rai_individuals(camtrapdp, species = c("ANAS plAtyRhynChOS"))

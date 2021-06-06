@@ -6,12 +6,13 @@
 #' @param path Path to the folder containing the camera trap data files.
 #' @param multimedia If `TRUE`, read multimedia records into memory. If `FALSE`, ignore multimedia file to speed up reading larger Camtrap DP packages.
 #'
+#' @return A list of tibbles (dataframes).
+#'
 #' @export
 #'
+#' @importFrom here here
 #' @importFrom jsonlite read_json
 #' @importFrom readr read_csv cols col_character col_number col_datetime
-#' @importFrom here here
-#' @return a list of tibbles (dataframes)
 #'
 #' @examples
 #' \dontrun{

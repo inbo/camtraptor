@@ -10,6 +10,7 @@
 #'
 #' @export
 #'
+#' @importFrom datapackage read_descriptor read_resource
 #' @importFrom here here
 #' @importFrom jsonlite read_json
 #' @importFrom readr read_csv cols col_character col_number col_datetime
@@ -32,49 +33,25 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   # check uniqueness PKs (ids) to be sure no problems arise in other functions
   # TO BE DONE
 
-  # define files
-  datapackage <- "datapackage.json"
-  deployments <- "deployments.csv"
-  observations <- "observations.csv"
-
   # read files
-  datapackage <- read_json(path = here(path, datapackage))
-  deployments <- read_csv(file = here(path, deployments),
-                          col_types = cols(
-                            .default = col_character(),
-                            longitude = col_number(),
-                            latitude = col_number(),
-                            start = col_datetime(format = ""),
-                            end = col_datetime(format = ""),
-                            camera_interval = col_number(),
-                            camera_height = col_number()
-                          ))
+  descriptor <- read_descriptor(file.path(path, "datapackage.json"))
+  deployments <- read_resource(descriptor, "deployments")
+  observations <- read_resource(descriptor, "observations")
   if (multimedia == TRUE) {
-    multimedia <- "multimedia.csv"
-    multimedia <- read_csv(
-      file = here(path, multimedia),
-      col_types = cols(
-        comments = col_character()
-      )
-    )
+    multimedia <- read_resource(descriptor, "multimedia")
   }
-  observations <- read_csv(
-    file = here(path, observations),
-    col_types = cols(
-      classification_confidence = col_number()
-    )
-  )
+
   # return list
   if (is.data.frame(multimedia)) {
     list(
-      "datapackage" = datapackage,
+      "datapackage" = descriptor,
       "deployments" = deployments,
       "multimedia" = multimedia,
       "observations" = observations
     )
   } else {
     list(
-      "datapackage" = datapackage,
+      "datapackage" = descriptor,
       "deployments" = deployments,
       "multimedia" = NULL,
       "observations" = observations

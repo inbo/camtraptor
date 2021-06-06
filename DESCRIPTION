@@ -21,6 +21,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
+    datapackage,
     dplyr,
     glue,
     grDevices,
@@ -33,6 +34,8 @@ Imports:
     readr,
     stringr,
     tidyr
+Remotes:
+    inbo/datapackage
 Suggests: 
     covr,
     knitr,

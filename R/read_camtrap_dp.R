@@ -10,7 +10,7 @@
 #'
 #' @export
 #'
-#' @importFrom datapackage read_descriptor read_resource
+#' @importFrom datapackage read_package read_resource
 #' @importFrom here here
 #' @importFrom jsonlite read_json
 #' @importFrom readr read_csv cols col_character col_number col_datetime
@@ -34,24 +34,24 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   # TO BE DONE
 
   # read files
-  descriptor <- read_descriptor(file.path(path, "datapackage.json"))
-  deployments <- read_resource(descriptor, "deployments")
-  observations <- read_resource(descriptor, "observations")
+  package <- read_package(file.path(path, "datapackage.json"))
+  deployments <- read_resource(package, "deployments")
+  observations <- read_resource(package, "observations")
   if (multimedia == TRUE) {
-    multimedia <- read_resource(descriptor, "multimedia")
+    multimedia <- read_resource(package, "multimedia")
   }
 
   # return list
   if (is.data.frame(multimedia)) {
     list(
-      "datapackage" = descriptor,
+      "metadata" = package,
       "deployments" = deployments,
       "multimedia" = multimedia,
       "observations" = observations
     )
   } else {
     list(
-      "datapackage" = descriptor,
+      "metadata" = package,
       "deployments" = deployments,
       "multimedia" = NULL,
       "observations" = observations

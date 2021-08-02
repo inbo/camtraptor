@@ -25,8 +25,10 @@ Check names against all scientific and vernacular names contained in a camera
 trap data package
 }
 \examples{
+check_species(camtrapdp, "Gallinula chloropus")
 check_species(camtrapdp, c("Mallard", "Norway Rat"))
 # case insensitive
+check_species(camtrapdp, "galliNULa CHloropUs")
 check_species(camtrapdp, "MalLARD")
 
 }

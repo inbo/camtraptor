@@ -1,8 +1,8 @@
-#' Get number of observations for each deployment
+#' Get number of individuals for each deployment
 #'
-#' Function to get the number of observations (of a subset of species) per
-#' deployment. The number of observations is defined as the number of distinct
-#' sequences (`sequence_id`).
+#' Function to get the number of individuals (of a subset of species) per
+#' deployment. The number of observed individuals is stored in field `count` of
+#' `observations`.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
@@ -21,7 +21,7 @@
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
 #'   of all age classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% as_tibble bind_rows group_by n_distinct mutate
+#' @importFrom dplyr .data %>% as_tibble bind_rows group_by count mutate
 #'   rename select summarise ungroup relocate
 #' @importFrom glue glue
 #' @export
@@ -30,40 +30,43 @@
 #' - `deployment_id`:  deployment unique identifier
 #' - `scientific_name`: scientific name of the species. This column is omitted
 #' if argument `species` = NULL
-#' - `n`: (integer) number of observations
+#' - `n`: (integer) number of individuals
 #'
 #' @examples
 #'
 #' # get number of observations for each species
-#' get_n_obs(camtrapdp)
+#' get_n_individuals(camtrapdp)
 #'
 #' # get number of obs of all species, not identified individuals as well
-#' get_n_obs(camtrapdp, species = NULL)
+#' get_n_individuals(camtrapdp, species = NULL)
 #'
 #' # get number of observations of Gallinula chloropus
-#' get_n_obs(camtrapdp, species = "Gallinula chloropus")
+#' get_n_individuals(camtrapdp, species = "Gallinula chloropus")
 #'
 #' # get number of observations of Common Moorhen
-#' get_n_obs(camtrapdp, species = "Common Moorhen")
+#' get_n_individuals(camtrapdp, species = "Common Moorhen")
 #'
 #' # case insensitive
-#' get_n_obs(camtrapdp, species = "galliNULa CHloropUs")
-#' get_n_obs(camtrapdp, species = "cOmmon moorhEn")
+#' get_n_individuals(camtrapdp, species = "galliNULa CHloropUs")
+#' get_n_individuals(camtrapdp, species = "cOmmon moorhEn")
 #'
 #' # specify age
-#' get_n_obs(camtrapdp, age = "adult")
+#' get_n_individuals(camtrapdp, age = "adult")
 #'
 #' # specify sex
-#' get_n_obs(camtrapdp, sex = "female")
+#' get_n_individuals(camtrapdp, sex = "female")
 #'
 #' # specify both sex and age
-#' get_n_obs(camtrapdp, sex = "undefined", age = "adult")
+#' get_n_individuals(camtrapdp, sex = "undefined", age = "adult")
 #'
 #' # applying filter(s), e.g. deployments with latitude >= 51.28
-#' get_n_obs(camtrapdp, pred_gte("latitude", 51.28))
+#' get_n_individuals(camtrapdp, pred_gte("latitude", 51.28))
 #'
-get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
-
+get_n_individuals <- function(datapkg,
+                              ...,
+                              species = "all",
+                              sex = NULL,
+                              age = NULL) {
   # check input data package
   check_datapkg(datapkg)
 
@@ -132,34 +135,34 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
     pred_in("deployment_id",deployment_id)
   )
 
-  # get number of observations collected by each deployment for each species
-  n_obs <-
+  # get number of individuals collected by each deployment for each species
+  n_individuals <-
     observations %>%
     group_by(.data$deployment_id,
              .data$scientific_name) %>%
-    summarise(n = n_distinct(.data$sequence_id)) %>%
+    summarise(n = sum(.data$count)) %>%
     ungroup()
 
   # get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(deployments$deployment_id,
-                unique(observations$scientific_name)) %>%
+                unique(c(observations$scientific_name, species))) %>%
     rename(deployment_id = .data$Var1,
            scientific_name = .data$Var2) %>%
     as_tibble()
 
-  # set 0 to combinations without observations (i.e. n = NA after join)
-  n_obs <-
+  # set 0 to combinations without observed individuals (i.e. n = NA after join)
+  n_individuals <-
     combinations_dep_species %>%
-    left_join(n_obs,
+    left_join(n_individuals,
               by = c("deployment_id", "scientific_name")) %>%
     mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     mutate(n = as.integer(.data$n))
 
   if (is.null(species)) {
     # sum all observations per deployment
-    n_obs <-
-      n_obs %>%
+    n_individuals <-
+      n_individuals %>%
       group_by(.data$deployment_id) %>%
       summarise(n = sum(.data$n)) %>%
       ungroup()
@@ -168,5 +171,5 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, age = NULL) {
   # order result by deployments and following same order as in deployments df
   deployments %>%
     select(deployment_id) %>%
-    left_join(n_obs, by = "deployment_id")
+    left_join(n_individuals, by = "deployment_id")
 }

@@ -71,6 +71,56 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
+You can filter by sex:
+
+```{r filter_sex}
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+```
+
+and age:
+
+```{r filter_age}
+map_dep(
+  camtrapdp,
+  "n_obs",
+  age = c("juvenile", "subadult")
+)
+```
+
+#### Number of individuals
+
+To visualize the number of observed individuals, set `feature` = `n_individuals`:
+
+```{r visualize_n_individuas_with_clusters_and_default_hover_col}
+map_dep(camtrapdp,
+        feature = "n_individuals")
+```
+
+As for observations, you can specify a species:
+
+```{r specify_species_individuals}
+map_dep(camtrapdp,
+        feature = "n_individuals",
+        species = "Rattus norvegicus")
+```
+
+and filter by sex and/or age:
+
+
+```{r filter_sex_individuals}
+map_dep(
+  camtrapdp,
+  "n_individuals",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+```
+
 #### RAI
 
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
@@ -79,6 +129,16 @@ To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `
 map_dep(camtrapdp,
         feature = "rai",
         species = "Rattus norvegicus")
+```
+As for number of observations and number of individuals, you can  filter by sex and/or age:
+
+```{r filter_sex_rai}
+map_dep(
+  camtrapdp,
+  "rai",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
 ```
 
 Common names are allowed as values of `species` as well:
@@ -110,6 +170,18 @@ testthat::expect_error(
          "mallard, norway rat, muskrat, coypu and common moorhen.")
 )
 ```
+
+#### RAI (individuals)
+
+You can also visualize the RAI based on number of detected individuals instead of the standard RAI which is based on the number of observations. Set `feature = "rai_individuals"`:
+
+```{r show_rai_individuals}
+map_dep(camtrapdp,
+        feature = "rai_individuals",
+        species = "Rattus norvegicus")
+```
+
+Everything described in previous section about visualizing RAI holds true for RAI based on individuals as well.
 
 #### Effort
 

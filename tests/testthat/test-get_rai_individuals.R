@@ -1,10 +1,10 @@
-test_that("get_rai returns error if no species is specified", {
-  expect_error(get_rai(camtrapdp, species = NULL))
-  expect_error(get_rai(camtrapdp, species = character(0)))
+test_that("get_rai_individuals returns error if no species is specified", {
+  expect_error(get_rai_individuals(camtrapdp, species = NULL))
+  expect_error(get_rai_individuals(camtrapdp, species = character(0)))
 })
 
-test_that("get_rai returns the right dataframe", {
-  output_anas_platyrhyncos <- get_rai(camtrapdp,
+test_that("get_rai_individuals returns the right dataframe", {
+  output_anas_platyrhyncos <- get_rai_individuals(camtrapdp,
     species = "Anas platyrhynchos"
   )
 
@@ -28,7 +28,7 @@ test_that("get_rai returns the right dataframe", {
   )
 })
 
-test_that("get_rai returns the right number of rows: all species selected", {
+test_that("get_rai_individuals returns the right number of rows: all species selected", {
   all_species <- get_species(camtrapdp)
   all_deployments <- unique(camtrapdp$deployments$deployment_id)
 
@@ -36,7 +36,7 @@ test_that("get_rai returns the right number of rows: all species selected", {
   n_all_deployments <- length(all_deployments)
 
   # calculate rai for all species
-  output_all_species <- get_rai(camtrapdp,
+  output_all_species <- get_rai_individuals(camtrapdp,
     species = all_species$scientific_name
   )
 
@@ -47,7 +47,7 @@ test_that("get_rai returns the right number of rows: all species selected", {
   )
 })
 
-test_that("get_rai returns the same if 'all' is used instead of vector with all species", {
+test_that("get_rai_individuals returns the same if 'all' is used instead of vector with all species", {
   all_species <- get_species(camtrapdp)
   all_deployments <- unique(camtrapdp$deployments$deployment_id)
 
@@ -55,9 +55,9 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
   n_all_deployments <- length(all_deployments)
 
   # calculate rai for all species using default "all" value
-  output_all_species_default <- get_rai(camtrapdp, species = "all")
+  output_all_species_default <- get_rai_individuals(camtrapdp, species = "all")
   # calculate rai for all species specifying the species
-  output_all_species <- get_rai(camtrapdp,
+  output_all_species <- get_rai_individuals(camtrapdp,
     species = all_species$scientific_name
   )
 
@@ -66,15 +66,15 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
 
 test_that("species is case insensitive", {
   expect_equal(
-    get_rai(camtrapdp, species = "Anas platyrhynchos"),
-    get_rai(camtrapdp, species = toupper("Anas platyrhynchos"))
+    get_rai_individuals(camtrapdp, species = "Anas platyrhynchos"),
+    get_rai_individuals(camtrapdp, species = toupper("Anas platyrhynchos"))
   )
 })
 
 test_that("sex filters data correctly", {
   sex_value <- "female"
   n_obs_females <- get_n_obs(camtrapdp, species = "Mallard", sex = sex_value)
-  rai_females <- get_rai(camtrapdp, species = "Mallard", sex = sex_value)
+  rai_females <- get_rai_individuals(camtrapdp, species = "Mallard", sex = sex_value)
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
   expect_equal(nrow(n_obs_females), nrow(rai_females))
@@ -84,7 +84,7 @@ test_that("sex filters data correctly", {
 test_that("age filters data correctly", {
   age_value <- "subadult"
   n_obs_subadult <- get_n_obs(camtrapdp, species = "Mallard", age = age_value)
-  rai_subadult <- get_rai(camtrapdp, species = "Mallard", age = age_value)
+  rai_subadult <- get_rai_individuals(camtrapdp, species = "Mallard", age = age_value)
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
   expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))

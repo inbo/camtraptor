@@ -15,6 +15,7 @@
 #'
 #' - `n_species`: number of identified species
 #' - `n_obs`: number of observations
+#' -  `n_individuals`: number of individuals
 #' - `rai`: Relative Abundance Index
 #' - `effort`: effort (duration) of the deployment
 #'
@@ -31,6 +32,13 @@
 #' - `year`
 #' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
 #' while hovering and seconds shown in legend
+#' @param sex a character defining the sex class to filter on, e.g. `"female"`.
+#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   account. Optional argument for `n_obs` and `n_individuals`
+#' @param age a character vector defining the age class to filter on, e.g.
+#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
+#'   of all age classes are taken into account. Optional argument for `n_obs`
+#'   and `n_individuals`
 #' @param cluster a logical value
 #'   indicating whether using the cluster option while visualizing maps.
 #'   Default: TRUE
@@ -68,8 +76,8 @@
 #'
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()], [pred_and()], ...
 #' @importFrom assertthat assert_that
-#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols count distinct filter
-#'   group_by left_join mutate pull one_of rename select
+#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols left_join mutate
+#'   one_of rename select
 #' @importFrom leaflet addControl addLegend addTiles addCircleMarkers
 #'   colorNumeric leaflet markerClusterOptions setView
 #' @importFrom glue glue
@@ -91,7 +99,8 @@
 #'   "n_species"
 #' )
 #'
-#' # show number of observations
+#' # show number of observations  (observations of unidentified species included
+#' if any)
 #' map_dep(
 #'   camtrapdp,
 #'   "n_obs"
@@ -104,11 +113,68 @@
 #'   species = "Rattus norvegicus"
 #' )
 #'
+#' # show number of observations of juvenile individuals of Anas platyrhynchos
+#' map_dep(
+#'   camtrapdp,
+#'   "n_obs",
+#'   species = "Anas platyrhynchos",
+#'   age = "juvenile"
+#' )
+#'
+#' # show number of observations of female or undefined individuals of Anas platyrhynchos
+#' map_dep(
+#'   camtrapdp,
+#'   "n_obs",
+#'   species = "Anas platyrhynchos",
+#'   sex = c("female", "undefined")
+#' )
+#'
+#' # show number of individuals (individuals of unidentified species included if
+#' any)
+#' map_dep(
+#'   camtrapdp,
+#'   "n_individuals"
+#' )
+#'
+#' # same filters by age and sex as for number of observations apply
+#' map_dep(
+#'   camtrapdp,
+#'   "n_individuals",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
+#' )
+#'
 #' # show RAI
 #' map_dep(
 #'   camtrapdp,
 #'   "rai",
 #'   species = "Rattus norvegicus"
+#' )
+#'
+#' # same filters by age and sex as for number of observations apply
+#' map_dep(
+#'   camtrapdp,
+#'   "rai",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
+#' )
+#'
+#' # show RAI calculated by using number of detected individuals
+#' map_dep(
+#'   camtrapdp,
+#'   "rai_individuals",
+#'   species = "Rattus norvegicus"
+#' )
+#'
+#' # same filters by age and sex as for basic RAI apply
+#' map_dep(
+#'   camtrapdp,
+#'   "rai_individuals",
+#'   species = "Anas platyrhynchos",
+#'   sex = "female",
+#'   age = "adult"
 #' )
 #'
 #' # show effort (basic duration in seconds)
@@ -161,6 +227,8 @@ map_dep <- function(datapkg,
                     feature,
                     ...,
                     species = NULL,
+                    sex = NULL,
+                    age = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
                     hover_columns = c("n", "species", "deployment_id",
@@ -176,7 +244,12 @@ map_dep <- function(datapkg,
   check_datapkg(datapkg)
 
   # define possible feature values
-  features <- c("n_species", "n_obs", "rai", "effort")
+  features <- c("n_species",
+                "n_obs",
+                "n_individuals",
+                "rai",
+                "rai_individuals",
+                "effort")
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
@@ -189,6 +262,22 @@ map_dep <- function(datapkg,
     effort_unit <- NULL
   }
 
+  # check sex and age in combination with feature
+  if (!is.null(sex) & !feature %in% c("n_obs",
+                                      "n_individuals",
+                                      "rai",
+                                      "rai_individuals")) {
+    warning(glue("sex argument ignored for feature = {feature}"))
+    sex <- NULL
+  }
+  if (!is.null(age) & !feature %in% c("n_obs",
+                                      "n_individuals",
+                                      "rai",
+                                      "rai_individuals")) {
+    warning(glue("age argument ignored for feature = {feature}"))
+    age <- NULL
+  }
+
   # extract observations and deployments
   observations <- datapkg$observations
   deployments <- datapkg$deployments
@@ -198,7 +287,8 @@ map_dep <- function(datapkg,
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
   # check species in combination with feature and remove from hover in case
-  if (is.null(species) | (!is.null(species) & feature %in% c("n_species", "effort"))) {
+  if (is.null(species) | (!is.null(species) & feature %in% c("n_species",
+                                                             "effort"))) {
     if (!is.null(species) & feature %in% c("n_species", "effort")) {
       warning(glue("species argument ignored for feature = {feature}"))
       species <- NULL
@@ -207,7 +297,7 @@ map_dep <- function(datapkg,
   } else {
     # convert species to scientific_name in hover_columns
     hover_columns <- replace(hover_columns,
-                             hover_columns== "species",
+                             hover_columns == "species",
                              "scientific_name")
   }
 
@@ -262,9 +352,21 @@ map_dep <- function(datapkg,
   if (feature == "n_species") {
     feat_df <- get_n_species(datapkg, ...)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg, species = species, ...)
+    feat_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+  } else if (feature == "n_individuals") {
+    feat_df <- get_n_individuals(datapkg,
+                                 species = species,
+                                 sex = sex,
+                                 age = age,
+                                 ...)
   } else if (feature == "rai") {
-    feat_df <- get_rai(datapkg, species = species, ...)
+    feat_df <- get_rai(datapkg, species = species, sex = sex, age = age, ...)
+    feat_df <- feat_df %>% rename(n = .data$rai)
+  } else if (feature == "rai_individuals") {
+    feat_df <- get_rai_individuals(datapkg,
+                                   species = species,
+                                   sex = sex,
+                                   age = age, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(datapkg, unit = effort_unit, ...)
@@ -307,7 +409,7 @@ map_dep <- function(datapkg,
   # add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- get_prefixes(feature, hover_columns)
-    ## set n_species or n_obs or rai or effort to n in hover_info_df
+    ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <- as_tibble(map2(hover_info_df$prefix,
                                   hover_info_df$info,
@@ -344,7 +446,9 @@ map_dep <- function(datapkg,
   # max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(is.null(max_scale),
-                  max(feat_df$n, na.rm = TRUE),
+                  ifelse(!all(is.na(feat_df$n)),
+                         max(feat_df$n, na.rm = TRUE),
+                         0),
                   max_scale
   )
 

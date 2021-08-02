@@ -14,14 +14,17 @@
 #'
 #' @importFrom purrr map_chr
 #' @importFrom assertthat assert_that
+#' @importFrom stringr str_to_sentence
 #'
 #' @export
 #'
 #' @return a character vector with the correspondent scientific names
 #'
 #' @examples
+#' check_species(camtrapdp, "Gallinula chloropus")
 #' check_species(camtrapdp, c("Mallard", "Norway Rat"))
 #' # case insensitive
+#' check_species(camtrapdp, "galliNULa CHloropUs")
 #' check_species(camtrapdp, "MalLARD")
 #'
 check_species <- function(datapkg, species) {
@@ -42,7 +45,7 @@ check_species <- function(datapkg, species) {
       message(glue("Scientific name of {x}: {sn}"))
       sn
     } else {
-      x
+      str_to_sentence(x) # in case the scientific name is not capitalized
     }
   })
 }

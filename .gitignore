@@ -19,6 +19,7 @@
 
 # RStudio files
 .Rproj.user/
+.Rproj.user
 *.Rproj
 
 # produced vignettes
@@ -38,6 +39,12 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# pkgdown
+docs
+
+# Mac OS
+.DS_Store
 
 # big files
 inst/extdata/gmu8-monitoring-faunabeheerzone-8-20210301093537

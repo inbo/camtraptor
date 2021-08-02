@@ -9,6 +9,8 @@ map_dep(
   feature,
   ...,
   species = NULL,
+  sex = NULL,
+  age = NULL,
   effort_unit = NULL,
   cluster = TRUE,
   hover_columns = c("n", "species", "deployment_id", "location_id", "location_name",
@@ -31,6 +33,7 @@ and a list with metadata: \code{datapackage}}
 \itemize{
 \item \code{n_species}: number of identified species
 \item \code{n_obs}: number of observations
+\item \code{n_individuals}: number of individuals
 \item \code{rai}: Relative Abundance Index
 \item \code{effort}: effort (duration) of the deployment
 }}
@@ -39,6 +42,15 @@ and a list with metadata: \code{datapackage}}
 
 \item{species}{a character with a scientific name. Required for  \code{rai},
 optional for \code{n_obs}. Default: \code{NULL}}
+
+\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}.
+If \code{NULL}, default, all observations of all sex classes are taken into
+account. Optional argument for \code{n_obs} and \code{n_individuals}}
+
+\item{age}{a character vector defining the age class to filter on, e.g.
+\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
+of all age classes are taken into account. Optional argument for \code{n_obs}
+and \code{n_individuals}}
 
 \item{effort_unit}{time unit to use while visualizing deployment effort
 (duration). One of:
@@ -108,7 +120,8 @@ map_dep(
   "n_species"
 )
 
-# show number of observations
+# show number of observations  (observations of unidentified species included
+if any)
 map_dep(
   camtrapdp,
   "n_obs"
@@ -121,11 +134,68 @@ map_dep(
   species = "Rattus norvegicus"
 )
 
+# show number of observations of juvenile individuals of Anas platyrhynchos
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Anas platyrhynchos",
+  age = "juvenile"
+)
+
+# show number of observations of female or undefined individuals of Anas platyrhynchos
+map_dep(
+  camtrapdp,
+  "n_obs",
+  species = "Anas platyrhynchos",
+  sex = c("female", "undefined")
+)
+
+# show number of individuals (individuals of unidentified species included if
+any)
+map_dep(
+  camtrapdp,
+  "n_individuals"
+)
+
+# same filters by age and sex as for number of observations apply
+map_dep(
+  camtrapdp,
+  "n_individuals",
+  species = "Anas platyrhynchos",
+  sex = "female",
+  age = "adult"
+)
+
 # show RAI
 map_dep(
   camtrapdp,
   "rai",
   species = "Rattus norvegicus"
+)
+
+# same filters by age and sex as for number of observations apply
+map_dep(
+  camtrapdp,
+  "rai",
+  species = "Anas platyrhynchos",
+  sex = "female",
+  age = "adult"
+)
+
+# show RAI calculated by using number of detected individuals
+map_dep(
+  camtrapdp,
+  "rai_individuals",
+  species = "Rattus norvegicus"
+)
+
+# same filters by age and sex as for basic RAI apply
+map_dep(
+  camtrapdp,
+  "rai_individuals",
+  species = "Anas platyrhynchos",
+  sex = "female",
+  age = "adult"
 )
 
 # show effort (basic duration in seconds)

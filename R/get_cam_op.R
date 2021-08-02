@@ -1,8 +1,10 @@
 #' Get camera operation matrix
 #'
-#' This function returns the [camera operation
-#' matrix](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
+#' This function returns the [camera operation matrix](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
 #' as returned by `camtrapR::cameraOperation()`.
+#' 
+#' The deployment data are grouped by `location_name` (station in camtrapR
+#' jargon) and the function assumes there is one camera per location (station).
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
@@ -11,13 +13,12 @@
 #'
 #'   and a list with metadata: `datapackage`
 #'
-#' @importFrom purrr map2_dfc
-#' @importFrom dplyr %>% as_tibble filter mutate pull
-#' @importFrom lubridate date
-#' @return a matrix. Row names always indicate the `location_name` (station) and
-#'   the `camera_id` in the form
-#'   `"Station"`+`location_name`[+`"__CAM_"`+`camera_id`] if `camera_id` is specified in `deployments`. Column names are
-#'   dates.
+#' @importFrom purrr map_dfc
+#' @importFrom rlang !!! syms
+#' @importFrom dplyr %>% as_tibble filter mutate pull bind_cols transmute if_any everything
+#' @importFrom lubridate as_datetime date
+#' @return a matrix. Row names always indicate the `location_name` (station)
+#'   `"Station"`+`location_name`. Column names are dates.
 #'
 #' @export
 #'
@@ -37,7 +38,8 @@ get_cam_op <- function(datapkg) {
   days_operations <- seq(date(first_day), date(last_day), by = "days")
   # get a string version of this: useful for setting names of final matrix
   days_operations_string <- as.character(days_operations)
-
+  # convert to datetime as it helps while operating with "+" and "-"
+  days_operations <- as_datetime(days_operations)
   # add aux variables, start_day and end_day for each deployment
   deploys <- deploys %>%
     mutate(start_day = date(start),
@@ -49,28 +51,42 @@ get_cam_op <- function(datapkg) {
     function(x) {
       start_day <- deploys %>% filter(.data$deployment_id == x) %>% pull(start_day)
       end_day <- deploys %>% filter(.data$deployment_id == x) %>% pull(end_day)
-      operational <- days_operations >= start_day & days_operations <= end_day
+      operational <- days_operations > start_day & days_operations < end_day
       operational[operational == TRUE] <- 1
+      # edge cases start and end day
+      deploy_df  <- deploys %>% 
+        filter(.data$deployment_id == x)
+      daily_effort_start <- calc_daily_effort(deploy_df, calc_start=TRUE)
+      operational[days_operations == start_day] <- daily_effort_start
+      daily_effort_end <- calc_daily_effort(deploy_df, calc_end=TRUE)
+      operational[days_operations == end_day] <- daily_effort_end
       operational <- as_tibble(operational)
       names(operational) <- x
+      return(operational)
     })
-
+  names(deployment_operational) <- deploys$deployment_id
+  
   # get for each location which days a deployment was active
-  camOps <- map2_dfc(deploys$location_name,
-                     deploys$camera_id,
-                     function(x,y) {
-                       # get deployments linked to the location
-
-
-
-                       if (!is.na(y)) {
-                         names(operational) <- paste0("Station",x,"__CAM_", y)
-                       } else {
-                         names(operational) <- paste0("Station",x)
-                       }
-
-                       return(operational)
-  })
+  camOps <- map_dfc(unique(deploys$location_name),
+                    function(loc_name) {
+                      # get deployments linked to the location name
+                      deploys_id <- 
+                        deploys %>%
+                        filter(location_name == loc_name) %>%
+                        pull(deployment_id)
+                      # get operational dfs linked to these deployment_ids
+                      dep_dfs <- deployment_operational[names(deployment_operational) %in% deploys_id]
+                      dep_op <- bind_cols(dep_dfs)
+                      
+                      # make the union of them by setting TRUE if at least one
+                      # of them is active (column operational  = 1)
+                      dep_op <- dep_op %>%
+                        transmute(max_daily_effort = pmax(!!!rlang::syms(names(dep_op))))
+                      # set location name as station name
+                      names(dep_op) <- paste0("Station",loc_name)
+                      dep_op[[paste0("Station",loc_name)]] <- as.numeric(dep_op[[paste0("Station",loc_name)]])
+                      return(dep_op)
+                    })
   # transform to matrix
   camOps <- as.matrix(camOps)
   # add names to rows (days)

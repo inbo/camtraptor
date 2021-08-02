@@ -16,12 +16,14 @@ get_cam_op(datapkg)
 and a list with metadata: \code{datapackage}}
 }
 \value{
-a matrix. Row names always indicate the \code{location_name} (station) and
-the \code{camera_id} in the form
-\code{"Station"}+\code{location_name}\link[=+`"__CAM_"`+`camera_id`]{+\code{"__CAM_"}+\code{camera_id}} if \code{camera_id} is specified in \code{deployments}. Column names are
-dates.
+a matrix. Row names always indicate the \code{location_name} (station)
+\code{"Station"}+\code{location_name}. Column names are dates.
 }
 \description{
 This function returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix}
 as returned by \code{camtrapR::cameraOperation()}.
+}
+\details{
+The deployment data are grouped by \code{location_name} (station in camtrapR
+jargon) and the function assumes there was 1 camera per location (station).
 }

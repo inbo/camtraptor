@@ -79,11 +79,9 @@ get_cam_op <- function(datapkg) {
                       dep_dfs <- deployment_operational[names(deployment_operational) %in% deploys_id]
                       dep_op <- bind_cols(dep_dfs)
                       
-                      # make the union of them by setting TRUE if at least one
-                      # of them is active (column operational  = 1)
-                      dep_op <- dep_op %>%
-                        transmute(max_daily_effort = pmax(!!!rlang::syms(names(dep_op))))
-                      # set location name as station name
+                      # sum daily effort along all deployments at same location
+                      dep_op <- rowSums(dep_op[, names(dep_op)])
+                      # set location name as station id
                       names(dep_op) <- paste0("Station",loc_name)
                       dep_op[[paste0("Station",loc_name)]] <- as.numeric(dep_op[[paste0("Station",loc_name)]])
                       return(dep_op)

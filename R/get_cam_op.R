@@ -80,7 +80,7 @@ get_cam_op <- function(datapkg) {
                       dep_op <- bind_cols(dep_dfs)
                       
                       # sum daily effort along all deployments at same location
-                      dep_op <- rowSums(dep_op[, names(dep_op)])
+                      dep_op <- as_tibble(rowSums(dep_op[, names(dep_op)]))
                       # set location name as station id
                       names(dep_op) <- paste0("Station",loc_name)
                       dep_op[[paste0("Station",loc_name)]] <- as.numeric(dep_op[[paste0("Station",loc_name)]])

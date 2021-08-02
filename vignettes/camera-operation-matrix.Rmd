@@ -1,0 +1,41 @@
+---
+title: "Camera operation matrix"
+author: "Damiano Oldoni"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Camera operation matrix}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows how to get a _camera trap station operability matrix_, shortly called _camera operation matrix_ as returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+
+## Setup
+
+Load packages:
+
+```{r load_pkgs}
+library(camtrapdp)
+library(lubridate)
+library(dplyr)
+```
+
+By loading pacakge `camtrapdp`, a camera trap data package called `camtrapdp` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+
+## Camera operation matrix
+
+You can create a camera operation matrix by passing a camera trap data package:
+
+```{r basic_usage}
+get_cam_op(camtrapdp)
+```
+
+Rows are the location IDs (unique values of field `location_name` of `deployments`) preceded by prefix `"Station"` as done by camtrapR's `cameraOperation()`. Column names are dates. The matrix values are: 0 if deployment is not active, 1 or more (integers) if one or more deployments are fully active during all day, a number with a decimal part for start end day as at least one deployment is not fully active durint the entire day.

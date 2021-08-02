@@ -1,10 +1,11 @@
 #' Get camera operation matrix
 #'
 #' This function returns the [camera operation matrix](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
-#' as returned by `camtrapR::cameraOperation()`.
+#' as returned by camtrapR's function `cameraOperation()`.
 #' 
-#' The deployment data are grouped by `location_name` (station in camtrapR
-#' jargon) and the function assumes there is one camera per location (station).
+#' The deployment data are grouped by `location_name` (station ID in camtrapR
+#' jargon). If multiple deploymnts are linked to same location, daily
+#' efforts higher than one occur.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
@@ -14,14 +15,14 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @importFrom purrr map_dfc
-#' @importFrom rlang !!! syms
-#' @importFrom dplyr %>% as_tibble filter mutate pull bind_cols transmute if_any everything
+#' @importFrom dplyr %>% as_tibble filter mutate pull bind_cols
 #' @importFrom lubridate as_datetime date
-#' @return a matrix. Row names always indicate the `location_name` (station)
+#' @return a matrix. Row names always indicate the `location_name` (station ID)
 #'   `"Station"`+`location_name`. Column names are dates.
 #'
 #' @export
-#'
+#' @examples 
+#' get_cam_op(camtrapdp)
 get_cam_op <- function(datapkg) {
   # check data package
   check_datapkg(datapkg)

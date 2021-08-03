@@ -38,4 +38,30 @@ You can create a camera operation matrix by passing a camera trap data package:
 get_cam_op(camtrapdp)
 ```
 
-Rows are the location IDs (unique values of field `location_name` of `deployments`) preceded by prefix `"Station"` as done by camtrapR's `cameraOperation()`. Column names are dates. The matrix values are: 0 if deployment is not active, 1 or more (integers) if one or more deployments are fully active during all day, a number with a decimal part for start end day as at least one deployment is not fully active durint the entire day.
+The function will read the `deployments` slot of the data package to create the matrix.
+
+The matrix rows are the location IDs (unique values of field `location_name` of `deployments`) preceded by prefix `"Station"` as done by camtrapR's `cameraOperation()`. Column names are dates. The matrix values are: 0 if deployment is not active, an integer (1 or more) if one or more deployments are fully active during all day, a decimal number if at least one deployment is not fully active during the entire day.
+
+In the example above there was a one-to-one relation between deployments and locations: the daily effort was not more than one.
+
+In the example below we show what happens if all four deployments are set to the same location (`B_ML_val 03_De Val`):
+
+```{r four_deploys_for_location}
+camtrapdp1 <- camtrapdp
+camtrapdp1$deployments$location_name <- camtrapdp1$deployments$location_name[1]
+get_cam_op(camtrapdp1)
+```
+
+In the example below we simulate a location (`B_ML_val 06_Oostpolderkreek`) linked to two deployments active in two different periods:
+
+```{r two_deploys_two_periods}
+camtrapdp2 <- camtrapdp
+camtrapdp2$deployments$location_name[4] <- camtrapdp2$deployments$location_name[3]
+camtrapdp2$deployments$start[4] <- camtrapdp2$deployments$end[3] + ddays(5)
+camtrapdp2$deployments$end[4] <- camtrapdp2$deployments$start[4] + ddays(5)
+camtrapdp2$deployments %>% select(location_name, start, end)
+```
+
+```{r camOp_two_deploys_two_periods}
+get_cam_op(camtrapdp2)
+```

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check filter argument — check_filter_arg • camtrapdp</title>
+<title>Get camera operation matrix — get_cam_op • camtrapdp</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Check filter argument — check_filter_arg" />
-<meta property="og:description" content="Check that the filter argument in a filter predicate is a character and has
-length one." />
+<meta property="og:title" content="Get camera operation matrix — get_cam_op" />
+<meta property="og:description" content="This function returns the camera operation matrix
+as returned by camtrapR's function cameraOperation()." />
 
 
 
@@ -127,39 +127,86 @@ length one." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check filter argument</h1>
-    <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/filter_predicates.R'><code>R/filter_predicates.R</code></a></small>
-    <div class="hidden name"><code>check_filter_arg.Rd</code></div>
+    <h1>Get camera operation matrix</h1>
+    <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/get_cam_op.R'><code>R/get_cam_op.R</code></a></small>
+    <div class="hidden name"><code>get_cam_op.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Check that the filter argument in a filter predicate is a character and has
-length one.</p>
+    <p>This function returns the <a href='https://jniedballa.github.io/camtrapR/reference/cameraOperation.html'>camera operation matrix</a>
+as returned by camtrapR's function <code>cameraOperation()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_filter_arg</span><span class='op'>(</span><span class='va'>arg</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>datapkg</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>arg</th>
-      <td><p>character with the argument name of the filter predicate</p></td>
+      <th>datapkg</th>
+      <td><p>a camera trap data package object, as returned by
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
+<li><p><code>observations</code> 2. <code>deployments</code> 3. <code>multimedia</code></p></li>
+</ol>
+
+<p>and a list with metadata: <code>datapackage</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> or an error message</p>
+    <p>a matrix. Row names always indicate the <code>location_name</code> (station ID)
+<code>"Station"</code>+<code>location_name</code>. Column names are dates.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The deployment data are grouped by <code>location_name</code> (station ID in camtrapR
+jargon). If multiple deploymnts are linked to same location, daily
+efforts higher than one occur.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>check_filter_arg</span><span class='op'>(</span><span class='st'>"latitude"</span><span class='op'>)</span>
-<span class='fu'>check_filter_arg</span><span class='op'>(</span><span class='st'>"location_name"</span><span class='op'>)</span>
-<span class='co'># this returns an error</span>
-<span class='fu'>check_filter_arg</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note: method with signature ‘Duration#ANY’ chosen for function ‘-’,</span>
+#&gt; <span class='message'> target signature ‘Duration#Duration’.</span>
+#&gt; <span class='message'> "ANY#Duration" would also be valid</span></div><div class='output co'>#&gt;                                    2020-06-03 2020-06-04 2020-06-05 2020-06-06
+#&gt; StationB_ML_val 03_De Val           0.1533565          1          1          1
+#&gt; StationB_ML_val 05_molenkreek       0.1595139          1          1          1
+#&gt; StationB_ML_val 06_Oostpolderkreek  0.1635069          1          1          1
+#&gt; StationB_ML_val 07_Sint-Anna        0.1160648          1          1          1
+#&gt;                                    2020-06-07 2020-06-08 2020-06-09 2020-06-10
+#&gt; StationB_ML_val 03_De Val          1.00000000 1.00000000          1          1
+#&gt; StationB_ML_val 05_molenkreek      1.00000000 1.00000000          1          1
+#&gt; StationB_ML_val 06_Oostpolderkreek 0.01864583 0.00000000          0          0
+#&gt; StationB_ML_val 07_Sint-Anna       1.00000000 0.01019676          0          0
+#&gt;                                    2020-06-11 2020-06-12 2020-06-13 2020-06-14
+#&gt; StationB_ML_val 03_De Val                   1          1          1          1
+#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
+#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
+#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
+#&gt;                                    2020-06-15 2020-06-16 2020-06-17 2020-06-18
+#&gt; StationB_ML_val 03_De Val                   1          1          1          1
+#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
+#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
+#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
+#&gt;                                    2020-06-19 2020-06-20 2020-06-21 2020-06-22
+#&gt; StationB_ML_val 03_De Val                   1          1          1          1
+#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
+#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
+#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
+#&gt;                                    2020-06-23 2020-06-24 2020-06-25 2020-06-26
+#&gt; StationB_ML_val 03_De Val                   1  1.0000000          1          1
+#&gt; StationB_ML_val 05_molenkreek               1  0.9404282          0          0
+#&gt; StationB_ML_val 06_Oostpolderkreek          0  0.0000000          0          0
+#&gt; StationB_ML_val 07_Sint-Anna                0  0.0000000          0          0
+#&gt;                                    2020-06-27 2020-06-28 2020-06-29 2020-06-30
+#&gt; StationB_ML_val 03_De Val                   1          1          1          1
+#&gt; StationB_ML_val 05_molenkreek               0          0          0          0
+#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
+#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
+#&gt;                                    2020-07-01 2020-07-02 2020-07-03
+#&gt; StationB_ML_val 03_De Val                   1          1  0.8733565
+#&gt; StationB_ML_val 05_molenkreek               0          0  0.0000000
+#&gt; StationB_ML_val 06_Oostpolderkreek          0          0  0.0000000
+#&gt; StationB_ML_val 07_Sint-Anna                0          0  0.0000000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

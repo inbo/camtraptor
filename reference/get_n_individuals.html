@@ -97,6 +97,9 @@ observations." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/camera-operation-matrix.html">Camera operation matrix</a>
+    </li>
+    <li>
       <a href="../articles/filter-predicates.html">Filter predicates</a>
     </li>
     <li>
@@ -188,7 +191,7 @@ if argument <code>species</code> = NULL</p></li>
     <pre class="examples"><div class='input'>
 <span class='co'># get number of observations for each species</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     87
@@ -213,7 +216,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># get number of obs of all species, not identified individuals as well</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 2</span>
 #&gt;   deployment_id                            n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4   310
@@ -222,7 +225,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d    13</div><div class='input'>
 <span class='co'># get number of observations of Gallinula chloropus</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Gallinula chloropus"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
@@ -231,7 +234,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># get number of observations of Common Moorhen</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"Common Moorhen"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of Common Moorhen: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of Common Moorhen: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
@@ -240,14 +243,14 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># case insensitive</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"galliNULa CHloropUs"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
 #&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'><span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"cOmmon moorhEn"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of cOmmon moorhEn: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of cOmmon moorhEn: Gallinula chloropus</span></div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1, 9e84c750-e8fa-4502-ae12-cc6c75532f5a and fff2f46e-8163-453c-9044-61fb77587f5d</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Gallinula chloropus     1
@@ -256,7 +259,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify age</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos     57
@@ -281,7 +284,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify sex</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos      0
@@ -306,7 +309,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># specify both sex and age</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"undefined"</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name         n
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Rattus norvegicus       0
@@ -331,7 +334,7 @@ if argument <code>species</code> = NULL</p></li>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</div><div class='input'>
 <span class='co'># applying filter(s), e.g. deployments with latitude &gt;= 51.28</span>
 <span class='fu'>get_n_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 × 3</span>
 #&gt;   deployment_id                        scientific_name         n
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos     46

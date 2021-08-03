@@ -96,6 +96,9 @@ deployment." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/camera-operation-matrix.html">Camera operation matrix</a>
+    </li>
+    <li>
       <a href="../articles/filter-predicates.html">Filter predicates</a>
     </li>
     <li>
@@ -190,7 +193,7 @@ of all age classes are taken into account.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># calculate RAI for all species</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span> <span class='co'># species = "all" by default, so equivalent of</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name        rai
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   93.3 
@@ -213,7 +216,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>18</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus      0   
 #&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus   24.2 
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.  </div><div class='input'><span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name        rai
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   93.3 
@@ -238,7 +241,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.  </div><div class='input'>
 <span class='co'># selected species</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"Rattus norvegicus"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
@@ -251,7 +254,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
 <span class='co'># with common names</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Mallard"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of Mallard: Anas platyrhynchos</span></div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of Mallard: Anas platyrhynchos</span></div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
@@ -264,7 +267,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
 <span class='co'># mixed scientific and vernacular names</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
@@ -277,7 +280,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus  170. </div><div class='input'>
 <span class='co'># species argument is case insensitive</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ANAS plAtyRhynChOS"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  93.3
@@ -286,14 +289,14 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  24.2</div><div class='input'>
 <span class='co'># specify sex</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   0  
 #&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos   0  
 #&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos   0  
 #&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  24.2</div><div class='input'><span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, sex <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"female"</span>, <span class='st'>"undefined"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>There are 3 deployments with no observations: 3b94f935-020f-49d8-bd59-1736f8a266c4, 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 and 9e84c750-e8fa-4502-ae12-cc6c75532f5a</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 × 3</span>
 #&gt;    deployment_id                        scientific_name      rai
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   0  
@@ -310,7 +313,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>12</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   96.9</div><div class='input'>
 <span class='co'># specify age</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, age <span class='op'>=</span> <span class='st'>"adult"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name        rai
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   66.6 
@@ -333,7 +336,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>18</span> fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus      0   
 #&gt; <span style='color: #BCBCBC;'>19</span> fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus   24.2 
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.  </div><div class='input'><span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"adult"</span>, <span class='st'>"subadult"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 x 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 20 × 3</span>
 #&gt;    deployment_id                        scientific_name        rai
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos   66.6 
@@ -358,7 +361,7 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>20</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.  </div><div class='input'>
 <span class='co'># apply filter(s): deployments with latitude &gt;= 51.28</span>
 <span class='fu'>get_rai</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
+</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 × 3</span>
 #&gt;   deployment_id                        scientific_name       rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 Anas platyrhynchos  80.6 

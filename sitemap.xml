@@ -37,6 +37,9 @@
     <loc>https://inbo.github.io/camtrapdp/reference/filter_predicate.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_cam_op.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_dep_no_obs.html</loc>
   </url>
   <url>
@@ -74,6 +77,9 @@
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/transform_effort_to_common_units.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/camera-operation-matrix.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/articles/filter-predicates.html</loc>

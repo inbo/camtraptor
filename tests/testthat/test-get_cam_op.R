@@ -5,7 +5,7 @@ test_that("input of get_cam_op, camtrap dp, is checked properly", {
 
 test_that("output of get_cam_op is a matrix", {
   cam_op_matrix <- get_cam_op(camtrapdp)
-  expect_equal(class(cam_op_matrix), c("matrix", "array"))
+  expect_true("matrix" %in% class(cam_op_matrix))
 })
 
 test_that("output matrix has locations as rownames", {

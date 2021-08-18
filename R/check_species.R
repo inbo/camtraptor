@@ -11,6 +11,8 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @param species a character vector with scientific or vernacular names.
+#' @param arg_name character with argument name to return in error message.
+#'   Default: "species".
 #'
 #' @importFrom purrr map_chr
 #' @importFrom assertthat assert_that
@@ -26,8 +28,8 @@
 #' # case insensitive
 #' check_species(camtrapdp, "galliNULa CHloropUs")
 #' check_species(camtrapdp, "MalLARD")
-#'
-check_species <- function(datapkg, species) {
+#' 
+check_species <- function(datapkg, species, arg_name = "species") {
 
   assert_that(!is.null(species) & length(species) > 0,
               msg = "species argument must be specified")
@@ -36,7 +38,7 @@ check_species <- function(datapkg, species) {
   check_value(tolower(species),
               c(tolower(all_species$scientific_name),
                 tolower(all_species$vernacular_name)),
-              "species")
+              arg_name)
 
   map_chr(species, function(x) {
     # get scientific name in case a vernacular names is given

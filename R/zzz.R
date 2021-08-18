@@ -11,6 +11,7 @@
 #' @noRd
 #'
 #' @importFrom assertthat assert_that
+#' 
 #' @keywords internal
 #'
 check_datapkg <- function(datapkg) {
@@ -53,15 +54,13 @@ check_datapkg <- function(datapkg) {
 #'
 #' @return If no error, `TRUE`.
 #'
-#' @keywords internal
-#'
 #' @noRd
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
-#'
+#' 
 #' @keywords internal
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Valid inputs for species

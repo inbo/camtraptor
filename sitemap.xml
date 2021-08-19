@@ -61,6 +61,9 @@
     <loc>https://inbo.github.io/camtrapdp/reference/get_rai_individuals.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/get_record_table.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/get_scientific_name.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/articles/filter-predicates.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/record-table.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/articles/visualize-deployment-features.html</loc>

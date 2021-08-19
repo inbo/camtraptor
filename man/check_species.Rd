@@ -4,7 +4,7 @@
 \alias{check_species}
 \title{Check validity of the given scientific or vernacular name(s)}
 \usage{
-check_species(datapkg, species)
+check_species(datapkg, species, arg_name = "species")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -16,6 +16,9 @@ check_species(datapkg, species)
 and a list with metadata: \code{datapackage}}
 
 \item{species}{a character vector with scientific or vernacular names.}
+
+\item{arg_name}{character with argument name to return in error message.
+Default: "species".}
 }
 \value{
 a character vector with the correspondent scientific names

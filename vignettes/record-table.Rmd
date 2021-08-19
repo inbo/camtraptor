@@ -1,0 +1,103 @@
+---
+title: "Record table"
+author: "Damiano Oldoni"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Record table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows how to get a _species record table_ as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a camera trap data package.
+
+## Setup
+
+Load packages:
+
+```{r load_pkgs}
+library(camtrapdp)
+library(lubridate)
+library(dplyr)
+```
+
+By loading pacakge `camtrapdp`, a camera trap data package called `camtrapdp` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+
+## Species record table
+
+The camtrapR's function `recordTable()` generates:
+
+> a record table from camera trap images or videos
+
+At a certain extent the aggregation of `multimedia` (e.g. images) into `observations` is already done in a camera trap data package.
+
+If we consider that all observations are independent, then, it will be sufficient to run the following:
+
+```{r basic_usage}
+get_record_table(camtrapdp)
+```
+
+The function returns the same columns as the camtrapR's function `recordTable()`. The following mapping is applied:
+
+column name output | description
+--- | ---
+`Station` | the station name as provided by argument `stationCol` (default: `location_name`). It has to be a column of `deployments`
+`Species` |  `scientific_name` column in `observations`
+`DateTimeOriginal` | the `timestamp` column in `observations`
+`Date` | the date from `timestamp`
+`Time` | the time part from `timestamp`
+`delta.time.secs` | the elapsed time in seconds between two (independent) observations
+`delta.time.mins` | the elapsed time in minutes between two (independent) observations
+`delta.time.hours` | the elapsed time in hours between two (independent) observations
+`delta.time.days` | the elapsed time in days between two (independent) observations
+`Directory` | a list with file paths as stored in column `file_path` of `multimedia`
+`FileName` | a list with file paths as stored in column `file_path` of `multimedia`
+
+The following remarks are both valid for camtrapR's function  `recordTable()` and the function  `get_record_table()` of this package:
+1. observations are grouped by station and species
+2. observations of unidentified animals are removed
+2. the elapsed time of the first observation (record) of a species at a certain station is set to 0 by default
+
+### Temporal independence
+
+As described in [Chapter 3](https://jniedballa.github.io/camtrapR/articles/camtrapr3.html) of camptrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for `recordTable()`, this is achieved via argument `minDeltaTime`, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.
+
+Again, as for `recordTable()`, we provide an argument, `deltaTimeComparedTo`, to further control how independence between records is assessed. Setting it to `“lastRecord”` returns only records taken `minDeltaTime` minutes after the last record, i.e. `minDeltaTime` minutes after `timestamp` of the last recorded multimedia file. Example with  `minDeltaTime = 60` (1 hour):
+
+```{r example_lastRecord}
+get_record_table(camtrapdp, 
+                 minDeltaTime = 60, 
+                 deltaTimeComparedTo = "lastRecord")
+```
+
+Setting `deltaTimeComparedTo` to `“lastIndependentRecord”` returns only records taken `minDeltaTime` minutes after the last independent record, i.e. `minDeltaTime` minutes after `timestamp` of the last observation. Example with  `minDeltaTime = 60` (1 hour):
+
+```{r example_lastIndependentRecord}
+get_record_table(camtrapdp, 
+                 minDeltaTime = 60, 
+                 deltaTimeComparedTo = "lastIndependentRecord")
+```
+
+### Other parameters
+
+Similar to `recordTable()`, the function `get_record_table()` allows you also to
+exclude some species. Both vernacular names and scientific names are allowed (case insensitive):
+
+```{r example_exclude}
+get_record_table(camtrapdp, exclude = c("NORWAY RAT", "Anas platyrhynchos"))
+```
+
+The column containing the stations can also be defined by the user if the default value, `"location_name"`, is not the correct one. It has to be a valid column of  `deployments`. Here below, `location_id` is used:
+
+```{r example_stationCol}
+get_record_table(camtrapdp, stationCol = "location_id")
+```
+
+Are there other parameters of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtrapdp/issues)!

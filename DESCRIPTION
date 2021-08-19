@@ -31,6 +31,7 @@ Imports:
     lubridate,
     purrr,
     readr,
+    rlang,
     stringr,
     tidyr
 Suggests: 

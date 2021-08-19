@@ -86,9 +86,9 @@ test_that("stations names are equal to values in column passed to StationCOl", {
 
 test_that("Directory and Filename columns are lists", {
   file_values <- get_record_table(camtrapdp) %>% 
-    select(Directory, Filename)
+    select(Directory, FileName)
   expect_true(class(file_values$Directory) == "list")
-  expect_true(class(file_values$Filename) == "list")
+  expect_true(class(file_values$FileName) == "list")
 })
 
 test_that("Each Directory and Filename slot contains as many values as multimedia linked to the independent obs", {

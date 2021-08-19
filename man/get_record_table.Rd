@@ -27,10 +27,10 @@ Default: \code{"location_name"}}
 \item{exclude}{(character) vector of species names (scientific names or
 vernacular names) to be excluded from the record table. Default: \code{NULL}}
 
-\item{minDeltaTime:}{(integer) time difference between records of the same
+\item{minDeltaTime}{(integer) time difference between records of the same
 species at the same station to be considered independent (in minutes)}
 
-\item{deltaTimeComparedTo:}{(character) \code{"lastIndependentRecord"} or
+\item{deltaTimeComparedTo}{(character) \code{"lastIndependentRecord"} or
 \code{"lastRecord"}. For two records to be considered independent, must the
 second one be at least \code{minDeltaTime} minutes after the last independent
 record of the same species (\code{deltaTimeComparedTo = "lastIndependentRecord"}
@@ -74,13 +74,20 @@ camtrapR's function documentation
 \examples{
 get_record_table(camtrapdp)
 
-# set a minDeltaTime of 20 minutes from last independent record for filtering out not independent observations
-get_record_table(camtrapdp, minDeltaTime = 20, deltaTimeComparedTo = "lastIndependentRecord")
+# set a minDeltaTime of 20 minutes from last independent record for filtering
+# out not independent observations
+get_record_table(camtrapdp,
+    minDeltaTime = 20,
+    deltaTimeComparedTo = "lastIndependentRecord")
 
-# set a minDeltaTime of 20 minutes from last record for filtering out not independent observations
-get_record_table(camtrapdp, minDeltaTime = 20, deltaTimeComparedTo = "lastRecord")
+# set a minDeltaTime of 20 minutes from last record for filtering out not
+# independent observations
+get_record_table(camtrapdp,
+    minDeltaTime = 20,
+    deltaTimeComparedTo = "lastRecord")
 
-# exclude observations of Norway Rat (case insensitive, vernacular names allowed)
+# exclude observations of Norway Rat
+# exclude is case insensitive and vernacular names allowed
 get_record_table(camtrapdp, exclude = "Norway raT")
 
 # specify column to pass station names

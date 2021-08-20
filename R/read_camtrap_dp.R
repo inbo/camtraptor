@@ -35,6 +35,9 @@
 #' gmu8 <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
 #' }
 read_camtrap_dp <- function(path, multimedia = TRUE) {
+  # check multimedia
+  assert_that(multimedia %in% c(TRUE, FALSE),
+              msg = "multimedia must be a logical: TRUE or FALSE")
   # read files
   package <- read_package(file.path(path, "datapackage.json"))
   deployments <- read_resource(package, "deployments")

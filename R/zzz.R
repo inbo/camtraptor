@@ -11,6 +11,7 @@
 #' @noRd
 #'
 #' @importFrom assertthat assert_that
+#' 
 #' @keywords internal
 #'
 check_datapkg <- function(datapkg) {
@@ -53,15 +54,13 @@ check_datapkg <- function(datapkg) {
 #'
 #' @return If no error, `TRUE`.
 #'
-#' @keywords internal
-#'
 #' @noRd
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
-#'
+#' 
 #' @keywords internal
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Valid inputs for species
@@ -243,4 +242,44 @@ get_dep_no_obs <- function(datapkg, ...) {
     ))
   }
   return(dep_no_obs)
+}
+
+#' Calculate daily effort for start or end day 
+#' 
+#' While assessing the camera operation matrix, start and end day are edge
+#' case. The daily effort is a real number between 0 and 1 as and is defined as
+#' the fraction of the day the camera was on
+#' 
+#' @importFrom dplyr %>% if_else mutate %>% pull
+#' @importFrom assertthat assert_that
+#' @importFrom lubridate as.duration as_datetime ddays
+#' 
+#' @noRd
+#' 
+#' @keywords internal
+calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
+  # check calc_start or calc_end are passed
+  assert_that(
+    (is.null(calc_start) & !is.null(calc_end)) | 
+      (!is.null(calc_start) & is.null(calc_end)),
+    msg = "Either calc_start or calc_end must be defined.")
+  deploy_df <- deploy_df %>%
+    mutate(edge = if_else(!is.null(calc_start), start, end),
+           edge_day = if_else(!is.null(calc_start), start_day, end_day))
+  deploy_df %>%
+  # calculate the duration of the start/end day (edge day)
+  mutate(edge_day_duration = 
+           as.duration(as_datetime(edge_day) + 
+                         ddays(1) - 
+                         as_datetime(edge_day))) %>%
+    # calculate the duration of the active part of the start/end day
+  mutate(active_edge_day_duration = if_else(
+    !is.null(calc_start),
+    # start day
+    edge_day_duration - as.duration(edge - as_datetime(edge_day)),
+    # end day
+    edge_day_duration - as.duration(as_datetime(edge_day) + ddays(1) - edge))) %>%
+    # calculate the fraction of the duration of the active part 
+  mutate(daily_effort = active_edge_day_duration / edge_day_duration) %>%
+  pull(daily_effort)
 }

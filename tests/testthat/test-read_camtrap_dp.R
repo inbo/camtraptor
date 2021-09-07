@@ -4,8 +4,7 @@ test_that("path is checked properly", {
 })
 
 test_that("multimedia is checked properly", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   expect_error(read_camtrap_dp(
@@ -15,8 +14,7 @@ test_that("multimedia is checked properly", {
 })
 
 test_that("output is a list of length 4", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
@@ -27,8 +25,7 @@ test_that("output is a list of length 4", {
 })
 
 test_that("multimedia arg influences only slot multimedia", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   dp_with_multimedia <- read_camtrap_dp(
@@ -60,8 +57,7 @@ test_that("multimedia arg influences only slot multimedia", {
 })
 
 test_that("Datapackage metadata is a list", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
@@ -71,8 +67,7 @@ test_that("Datapackage metadata is a list", {
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
@@ -83,8 +78,7 @@ test_that("Datapackage resources are named as in metadata$resource_names", {
 })
 
 test_that("Datapackage resources are tibble dataframes", {
-  dp_path <- system.file("inst",
-                         "extdata",
+  dp_path <- system.file("extdata",
                          "mica-muskrat-and-coypu-20210302172233",
                          package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(

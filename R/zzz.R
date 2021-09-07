@@ -264,22 +264,22 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
       (!is.null(calc_start) & is.null(calc_end)),
     msg = "Either calc_start or calc_end must be defined.")
   deploy_df <- deploy_df %>%
-    mutate(edge = if_else(!is.null(calc_start), start, end),
-           edge_day = if_else(!is.null(calc_start), start_day, end_day))
+    mutate(edge = if_else(!is.null(calc_start), .data$start, .data$end),
+           edge_day = if_else(!is.null(calc_start), .data$start_day, .data$end_day))
   deploy_df %>%
   # calculate the duration of the start/end day (edge day)
   mutate(edge_day_duration = 
-           as.duration(as_datetime(edge_day) + 
+           as.duration(as_datetime(.data$edge_day) + 
                          ddays(1) - 
-                         as_datetime(edge_day))) %>%
+                         as_datetime(.data$edge_day))) %>%
     # calculate the duration of the active part of the start/end day
   mutate(active_edge_day_duration = if_else(
     !is.null(calc_start),
     # start day
-    edge_day_duration - as.duration(edge - as_datetime(edge_day)),
+    .data$edge_day_duration - as.duration(.data$edge - as_datetime(.data$edge_day)),
     # end day
-    edge_day_duration - as.duration(as_datetime(edge_day) + ddays(1) - edge))) %>%
+    .data$edge_day_duration - as.duration(as_datetime(.data$edge_day) + ddays(1) - .data$edge))) %>%
     # calculate the fraction of the duration of the active part 
-  mutate(daily_effort = active_edge_day_duration / edge_day_duration) %>%
-  pull(daily_effort)
+  mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
+  pull(.data$daily_effort)
 }

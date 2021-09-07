@@ -41,7 +41,7 @@ a tibble (data.frame) with the following columns:
 }
 \description{
 Function to get the RAI (Relative Abundance Index) per
-deployment.
+deployment. The RAI is normalized using 100 days deployment activity.
 }
 \examples{
 # calculate RAI for all species

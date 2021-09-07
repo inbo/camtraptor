@@ -3,7 +3,7 @@
 #' @name get_rai
 #'
 #' @description Function to get the RAI (Relative Abundance Index) per
-#'   deployment.
+#'   deployment. The RAI is normalized using 100 days deployment activity.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:

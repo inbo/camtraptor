@@ -44,9 +44,11 @@ information about stations, date, time and further metadata, such as
 filenames and directories of the images (multimedia) linked to the species
 records. Some more details about the columns returned:
 \enumerate{
-\item \code{Station}: character, station names, as found in the deployment column defined  in argument \code{stationCol}
+\item \code{Station}: character, station names, as found in the deployment column
+defined  in argument \code{stationCol}
 \item \code{Species}: character, the scientific name of the observed species
-\item \code{DateTimeOriginal}: datetime object, as found in column \code{timestamp} of  \code{observations}
+\item \code{DateTimeOriginal}: datetime object, as found in column \code{timestamp} of
+\code{observations}
 \item \code{Date}: date object, the date part of \code{DateTimeOriginal}
 \item \code{Time}: character, the time part of \code{DateTimeOriginal}
 \item \code{delta.time.secs}: numeric, the duration in seconds from the previous
@@ -91,5 +93,8 @@ get_record_table(camtrapdp,
 get_record_table(camtrapdp, exclude = "Norway raT")
 
 # specify column to pass station names
-get_record_table(camtrapdp, stationCol = "location_id", minDeltaTime = 20, deltaTimeComparedTo = "lastRecord")
+get_record_table(camtrapdp,
+    stationCol = "location_id",
+    minDeltaTime = 20,
+    deltaTimeComparedTo = "lastRecord")
 }

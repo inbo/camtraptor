@@ -15,7 +15,7 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @importFrom purrr map_dfc
-#' @importFrom dplyr %>% as_tibble filter mutate pull bind_cols
+#' @importFrom dplyr %>% .data as_tibble filter mutate pull bind_cols
 #' @importFrom lubridate as_datetime date
 #' @return a matrix. Row names always indicate the `location_name` (station ID)
 #'   `"Station"`+`location_name`. Column names are dates.
@@ -43,8 +43,8 @@ get_cam_op <- function(datapkg) {
   days_operations <- as_datetime(days_operations)
   # add aux variables, start_day and end_day for each deployment
   deploys <- deploys %>%
-    mutate(start_day = date(start),
-           end_day = date(end))
+    mutate(start_day = date(.data$start),
+           end_day = date(.data$end))
 
   # make a operation table per deployment
   deployment_operational <- map(
@@ -73,12 +73,11 @@ get_cam_op <- function(datapkg) {
                       # get deployments linked to the location name
                       deploys_id <- 
                         deploys %>%
-                        filter(location_name == loc_name) %>%
-                        pull(deployment_id)
+                        filter(.data$location_name == loc_name) %>%
+                        pull(.data$deployment_id)
                       # get operational dfs linked to these deployment_ids
                       dep_dfs <- deployment_operational[names(deployment_operational) %in% deploys_id]
                       dep_op <- bind_cols(dep_dfs)
-                      
                       # sum daily effort along all deployments at same location
                       dep_op <- as_tibble(rowSums(dep_op[, names(dep_op)]))
                       # set location name as station id

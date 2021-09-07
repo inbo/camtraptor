@@ -31,7 +31,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom lubridate date duration
 #' @importFrom purrr map
-#' @importFrom rlang !! sym
+#' @importFrom rlang !! := sym
 #' @importFrom stringr str_starts
 #' @importFrom tidyr nest replace_na unnest
 #' @return A (tibble) data frame containing species records and additional

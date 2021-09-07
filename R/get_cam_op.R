@@ -15,7 +15,7 @@
 #'   and a list with metadata: `datapackage`
 #'
 #' @importFrom purrr map_dfc
-#' @importFrom dplyr %>% as_tibble filter mutate pull bind_cols
+#' @importFrom dplyr %>% .data as_tibble filter mutate pull bind_cols
 #' @importFrom lubridate as_datetime date
 #' @return a matrix. Row names always indicate the `location_name` (station ID)
 #'   `"Station"`+`location_name`. Column names are dates.

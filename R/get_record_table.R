@@ -140,15 +140,15 @@ get_record_table <- function(datapkg,
   # lists for each sequence id
   grouped_multimedia_info <- 
     datapkg$multimedia %>%
-    select(sequence_id,
-           file_path,
-           file_name,
-           timestamp) %>%
-    group_by(sequence_id) %>%
-    summarise(file_path = list(file_path),
-              file_name = list(file_name),
+    select(.data$sequence_id,
+           .data$file_path,
+           .data$file_name,
+           .data$timestamp) %>%
+    group_by(.data$sequence_id) %>%
+    summarise(file_path = list(.data$file_path),
+              file_name = list(.data$file_name),
               # important if deltaTimeComparedTo is lastRecord
-              last_timestamp = last(timestamp))
+              last_timestamp = last(.data$timestamp))
   # add needed multimedia info from multimedia to observations
   obs <- obs %>%
     left_join(grouped_multimedia_info,
@@ -158,8 +158,8 @@ get_record_table <- function(datapkg,
   record_table <- obs %>%
     mutate(Date = date(.data$timestamp),
            Time = format(.data$timestamp, format = "%H:%M:%S")) %>%
-    group_by(scientific_name, !!sym(stationCol)) %>%
-    arrange(scientific_name, !!sym(stationCol), timestamp)
+    group_by(.data$scientific_name, !!sym(stationCol)) %>%
+    arrange(.data$scientific_name, !!sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
     record_table <- record_table %>%

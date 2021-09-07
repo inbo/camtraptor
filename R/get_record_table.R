@@ -26,8 +26,8 @@
 #'   ), or `minDeltaTime` minutes after the last record (
 #'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0, 
 #'   `deltaTimeComparedTo` must be NULL (deafult)
-#' @importFrom dplyr %>% across arrange bind_cols distinct group_by last lag left_join
-#'   mutate rename select starts_with ungroup
+#' @importFrom dplyr .data %>% across arrange bind_cols distinct group_by last
+#'   lag left_join mutate rename select starts_with ungroup
 #' @importFrom assertthat assert_that
 #' @importFrom lubridate date duration
 #' @importFrom purrr map

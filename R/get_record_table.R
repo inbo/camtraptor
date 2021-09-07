@@ -125,7 +125,7 @@ get_record_table <- function(datapkg,
   }
   
   # remove observations of unidentified individuals
-  obs <- camtrapdp$observations %>% 
+  obs <- datapkg$observations %>% 
     filter(!is.na(scientific_name))
   
   # remove observations of species to be excluded

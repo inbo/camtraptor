@@ -126,15 +126,15 @@ get_record_table <- function(datapkg,
   
   # remove observations of unidentified individuals
   obs <- datapkg$observations %>% 
-    filter(!is.na(scientific_name))
+    filter(!is.na(.data$scientific_name))
   
   # remove observations of species to be excluded
   obs <- obs %>%
-    filter(!scientific_name %in% exclude)
+    filter(!.data$scientific_name %in% exclude)
   
   # add station column from deployments to observations 
   obs <- obs %>%
-    left_join(datapkg$deployments %>% select(deployment_id, !!sym(stationCol)),
+    left_join(datapkg$deployments %>% select(.data$deployment_id, !!sym(stationCol)),
               by = "deployment_id")
   # extract needed info from multimedia and set file names and file paths as
   # lists for each sequence id
@@ -169,7 +169,7 @@ get_record_table <- function(datapkg,
     record_independence <- record_table %>% 
       mutate(independent = FALSE) %>% 
       nest() %>%
-      mutate(data = map(data,
+      mutate(data = map(.data$data,
                         assess_temporal_independence,
                         minDeltaTime_duration,
                         deltaTimeComparedTo))
@@ -204,10 +204,10 @@ get_record_table <- function(datapkg,
   
   record_table <- record_table %>%
     rename(Station := !! stationCol,
-           Species = scientific_name,
-           DateTimeOriginal = timestamp,
-           Directory = file_path,
-           FileName = file_name) %>%
+           Species = .data$scientific_name,
+           DateTimeOriginal = .data$timestamp,
+           Directory = .data$file_path,
+           FileName = .data$file_name) %>%
     select(.data$Station,
            .data$Species,
            .data$DateTimeOriginal,

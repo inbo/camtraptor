@@ -38,9 +38,11 @@
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (multimedia) linked to the species
 #'   records. Some more details about the columns returned:
-#'   1. `Station`: character, station names, as found in the deployment column defined  in argument `stationCol`
+#'   1. `Station`: character, station names, as found in the deployment column
+#'   defined  in argument `stationCol`
 #'   2. `Species`: character, the scientific name of the observed species
-#'   3. `DateTimeOriginal`: datetime object, as found in column `timestamp` of  `observations`
+#'   3. `DateTimeOriginal`: datetime object, as found in column `timestamp` of
+#'   `observations`
 #'   4. `Date`: date object, the date part of `DateTimeOriginal`
 #'   5. `Time`: character, the time part of `DateTimeOriginal`
 #'   6. `delta.time.secs`: numeric, the duration in seconds from the previous
@@ -76,7 +78,10 @@
 #' get_record_table(camtrapdp, exclude = "Norway raT")
 #' 
 #' # specify column to pass station names
-#' get_record_table(camtrapdp, stationCol = "location_id", minDeltaTime = 20, deltaTimeComparedTo = "lastRecord")
+#' get_record_table(camtrapdp,
+#'     stationCol = "location_id",
+#'     minDeltaTime = 20,
+#'     deltaTimeComparedTo = "lastRecord")
 get_record_table <- function(datapkg,
                              stationCol = "location_name",
                              exclude = NULL,
@@ -151,8 +156,8 @@ get_record_table <- function(datapkg,
   
   # get record table
   record_table <- obs %>%
-    mutate(Date = date(timestamp),
-           Time = format(timestamp, format = "%H:%M:%S")) %>%
+    mutate(Date = date(.data$timestamp),
+           Time = format(.data$timestamp, format = "%H:%M:%S")) %>%
     group_by(scientific_name, !!sym(stationCol)) %>%
     arrange(scientific_name, !!sym(stationCol), timestamp)
   if (minDeltaTime == 0) {
@@ -179,21 +184,21 @@ get_record_table <- function(datapkg,
   
   # remove not independent observations
   n_dependent_obs <- record_table %>%
-    filter(independent == FALSE) %>%
+    filter(.data$independent == FALSE) %>%
     nrow()
   if (n_dependent_obs > 0) {
     message(glue("Number of not independent observations to be removed: {n_dependent_obs}"))
     record_table <- record_table %>%
-      filter(independent == TRUE)
+      filter(.data$independent == TRUE)
   }
   
   # get time between obs of two individuals of same species at same location
   record_table <- record_table %>%
-    mutate(delta.time = timestamp - lag(timestamp)) %>%
-    mutate(delta.time.secs = as.numeric(delta.time)) %>%
-    mutate(delta.time.mins = delta.time.secs/60) %>%
-    mutate(delta.time.hours = delta.time.mins/60) %>%
-    mutate(delta.time.days = delta.time.hours/24) %>%
+    mutate(delta.time = .data$timestamp - lag(.data$timestamp)) %>%
+    mutate(delta.time.secs = as.numeric(.data$delta.time)) %>%
+    mutate(delta.time.mins = .data$delta.time.secs/60) %>%
+    mutate(delta.time.hours = .data$delta.time.mins/60) %>%
+    mutate(delta.time.days = .data$delta.time.hours/24) %>%
     mutate(across(starts_with("delta.time"), replace_na, 0)) %>%
     ungroup()
   
@@ -203,17 +208,17 @@ get_record_table <- function(datapkg,
            DateTimeOriginal = timestamp,
            Directory = file_path,
            FileName = file_name) %>%
-    select(Station,
-           Species,
-           DateTimeOriginal,
-           Date,
-           Time,
-           delta.time.secs,
-           delta.time.mins,
-           delta.time.hours,
-           delta.time.days,
-           Directory,
-           FileName)
+    select(.data$Station,
+           .data$Species,
+           .data$DateTimeOriginal,
+           .data$Date,
+           .data$Time,
+           .data$delta.time.secs,
+           .data$delta.time.mins,
+           .data$delta.time.hours,
+           .data$delta.time.days,
+           .data$Directory,
+           .data$FileName)
   return(record_table)
 }
 

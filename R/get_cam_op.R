@@ -78,7 +78,6 @@ get_cam_op <- function(datapkg) {
                       # get operational dfs linked to these deployment_ids
                       dep_dfs <- deployment_operational[names(deployment_operational) %in% deploys_id]
                       dep_op <- bind_cols(dep_dfs)
-                      
                       # sum daily effort along all deployments at same location
                       dep_op <- as_tibble(rowSums(dep_op[, names(dep_op)]))
                       # set location name as station id

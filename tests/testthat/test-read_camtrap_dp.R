@@ -1,28 +1,24 @@
-library(here) # to write paths easily
-
 test_that("path is checked properly", {
   expect_error(read_camtrap_dp("aaa"))
   expect_error(read_camtrap_dp(1))
 })
 
 test_that("multimedia is checked properly", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   expect_error(read_camtrap_dp(
     path = dp_path,
     multimedia = "must_Be_a_logical!")
   )
 })
 
-test_that("output is a list", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
-  dp_without_multimedia <- read_camtrap_dp(
-    path = dp_path,
-    multimedia = FALSE)
-  assert_that(class(dp_without_multimedia) == "list")
-})
-
 test_that("output is a list of length 4", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
     path = dp_path,
     multimedia = FALSE)
@@ -31,7 +27,10 @@ test_that("output is a list of length 4", {
 })
 
 test_that("multimedia arg influences only slot multimedia", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   dp_with_multimedia <- read_camtrap_dp(
     path = dp_path,
     multimedia = TRUE)
@@ -61,7 +60,10 @@ test_that("multimedia arg influences only slot multimedia", {
 })
 
 test_that("Datapackage metadata is a list", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
     path = dp_path,
     multimedia = FALSE)
@@ -69,7 +71,10 @@ test_that("Datapackage metadata is a list", {
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
     path = dp_path,
     multimedia = FALSE)
@@ -78,7 +83,10 @@ test_that("Datapackage resources are named as in metadata$resource_names", {
 })
 
 test_that("Datapackage resources are tibble dataframes", {
-  dp_path <- here("inst", "extdata", "mica-muskrat-and-coypu-20210302172233")
+  dp_path <- system.file("inst",
+                         "extdata",
+                         "mica-muskrat-and-coypu-20210302172233",
+                         package = "camtrapdp")
   dp_without_multimedia <- read_camtrap_dp(
     path = dp_path,
     multimedia = FALSE)

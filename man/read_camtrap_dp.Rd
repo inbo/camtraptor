@@ -13,10 +13,25 @@ read_camtrap_dp(path, multimedia = TRUE)
 ignore multimedia file to speed up reading larger Camtrap DP packages.}
 }
 \value{
-A list of tibbles (dataframes).
+A list containing three (tibble) data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
+}
+
+and a list with metadata: \code{datapackage}
 }
 \description{
 This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format.
+}
+\details{
+Vernacular names are typically used while working with camera trap
+\emph{observations}, so they are added to the observations as defined in the
+metadata (slot \code{taxonomic}), if present. Similarly, the scientific names in
+the observations are not a mandatory field, so they are overwritten by the
+well maintained scientific names as defined in the metadata (slot
+\code{taxonomic}).
 }
 \examples{
 \dontrun{
@@ -25,14 +40,10 @@ library(here)
 camtrap_dp_dir <- here(
     "inst",
     "extdata",
-    "mica-muskrat-and-coypu-20210302172233")
+    "mica-muskrat-and-coypu-20210707160815")
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 
 # Read Camtrap DP package and ignore multimedia file
-camtrap_dp_dir <- here(
-    "inst",
-    "extdata",
-    "gmu8-monitoring-faunabeheerzone-8-20210301093537")
-gmu8 <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
+muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
 }
 }

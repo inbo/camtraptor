@@ -42,13 +42,12 @@ check_species <- function(datapkg, species, arg_name = "species") {
 
   all_species <- get_species(datapkg)
   check_value(tolower(species),
-              c(tolower(all_species$scientific_name),
-                tolower(all_species$vernacular_name)),
+              unlist(all_species) %>% tolower(),
               arg_name)
 
   map_chr(species, function(x) {
     # get scientific name in case a vernacular names is given
-    if (tolower(x) %in% tolower(all_species$vernacular_name)) {
+    if (!tolower(x) %in% tolower(all_species$scientific_name)) {
       sn <- get_scientific_name(datapkg, x)
       message(glue("Scientific name of {x}: {sn}"))
       sn

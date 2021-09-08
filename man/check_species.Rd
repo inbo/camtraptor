@@ -10,14 +10,16 @@ check_species(datapkg, species, arg_name = "species")
 \item{datapkg}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
 
-\item{species}{a character vector with scientific or vernacular names.}
+\item{species}{a character vector with scientific or vernacular names}
 
-\item{arg_name}{character with argument name to return in error message.
+\item{arg_name}{character with argument name to return in error message
 Default: "species".}
 }
 \value{
@@ -28,10 +30,18 @@ Check names against all scientific and vernacular names contained in a camera
 trap data package
 }
 \examples{
+# species is a scientific name
 check_species(camtrapdp, "Gallinula chloropus")
-check_species(camtrapdp, c("Mallard", "Norway Rat"))
+# species is a vector of vernacular names
+ check_species(camtrapdp, c("mallard", "norway rat"))
+# vernacular names can be specified in any language available
+check_species(camtrapdp, c("wilde eend", "bruine rat"))
+# vernacular names and scientific names can be mixed up
+check_species(camtrapdp, c("mallard", "bruine rat", "Ondatra zibethicus"))
 # case insensitive
 check_species(camtrapdp, "galliNULa CHloropUs")
 check_species(camtrapdp, "MalLARD")
-
+\dontrun{
+check_species(camtrapdp, "bad name")
+}
 }

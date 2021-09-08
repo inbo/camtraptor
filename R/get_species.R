@@ -11,7 +11,7 @@
 #'
 #' and a list with metadata: `datapackage`
 #' 
-#' @importFrom dplyr %>% .data distinct left_join select starts_with
+#' @importFrom dplyr %>% .data distinct left_join select starts_with tibble
 #' @importFrom purrr map_dfr
 #' @importFrom tidyr drop_na
 #' @export

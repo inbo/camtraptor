@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_scientific_name.R
 \name{get_scientific_name}
 \alias{get_scientific_name}
-\title{Get scientific name based on its vernacular name}
+\title{Get scientific name based on its input_vernacular name}
 \usage{
 get_scientific_name(datapkg, vernacular_name)
 }
@@ -15,18 +15,21 @@ get_scientific_name(datapkg, vernacular_name)
 
 and a list with metadata: \code{datapackage}}
 
-\item{vernacular_name}{a character vector with the vernacular name(s) of the
-species as found in the \code{observations} table of the camera trap data
-package}
+\item{vernacular_name}{a character vector with input vernacular name(s)}
 }
 \value{
 a character vector of scientific name(s)
 }
 \description{
-This function returns the scientific name(s) of a vector of vernacular names
+This function returns the scientific name(s) of a vector of input_vernacular names
 based on the observations table of the given camera trap data package.
 }
 \examples{
-get_scientific_name(camtrapdp, "Norway Rat")
-
+get_scientific_name(camtrapdp, c("brown rat", "mallard"))
+# vernacular names can be passed in different languages 
+get_scientific_name(camtrapdp, c("brown rat", "wilde eend"))
+# the search is performed case insensitively
+get_scientific_name(camtrapdp, c("BrOwN RaT"))
+# if scientific names are passed, they are returned in the case correct form
+get_scientific_name(camtrapdp, c("Rattus norvegicus", "MyOcAsToR coYPuS"))
 }

@@ -6,7 +6,9 @@
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
-#'   1. `observations` 2. `deployments` 3. `multimedia`
+#'   1. `observations`
+#'   2. `deployments`
+#'   3. `multimedia`
 #'
 #'   and a list with metadata: `datapackage`
 #'
@@ -24,7 +26,11 @@
 #'
 #' @examples
 #' check_species(camtrapdp, "Gallinula chloropus")
-#' check_species(camtrapdp, c("Mallard", "Norway Rat"))
+#' check_species(camtrapdp, c("mallard", "norway Rat"))
+#' # vernacular names can be specified in any language available
+#' check_species(camtrapdp, c("wilde eend", "bruine rat"))
+#' # vernacular names and scientific names can be mixed up
+#' check_species(camtrapdp, c("mallard", "bruine rat", "Ondatra zibethicus"))
 #' # case insensitive
 #' check_species(camtrapdp, "galliNULa CHloropUs")
 #' check_species(camtrapdp, "MalLARD")

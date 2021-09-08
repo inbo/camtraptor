@@ -10,8 +10,10 @@
 #' 3. `multimedia`
 #'
 #' and a list with metadata: `datapackage`
-#'
-#'
+#' 
+#' @importFrom dplyr %>% .data distinct left_join select starts_with
+#' @importFrom purrr map_dfr
+#' @importFrom tidyr drop_na
 #' @export
 
 #' @return a data.frame with all scientific names and vernacular names of
@@ -24,18 +26,12 @@ get_species <- function(datapkg) {
 
   # check input data package
   check_datapkg(datapkg)
-
-  # extract observations and deployments
-  observations <- datapkg$observations
-
-  # extract scientific name and vernacular names
-  species <-
-    observations %>%
-    distinct(.data$scientific_name, .data$vernacular_name)
-
-  # remove possible NA from vector
-  species %>%
-    filter(!is.na(.data$scientific_name),
-           !is.na(.data$vernacular_name))
-
+  
+  # get vernacular names and scientific names from datapackage (taxonomic
+  # slot)
+  if (!"taxonomic" %in% names(datapkg$datapackage)) return(NULL)
+  map_dfr(
+    camtrapdp$datapackage$taxonomic,
+    function(x) x %>% as.data.frame()) %>% 
+    tibble()
 }

@@ -21,15 +21,27 @@ and a list with metadata: \code{datapackage}}
 a character vector of scientific name(s)
 }
 \description{
-This function returns the scientific name(s) of a vector of input_vernacular names
-based on the observations table of the given camera trap data package.
+This function returns the scientific name(s) of a vector of input_vernacular
+names based on the taxonomic information in metadata slot \code{taxonomic} of the
+given  camera trap data package.
+}
+\details{
+The match is performed case insensitively.
+
+If a vernacular name is not valid, an error is returned
 }
 \examples{
+# one or more vernacular names
+get_scientific_name(camtrapdp, "brown rat")
 get_scientific_name(camtrapdp, c("brown rat", "mallard"))
 # vernacular names can be passed in different languages 
 get_scientific_name(camtrapdp, c("brown rat", "wilde eend"))
 # the search is performed case insensitively
 get_scientific_name(camtrapdp, c("BrOwN RaT"))
-# if scientific names are passed, they are returned in the case correct form
-get_scientific_name(camtrapdp, c("Rattus norvegicus", "MyOcAsToR coYPuS"))
+# error is returned if at least one invalid vernacular name is passed
+\dontrun{
+get_scientfic_name(camtrapdp, "this is a bad vernacular name")
+# a scientific name is an invalid vernacular name of course
+get_scientific_name(camtrapdp, c("Rattus norvegicus", "wilde eend"))
+}
 }

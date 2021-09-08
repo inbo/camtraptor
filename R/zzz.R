@@ -30,10 +30,13 @@ check_datapkg <- function(datapkg) {
               )
 
 
-  # check observations deployments and multimedia are data.frames
+  # check observations and deployments are data.frames
   assert_that(is.data.frame(datapkg$observations))
   assert_that(is.data.frame(datapkg$deployments))
-  assert_that(is.data.frame(datapkg$multimedia))
+  # check multimedia is a data.frame (if imported, i.e. if not NULL)
+  if (!is.null(datapkg$multimedia)) {
+    assert_that(is.data.frame(datapkg$multimedia))
+  }
 
   # check element datapackage (metadata) is a list
   assert_that(is.list(datapkg$datapackage))

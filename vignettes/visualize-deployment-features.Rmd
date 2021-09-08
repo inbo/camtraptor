@@ -131,7 +131,7 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
-**Notice that in this package the RAI is normalized it over a deployment activity period of 100 days.**
+**Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
 
 As for number of observations and number of individuals, you can  filter by sex and/or age:
 

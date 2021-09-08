@@ -25,10 +25,10 @@
 #' @export
 #'
 #' @importFrom datapackage read_package read_resource
-#' @importFrom dplyr %>% .data left_join relocate select starts_with tibble
+#' @importFrom dplyr %>% .data left_join relocate select starts_with
 #' @importFrom here here
 #' @importFrom jsonlite read_json
-#' @importFrom purrr map_dfr
+
 #' @importFrom readr read_csv cols col_character col_number col_datetime
 #'
 #' @examples
@@ -53,18 +53,16 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   deployments <- read_resource(package, "deployments")
   observations <- read_resource(package, "observations")
   
-  
-  if ("taxonomic" %in% names(package)) {
-    # get vernacular names and scientific names from datapackage (taxonomic
-    # slot)
-    taxon_infos <- map_dfr(
-      camtrapdp$datapackage$taxonomic,
-      function(x) x %>% as.data.frame()) %>% 
-      tibble()
-    
+  taxon_infos <- get_species(list(
+    "datapackage" = package,
+    "deployments" = deployments,
+    "multimedia" = NULL,
+    "observations" = observations
+  ))
+  if (!is.null(taxon_infos)) {
     # add vernacular names to observations and overwrite scientific names
     observations <- left_join(observations %>%
-                                select(-scientific_name),
+                                select(-.data$scientific_name),
                               taxon_infos,
                               by  = "taxon_id")
     observations <- observations %>% 
@@ -73,7 +71,6 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
       relocate(starts_with("vernacular_name"), 
                .after = .data$scientific_name)
   }
-  
   if (multimedia == TRUE) {
     multimedia <- read_resource(package, "multimedia")
   }

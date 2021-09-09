@@ -120,11 +120,11 @@ get_rai <- function(datapkg, ...,
 #'   species = c("Anas platyrhynchos", "Rattus norvegicus")
 #' )
 #'
-#' # with common names
-#' get_rai_individuals(camtrapdp, species = c("Mallard", "norway rat"))
+#' # with common names, also mixing up languages
+#' get_rai_individuals(camtrapdp, species = c("Mallard", "bruine rat"))
 #'
 #' # mixed scientific and vernacular names
-#' get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
+#' get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
 #'
 #' # species argument is case insensitive
 #' get_rai_individuals(camtrapdp, species = c("ANAS plAtyRhynChOS"))

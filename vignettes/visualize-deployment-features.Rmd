@@ -168,9 +168,10 @@ testthat::expect_error(
           feature = "rai",
           species = "This is not a species name"), 
   paste0("Invalid value for species argument.\n",
-         "Valid inputs are: NULL, anas platyrhynchos, rattus norvegicus, ",
-         "ondatra zibethicus, myocastor coypus, gallinula chloropus, ", 
-         "mallard, norway rat, muskrat, coypu and common moorhen.")
+         "Valid inputs are: anas platyrhynchos, gallinula chloropus, ",
+         "myocastor coypus, ondatra zibethicus, rattus norvegicus, ", 
+         "mallard, common moorhen, coypu, muskrat, brown rat, ",
+         "wilde eend, waterhoen, beverrat, muskusrat and bruine rat.")
 )
 ```
 

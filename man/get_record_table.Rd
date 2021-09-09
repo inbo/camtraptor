@@ -31,7 +31,8 @@ Default: \code{"location_name"}}
 vernacular names) to be excluded from the record table. Default: \code{NULL}}
 
 \item{minDeltaTime}{(integer) time difference between records of the same
-species at the same station to be considered independent (in minutes)}
+species at the same station to be considered independent (in minutes).
+Default: 0}
 
 \item{deltaTimeComparedTo}{(character) \code{"lastIndependentRecord"} or
 \code{"lastRecord"}. For two records to be considered independent, must the

@@ -18,7 +18,8 @@
 #' @param exclude	(character) vector of species names (scientific names or
 #'   vernacular names) to be excluded from the record table. Default: `NULL`
 #' @param minDeltaTime (integer) time difference between records of the same
-#'   species at the same station to be considered independent (in minutes)
+#'   species at the same station to be considered independent (in minutes).
+#'   Default: 0
 #' @param deltaTimeComparedTo (character) `"lastIndependentRecord"` or
 #'   `"lastRecord"`. For two records to be considered independent, must the
 #'   second one be at least `minDeltaTime` minutes after the last independent

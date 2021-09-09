@@ -59,3 +59,8 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   expect_true(cam_op_matrix[4, end] > 0)
   expect_true(cam_op_matrix[4, end] < 1)
 })
+
+test_that("filtering predicates are allowed and work well", {
+  filtered_cam_op_matrix <- get_cam_op(camtrapdp, pred_gt("longitude", 3.6))
+  expect_equal(rownames(filtered_cam_op_matrix), "StationB_ML_val 07_Sint-Anna")
+})

@@ -60,11 +60,10 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
     "observations" = observations
   ))
   if (!is.null(taxon_infos)) {
-    # add vernacular names to observations and overwrite scientific names
-    observations <- left_join(observations %>%
-                                select(-.data$scientific_name),
+    # add vernacular names to observations
+    observations <- left_join(observations,
                               taxon_infos,
-                              by  = "taxon_id")
+                              by  = c("taxon_id", "scientific_name"))
     observations <- observations %>% 
       relocate(.data$scientific_name, .after = .data$camera_setup)
     observations <- observations %>% 

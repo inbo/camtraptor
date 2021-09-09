@@ -33,7 +33,7 @@ trap data package.
 # species is a scientific name
 check_species(camtrapdp, "Gallinula chloropus")
 # species is a vector of vernacular names
- check_species(camtrapdp, c("mallard", "norway rat"))
+ check_species(camtrapdp, c("mallard", "brown rat"))
 # vernacular names can be specified in any language available
 check_species(camtrapdp, c("wilde eend", "bruine rat"))
 # vernacular names and scientific names can be mixed up

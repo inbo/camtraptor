@@ -31,7 +31,7 @@ get_species <- function(datapkg) {
   # slot)
   if (!"taxonomic" %in% names(datapkg$datapackage)) return(NULL)
   map_dfr(
-    camtrapdp$datapackage$taxonomic,
+    datapkg$datapackage$taxonomic,
     function(x) x %>% as.data.frame()) %>% 
     tibble()
 }

@@ -94,9 +94,9 @@ get_record_table(camtrapdp,
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
 
-# exclude observations of Norway Rat
-# exclude is case insensitive and vernacular names allowed
-get_record_table(camtrapdp, exclude = "Norway raT")
+# exclude observations of brown rat
+# exclude is case insensitive and vernacular names are allowed
+get_record_table(camtrapdp, exclude = "Brown raT")
 
 # specify column to pass station names
 get_record_table(camtrapdp,

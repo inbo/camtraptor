@@ -28,10 +28,7 @@ This function reads camera trap data formatted following the \href{https://githu
 \details{
 Vernacular names are typically used while working with camera trap
 \emph{observations}, so they are added to the observations as defined in the
-metadata (slot \code{taxonomic}), if present. Similarly, the scientific names in
-the observations are not a mandatory field, so they are overwritten by the
-well maintained scientific names as defined in the metadata (slot
-\code{taxonomic}).
+metadata (slot \code{taxonomic}), if present.
 }
 \examples{
 \dontrun{

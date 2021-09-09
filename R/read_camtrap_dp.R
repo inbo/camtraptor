@@ -25,7 +25,7 @@
 #' @export
 #'
 #' @importFrom datapackage read_package read_resource
-#' @importFrom dplyr %>% .data left_join relocate select starts_with
+#' @importFrom dplyr %>% .data left_join one_of relocate select starts_with
 #' @importFrom here here
 #' @importFrom jsonlite read_json
 
@@ -60,15 +60,13 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
     "observations" = observations
   ))
   if (!is.null(taxon_infos)) {
+    cols_taxon_infos <- names(taxon_infos)
     # add vernacular names to observations
     observations <- left_join(observations,
                               taxon_infos,
                               by  = c("taxon_id", "scientific_name"))
     observations <- observations %>% 
-      relocate(.data$scientific_name, .after = .data$camera_setup)
-    observations <- observations %>% 
-      relocate(starts_with("vernacular_name"), 
-               .after = .data$scientific_name)
+      relocate(one_of(cols_taxon_infos), .after = .data$camera_setup)
   }
   if (multimedia == TRUE) {
     multimedia <- read_resource(package, "multimedia")

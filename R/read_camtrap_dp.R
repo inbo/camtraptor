@@ -5,10 +5,7 @@
 #'
 #' Vernacular names are typically used while working with camera trap
 #' _observations_, so they are added to the observations as defined in the
-#' metadata (slot `taxonomic`), if present. Similarly, the scientific names in
-#' the observations are not a mandatory field, so they are overwritten by the
-#' well maintained scientific names as defined in the metadata (slot
-#' `taxonomic`).
+#' metadata (slot `taxonomic`), if present.
 #'
 #' @param path Path to the folder containing the camera trap data files.
 #' @param multimedia If `TRUE`, read multimedia records into memory. If `FALSE`,

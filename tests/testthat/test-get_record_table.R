@@ -112,3 +112,10 @@ test_that("Each Directory and Filename slot contains as many values as multimedi
               by = "sequence_id")
   expect_equal(output$len, output$n)
 })
+
+test_that("filtering predicates are allowed and work well", {
+  stations <- unique(
+    get_record_table(camtrapdp, pred_gt("longitude", 3.6))$Station
+  )
+  expect_identical(stations, "B_ML_val 07_Sint-Anna")
+})

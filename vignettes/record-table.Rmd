@@ -104,10 +104,10 @@ get_record_table(camtrapdp, stationCol = "location_id")
 
 ### Use filter predicates
 
-As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with longitude equal or higher than 3.9:
+As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with longitude equal or higher than 3.6:
 
 ```{r example_filter_predicates_map}
-get_record_table(camtrapdp, pred_gt("longitude", 3.2))
+get_record_table(camtrapdp, pred_gt("longitude", 3.6))
 ```
 
 ### Other arguments needed?

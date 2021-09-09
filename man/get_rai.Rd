@@ -51,11 +51,11 @@ get_rai(camtrapdp, species = "all")
 # selected species
 get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
 
-# with common names
-get_rai(camtrapdp, species = c("Mallard", "norway rat"))
+# with vernacular names, even mixing languages
+get_rai(camtrapdp, species = c("Mallard", "bruine rat"))
 
 # mixed scientific and vernacular names
-get_rai(camtrapdp, species = c("Anas platyrhynchos", "norway rat"))
+get_rai(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
 
 # species argument is case insensitive
 get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))

@@ -147,7 +147,7 @@ get_record_table <- function(datapkg,
     ...)
   # remove observations from filtered out deployments
   obs <- obs %>%
-    filter(deployment_id %in% deployments$deployment_id)
+    filter(.data$deployment_id %in% deployments$deployment_id)
   
   # add station column from deployments to observations 
   obs <- obs %>%

@@ -26,6 +26,7 @@
 #'   ), or `minDeltaTime` minutes after the last record (
 #'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0, 
 #'   `deltaTimeComparedTo` must be NULL (deafult)
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% across arrange bind_cols distinct group_by last
 #'   lag left_join mutate rename select starts_with ungroup
 #' @importFrom assertthat assert_that
@@ -82,7 +83,11 @@
 #'     stationCol = "location_id",
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastRecord")
+#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+#' get_record_table(camtrapdp, pred_gte("latitude", 51.28))
+
 get_record_table <- function(datapkg,
+                             ...,
                              stationCol = "location_name",
                              exclude = NULL,
                              minDeltaTime = 0,
@@ -132,9 +137,18 @@ get_record_table <- function(datapkg,
   obs <- obs %>%
     filter(!.data$scientific_name %in% exclude)
   
+  # apply filtering on deployments
+  deployments <- apply_filter_predicate(
+    df = datapkg$deployments,
+    verbose = TRUE,
+    ...)
+  # remove observations from filtered out deployments
+  obs <- obs %>%
+    filter(deployment_id %in% deployments$deployment_id)
+  
   # add station column from deployments to observations 
   obs <- obs %>%
-    left_join(datapkg$deployments %>% select(.data$deployment_id, !!sym(stationCol)),
+    left_join(deployments %>% select(.data$deployment_id, !!sym(stationCol)),
               by = "deployment_id")
   # extract needed info from multimedia and set file names and file paths as
   # lists for each sequence id

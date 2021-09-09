@@ -6,6 +6,7 @@
 \usage{
 get_record_table(
   datapkg,
+  ...,
   stationCol = "location_name",
   exclude = NULL,
   minDeltaTime = 0,
@@ -20,6 +21,8 @@ get_record_table(
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates for filtering on deployments}
 
 \item{stationCol}{(character) name of the column containing stations.
 Default: \code{"location_name"}}
@@ -97,4 +100,6 @@ get_record_table(camtrapdp,
     stationCol = "location_id",
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
+# applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+get_record_table(camtrapdp, pred_gte("latitude", 51.28))
 }

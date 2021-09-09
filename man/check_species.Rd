@@ -27,7 +27,7 @@ a character vector with the correspondent scientific names
 }
 \description{
 Check names against all scientific and vernacular names contained in a camera
-trap data package
+trap data package.
 }
 \examples{
 # species is a scientific name

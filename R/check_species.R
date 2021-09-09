@@ -1,7 +1,7 @@
 #' Check validity of the given scientific or vernacular name(s)
 #'
 #' Check names against all scientific and vernacular names contained in a camera
-#' trap data package
+#' trap data package.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:

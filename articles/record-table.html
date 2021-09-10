@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 class="author">Damiano Oldoni</h4>
             
-            <h4 class="date">2021-09-07</h4>
+            <h4 class="date">2021-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtrapdp/blob/master/vignettes/record-table.Rmd"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -266,13 +266,13 @@
 <span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
 <span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
 </div>
-<div id="other-parameters" class="section level3">
+<div id="exclude-some-species" class="section level3">
 <h3 class="hasAnchor">
-<a href="#other-parameters" class="anchor"></a>Other parameters</h3>
+<a href="#exclude-some-species" class="anchor"></a>Exclude some species</h3>
 <p>Similar to <code>recordTable()</code>, the function <code><a href="../reference/get_record_table.html">get_record_table()</a></code> allows you also to exclude some species. Both vernacular names and scientific names are allowed (case insensitive):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NORWAY RAT"</span>, <span class="st">"Anas platyrhynchos"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Scientific name of NORWAY RAT: Rattus norvegicus</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BROWN rat"</span>, <span class="st">"Anas platyrhynchos"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Scientific name of BROWN rat: Rattus norvegicus</span>
 <span class="co">#&gt; # A tibble: 8 × 11</span>
 <span class="co">#&gt;   Station                Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
@@ -286,7 +286,11 @@
 <span class="co">#&gt; 8 B_ML_val 07_Sint-Anna  Ondatr… 2020-06-03 21:26:16 2020-06-03 21:2…               0</span>
 <span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
-<p>The column containing the stations can also be defined by the user if the default value, <code>"location_name"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>location_id</code> is used:</p>
+</div>
+<div id="station-names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#station-names" class="anchor"></a>Station names</h3>
+<p>The column containing the station names can also be defined by the user if the default value, <code>"location_name"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>location_id</code> is used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, stationCol <span class="op">=</span> <span class="st">"location_id"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 267 × 11</span>
@@ -305,7 +309,34 @@
 <span class="co">#&gt; # … with 257 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
 <span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
-<p>Are there other parameters of camtrapR’s function <code>recordTable()</code> you think should be relevant to add to <code>get_camera_record()</code>, please let us know by posting an <a href="https://github.com/inbo/camtrapdp/issues">issue</a>!</p>
+</div>
+<div id="use-filter-predicates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#use-filter-predicates" class="anchor"></a>Use filter predicates</h3>
+<p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with longitude equal or higher than 3.6:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.6</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((longitude &gt; 3.6))</span>
+<span class="co">#&gt; # A tibble: 10 × 11</span>
+<span class="co">#&gt;    Station               Species DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_ML_val 07_Sint-Anna Anas p… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
+<span class="co">#&gt;  2 B_ML_val 07_Sint-Anna Anas p… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
+<span class="co">#&gt;  3 B_ML_val 07_Sint-Anna Ondatr… 2020-06-03 21:26:16 2020-06-03 21:2…               0</span>
+<span class="co">#&gt;  4 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 21:12:52 2020-06-03 21:1…               0</span>
+<span class="co">#&gt;  5 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 22:00:47 2020-06-03 22:0…            2875</span>
+<span class="co">#&gt;  6 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 22:37:18 2020-06-03 22:3…            2191</span>
+<span class="co">#&gt;  7 B_ML_val 07_Sint-Anna Rattus… 2020-06-04 20:55:51 2020-06-04 20:5…           80313</span>
+<span class="co">#&gt;  8 B_ML_val 07_Sint-Anna Rattus… 2020-06-05 22:44:37 2020-06-05 22:4…           92926</span>
+<span class="co">#&gt;  9 B_ML_val 07_Sint-Anna Rattus… 2020-06-05 23:20:45 2020-06-05 23:2…            2168</span>
+<span class="co">#&gt; 10 B_ML_val 07_Sint-Anna Rattus… 2020-06-06 01:19:03 2020-06-06 01:1…            7098</span>
+<span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
+</div>
+<div id="other-arguments-needed" class="section level3">
+<h3 class="hasAnchor">
+<a href="#other-arguments-needed" class="anchor"></a>Other arguments needed?</h3>
+<p>Are there other arguments of camtrapR’s function <code>recordTable()</code> you think should be relevant to add to <code>get_camera_record()</code>, please let us know by posting an <a href="https://github.com/inbo/camtrapdp/issues">issue</a>!</p>
 </div>
 </div>
   </div>

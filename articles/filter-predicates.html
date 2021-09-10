@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="filter-predicates_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="filter-predicates_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="filter-predicates_files/jquery-1.12.4/jquery.min.js"></script><link href="filter-predicates_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+      </header><script src="filter-predicates_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="filter-predicates_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="filter-predicates_files/jquery-1.12.4/jquery.min.js"></script><link href="filter-predicates_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
 <script src="filter-predicates_files/leaflet-1.3.1/leaflet.js"></script><link href="filter-predicates_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
 <script src="filter-predicates_files/proj4-2.6.2/proj4.min.js"></script><script src="filter-predicates_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="filter-predicates_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
 <script src="filter-predicates_files/leaflet-binding-2.0.4.1/leaflet.js"></script><link href="filter-predicates_files/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet">
@@ -96,7 +96,7 @@
       <h1 data-toc-skip>Filter predicates</h1>
                         <h4 class="author">Damiano Oldoni</h4>
             
-            <h4 class="date">2021-09-07</h4>
+            <h4 class="date">2021-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtrapdp/blob/master/vignettes/filter-predicates.Rmd"><code>vignettes/filter-predicates.Rmd</code></a></small>
       <div class="hidden name"><code>filter-predicates.Rmd</code></div>
@@ -380,15 +380,15 @@
 <span class="co">#&gt; # A tibble: 10 × 3</span>
 <span class="co">#&gt;    deployment_id                        scientific_name         n</span>
 <span class="co">#&gt;    &lt;chr&gt;                                &lt;chr&gt;               &lt;int&gt;</span>
-<span class="co">#&gt;  1 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      4</span>
-<span class="co">#&gt;  2 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0</span>
-<span class="co">#&gt;  3 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0</span>
-<span class="co">#&gt;  4 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0</span>
+<span class="co">#&gt;  1 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0</span>
+<span class="co">#&gt;  2 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      4</span>
+<span class="co">#&gt;  3 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0</span>
+<span class="co">#&gt;  4 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0</span>
 <span class="co">#&gt;  5 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0</span>
-<span class="co">#&gt;  6 fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      1</span>
-<span class="co">#&gt;  7 fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       7</span>
-<span class="co">#&gt;  8 fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      1</span>
-<span class="co">#&gt;  9 fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0</span>
+<span class="co">#&gt;  6 fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       7</span>
+<span class="co">#&gt;  7 fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      1</span>
+<span class="co">#&gt;  8 fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0</span>
+<span class="co">#&gt;  9 fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      1</span>
 <span class="co">#&gt; 10 fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_effort.html">get_effort</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
@@ -437,8 +437,8 @@
                   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span>,
           <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; df %&gt;% filter(((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")) | (latitude &lt; 51.28)))</span></code></pre></div>
-<div id="htmlwidget-ea2dc8ca41398e4d5dd4" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ea2dc8ca41398e4d5dd4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[51.27502,51.26617,51.27905],[3.55083,3.59061,3.63418],[50,18,34],null,null,{"interactive":true,"className":"","stroke":false,"color":["#0000FF","#E3D0FF","#A074FF"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#0000FF","#E3D0FF","#A074FF"],"fillOpacity":0.5},{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,null,null,["<p>deployment ID: 3b94f935-020f-49d8-bd59-1736f8a266c4<\/p><p>location ID: 9a72bd3a-2243-4ced-af9f-34df32483e55<\/p><p>location name: B_ML_val 03_De Val<\/p><p>longitude: 3.55083<\/p><p>latitude: 51.27502<\/p><p>start: 2020-06-03 20:19:10<\/p><p>end: 2020-07-03 20:57:38<\/p><p>species observed: 5<\/p>","<p>deployment ID: 9e84c750-e8fa-4502-ae12-cc6c75532f5a<\/p><p>location ID: 56128022-6061-4b59-b15a-65da16115780<\/p><p>location name: B_ML_val 06_Oostpolderkreek<\/p><p>longitude: 3.59061<\/p><p>latitude: 51.26617<\/p><p>start: 2020-06-03 20:04:33<\/p><p>end: 2020-06-07 00:26:51<\/p><p>species observed: 1<\/p>","<p>deployment ID: fff2f46e-8163-453c-9044-61fb77587f5d<\/p><p>location ID: 7c989f1e-4fcb-4584-ae47-cdcdc6e34d06<\/p><p>location name: B_ML_val 07_Sint-Anna<\/p><p>longitude: 3.63418<\/p><p>latitude: 51.27905<\/p><p>start: 2020-06-03 21:12:52<\/p><p>end: 2020-06-08 00:14:41<\/p><p>species observed: 3<\/p>"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #FFFFFF 0%, #E3D0FF 20%, #C4A2FF 40%, #A074FF 60%, #7145FF 80%, #0000FF 100%, #0000FF "],"labels":["0","1","2","3","4","5"],"na_color":null,"na_label":"","opacity":1,"position":"bottomright","type":"numeric","title":"Number of detected species","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[51.26617,51.27905],"lng":[3.55083,3.63418]}},"evals":[],"jsHooks":[]}</script><p>Notice also that you can pass as much predicates as you want to get_* functions or <code><a href="../reference/map_dep.html">map_dep()</a></code> by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51.28 degrees AND eastern than 3.59 degrees, you can simplify this:</p>
+<div id="htmlwidget-69ee40e92c372e3be369" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69ee40e92c372e3be369">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[51.275,51.266,51.279],[3.551,3.591,3.634],[50,18,34],null,null,{"interactive":true,"className":"","stroke":false,"color":["#0000FF","#E3D0FF","#A074FF"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#0000FF","#E3D0FF","#A074FF"],"fillOpacity":0.5},{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,null,null,["<p>deployment ID: 3b94f935-020f-49d8-bd59-1736f8a266c4<\/p><p>location ID: 9a72bd3a-2243-4ced-af9f-34df32483e55<\/p><p>location name: B_ML_val 03_De Val<\/p><p>longitude: 3.551<\/p><p>latitude: 51.275<\/p><p>start: 2020-06-03 20:19:10<\/p><p>end: 2020-07-03 20:57:38<\/p><p>species observed: 5<\/p>","<p>deployment ID: 9e84c750-e8fa-4502-ae12-cc6c75532f5a<\/p><p>location ID: 56128022-6061-4b59-b15a-65da16115780<\/p><p>location name: B_ML_val 06_Oostpolderkreek<\/p><p>longitude: 3.591<\/p><p>latitude: 51.266<\/p><p>start: 2020-06-03 20:04:33<\/p><p>end: 2020-06-07 00:26:51<\/p><p>species observed: 1<\/p>","<p>deployment ID: fff2f46e-8163-453c-9044-61fb77587f5d<\/p><p>location ID: 7c989f1e-4fcb-4584-ae47-cdcdc6e34d06<\/p><p>location name: B_ML_val 07_Sint-Anna<\/p><p>longitude: 3.634<\/p><p>latitude: 51.279<\/p><p>start: 2020-06-03 21:12:52<\/p><p>end: 2020-06-08 00:14:41<\/p><p>species observed: 3<\/p>"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #FFFFFF 0%, #E3D0FF 20%, #C4A2FF 40%, #A074FF 60%, #7145FF 80%, #0000FF 100%, #0000FF "],"labels":["0","1","2","3","4","5"],"na_color":null,"na_label":"","opacity":1,"position":"bottomright","type":"numeric","title":"Number of detected species","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[51.266,51.279],"lng":[3.551,3.634]}},"evals":[],"jsHooks":[]}</script><p>Notice also that you can pass as much predicates as you want to get_* functions or <code><a href="../reference/map_dep.html">map_dep()</a></code> by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51.28 degrees AND eastern than 3.59 degrees, you can simplify this:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
               <span class="fu"><a href="../reference/filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,
@@ -469,9 +469,9 @@
 <span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt; &lt;dttm&gt;             </span>
 <span class="co">#&gt; 1 9e84c750-e8f… 56128022-6… B_ML_val 06_…      3.59     51.3 2020-06-03 20:04:33</span>
 <span class="co">#&gt; 2 fff2f46e-816… 7c989f1e-4… B_ML_val 07_…      3.63     51.3 2020-06-03 21:12:52</span>
-<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   camera_model &lt;lgl&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   bait_use &lt;lgl&gt;, feature_type &lt;lgl&gt;, tags &lt;chr&gt;, comments &lt;lgl&gt;</span></code></pre></div>
+<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;,</span>
+<span class="co">#&gt; #   camera_model &lt;chr&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   bait_use &lt;fct&gt;, feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></code></pre></div>
 <p>is exactly the same as this:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">camtrapdp</span><span class="op">$</span><span class="va">deployments</span> <span class="op">%&gt;%</span>
@@ -481,9 +481,9 @@
 <span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt; &lt;dttm&gt;             </span>
 <span class="co">#&gt; 1 9e84c750-e8f… 56128022-6… B_ML_val 06_…      3.59     51.3 2020-06-03 20:04:33</span>
 <span class="co">#&gt; 2 fff2f46e-816… 7c989f1e-4… B_ML_val 07_…      3.63     51.3 2020-06-03 21:12:52</span>
-<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   camera_model &lt;lgl&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   bait_use &lt;lgl&gt;, feature_type &lt;lgl&gt;, tags &lt;chr&gt;, comments &lt;lgl&gt;</span></code></pre></div>
+<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;,</span>
+<span class="co">#&gt; #   camera_model &lt;chr&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   bait_use &lt;fct&gt;, feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></code></pre></div>
 <p>Happy filtering!</p>
 </div>
 </div>

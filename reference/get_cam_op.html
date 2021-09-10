@@ -73,7 +73,7 @@ as returned by camtrapR's function cameraOperation()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@ as returned by camtrapR's function cameraOperation()." />
 as returned by camtrapR's function <code>cameraOperation()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>datapkg</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>datapkg</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,10 +149,16 @@ as returned by camtrapR's function <code>cameraOperation()</code>.</p>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
 <code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code> 2. <code>deployments</code> 3. <code>multimedia</code></p></li>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
 </ol>
 
 <p>and a list with metadata: <code>datapackage</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>filter predicates for filtering on deployments</p></td>
     </tr>
     </table>
 
@@ -209,7 +215,20 @@ efforts higher than one occur.</p>
 #&gt; StationB_ML_val 03_De Val                   1          1  0.8733565
 #&gt; StationB_ML_val 05_molenkreek               0          0  0.0000000
 #&gt; StationB_ML_val 06_Oostpolderkreek          0          0  0.0000000
-#&gt; StationB_ML_val 07_Sint-Anna                0          0  0.0000000</div></pre>
+#&gt; StationB_ML_val 07_Sint-Anna                0          0  0.0000000</div><div class='input'><span class='co'># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.28</span>
+<span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt;                               2020-06-03 2020-06-04 2020-06-05 2020-06-06
+#&gt; StationB_ML_val 05_molenkreek  0.1595139          1          1          1
+#&gt;                               2020-06-07 2020-06-08 2020-06-09 2020-06-10
+#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
+#&gt;                               2020-06-11 2020-06-12 2020-06-13 2020-06-14
+#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
+#&gt;                               2020-06-15 2020-06-16 2020-06-17 2020-06-18
+#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
+#&gt;                               2020-06-19 2020-06-20 2020-06-21 2020-06-22
+#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
+#&gt;                               2020-06-23 2020-06-24
+#&gt; StationB_ML_val 05_molenkreek          1  0.9404282</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

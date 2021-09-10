@@ -77,7 +77,7 @@ recordTable" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -150,6 +150,7 @@ camtrapR's function documentation
 
     <pre class="usage"><span class='fu'>get_record_table</span><span class='op'>(</span>
   <span class='va'>datapkg</span>,
+  <span class='va'>...</span>,
   stationCol <span class='op'>=</span> <span class='st'>"location_name"</span>,
   exclude <span class='op'>=</span> <span class='cn'>NULL</span>,
   minDeltaTime <span class='op'>=</span> <span class='fl'>0</span>,
@@ -163,10 +164,16 @@ camtrapR's function documentation
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
 <code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code> 2. <code>deployments</code> 3. <code>multimedia</code></p></li>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
 </ol>
 
 <p>and a list with metadata: <code>datapackage</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>filter predicates for filtering on deployments</p></td>
     </tr>
     <tr>
       <th>stationCol</th>
@@ -181,7 +188,8 @@ vernacular names) to be excluded from the record table. Default: <code>NULL</cod
     <tr>
       <th>minDeltaTime</th>
       <td><p>(integer) time difference between records of the same
-species at the same station to be considered independent (in minutes)</p></td>
+species at the same station to be considered independent (in minutes).
+Default: 0</p></td>
     </tr>
     <tr>
       <th>deltaTimeComparedTo</th>
@@ -283,10 +291,10 @@ as defined in column <code>file_name</code> of <code>multimedia</code></p></li>
 #&gt; <span style='color: #949494;'># … with 175 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
 #&gt; <span style='color: #949494;'>#   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
 #&gt; <span style='color: #949494;'>#   FileName &lt;list&gt;</span></div><div class='input'>
-<span class='co'># exclude observations of Norway Rat</span>
-<span class='co'># exclude is case insensitive and vernacular names allowed</span>
-<span class='fu'>get_record_table</span><span class='op'>(</span><span class='va'>camtrapdp</span>, exclude <span class='op'>=</span> <span class='st'>"Norway raT"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of Norway raT: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 59 × 11</span>
+<span class='co'># exclude observations of brown rat</span>
+<span class='co'># exclude is case insensitive and vernacular names are allowed</span>
+<span class='fu'>get_record_table</span><span class='op'>(</span><span class='va'>camtrapdp</span>, exclude <span class='op'>=</span> <span class='st'>"Brown raT"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of Brown raT: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 59 × 11</span>
 #&gt;    Station            Species DateTimeOriginal    Date       Time  delta.time.secs
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'> 1</span> B_ML_val 03_De Val Anas p… 2020-06-03 <span style='color: #949494;'>20:27:31</span> 2020-06-03 20:2…               0
@@ -322,7 +330,31 @@ as defined in column <code>file_name</code> of <code>multimedia</code></p></li>
 #&gt; <span style='color: #BCBCBC;'>10</span> 91d9abdd-da56… Anas pla… 2020-06-05 <span style='color: #949494;'>02:01:54</span> 2020-06-05 02:0…           <span style='text-decoration: underline;'>17</span>790
 #&gt; <span style='color: #949494;'># … with 175 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
 #&gt; <span style='color: #949494;'>#   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
-#&gt; <span style='color: #949494;'>#   FileName &lt;list&gt;</span></div></pre>
+#&gt; <span style='color: #949494;'>#   FileName &lt;list&gt;</span></div><div class='input'><span class='co'># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.28</span>
+<span class='fu'>get_record_table</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 18 × 11</span>
+#&gt;    Station                Species DateTimeOriginal    Date       Time  delta.time.secs
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;date&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> B_ML_val 05_molenkreek Anas p… 2020-06-03 <span style='color: #949494;'>20:10:18</span> 2020-06-03 20:1…               0
+#&gt; <span style='color: #BCBCBC;'> 2</span> B_ML_val 05_molenkreek Anas p… 2020-06-03 <span style='color: #949494;'>20:57:50</span> 2020-06-03 20:5…            <span style='text-decoration: underline;'>2</span>852
+#&gt; <span style='color: #BCBCBC;'> 3</span> B_ML_val 05_molenkreek Anas p… 2020-06-03 <span style='color: #949494;'>23:19:10</span> 2020-06-03 23:1…            <span style='text-decoration: underline;'>8</span>480
+#&gt; <span style='color: #BCBCBC;'> 4</span> B_ML_val 05_molenkreek Anas p… 2020-06-04 <span style='color: #949494;'>21:05:24</span> 2020-06-04 21:0…           <span style='text-decoration: underline;'>78</span>374
+#&gt; <span style='color: #BCBCBC;'> 5</span> B_ML_val 05_molenkreek Anas p… 2020-06-05 <span style='color: #949494;'>02:01:54</span> 2020-06-05 02:0…           <span style='text-decoration: underline;'>17</span>790
+#&gt; <span style='color: #BCBCBC;'> 6</span> B_ML_val 05_molenkreek Anas p… 2020-06-05 <span style='color: #949494;'>03:01:06</span> 2020-06-05 03:0…            <span style='text-decoration: underline;'>3</span>552
+#&gt; <span style='color: #BCBCBC;'> 7</span> B_ML_val 05_molenkreek Anas p… 2020-06-05 <span style='color: #949494;'>03:30:27</span> 2020-06-05 03:3…            <span style='text-decoration: underline;'>1</span>761
+#&gt; <span style='color: #BCBCBC;'> 8</span> B_ML_val 05_molenkreek Anas p… 2020-06-05 <span style='color: #949494;'>21:04:53</span> 2020-06-05 21:0…           <span style='text-decoration: underline;'>63</span>266
+#&gt; <span style='color: #BCBCBC;'> 9</span> B_ML_val 05_molenkreek Anas p… 2020-06-05 <span style='color: #949494;'>23:10:28</span> 2020-06-05 23:1…            <span style='text-decoration: underline;'>7</span>535
+#&gt; <span style='color: #BCBCBC;'>10</span> B_ML_val 05_molenkreek Anas p… 2020-06-07 <span style='color: #949494;'>23:19:15</span> 2020-06-07 23:1…          <span style='text-decoration: underline;'>173</span>327
+#&gt; <span style='color: #BCBCBC;'>11</span> B_ML_val 05_molenkreek Anas p… 2020-06-08 <span style='color: #949494;'>02:20:32</span> 2020-06-08 02:2…           <span style='text-decoration: underline;'>10</span>877
+#&gt; <span style='color: #BCBCBC;'>12</span> B_ML_val 05_molenkreek Anas p… 2020-06-13 <span style='color: #949494;'>03:23:05</span> 2020-06-13 03:2…          <span style='text-decoration: underline;'>435</span>753
+#&gt; <span style='color: #BCBCBC;'>13</span> B_ML_val 05_molenkreek Anas p… 2020-06-14 <span style='color: #949494;'>03:13:51</span> 2020-06-14 03:1…           <span style='text-decoration: underline;'>85</span>846
+#&gt; <span style='color: #BCBCBC;'>14</span> B_ML_val 05_molenkreek Anas p… 2020-06-20 <span style='color: #949494;'>20:47:45</span> 2020-06-20 20:4…          <span style='text-decoration: underline;'>581</span>634
+#&gt; <span style='color: #BCBCBC;'>15</span> B_ML_val 05_molenkreek Anas p… 2020-06-21 <span style='color: #949494;'>02:30:30</span> 2020-06-21 02:3…           <span style='text-decoration: underline;'>20</span>565
+#&gt; <span style='color: #BCBCBC;'>16</span> B_ML_val 05_molenkreek Anas p… 2020-06-23 <span style='color: #949494;'>20:45:22</span> 2020-06-23 20:4…          <span style='text-decoration: underline;'>238</span>492
+#&gt; <span style='color: #BCBCBC;'>17</span> B_ML_val 05_molenkreek Anas p… 2020-06-23 <span style='color: #949494;'>21:08:17</span> 2020-06-23 21:0…            <span style='text-decoration: underline;'>1</span>375
+#&gt; <span style='color: #BCBCBC;'>18</span> B_ML_val 05_molenkreek Ondatr… 2020-06-06 <span style='color: #949494;'>21:28:00</span> 2020-06-06 21:2…               0
+#&gt; <span style='color: #949494;'># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

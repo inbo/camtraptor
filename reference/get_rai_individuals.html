@@ -74,7 +74,7 @@ observations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -259,9 +259,9 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>6</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus     0 
 #&gt; <span style='color: #BCBCBC;'>7</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  121.
 #&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.</div><div class='input'>
-<span class='co'># with common names</span>
-<span class='fu'>get_rai_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Mallard"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of Mallard: Anas platyrhynchos</span></div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
+<span class='co'># with common names, also mixing up languages</span>
+<span class='fu'>get_rai_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Mallard"</span>, <span class='st'>"bruine rat"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of Mallard: Anas platyrhynchos</span></div><div class='output co'>#&gt; <span class='message'>Scientific name of bruine rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  290.
@@ -273,8 +273,8 @@ of all age classes are taken into account.</p></td>
 #&gt; <span style='color: #BCBCBC;'>7</span> fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos  121.
 #&gt; <span style='color: #BCBCBC;'>8</span> fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus   170.</div><div class='input'>
 <span class='co'># mixed scientific and vernacular names</span>
-<span class='fu'>get_rai_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"norway rat"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scientific name of norway rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
+<span class='fu'>get_rai_individuals</span><span class='op'>(</span><span class='va'>camtrapdp</span>, species <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Anas platyrhynchos"</span>, <span class='st'>"brown rat"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Scientific name of brown rat: Rattus norvegicus</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 3</span>
 #&gt;   deployment_id                        scientific_name      rai
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 Anas platyrhynchos  290.

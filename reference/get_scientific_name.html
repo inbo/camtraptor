@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get scientific name based on its vernacular name — get_scientific_name • camtrapdp</title>
+<title>Get scientific name based on its input_vernacular name — get_scientific_name • camtrapdp</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Get scientific name based on its vernacular name — get_scientific_name" />
-<meta property="og:description" content="This function returns the scientific name(s) of a vector of vernacular names
-based on the observations table of the given camera trap data package." />
+<meta property="og:title" content="Get scientific name based on its input_vernacular name — get_scientific_name" />
+<meta property="og:description" content="This function returns the scientific name(s) of a vector of input_vernacular
+names based on the taxonomic information in metadata slot taxonomic of the
+given  camera trap data package." />
 
 
 
@@ -73,7 +74,7 @@ based on the observations table of the given camera trap data package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9014</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -130,14 +131,15 @@ based on the observations table of the given camera trap data package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get scientific name based on its vernacular name</h1>
+    <h1>Get scientific name based on its input_vernacular name</h1>
     <small class="dont-index">Source: <a href='https://github.com/inbo/camtrapdp/blob/master/R/get_scientific_name.R'><code>R/get_scientific_name.R</code></a></small>
     <div class="hidden name"><code>get_scientific_name.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function returns the scientific name(s) of a vector of vernacular names
-based on the observations table of the given camera trap data package.</p>
+    <p>This function returns the scientific name(s) of a vector of input_vernacular
+names based on the taxonomic information in metadata slot <code>taxonomic</code> of the
+given  camera trap data package.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>datapkg</span>, <span class='va'>vernacular_name</span><span class='op'>)</span></pre>
@@ -149,26 +151,41 @@ based on the observations table of the given camera trap data package.</p>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
 <code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code> 2. <code>deployments</code> 3. <code>multimedia</code></p></li>
+<li><p><code>observations</code></p></li>
+<li><p><code>deployments</code></p></li>
+<li><p><code>multimedia</code></p></li>
 </ol>
 
 <p>and a list with metadata: <code>datapackage</code></p></td>
     </tr>
     <tr>
       <th>vernacular_name</th>
-      <td><p>a character vector with the vernacular name(s) of the
-species as found in the <code>observations</code> table of the camera trap data
-package</p></td>
+      <td><p>a character vector with input vernacular name(s)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a character vector of scientific name(s)</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The match is performed case insensitively.</p>
+<p>If a vernacular name is not valid, an error is returned</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='st'>"Norway Rat"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Rattus norvegicus"</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># one or more vernacular names</span>
+<span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='st'>"brown rat"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Rattus norvegicus"</div><div class='input'><span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"brown rat"</span>, <span class='st'>"mallard"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Rattus norvegicus"  "Anas platyrhynchos"</div><div class='input'><span class='co'># vernacular names can be passed in different languages </span>
+<span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"brown rat"</span>, <span class='st'>"wilde eend"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Rattus norvegicus"  "Anas platyrhynchos"</div><div class='input'><span class='co'># the search is performed case insensitively</span>
+<span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"BrOwN RaT"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Rattus norvegicus"</div><div class='input'><span class='co'># error is returned if at least one invalid vernacular name is passed</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>get_scientfic_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='st'>"this is a bad vernacular name"</span><span class='op'>)</span>
+<span class='co'># a scientific name is an invalid vernacular name of course</span>
+<span class='fu'>get_scientific_name</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Rattus norvegicus"</span>, <span class='st'>"wilde eend"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

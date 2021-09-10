@@ -10,7 +10,9 @@
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
-#'   1. `observations` 2. `deployments` 3. `multimedia`
+#'   1. `observations`
+#'   2. `deployments`
+#'   3. `multimedia`
 #'
 #'   and a list with metadata: `datapackage`
 #' @param stationCol (character) name of the column containing stations.
@@ -18,7 +20,8 @@
 #' @param exclude	(character) vector of species names (scientific names or
 #'   vernacular names) to be excluded from the record table. Default: `NULL`
 #' @param minDeltaTime (integer) time difference between records of the same
-#'   species at the same station to be considered independent (in minutes)
+#'   species at the same station to be considered independent (in minutes).
+#'   Default: 0
 #' @param deltaTimeComparedTo (character) `"lastIndependentRecord"` or
 #'   `"lastRecord"`. For two records to be considered independent, must the
 #'   second one be at least `minDeltaTime` minutes after the last independent
@@ -26,6 +29,7 @@
 #'   ), or `minDeltaTime` minutes after the last record (
 #'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0, 
 #'   `deltaTimeComparedTo` must be NULL (deafult)
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% across arrange bind_cols distinct group_by last
 #'   lag left_join mutate rename select starts_with ungroup
 #' @importFrom assertthat assert_that
@@ -73,16 +77,20 @@
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastRecord")
 #' 
-#' # exclude observations of Norway Rat
-#' # exclude is case insensitive and vernacular names allowed
-#' get_record_table(camtrapdp, exclude = "Norway raT")
+#' # exclude observations of brown rat
+#' # exclude is case insensitive and vernacular names are allowed
+#' get_record_table(camtrapdp, exclude = "Brown raT")
 #' 
 #' # specify column to pass station names
 #' get_record_table(camtrapdp,
 #'     stationCol = "location_id",
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastRecord")
+#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+#' get_record_table(camtrapdp, pred_gte("latitude", 51.28))
+
 get_record_table <- function(datapkg,
+                             ...,
                              stationCol = "location_name",
                              exclude = NULL,
                              minDeltaTime = 0,
@@ -132,9 +140,18 @@ get_record_table <- function(datapkg,
   obs <- obs %>%
     filter(!.data$scientific_name %in% exclude)
   
+  # apply filtering on deployments
+  deployments <- apply_filter_predicate(
+    df = datapkg$deployments,
+    verbose = TRUE,
+    ...)
+  # remove observations from filtered out deployments
+  obs <- obs %>%
+    filter(.data$deployment_id %in% deployments$deployment_id)
+  
   # add station column from deployments to observations 
   obs <- obs %>%
-    left_join(datapkg$deployments %>% select(.data$deployment_id, !!sym(stationCol)),
+    left_join(deployments %>% select(.data$deployment_id, !!sym(stationCol)),
               by = "deployment_id")
   # extract needed info from multimedia and set file names and file paths as
   # lists for each sequence id

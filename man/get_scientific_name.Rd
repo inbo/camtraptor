@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_scientific_name.R
 \name{get_scientific_name}
 \alias{get_scientific_name}
-\title{Get scientific name based on its vernacular name}
+\title{Get scientific name based on its input_vernacular name}
 \usage{
 get_scientific_name(datapkg, vernacular_name)
 }
@@ -10,23 +10,40 @@ get_scientific_name(datapkg, vernacular_name)
 \item{datapkg}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
 
-\item{vernacular_name}{a character vector with the vernacular name(s) of the
-species as found in the \code{observations} table of the camera trap data
-package}
+\item{vernacular_name}{a character vector with input vernacular name(s)}
 }
 \value{
 a character vector of scientific name(s)
 }
 \description{
-This function returns the scientific name(s) of a vector of vernacular names
-based on the observations table of the given camera trap data package.
+This function returns the scientific name(s) of a vector of input_vernacular
+names based on the taxonomic information in metadata slot \code{taxonomic} of the
+given  camera trap data package.
+}
+\details{
+The match is performed case insensitively.
+
+If a vernacular name is not valid, an error is returned
 }
 \examples{
-get_scientific_name(camtrapdp, "Norway Rat")
-
+# one or more vernacular names
+get_scientific_name(camtrapdp, "brown rat")
+get_scientific_name(camtrapdp, c("brown rat", "mallard"))
+# vernacular names can be passed in different languages 
+get_scientific_name(camtrapdp, c("brown rat", "wilde eend"))
+# the search is performed case insensitively
+get_scientific_name(camtrapdp, c("BrOwN RaT"))
+# error is returned if at least one invalid vernacular name is passed
+\dontrun{
+get_scientfic_name(camtrapdp, "this is a bad vernacular name")
+# a scientific name is an invalid vernacular name of course
+get_scientific_name(camtrapdp, c("Rattus norvegicus", "wilde eend"))
+}
 }

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to use function `map_dep()` to visualize two important deployment features on a leaflet map: 
+This vignette shows how to use function `map_dep()` to visualize important deployment features on a leaflet map: 
 
 - number of identified species
 - number of observations
@@ -131,7 +131,7 @@ map_dep(camtrapdp,
         species = "Rattus norvegicus")
 ```
 
-**Notice that in this package the RAI is normalized it over a deployment activity period of 100 days.**
+**Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
 
 As for number of observations and number of individuals, you can  filter by sex and/or age:
 
@@ -162,16 +162,10 @@ map_dep(camtrapdp,
 
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
-```{r see_error_message}
-testthat::expect_error(
-  map_dep(camtrapdp,
+```{r see_error_message, error = TRUE}
+map_dep(camtrapdp,
           feature = "rai",
-          species = "This is not a species name"), 
-  paste0("Invalid value for species argument.\n",
-         "Valid inputs are: NULL, anas platyrhynchos, rattus norvegicus, ",
-         "ondatra zibethicus, myocastor coypus, gallinula chloropus, ", 
-         "mallard, norway rat, muskrat, coypu and common moorhen.")
-)
+          species = "This is not a species name")
 ```
 
 #### RAI (individuals)
@@ -287,11 +281,11 @@ map_dep(camtrapdp,
 
 ### Use filter predicates
 
-You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 3.9:
+You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 3.6:
 
 ```{r example_filter_predicates_map}
 map_dep(camtrapdp,
-        pred_gt("longitude", 3.2),
+        pred_gt("longitude", 3.6),
         feature = "n_obs")
 ```
 

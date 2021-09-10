@@ -1,20 +1,34 @@
 test_that("right (number of) species", {
-  expect_equal(
+  expect_identical(
     get_species(camtrapdp),
     tibble(
+      taxon_id = c(
+        "DGP6",
+        "3F6VX",
+        "6RRQT",
+        "49JSC",
+        "4RM67"
+      ),
       scientific_name = c(
         "Anas platyrhynchos",
-        "Rattus norvegicus",
-        "Ondatra zibethicus",
+        "Gallinula chloropus",
         "Myocastor coypus",
-        "Gallinula chloropus"
+        "Ondatra zibethicus",
+        "Rattus norvegicus"
       ),
-      vernacular_name = c(
-        "Mallard",
-        "Norway Rat",
-        "Muskrat",
-        "Coypu",
-        "Common Moorhen"
+      vernacular_names.en = c(
+        "mallard",
+        "common moorhen",
+        "coypu",
+        "muskrat",
+        "brown rat"
+      ),
+      vernacular_names.nl = c(
+        "wilde eend",
+        "waterhoen",
+        "beverrat",
+        "muskusrat",
+        "bruine rat"
       )
     )
   )

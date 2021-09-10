@@ -85,19 +85,31 @@ get_record_table(camtrapdp,
                  deltaTimeComparedTo = "lastIndependentRecord")
 ```
 
-### Other parameters
+### Exclude some species
 
 Similar to `recordTable()`, the function `get_record_table()` allows you also to
 exclude some species. Both vernacular names and scientific names are allowed (case insensitive):
 
 ```{r example_exclude}
-get_record_table(camtrapdp, exclude = c("NORWAY RAT", "Anas platyrhynchos"))
+get_record_table(camtrapdp, exclude = c("BROWN rat", "Anas platyrhynchos"))
 ```
 
-The column containing the stations can also be defined by the user if the default value, `"location_name"`, is not the correct one. It has to be a valid column of  `deployments`. Here below, `location_id` is used:
+### Station names
+
+The column containing the station names can also be defined by the user if the default value, `"location_name"`, is not the correct one. It has to be a valid column of  `deployments`. Here below, `location_id` is used:
 
 ```{r example_stationCol}
 get_record_table(camtrapdp, stationCol = "location_id")
 ```
 
-Are there other parameters of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtrapdp/issues)!
+### Use filter predicates
+
+As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with longitude equal or higher than 3.6:
+
+```{r example_filter_predicates_map}
+get_record_table(camtrapdp, pred_gt("longitude", 3.6))
+```
+
+### Other arguments needed?
+
+Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtrapdp/issues)!

@@ -4,16 +4,20 @@
 \alias{get_cam_op}
 \title{Get camera operation matrix}
 \usage{
-get_cam_op(datapkg)
+get_cam_op(datapkg, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates for filtering on deployments}
 }
 \value{
 a matrix. Row names always indicate the \code{location_name} (station ID)
@@ -30,4 +34,6 @@ efforts higher than one occur.
 }
 \examples{
 get_cam_op(camtrapdp)
+# applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+get_cam_op(camtrapdp, pred_gte("latitude", 51.28))
 }

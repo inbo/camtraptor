@@ -10,10 +10,12 @@
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
 #'
-#'   1. `observations` 2. `deployments` 3. `multimedia`
+#'   1. `observations`
+#'   2. `deployments`
+#'   3. `multimedia`
 #'
 #'   and a list with metadata: `datapackage`
-#'
+#' @param ... filter predicates for filtering on deployments
 #' @importFrom purrr map_dfc
 #' @importFrom dplyr %>% .data as_tibble filter mutate pull bind_cols
 #' @importFrom lubridate as_datetime date
@@ -23,13 +25,18 @@
 #' @export
 #' @examples 
 #' get_cam_op(camtrapdp)
-get_cam_op <- function(datapkg) {
+#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+#' get_cam_op(camtrapdp, pred_gte("latitude", 51.28))
+get_cam_op <- function(datapkg, ...) {
   # check data package
   check_datapkg(datapkg)
 
-  # extract deployments
-  deploys <- datapkg$deployments
-
+  # extract and apply filtering on deployments
+  deploys <- apply_filter_predicate(
+    df = datapkg$deployments,
+    verbose = TRUE,
+    ...)
+  
   # very first day among all stations
   first_day <- min(deploys$start)
   # very last day among all stations

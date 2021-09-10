@@ -1,9 +1,11 @@
 # camtrapdp
 
 <!-- badges: start -->
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](http://lifewatch.be)
-[![Codecov test coverage](https://codecov.io/gh/inbo/camtrapdp/branch/main/graph/badge.svg)](https://codecov.io/gh/inbo/camtrapdp?branch=main)
 [![R-CMD-check](https://github.com/inbo/camtrapdp/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/camtrapdp/actions)
+[![Codecov test coverage](https://codecov.io/gh/inbo/camtrapdp/branch/main/graph/badge.svg)](https://codecov.io/gh/inbo/camtrapdp?branch=main)
 <!-- badges: end -->
 
 camtrapdp aims to experiment and test visualization functionalities for camera trap data formatted following the [Camera Trap Data Package standard](https://github.com/tdwg/camtrap-dp). The goal of the authors is still to contribute as much as possible to improve widely used packages in the camera trap data R community, e.g. `camtrapR` and `activity`.

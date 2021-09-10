@@ -3,18 +3,29 @@
 #' This function reads camera trap data formatted following the [Camera Trap
 #' Data Package (Camtrap DP)](https://github.com/tdwg/camtrap-dp) format.
 #'
+#' Vernacular names are typically used while working with camera trap
+#' _observations_, so they are added to the observations as defined in the
+#' metadata (slot `taxonomic`), if present.
 #'
 #' @param path Path to the folder containing the camera trap data files.
 #' @param multimedia If `TRUE`, read multimedia records into memory. If `FALSE`,
 #'   ignore multimedia file to speed up reading larger Camtrap DP packages.
 #'
-#' @return A list of tibbles (dataframes).
+#' @return A list containing three (tibble) data.frames:
+#'
+#'   1. `observations`
+#'   2. `deployments`
+#'   3. `multimedia`
+#'
+#'   and a list with metadata: `datapackage`
 #'
 #' @export
 #'
 #' @importFrom datapackage read_package read_resource
+#' @importFrom dplyr %>% .data left_join one_of relocate select starts_with
 #' @importFrom here here
 #' @importFrom jsonlite read_json
+
 #' @importFrom readr read_csv cols col_character col_number col_datetime
 #'
 #' @examples
@@ -24,15 +35,11 @@
 #' camtrap_dp_dir <- here(
 #'     "inst",
 #'     "extdata",
-#'     "mica-muskrat-and-coypu-20210302172233")
+#'     "mica-muskrat-and-coypu-20210707160815")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 #'
 #' # Read Camtrap DP package and ignore multimedia file
-#' camtrap_dp_dir <- here(
-#'     "inst",
-#'     "extdata",
-#'     "gmu8-monitoring-faunabeheerzone-8-20210301093537")
-#' gmu8 <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
 #' }
 read_camtrap_dp <- function(path, multimedia = TRUE) {
   # check multimedia
@@ -42,6 +49,22 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   package <- read_package(file.path(path, "datapackage.json"))
   deployments <- read_resource(package, "deployments")
   observations <- read_resource(package, "observations")
+  
+  taxon_infos <- get_species(list(
+    "datapackage" = package,
+    "deployments" = deployments,
+    "multimedia" = NULL,
+    "observations" = observations
+  ))
+  if (!is.null(taxon_infos)) {
+    cols_taxon_infos <- names(taxon_infos)
+    # add vernacular names to observations
+    observations <- left_join(observations,
+                              taxon_infos,
+                              by  = c("taxon_id", "scientific_name"))
+    observations <- observations %>% 
+      relocate(one_of(cols_taxon_infos), .after = .data$camera_setup)
+  }
   if (multimedia == TRUE) {
     multimedia <- read_resource(package, "multimedia")
   }
@@ -49,14 +72,14 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
   # return list
   if (is.data.frame(multimedia)) {
     list(
-      "metadata" = package,
+      "datapackage" = package,
       "deployments" = deployments,
       "multimedia" = multimedia,
       "observations" = observations
     )
   } else {
     list(
-      "metadata" = package,
+      "datapackage" = package,
       "deployments" = deployments,
       "multimedia" = NULL,
       "observations" = observations

@@ -6,6 +6,7 @@
 \usage{
 get_record_table(
   datapkg,
+  ...,
   stationCol = "location_name",
   exclude = NULL,
   minDeltaTime = 0,
@@ -16,10 +17,14 @@ get_record_table(
 \item{datapkg}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}, i.e. a list containing three data.frames:
 \enumerate{
-\item \code{observations} 2. \code{deployments} 3. \code{multimedia}
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
 }
 
 and a list with metadata: \code{datapackage}}
+
+\item{...}{filter predicates for filtering on deployments}
 
 \item{stationCol}{(character) name of the column containing stations.
 Default: \code{"location_name"}}
@@ -28,7 +33,8 @@ Default: \code{"location_name"}}
 vernacular names) to be excluded from the record table. Default: \code{NULL}}
 
 \item{minDeltaTime}{(integer) time difference between records of the same
-species at the same station to be considered independent (in minutes)}
+species at the same station to be considered independent (in minutes).
+Default: 0}
 
 \item{deltaTimeComparedTo}{(character) \code{"lastIndependentRecord"} or
 \code{"lastRecord"}. For two records to be considered independent, must the
@@ -88,13 +94,15 @@ get_record_table(camtrapdp,
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
 
-# exclude observations of Norway Rat
-# exclude is case insensitive and vernacular names allowed
-get_record_table(camtrapdp, exclude = "Norway raT")
+# exclude observations of brown rat
+# exclude is case insensitive and vernacular names are allowed
+get_record_table(camtrapdp, exclude = "Brown raT")
 
 # specify column to pass station names
 get_record_table(camtrapdp,
     stationCol = "location_id",
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
+# applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
+get_record_table(camtrapdp, pred_gte("latitude", 51.28))
 }

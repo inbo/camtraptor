@@ -45,15 +45,15 @@ test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
 })
 
 test_that("nrows = n obs of mallards if all other species are excluded", {
-  species_to_exclude <- c("Norway Rat",
-                          "Muskrat",
-                          "Coypu",
-                          "Common Moorhen")
+  species_to_exclude <- c("brown rat",
+                          "muskrat",
+                          "coypu",
+                          "common moorhen")
   nrow_mallards <- get_record_table(camtrapdp, exclude = species_to_exclude) %>% 
     nrow
   expect_equal(nrow_mallards,
                camtrapdp$observations %>% 
-                 filter(vernacular_name == "Mallard") %>% nrow)
+                 filter(scientific_name == "Anas platyrhynchos") %>% nrow)
 })
 
 test_that("Higher minDeltaTime means less rows returned", {
@@ -111,4 +111,11 @@ test_that("Each Directory and Filename slot contains as many values as multimedi
     left_join(n_multimedia,
               by = "sequence_id")
   expect_equal(output$len, output$n)
+})
+
+test_that("filtering predicates are allowed and work well", {
+  stations <- unique(
+    get_record_table(camtrapdp, pred_gt("longitude", 3.6))$Station
+  )
+  expect_identical(stations, "B_ML_val 07_Sint-Anna")
 })

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to use function `map_dep()` to visualize two important deployment features on a leaflet map: 
+This vignette shows how to use function `map_dep()` to visualize important deployment features on a leaflet map: 
 
 - number of identified species
 - number of observations
@@ -162,17 +162,10 @@ map_dep(camtrapdp,
 
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
-```{r see_error_message}
-testthat::expect_error(
-  map_dep(camtrapdp,
+```{r see_error_message, error = TRUE}
+map_dep(camtrapdp,
           feature = "rai",
-          species = "This is not a species name"), 
-  paste0("Invalid value for species argument.\n",
-         "Valid inputs are: anas platyrhynchos, gallinula chloropus, ",
-         "myocastor coypus, ondatra zibethicus, rattus norvegicus, ", 
-         "mallard, common moorhen, coypu, muskrat, brown rat, ",
-         "wilde eend, waterhoen, beverrat, muskusrat and bruine rat.")
-)
+          species = "This is not a species name")
 ```
 
 #### RAI (individuals)

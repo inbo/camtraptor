@@ -57,9 +57,9 @@ read_camtrap_dp <- function(path, media = TRUE) {
     # add vernacular names to observations
     observations <- left_join(observations,
                               taxon_infos,
-                              by  = c("taxon_id", "scientific_name"))
+                              by  = c("taxonID", "scientificName"))
     observations <- observations %>%
-      relocate(one_of(cols_taxon_infos), .after = .data$camera_setup)
+      relocate(one_of(cols_taxon_infos), .after = .data$cameraSetup)
   }
   if (media == TRUE) {
     media <- read_resource(package, "media")

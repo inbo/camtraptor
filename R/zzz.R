@@ -223,10 +223,10 @@ get_dep_no_obs <- function(datapkg, ...) {
   dep_no_obs <-
     deployments %>%
     anti_join(observations %>%
-                distinct(.data$deployment_id),
-              by = "deployment_id")
+                distinct(.data$deploymentID),
+              by = "deploymentID")
 
-  dep_no_obs_ids <- dep_no_obs$deployment_id
+  dep_no_obs_ids <- dep_no_obs$deploymentID
   n_dep_no_obs <- length(dep_no_obs_ids)
 
   if (n_dep_no_obs > 0) {

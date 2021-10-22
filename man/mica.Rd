@@ -7,7 +7,14 @@
 \format{
 An object of class \code{list} of length 4.
 }
+\source{
+https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example
+}
 \usage{
 mica
+}
+\description{
+A sample camera trap data package, based on the example included with
+Camtrap DP, based on data from the MICA project. Also stored in \code{inst}.
 }
 \keyword{datasets}

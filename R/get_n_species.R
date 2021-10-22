@@ -3,14 +3,7 @@
 #' Function to get the number of identified species per deployment.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
-#'
+#'   `read_camtrap_dp()`.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @importFrom dplyr .data %>% bind_rows count distinct filter group_by mutate

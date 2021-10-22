@@ -22,14 +22,7 @@ map_dep(
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
-}
-
-and a list with metadata: \code{datapackage}}
+\code{read_camtrap_dp()}.}
 
 \item{feature}{character, deployment feature to visualize. One of:
 \itemize{

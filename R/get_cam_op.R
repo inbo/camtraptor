@@ -8,13 +8,7 @@
 #' efforts higher than one occur.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param ... filter predicates for filtering on deployments
 #' @importFrom purrr map_dfc
 #' @importFrom dplyr %>% .data as_tibble filter mutate pull bind_cols

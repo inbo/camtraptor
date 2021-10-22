@@ -4,14 +4,7 @@
 #' trap data package.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
-#'
+#'   `read_camtrap_dp()`.
 #' @param species a character vector with scientific or vernacular names
 #' @param arg_name character with argument name to return in error message
 #'   Default: "species".

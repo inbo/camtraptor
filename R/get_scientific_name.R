@@ -9,13 +9,7 @@
 #' If a vernacular name is not valid, an error is returned
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param vernacular_name a character vector with input vernacular name(s)
 #'
 #' @importFrom dplyr .data %>% across filter if_any mutate pull starts_with

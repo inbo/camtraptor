@@ -6,14 +6,7 @@
 #'   deployment. The RAI is normalized using 100 days deployment activity.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
-#'
+#'   `read_camtrap_dp()`.
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected

@@ -6,13 +6,7 @@
 #' observations are shown as gray circles and a message is returned.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param feature character, deployment feature to visualize. One of:
 #'
 #' - `n_species`: number of identified species

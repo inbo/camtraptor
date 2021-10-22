@@ -3,14 +3,8 @@
 #' Function to get all identified species
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#'   `read_camtrap_dp()`.
 #'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
-#' 
 #' @importFrom dplyr %>% .data distinct left_join select starts_with tibble
 #' @importFrom purrr map_dfr
 #' @importFrom tidyr drop_na

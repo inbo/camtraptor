@@ -3,13 +3,7 @@
 #' Function to get the effort (deployment duration) per deployment.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param unit time unit to use while returning deployment effort
 #'   (duration). One of:
 #'

@@ -40,7 +40,7 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(camtrapdp, minDeltaTime = 0) %>% nrow
   expect_equal(nrow_output,
-               camtrapdp$observations %>% 
+               camtrapdp$observations %>%
                  filter(!is.na(scientific_name)) %>% nrow)
 })
 
@@ -49,10 +49,10 @@ test_that("nrows = n obs of mallards if all other species are excluded", {
                           "muskrat",
                           "coypu",
                           "common moorhen")
-  nrow_mallards <- get_record_table(camtrapdp, exclude = species_to_exclude) %>% 
+  nrow_mallards <- get_record_table(camtrapdp, exclude = species_to_exclude) %>%
     nrow
   expect_equal(nrow_mallards,
-               camtrapdp$observations %>% 
+               camtrapdp$observations %>%
                  filter(scientific_name == "Anas platyrhynchos") %>% nrow)
 })
 
@@ -60,11 +60,11 @@ test_that("Higher minDeltaTime means less rows returned", {
   nrow_delta_0 <- get_record_table(camtrapdp) %>% nrow
   nrow_delta_1000 <- get_record_table(camtrapdp,
                                       minDeltaTime = 1000,
-                                      deltaTimeComparedTo = "lastRecord") %>% 
+                                      deltaTimeComparedTo = "lastRecord") %>%
     nrow
   nrow_delta_10000 <- get_record_table(camtrapdp,
                                        minDeltaTime = 10000,
-                                       deltaTimeComparedTo = "lastRecord") %>% 
+                                       deltaTimeComparedTo = "lastRecord") %>%
     nrow
   expect_true(nrow_delta_1000 <= nrow_delta_0)
   expect_true(nrow_delta_10000 <= nrow_delta_1000)
@@ -75,25 +75,25 @@ test_that("stations names are equal to values in column passed to StationCOl", {
   stations <- get_record_table(camtrapdp) %>% distinct(Station) %>% pull()
   location_names <- unique(camtrapdp$deployments$location_name)
   expect_true(all(stations %in% location_names))
-  
+
   # use location_id as Station
-  stations <- get_record_table(camtrapdp, stationCol = "location_id") %>% 
-    distinct(Station) %>% 
+  stations <- get_record_table(camtrapdp, stationCol = "location_id") %>%
+    distinct(Station) %>%
     pull()
   location_ids <- unique(camtrapdp$deployments$location_id)
   expect_true(all(stations %in% location_ids))
 })
 
 test_that("Directory and Filename columns are lists", {
-  file_values <- get_record_table(camtrapdp) %>% 
+  file_values <- get_record_table(camtrapdp) %>%
     select(Directory, FileName)
   expect_true(class(file_values$Directory) == "list")
   expect_true(class(file_values$FileName) == "list")
 })
 
-test_that("Each Directory and Filename slot contains as many values as multimedia linked to the independent obs", {
+test_that("Each Directory and Filename slot contains as many values as media linked to the independent obs", {
   output <- get_record_table(camtrapdp)
-  # add n multimedia, observation_id and sequence_id to record table
+  # add n media, observation_id and sequence_id to record table
   output <- output %>%
     mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
     left_join(camtrapdp$observations %>%
@@ -103,12 +103,12 @@ test_that("Each Directory and Filename slot contains as many values as multimedi
                        sequence_id),
               by = c("DateTimeOriginal" = "timestamp",
                      "Species" = "scientific_name"))
-  n_multimedia <- 
-    camtrapdp$multimedia %>%
+  n_media <-
+    camtrapdp$media %>%
     group_by(sequence_id) %>%
     count()
   output <- output %>%
-    left_join(n_multimedia,
+    left_join(n_media,
               by = "sequence_id")
   expect_equal(output$len, output$n)
 })

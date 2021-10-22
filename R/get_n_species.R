@@ -11,9 +11,9 @@
 #'
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deployment_id`
-#'   deployment unique identifier - `n`: (integer) number of observed and
-#'   identified species
+#' @return a tibble (data.frame) with the following columns:
+#'   - `deploymentID`: deployment unique identifier
+#'   - `n`: (integer) number of observed and identified species
 #'
 #' @examples
 #'

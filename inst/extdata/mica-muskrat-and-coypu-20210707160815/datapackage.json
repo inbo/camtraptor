@@ -25,7 +25,7 @@
     "sequence_interval": 120,
     "_id": "86cabc14-d475-4439-98a7-e7b590bed60e"
   },
-  "multimedia_access": {
+  "media_access": {
     "public": true,
     "remote": true
   },
@@ -460,23 +460,23 @@
       }
     },
     {
-      "name": "multimedia",
-      "path": "multimedia.csv",
+      "name": "media",
+      "path": "media.csv",
       "profile": "tabular-data-resource",
-      "title": "Camera trap multimedia",
-      "description": "Table with multimedia files (images/videos) captured by the camera traps. Associated with deployments (`deployment_id`) and organized in sequences (`sequence_id`). Includes timestamp and file path.",
+      "title": "Camera trap media",
+      "description": "Table with media files (images/videos) captured by the camera traps. Associated with deployments (`deployment_id`) and organized in sequences (`sequence_id`). Includes timestamp and file path.",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
-        "title": "Multimedia",
-        "description": "Table with multimedia files (images/videos) captured by the camera traps. Associated with deployments (`deployment_id`) and organized in sequences (`sequence_id`). Includes timestamp and file path.",
+        "title": "Media",
+        "description": "Table with media files (images/videos) captured by the camera traps. Associated with deployments (`deployment_id`) and organized in sequences (`sequence_id`). Includes timestamp and file path.",
         "fields": [
           {
-            "name": "multimedia_id",
+            "name": "media_id",
             "type": "string",
             "format": "default",
-            "description": "Unique identifier (within a project) of the multimedia file.",
+            "description": "Unique identifier (within a project) of the media file.",
             "example": "m1",
             "constraints": {
               "required": true,
@@ -497,7 +497,7 @@
             "name": "sequence_id",
             "type": "string",
             "format": "default",
-            "description": "Unique identifier (within a project) of the sequence this multimedia file belongs to. Sequences contain one or more multimedia files (e.g. a single image or video or a sequence of successive images or videos) and are defined by `sequence_interval` in the package metadata.",
+            "description": "Unique identifier (within a project) of the sequence this media file belongs to. Sequences contain one or more media files (e.g. a single image or video or a sequence of successive images or videos) and are defined by `sequence_interval` in the package metadata.",
             "example": "seq1",
             "constraints": {
               "required": true
@@ -507,7 +507,7 @@
             "name": "timestamp",
             "type": "datetime",
             "format": "%Y-%m-%dT%H:%M:%S%z",
-            "description": "Date and time when the multimedia file was recorded, as an ISO 8601 formatted string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
+            "description": "Date and time when the media file was recorded, as an ISO 8601 formatted string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`).",
             "example": "2020-03-24T11:21:46Z",
             "constraints": {
               "required": true
@@ -517,7 +517,7 @@
             "name": "file_path",
             "type": "string",
             "format": "uri",
-            "description": "Url or relative path to the multimedia file, respectively for externally hosted files or files that are part of this package. Additional information on how to access this file is provided in a package-level metadata.",
+            "description": "Url or relative path to the media file, respectively for externally hosted files or files that are part of this package. Additional information on how to access this file is provided in a package-level metadata.",
             "example": [
               "https://trapper.org/storage/resource/media/259024/file/",
               "gs://wildlife_insights/Project/Images/CT-011/IMG0001.jpg",
@@ -531,7 +531,7 @@
             "name": "file_name",
             "type": "string",
             "format": "default",
-            "description": "Name of a multimedia file. When this field is included, one should be able to sort multimedia chronologically within a deployment on `timestamp` (first) and `file_name` (second).",
+            "description": "Name of a media file. When this field is included, one should be able to sort media chronologically within a deployment on `timestamp` (first) and `file_name` (second).",
             "example": "IMG0001.jpg",
             "constraints": {
               "required": false
@@ -541,7 +541,7 @@
             "name": "file_mediatype",
             "type": "string",
             "format": "default",
-            "description": "Mediatype of a multimedia file.",
+            "description": "Mediatype of a media file.",
             "example": "image/jpeg",
             "constraints": {
               "required": true
@@ -551,7 +551,7 @@
             "name": "comments",
             "type": "string",
             "format": "default",
-            "description": "Comments or notes about the multimedia file.",
+            "description": "Comments or notes about the media file.",
             "example": "marked as favourite",
             "constraints": {
               "required": false
@@ -563,7 +563,7 @@
           "NaN",
           "nan"
         ],
-        "primaryKey": "multimedia_id",
+        "primaryKey": "media_id",
         "foreignKeys": [
           {
             "fields": "deployment_id",
@@ -580,13 +580,13 @@
       "path": "observations.csv",
       "profile": "tabular-data-resource",
       "title": "Camera trap observations",
-      "description": "Table with observations based on the multimedia files. Associated with deployments (`deployment_id`), sequences (`sequence_id`) and optionally individual multimedia files (`multimedia_id`). Observations can mark non-animal events (camera setup, human, empty) or one or more animal observations (`observation_type` = `animal`) of a certain species, count, age, sex, behaviour and/or individual.",
+      "description": "Table with observations based on the media files. Associated with deployments (`deployment_id`), sequences (`sequence_id`) and optionally individual media files (`media_id`). Observations can mark non-animal events (camera setup, human, empty) or one or more animal observations (`observation_type` = `animal`) of a certain species, count, age, sex, behaviour and/or individual.",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
         "title": "Observations",
-        "description": "Table with observations based on the multimedia files. Associated with deployments (`deployment_id`), sequences (`sequence_id`) and optionally individual multimedia files (`multimedia_id`). Observations can mark non-animal events (camera setup, human, empty) or one or more animal observations (`observation_type` = `animal`) of a certain taxon, count, age, sex, behaviour and/or individual.",
+        "description": "Table with observations based on the media files. Associated with deployments (`deployment_id`), sequences (`sequence_id`) and optionally individual media files (`media_id`). Observations can mark non-animal events (camera setup, human, empty) or one or more animal observations (`observation_type` = `animal`) of a certain taxon, count, age, sex, behaviour and/or individual.",
         "fields": [
           {
             "name": "observation_id",
@@ -613,17 +613,17 @@
             "name": "sequence_id",
             "type": "string",
             "format": "default",
-            "description": "Unique identifier of the sequence (collection of multimedia files grouped by a predefined `sequence_interval`) that is the source of this observation. Foreign key to `multimedia:sequence_id`.",
+            "description": "Unique identifier of the sequence (collection of media files grouped by a predefined `sequence_interval`) that is the source of this observation. Foreign key to `media:sequence_id`.",
             "example": "seq1",
             "constraints": {
               "required": true
             }
           },
           {
-            "name": "multimedia_id",
+            "name": "media_id",
             "type": "string",
             "format": "default",
-            "description": "Unique identifier of the multimedia file that is the source of this observation. Foreign key to `multimedia:multimedia_id`. Include but leave empty for sequence-based observations.",
+            "description": "Unique identifier of the media file that is the source of this observation. Foreign key to `media:media_id`. Include but leave empty for sequence-based observations.",
             "example": "m1",
             "constraints": {
               "required": false
@@ -633,7 +633,7 @@
             "name": "timestamp",
             "type": "datetime",
             "format": "%Y-%m-%dT%H:%M:%S%z",
-            "description": "Date and time of the observation, as an ISO 8601 formatted string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`). For file-based observations this is the `timestamp` of the associated multimedia file (in `multimedia_id`), for sequence-based observations the `timestamp` of the first multimedia file in the associated sequence (in `sequence_id`).",
+            "description": "Date and time of the observation, as an ISO 8601 formatted string with timezone designator (`YYYY-MM-DDThh:mm:ssZ` or `YYYY-MM-DDThh:mm:ss±hh:mm`). For file-based observations this is the `timestamp` of the associated media file (in `media_id`), for sequence-based observations the `timestamp` of the first media file in the associated sequence (in `sequence_id`).",
             "example": "2020-03-24T11:21:46Z",
             "constraints": {
               "required": true
@@ -841,15 +841,15 @@
           {
             "fields": "sequence_id",
             "reference": {
-              "resource": "multimedia",
+              "resource": "media",
               "fields": "sequence_id"
             }
           },
           {
-            "fields": "multimedia_id",
+            "fields": "media_id",
             "reference": {
-              "resource": "multimedia",
-              "fields": "multimedia_id"
+              "resource": "media",
+              "fields": "media_id"
             }
           }
         ]

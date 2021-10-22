@@ -4,20 +4,20 @@
 \alias{read_camtrap_dp}
 \title{Read camtrap-dp formatted data}
 \usage{
-read_camtrap_dp(path, multimedia = TRUE)
+read_camtrap_dp(path, media = TRUE)
 }
 \arguments{
 \item{path}{Path to the folder containing the camera trap data files.}
 
-\item{multimedia}{If \code{TRUE}, read multimedia records into memory. If \code{FALSE},
-ignore multimedia file to speed up reading larger Camtrap DP packages.}
+\item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE},
+ignore media file to speed up reading larger Camtrap DP packages.}
 }
 \value{
 A list containing three (tibble) data.frames:
 \enumerate{
 \item \code{observations}
 \item \code{deployments}
-\item \code{multimedia}
+\item \code{media}
 }
 
 and a list with metadata: \code{datapackage}
@@ -40,7 +40,7 @@ camtrap_dp_dir <- here(
     "mica-muskrat-and-coypu-20210707160815")
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 
-# Read Camtrap DP package and ignore multimedia file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
+# Read Camtrap DP package and ignore media file
+muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, media = FALSE)
 }
 }

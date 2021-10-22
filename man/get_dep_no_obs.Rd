@@ -8,7 +8,14 @@ get_dep_no_obs(datapkg, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{multimedia}
+}
+
+and a list with metadata: \code{datapackage}}
 
 \item{...}{filter predicates for filtering on deployments}
 }

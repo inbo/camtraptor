@@ -40,7 +40,7 @@ record of the same species (\code{deltaTimeComparedTo = "lastIndependentRecord"}
 \value{
 A (tibble) data frame containing species records and additional
 information about stations, date, time and further metadata, such as
-filenames and directories of the images (multimedia) linked to the species
+filenames and directories of the images (media) linked to the species
 records. Some more details about the columns returned:
 \enumerate{
 \item \code{Station}: character, station names, as found in the deployment column
@@ -59,9 +59,9 @@ independent record of a given species at a certain location
 \item \code{delta.time.days}: numeric, the duration in days from the previous
 independent record of a given species at a certain location
 \item \code{Directory}: list, file paths of the images linked to the given record,
-as defined in column \code{file_path} of \code{multimedia}
+as defined in column \code{file_path} of \code{media}
 \item \code{Filename}: list, file names of the images linked to the given record,
-as defined in column \code{file_name} of \code{multimedia}
+as defined in column \code{file_name} of \code{media}
 }
 }
 \description{

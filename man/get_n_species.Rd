@@ -13,9 +13,11 @@ get_n_species(datapkg, ...)
 \item{...}{filter predicates for filtering on deployments}
 }
 \value{
-a tibble (data.frame) with the following columns: - \code{deployment_id}
-deployment unique identifier - \code{n}: (integer) number of observed and
-identified species
+a tibble (data.frame) with the following columns:
+\itemize{
+\item \code{deploymentID}: deployment unique identifier
+\item \code{n}: (integer) number of observed and identified species
+}
 }
 \description{
 Function to get the number of identified species per deployment.

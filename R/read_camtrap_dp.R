@@ -8,14 +8,13 @@
 #' metadata (slot `taxonomic`), if present.
 #'
 #' @param path Path to the folder containing the camera trap data files.
-#' @param multimedia If `TRUE`, read multimedia records into memory. If `FALSE`,
-#'   ignore multimedia file to speed up reading larger Camtrap DP packages.
+#' @param media If `TRUE`, read media records into memory. If `FALSE`,
+#'   ignore media file to speed up reading larger Camtrap DP packages.
 #'
 #' @return A list containing three (tibble) data.frames:
-#'
 #'   1. `observations`
 #'   2. `deployments`
-#'   3. `multimedia`
+#'   3. `media`
 #'
 #'   and a list with metadata: `datapackage`
 #'
@@ -38,22 +37,22 @@
 #'     "mica-muskrat-and-coypu-20210707160815")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 #'
-#' # Read Camtrap DP package and ignore multimedia file
-#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, multimedia = FALSE)
+#' # Read Camtrap DP package and ignore media file
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, media = FALSE)
 #' }
-read_camtrap_dp <- function(path, multimedia = TRUE) {
-  # check multimedia
-  assert_that(multimedia %in% c(TRUE, FALSE),
-              msg = "multimedia must be a logical: TRUE or FALSE")
+read_camtrap_dp <- function(path, media = TRUE) {
+  # check media
+  assert_that(media %in% c(TRUE, FALSE),
+              msg = "media must be a logical: TRUE or FALSE")
   # read files
   package <- read_package(file.path(path, "datapackage.json"))
   deployments <- read_resource(package, "deployments")
   observations <- read_resource(package, "observations")
-  
+
   taxon_infos <- get_species(list(
     "datapackage" = package,
     "deployments" = deployments,
-    "multimedia" = NULL,
+    "media" = NULL,
     "observations" = observations
   ))
   if (!is.null(taxon_infos)) {
@@ -62,26 +61,26 @@ read_camtrap_dp <- function(path, multimedia = TRUE) {
     observations <- left_join(observations,
                               taxon_infos,
                               by  = c("taxon_id", "scientific_name"))
-    observations <- observations %>% 
+    observations <- observations %>%
       relocate(one_of(cols_taxon_infos), .after = .data$camera_setup)
   }
-  if (multimedia == TRUE) {
-    multimedia <- read_resource(package, "multimedia")
+  if (media == TRUE) {
+    media <- read_resource(package, "media")
   }
 
   # return list
-  if (is.data.frame(multimedia)) {
+  if (is.data.frame(media)) {
     list(
       "datapackage" = package,
       "deployments" = deployments,
-      "multimedia" = multimedia,
+      "media" = media,
       "observations" = observations
     )
   } else {
     list(
       "datapackage" = package,
       "deployments" = deployments,
-      "multimedia" = NULL,
+      "media" = NULL,
       "observations" = observations
     )
   }

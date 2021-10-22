@@ -4,19 +4,15 @@ test_that("path is checked properly", {
 })
 
 test_that("media is checked properly", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   expect_error(read_camtrap_dp(
     path = dp_path,
-    media = "must_Be_a_logical!")
+    media = "must_be_a_logical!")
   )
 })
 
 test_that("output is a list of length 4", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
@@ -25,9 +21,7 @@ test_that("output is a list of length 4", {
 })
 
 test_that("media arg influences only slot media", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_with_media <- read_camtrap_dp(
     path = dp_path,
     media = TRUE)
@@ -57,9 +51,7 @@ test_that("media arg influences only slot media", {
 })
 
 test_that("Datapackage metadata is a list", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
@@ -67,9 +59,7 @@ test_that("Datapackage metadata is a list", {
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
@@ -78,9 +68,7 @@ test_that("Datapackage resources are named as in metadata$resource_names", {
 })
 
 test_that("Datapackage resources are tibble dataframes", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
@@ -91,9 +79,7 @@ test_that("Datapackage resources are tibble dataframes", {
 })
 
 test_that("sc. names and vernacular names in obs match the info in taxonomic slot", {
-  dp_path <- system.file("extdata",
-                         "mica-muskrat-and-coypu-20210707160815",
-                         package = "camtrapdp")
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)

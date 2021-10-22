@@ -1,6 +1,6 @@
 test_that("right (number of) species", {
   expect_identical(
-    get_species(camtrapdp),
+    get_species(mica),
     tibble(
       taxon_id = c(
         "DGP6",

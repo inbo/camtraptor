@@ -1,5 +1,5 @@
 test_that("get_n_species returns the right dataframe", {
-  output_get_n_species <- get_n_species(camtrapdp)
+  output_get_n_species <- get_n_species(mica)
 
   # type list
   expect_type(output_get_n_species, "list")

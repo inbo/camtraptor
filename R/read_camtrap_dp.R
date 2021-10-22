@@ -31,10 +31,7 @@
 #' \dontrun{
 #' library(here)
 #' # Read Camtrap DP package
-#' camtrap_dp_dir <- here(
-#'     "inst",
-#'     "extdata",
-#'     "mica-muskrat-and-coypu-20210707160815")
+#' camtrap_dp_dir <- here("inst", "extdata", "mica")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 #'
 #' # Read Camtrap DP package and ignore media file

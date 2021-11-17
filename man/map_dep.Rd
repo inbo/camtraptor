@@ -10,10 +10,10 @@ map_dep(
   ...,
   species = NULL,
   sex = NULL,
-  age = NULL,
+  life_stage = NULL,
   effort_unit = NULL,
   cluster = TRUE,
-  hover_columns = c("n", "species", "deployment_id", "location_id", "location_name",
+  hover_columns = c("n", "species", "deploymentID", "locationID", "locationName",
     "latitude", "longitude", "start", "end"),
   relative_scale = TRUE,
   max_scale = NULL,
@@ -42,9 +42,9 @@ optional for \code{n_obs}. Default: \code{NULL}}
 If \code{NULL}, default, all observations of all sex classes are taken into
 account. Optional argument for \code{n_obs} and \code{n_individuals}}
 
-\item{age}{a character vector defining the age class to filter on, e.g.
+\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
 \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
-of all age classes are taken into account. Optional argument for \code{n_obs}
+of all life stage classes are taken into account. Optional argument for \code{n_obs}
 and \code{n_individuals}}
 
 \item{effort_unit}{time unit to use while visualizing deployment effort
@@ -74,11 +74,11 @@ created internally by a \verb{get_*()} function)
 \item \code{species}: species name(s)
 \item \code{start}: start deployment
 \item \code{end}: end deployment -
-\item \code{deployment_id} deployment unique identifier
-\item \code{location_id} location unique identifier
-\item \code{location_name} location name
-\item \code{latitude}:
-\item \code{longitude}:
+\item \code{deploymentID} deployment unique identifier
+\item \code{locationID} location unique identifier
+\item \code{locationName} location name
+\item \code{latitude}
+\item \code{longitude}
 }
 
 See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
@@ -111,122 +111,122 @@ observations are shown as gray circles and a message is returned.
 \dontrun{
 # show number of species
 map_dep(
-  camtrapdp,
+  mica,
   "n_species"
 )
 
 # show number of observations  (observations of unidentified species included
 if any)
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs"
 )
 
-# show number of observations of Rattus norvegicus
+# show number of observations of Anas platyrhynchos
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
-  species = "Rattus norvegicus"
+  species = "Anas platyrhynchos"
 )
 
-# show number of observations of juvenile individuals of Anas platyrhynchos
+# show number of observations of subadult individuals of AnasAnas strepera
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
-  species = "Anas platyrhynchos",
-  age = "juvenile"
+  species = "Anas strepera",
+  life_stage = "subadult"
 )
 
-# show number of observations of female or undefined individuals of Anas platyrhynchos
+# show number of observations of female or unknown individuals of gadwall
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
-  species = "Anas platyrhynchos",
-  sex = c("female", "undefined")
+  species = "gadwall",
+  sex = c("female", "unknown")
 )
 
 # show number of individuals (individuals of unidentified species included if
 any)
 map_dep(
-  camtrapdp,
+  mica,
   "n_individuals"
 )
 
-# same filters by age and sex as for number of observations apply
+# same filters by life stage and sex as for number of observations apply
 map_dep(
-  camtrapdp,
+  mica,
   "n_individuals",
-  species = "Anas platyrhynchos",
+  species = "Anas strepera",
   sex = "female",
-  age = "adult"
+  life_stage = "adult"
 )
 
 # show RAI
 map_dep(
-  camtrapdp,
+  mica,
   "rai",
-  species = "Rattus norvegicus"
+  species = "Anas strepera"
 )
 
-# same filters by age and sex as for number of observations apply
+# same filters by life_stage and sex as for number of observations apply
 map_dep(
-  camtrapdp,
+  mica,
   "rai",
-  species = "Anas platyrhynchos",
+  species = "Anas strepera",
   sex = "female",
-  age = "adult"
+  life_stage = "adult"
 )
 
 # show RAI calculated by using number of detected individuals
 map_dep(
-  camtrapdp,
+  mica,
   "rai_individuals",
-  species = "Rattus norvegicus"
+  species = "Anas strepera"
 )
 
-# same filters by age and sex as for basic RAI apply
+# same filters by life stage and sex as for basic RAI apply
 map_dep(
-  camtrapdp,
+  mica,
   "rai_individuals",
-  species = "Anas platyrhynchos",
+  species = "Anas strepera",
   sex = "female",
-  age = "adult"
+  life_stage = "adult"
 )
 
 # show effort (basic duration in seconds)
 map_dep(
-  camtrapdp,
+  mica,
   "effort"
 )
 
 # show effort (days)
 map_dep(
-  camtrapdp,
+  mica,
   "effort",
   effort_unit = "day"
 )
 
 # show effort (months)
 map_dep(
-  camtrapdp,
+  mica,
   "effort",
   effort_unit = "month"
 )
 
 # cluster disabled
-map_dep(camtrapdp,
-  "n_species"
+map_dep(mica,
+  "n_species",
   cluster = FALSE
 )
 
 # show only number of observations and location name while hovering
-map_dep(camtrapdp,
+map_dep(mica,
   "n_obs",
-  hover_columns = c("location_name", "n")
+  hover_columns = c("locationName", "n")
 )
 
 # use absolute scale for colors and radius
-map_dep(camtrapdp,
+map_dep(mica,
   "n_species",
   relative_scale = FALSE,
   max_scale = 4
@@ -234,7 +234,7 @@ map_dep(camtrapdp,
 
 # change max and min size circles
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
   radius_range = c(40, 150)
 )

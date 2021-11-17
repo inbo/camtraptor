@@ -27,7 +27,7 @@ get_effort(datapkg, ..., unit = NULL)
 \value{
 a tibble (data.frame) with the following columns:
 \itemize{
-\item \code{deployment_id} deployment unique identifier
+\item \code{deploymentID} deployment unique identifier
 \item \code{effort}: a duration object (duration is a class from lubridate package)
 }
 }
@@ -36,10 +36,10 @@ Function to get the effort (deployment duration) per deployment.
 }
 \examples{
 # efforts expressed as Durations
-get_effort(camtrapdp)
+get_effort(mica)
 
 # effort expressed as days
-get_effort(camtrapdp, unit = "day")
+get_effort(mica, unit = "day")
 
 }
 \seealso{

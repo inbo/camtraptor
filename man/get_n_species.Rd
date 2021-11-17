@@ -25,9 +25,9 @@ Function to get the number of identified species per deployment.
 \examples{
 
 # get number of species
-get_n_species(camtrapdp)
+get_n_species(mica)
 
-# get number of species for deployments with latitude >= 51.28
-get_n_species(camtrapdp, pred_gte("latitude", 51.28))
+# get number of species for deployments with latitude >= 51.18
+get_n_species(mica, pred_gte("latitude", 51.18))
 
 }

@@ -24,17 +24,17 @@ trap data package.
 }
 \examples{
 # species is a scientific name
-check_species(camtrapdp, "Gallinula chloropus")
+check_species(mica, "Martes foina")
 # species is a vector of vernacular names
- check_species(camtrapdp, c("mallard", "brown rat"))
+ check_species(mica, c("beech marten", "european polecat"))
 # vernacular names can be specified in any language available
-check_species(camtrapdp, c("wilde eend", "bruine rat"))
+check_species(mica, c("vos", "blauwe reiger"))
 # vernacular names and scientific names can be mixed up
-check_species(camtrapdp, c("mallard", "bruine rat", "Ondatra zibethicus"))
+check_species(mica, c("beech marten", "blauwe reiger", "Anas strepera"))
 # case insensitive
-check_species(camtrapdp, "galliNULa CHloropUs")
-check_species(camtrapdp, "MalLARD")
+check_species(mica, "AnaS StrePeRa")
+check_species(mica, "bEEch mARteN")
 \dontrun{
-check_species(camtrapdp, "bad name")
+check_species(mica, "bad name")
 }
 }

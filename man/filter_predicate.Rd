@@ -150,13 +150,13 @@ data.frame you are applying the filter predicates.
 
 \examples{
 # one arg one value predicates
-pred("scientific_name", "Anas platyrhynchos")
+pred("scientificName", "Anas platyrhynchos")
 pred("tags", "boven de stroom")
-pred_gt("latitude", 51.28)
-pred_gte("latitude", 51.28)
-pred_lt("longitude", 3.59)
-pred_lte("longitude", 3.59)
-pred_not("location_name", "B_ML_val 03_De Val")
+pred_gt("latitude", 51.18)
+pred_gte("latitude", 51.18)
+pred_lt("longitude", 3.95)
+pred_lte("longitude", 3.95)
+pred_not("locationName", "B_DL_val 3_dikke boom")
 
 # and, or predicates
 pred_and(pred_lt("longitude", 3.59), pred_gt("latitude", 51.28))
@@ -181,8 +181,8 @@ pred_in("start", start_dates)
 pred_notin("start", start_dates)
 
 # one arg, no value predicates
-pred_na("scientific_name")
-pred_notna("scientific_name")
+pred_na("scientificName")
+pred_notna("scientificName")
 }
 \seealso{
 Other get_functions: 

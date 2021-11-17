@@ -10,7 +10,7 @@
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param stationCol (character) name of the column containing stations.
-#'   Default: `"location_name"`
+#'   Default: `"locationName"`
 #' @param exclude	(character) vector of species names (scientific names or
 #'   vernacular names) to be excluded from the record table. Default: `NULL`
 #' @param minDeltaTime (integer) time difference between records of the same
@@ -52,40 +52,39 @@
 #'   9.  `delta.time.days`: numeric, the duration in days from the previous
 #'   independent record of a given species at a certain location
 #'   10. `Directory`: list, file paths of the images linked to the given record,
-#'   as defined in column `file_path` of `media`
+#'   as defined in column `filePath` of `media`
 #'   11. `Filename`: list, file names of the images linked to the given record,
-#'   as defined in column `file_name` of `media`
+#'   as defined in column `fileName` of `media`
 #' @export
 #' @examples
-#' get_record_table(camtrapdp)
+#' get_record_table(mica)
 #'
 #' # set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
-#' get_record_table(camtrapdp,
+#' get_record_table(mica,
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastIndependentRecord")
 #'
 #' # set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
-#' get_record_table(camtrapdp,
+#' get_record_table(mica,
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastRecord")
 #'
 #' # exclude observations of brown rat
 #' # exclude is case insensitive and vernacular names are allowed
-#' get_record_table(camtrapdp, exclude = "Brown raT")
+#' get_record_table(mica, exclude = "wilde eend")
 #'
 #' # specify column to pass station names
-#' get_record_table(camtrapdp,
-#'     stationCol = "location_id",
+#' get_record_table(mica,
+#'     stationCol = "locationID",
 #'     minDeltaTime = 20,
 #'     deltaTimeComparedTo = "lastRecord")
-#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
-#' get_record_table(camtrapdp, pred_gte("latitude", 51.28))
-
+#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+#' get_record_table(mica, pred_gte("latitude", 51.18))
 get_record_table <- function(datapkg,
                              ...,
-                             stationCol = "location_name",
+                             stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL) {
@@ -128,11 +127,11 @@ get_record_table <- function(datapkg,
 
   # remove observations of unidentified individuals
   obs <- datapkg$observations %>%
-    filter(!is.na(.data$scientific_name))
+    filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
   obs <- obs %>%
-    filter(!.data$scientific_name %in% exclude)
+    filter(!.data$scientificName %in% exclude)
 
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
@@ -141,36 +140,36 @@ get_record_table <- function(datapkg,
     ...)
   # remove observations from filtered out deployments
   obs <- obs %>%
-    filter(.data$deployment_id %in% deployments$deployment_id)
+    filter(.data$deploymentID %in% deployments$deploymentID)
 
   # add station column from deployments to observations
   obs <- obs %>%
-    left_join(deployments %>% select(.data$deployment_id, !!sym(stationCol)),
-              by = "deployment_id")
+    left_join(deployments %>% select(.data$deploymentID, !!sym(stationCol)),
+              by = "deploymentID")
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
     datapkg$media %>%
-    select(.data$sequence_id,
-           .data$file_path,
-           .data$file_name,
+    select(.data$sequenceID,
+           .data$filePath,
+           .data$fileName,
            .data$timestamp) %>%
-    group_by(.data$sequence_id) %>%
-    summarise(file_path = list(.data$file_path),
-              file_name = list(.data$file_name),
+    group_by(.data$sequenceID) %>%
+    summarise(filePath = list(.data$filePath),
+              fileName = list(.data$fileName),
               # important if deltaTimeComparedTo is lastRecord
               last_timestamp = last(.data$timestamp))
   # add needed media info from media to observations
   obs <- obs %>%
     left_join(grouped_media_info,
-              by = "sequence_id")
+              by = "sequenceID")
 
   # get record table
   record_table <- obs %>%
     mutate(Date = date(.data$timestamp),
            Time = format(.data$timestamp, format = "%H:%M:%S")) %>%
-    group_by(.data$scientific_name, !!sym(stationCol)) %>%
-    arrange(.data$scientific_name, !!sym(stationCol), .data$timestamp)
+    group_by(.data$scientificName, !!sym(stationCol)) %>%
+    arrange(.data$scientificName, !!sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
     record_table <- record_table %>%
@@ -188,9 +187,9 @@ get_record_table <- function(datapkg,
       unnest(cols = c(data))
     # add independence information to record_table
     record_table <- record_table %>%
-      left_join(record_independence, by = c("scientific_name",
+      left_join(record_independence, by = c("scientificName",
                                             stationCol,
-                                            "observation_id"))
+                                            "observationID"))
   }
 
   # remove not independent observations
@@ -215,10 +214,10 @@ get_record_table <- function(datapkg,
 
   record_table <- record_table %>%
     rename(Station := !! stationCol,
-           Species = .data$scientific_name,
+           Species = .data$scientificName,
            DateTimeOriginal = .data$timestamp,
-           Directory = .data$file_path,
-           FileName = .data$file_name) %>%
+           Directory = .data$filePath,
+           FileName = .data$fileName) %>%
     select(.data$Station,
            .data$Species,
            .data$DateTimeOriginal,
@@ -267,6 +266,6 @@ assess_temporal_independence <- function(df, minDeltaTime_dur, deltaTimeCompared
       last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
     }
   }
-  return(tibble(observation_id = df$observation_id,
+  return(tibble(observationID = df$observationID,
                 independent = df$independent))
 }

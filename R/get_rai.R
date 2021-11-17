@@ -11,59 +11,59 @@
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
+#'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
 #'   sex classes are taken into account.
-#' @param age a character vector defining the age class to filter on, e.g.
+#' @param life_stage a character vector defining the life stage class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all age classes are taken into account.
+#'   of all life stage classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @export
 
 #' @return a tibble (data.frame) with the following columns:
-#' - `deployment_id` deployment unique identifier
-#' - `scientific_name` scientific name
+#' - `deploymentID` deployment unique identifier
+#' - `scientificName` scientific name
 #' - `rai`: relative abundance index
 #'
 #' @family RAI functions
 #'
 #' @examples
 #' # calculate RAI for all species
-#' get_rai(camtrapdp) # species = "all" by default, so equivalent of
-#' get_rai(camtrapdp, species = "all")
+#' get_rai(mica) # species = "all" by default, so equivalent of
+#' get_rai(mica, species = "all")
 #'
 #' # selected species
-#' get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
+#' get_rai(mica, species = c("Anas platyrhynchos", "Martes foina"))
 #'
 #' # with vernacular names, even mixing languages
-#' get_rai(camtrapdp, species = c("Mallard", "bruine rat"))
+#' get_rai(mica, species = c("mallard", "steenmarter"))
 #'
 #' # mixed scientific and vernacular names
-#' get_rai(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
+#' get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
 #'
 #' # species argument is case insensitive
-#' get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+#' get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # specify sex
-#' get_rai(camtrapdp, sex = "female")
-#' get_rai(camtrapdp, sex = c("female", "undefined"))
+#' get_rai(mica, sex = "female")
+#' get_rai(mica, sex = c("female", "unknown"))
 #'
-#' # specify age
-#' get_rai(camtrapdp, age = "adult")
-#' get_rai(camtrapdp, age = c("adult", "subadult"))
+#' # specify life stage
+#' get_rai(mica, life_stage = "adult")
+#' get_rai(mica, life_stage = c("adult", "subadult"))
 #'
-#' # apply filter(s): deployments with latitude >= 51.28
-#' get_rai(camtrapdp, pred_gte("latitude", 51.28))
+#' # apply filter(s): deployments with latitude >= 51.18
+#' get_rai(mica, pred_gte("latitude", 51.18))
 #'
 get_rai <- function(datapkg, ...,
                     species = "all",
                     sex = NULL,
-                    age = NULL
+                    life_stage = NULL
                     ) {
   get_rai_primitive(datapkg, ...,
                     use = "n_obs",
                     species = species,
-                    sex = sex, age = age)
+                    sex = sex, life_stage = life_stage)
 }
 
 #' Get Relative Abundance Index (RAI) based on number of individuals
@@ -80,61 +80,61 @@ get_rai <- function(datapkg, ...,
 #'   insensitive). If "all" (default), all scientific names are automatically
 #'   selected
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
+#'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
 #'   sex classes are taken into account.
-#' @param age a character vector defining the age class to filter on, e.g.
+#' @param life_stage a character vector defining the life stage class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all age classes are taken into account.
+#'   of all life stage classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @export
 
 #' @return a tibble (data.frame) with the following columns:
-#' - `deployment_id` deployment unique identifier
-#' - `scientific_name` scientific name
+#' - `deploymentID` deployment unique identifier
+#' - `scientificName` scientific name
 #' - `rai`: relative abundance index
 #'
 #' @family RAI functions
 #'
 #' @examples
 #' # calculate RAI based on number of individuals
-#' get_rai_individuals(camtrapdp) # species = "all" by default, so equivalent of
-#' get_rai_individuals(camtrapdp, species = "all")
+#' get_rai_individuals(mica) # species = "all" by default, so equivalent of
+#' get_rai_individuals(mica, species = "all")
 #'
 #' # selected species
-#' get_rai_individuals(camtrapdp,
-#'   species = c("Anas platyrhynchos", "Rattus norvegicus")
+#' get_rai_individuals(mica,
+#'   species = c("Anas platyrhynchos", "Martes foina")
 #' )
 #'
 #' # with common names, also mixing up languages
-#' get_rai_individuals(camtrapdp, species = c("Mallard", "bruine rat"))
+#' get_rai_individuals(mica, species = c("mallard", "steenmarter"))
 #'
 #' # mixed scientific and vernacular names
-#' get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
+#' get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
 #'
 #' # species argument is case insensitive
-#' get_rai_individuals(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+#' get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # specify sex
-#' get_rai_individuals(camtrapdp, sex = "female")
-#' get_rai_individuals(camtrapdp, sex = c("female", "undefined"))
+#' get_rai_individuals(mica, sex = "female")
+#' get_rai_individuals(mica, sex = c("female", "unknown"))
 #'
-#' # specify age
-#' get_rai_individuals(camtrapdp, age = "adult")
-#' get_rai_individuals(camtrapdp, age = c("adult", "subadult"))
+#' # specify life stage
+#' get_rai_individuals(mica, life_stage = "adult")
+#' get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 #'
-#' # apply filter(s): deployments with latitude >= 51.28
-#' get_rai_individuals(camtrapdp, pred_gte("latitude", 51.28))
+#' # apply filter(s): deployments with latitude >= 51.18
+#' get_rai_individuals(mica, pred_gte("latitude", 51.18))
 #'
 get_rai_individuals <- function(datapkg, ...,
                     species = "all",
                     sex = NULL,
-                    age = NULL
+                    life_stage = NULL
 ) {
   get_rai_primitive(datapkg, ...,
                     use = "n_individuals",
                     species = species,
-                    sex = sex, age = age)
+                    sex = sex, life_stage = life_stage)
 }
 
 
@@ -155,7 +155,7 @@ get_rai_individuals <- function(datapkg, ...,
 #' @noRd
 #'
 #' @return a data.frame (tibble)
-get_rai_primitive <- function(datapkg, use, species, sex, age, ...) {
+get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
   # check input data package
   check_datapkg(datapkg)
 
@@ -169,20 +169,20 @@ get_rai_primitive <- function(datapkg, use, species, sex, age, ...) {
 
   # get all identified species if species arg is equal to "all"
   if ("all" %in% species) {
-    species <- get_species(datapkg)$scientific_name
+    species <- get_species(datapkg)$scientificName
   }
   # check species
   species <- check_species(datapkg, species)
 
   if (use == "n_obs") {
     # get number of observations
-    n_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+    n_df <- get_n_obs(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
   } else {
     # get number of individuals
     n_df <- get_n_individuals(datapkg,
                               species = species,
                               sex = sex,
-                              age = age,
+                              life_stage = life_stage,
                               ...
                               )
   }
@@ -196,9 +196,9 @@ get_rai_primitive <- function(datapkg, use, species, sex, age, ...) {
   # calculate RAI
   n_df %>%
     left_join(dep_effort,
-              by = "deployment_id") %>%
-    group_by(.data$deployment_id,
-             .data$scientific_name) %>%
+              by = "deploymentID") %>%
+    group_by(.data$deploymentID,
+             .data$scientificName) %>%
     summarise(rai = .data$n * 100 / (as.numeric(.data$effort)/24/60/60)) %>%
     ungroup()
 }

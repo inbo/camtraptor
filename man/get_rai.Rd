@@ -4,7 +4,7 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, ..., species = "all", sex = NULL, age = NULL)
+get_rai(datapkg, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -17,18 +17,18 @@ insensitive). If "all" (default), all scientific names are automatically
 selected}
 
 \item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+or \code{c("male", "unknown")}.  If \code{NULL}, default, all observations of all
 sex classes are taken into account.}
 
-\item{age}{a character vector defining the age class to filter on, e.g.
+\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
 \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
-of all age classes are taken into account.}
+of all life stage classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:
 \itemize{
-\item \code{deployment_id} deployment unique identifier
-\item \code{scientific_name} scientific name
+\item \code{deploymentID} deployment unique identifier
+\item \code{scientificName} scientific name
 \item \code{rai}: relative abundance index
 }
 }
@@ -38,31 +38,31 @@ deployment. The RAI is normalized using 100 days deployment activity.
 }
 \examples{
 # calculate RAI for all species
-get_rai(camtrapdp) # species = "all" by default, so equivalent of
-get_rai(camtrapdp, species = "all")
+get_rai(mica) # species = "all" by default, so equivalent of
+get_rai(mica, species = "all")
 
 # selected species
-get_rai(camtrapdp, species = c("Anas platyrhynchos", "Rattus norvegicus"))
+get_rai(mica, species = c("Anas platyrhynchos", "Martes foina"))
 
 # with vernacular names, even mixing languages
-get_rai(camtrapdp, species = c("Mallard", "bruine rat"))
+get_rai(mica, species = c("mallard", "steenmarter"))
 
 # mixed scientific and vernacular names
-get_rai(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
+get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
 
 # species argument is case insensitive
-get_rai(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 
 # specify sex
-get_rai(camtrapdp, sex = "female")
-get_rai(camtrapdp, sex = c("female", "undefined"))
+get_rai(mica, sex = "female")
+get_rai(mica, sex = c("female", "unknown"))
 
-# specify age
-get_rai(camtrapdp, age = "adult")
-get_rai(camtrapdp, age = c("adult", "subadult"))
+# specify life stage
+get_rai(mica, life_stage = "adult")
+get_rai(mica, life_stage = c("adult", "subadult"))
 
-# apply filter(s): deployments with latitude >= 51.28
-get_rai(camtrapdp, pred_gte("latitude", 51.28))
+# apply filter(s): deployments with latitude >= 51.18
+get_rai(mica, pred_gte("latitude", 51.18))
 
 }
 \seealso{

@@ -3,7 +3,7 @@
 #' This function returns the [camera operation matrix](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
 #' as returned by camtrapR's function `cameraOperation()`.
 #' 
-#' The deployment data are grouped by `location_name` (station ID in camtrapR
+#' The deployment data are grouped by `locationName` (station ID in camtrapR
 #' jargon). If multiple deploymnts are linked to same location, daily
 #' efforts higher than one occur.
 #'
@@ -13,14 +13,14 @@
 #' @importFrom purrr map_dfc
 #' @importFrom dplyr %>% .data as_tibble filter mutate pull bind_cols
 #' @importFrom lubridate as_datetime date
-#' @return a matrix. Row names always indicate the `location_name` (station ID)
-#'   `"Station"`+`location_name`. Column names are dates.
+#' @return a matrix. Row names always indicate the `locationName` (station ID)
+#'   `"Station"`+`locationName`. Column names are dates.
 #'
 #' @export
 #' @examples 
-#' get_cam_op(camtrapdp)
-#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
-#' get_cam_op(camtrapdp, pred_gte("latitude", 51.28))
+#' get_cam_op(mica)
+#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+#' get_cam_op(mica, pred_gte("latitude", 51.18))
 get_cam_op <- function(datapkg, ...) {
   # check data package
   check_datapkg(datapkg)
@@ -49,15 +49,15 @@ get_cam_op <- function(datapkg, ...) {
 
   # make a operation table per deployment
   deployment_operational <- map(
-    deploys$deployment_id,
+    deploys$deploymentID,
     function(x) {
-      start_day <- deploys %>% filter(.data$deployment_id == x) %>% pull(start_day)
-      end_day <- deploys %>% filter(.data$deployment_id == x) %>% pull(end_day)
+      start_day <- deploys %>% filter(.data$deploymentID == x) %>% pull(start_day)
+      end_day <- deploys %>% filter(.data$deploymentID == x) %>% pull(end_day)
       operational <- days_operations > start_day & days_operations < end_day
       operational[operational == TRUE] <- 1
       # edge cases start and end day
       deploy_df  <- deploys %>% 
-        filter(.data$deployment_id == x)
+        filter(.data$deploymentID == x)
       daily_effort_start <- calc_daily_effort(deploy_df, calc_start=TRUE)
       operational[days_operations == start_day] <- daily_effort_start
       daily_effort_end <- calc_daily_effort(deploy_df, calc_end=TRUE)
@@ -66,16 +66,16 @@ get_cam_op <- function(datapkg, ...) {
       names(operational) <- x
       return(operational)
     })
-  names(deployment_operational) <- deploys$deployment_id
+  names(deployment_operational) <- deploys$deploymentID
   
   # get for each location which days a deployment was active
-  camOps <- map_dfc(unique(deploys$location_name),
+  camOps <- map_dfc(unique(deploys$locationName),
                     function(loc_name) {
                       # get deployments linked to the location name
                       deploys_id <- 
                         deploys %>%
-                        filter(.data$location_name == loc_name) %>%
-                        pull(.data$deployment_id)
+                        filter(.data$locationName == loc_name) %>%
+                        pull(.data$deploymentID)
                       # get operational dfs linked to these deployment_ids
                       dep_dfs <- deployment_operational[names(deployment_operational) %in% deploys_id]
                       dep_op <- bind_cols(dep_dfs)
@@ -90,6 +90,6 @@ get_cam_op <- function(datapkg, ...) {
   camOps <- as.matrix(camOps)
   # add names to rows (days)
   rownames(camOps) <- days_operations_string
-  # transpose to get location_name as rows and days as columns and return
+  # transpose to get location name as rows and days as columns and return
   t(camOps)
 }

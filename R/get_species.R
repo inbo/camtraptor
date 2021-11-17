@@ -10,8 +10,8 @@
 #' @importFrom tidyr drop_na
 #' @export
 
-#' @return a data.frame with all scientific names and vernacular names of
-#'   identified species
+#' @return a data.frame with all scientific names and vernacular names of the
+#'   identified species.
 #'
 #' @examples
 #' get_species(camtrapdp)

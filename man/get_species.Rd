@@ -11,8 +11,8 @@ get_species(datapkg)
 \code{read_camtrap_dp()}.}
 }
 \value{
-a data.frame with all scientific names and vernacular names of
-identified species
+a data.frame with all scientific names and vernacular names of the
+identified species.
 }
 \description{
 Function to get all identified species

@@ -21,7 +21,7 @@ one argument - one value filter predicate
 \examples{
 \dontrun{
 check_filter_arg_value("latitude", 5)
-check_filter_arg_value("location_name", 35)
+check_filter_arg_value("locationName", 35)
 # this returns an error: arg should be always a character
 check_filter_arg_value(arg = 5, value = 1)
 # this returns an error: two values instead of one

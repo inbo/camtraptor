@@ -22,17 +22,17 @@
 #'
 #' @examples
 #' # one or more vernacular names
-#' get_scientific_name(camtrapdp, "brown rat")
-#' get_scientific_name(camtrapdp, c("brown rat", "mallard"))
+#' get_scientific_name(mica, "beech marten")
+#' get_scientific_name(mica, c("beech marten", "mallard"))
 #' # vernacular names can be passed in different languages 
-#' get_scientific_name(camtrapdp, c("brown rat", "wilde eend"))
+#' get_scientific_name(mica, c("beech marten", "wilde eend"))
 #' # the search is performed case insensitively
-#' get_scientific_name(camtrapdp, c("BrOwN RaT"))
+#' get_scientific_name(mica, c("MaLLarD"))
 #' # error is returned if at least one invalid vernacular name is passed
 #' \dontrun{
-#' get_scientfic_name(camtrapdp, "this is a bad vernacular name")
+#' get_scientfic_name(mica, "this is a bad vernacular name")
 #' # a scientific name is an invalid vernacular name of course
-#' get_scientific_name(camtrapdp, c("Rattus norvegicus", "wilde eend"))
+#' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 #' }
 get_scientific_name <- function(datapkg, vernacular_name) {
 
@@ -41,7 +41,7 @@ get_scientific_name <- function(datapkg, vernacular_name) {
   # get vernacular names for check
   all_vn <- 
     all_sn_vn %>%
-    select(starts_with("vernacular_name"))
+    select(starts_with("vernacularName"))
   # check validity verncular_name argument
   check_value(arg = tolower(vernacular_name), 
               options = unlist(all_vn) %>% tolower(), 
@@ -51,7 +51,7 @@ get_scientific_name <- function(datapkg, vernacular_name) {
 
   all_sn_vn <-
     all_sn_vn %>%
-    mutate(across(starts_with("vernacular_name"), ~ tolower(.)))
+    mutate(across(starts_with("vernacularName"), ~ tolower(.)))
   
   map_chr(
     input_vernacular, 
@@ -59,9 +59,9 @@ get_scientific_name <- function(datapkg, vernacular_name) {
       # search within the columns with vernacular names
       sc_n <- 
         all_sn_vn %>%
-        filter(if_any(starts_with("vernacular_name"),
+        filter(if_any(starts_with("vernacularName"),
                       ~ tolower(.) %in% tolower(v))) %>%
-        pull(.data$scientific_name)
+        pull(.data$scientificName)
       if (length(sc_n) == 0) {
         message(glue("{v} is not a valid vernacular name."))
         sc_n <- NA_character_

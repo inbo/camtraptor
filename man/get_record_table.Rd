@@ -7,7 +7,7 @@
 get_record_table(
   datapkg,
   ...,
-  stationCol = "location_name",
+  stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL
@@ -20,7 +20,7 @@ get_record_table(
 \item{...}{filter predicates for filtering on deployments}
 
 \item{stationCol}{(character) name of the column containing stations.
-Default: \code{"location_name"}}
+Default: \code{"locationName"}}
 
 \item{exclude}{(character) vector of species names (scientific names or
 vernacular names) to be excluded from the record table. Default: \code{NULL}}
@@ -59,9 +59,9 @@ independent record of a given species at a certain location
 \item \code{delta.time.days}: numeric, the duration in days from the previous
 independent record of a given species at a certain location
 \item \code{Directory}: list, file paths of the images linked to the given record,
-as defined in column \code{file_path} of \code{media}
+as defined in column \code{filePath} of \code{media}
 \item \code{Filename}: list, file names of the images linked to the given record,
-as defined in column \code{file_name} of \code{media}
+as defined in column \code{fileName} of \code{media}
 }
 }
 \description{
@@ -73,29 +73,29 @@ camtrapR's function documentation
 \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{recordTable}
 }
 \examples{
-get_record_table(camtrapdp)
+get_record_table(mica)
 
 # set a minDeltaTime of 20 minutes from last independent record for filtering
 # out not independent observations
-get_record_table(camtrapdp,
+get_record_table(mica,
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastIndependentRecord")
 
 # set a minDeltaTime of 20 minutes from last record for filtering out not
 # independent observations
-get_record_table(camtrapdp,
+get_record_table(mica,
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
 
 # exclude observations of brown rat
 # exclude is case insensitive and vernacular names are allowed
-get_record_table(camtrapdp, exclude = "Brown raT")
+get_record_table(mica, exclude = "wilde eend")
 
 # specify column to pass station names
-get_record_table(camtrapdp,
-    stationCol = "location_id",
+get_record_table(mica,
+    stationCol = "locationID",
     minDeltaTime = 20,
     deltaTimeComparedTo = "lastRecord")
-# applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
-get_record_table(camtrapdp, pred_gte("latitude", 51.28))
+# applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+get_record_table(mica, pred_gte("latitude", 51.18))
 }

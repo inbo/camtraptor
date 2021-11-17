@@ -27,16 +27,16 @@ If a vernacular name is not valid, an error is returned
 }
 \examples{
 # one or more vernacular names
-get_scientific_name(camtrapdp, "brown rat")
-get_scientific_name(camtrapdp, c("brown rat", "mallard"))
+get_scientific_name(mica, "beech marten")
+get_scientific_name(mica, c("beech marten", "mallard"))
 # vernacular names can be passed in different languages 
-get_scientific_name(camtrapdp, c("brown rat", "wilde eend"))
+get_scientific_name(mica, c("beech marten", "wilde eend"))
 # the search is performed case insensitively
-get_scientific_name(camtrapdp, c("BrOwN RaT"))
+get_scientific_name(mica, c("MaLLarD"))
 # error is returned if at least one invalid vernacular name is passed
 \dontrun{
-get_scientfic_name(camtrapdp, "this is a bad vernacular name")
+get_scientfic_name(mica, "this is a bad vernacular name")
 # a scientific name is an invalid vernacular name of course
-get_scientific_name(camtrapdp, c("Rattus norvegicus", "wilde eend"))
+get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 }
 }

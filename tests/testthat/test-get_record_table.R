@@ -41,19 +41,24 @@ test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow
   expect_equal(nrow_output,
                mica$observations %>%
-                 filter(!is.na(scientific_name)) %>% nrow)
+                 filter(!is.na(scientificName)) %>% nrow)
 })
 
-test_that("nrows = n obs of mallards if all other species are excluded", {
-  species_to_exclude <- c("brown rat",
-                          "muskrat",
-                          "coypu",
-                          "common moorhen")
-  nrow_mallards <- get_record_table(mica, exclude = species_to_exclude) %>%
+test_that("nrows = n obs of red foxes if all other species are excluded", {
+  species_to_exclude <- c("Anas platyrhynchos",
+                          "Anas strepera",
+                          "Ardea",
+                          "Ardea cinerea",
+                          "Castor fiber",
+                          "Homo sapiens",
+                          "Martes foina",
+                          "Mustela putorius"
+                          )
+  nrow_foxes <- get_record_table(mica, exclude = species_to_exclude) %>%
     nrow
-  expect_equal(nrow_mallards,
+  expect_equal(nrow_foxes,
                mica$observations %>%
-                 filter(scientific_name == "Anas platyrhynchos") %>% nrow)
+                 filter(scientificName == "Vulpes vulpes") %>% nrow)
 })
 
 test_that("Higher minDeltaTime means less rows returned", {
@@ -71,16 +76,16 @@ test_that("Higher minDeltaTime means less rows returned", {
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {
-  # use location_name as Station
+  # use locationName as Station
   stations <- get_record_table(mica) %>% distinct(Station) %>% pull()
-  location_names <- unique(mica$deployments$location_name)
+  location_names <- unique(mica$deployments$locationName)
   expect_true(all(stations %in% location_names))
 
-  # use location_id as Station
-  stations <- get_record_table(mica, stationCol = "location_id") %>%
+  # use locationID as Station
+  stations <- get_record_table(mica, stationCol = "locationID") %>%
     distinct(Station) %>%
     pull()
-  location_ids <- unique(mica$deployments$location_id)
+  location_ids <- unique(mica$deployments$locationID)
   expect_true(all(stations %in% location_ids))
 })
 
@@ -93,29 +98,32 @@ test_that("Directory and Filename columns are lists", {
 
 test_that("Each Directory and Filename slot contains as many values as media linked to the independent obs", {
   output <- get_record_table(mica)
-  # add n media, observation_id and sequence_id to record table
+  # add n media, observationID and sequenceID to record table
   output <- output %>%
     mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
     left_join(mica$observations %>%
-                select(observation_id,
+                select(observationID,
                        timestamp,
-                       scientific_name,
-                       sequence_id),
+                       scientificName,
+                       sequenceID),
               by = c("DateTimeOriginal" = "timestamp",
-                     "Species" = "scientific_name"))
+                     "Species" = "scientificName"))
   n_media <-
     mica$media %>%
-    group_by(sequence_id) %>%
+    group_by(sequenceID) %>%
     count()
   output <- output %>%
     left_join(n_media,
-              by = "sequence_id")
+              by = "sequenceID")
   expect_equal(output$len, output$n)
 })
 
 test_that("filtering predicates are allowed and work well", {
   stations <- unique(
-    get_record_table(mica, pred_gt("longitude", 3.6))$Station
+    get_record_table(mica, pred_lt("longitude", 4.0))$Station
   )
-  expect_identical(stations, "B_ML_val 07_Sint-Anna")
+  stations_calculate <- mica$deployments %>%
+    filter(longitude < 4.0) %>% 
+    pull(locationName)
+  expect_identical(stations, stations_calculate)
 })

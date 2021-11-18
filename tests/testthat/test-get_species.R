@@ -2,33 +2,18 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(mica),
     tibble(
-      taxon_id = c(
-        "DGP6",
-        "3F6VX",
-        "6RRQT",
-        "49JSC",
-        "4RM67"
+      taxonID = map_chr(mica$datapackage$taxonomic, ~.[["taxonID"]]),
+      taxonIDReference = map_chr(
+        mica$datapackage$taxonomic, ~.[["taxonIDReference"]]
       ),
-      scientific_name = c(
-        "Anas platyrhynchos",
-        "Gallinula chloropus",
-        "Myocastor coypus",
-        "Ondatra zibethicus",
-        "Rattus norvegicus"
+      scientificName = map_chr(
+        mica$datapackage$taxonomic, ~.[["scientificName"]]
       ),
-      vernacular_names.en = c(
-        "mallard",
-        "common moorhen",
-        "coypu",
-        "muskrat",
-        "brown rat"
+      vernacularNames.en = map_chr(
+        mica$datapackage$taxonomic, ~.[["vernacularNames"]][["en"]]
       ),
-      vernacular_names.nl = c(
-        "wilde eend",
-        "waterhoen",
-        "beverrat",
-        "muskusrat",
-        "bruine rat"
+      vernacularNames.nl = map_chr(
+        mica$datapackage$taxonomic, ~.[["vernacularNames"]][["nl"]]
       )
     )
   )

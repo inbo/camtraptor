@@ -136,7 +136,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, life_stage = NU
   # get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(deployments$deploymentID,
-                unique(observations$scientificName)) %>%
+                unique(c(unique(observations$scientificName), species))) %>%
     rename(deploymentID = .data$Var1,
            scientificName = .data$Var2) %>%
     as_tibble()
@@ -158,7 +158,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, life_stage = NU
       ungroup()
   }
 
-  # order result by deployments and following same order as in deployments df
+  # order result by deployments and follow same order as in deployments df
   deployments %>%
     select(deploymentID) %>%
     left_join(n_obs, by = "deploymentID")

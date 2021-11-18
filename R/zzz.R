@@ -15,6 +15,8 @@
 #' @keywords internal
 #'
 check_datapkg <- function(datapkg) {
+  # data package is a list
+  assert_that(!is.data.frame(datapkg))
   # check validity data package: does it contain all 4 elements?
   elements <- c("datapackage", "deployments", "media", "observations")
   tables_absent <- names(elements)[

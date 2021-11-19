@@ -16,4 +16,10 @@ mica
 \description{
 A sample camera trap data package, based on data from the MICA project. Also stored in \code{inst}.
 }
+\details{
+This sample is an extract from a bigger camera trap data package saved as raw
+data in \code{inst/extdata/mica_zenodo_5590881}. For memory reasons \code{media.csv}
+resource is not present. The entire data package can be downloaded from
+\href{https://zenodo.org/record/5590881}{zenodo}.
+}
 \keyword{datasets}

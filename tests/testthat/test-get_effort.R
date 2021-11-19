@@ -46,11 +46,11 @@ test_that("get_effort returns the right dataframe", {
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deployment_id effort and effort_unit only
+  # columns deploymentID, effort and effort_unit only
   expect_equal(
     names(effort_df),
     c(
-      "deployment_id",
+      "deploymentID",
       "effort",
       "effort_unit"
     )
@@ -60,7 +60,7 @@ test_that("get_effort returns the right dataframe", {
 
 test_that("get_effort returns the right number of rows", {
   effort_df <- get_effort(mica)
-  all_deployments <- unique(mica$deployments$deployment_id)
+  all_deployments <- unique(mica$deployments$deploymentID)
   n_all_deployments <- length(all_deployments)
 
   # number of rows should be equal to number of deployments

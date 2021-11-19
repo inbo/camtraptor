@@ -33,15 +33,17 @@ library(lubridate)
 library(dplyr)
 ```
 
-This load automatically a camera trap data package, `camtrapdp`, containing camera trap data about musk rat and coypu. We will use this variable from now on.
+This load automatically a camera trap data package, `mica`, containing camera trap data about musk rat and coypu. We will use this variable from now on.
 
-## Create map
+## Get taxonomic information
 
-As some features must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected:
+As some features must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected and the correspondent vernacular names if present:
 
 ```{r species_list}
-get_species(camtrapdp)
+get_species(mica)
 ```
+
+## Create maps
 
 ### Basic usage
 
@@ -50,7 +52,7 @@ get_species(camtrapdp)
 You can visualize the number of species detected by each deployment by using the function `map_dep()` with `feature` argument set to `n_species`:
 
 ```{r visualize_n_species_with_clusters_and_default_hover_col}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_species")
 ```
 
@@ -59,36 +61,36 @@ map_dep(camtrapdp,
 To visualize the number of observations, set `feature` = `n_obs`:
 
 ```{r visualize_n_obs_with_clusters_and_default_hover_col}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_obs")
 ```
 
 You can also specify which species you want to calculate the number of observations:
 
 ```{r visualize_n_obs_species}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_obs",
-        species = "Rattus norvegicus")
+        species = "Anas platyrhynchos")
 ```
 
 You can filter by sex:
 
 ```{r filter_sex}
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
   species = "Anas platyrhynchos",
-  sex = c("female", "undefined")
+  sex = c("female", "unknown")
 )
 ```
 
-and age:
+and life stage:
 
-```{r filter_age}
+```{r filter_life_stage}
 map_dep(
-  camtrapdp,
+  mica,
   "n_obs",
-  age = c("juvenile", "subadult")
+  life_stage = c("unknown", "subadult")
 )
 ```
 
@@ -97,27 +99,27 @@ map_dep(
 To visualize the number of observed individuals, set `feature` = `n_individuals`:
 
 ```{r visualize_n_individuas_with_clusters_and_default_hover_col}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_individuals")
 ```
 
 As for observations, you can specify a species:
 
 ```{r specify_species_individuals}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_individuals",
-        species = "Rattus norvegicus")
+        species = "Anas platyrhynchos")
 ```
 
-and filter by sex and/or age:
+and filter by sex and/or life stage:
 
 
 ```{r filter_sex_individuals}
 map_dep(
-  camtrapdp,
+  mica,
   "n_individuals",
   species = "Anas platyrhynchos",
-  sex = c("female", "undefined")
+  sex = c("female", "unknown")
 )
 ```
 
@@ -126,44 +128,44 @@ map_dep(
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
 
 ```{r visualize_rai_with_clusters_and_default_hover_col}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "rai",
-        species = "Rattus norvegicus")
+        species = "Anas platyrhynchos")
 ```
 
 **Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
 
-As for number of observations and number of individuals, you can  filter by sex and/or age:
+As for number of observations and number of individuals, you can  filter by sex and/or life stage:
 
 ```{r filter_sex_rai}
 map_dep(
-  camtrapdp,
+  mica,
   "rai",
   species = "Anas platyrhynchos",
-  sex = c("female", "undefined")
+  sex = c("female", "unknown")
 )
 ```
 
 Common names are allowed as values of `species` as well:
 
 ```{r common_name}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "rai",
-        species = "muskrat")
+        species = "great herons")
 ```
 
 Values of `species` are also interpreted case insensitive:
 
 ```{r arg_species_case_insensitive}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "rai",
-        species = "ONDATRA zIBethICus")
+        species = "CastoR FIBer")
 ```
 
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
 ```{r see_error_message, error = TRUE}
-map_dep(camtrapdp,
+map_dep(mica,
           feature = "rai",
           species = "This is not a species name")
 ```
@@ -173,9 +175,9 @@ map_dep(camtrapdp,
 You can also visualize the RAI based on number of detected individuals instead of the standard RAI which is based on the number of observations. Set `feature = "rai_individuals"`:
 
 ```{r show_rai_individuals}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "rai_individuals",
-        species = "Rattus norvegicus")
+        species = "Anas platyrhynchos")
 ```
 
 Everything described in previous section about visualizing RAI holds true for RAI based on individuals as well.
@@ -185,7 +187,7 @@ Everything described in previous section about visualizing RAI holds true for RA
 Visualize duration of the deployments, also called _effort_, as number of active hours:
 
 ```{r effort_in_hours}
-map_dep(camtrapdp, 
+map_dep(mica, 
         feature = "effort",
         effort_unit = "hour")
 ```
@@ -193,7 +195,7 @@ map_dep(camtrapdp,
 The same using days as time unit
 
 ```{r effort_in_days}
-map_dep(camtrapdp, 
+map_dep(mica, 
         feature = "effort",
         effort_unit = "day")
 ```
@@ -201,7 +203,7 @@ map_dep(camtrapdp,
 or months
 
 ```{r effort_in_months}
-map_dep(camtrapdp, 
+map_dep(mica, 
         feature = "effort",
         effort_unit = "month")
 ```
@@ -213,10 +215,10 @@ You can specify which information you want to show while hovering with the mouse
 Here below the lat/lon, the camera height and the tags are shown while hovering:
 
 ```{r visualize_with_clusters_spec_hover_col}
-map_dep(camtrapdp,
+map_dep(mica,
         hover_columns = c("latitude",
                           "longitude",
-                          "camera_height",
+                          "cameraHeight",
                           "tags"),
         feature = "n_obs"
 )
@@ -225,7 +227,7 @@ map_dep(camtrapdp,
 Deactivating both cluster mode and hovering is also possible:
 
 ```{r visualize_without_clusters}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_species", 
         cluster = FALSE,
         hover_columns = NULL)
@@ -237,13 +239,13 @@ It can happen that some deployments didn't observe any animal. While visualizing
 
 ```{r show_deployments_without_observations}
 # create data package with less observations
-camtrapdp_less_obs <- camtrapdp
-camtrapdp_less_obs$observations <- 
-  camtrapdp$observations %>% 
+mica_less_obs <- mica
+mica_less_obs$observations <- 
+  mica$observations %>% 
   filter(timestamp > lubridate::as_datetime("2020-06-30"))
 
 # create new map
-map_dep(camtrapdp_less_obs,
+map_dep(mica_less_obs,
         feature = "n_species")
 ```
 
@@ -252,7 +254,7 @@ map_dep(camtrapdp_less_obs,
 You can also modify the upper and lower limit of the circle sizes by specifying `radius_range` (default:   `c(10,50`):
 
 ```{r change_size_circles}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_obs",
         radius_range = c(20, 150))
 ```
@@ -264,28 +266,28 @@ By default the upper limit of color palette and radius are defined based on the 
 Upper limit lower than number of observations:
 
 ```{r low_upper_limit}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_obs",
         relative_scale = FALSE,
-        max_scale = 200)
+        max_scale = 2)
 ```
 
 Upper limit higher than number of observations:
 
 ```{r high_upper_limit}
-map_dep(camtrapdp,
+map_dep(mica,
         feature = "n_obs",
         relative_scale = FALSE,
-        max_scale = 1000)
+        max_scale = 50)
 ```
 
 ### Use filter predicates
 
-You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 3.6:
+You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 5.6:
 
 ```{r example_filter_predicates_map}
-map_dep(camtrapdp,
-        pred_gt("longitude", 3.6),
+map_dep(mica,
+        pred_gt("longitude", 5.6),
         feature = "n_obs")
 ```
 

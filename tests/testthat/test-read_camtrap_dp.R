@@ -90,16 +90,16 @@ test_that("sc. names and vernacular names in obs match the info in taxonomic slo
   expect_true(all(names(taxon_infos) %in% names(dp$observations)))
   # get scientific names from observations and check that they match with
   # taxonomic info
-  sc_names <- dp$observations$scientific_name[!is.na(dp$observations$scientific_name)]
-  expect_true(all(sc_names %in% taxon_infos$scientific_name))
+  sc_names <- dp$observations$scientificName[!is.na(dp$observations$scientificName)]
+  expect_true(all(sc_names %in% taxon_infos$scientificName))
 
   # get vernacular names in English from observations and check that they match
   # with taxonomic info
-  en_names <- dp$observations$vernacular_names.en[!is.na(dp$observations$vernacular_names.en)]
-  expect_true(all(en_names %in% taxon_infos$vernacular_names.en))
+  en_names <- dp$observations$vernacularNames.en[!is.na(dp$observations$vernacularNames.en)]
+  expect_true(all(en_names %in% taxon_infos$vernacularNames.en))
 
   # get vernacular names in Dutch from observations and check that they match
   # with taxonomic info
-  nl_names <- dp$observations$vernacular_names.nl[!is.na(dp$observations$vernacular_names.nl)]
-  expect_true(all(nl_names %in% taxon_infos$vernacular_names.nl))
+  nl_names <- dp$observations$vernacularNames.nl[!is.na(dp$observations$vernacularNames.nl)]
+  expect_true(all(nl_names %in% taxon_infos$vernacularNames.nl))
 })

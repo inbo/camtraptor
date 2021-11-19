@@ -28,7 +28,7 @@ library(lubridate)
 library(dplyr)
 ```
 
-By loading pacakge `camtrapdp`, a camera trap data package called `camtrapdp` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+By loading pacakge `camtrapdp`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
 
 ## Filter predicates
 

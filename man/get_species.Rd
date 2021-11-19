@@ -18,6 +18,6 @@ identified species.
 Function to get all identified species
 }
 \examples{
-get_species(camtrapdp)
+get_species(mica)
 
 }

@@ -20,7 +20,7 @@ one of the supported types. This is required for basic filter predicates.
 \dontrun{
 check_filter_value("b")
 check_filter_value(5)
-# this returns an error messge
+# this returns an error message
 check_filter_value(list(5))
 }
 }

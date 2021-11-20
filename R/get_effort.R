@@ -3,13 +3,7 @@
 #' Function to get the effort (deployment duration) per deployment.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param unit time unit to use while returning deployment effort
 #'   (duration). One of:
 #'
@@ -26,15 +20,15 @@
 #' @export
 
 #' @return a tibble (data.frame) with the following columns:
-#' - `deployment_id` deployment unique identifier
+#' - `deploymentID` deployment unique identifier
 #' - `effort`: a duration object (duration is a class from lubridate package)
 #' @family get_functions
 #' @examples
 #' # efforts expressed as Durations
-#' get_effort(camtrapdp)
+#' get_effort(mica)
 #'
 #' # effort expressed as days
-#' get_effort(camtrapdp, unit = "day")
+#' get_effort(mica, unit = "day")
 #'
 get_effort <- function(datapkg, ..., unit = NULL) {
 
@@ -61,7 +55,7 @@ get_effort <- function(datapkg, ..., unit = NULL) {
   effort_df <-
     deployments %>%
     mutate(effort = as.duration(.data$end - .data$start)) %>%
-    select(.data$deployment_id, .data$effort)
+    select(.data$deploymentID, .data$effort)
   # convert effort in specified effort time units (arg units)
   if (!is.null(unit)) {
     effort_df$effort <- transform_effort_to_common_units(

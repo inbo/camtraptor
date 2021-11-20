@@ -4,18 +4,17 @@
 \alias{get_rai_individuals}
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
-get_rai_individuals(datapkg, ..., species = "all", sex = NULL, age = NULL)
+get_rai_individuals(
+  datapkg,
+  ...,
+  species = "all",
+  sex = NULL,
+  life_stage = NULL
+)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
-}
-
-and a list with metadata: \code{datapackage}}
+\code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments}
 
@@ -24,18 +23,18 @@ insensitive). If "all" (default), all scientific names are automatically
 selected}
 
 \item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+or \code{c("male", "unknown")}.  If \code{NULL}, default, all observations of all
 sex classes are taken into account.}
 
-\item{age}{a character vector defining the age class to filter on, e.g.
+\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
 \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
-of all age classes are taken into account.}
+of all life stage classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:
 \itemize{
-\item \code{deployment_id} deployment unique identifier
-\item \code{scientific_name} scientific name
+\item \code{deploymentID} deployment unique identifier
+\item \code{scientificName} scientific name
 \item \code{rai}: relative abundance index
 }
 }
@@ -46,33 +45,33 @@ observations.
 }
 \examples{
 # calculate RAI based on number of individuals
-get_rai_individuals(camtrapdp) # species = "all" by default, so equivalent of
-get_rai_individuals(camtrapdp, species = "all")
+get_rai_individuals(mica) # species = "all" by default, so equivalent of
+get_rai_individuals(mica, species = "all")
 
 # selected species
-get_rai_individuals(camtrapdp,
-  species = c("Anas platyrhynchos", "Rattus norvegicus")
+get_rai_individuals(mica,
+  species = c("Anas platyrhynchos", "Martes foina")
 )
 
 # with common names, also mixing up languages
-get_rai_individuals(camtrapdp, species = c("Mallard", "bruine rat"))
+get_rai_individuals(mica, species = c("mallard", "steenmarter"))
 
 # mixed scientific and vernacular names
-get_rai_individuals(camtrapdp, species = c("Anas platyrhynchos", "brown rat"))
+get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
 
 # species argument is case insensitive
-get_rai_individuals(camtrapdp, species = c("ANAS plAtyRhynChOS"))
+get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 
 # specify sex
-get_rai_individuals(camtrapdp, sex = "female")
-get_rai_individuals(camtrapdp, sex = c("female", "undefined"))
+get_rai_individuals(mica, sex = "female")
+get_rai_individuals(mica, sex = c("female", "unknown"))
 
-# specify age
-get_rai_individuals(camtrapdp, age = "adult")
-get_rai_individuals(camtrapdp, age = c("adult", "subadult"))
+# specify life stage
+get_rai_individuals(mica, life_stage = "adult")
+get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 
-# apply filter(s): deployments with latitude >= 51.28
-get_rai_individuals(camtrapdp, pred_gte("latitude", 51.28))
+# apply filter(s): deployments with latitude >= 51.18
+get_rai_individuals(mica, pred_gte("latitude", 51.18))
 
 }
 \seealso{

@@ -18,10 +18,11 @@ map_dep_prefixes <- function() as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
   info = c(
-    "scientific_name", "deployment_id", "location_id", "location_name", "longitude",
-    "latitude", "start", "end", "setup_by", "camera_id", "camera_model",
-    "camera_interval", "camera_height", "bait_use", "session", "array",
-    "feature_type", "habitat", "tags", "comments", "n_species", "n_obs",
+    "scientificName", "deploymentID", "locationID", "locationName", "longitude",
+    "latitude", "coordinateUncertainty", "start", "end", "setupBy", "cameraID",
+    "cameraModel", "cameraInterval", "cameraHeight", "cameraTilt", 
+    "cameraHeading", "timestampIssues", "baitUse", "session", "array",
+    "featureType", "habitat", "tags", "comments", "n_species", "n_obs",
     "n_individuals", "rai", "rai_individuals", "effort"
   ),
   prefix = c(
@@ -31,6 +32,7 @@ mapdep_prefixes <- structure(list(
     "location name: ",
     "longitude: ",
     "latitude: ",
+    "coordinate uncertainty: ",
     "start: ",
     "end: ",
     "setup by: ",
@@ -38,6 +40,9 @@ mapdep_prefixes <- structure(list(
     "camera model: ",
     "camera interval: ",
     "camera height: ",
+    "camera tilt: ",
+    "camera heading",
+    "timestamp issues: ",
     "bait use: ",
     "session: ",
     "array: ",
@@ -50,7 +55,7 @@ mapdep_prefixes <- structure(list(
     "individuals: ",
     "RAI: ",
     "RAI (individuals): ",
-    "Effort: "
+    "effort: "
   )
 ))
 

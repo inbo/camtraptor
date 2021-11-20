@@ -3,14 +3,7 @@
 #' Function to get the number of identified species per deployment.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
-#'
+#'   `read_camtrap_dp()`.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @importFrom dplyr .data %>% bind_rows count distinct filter group_by mutate
@@ -18,17 +11,17 @@
 #'
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deployment_id`
-#'   deployment unique identifier - `n`: (integer) number of observed and
-#'   identified species
+#' @return a tibble (data.frame) with the following columns:
+#'   - `deploymentID`: deployment unique identifier
+#'   - `n`: (integer) number of observed and identified species
 #'
 #' @examples
 #'
 #' # get number of species
-#' get_n_species(camtrapdp)
+#' get_n_species(mica)
 #'
-#' # get number of species for deployments with latitude >= 51.28
-#' get_n_species(camtrapdp, pred_gte("latitude", 51.28))
+#' # get number of species for deployments with latitude >= 51.18
+#' get_n_species(mica, pred_gte("latitude", 51.18))
 #'
 get_n_species <- function(datapkg, ...) {
 
@@ -48,31 +41,31 @@ get_n_species <- function(datapkg, ...) {
   # get deployments without observations among the filtered deployments
   deployments_no_obs <- get_dep_no_obs(
     datapkg,
-    pred_in("deployment_id",deployments$deployment_id)
+    pred_in("deploymentID",deployments$deploymentID)
   )
 
   # get species detected by each deployment after filtering
   species <-
     observations %>%
-    filter(.data$deployment_id %in% deployments$deployment_id) %>%
-    distinct(.data$deployment_id, .data$scientific_name)
+    filter(.data$deploymentID %in% deployments$deploymentID) %>%
+    distinct(.data$deploymentID, .data$scientificName)
 
   # get deployments with unidentified observations
   unidentified_obs <-
     species %>%
-    filter(is.na(.data$scientific_name)) %>%
-    pull(.data$deployment_id)
+    filter(is.na(.data$scientificName)) %>%
+    pull(.data$deploymentID)
 
   # get amount of species detected by each deployment
   n_species <-
     species %>%
-    group_by(.data$deployment_id) %>%
+    group_by(.data$deploymentID) %>%
     count() %>%
     ungroup()
 
   # remove the count of NA as species and set n as integer
   n_species <- n_species %>%
-    mutate(n = ifelse(.data$deployment_id %in% unidentified_obs,
+    mutate(n = ifelse(.data$deploymentID %in% unidentified_obs,
                       as.integer(.data$n - 1),
                       as.integer(.data$n)
     ))
@@ -80,7 +73,7 @@ get_n_species <- function(datapkg, ...) {
   # set up n = NA (number of species) for deployments without observations
   deployments_no_obs <-
     deployments_no_obs %>%
-    select(.data$deployment_id) %>%
+    select(.data$deploymentID) %>%
     mutate(n = NA_integer_)
 
   # add them to n_species and return

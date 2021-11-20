@@ -11,13 +11,16 @@
 #' @noRd
 #'
 #' @importFrom assertthat assert_that
-#' 
+#'
 #' @keywords internal
 #'
 check_datapkg <- function(datapkg) {
+  # data package is a list
+  assert_that(!is.data.frame(datapkg))
   # check validity data package: does it contain all 4 elements?
-  tables_absent <- names(camtrapdp::camtrapdp)[
-    !names(camtrapdp::camtrapdp) %in% names(datapkg)
+  elements <- c("datapackage", "deployments", "media", "observations")
+  tables_absent <- names(elements)[
+    !names(elements) %in% names(datapkg)
   ]
   n_tables_absent <- length(tables_absent)
   assert_that(n_tables_absent == 0,
@@ -61,9 +64,9 @@ check_datapkg <- function(datapkg) {
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
-#' 
+#'
 #' @keywords internal
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Valid inputs for species
@@ -222,10 +225,10 @@ get_dep_no_obs <- function(datapkg, ...) {
   dep_no_obs <-
     deployments %>%
     anti_join(observations %>%
-                distinct(.data$deployment_id),
-              by = "deployment_id")
+                distinct(.data$deploymentID),
+              by = "deploymentID")
 
-  dep_no_obs_ids <- dep_no_obs$deployment_id
+  dep_no_obs_ids <- dep_no_obs$deploymentID
   n_dep_no_obs <- length(dep_no_obs_ids)
 
   if (n_dep_no_obs > 0) {
@@ -247,23 +250,23 @@ get_dep_no_obs <- function(datapkg, ...) {
   return(dep_no_obs)
 }
 
-#' Calculate daily effort for start or end day 
-#' 
+#' Calculate daily effort for start or end day
+#'
 #' While assessing the camera operation matrix, start and end day are edge
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
 #' the fraction of the day the camera was on
-#' 
+#'
 #' @importFrom dplyr %>% if_else mutate %>% pull
 #' @importFrom assertthat assert_that
 #' @importFrom lubridate as.duration as_datetime ddays
-#' 
+#'
 #' @noRd
-#' 
+#'
 #' @keywords internal
 calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
   # check calc_start or calc_end are passed
   assert_that(
-    (is.null(calc_start) & !is.null(calc_end)) | 
+    (is.null(calc_start) & !is.null(calc_end)) |
       (!is.null(calc_start) & is.null(calc_end)),
     msg = "Either calc_start or calc_end must be defined.")
   deploy_df <- deploy_df %>%
@@ -271,9 +274,9 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
            edge_day = if_else(!is.null(calc_start), .data$start_day, .data$end_day))
   deploy_df %>%
   # calculate the duration of the start/end day (edge day)
-  mutate(edge_day_duration = 
-           as.duration(as_datetime(.data$edge_day) + 
-                         ddays(1) - 
+  mutate(edge_day_duration =
+           as.duration(as_datetime(.data$edge_day) +
+                         ddays(1) -
                          as_datetime(.data$edge_day))) %>%
     # calculate the duration of the active part of the start/end day
   mutate(active_edge_day_duration = if_else(
@@ -282,7 +285,7 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
     .data$edge_day_duration - as.duration(.data$edge - as_datetime(.data$edge_day)),
     # end day
     .data$edge_day_duration - as.duration(as_datetime(.data$edge_day) + ddays(1) - .data$edge))) %>%
-    # calculate the fraction of the duration of the active part 
+    # calculate the fraction of the duration of the active part
   mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
   pull(.data$daily_effort)
 }

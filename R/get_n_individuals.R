@@ -5,23 +5,16 @@
 #' `observations`.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
-#'
+#'   `read_camtrap_dp()`.
 #' @param species a character with scientific names or common names (case
 #'   insensitive). If "all", default, all scientific names are automatically
 #'   selected. If `NULL` all observations of all species are taken into account
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "undefined")`.  If `NULL`, default, all observations of all
+#'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
 #'   sex classes are taken into account.
-#' @param age a character vector defining the age class to filter on, e.g.
+#' @param life_stage a character vector defining the life stage class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all age classes are taken into account.
+#'   of all life stage classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>% as_tibble bind_rows group_by count mutate
 #'   rename select summarise ungroup relocate
@@ -29,57 +22,58 @@
 #' @export
 
 #' @return a tibble (data.frame) with the following columns:
-#' - `deployment_id`:  deployment unique identifier
-#' - `scientific_name`: scientific name of the species. This column is omitted
+#' - `deploymentID`:  deployment unique identifier
+#' - `scientificName`: scientific name of the species. This column is omitted
 #' if argument `species` = NULL
 #' - `n`: (integer) number of individuals
 #'
 #' @examples
 #'
 #' # get number of observations for each species
-#' get_n_individuals(camtrapdp)
+#' get_n_individuals(mica)
 #'
 #' # get number of obs of all species, not identified individuals as well
-#' get_n_individuals(camtrapdp, species = NULL)
+#' get_n_individuals(mica, species = NULL)
 #'
-#' # get number of observations of Gallinula chloropus
-#' get_n_individuals(camtrapdp, species = "Gallinula chloropus")
+#' # get number of observations of Anas platyrhynchos
+#' get_n_individuals(mica, species = "Anas platyrhynchos")
 #'
-#' # get number of observations of Common Moorhen
-#' get_n_individuals(camtrapdp, species = "Common Moorhen")
+#' # get number of observations of eurasian beaver (vernacular name)
+#' get_n_individuals(mica, species = "eurasian beaver")
 #'
+#' # mix scientific and vernacular names
+#' get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
+#' 
 #' # case insensitive
-#' get_n_individuals(camtrapdp, species = "galliNULa CHloropUs")
-#' get_n_individuals(camtrapdp, species = "cOmmon moorhEn")
+#' get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
+#' get_n_individuals(mica, species = "eurasian BEAVER")
 #'
-#' # specify age
-#' get_n_individuals(camtrapdp, age = "adult")
+#' # specify life stage
+#' get_n_individuals(mica, life_stage = "adult")
 #'
 #' # specify sex
-#' get_n_individuals(camtrapdp, sex = "female")
+#' get_n_individuals(mica, sex = "female")
 #'
-#' # specify both sex and age
-#' get_n_individuals(camtrapdp, sex = "undefined", age = "adult")
+#' # specify both sex and life stage
+#' get_n_individuals(mica, sex = "unknown", life_stage = "adult")
 #'
-#' # applying filter(s), e.g. deployments with latitude >= 51.28
-#' get_n_individuals(camtrapdp, pred_gte("latitude", 51.28))
+#' # applying filter(s), e.g. deployments with latitude >= 51.18
+#' get_n_individuals(mica, pred_gte("latitude", 51.18))
 #'
 get_n_individuals <- function(datapkg,
                               ...,
                               species = "all",
                               sex = NULL,
-                              age = NULL) {
+                              life_stage = NULL) {
   # check input data package
   check_datapkg(datapkg)
 
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
-  age_value <- age
 
-
-  # check sex and age values
+  # check sex and life stage values
   check_value(sex_value, unique(datapkg$observation$sex), "sex")
-  check_value(age_value, unique(datapkg$observation$age), "age")
+  check_value(life_stage, unique(datapkg$observation$lifeStage), "life_stage")
 
   # get observations of the selected species
   if (!is.null(species)) {
@@ -97,27 +91,27 @@ get_n_individuals <- function(datapkg,
           )
         ))
       }
-      species <- get_species(datapkg)$scientific_name
+      species <- get_species(datapkg)$scientificName
     }
     # check species and get scientific names
     species <- check_species(datapkg, species)
     datapkg$observations <-
       datapkg$observations %>%
-      filter(tolower(.data$scientific_name) %in% tolower(species))
+      filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # get observations of the specified sex
   if (!is.null(sex)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(sex %in% sex_value)
+      filter(.data$sex %in% sex_value)
   }
 
-  # get observations of the specified age
-  if (!is.null(age)) {
+  # get observations of the specified life stage
+  if (!is.null(life_stage)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(age %in% age_value)
+      filter(.data$lifeStage %in% life_stage)
   }
 
   # extract observations and deployments
@@ -130,34 +124,34 @@ get_n_individuals <- function(datapkg,
     verbose = TRUE,
     ...)
 
-  deployment_id <- deployments$deployment_id
+  deploymentID <- deployments$deploymentID
 
   deployments_no_obs <- get_dep_no_obs(
     datapkg,
-    pred_in("deployment_id",deployment_id)
+    pred_in("deploymentID",deploymentID)
   )
 
   # get number of individuals collected by each deployment for each species
   n_individuals <-
     observations %>%
-    group_by(.data$deployment_id,
-             .data$scientific_name) %>%
+    group_by(.data$deploymentID,
+             .data$scientificName) %>%
     summarise(n = sum(.data$count)) %>%
     ungroup()
 
   # get all combinations deployments - scientific name
   combinations_dep_species <-
-    expand.grid(deployments$deployment_id,
-                unique(c(observations$scientific_name, species))) %>%
-    rename(deployment_id = .data$Var1,
-           scientific_name = .data$Var2) %>%
+    expand.grid(deployments$deploymentID,
+                unique(c(observations$scientificName, species))) %>%
+    rename(deploymentID = .data$Var1,
+           scientificName = .data$Var2) %>%
     as_tibble()
 
   # set 0 to combinations without observed individuals (i.e. n = NA after join)
   n_individuals <-
     combinations_dep_species %>%
     left_join(n_individuals,
-              by = c("deployment_id", "scientific_name")) %>%
+              by = c("deploymentID", "scientificName")) %>%
     mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     mutate(n = as.integer(.data$n))
 
@@ -165,13 +159,13 @@ get_n_individuals <- function(datapkg,
     # sum all observations per deployment
     n_individuals <-
       n_individuals %>%
-      group_by(.data$deployment_id) %>%
+      group_by(.data$deploymentID) %>%
       summarise(n = sum(.data$n)) %>%
       ungroup()
   }
 
   # order result by deployments and following same order as in deployments df
   deployments %>%
-    select(deployment_id) %>%
-    left_join(n_individuals, by = "deployment_id")
+    select(deploymentID) %>%
+    left_join(n_individuals, by = "deploymentID")
 }

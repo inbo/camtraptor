@@ -8,21 +8,16 @@ get_n_species(datapkg, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
-}
-
-and a list with metadata: \code{datapackage}}
+\code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments}
 }
 \value{
-a tibble (data.frame) with the following columns: - \code{deployment_id}
-deployment unique identifier - \code{n}: (integer) number of observed and
-identified species
+a tibble (data.frame) with the following columns:
+\itemize{
+\item \code{deploymentID}: deployment unique identifier
+\item \code{n}: (integer) number of observed and identified species
+}
 }
 \description{
 Function to get the number of identified species per deployment.
@@ -30,9 +25,9 @@ Function to get the number of identified species per deployment.
 \examples{
 
 # get number of species
-get_n_species(camtrapdp)
+get_n_species(mica)
 
-# get number of species for deployments with latitude >= 51.28
-get_n_species(camtrapdp, pred_gte("latitude", 51.28))
+# get number of species for deployments with latitude >= 51.18
+get_n_species(mica, pred_gte("latitude", 51.18))
 
 }

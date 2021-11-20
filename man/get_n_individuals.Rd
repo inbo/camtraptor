@@ -4,18 +4,11 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(datapkg, ..., species = "all", sex = NULL, age = NULL)
+get_n_individuals(datapkg, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
-}
-
-and a list with metadata: \code{datapackage}}
+\code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments}
 
@@ -24,18 +17,18 @@ insensitive). If "all", default, all scientific names are automatically
 selected. If \code{NULL} all observations of all species are taken into account}
 
 \item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "undefined")}.  If \code{NULL}, default, all observations of all
+or \code{c("male", "unknown")}.  If \code{NULL}, default, all observations of all
 sex classes are taken into account.}
 
-\item{age}{a character vector defining the age class to filter on, e.g.
+\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
 \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
-of all age classes are taken into account.}
+of all life stage classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:
 \itemize{
-\item \code{deployment_id}:  deployment unique identifier
-\item \code{scientific_name}: scientific name of the species. This column is omitted
+\item \code{deploymentID}:  deployment unique identifier
+\item \code{scientificName}: scientific name of the species. This column is omitted
 if argument \code{species} = NULL
 \item \code{n}: (integer) number of individuals
 }
@@ -48,31 +41,34 @@ deployment. The number of observed individuals is stored in field \code{count} o
 \examples{
 
 # get number of observations for each species
-get_n_individuals(camtrapdp)
+get_n_individuals(mica)
 
 # get number of obs of all species, not identified individuals as well
-get_n_individuals(camtrapdp, species = NULL)
+get_n_individuals(mica, species = NULL)
 
-# get number of observations of Gallinula chloropus
-get_n_individuals(camtrapdp, species = "Gallinula chloropus")
+# get number of observations of Anas platyrhynchos
+get_n_individuals(mica, species = "Anas platyrhynchos")
 
-# get number of observations of Common Moorhen
-get_n_individuals(camtrapdp, species = "Common Moorhen")
+# get number of observations of eurasian beaver (vernacular name)
+get_n_individuals(mica, species = "eurasian beaver")
+
+# mix scientific and vernacular names
+get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
 
 # case insensitive
-get_n_individuals(camtrapdp, species = "galliNULa CHloropUs")
-get_n_individuals(camtrapdp, species = "cOmmon moorhEn")
+get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
+get_n_individuals(mica, species = "eurasian BEAVER")
 
-# specify age
-get_n_individuals(camtrapdp, age = "adult")
+# specify life stage
+get_n_individuals(mica, life_stage = "adult")
 
 # specify sex
-get_n_individuals(camtrapdp, sex = "female")
+get_n_individuals(mica, sex = "female")
 
-# specify both sex and age
-get_n_individuals(camtrapdp, sex = "undefined", age = "adult")
+# specify both sex and life stage
+get_n_individuals(mica, sex = "unknown", life_stage = "adult")
 
-# applying filter(s), e.g. deployments with latitude >= 51.28
-get_n_individuals(camtrapdp, pred_gte("latitude", 51.28))
+# applying filter(s), e.g. deployments with latitude >= 51.18
+get_n_individuals(mica, pred_gte("latitude", 51.18))
 
 }

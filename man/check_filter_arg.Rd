@@ -19,7 +19,7 @@ length one.
 \examples{
 \dontrun{
 check_filter_arg("latitude")
-check_filter_arg("location_name")
+check_filter_arg("locationName")
 # this returns an error
 check_filter_arg(5)
 }

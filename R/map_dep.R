@@ -6,13 +6,7 @@
 #' observations are shown as gray circles and a message is returned.
 #'
 #' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
-#'
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `multimedia`
-#'
-#'   and a list with metadata: `datapackage`
+#'   `read_camtrap_dp()`.
 #' @param feature character, deployment feature to visualize. One of:
 #'
 #' - `n_species`: number of identified species
@@ -37,9 +31,9 @@
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL`, default, all observations of all sex classes are taken into
 #'   account. Optional argument for `n_obs` and `n_individuals`
-#' @param age a character vector defining the age class to filter on, e.g.
+#' @param life_stage a character vector defining the life stage class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all age classes are taken into account. Optional argument for `n_obs`
+#'   of all life stage classes are taken into account. Optional argument for `n_obs`
 #'   and `n_individuals`
 #' @param cluster a logical value
 #'   indicating whether using the cluster option while visualizing maps.
@@ -51,14 +45,14 @@
 #'
 #'   - `n`: number of species, number of observations, RAI or effort (column
 #'   created internally by a `get_*()` function)
-#'   -  `species`: species name(s)
+#'   - `species`: species name(s)
 #'   - `start`: start deployment
 #'   - `end`: end deployment -
-#'   - `deployment_id` deployment unique identifier
-#'   - `location_id` location unique identifier
-#'   - `location_name` location name
-#'   - `latitude`:
-#'   - `longitude`:
+#'   - `deploymentID` deployment unique identifier
+#'   - `locationID` location unique identifier
+#'   - `locationName` location name
+#'   - `latitude`
+#'   - `longitude`
 #'
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
@@ -97,122 +91,122 @@
 #' \dontrun{
 #' # show number of species
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_species"
 #' )
 #'
 #' # show number of observations  (observations of unidentified species included
 #' if any)
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_obs"
 #' )
 #'
-#' # show number of observations of Rattus norvegicus
+#' # show number of observations of Anas platyrhynchos
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_obs",
-#'   species = "Rattus norvegicus"
+#'   species = "Anas platyrhynchos"
 #' )
 #'
-#' # show number of observations of juvenile individuals of Anas platyrhynchos
+#' # show number of observations of subadult individuals of AnasAnas strepera
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_obs",
-#'   species = "Anas platyrhynchos",
-#'   age = "juvenile"
+#'   species = "Anas strepera",
+#'   life_stage = "subadult"
 #' )
 #'
-#' # show number of observations of female or undefined individuals of Anas platyrhynchos
+#' # show number of observations of female or unknown individuals of gadwall
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_obs",
-#'   species = "Anas platyrhynchos",
-#'   sex = c("female", "undefined")
+#'   species = "gadwall",
+#'   sex = c("female", "unknown")
 #' )
 #'
 #' # show number of individuals (individuals of unidentified species included if
 #' any)
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_individuals"
 #' )
 #'
-#' # same filters by age and sex as for number of observations apply
+#' # same filters by life stage and sex as for number of observations apply
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_individuals",
-#'   species = "Anas platyrhynchos",
+#'   species = "Anas strepera",
 #'   sex = "female",
-#'   age = "adult"
+#'   life_stage = "adult"
 #' )
 #'
 #' # show RAI
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "rai",
-#'   species = "Rattus norvegicus"
+#'   species = "Anas strepera"
 #' )
 #'
-#' # same filters by age and sex as for number of observations apply
+#' # same filters by life_stage and sex as for number of observations apply
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "rai",
-#'   species = "Anas platyrhynchos",
+#'   species = "Anas strepera",
 #'   sex = "female",
-#'   age = "adult"
+#'   life_stage = "adult"
 #' )
 #'
 #' # show RAI calculated by using number of detected individuals
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "rai_individuals",
-#'   species = "Rattus norvegicus"
+#'   species = "Anas strepera"
 #' )
 #'
-#' # same filters by age and sex as for basic RAI apply
+#' # same filters by life stage and sex as for basic RAI apply
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "rai_individuals",
-#'   species = "Anas platyrhynchos",
+#'   species = "Anas strepera",
 #'   sex = "female",
-#'   age = "adult"
+#'   life_stage = "adult"
 #' )
 #'
 #' # show effort (basic duration in seconds)
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "effort"
 #' )
 #'
 #' # show effort (days)
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "effort",
 #'   effort_unit = "day"
 #' )
 #'
 #' # show effort (months)
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "effort",
 #'   effort_unit = "month"
 #' )
 #'
 #' # cluster disabled
-#' map_dep(camtrapdp,
-#'   "n_species"
+#' map_dep(mica,
+#'   "n_species",
 #'   cluster = FALSE
 #' )
 #'
 #' # show only number of observations and location name while hovering
-#' map_dep(camtrapdp,
+#' map_dep(mica,
 #'   "n_obs",
-#'   hover_columns = c("location_name", "n")
+#'   hover_columns = c("locationName", "n")
 #' )
 #'
 #' # use absolute scale for colors and radius
-#' map_dep(camtrapdp,
+#' map_dep(mica,
 #'   "n_species",
 #'   relative_scale = FALSE,
 #'   max_scale = 4
@@ -220,7 +214,7 @@
 #'
 #' # change max and min size circles
 #' map_dep(
-#'   camtrapdp,
+#'   mica,
 #'   "n_obs",
 #'   radius_range = c(40, 150)
 #' )
@@ -230,11 +224,11 @@ map_dep <- function(datapkg,
                     ...,
                     species = NULL,
                     sex = NULL,
-                    age = NULL,
+                    life_stage = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
-                    hover_columns = c("n", "species", "deployment_id",
-                                      "location_id", "location_name",
+                    hover_columns = c("n", "species", "deploymentID",
+                                      "locationID", "locationName",
                                       "latitude", "longitude",
                                       "start", "end"),
                     relative_scale = TRUE,
@@ -264,7 +258,7 @@ map_dep <- function(datapkg,
     effort_unit <- NULL
   }
 
-  # check sex and age in combination with feature
+  # check sex and life stage in combination with feature
   if (!is.null(sex) & !feature %in% c("n_obs",
                                       "n_individuals",
                                       "rai",
@@ -272,12 +266,12 @@ map_dep <- function(datapkg,
     warning(glue("sex argument ignored for feature = {feature}"))
     sex <- NULL
   }
-  if (!is.null(age) & !feature %in% c("n_obs",
+  if (!is.null(life_stage) & !feature %in% c("n_obs",
                                       "n_individuals",
                                       "rai",
                                       "rai_individuals")) {
-    warning(glue("age argument ignored for feature = {feature}"))
-    age <- NULL
+    warning(glue("life_stage argument ignored for feature = {feature}"))
+    life_stage <- NULL
   }
 
   # extract observations and deployments
@@ -297,10 +291,10 @@ map_dep <- function(datapkg,
     }
     hover_columns <- hover_columns[hover_columns != "species"]
   } else {
-    # convert species to scientific_name in hover_columns
+    # convert species to scientificName in hover_columns
     hover_columns <- replace(hover_columns,
                              hover_columns == "species",
-                             "scientific_name")
+                             "scientificName")
   }
 
   # check cluster
@@ -317,10 +311,10 @@ map_dep <- function(datapkg,
     hover_columns <- match.arg(arg = hover_columns,
                                choices = c(possible_hover_columns, "n"),
                                several.ok = TRUE)
-    # check all hover_columns are in deployments except scientific_name
+    # check all hover_columns are in deployments except scientificName
     not_found_cols <- hover_columns[!hover_columns %in% names(deployments) &
                                       hover_columns != "n" &
-                                      hover_columns != "scientific_name"]
+                                      hover_columns != "scientificName"]
     n_not_found_cols <- length(not_found_cols)
     if (n_not_found_cols > 0) {
       warning(glue("There are {n_not_found_cols} columns defined in",
@@ -354,21 +348,21 @@ map_dep <- function(datapkg,
   if (feature == "n_species") {
     feat_df <- get_n_species(datapkg, ...)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg, species = species, sex = sex, age = age, ...)
+    feat_df <- get_n_obs(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
   } else if (feature == "n_individuals") {
     feat_df <- get_n_individuals(datapkg,
                                  species = species,
                                  sex = sex,
-                                 age = age,
+                                 life_stage = life_stage,
                                  ...)
   } else if (feature == "rai") {
-    feat_df <- get_rai(datapkg, species = species, sex = sex, age = age, ...)
+    feat_df <- get_rai(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(datapkg,
                                    species = species,
                                    sex = sex,
-                                   age = age, ...)
+                                   life_stage = life_stage, ...)
     feat_df <- feat_df %>% rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(datapkg, unit = effort_unit, ...)
@@ -396,16 +390,16 @@ map_dep <- function(datapkg,
 
   # add deployment information for maps
   # first, mandatory fields to make maps and join
-  deploy_columns_to_add <- c("deployment_id", "latitude", "longitude")
+  deploy_columns_to_add <- c("deploymentID", "latitude", "longitude")
   # second, columns for hovering text
   deploy_columns_to_add <- unique(c(deploy_columns_to_add,
                                     hover_columns[hover_columns != "n" &
-                                                    hover_columns != "scientific_name"]))
+                                                    hover_columns != "scientificName"]))
   feat_df <-
     feat_df %>%
     left_join(deployments %>%
                 select(one_of(deploy_columns_to_add)),
-              by = "deployment_id"
+              by = "deploymentID"
     )
 
   # add info while hovering

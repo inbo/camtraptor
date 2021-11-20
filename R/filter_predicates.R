@@ -103,13 +103,13 @@
 #' @family get_functions
 #' @examples
 #' # one arg one value predicates
-#' pred("scientific_name", "Anas platyrhynchos")
+#' pred("scientificName", "Anas platyrhynchos")
 #' pred("tags", "boven de stroom")
-#' pred_gt("latitude", 51.28)
-#' pred_gte("latitude", 51.28)
-#' pred_lt("longitude", 3.59)
-#' pred_lte("longitude", 3.59)
-#' pred_not("location_name", "B_ML_val 03_De Val")
+#' pred_gt("latitude", 51.18)
+#' pred_gte("latitude", 51.18)
+#' pred_lt("longitude", 3.95)
+#' pred_lte("longitude", 3.95)
+#' pred_not("locationName", "B_DL_val 3_dikke boom")
 #'
 #' # and, or predicates
 #' pred_and(pred_lt("longitude", 3.59), pred_gt("latitude", 51.28))
@@ -134,8 +134,8 @@
 #' pred_notin("start", start_dates)
 #'
 #' # one arg, no value predicates
-#' pred_na("scientific_name")
-#' pred_notna("scientific_name")
+#' pred_na("scientificName")
+#' pred_notna("scientificName")
 #' @rdname filter_predicate
 #' @export
 pred <- function(arg, value) {
@@ -326,19 +326,19 @@ pred_or <- function(...) {
 #'
 #' @examples
 #' # and
-#' apply_filter_predicate(camtrapdp$deployments,
+#' apply_filter_predicate(mica$deployments,
 #'                        verbose = TRUE,
 #'                        pred_gte("latitude", 51.28),
 #'                        pred_lt("longitude", 3.56))
 #' # equivalent of
-#' apply_filter_predicate(camtrapdp$deployments,
+#' apply_filter_predicate(mica$deployments,
 #'                        verbose = TRUE,
 #'                        pred_and(pred_gte("latitude", 51.28),
 #'                                 pred_lt("longitude", 3.56)))
 #'
 #'
 #' # or
-#' apply_filter_predicate(camtrapdp$deployments,
+#' apply_filter_predicate(mica$deployments,
 #'                        verbose = TRUE,
 #'                        pred_or(pred_gte("latitude", 51.28),
 #'                                 pred_lt("longitude", 3.56)))
@@ -376,7 +376,7 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #' @examples
 #' \dontrun{
 #' check_filter_arg_value("latitude", 5)
-#' check_filter_arg_value("location_name", 35)
+#' check_filter_arg_value("locationName", 35)
 #' # this returns an error: arg should be always a character
 #' check_filter_arg_value(arg = 5, value = 1)
 #' # this returns an error: two values instead of one
@@ -402,7 +402,7 @@ check_filter_arg_value <- function(arg, value) {
 #' @examples
 #' \dontrun{
 #' check_filter_arg("latitude")
-#' check_filter_arg("location_name")
+#' check_filter_arg("locationName")
 #' # this returns an error
 #' check_filter_arg(5)
 #' }
@@ -480,7 +480,7 @@ check_filter_value_length <- function(value) {
 #' \dontrun{
 #' check_filter_value("b")
 #' check_filter_value(5)
-#' # this returns an error messge
+#' # this returns an error message
 #' check_filter_value(list(5))
 #' }
 check_filter_value <- function(value) {

@@ -8,32 +8,25 @@ get_cam_op(datapkg, ...)
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
-\code{read_camtrap_dp()}, i.e. a list containing three data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{multimedia}
-}
-
-and a list with metadata: \code{datapackage}}
+\code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments}
 }
 \value{
-a matrix. Row names always indicate the \code{location_name} (station ID)
-\code{"Station"}+\code{location_name}. Column names are dates.
+a matrix. Row names always indicate the \code{locationName} (station ID)
+\code{"Station"}+\code{locationName}. Column names are dates.
 }
 \description{
 This function returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix}
 as returned by camtrapR's function \code{cameraOperation()}.
 }
 \details{
-The deployment data are grouped by \code{location_name} (station ID in camtrapR
+The deployment data are grouped by \code{locationName} (station ID in camtrapR
 jargon). If multiple deploymnts are linked to same location, daily
 efforts higher than one occur.
 }
 \examples{
-get_cam_op(camtrapdp)
-# applying filter(s) on deployments, e.g. deployments with latitude >= 51.28
-get_cam_op(camtrapdp, pred_gte("latitude", 51.28))
+get_cam_op(mica)
+# applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+get_cam_op(mica, pred_gte("latitude", 51.18))
 }

@@ -1,7 +1,7 @@
 test_that("get_n_individuals returns the right structure of dataframe", {
 
   # species arg specified
-  output_anas_platyrhyncos <- get_n_individuals(camtrapdp,
+  output_anas_platyrhyncos <- get_n_individuals(mica,
     species = "Anas platyrhynchos"
   )
 
@@ -14,24 +14,24 @@ test_that("get_n_individuals returns the right structure of dataframe", {
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deployment_id, scientific_name and n
+  # columns deploymentID, scientificName and n
   expect_equal(
     names(output_anas_platyrhyncos),
     c(
-      "deployment_id",
-      "scientific_name",
+      "deploymentID",
+      "scientificName",
       "n"
     )
   )
 
   # species arg is NULL
-  output_general <- get_n_individuals(camtrapdp, species = NULL)
+  output_general <- get_n_individuals(mica, species = NULL)
 
-  # columns deployment_id and n
+  # columns deploymentID and n
   expect_equal(
     names(output_general),
     c(
-      "deployment_id",
+      "deploymentID",
       "n"
     )
   )
@@ -39,14 +39,14 @@ test_that("get_n_individuals returns the right structure of dataframe", {
 
 
 test_that("get_n_individuals returns the right number of rows: all species selected", {
-  all_species <- get_species(camtrapdp)
-  all_deployments <- unique(camtrapdp$deployments$deployment_id)
+  all_species <- get_species(mica)
+  all_deployments <- unique(mica$deployments$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
   # calculate number of individuals for all species
-  output_all_species <- get_n_individuals(camtrapdp)
+  output_all_species <- get_n_individuals(mica)
 
   # number of rows should be equal to number of species by number of deployments
   expect_equal(
@@ -59,44 +59,44 @@ test_that(paste(
   "get_n_individuals returns always the right number of rows:",
   "species undetected in one deployment"
 ), {
-  deployments <- unique(camtrapdp$deployments$deployment_id)
+  deployments <- unique(mica$deployments$deploymentID)
 
   n_deployments <- length(deployments)
 
   # calculate get_n_individuals for a species undetected in one deployment
-  output_ondatra_zibethicus <- get_n_individuals(camtrapdp,
-    species = "Ondatra zibethicus"
+  output_martes_foina <- get_n_individuals(mica,
+    species = "Martes foina"
   )
 
   # number of rows should be equal to number of deployments
-  expect_equal(nrow(output_ondatra_zibethicus), n_deployments)
+  expect_equal(nrow(output_martes_foina), n_deployments)
 })
 
 test_that(
   "get_n_individuals returns rows ordered by the original order of deployments",
   {
     # get the original order of deployment IDs
-    deployment_ids <- unique(camtrapdp$deployments$deployment_id)
+    deploymentIDs <- unique(mica$deployments$deploymentID)
 
     # apply function
-    n_individuals <- get_n_individuals(camtrapdp)
-    deployments_in_n_individuals <- unique(n_individuals$deployment_id)
-    expect_equal(deployments_in_n_individuals, deployment_ids)
+    n_individuals <- get_n_individuals(mica)
+    deployments_in_n_individuals <- unique(n_individuals$deploymentID)
+    expect_equal(deployments_in_n_individuals, deploymentIDs)
   }
 )
 
 test_that("species = 'all' returns the same of using a vector with all species", {
-  all_species <- get_species(camtrapdp)
-  all_deployments <- unique(camtrapdp$deployments$deployment_id)
+  all_species <- get_species(mica)
+  all_deployments <- unique(mica$deployments$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
   # calculate number of individuals for all species using default "all" value
-  output_all_species_default <- get_n_individuals(camtrapdp, species = "all")
+  output_all_species_default <- get_n_individuals(mica, species = "all")
   # calculate number of individuals for all species specifying the species
-  output_all_species <- get_n_individuals(camtrapdp,
-    species = all_species$scientific_name
+  output_all_species <- get_n_individuals(mica,
+    species = all_species$scientificName
   )
 
   expect_equal(output_all_species, output_all_species_default)
@@ -104,8 +104,8 @@ test_that("species = 'all' returns the same of using a vector with all species",
 
 test_that("species is case insensitive", {
   expect_equal(
-    get_n_individuals(camtrapdp, species = "Anas platyrhynchos"),
-    get_n_individuals(camtrapdp, species = toupper("Anas platyrhynchos"))
+    get_n_individuals(mica, species = "Anas platyrhynchos"),
+    get_n_individuals(mica, species = toupper("Anas platyrhynchos"))
   )
 })
 
@@ -120,16 +120,16 @@ test_that(paste(
   vn <- "Mallard"
 
   # get number of individuals for both cases
-  output_anas_platyrhyncos <- get_n_individuals(camtrapdp, species = scn)
-  output_mallard <- get_n_individuals(camtrapdp, species = vn)
+  output_anas_platyrhyncos <- get_n_individuals(mica, species = scn)
+  output_mallard <- get_n_individuals(mica, species = vn)
 
   # same outputs
   expect_equal(output_anas_platyrhyncos, output_mallard)
 })
 
 test_that("if subset of species is specified, less individuals are returned", {
-  output_all_species <- get_n_individuals(camtrapdp)
-  output_anas_platyrhyncos <- get_n_individuals(camtrapdp,
+  output_all_species <- get_n_individuals(mica)
+  output_anas_platyrhyncos <- get_n_individuals(mica,
     species = "Anas platyrhynchos"
   )
 
@@ -140,8 +140,8 @@ test_that(paste(
   "species is NULL returns an equal or higher number of",
   "individuals than species = 'all'"
 ), {
-  output_all_species_collapsed <- get_n_individuals(camtrapdp, species = NULL)
-  output_anas_platyrhyncos <- get_n_individuals(camtrapdp, species = "all") # default
+  output_all_species_collapsed <- get_n_individuals(mica, species = NULL)
+  output_anas_platyrhyncos <- get_n_individuals(mica, species = "all") # default
 
   expect_true(
     sum(output_all_species_collapsed$n) >= sum(output_anas_platyrhyncos$n)
@@ -149,57 +149,51 @@ test_that(paste(
 })
 
 test_that("get_n_individuals returns a warning if 'all' is used with other values", {
-  all_species <- get_species(camtrapdp)
+  all_species <- get_species(mica)
 
   # use 'all' with other species
-  expect_warning(get_n_individuals(camtrapdp,
+  expect_warning(get_n_individuals(mica,
     species = c("all", all_species[1])
   ))
 })
 
-test_that(paste(
-  "number of individuals is equal to sum of counts"
-), {
-  deploy_id <- "fff2f46e-8163-453c-9044-61fb77587f5d"
+test_that("number of individuals is equal to sum of counts", {
+  deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   species <- "Anas platyrhynchos"
   n_individuals_via_count <-
-    camtrapdp$observations %>%
-    filter(deployment_id == deploy_id) %>%
-    filter(scientific_name == species) %>%
+    mica$observations %>%
+    filter(deploymentID == deploy_id) %>%
+    filter(scientificName == species) %>%
     pull(count) %>%
     sum()
-  n_individuals <- get_n_individuals(camtrapdp,
+  n_individuals <- get_n_individuals(mica,
     species = "Mallard",
-    pred("deployment_id", deploy_id)
+    pred("deploymentID", deploy_id)
   )
   expect_equal(n_individuals$n, n_individuals_via_count)
 })
 
 test_that("sex filters data correctly", {
-  deploy_id <- "fff2f46e-8163-453c-9044-61fb77587f5d"
-  species <- "Anas platyrhynchos"
-  sex_value <- "female"
+  sex_value <- "unknown"
   n_individuals_via_count <-
-    camtrapdp$observations %>%
-    filter(deployment_id == deploy_id) %>%
-    filter(scientific_name == species) %>%
+    mica$observations %>%
     filter(sex == sex_value) %>%
     pull(count) %>%
     sum()
-  n_individuals_females <- get_n_individuals(camtrapdp, species = NULL, sex = sex_value)
+  n_individuals_females <- get_n_individuals(mica, species = NULL, sex = sex_value)
   tot_n_individuals_females <- sum(n_individuals_females$n)
   expect_equal(tot_n_individuals_females, n_individuals_via_count)
-  expect_equal(nrow(n_individuals_females), nrow(camtrapdp$deployments))
+  expect_equal(nrow(n_individuals_females), nrow(mica$deployments))
 })
 
 test_that("multiple sex values allowed", {
-  sex_value <- c("female", "undefined")
+  sex_value <- c("female", "unknown")
   n_individuals_females_undefined_via_count <-
-    camtrapdp$observations %>%
+    mica$observations %>%
     filter(sex %in% sex_value) %>%
     pull(count) %>%
     sum()
-  n_individuals_females_undefined <- get_n_individuals(camtrapdp,
+  n_individuals_females_undefined <- get_n_individuals(mica,
     species = NULL,
     sex = sex_value
   )
@@ -210,43 +204,43 @@ test_that("multiple sex values allowed", {
   )
   expect_equal(
     nrow(n_individuals_females_undefined),
-    nrow(camtrapdp$deployments)
+    nrow(mica$deployments)
   )
 })
 
-test_that("age filters data correctly", {
-  age_value <- "juvenile"
+test_that("life stage filters data correctly", {
+  life_stage_value <- "subadult"
   n_individuals_juvenile_via_count <-
-    camtrapdp$observations %>%
-    filter(age == age_value) %>%
+    mica$observations %>%
+    filter(lifeStage == life_stage_value) %>%
     pull(count) %>%
     sum()
-  n_individuals_juvenile <- get_n_individuals(camtrapdp, species = NULL, age = age_value)
+  n_individuals_juvenile <- get_n_individuals(mica, species = NULL, life_stage = life_stage_value)
   tot_n_individuals_juvenile <- sum(n_individuals_juvenile$n)
   expect_equal(tot_n_individuals_juvenile, n_individuals_juvenile_via_count)
-  expect_equal(nrow(n_individuals_juvenile), nrow(camtrapdp$deployments))
+  expect_equal(nrow(n_individuals_juvenile), nrow(mica$deployments))
 })
 
 test_that("multiple age values allowed", {
-  age_value <- c("juvenile", "adult")
+  life_stage_value <- c("subadult", "adult")
   n_individuals_juvenile_adult_via_count <-
-    camtrapdp$observations %>%
-    filter(age %in% age_value) %>%
+    mica$observations %>%
+    filter(lifeStage %in% life_stage_value) %>%
     pull(count) %>%
     sum()
-  n_individuals_juvenile_adult <- get_n_individuals(camtrapdp,
+  n_individuals_juvenile_adult <- get_n_individuals(mica,
     species = NULL,
-    age = age_value
+    life_stage = life_stage_value
   )
   tot_n_individuals_juvenile_adult <- sum(n_individuals_juvenile_adult$n)
   expect_equal(
     tot_n_individuals_juvenile_adult,
     n_individuals_juvenile_adult_via_count
   )
-  expect_equal(nrow(n_individuals_juvenile_adult), nrow(camtrapdp$deployments))
+  expect_equal(nrow(n_individuals_juvenile_adult), nrow(mica$deployments))
 })
 
-test_that("error returned if age or sex is not present", {
-  expect_error(get_n_individuals(camtrapdp, age = "bad"))
-  expect_error(get_n_individuals(camtrapdp, sex = "bad"))
+test_that("error returned if life stage or sex is not present", {
+  expect_error(get_n_individuals(mica, life_stage = "bad"))
+  expect_error(get_n_individuals(mica, sex = "bad"))
 })

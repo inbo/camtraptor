@@ -78,7 +78,7 @@ conversion can be not always precise, e.g. month is not always 30 days long." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -177,14 +177,16 @@ conversion can be not always precise, e.g. month is not always 30 days long.</p>
     <p>a numeric vector</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create efforts (durations) to transform</span>
-<span class='va'>efforts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/duration.html'>duration</a></span><span class='op'>(</span><span class='st'>"2hours 2minutes 1second"</span><span class='op'>)</span>,
-            <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/duration.html'>duration</a></span><span class='op'>(</span><span class='st'>"3days 2hours"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># transform effort to hours</span>
-<span class='fu'>transform_effort_to_common_units</span><span class='op'>(</span><span class='va'>efforts</span>, <span class='st'>"hour"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  2.033611 74.000000</div><div class='input'><span class='co'># transform effort to days</span>
-<span class='fu'>transform_effort_to_common_units</span><span class='op'>(</span><span class='va'>efforts</span>, <span class='st'>"day"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.0847338 3.0833333</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># create efforts (durations) to transform</span></span>
+<span class='r-in'><span class='va'>efforts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/duration.html'>duration</a></span><span class='op'>(</span><span class='st'>"2hours 2minutes 1second"</span><span class='op'>)</span>,</span>
+<span class='r-in'>            <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/duration.html'>duration</a></span><span class='op'>(</span><span class='st'>"3days 2hours"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># transform effort to hours</span></span>
+<span class='r-in'><span class='fu'>transform_effort_to_common_units</span><span class='op'>(</span><span class='va'>efforts</span>, <span class='st'>"hour"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  2.033611 74.000000</span>
+<span class='r-in'><span class='co'># transform effort to days</span></span>
+<span class='r-in'><span class='fu'>transform_effort_to_common_units</span><span class='op'>(</span><span class='va'>efforts</span>, <span class='st'>"day"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.0847338 3.0833333</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -196,7 +198,7 @@ conversion can be not always precise, e.g. month is not always 30 days long.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

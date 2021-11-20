@@ -73,7 +73,7 @@ deployments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -164,41 +164,51 @@ deployments.</p>
     <p>a data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># and</span>
-<span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>$</span><span class='va'>deployments</span>,
-                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                       <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,
-                       <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 × 16</span>
-#&gt; <span style='color: #949494;'># … with 16 variables: deployment_id &lt;chr&gt;, location_id &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   location_name &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;, start &lt;dttm&gt;,</span>
-#&gt; <span style='color: #949494;'>#   end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;, camera_model &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;, bait_use &lt;fct&gt;,</span>
-#&gt; <span style='color: #949494;'>#   feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></div><div class='input'><span class='co'># equivalent of</span>
-<span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>$</span><span class='va'>deployments</span>,
-                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                       <span class='fu'><a href='filter_predicate.html'>pred_and</a></span><span class='op'>(</span><span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,
-                                <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 0 × 16</span>
-#&gt; <span style='color: #949494;'># … with 16 variables: deployment_id &lt;chr&gt;, location_id &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   location_name &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;, start &lt;dttm&gt;,</span>
-#&gt; <span style='color: #949494;'>#   end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;, camera_model &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;, bait_use &lt;fct&gt;,</span>
-#&gt; <span style='color: #949494;'>#   feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></div><div class='input'>
-
-<span class='co'># or</span>
-<span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>$</span><span class='va'>deployments</span>,
-                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                       <span class='fu'><a href='filter_predicate.html'>pred_or</a></span><span class='op'>(</span><span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,
-                                <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 16</span>
-#&gt;   deployment_id location_id location_name longitude latitude start              
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>             
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020… 9a72bd3a-2… B_ML_val 03_…      3.55     51.3 2020-06-03 <span style='color: #949494;'>20:19:10</span>
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e… 91d9abdd-d… B_ML_val 05_…      3.57     51.3 2020-06-03 <span style='color: #949494;'>20:10:18</span>
-#&gt; <span style='color: #949494;'># … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   camera_model &lt;chr&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   bait_use &lt;fct&gt;, feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># and</span></span>
+<span class='r-in'><span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>$</span><span class='va'>deployments</span>,</span>
+<span class='r-in'>                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                       <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,</span>
+<span class='r-in'>                       <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> df %&gt;% filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 × 24</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+<span class='r-in'><span class='co'># equivalent of</span></span>
+<span class='r-in'><span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>$</span><span class='va'>deployments</span>,</span>
+<span class='r-in'>                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                       <span class='fu'><a href='filter_predicate.html'>pred_and</a></span><span class='op'>(</span><span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> df %&gt;% filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 × 24</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># or</span></span>
+<span class='r-in'><span class='fu'>apply_filter_predicate</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>$</span><span class='va'>deployments</span>,</span>
+<span class='r-in'>                       verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                       <span class='fu'><a href='filter_predicate.html'>pred_or</a></span><span class='op'>(</span><span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                <span class='fu'><a href='filter_predicate.html'>pred_lt</a></span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.56</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> df %&gt;% filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 0 × 24</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -210,7 +220,7 @@ deployments.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -146,13 +146,7 @@
     <tr>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
-<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
-</ol>
-
-<p>and a list with metadata: <code>datapackage</code></p></td>
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -162,28 +156,34 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a tibble (data.frame) with the following columns: - <code>deployment_id</code>
-deployment unique identifier - <code>n</code>: (integer) number of observed and
-identified species</p>
+    <p>a tibble (data.frame) with the following columns:</p><ul>
+<li><p><code>deploymentID</code>: deployment unique identifier</p></li>
+<li><p><code>n</code>: (integer) number of observed and identified species</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># get number of species</span>
-<span class='fu'>get_n_species</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 2</span>
-#&gt;   deployment_id                            n
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4     5
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1     2
-#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a     1
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d     3</div><div class='input'>
-<span class='co'># get number of species for deployments with latitude &gt;= 51.28</span>
-<span class='fu'>get_n_species</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 2</span>
-#&gt;   deployment_id                            n
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1     2</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># get number of species</span></span>
+<span class='r-in'><span class='fu'>get_n_species</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   deploymentID                             n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372     4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7     1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># get number of species for deployments with latitude &gt;= 51.18</span></span>
+<span class='r-in'><span class='fu'>get_n_species</span><span class='op'>(</span><span class='va'>mica</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.18</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   deploymentID                             n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8     2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372     4</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -195,7 +195,7 @@ identified species</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

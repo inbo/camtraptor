@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -146,13 +146,7 @@
     <tr>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
-<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
-</ol>
-
-<p>and a list with metadata: <code>datapackage</code></p></td>
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -176,7 +170,7 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a tibble (data.frame) with the following columns:</p><ul>
-<li><p><code>deployment_id</code> deployment unique identifier</p></li>
+<li><p><code>deploymentID</code> deployment unique identifier</p></li>
 <li><p><code>effort</code>: a duration object (duration is a class from lubridate package)</p></li>
 </ul>
 
@@ -186,25 +180,27 @@
 <code><a href='filter_predicate.html'>filter_predicate</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># efforts expressed as Durations</span>
-<span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
-#&gt;   deployment_id                        effort                 effort_unit
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;Duration&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4 2594308s (~4.29 weeks) Duration   
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1 1823035s (~3.01 weeks) Duration   
-#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a 274938s (~3.18 days)   Duration   
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d 356509s (~4.13 days)   Duration   </div><div class='input'>
-<span class='co'># effort expressed as days</span>
-<span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>camtrapdp</span>, unit <span class='op'>=</span> <span class='st'>"day"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 3</span>
-#&gt;   deployment_id                        effort effort_unit
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      
-#&gt; <span style='color: #BCBCBC;'>1</span> 3b94f935-020f-49d8-bd59-1736f8a266c4  30.0  day        
-#&gt; <span style='color: #BCBCBC;'>2</span> 6b1199ac-e6e4-4eb4-a625-6ee8f9db09f1  21.1  day        
-#&gt; <span style='color: #BCBCBC;'>3</span> 9e84c750-e8fa-4502-ae12-cc6c75532f5a   3.18 day        
-#&gt; <span style='color: #BCBCBC;'>4</span> fff2f46e-8163-453c-9044-61fb77587f5d   4.13 day        </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># efforts expressed as Durations</span></span>
+<span class='r-in'><span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   deploymentID                         effort                 effort_unit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                <span style='color: #949494; font-style: italic;'>&lt;Duration&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 859859s (~1.42 weeks)  Duration   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 786802s (~1.3 weeks)   Duration   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 1903602s (~3.15 weeks) Duration   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 1204929s (~1.99 weeks) Duration   </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># effort expressed as days</span></span>
+<span class='r-in'><span class='fu'>get_effort</span><span class='op'>(</span><span class='va'>mica</span>, unit <span class='op'>=</span> <span class='st'>"day"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   deploymentID                         effort effort_unit</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8   9.95 day        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372   9.11 day        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1  22.0  day        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7  13.9  day        </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +212,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

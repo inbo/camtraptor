@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -278,322 +278,339 @@ data.frame you are applying the filter predicates.</p>
 <code><a href='get_effort.html'>get_effort</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># one arg one value predicates</span>
-<span class='fu'>pred</span><span class='op'>(</span><span class='st'>"scientific_name"</span>, <span class='st'>"Anas platyrhynchos"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "scientific_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] "Anas platyrhynchos"
-#&gt; 
-#&gt; $type
-#&gt; [1] "equals"
-#&gt; 
-#&gt; $expr
-#&gt; (scientific_name == "Anas platyrhynchos")
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred</span><span class='op'>(</span><span class='st'>"tags"</span>, <span class='st'>"boven de stroom"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "tags"
-#&gt; 
-#&gt; $value
-#&gt; [1] "boven de stroom"
-#&gt; 
-#&gt; $type
-#&gt; [1] "equals"
-#&gt; 
-#&gt; $expr
-#&gt; (tags == "boven de stroom")
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_gt</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "latitude"
-#&gt; 
-#&gt; $value
-#&gt; [1] 51.28
-#&gt; 
-#&gt; $type
-#&gt; [1] "greaterThan"
-#&gt; 
-#&gt; $expr
-#&gt; (latitude &gt; 51.28)
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "latitude"
-#&gt; 
-#&gt; $value
-#&gt; [1] 51.28
-#&gt; 
-#&gt; $type
-#&gt; [1] "greaterThanOrEquals"
-#&gt; 
-#&gt; $expr
-#&gt; (latitude &gt;= 51.28)
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_lt</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.59</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "longitude"
-#&gt; 
-#&gt; $value
-#&gt; [1] 3.59
-#&gt; 
-#&gt; $type
-#&gt; [1] "lessThan"
-#&gt; 
-#&gt; $expr
-#&gt; (longitude &lt; 3.59)
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.59</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "longitude"
-#&gt; 
-#&gt; $value
-#&gt; [1] 3.59
-#&gt; 
-#&gt; $type
-#&gt; [1] "lessThanOrEquals"
-#&gt; 
-#&gt; $expr
-#&gt; (longitude &lt;= 3.59)
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_not</span><span class='op'>(</span><span class='st'>"location_name"</span>, <span class='st'>"B_ML_val 03_De Val"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "location_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] "B_ML_val 03_De Val"
-#&gt; 
-#&gt; $type
-#&gt; [1] "notEquals"
-#&gt; 
-#&gt; $expr
-#&gt; (location_name != "B_ML_val 03_De Val")
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'>
-<span class='co'># and, or predicates</span>
-<span class='fu'>pred_and</span><span class='op'>(</span><span class='fu'>pred_lt</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.59</span><span class='op'>)</span>, <span class='fu'>pred_gt</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; $arg[[1]]
-#&gt; [1] "longitude"
-#&gt; 
-#&gt; $arg[[2]]
-#&gt; [1] "latitude"
-#&gt; 
-#&gt; 
-#&gt; $value
-#&gt; $value[[1]]
-#&gt; [1] 3.59
-#&gt; 
-#&gt; $value[[2]]
-#&gt; [1] 51.28
-#&gt; 
-#&gt; 
-#&gt; $type
-#&gt; $type[[1]]
-#&gt; [1] "lessThan"
-#&gt; 
-#&gt; $type[[2]]
-#&gt; [1] "greaterThan"
-#&gt; 
-#&gt; 
-#&gt; $expr
-#&gt; ((longitude &lt; 3.59) &amp; (latitude &gt; 51.28))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"count"</span>, <span class='fl'>2</span><span class='op'>)</span>, <span class='fu'>pred</span><span class='op'>(</span><span class='st'>"vernacular_name"</span>, <span class='st'>"Norway Rat"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; $arg[[1]]
-#&gt; [1] "count"
-#&gt; 
-#&gt; $arg[[2]]
-#&gt; [1] "vernacular_name"
-#&gt; 
-#&gt; 
-#&gt; $value
-#&gt; $value[[1]]
-#&gt; [1] 2
-#&gt; 
-#&gt; $value[[2]]
-#&gt; [1] "Norway Rat"
-#&gt; 
-#&gt; 
-#&gt; $type
-#&gt; $type[[1]]
-#&gt; [1] "greaterThanOrEquals"
-#&gt; 
-#&gt; $type[[2]]
-#&gt; [1] "equals"
-#&gt; 
-#&gt; 
-#&gt; $expr
-#&gt; ((count &gt;= 2) | (vernacular_name == "Norway Rat"))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'>
-<span class='co'># use Dates as argument</span>
-<span class='va'>start_date</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-06-03"</span>, format <span class='op'>=</span> <span class='st'>"%Y-%m-%d"</span><span class='op'>)</span>
-<span class='va'>end_date</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-06-10"</span>, format <span class='op'>=</span> <span class='st'>"%Y-%m-%d"</span><span class='op'>)</span>
-<span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_date</span><span class='op'>)</span>, <span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"end"</span>, <span class='va'>end_date</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; $arg[[1]]
-#&gt; [1] "start"
-#&gt; 
-#&gt; $arg[[2]]
-#&gt; [1] "end"
-#&gt; 
-#&gt; 
-#&gt; $value
-#&gt; $value[[1]]
-#&gt; [1] "2020-06-03"
-#&gt; 
-#&gt; $value[[2]]
-#&gt; [1] "2020-06-10"
-#&gt; 
-#&gt; 
-#&gt; $type
-#&gt; $type[[1]]
-#&gt; [1] "greaterThanOrEquals"
-#&gt; 
-#&gt; $type[[2]]
-#&gt; [1] "lessThanOrEquals"
-#&gt; 
-#&gt; 
-#&gt; $expr
-#&gt; ((start &gt;= as_datetime("2020-06-03")) | (end &lt;= as_datetime("2020-06-10")))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'>
-<span class='co'># use datetimes (POSIXct) as argument</span>
-<span class='va'>start_date</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='st'>"2020-06-03"</span><span class='op'>)</span>
-<span class='va'>end_date</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='st'>"2020-06-10"</span><span class='op'>)</span>
-<span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_date</span><span class='op'>)</span>, <span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"end"</span>, <span class='va'>end_date</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; $arg[[1]]
-#&gt; [1] "start"
-#&gt; 
-#&gt; $arg[[2]]
-#&gt; [1] "end"
-#&gt; 
-#&gt; 
-#&gt; $value
-#&gt; $value[[1]]
-#&gt; [1] "2020-06-03 UTC"
-#&gt; 
-#&gt; $value[[2]]
-#&gt; [1] "2020-06-10 UTC"
-#&gt; 
-#&gt; 
-#&gt; $type
-#&gt; $type[[1]]
-#&gt; [1] "greaterThanOrEquals"
-#&gt; 
-#&gt; $type[[2]]
-#&gt; [1] "lessThanOrEquals"
-#&gt; 
-#&gt; 
-#&gt; $expr
-#&gt; ((start &gt;= as_datetime("2020-06-03")) | (end &lt;= as_datetime("2020-06-10")))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'>
-<span class='co'># one arg multiple values predicates</span>
-<span class='va'>locations</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"B_ML_val 03_De Val"</span>, <span class='st'>"B_ML_val 05_molenkreek"</span><span class='op'>)</span>
-<span class='fu'>pred_in</span><span class='op'>(</span><span class='st'>"location_name"</span>, <span class='va'>locations</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "location_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] "B_ML_val 03_De Val"     "B_ML_val 05_molenkreek"
-#&gt; 
-#&gt; $type
-#&gt; [1] "in"
-#&gt; 
-#&gt; $expr
-#&gt; (location_name %in% c("B_ML_val 03_De Val","B_ML_val 05_molenkreek"))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_notin</span><span class='op'>(</span><span class='st'>"location_name"</span>, <span class='va'>locations</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "location_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] "B_ML_val 03_De Val"     "B_ML_val 05_molenkreek"
-#&gt; 
-#&gt; $type
-#&gt; [1] "notIn"
-#&gt; 
-#&gt; $expr
-#&gt; (!(location_name %in% c("B_ML_val 03_De Val","B_ML_val 05_molenkreek")))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='va'>start_dates</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2020-06-03 20:10:18"</span>,<span class='st'>"2020-06-03 20:04:33"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>pred_in</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_dates</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "start"
-#&gt; 
-#&gt; $value
-#&gt; [1] "2020-06-03 20:10:18 UTC" "2020-06-03 20:04:33 UTC"
-#&gt; 
-#&gt; $type
-#&gt; [1] "in"
-#&gt; 
-#&gt; $expr
-#&gt; (start %in% as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33")))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_notin</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_dates</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "start"
-#&gt; 
-#&gt; $value
-#&gt; [1] "2020-06-03 20:10:18 UTC" "2020-06-03 20:04:33 UTC"
-#&gt; 
-#&gt; $type
-#&gt; [1] "notIn"
-#&gt; 
-#&gt; $expr
-#&gt; (!(start %in% as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33"))))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'>
-<span class='co'># one arg, no value predicates</span>
-<span class='fu'>pred_na</span><span class='op'>(</span><span class='st'>"scientific_name"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "scientific_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] NA
-#&gt; 
-#&gt; $type
-#&gt; [1] "na"
-#&gt; 
-#&gt; $expr
-#&gt; (is.na(scientific_name))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div><div class='input'><span class='fu'>pred_notna</span><span class='op'>(</span><span class='st'>"scientific_name"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $arg
-#&gt; [1] "scientific_name"
-#&gt; 
-#&gt; $value
-#&gt; [1] NA
-#&gt; 
-#&gt; $type
-#&gt; [1] "notNa"
-#&gt; 
-#&gt; $expr
-#&gt; (!is.na(scientific_name))
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "filter_predicate"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># one arg one value predicates</span></span>
+<span class='r-in'><span class='fu'>pred</span><span class='op'>(</span><span class='st'>"scientificName"</span>, <span class='st'>"Anas platyrhynchos"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "scientificName"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Anas platyrhynchos"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "equals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (scientificName == "Anas platyrhynchos")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred</span><span class='op'>(</span><span class='st'>"tags"</span>, <span class='st'>"boven de stroom"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "tags"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "boven de stroom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "equals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (tags == "boven de stroom")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_gt</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.18</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "latitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 51.18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThan"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (latitude &gt; 51.18)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.18</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "latitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 51.18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (latitude &gt;= 51.18)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_lt</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.95</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "longitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lessThan"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (longitude &lt; 3.95)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.95</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "longitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3.95</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lessThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (longitude &lt;= 3.95)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_not</span><span class='op'>(</span><span class='st'>"locationName"</span>, <span class='st'>"B_DL_val 3_dikke boom"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "locationName"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "B_DL_val 3_dikke boom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "notEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (locationName != "B_DL_val 3_dikke boom")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># and, or predicates</span></span>
+<span class='r-in'><span class='fu'>pred_and</span><span class='op'>(</span><span class='fu'>pred_lt</span><span class='op'>(</span><span class='st'>"longitude"</span>, <span class='fl'>3.59</span><span class='op'>)</span>, <span class='fu'>pred_gt</span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "longitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "latitude"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3.59</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 51.28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lessThan"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThan"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ((longitude &lt; 3.59) &amp; (latitude &gt; 51.28))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"count"</span>, <span class='fl'>2</span><span class='op'>)</span>, <span class='fu'>pred</span><span class='op'>(</span><span class='st'>"vernacular_name"</span>, <span class='st'>"Norway Rat"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "count"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "vernacular_name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Norway Rat"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "equals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ((count &gt;= 2) | (vernacular_name == "Norway Rat"))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use Dates as argument</span></span>
+<span class='r-in'><span class='va'>start_date</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-06-03"</span>, format <span class='op'>=</span> <span class='st'>"%Y-%m-%d"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>end_date</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-06-10"</span>, format <span class='op'>=</span> <span class='st'>"%Y-%m-%d"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_date</span><span class='op'>)</span>, <span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"end"</span>, <span class='va'>end_date</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "start"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "end"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-03"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-10"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lessThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ((start &gt;= as_datetime("2020-06-03")) | (end &lt;= as_datetime("2020-06-10")))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use datetimes (POSIXct) as argument</span></span>
+<span class='r-in'><span class='va'>start_date</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='st'>"2020-06-03"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>end_date</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='st'>"2020-06-10"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pred_or</span><span class='op'>(</span><span class='fu'>pred_gte</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_date</span><span class='op'>)</span>, <span class='fu'>pred_lte</span><span class='op'>(</span><span class='st'>"end"</span>, <span class='va'>end_date</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "start"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "end"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-03 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-10 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "greaterThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type[[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "lessThanOrEquals"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ((start &gt;= as_datetime("2020-06-03")) | (end &lt;= as_datetime("2020-06-10")))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># one arg multiple values predicates</span></span>
+<span class='r-in'><span class='va'>locations</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"B_ML_val 03_De Val"</span>, <span class='st'>"B_ML_val 05_molenkreek"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pred_in</span><span class='op'>(</span><span class='st'>"location_name"</span>, <span class='va'>locations</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "location_name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "B_ML_val 03_De Val"     "B_ML_val 05_molenkreek"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "in"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (location_name %in% c("B_ML_val 03_De Val","B_ML_val 05_molenkreek"))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_notin</span><span class='op'>(</span><span class='st'>"location_name"</span>, <span class='va'>locations</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "location_name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "B_ML_val 03_De Val"     "B_ML_val 05_molenkreek"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "notIn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (!(location_name %in% c("B_ML_val 03_De Val","B_ML_val 05_molenkreek")))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='va'>start_dates</span> <span class='op'>&lt;-</span> <span class='fu'>lubridate</span><span class='fu'>::</span><span class='fu'><a href='https://lubridate.tidyverse.org/reference/as_date.html'>as_datetime</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"2020-06-03 20:10:18"</span>,<span class='st'>"2020-06-03 20:04:33"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pred_in</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_dates</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "start"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-03 20:10:18 UTC" "2020-06-03 20:04:33 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "in"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (start %in% as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33")))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_notin</span><span class='op'>(</span><span class='st'>"start"</span>, <span class='va'>start_dates</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "start"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2020-06-03 20:10:18 UTC" "2020-06-03 20:04:33 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "notIn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (!(start %in% as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33"))))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># one arg, no value predicates</span></span>
+<span class='r-in'><span class='fu'>pred_na</span><span class='op'>(</span><span class='st'>"scientificName"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "scientificName"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "na"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (is.na(scientificName))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+<span class='r-in'><span class='fu'>pred_notna</span><span class='op'>(</span><span class='st'>"scientificName"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $arg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "scientificName"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "notNa"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $expr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (!is.na(scientificName))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "filter_predicate"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -605,7 +622,7 @@ data.frame you are applying the filter predicates.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

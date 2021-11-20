@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -146,32 +146,31 @@
     <tr>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
-<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
-</ol>
-
-<p>and a list with metadata: <code>datapackage</code></p></td>
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame with all scientific names and vernacular names of
-identified species</p>
+    <p>a data.frame with all scientific names and vernacular names of the
+identified species.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_species</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 × 4</span>
-#&gt;   taxon_id scientific_name     vernacular_names.en vernacular_names.nl
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>              
-#&gt; <span style='color: #BCBCBC;'>1</span> DGP6     Anas platyrhynchos  mallard             wilde eend         
-#&gt; <span style='color: #BCBCBC;'>2</span> 3F6VX    Gallinula chloropus common moorhen      waterhoen          
-#&gt; <span style='color: #BCBCBC;'>3</span> 6RRQT    Myocastor coypus    coypu               beverrat           
-#&gt; <span style='color: #BCBCBC;'>4</span> 49JSC    Ondatra zibethicus  muskrat             muskusrat          
-#&gt; <span style='color: #BCBCBC;'>5</span> 4RM67    Rattus norvegicus   brown rat           bruine rat         </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>get_species</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   taxonID taxonIDReference     scientificName  vernacularNames… vernacularNames…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> DGP6    https://www.catalog… Anas platyrhyn… mallard          wilde eend      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> DGPL    https://www.catalog… Anas strepera   gadwall          krakeend        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> 32FH    https://www.catalog… Ardea           great herons     reigers         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> GCHS    https://www.catalog… Ardea cinerea   grey heron       blauwe reiger   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> RQPW    https://www.catalog… Castor fiber    Eurasian beaver  bever           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> 6MB3T   https://www.catalog… Homo sapiens    human            mens            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> 3Y9VW   https://www.catalog… Martes foina    beech marten     steenmarter     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> 44QYC   https://www.catalog… Mustela putori… European polecat bunzing         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> 5BSG3   https://www.catalog… Vulpes vulpes   red fox          vos             </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -183,7 +182,7 @@ identified species</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

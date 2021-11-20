@@ -73,7 +73,7 @@ as returned by camtrapR's function cameraOperation()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -148,13 +148,7 @@ as returned by camtrapR's function <code>cameraOperation()</code>.</p>
     <tr>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
-<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
-</ol>
-
-<p>and a list with metadata: <code>datapackage</code></p></td>
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -164,71 +158,1001 @@ as returned by camtrapR's function <code>cameraOperation()</code>.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a matrix. Row names always indicate the <code>location_name</code> (station ID)
-<code>"Station"</code>+<code>location_name</code>. Column names are dates.</p>
+    <p>a matrix. Row names always indicate the <code>locationName</code> (station ID)
+<code>"Station"</code>+<code>locationName</code>. Column names are dates.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The deployment data are grouped by <code>location_name</code> (station ID in camtrapR
+    <p>The deployment data are grouped by <code>locationName</code> (station ID in camtrapR
 jargon). If multiple deploymnts are linked to same location, daily
 efforts higher than one occur.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>camtrapdp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Note: method with signature ‘Duration#ANY’ chosen for function ‘-’,</span>
-#&gt; <span class='message'> target signature ‘Duration#Duration’.</span>
-#&gt; <span class='message'> "ANY#Duration" would also be valid</span></div><div class='output co'>#&gt;                                    2020-06-03 2020-06-04 2020-06-05 2020-06-06
-#&gt; StationB_ML_val 03_De Val           0.1533565          1          1          1
-#&gt; StationB_ML_val 05_molenkreek       0.1595139          1          1          1
-#&gt; StationB_ML_val 06_Oostpolderkreek  0.1635069          1          1          1
-#&gt; StationB_ML_val 07_Sint-Anna        0.1160648          1          1          1
-#&gt;                                    2020-06-07 2020-06-08 2020-06-09 2020-06-10
-#&gt; StationB_ML_val 03_De Val          1.00000000 1.00000000          1          1
-#&gt; StationB_ML_val 05_molenkreek      1.00000000 1.00000000          1          1
-#&gt; StationB_ML_val 06_Oostpolderkreek 0.01864583 0.00000000          0          0
-#&gt; StationB_ML_val 07_Sint-Anna       1.00000000 0.01019676          0          0
-#&gt;                                    2020-06-11 2020-06-12 2020-06-13 2020-06-14
-#&gt; StationB_ML_val 03_De Val                   1          1          1          1
-#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
-#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
-#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
-#&gt;                                    2020-06-15 2020-06-16 2020-06-17 2020-06-18
-#&gt; StationB_ML_val 03_De Val                   1          1          1          1
-#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
-#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
-#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
-#&gt;                                    2020-06-19 2020-06-20 2020-06-21 2020-06-22
-#&gt; StationB_ML_val 03_De Val                   1          1          1          1
-#&gt; StationB_ML_val 05_molenkreek               1          1          1          1
-#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
-#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
-#&gt;                                    2020-06-23 2020-06-24 2020-06-25 2020-06-26
-#&gt; StationB_ML_val 03_De Val                   1  1.0000000          1          1
-#&gt; StationB_ML_val 05_molenkreek               1  0.9404282          0          0
-#&gt; StationB_ML_val 06_Oostpolderkreek          0  0.0000000          0          0
-#&gt; StationB_ML_val 07_Sint-Anna                0  0.0000000          0          0
-#&gt;                                    2020-06-27 2020-06-28 2020-06-29 2020-06-30
-#&gt; StationB_ML_val 03_De Val                   1          1          1          1
-#&gt; StationB_ML_val 05_molenkreek               0          0          0          0
-#&gt; StationB_ML_val 06_Oostpolderkreek          0          0          0          0
-#&gt; StationB_ML_val 07_Sint-Anna                0          0          0          0
-#&gt;                                    2020-07-01 2020-07-02 2020-07-03
-#&gt; StationB_ML_val 03_De Val                   1          1  0.8733565
-#&gt; StationB_ML_val 05_molenkreek               0          0  0.0000000
-#&gt; StationB_ML_val 06_Oostpolderkreek          0          0  0.0000000
-#&gt; StationB_ML_val 07_Sint-Anna                0          0  0.0000000</div><div class='input'><span class='co'># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.28</span>
-<span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>camtrapdp</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.28</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>df %&gt;% filter((latitude &gt;= 51.28))</span></div><div class='output co'>#&gt;                               2020-06-03 2020-06-04 2020-06-05 2020-06-06
-#&gt; StationB_ML_val 05_molenkreek  0.1595139          1          1          1
-#&gt;                               2020-06-07 2020-06-08 2020-06-09 2020-06-10
-#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
-#&gt;                               2020-06-11 2020-06-12 2020-06-13 2020-06-14
-#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
-#&gt;                               2020-06-15 2020-06-16 2020-06-17 2020-06-18
-#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
-#&gt;                               2020-06-19 2020-06-20 2020-06-21 2020-06-22
-#&gt; StationB_ML_val 05_molenkreek          1          1          1          1
-#&gt;                               2020-06-23 2020-06-24
-#&gt; StationB_ML_val 05_molenkreek          1  0.9404282</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>mica</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-09 2019-10-10 2019-10-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver  0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom          0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD              0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                     0.5290856          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-12 2019-10-13 2019-10-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-15 2019-10-16 2019-10-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-18 2019-10-19 2019-10-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-21 2019-10-22 2019-10-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             1          1  0.4168519</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-24 2019-10-25 2019-10-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-27 2019-10-28 2019-10-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-10-30 2019-10-31 2019-11-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-02 2019-11-03 2019-11-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-05 2019-11-06 2019-11-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-08 2019-11-09 2019-11-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-11 2019-11-12 2019-11-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-14 2019-11-15 2019-11-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-17 2019-11-18 2019-11-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-20 2019-11-21 2019-11-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-23 2019-11-24 2019-11-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-26 2019-11-27 2019-11-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-11-29 2019-11-30 2019-12-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-02 2019-12-03 2019-12-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-05 2019-12-06 2019-12-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-08 2019-12-09 2019-12-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-11 2019-12-12 2019-12-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-14 2019-12-15 2019-12-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-17 2019-12-18 2019-12-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-20 2019-12-21 2019-12-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-23 2019-12-24 2019-12-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-26 2019-12-27 2019-12-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2019-12-29 2019-12-30 2019-12-31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-01 2020-01-02 2020-01-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-04 2020-01-05 2020-01-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-07 2020-01-08 2020-01-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-10 2020-01-11 2020-01-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-13 2020-01-14 2020-01-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-16 2020-01-17 2020-01-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-19 2020-01-20 2020-01-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-22 2020-01-23 2020-01-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-25 2020-01-26 2020-01-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-28 2020-01-29 2020-01-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-01-31 2020-02-01 2020-02-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-03 2020-02-04 2020-02-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-06 2020-02-07 2020-02-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-09 2020-02-10 2020-02-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-12 2020-02-13 2020-02-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-15 2020-02-16 2020-02-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-18 2020-02-19 2020-02-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-21 2020-02-22 2020-02-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-24 2020-02-25 2020-02-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-02-27 2020-02-28 2020-02-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-01 2020-03-02 2020-03-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-04 2020-03-05 2020-03-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-07 2020-03-08 2020-03-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-10 2020-03-11 2020-03-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-13 2020-03-14 2020-03-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-16 2020-03-17 2020-03-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-19 2020-03-20 2020-03-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-22 2020-03-23 2020-03-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-25 2020-03-26 2020-03-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-28 2020-03-29 2020-03-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-03-31 2020-04-01 2020-04-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-03 2020-04-04 2020-04-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-06 2020-04-07 2020-04-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-09 2020-04-10 2020-04-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-12 2020-04-13 2020-04-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-15 2020-04-16 2020-04-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-18 2020-04-19 2020-04-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-21 2020-04-22 2020-04-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-24 2020-04-25 2020-04-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-27 2020-04-28 2020-04-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-04-30 2020-05-01 2020-05-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-03 2020-05-04 2020-05-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-06 2020-05-07 2020-05-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-09 2020-05-10 2020-05-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-12 2020-05-13 2020-05-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-15 2020-05-16 2020-05-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-18 2020-05-19 2020-05-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-21 2020-05-22 2020-05-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-24 2020-05-25 2020-05-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-27 2020-05-28 2020-05-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-05-30 2020-05-31 2020-06-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-02 2020-06-03 2020-06-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-05 2020-06-06 2020-06-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-08 2020-06-09 2020-06-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-11 2020-06-12 2020-06-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-14 2020-06-15 2020-06-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-17 2020-06-18 2020-06-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0      0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0      0.125</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0      0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0      0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-20 2020-06-21 2020-06-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-23 2020-06-24 2020-06-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-26 2020-06-27 2020-06-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  1          1  0.9815046</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-29 2020-06-30 2020-07-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-02 2020-07-03 2020-07-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-05 2020-07-06 2020-07-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-08 2020-07-09 2020-07-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-11 2020-07-12 2020-07-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-14 2020-07-15 2020-07-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-17 2020-07-18 2020-07-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-20 2020-07-21 2020-07-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-23 2020-07-24 2020-07-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-26 2020-07-27 2020-07-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-29 2020-07-30 2020-07-31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver  0.7710532          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom          0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD              0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                     0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-01 2020-08-02 2020-08-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-04 2020-08-05 2020-08-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-07 2020-08-08 2020-08-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1  0.1810185          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-10 2020-08-11 2020-08-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-13 2020-08-14 2020-08-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-16 2020-08-17 2020-08-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-19 2020-08-20 2020-08-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-22 2020-08-23 2020-08-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-25 2020-08-26 2020-08-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-28 2020-08-29 2020-08-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-31 2020-09-01 2020-09-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-03 2020-09-04 2020-09-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-06 2020-09-07 2020-09-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-09 2020-09-10 2020-09-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-12 2020-09-13 2020-09-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-15 2020-09-16 2020-09-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-18 2020-09-19 2020-09-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-21 2020-09-22 2020-09-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-24 2020-09-25 2020-09-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-27 2020-09-28 2020-09-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-09-30 2020-10-01 2020-10-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-03 2020-10-04 2020-10-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-06 2020-10-07 2020-10-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-09 2020-10-10 2020-10-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-12 2020-10-13 2020-10-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-15 2020-10-16 2020-10-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-18 2020-10-19 2020-10-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-21 2020-10-22 2020-10-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-24 2020-10-25 2020-10-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-27 2020-10-28 2020-10-29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-10-30 2020-10-31 2020-11-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-02 2020-11-03 2020-11-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-05 2020-11-06 2020-11-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-08 2020-11-09 2020-11-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-11 2020-11-12 2020-11-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-14 2020-11-15 2020-11-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-17 2020-11-18 2020-11-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-20 2020-11-21 2020-11-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-23 2020-11-24 2020-11-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-26 2020-11-27 2020-11-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-11-29 2020-11-30 2020-12-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-02 2020-12-03 2020-12-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-05 2020-12-06 2020-12-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-08 2020-12-09 2020-12-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-11 2020-12-12 2020-12-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-14 2020-12-15 2020-12-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-17 2020-12-18 2020-12-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-20 2020-12-21 2020-12-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-23 2020-12-24 2020-12-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-26 2020-12-27 2020-12-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-12-29 2020-12-30 2020-12-31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-01 2021-01-02 2021-01-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-04 2021-01-05 2021-01-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-07 2021-01-08 2021-01-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-10 2021-01-11 2021-01-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-13 2021-01-14 2021-01-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-16 2021-01-17 2021-01-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-19 2021-01-20 2021-01-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-22 2021-01-23 2021-01-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-25 2021-01-26 2021-01-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-28 2021-01-29 2021-01-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-01-31 2021-02-01 2021-02-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-03 2021-02-04 2021-02-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-06 2021-02-07 2021-02-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-09 2021-02-10 2021-02-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-12 2021-02-13 2021-02-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-15 2021-02-16 2021-02-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-18 2021-02-19 2021-02-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-21 2021-02-22 2021-02-23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-24 2021-02-25 2021-02-26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-02-27 2021-02-28 2021-03-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-02 2021-03-03 2021-03-04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-05 2021-03-06 2021-03-07</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-08 2021-03-09 2021-03-10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-11 2021-03-12 2021-03-13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-14 2021-03-15 2021-03-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-17 2021-03-18 2021-03-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-20 2021-03-21 2021-03-22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-23 2021-03-24 2021-03-25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-26 2021-03-27 2021-03-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      0  0.1400694          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-03-29 2021-03-30 2021-03-31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-01 2021-04-02 2021-04-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-04 2021-04-05 2021-04-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-07 2021-04-08 2021-04-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-10 2021-04-11 2021-04-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-13 2021-04-14 2021-04-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2021-04-16 2021-04-17 2021-04-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0  0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DM_val 4_'t WAD                      1          1  0.8923611</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationMica Viane                             0          0  0.0000000</span>
+<span class='r-in'><span class='co'># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span>
+<span class='r-in'><span class='fu'>get_cam_op</span><span class='op'>(</span><span class='va'>mica</span>, <span class='fu'><a href='filter_predicate.html'>pred_gte</a></span><span class='op'>(</span><span class='st'>"latitude"</span>, <span class='fl'>51.18</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-19 2020-06-20 2020-06-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver      0.000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom              0.125          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-22 2020-06-23 2020-06-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-25 2020-06-26 2020-06-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-06-28 2020-06-29 2020-06-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver  0.0000000          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom          0.9815046          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-01 2020-07-02 2020-07-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-04 2020-07-05 2020-07-06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-07 2020-07-08 2020-07-09</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-10 2020-07-11 2020-07-12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-13 2020-07-14 2020-07-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-16 2020-07-17 2020-07-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-19 2020-07-20 2020-07-21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-22 2020-07-23 2020-07-24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-25 2020-07-26 2020-07-27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-28 2020-07-29 2020-07-30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          0  0.7710532          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0  0.0000000          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-07-31 2020-08-01 2020-08-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-03 2020-08-04 2020-08-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1          1          1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0          0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      2020-08-06 2020-08-07 2020-08-08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 5_beek kleine vijver          1          1  0.1810185</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StationB_DL_val 3_dikke boom                  0          0  0.0000000</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -240,7 +1164,7 @@ efforts higher than one occur.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
       <h1 data-toc-skip>Filter predicates</h1>
                         <h4 class="author">Damiano Oldoni</h4>
             
-            <h4 class="date">2021-09-10</h4>
+            <h4 class="date">2021-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtrapdp/blob/master/vignettes/filter-predicates.Rmd"><code>vignettes/filter-predicates.Rmd</code></a></small>
       <div class="hidden name"><code>filter-predicates.Rmd</code></div>
@@ -127,7 +127,7 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span></code></pre></div>
-<p>By loading pacakge <code>camtrapdp</code>, a camera trap data package called <code>camtrapdp</code> is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.</p>
+<p>By loading pacakge <code>camtrapdp</code>, a camera trap data package called <code>mica</code> is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.</p>
 </div>
 <div id="filter-predicates" class="section level2">
 <h2 class="hasAnchor">
@@ -197,7 +197,7 @@
 <h4 class="hasAnchor">
 <a href="#pred_gt-pred_gte-pred_lt-pred_lte" class="anchor"></a><code>pred_gt()</code>, <code>pred_gte()</code>, <code>pred_lt()</code>, <code>pred_lte()</code>
 </h4>
-<p>These predicates express <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;</a></code> (greaterThan), <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;=</a></code> (greaterThanOrEqual),<code><a href="https://rdrr.io/r/base/Comparison.html">&lt;</a></code> (lessThan) and <code><a href="https://rdrr.io/r/base/Comparison.html">&lt;=</a></code> (lessThanOrEqual) respectively. Example: if you want to select rows where column <code>a</code> is greater than 5:</p>
+<p>These predicates express <code>&gt;</code> (greaterThan), <code>&gt;=</code> (greaterThanOrEqual),<code>&lt;</code> (lessThan) and <code>&lt;=</code> (lessThanOrEqual) respectively. Example: if you want to select rows where column <code>a</code> is greater than 5:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span>arg <span class="op">=</span> <span class="st">"a"</span>, value <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt; $arg</span>
@@ -257,7 +257,7 @@
 <div id="one-argument---multiple-value-predicates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#one-argument---multiple-value-predicates" class="anchor"></a>One argument - multiple value predicates</h3>
-<p>These predicates accept a vector with multiple values as argument. To get rows where column <code>a</code> is one of the values <code><a href="https://rdrr.io/r/base/c.html">c(1,3,5)</a></code>:</p>
+<p>These predicates accept a vector with multiple values as argument. To get rows where column <code>a</code> is one of the values <code>c(1,3,5)</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span>arg <span class="op">=</span> <span class="st">"a"</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; $arg</span>
@@ -371,119 +371,127 @@
 <div id="one-predicate" class="section level3">
 <h3 class="hasAnchor">
 <a href="#one-predicate" class="anchor"></a>One predicate</h3>
-<p>Apply get_* functions only to the deployments with location name <em>B_ML_val 06_Oostpolderkreek</em> or _ <em>B_ML_val 07_Sint-Anna</em>:</p>
+<p>Apply get_* functions only to the deployments with location name <em>“B_DL_val 5_beek kleine vijver”</em> or <em>“B_DL_val 3_dikke boom”</em>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_obs.html">get_n_obs</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
-          <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"location_name"</span>,
-                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")))</span>
-<span class="co">#&gt; # A tibble: 10 × 3</span>
-<span class="co">#&gt;    deployment_id                        scientific_name         n</span>
-<span class="co">#&gt;    &lt;chr&gt;                                &lt;chr&gt;               &lt;int&gt;</span>
-<span class="co">#&gt;  1 9e84c750-e8fa-4502-ae12-cc6c75532f5a Rattus norvegicus       0</span>
-<span class="co">#&gt;  2 9e84c750-e8fa-4502-ae12-cc6c75532f5a Anas platyrhynchos      4</span>
-<span class="co">#&gt;  3 9e84c750-e8fa-4502-ae12-cc6c75532f5a Myocastor coypus        0</span>
-<span class="co">#&gt;  4 9e84c750-e8fa-4502-ae12-cc6c75532f5a Ondatra zibethicus      0</span>
-<span class="co">#&gt;  5 9e84c750-e8fa-4502-ae12-cc6c75532f5a Gallinula chloropus     0</span>
-<span class="co">#&gt;  6 fff2f46e-8163-453c-9044-61fb77587f5d Rattus norvegicus       7</span>
-<span class="co">#&gt;  7 fff2f46e-8163-453c-9044-61fb77587f5d Anas platyrhynchos      1</span>
-<span class="co">#&gt;  8 fff2f46e-8163-453c-9044-61fb77587f5d Myocastor coypus        0</span>
-<span class="co">#&gt;  9 fff2f46e-8163-453c-9044-61fb77587f5d Ondatra zibethicus      1</span>
-<span class="co">#&gt; 10 fff2f46e-8163-453c-9044-61fb77587f5d Gallinula chloropus     0</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_obs.html">get_n_obs</a></span><span class="op">(</span><span class="va">mica</span>,
+          <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"locationName"</span>,
+                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_DL_val 5_beek kleine vijver"</span>, <span class="st">"B_DL_val 3_dikke boom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((locationName %in% c("B_DL_val 5_beek kleine vijver","B_DL_val 3_dikke boom")))</span>
+<span class="co">#&gt; # A tibble: 18 × 3</span>
+<span class="co">#&gt;    deploymentID                         scientificName         n</span>
+<span class="co">#&gt;    &lt;chr&gt;                                &lt;chr&gt;              &lt;int&gt;</span>
+<span class="co">#&gt;  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          3</span>
+<span class="co">#&gt;  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     4</span>
+<span class="co">#&gt;  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0</span>
+<span class="co">#&gt;  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0</span>
+<span class="co">#&gt;  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0</span>
+<span class="co">#&gt;  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0</span>
+<span class="co">#&gt;  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0</span>
+<span class="co">#&gt;  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0</span>
+<span class="co">#&gt;  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0</span>
+<span class="co">#&gt; 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
+<span class="co">#&gt; 11 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0</span>
+<span class="co">#&gt; 12 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber           1</span>
+<span class="co">#&gt; 13 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Mustela putorius       3</span>
+<span class="co">#&gt; 14 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Vulpes vulpes          1</span>
+<span class="co">#&gt; 15 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Martes foina           1</span>
+<span class="co">#&gt; 16 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea cinerea          0</span>
+<span class="co">#&gt; 17 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea                  0</span>
+<span class="co">#&gt; 18 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Homo sapiens           0</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_effort.html">get_effort</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
-           <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"location_name"</span>,
-                   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")))</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_effort.html">get_effort</a></span><span class="op">(</span><span class="va">mica</span>,
+           <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"locationName"</span>,
+                   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_DL_val 5_beek kleine vijver"</span>, <span class="st">"B_DL_val 3_dikke boom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((locationName %in% c("B_DL_val 5_beek kleine vijver","B_DL_val 3_dikke boom")))</span>
 <span class="co">#&gt; # A tibble: 2 × 3</span>
-<span class="co">#&gt;   deployment_id                        effort               effort_unit</span>
-<span class="co">#&gt;   &lt;chr&gt;                                &lt;Duration&gt;           &lt;chr&gt;      </span>
-<span class="co">#&gt; 1 9e84c750-e8fa-4502-ae12-cc6c75532f5a 274938s (~3.18 days) Duration   </span>
-<span class="co">#&gt; 2 fff2f46e-8163-453c-9044-61fb77587f5d 356509s (~4.13 days) Duration</span></code></pre></div>
+<span class="co">#&gt;   deploymentID                         effort                effort_unit</span>
+<span class="co">#&gt;   &lt;chr&gt;                                &lt;Duration&gt;            &lt;chr&gt;      </span>
+<span class="co">#&gt; 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 859859s (~1.42 weeks) Duration   </span>
+<span class="co">#&gt; 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372 786802s (~1.3 weeks)  Duration</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
-              <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"location_name"</span>,
-                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")))</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">mica</span>,
+              <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"locationName"</span>,
+                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_DL_val 5_beek kleine vijver"</span>, <span class="st">"B_DL_val 3_dikke boom"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((locationName %in% c("B_DL_val 5_beek kleine vijver","B_DL_val 3_dikke boom")))</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
-<span class="co">#&gt;   deployment_id                            n</span>
+<span class="co">#&gt;   deploymentID                             n</span>
 <span class="co">#&gt;   &lt;chr&gt;                                &lt;int&gt;</span>
-<span class="co">#&gt; 1 9e84c750-e8fa-4502-ae12-cc6c75532f5a     1</span>
-<span class="co">#&gt; 2 fff2f46e-8163-453c-9044-61fb77587f5d     3</span></code></pre></div>
+<span class="co">#&gt; 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8     2</span>
+<span class="co">#&gt; 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372     4</span></code></pre></div>
 </div>
 <div id="multiple-predicates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-predicates" class="anchor"></a>Multiple predicates</h3>
-<p>As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names <em>B_ML_val 06_Oostpolderkreek</em> and <em>B_ML_val 07_Sint-Anna</em>, or deployments souther than 51.28 degrees:</p>
+<p>As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names <em>B_ML_val 06_Oostpolderkreek</em> and <em>B_ML_val 07_Sint-Anna</em>, or deployments souther than 50.7 degrees:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">mica</span>,
               <span class="fu"><a href="../reference/filter_predicate.html">pred_or</a></span><span class="op">(</span>
-                <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"location_name"</span>,
-                        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span>,
-                <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter(((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")) | (latitude &lt; 51.28)))</span>
+                <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"locationName"</span>,
+                        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_DL_val 5_beek kleine vijver"</span>, <span class="st">"B_DL_val 3_dikke boom"</span><span class="op">)</span><span class="op">)</span>,
+                <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">50.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter(((locationName %in% c("B_DL_val 5_beek kleine vijver","B_DL_val 3_dikke boom")) | (latitude &lt; 50.7)))</span>
 <span class="co">#&gt; # A tibble: 3 × 2</span>
-<span class="co">#&gt;   deployment_id                            n</span>
+<span class="co">#&gt;   deploymentID                             n</span>
 <span class="co">#&gt;   &lt;chr&gt;                                &lt;int&gt;</span>
-<span class="co">#&gt; 1 3b94f935-020f-49d8-bd59-1736f8a266c4     5</span>
-<span class="co">#&gt; 2 9e84c750-e8fa-4502-ae12-cc6c75532f5a     1</span>
-<span class="co">#&gt; 3 fff2f46e-8163-453c-9044-61fb77587f5d     3</span></code></pre></div>
+<span class="co">#&gt; 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8     2</span>
+<span class="co">#&gt; 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372     4</span>
+<span class="co">#&gt; 3 62c200a9-0e03-4495-bcd8-032944f6f5a1     2</span></code></pre></div>
 <p>Same syntax is valid for visualizing such information via <code><a href="../reference/map_dep.html">map_dep()</a></code> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/map_dep.html">map_dep</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/map_dep.html">map_dep</a></span><span class="op">(</span><span class="va">mica</span>,
         feature <span class="op">=</span> <span class="st">"n_species"</span>, 
         <span class="fu"><a href="../reference/filter_predicate.html">pred_or</a></span><span class="op">(</span>
-          <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"location_name"</span>,
-                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_ML_val 06_Oostpolderkreek"</span>, <span class="st">"B_ML_val 07_Sint-Anna"</span><span class="op">)</span><span class="op">)</span>,
-          <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter(((location_name %in% c("B_ML_val 06_Oostpolderkreek","B_ML_val 07_Sint-Anna")) | (latitude &lt; 51.28)))</span></code></pre></div>
-<div id="htmlwidget-73f29be6def0635babd4" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-73f29be6def0635babd4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[51.275,51.266,51.279],[3.551,3.591,3.634],[50,18,34],null,null,{"interactive":true,"className":"","stroke":false,"color":["#0000FF","#E3D0FF","#A074FF"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#0000FF","#E3D0FF","#A074FF"],"fillOpacity":0.5},{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,null,null,["<p>deployment ID: 3b94f935-020f-49d8-bd59-1736f8a266c4<\/p><p>location ID: 9a72bd3a-2243-4ced-af9f-34df32483e55<\/p><p>location name: B_ML_val 03_De Val<\/p><p>longitude: 3.551<\/p><p>latitude: 51.275<\/p><p>start: 2020-06-03 20:19:10<\/p><p>end: 2020-07-03 20:57:38<\/p><p>species observed: 5<\/p>","<p>deployment ID: 9e84c750-e8fa-4502-ae12-cc6c75532f5a<\/p><p>location ID: 56128022-6061-4b59-b15a-65da16115780<\/p><p>location name: B_ML_val 06_Oostpolderkreek<\/p><p>longitude: 3.591<\/p><p>latitude: 51.266<\/p><p>start: 2020-06-03 20:04:33<\/p><p>end: 2020-06-07 00:26:51<\/p><p>species observed: 1<\/p>","<p>deployment ID: fff2f46e-8163-453c-9044-61fb77587f5d<\/p><p>location ID: 7c989f1e-4fcb-4584-ae47-cdcdc6e34d06<\/p><p>location name: B_ML_val 07_Sint-Anna<\/p><p>longitude: 3.634<\/p><p>latitude: 51.279<\/p><p>start: 2020-06-03 21:12:52<\/p><p>end: 2020-06-08 00:14:41<\/p><p>species observed: 3<\/p>"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #FFFFFF 0%, #E3D0FF 20%, #C4A2FF 40%, #A074FF 60%, #7145FF 80%, #0000FF 100%, #0000FF "],"labels":["0","1","2","3","4","5"],"na_color":null,"na_label":"","opacity":1,"position":"bottomright","type":"numeric","title":"Number of detected species","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[51.266,51.279],"lng":[3.551,3.634]}},"evals":[],"jsHooks":[]}</script><p>Notice also that you can pass as much predicates as you want to get_* functions or <code><a href="../reference/map_dep.html">map_dep()</a></code> by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51.28 degrees AND eastern than 3.59 degrees, you can simplify this:</p>
+          <span class="fu"><a href="../reference/filter_predicate.html">pred_in</a></span><span class="op">(</span><span class="st">"locationName"</span>,
+                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B_DL_val 5_beek kleine vijver"</span>, <span class="st">"B_DL_val 3_dikke boom"</span><span class="op">)</span><span class="op">)</span>,
+          <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">50.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter(((locationName %in% c("B_DL_val 5_beek kleine vijver","B_DL_val 3_dikke boom")) | (latitude &lt; 50.7)))</span></code></pre></div>
+<div id="htmlwidget-2ffdb50f8733b88bc744" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2ffdb50f8733b88bc744">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[51.181,51.184,50.699],[5.655,5.659,4.013],[30,50,30],null,null,{"interactive":true,"className":"","stroke":false,"color":["#B38BFF","#0000FF","#B38BFF"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#B38BFF","#0000FF","#B38BFF"],"fillOpacity":0.5},{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,null,null,["<p>deployment ID: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8<\/p><p>location ID: 2df5259b-b4b4-4f43-8cf7-effcced06d6f<\/p><p>location name: B_DL_val 5_beek kleine vijver<\/p><p>longitude: 5.655<\/p><p>latitude: 51.181<\/p><p>start: 2020-07-29 05:29:41<\/p><p>end: 2020-08-08 04:20:40<\/p><p>species observed: 2<\/p>","<p>deployment ID: 577b543a-2cf1-4b23-b6d2-cda7e2eac372<\/p><p>location ID: ff1535c0-6b5d-44be-b3ef-c4d4204dad74<\/p><p>location name: B_DL_val 3_dikke boom<\/p><p>longitude: 5.659<\/p><p>latitude: 51.184<\/p><p>start: 2020-06-19 21:00:00<\/p><p>end: 2020-06-28 23:33:22<\/p><p>species observed: 4<\/p>","<p>deployment ID: 62c200a9-0e03-4495-bcd8-032944f6f5a1<\/p><p>location ID: ce943ced-1bcf-4140-9a2e-e8ee5e8c10e6<\/p><p>location name: B_DM_val 4_'t WAD<\/p><p>longitude: 4.013<\/p><p>latitude: 50.699<\/p><p>start: 2021-03-27 20:38:18<\/p><p>end: 2021-04-18 21:25:00<\/p><p>species observed: 2<\/p>"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #FFFFFF 0%, #EEE2FF 12.5%, #DCC4FF 25%, #C8A8FF 37.5%, #B38BFF 50%, #9B6FFF 62.5%, #7E52FF 75%, #5932FF 87.5%, #0000FF 100%, #0000FF "],"labels":["0.0","0.5","1.0","1.5","2.0","2.5","3.0","3.5","4.0"],"na_color":null,"na_label":"","opacity":1,"position":"bottomright","type":"numeric","title":"Number of detected species","extra":{"p_1":0,"p_n":1},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[50.699,51.184],"lng":[4.013,5.659]}},"evals":[],"jsHooks":[]}</script><p>Notice also that you can pass as much predicates as you want to get_* functions or <code><a href="../reference/map_dep.html">map_dep()</a></code> by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51 degrees AND eastern than 4 degrees, you can simplify this:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
-              <span class="fu"><a href="../reference/filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,
-                       <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.59</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter(((latitude &lt; 51.28) &amp; (longitude &gt; 3.59)))</span>
-<span class="co">#&gt; # A tibble: 2 × 2</span>
-<span class="co">#&gt;   deployment_id                            n</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">mica</span>,
+              <span class="fu"><a href="../reference/filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51</span><span class="op">)</span>,
+                       <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter(((latitude &lt; 51) &amp; (longitude &gt; 4)))</span>
+<span class="co">#&gt; # A tibble: 1 × 2</span>
+<span class="co">#&gt;   deploymentID                             n</span>
 <span class="co">#&gt;   &lt;chr&gt;                                &lt;int&gt;</span>
-<span class="co">#&gt; 1 9e84c750-e8fa-4502-ae12-cc6c75532f5a     1</span>
-<span class="co">#&gt; 2 fff2f46e-8163-453c-9044-61fb77587f5d     3</span></code></pre></div>
+<span class="co">#&gt; 1 62c200a9-0e03-4495-bcd8-032944f6f5a1     2</span></code></pre></div>
 <p>by omitting the <code><a href="../reference/filter_predicate.html">pred_and()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">camtrapdp</span>,
-              <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,
-              <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.59</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter((latitude &lt; 51.28) &amp; (longitude &gt; 3.59))</span>
-<span class="co">#&gt; # A tibble: 2 × 2</span>
-<span class="co">#&gt;   deployment_id                            n</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_n_species.html">get_n_species</a></span><span class="op">(</span><span class="va">mica</span>,
+              <span class="fu"><a href="../reference/filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51</span><span class="op">)</span>,
+              <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((latitude &lt; 51) &amp; (longitude &gt; 4))</span>
+<span class="co">#&gt; # A tibble: 1 × 2</span>
+<span class="co">#&gt;   deploymentID                             n</span>
 <span class="co">#&gt;   &lt;chr&gt;                                &lt;int&gt;</span>
-<span class="co">#&gt; 1 9e84c750-e8fa-4502-ae12-cc6c75532f5a     1</span>
-<span class="co">#&gt; 2 fff2f46e-8163-453c-9044-61fb77587f5d     3</span></code></pre></div>
+<span class="co">#&gt; 1 62c200a9-0e03-4495-bcd8-032944f6f5a1     2</span></code></pre></div>
 <p>This is similar to the behvaior of dplyr’s <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> function, where this:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">camtrapdp</span><span class="op">$</span><span class="va">deployments</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">latitude</span> <span class="op">&lt;</span> <span class="fl">51.28</span> <span class="op">&amp;</span> <span class="va">longitude</span> <span class="op">&gt;</span> <span class="fl">3.59</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2 × 16</span>
-<span class="co">#&gt;   deployment_id location_id location_name longitude latitude start              </span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt; &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 9e84c750-e8f… 56128022-6… B_ML_val 06_…      3.59     51.3 2020-06-03 20:04:33</span>
-<span class="co">#&gt; 2 fff2f46e-816… 7c989f1e-4… B_ML_val 07_…      3.63     51.3 2020-06-03 21:12:52</span>
-<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   camera_model &lt;chr&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   bait_use &lt;fct&gt;, feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span class="va">mica</span><span class="op">$</span><span class="va">deployments</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">latitude</span> <span class="op">&lt;</span> <span class="fl">51</span> <span class="op">&amp;</span> <span class="va">longitude</span> <span class="op">&gt;</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 × 24</span>
+<span class="co">#&gt;   deploymentID    locationID    locationName longitude latitude coordinateUncer…</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 62c200a9-0e03-… ce943ced-1bc… B_DM_val 4_…      4.01     50.7               NA</span>
+<span class="co">#&gt; # … with 18 more variables: start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span>
+<span class="co">#&gt; #   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span>
+<span class="co">#&gt; #   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></code></pre></div>
 <p>is exactly the same as this:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">camtrapdp</span><span class="op">$</span><span class="va">deployments</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">latitude</span> <span class="op">&lt;</span> <span class="fl">51.28</span>, <span class="va">longitude</span> <span class="op">&gt;</span> <span class="fl">3.59</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2 × 16</span>
-<span class="co">#&gt;   deployment_id location_id location_name longitude latitude start              </span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt; &lt;dttm&gt;             </span>
-<span class="co">#&gt; 1 9e84c750-e8f… 56128022-6… B_ML_val 06_…      3.59     51.3 2020-06-03 20:04:33</span>
-<span class="co">#&gt; 2 fff2f46e-816… 7c989f1e-4… B_ML_val 07_…      3.63     51.3 2020-06-03 21:12:52</span>
-<span class="co">#&gt; # … with 10 more variables: end &lt;dttm&gt;, setup_by &lt;chr&gt;, camera_id &lt;chr&gt;,</span>
-<span class="co">#&gt; #   camera_model &lt;chr&gt;, camera_interval &lt;dbl&gt;, camera_height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   bait_use &lt;fct&gt;, feature_type &lt;fct&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span class="va">mica</span><span class="op">$</span><span class="va">deployments</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">latitude</span> <span class="op">&lt;</span> <span class="fl">51</span>, <span class="va">longitude</span> <span class="op">&gt;</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 × 24</span>
+<span class="co">#&gt;   deploymentID    locationID    locationName longitude latitude coordinateUncer…</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 62c200a9-0e03-… ce943ced-1bc… B_DM_val 4_…      4.01     50.7               NA</span>
+<span class="co">#&gt; # … with 18 more variables: start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span>
+<span class="co">#&gt; #   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span>
+<span class="co">#&gt; #   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></code></pre></div>
 <p>Happy filtering!</p>
 </div>
 </div>
@@ -500,7 +508,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://twitter.com/damianozingaro">Damiano Oldoni</a>.</p>
+  <p>Developed by <a href="https://twitter.com/damianozingaro">Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

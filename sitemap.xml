@@ -7,9 +7,6 @@
     <loc>https://inbo.github.io/camtrapdp/reference/apply_filter_predicate.html</loc>
   </url>
   <url>
-    <loc>https://inbo.github.io/camtrapdp/reference/camtrapdp.html</loc>
-  </url>
-  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/check_filter_arg.html</loc>
   </url>
   <url>
@@ -71,6 +68,9 @@
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/map_dep.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/mica.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/pred_primitive.html</loc>

@@ -75,7 +75,7 @@ observations are shown as gray circles and a message is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -150,10 +150,10 @@ observations are shown as gray circles and a message is returned.</p>
   <span class='va'>...</span>,
   species <span class='op'>=</span> <span class='cn'>NULL</span>,
   sex <span class='op'>=</span> <span class='cn'>NULL</span>,
-  age <span class='op'>=</span> <span class='cn'>NULL</span>,
+  life_stage <span class='op'>=</span> <span class='cn'>NULL</span>,
   effort_unit <span class='op'>=</span> <span class='cn'>NULL</span>,
   cluster <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"species"</span>, <span class='st'>"deployment_id"</span>, <span class='st'>"location_id"</span>, <span class='st'>"location_name"</span>,
+  hover_columns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n"</span>, <span class='st'>"species"</span>, <span class='st'>"deploymentID"</span>, <span class='st'>"locationID"</span>, <span class='st'>"locationName"</span>,
     <span class='st'>"latitude"</span>, <span class='st'>"longitude"</span>, <span class='st'>"start"</span>, <span class='st'>"end"</span><span class='op'>)</span>,
   relative_scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
   max_scale <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -166,13 +166,7 @@ observations are shown as gray circles and a message is returned.</p>
     <tr>
       <th>datapkg</th>
       <td><p>a camera trap data package object, as returned by
-<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>, i.e. a list containing three data.frames:</p><ol>
-<li><p><code>observations</code></p></li>
-<li><p><code>deployments</code></p></li>
-<li><p><code>multimedia</code></p></li>
-</ol>
-
-<p>and a list with metadata: <code>datapackage</code></p></td>
+<code><a href='read_camtrap_dp.html'>read_camtrap_dp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>feature</th>
@@ -200,10 +194,10 @@ If <code>NULL</code>, default, all observations of all sex classes are taken int
 account. Optional argument for <code>n_obs</code> and <code>n_individuals</code></p></td>
     </tr>
     <tr>
-      <th>age</th>
-      <td><p>a character vector defining the age class to filter on, e.g.
-<code>"adult"</code> or <code><a href='https://rdrr.io/r/base/c.html'>c("subadult", "adult")</a></code>. If <code>NULL</code>, default, all observations
-of all age classes are taken into account. Optional argument for <code>n_obs</code>
+      <th>life_stage</th>
+      <td><p>a character vector defining the life stage class to filter on, e.g.
+<code>"adult"</code> or <code>c("subadult", "adult")</code>. If <code>NULL</code>, default, all observations
+of all life stage classes are taken into account. Optional argument for <code>n_obs</code>
 and <code>n_individuals</code></p></td>
     </tr>
     <tr>
@@ -237,11 +231,11 @@ created internally by a <code>get_*()</code> function)</p></li>
 <li><p><code>species</code>: species name(s)</p></li>
 <li><p><code>start</code>: start deployment</p></li>
 <li><p><code>end</code>: end deployment -</p></li>
-<li><p><code>deployment_id</code> deployment unique identifier</p></li>
-<li><p><code>location_id</code> location unique identifier</p></li>
-<li><p><code>location_name</code> location name</p></li>
-<li><p><code>latitude</code>:</p></li>
-<li><p><code>longitude</code>:</p></li>
+<li><p><code>deploymentID</code> deployment unique identifier</p></li>
+<li><p><code>locationID</code> location unique identifier</p></li>
+<li><p><code>locationName</code> location name</p></li>
+<li><p><code>latitude</code></p></li>
+<li><p><code>longitude</code></p></li>
 </ul>
 
 <p>See <a href='https://tdwg.github.io/camtrap-dp/data/#deployments'>section Deployment of Camtrap DP standard</a> for the full
@@ -265,7 +259,7 @@ of the circle radius. The lower value is used for deployments with zero
 feature value, i.e. no observations, no identified species, zero RAI or
 zero effort. The upper value is used for the deployment(s) with the highest
 feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_scale</code> (<code>relative_scale</code>
-= <code>FALSE</code>). Default: <code><a href='https://rdrr.io/r/base/c.html'>c(10, 50)</a></code></p></td>
+= <code>FALSE</code>). Default: <code>c(10, 50)</code></p></td>
     </tr>
     </table>
 
@@ -289,7 +283,7 @@ feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_sca
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>.</p>
+  <p>Developed by <a href='https://twitter.com/damianozingaro'>Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

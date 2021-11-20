@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 class="author">Damiano Oldoni</h4>
             
-            <h4 class="date">2021-09-10</h4>
+            <h4 class="date">2021-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtrapdp/blob/master/vignettes/record-table.Rmd"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -131,26 +131,32 @@
 <blockquote>
 <p>a record table from camera trap images or videos</p>
 </blockquote>
-<p>At a certain extent the aggregation of <code>multimedia</code> (e.g. images) into <code>observations</code> is already done in a camera trap data package.</p>
+<p>At a certain extent the aggregation of <code>media</code> (e.g. images) into <code>observations</code> is already done in a camera trap data package.</p>
 <p>If we consider that all observations are independent, then, it will be sufficient to run the following:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 267 × 11</span>
-<span class="co">#&gt;    Station            Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 B_ML_val 03_De Val Anas p… 2020-06-03 20:27:31 2020-06-03 20:2…               0</span>
-<span class="co">#&gt;  2 B_ML_val 03_De Val Anas p… 2020-06-08 20:22:13 2020-06-08 20:2…          431682</span>
-<span class="co">#&gt;  3 B_ML_val 03_De Val Anas p… 2020-06-10 20:30:59 2020-06-10 20:3…          173326</span>
-<span class="co">#&gt;  4 B_ML_val 03_De Val Anas p… 2020-06-11 20:36:45 2020-06-11 20:3…           86746</span>
-<span class="co">#&gt;  5 B_ML_val 03_De Val Anas p… 2020-06-11 20:47:05 2020-06-11 20:4…             620</span>
-<span class="co">#&gt;  6 B_ML_val 03_De Val Anas p… 2020-06-18 21:07:48 2020-06-18 21:0…          606043</span>
-<span class="co">#&gt;  7 B_ML_val 03_De Val Anas p… 2020-06-22 20:17:01 2020-06-22 20:1…          342553</span>
-<span class="co">#&gt;  8 B_ML_val 03_De Val Anas p… 2020-06-23 03:29:34 2020-06-23 03:2…           25953</span>
-<span class="co">#&gt;  9 B_ML_val 03_De Val Anas p… 2020-06-27 03:28:59 2020-06-27 03:2…          345565</span>
-<span class="co">#&gt; 10 B_ML_val 03_De Val Anas p… 2020-06-27 03:40:16 2020-06-27 03:4…             677</span>
-<span class="co">#&gt; # … with 257 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
-<span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 17 × 11</span>
+<span class="co">#&gt;    Station       Species    DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_DL_val 5_b… Anas plat… 2020-07-31 04:43:33 2020-07-31 04:4…               0</span>
+<span class="co">#&gt;  2 B_DL_val 5_b… Anas plat… 2020-08-02 05:00:14 2020-08-02 05:0…          173801</span>
+<span class="co">#&gt;  3 B_DL_val 5_b… Anas plat… 2020-08-03 05:09:12 2020-08-03 05:0…           86938</span>
+<span class="co">#&gt;  4 B_DL_val 5_b… Anas plat… 2020-08-04 05:04:09 2020-08-04 05:0…           86097</span>
+<span class="co">#&gt;  5 B_DL_val 5_b… Anas stre… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  6 B_DL_val 5_b… Anas stre… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  7 B_DL_val 5_b… Anas stre… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  8 B_DM_val 4_'… Ardea      2021-04-05 19:08:33 2021-04-05 19:0…               0</span>
+<span class="co">#&gt;  9 B_DM_val 4_'… Ardea      2021-04-11 19:43:09 2021-04-11 19:4…          520476</span>
+<span class="co">#&gt; 10 B_DM_val 4_'… Ardea cin… 2021-03-27 20:38:18 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; 11 B_DL_val 3_d… Castor fi… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; 12 Mica Viane    Homo sapi… 2019-10-23 10:19:44 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; 13 B_DL_val 3_d… Martes fo… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; 14 B_DL_val 3_d… Mustela p… 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; 15 B_DL_val 3_d… Mustela p… 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 16 B_DL_val 3_d… Mustela p… 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 17 B_DL_val 3_d… Vulpes vu… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
+<span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 <p>The function returns the same columns as the camtrapR’s function <code>recordTable()</code>. The following mapping is applied:</p>
 <table class="table">
 <colgroup>
@@ -164,7 +170,7 @@
 <tbody>
 <tr class="odd">
 <td><code>Station</code></td>
-<td>the station name as provided by argument <code>stationCol</code> (default: <code>location_name</code>). It has to be a column of <code>deployments</code>
+<td>the station name as provided by argument <code>stationCol</code> (default: <code>locationName</code>). It has to be a column of <code>deployments</code>
 </td>
 </tr>
 <tr class="even">
@@ -206,12 +212,12 @@
 </tr>
 <tr class="even">
 <td><code>Directory</code></td>
-<td>a list with file paths as stored in column <code>file_path</code> of <code>multimedia</code>
+<td>a list with file paths as stored in column <code>file_path</code> of <code>media</code>
 </td>
 </tr>
 <tr class="odd">
 <td><code>FileName</code></td>
-<td>a list with file paths as stored in column <code>file_path</code> of <code>multimedia</code>
+<td>a list with file paths as stored in column <code>file_path</code> of <code>media</code>
 </td>
 </tr>
 </tbody>
@@ -221,115 +227,138 @@
 <h3 class="hasAnchor">
 <a href="#temporal-independence" class="anchor"></a>Temporal independence</h3>
 <p>As described in <a href="https://jniedballa.github.io/camtrapR/articles/camtrapr3.html">Chapter 3</a> of camptrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for <code>recordTable()</code>, this is achieved via argument <code>minDeltaTime</code>, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.</p>
-<p>Again, as for <code>recordTable()</code>, we provide an argument, <code>deltaTimeComparedTo</code>, to further control how independence between records is assessed. Setting it to <code>“lastRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last recorded multimedia file. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
+<p>Again, as for <code>recordTable()</code>, we provide an argument, <code>deltaTimeComparedTo</code>, to further control how independence between records is assessed. Setting it to <code>“lastRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last recorded media file. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, 
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, 
                  minDeltaTime <span class="op">=</span> <span class="fl">60</span>, 
                  deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span>
-<span class="co">#&gt; Number of not independent observations to be removed: 138</span>
-<span class="co">#&gt; # A tibble: 129 × 11</span>
-<span class="co">#&gt;    Station            Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 B_ML_val 03_De Val Anas p… 2020-06-03 20:27:31 2020-06-03 20:2…               0</span>
-<span class="co">#&gt;  2 B_ML_val 03_De Val Anas p… 2020-06-08 20:22:13 2020-06-08 20:2…          431682</span>
-<span class="co">#&gt;  3 B_ML_val 03_De Val Anas p… 2020-06-10 20:30:59 2020-06-10 20:3…          173326</span>
-<span class="co">#&gt;  4 B_ML_val 03_De Val Anas p… 2020-06-11 20:36:45 2020-06-11 20:3…           86746</span>
-<span class="co">#&gt;  5 B_ML_val 03_De Val Anas p… 2020-06-18 21:07:48 2020-06-18 21:0…          606663</span>
-<span class="co">#&gt;  6 B_ML_val 03_De Val Anas p… 2020-06-22 20:17:01 2020-06-22 20:1…          342553</span>
-<span class="co">#&gt;  7 B_ML_val 03_De Val Anas p… 2020-06-23 03:29:34 2020-06-23 03:2…           25953</span>
-<span class="co">#&gt;  8 B_ML_val 03_De Val Anas p… 2020-06-27 03:28:59 2020-06-27 03:2…          345565</span>
-<span class="co">#&gt;  9 B_ML_val 03_De Val Anas p… 2020-06-27 20:20:38 2020-06-27 20:2…           60699</span>
-<span class="co">#&gt; 10 B_ML_val 03_De Val Anas p… 2020-06-29 02:23:01 2020-06-29 02:2…          108143</span>
-<span class="co">#&gt; # … with 119 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
-<span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 17 × 11</span>
+<span class="co">#&gt;    Station       Species    DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_DL_val 5_b… Anas plat… 2020-07-31 04:43:33 2020-07-31 04:4…               0</span>
+<span class="co">#&gt;  2 B_DL_val 5_b… Anas plat… 2020-08-02 05:00:14 2020-08-02 05:0…          173801</span>
+<span class="co">#&gt;  3 B_DL_val 5_b… Anas plat… 2020-08-03 05:09:12 2020-08-03 05:0…           86938</span>
+<span class="co">#&gt;  4 B_DL_val 5_b… Anas plat… 2020-08-04 05:04:09 2020-08-04 05:0…           86097</span>
+<span class="co">#&gt;  5 B_DL_val 5_b… Anas stre… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  6 B_DL_val 5_b… Anas stre… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  7 B_DL_val 5_b… Anas stre… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  8 B_DM_val 4_'… Ardea      2021-04-05 19:08:33 2021-04-05 19:0…               0</span>
+<span class="co">#&gt;  9 B_DM_val 4_'… Ardea      2021-04-11 19:43:09 2021-04-11 19:4…          520476</span>
+<span class="co">#&gt; 10 B_DM_val 4_'… Ardea cin… 2021-03-27 20:38:18 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; 11 B_DL_val 3_d… Castor fi… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; 12 Mica Viane    Homo sapi… 2019-10-23 10:19:44 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; 13 B_DL_val 3_d… Martes fo… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; 14 B_DL_val 3_d… Mustela p… 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; 15 B_DL_val 3_d… Mustela p… 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 16 B_DL_val 3_d… Mustela p… 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 17 B_DL_val 3_d… Vulpes vu… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
+<span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 <p>Setting <code>deltaTimeComparedTo</code> to <code>“lastIndependentRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last independent record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last observation. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, 
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, 
                  minDeltaTime <span class="op">=</span> <span class="fl">60</span>, 
                  deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span>
-<span class="co">#&gt; Number of not independent observations to be removed: 136</span>
-<span class="co">#&gt; # A tibble: 131 × 11</span>
-<span class="co">#&gt;    Station            Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 B_ML_val 03_De Val Anas p… 2020-06-03 20:27:31 2020-06-03 20:2…               0</span>
-<span class="co">#&gt;  2 B_ML_val 03_De Val Anas p… 2020-06-08 20:22:13 2020-06-08 20:2…          431682</span>
-<span class="co">#&gt;  3 B_ML_val 03_De Val Anas p… 2020-06-10 20:30:59 2020-06-10 20:3…          173326</span>
-<span class="co">#&gt;  4 B_ML_val 03_De Val Anas p… 2020-06-11 20:36:45 2020-06-11 20:3…           86746</span>
-<span class="co">#&gt;  5 B_ML_val 03_De Val Anas p… 2020-06-18 21:07:48 2020-06-18 21:0…          606663</span>
-<span class="co">#&gt;  6 B_ML_val 03_De Val Anas p… 2020-06-22 20:17:01 2020-06-22 20:1…          342553</span>
-<span class="co">#&gt;  7 B_ML_val 03_De Val Anas p… 2020-06-23 03:29:34 2020-06-23 03:2…           25953</span>
-<span class="co">#&gt;  8 B_ML_val 03_De Val Anas p… 2020-06-27 03:28:59 2020-06-27 03:2…          345565</span>
-<span class="co">#&gt;  9 B_ML_val 03_De Val Anas p… 2020-06-27 20:20:38 2020-06-27 20:2…           60699</span>
-<span class="co">#&gt; 10 B_ML_val 03_De Val Anas p… 2020-06-29 02:23:01 2020-06-29 02:2…          108143</span>
-<span class="co">#&gt; # … with 121 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
-<span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 17 × 11</span>
+<span class="co">#&gt;    Station       Species    DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_DL_val 5_b… Anas plat… 2020-07-31 04:43:33 2020-07-31 04:4…               0</span>
+<span class="co">#&gt;  2 B_DL_val 5_b… Anas plat… 2020-08-02 05:00:14 2020-08-02 05:0…          173801</span>
+<span class="co">#&gt;  3 B_DL_val 5_b… Anas plat… 2020-08-03 05:09:12 2020-08-03 05:0…           86938</span>
+<span class="co">#&gt;  4 B_DL_val 5_b… Anas plat… 2020-08-04 05:04:09 2020-08-04 05:0…           86097</span>
+<span class="co">#&gt;  5 B_DL_val 5_b… Anas stre… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  6 B_DL_val 5_b… Anas stre… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  7 B_DL_val 5_b… Anas stre… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  8 B_DM_val 4_'… Ardea      2021-04-05 19:08:33 2021-04-05 19:0…               0</span>
+<span class="co">#&gt;  9 B_DM_val 4_'… Ardea      2021-04-11 19:43:09 2021-04-11 19:4…          520476</span>
+<span class="co">#&gt; 10 B_DM_val 4_'… Ardea cin… 2021-03-27 20:38:18 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; 11 B_DL_val 3_d… Castor fi… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; 12 Mica Viane    Homo sapi… 2019-10-23 10:19:44 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; 13 B_DL_val 3_d… Martes fo… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; 14 B_DL_val 3_d… Mustela p… 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; 15 B_DL_val 3_d… Mustela p… 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 16 B_DL_val 3_d… Mustela p… 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 17 B_DL_val 3_d… Vulpes vu… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
+<span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 </div>
 <div id="exclude-some-species" class="section level3">
 <h3 class="hasAnchor">
 <a href="#exclude-some-species" class="anchor"></a>Exclude some species</h3>
 <p>Similar to <code>recordTable()</code>, the function <code><a href="../reference/get_record_table.html">get_record_table()</a></code> allows you also to exclude some species. Both vernacular names and scientific names are allowed (case insensitive):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BROWN rat"</span>, <span class="st">"Anas platyrhynchos"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Scientific name of BROWN rat: Rattus norvegicus</span>
-<span class="co">#&gt; # A tibble: 8 × 11</span>
-<span class="co">#&gt;   Station                Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;   &lt;chr&gt;                  &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 B_ML_val 03_De Val     Gallin… 2020-07-02 03:40:40 2020-07-02 03:4…               0</span>
-<span class="co">#&gt; 2 B_ML_val 03_De Val     Myocas… 2020-06-20 20:17:11 2020-06-20 20:1…               0</span>
-<span class="co">#&gt; 3 B_ML_val 03_De Val     Myocas… 2020-07-02 01:05:28 2020-07-02 01:0…          967697</span>
-<span class="co">#&gt; 4 B_ML_val 03_De Val     Ondatr… 2020-06-20 20:17:11 2020-06-20 20:1…               0</span>
-<span class="co">#&gt; 5 B_ML_val 03_De Val     Ondatr… 2020-07-02 01:05:28 2020-07-02 01:0…          967697</span>
-<span class="co">#&gt; 6 B_ML_val 03_De Val     Ondatr… 2020-07-03 00:21:09 2020-07-03 00:2…           83741</span>
-<span class="co">#&gt; 7 B_ML_val 05_molenkreek Ondatr… 2020-06-06 21:28:00 2020-06-06 21:2…               0</span>
-<span class="co">#&gt; 8 B_ML_val 07_Sint-Anna  Ondatr… 2020-06-03 21:26:16 2020-06-03 21:2…               0</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"grey heron"</span>, <span class="st">"Anas platyrhynchos"</span>, <span class="st">"mens"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Scientific name of grey heron: Ardea cinerea</span>
+<span class="co">#&gt; Scientific name of mens: Homo sapiens</span>
+<span class="co">#&gt; # A tibble: 11 × 11</span>
+<span class="co">#&gt;    Station       Species    DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_DL_val 5_b… Anas stre… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  2 B_DL_val 5_b… Anas stre… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  3 B_DL_val 5_b… Anas stre… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  4 B_DM_val 4_'… Ardea      2021-04-05 19:08:33 2021-04-05 19:0…               0</span>
+<span class="co">#&gt;  5 B_DM_val 4_'… Ardea      2021-04-11 19:43:09 2021-04-11 19:4…          520476</span>
+<span class="co">#&gt;  6 B_DL_val 3_d… Castor fi… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt;  7 B_DL_val 3_d… Martes fo… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt;  8 B_DL_val 3_d… Mustela p… 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt;  9 B_DL_val 3_d… Mustela p… 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 10 B_DL_val 3_d… Mustela p… 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 11 B_DL_val 3_d… Vulpes vu… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
 <span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 </div>
 <div id="station-names" class="section level3">
 <h3 class="hasAnchor">
 <a href="#station-names" class="anchor"></a>Station names</h3>
-<p>The column containing the station names can also be defined by the user if the default value, <code>"location_name"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>location_id</code> is used:</p>
+<p>The column containing the station names can also be defined by the user if the default value, <code>"locationName"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>locationID</code> is used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, stationCol <span class="op">=</span> <span class="st">"location_id"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 267 × 11</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, stationCol <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 17 × 11</span>
 <span class="co">#&gt;    Station        Species   DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;     &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 56128022-6061… Anas pla… 2020-06-03 20:04:33 2020-06-03 20:0…               0</span>
-<span class="co">#&gt;  2 56128022-6061… Anas pla… 2020-06-04 02:10:17 2020-06-04 02:1…           21944</span>
-<span class="co">#&gt;  3 56128022-6061… Anas pla… 2020-06-04 03:36:22 2020-06-04 03:3…            5165</span>
-<span class="co">#&gt;  4 56128022-6061… Anas pla… 2020-06-06 01:51:53 2020-06-06 01:5…          166531</span>
-<span class="co">#&gt;  5 7c989f1e-4fcb… Anas pla… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
-<span class="co">#&gt;  6 7c989f1e-4fcb… Anas pla… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
-<span class="co">#&gt;  7 91d9abdd-da56… Anas pla… 2020-06-03 20:10:18 2020-06-03 20:1…               0</span>
-<span class="co">#&gt;  8 91d9abdd-da56… Anas pla… 2020-06-03 20:57:50 2020-06-03 20:5…            2852</span>
-<span class="co">#&gt;  9 91d9abdd-da56… Anas pla… 2020-06-03 23:19:10 2020-06-03 23:1…            8480</span>
-<span class="co">#&gt; 10 91d9abdd-da56… Anas pla… 2020-06-04 21:05:24 2020-06-04 21:0…           78374</span>
-<span class="co">#&gt; # … with 257 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span>
-<span class="co">#&gt; #   FileName &lt;list&gt;</span></code></pre></div>
+<span class="co">#&gt;  1 2df5259b-b4b4… Anas pla… 2020-07-31 04:43:33 2020-07-31 04:4…               0</span>
+<span class="co">#&gt;  2 2df5259b-b4b4… Anas pla… 2020-08-02 05:00:14 2020-08-02 05:0…          173801</span>
+<span class="co">#&gt;  3 2df5259b-b4b4… Anas pla… 2020-08-03 05:09:12 2020-08-03 05:0…           86938</span>
+<span class="co">#&gt;  4 2df5259b-b4b4… Anas pla… 2020-08-04 05:04:09 2020-08-04 05:0…           86097</span>
+<span class="co">#&gt;  5 2df5259b-b4b4… Anas str… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  6 2df5259b-b4b4… Anas str… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  7 2df5259b-b4b4… Anas str… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  8 ce943ced-1bcf… Ardea     2021-04-05 19:08:33 2021-04-05 19:0…               0</span>
+<span class="co">#&gt;  9 ce943ced-1bcf… Ardea     2021-04-11 19:43:09 2021-04-11 19:4…          520476</span>
+<span class="co">#&gt; 10 ce943ced-1bcf… Ardea ci… 2021-03-27 20:38:18 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; 11 ff1535c0-6b5d… Castor f… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; 12 3232bcfd-5dfa… Homo sap… 2019-10-23 10:19:44 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; 13 ff1535c0-6b5d… Martes f… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; 14 ff1535c0-6b5d… Mustela … 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; 15 ff1535c0-6b5d… Mustela … 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 16 ff1535c0-6b5d… Mustela … 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 17 ff1535c0-6b5d… Vulpes v… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
+<span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 </div>
 <div id="use-filter-predicates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#use-filter-predicates" class="anchor"></a>Use filter predicates</h3>
-<p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with longitude equal or higher than 3.6:</p>
+<p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">camtrapdp</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.6</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% filter((longitude &gt; 3.6))</span>
-<span class="co">#&gt; # A tibble: 10 × 11</span>
-<span class="co">#&gt;    Station               Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;   &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 B_ML_val 07_Sint-Anna Anas p… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
-<span class="co">#&gt;  2 B_ML_val 07_Sint-Anna Anas p… 2020-06-05 20:24:17 2020-06-05 20:2…               0</span>
-<span class="co">#&gt;  3 B_ML_val 07_Sint-Anna Ondatr… 2020-06-03 21:26:16 2020-06-03 21:2…               0</span>
-<span class="co">#&gt;  4 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 21:12:52 2020-06-03 21:1…               0</span>
-<span class="co">#&gt;  5 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 22:00:47 2020-06-03 22:0…            2875</span>
-<span class="co">#&gt;  6 B_ML_val 07_Sint-Anna Rattus… 2020-06-03 22:37:18 2020-06-03 22:3…            2191</span>
-<span class="co">#&gt;  7 B_ML_val 07_Sint-Anna Rattus… 2020-06-04 20:55:51 2020-06-04 20:5…           80313</span>
-<span class="co">#&gt;  8 B_ML_val 07_Sint-Anna Rattus… 2020-06-05 22:44:37 2020-06-05 22:4…           92926</span>
-<span class="co">#&gt;  9 B_ML_val 07_Sint-Anna Rattus… 2020-06-05 23:20:45 2020-06-05 23:2…            2168</span>
-<span class="co">#&gt; 10 B_ML_val 07_Sint-Anna Rattus… 2020-06-06 01:19:03 2020-06-06 01:1…            7098</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; df %&gt;% filter((latitude &gt; 51.18))</span>
+<span class="co">#&gt; # A tibble: 13 × 11</span>
+<span class="co">#&gt;    Station       Species    DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 B_DL_val 5_b… Anas plat… 2020-07-31 04:43:33 2020-07-31 04:4…               0</span>
+<span class="co">#&gt;  2 B_DL_val 5_b… Anas plat… 2020-08-02 05:00:14 2020-08-02 05:0…          173801</span>
+<span class="co">#&gt;  3 B_DL_val 5_b… Anas plat… 2020-08-03 05:09:12 2020-08-03 05:0…           86938</span>
+<span class="co">#&gt;  4 B_DL_val 5_b… Anas plat… 2020-08-04 05:04:09 2020-08-04 05:0…           86097</span>
+<span class="co">#&gt;  5 B_DL_val 5_b… Anas stre… 2020-07-29 05:46:48 2020-07-29 05:4…               0</span>
+<span class="co">#&gt;  6 B_DL_val 5_b… Anas stre… 2020-07-30 04:29:31 2020-07-30 04:2…           81763</span>
+<span class="co">#&gt;  7 B_DL_val 5_b… Anas stre… 2020-08-05 05:02:01 2020-08-05 05:0…          520350</span>
+<span class="co">#&gt;  8 B_DL_val 3_d… Castor fi… 2020-06-19 22:05:55 2020-06-19 22:0…               0</span>
+<span class="co">#&gt;  9 B_DL_val 3_d… Martes fo… 2020-06-28 22:01:12 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; 10 B_DL_val 3_d… Mustela p… 2020-06-19 22:31:51 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; 11 B_DL_val 3_d… Mustela p… 2020-06-23 23:33:53 2020-06-23 23:3…          349322</span>
+<span class="co">#&gt; 12 B_DL_val 3_d… Mustela p… 2020-06-28 23:33:16 2020-06-28 23:3…          431963</span>
+<span class="co">#&gt; 13 B_DL_val 3_d… Vulpes vu… 2020-06-26 02:09:25 2020-06-26 02:0…               0</span>
 <span class="co">#&gt; # … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></code></pre></div>
 </div>
@@ -352,7 +381,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://twitter.com/damianozingaro">Damiano Oldoni</a>.</p>
+  <p>Developed by <a href="https://twitter.com/damianozingaro">Damiano Oldoni</a>, Peter Desmet.</p>
 </div>
 
 <div class="pkgdown">

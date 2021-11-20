@@ -104,14 +104,14 @@ get_n_individuals <- function(datapkg,
   if (!is.null(sex)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(sex %in% sex_value)
+      filter(.data$sex %in% sex_value)
   }
 
   # get observations of the specified life stage
   if (!is.null(life_stage)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(lifeStage %in% life_stage)
+      filter(.data$lifeStage %in% life_stage)
   }
 
   # extract observations and deployments

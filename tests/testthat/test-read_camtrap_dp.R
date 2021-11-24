@@ -11,12 +11,20 @@ test_that("media is checked properly", {
   )
 })
 
+test_that("output is a list", {
+  dp_path <- system.file("extdata", "mica", package = "camtrapdp")
+  dp_without_media <- read_camtrap_dp(
+    path = dp_path,
+    media = FALSE)
+  expect_true(is.list(dp_without_media))
+  expect_equal(class(dp_without_media), "list")
+})
+
 test_that("output is a list of length 4", {
   dp_path <- system.file("extdata", "mica", package = "camtrapdp")
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
-  expect_equal(class(dp_without_media), "list")
   expect_equal(length(dp_without_media), 4)
 })
 
@@ -55,7 +63,7 @@ test_that("Datapackage metadata is a list", {
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
- expect_equal(class(dp_without_media$datapackage), "list")
+  expect_s3_class(dp_without_media$datapackage, "datapackage")
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {

@@ -63,7 +63,7 @@ test_that("Datapackage metadata is a list", {
   dp_without_media <- read_camtrap_dp(
     path = dp_path,
     media = FALSE)
- expect_equal(class(dp_without_media$datapackage), c("datapackage", "list"))
+  expect_s3_class(dp_without_media$datapackage, "datapackage")
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {

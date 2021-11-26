@@ -26,8 +26,8 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
-    datapackage,
     dplyr,
+    frictionless,
     glue,
     grDevices,
     here,
@@ -41,7 +41,7 @@ Imports:
     stringr,
     tidyr
 Remotes:
-    inbo/datapackage
+    frictionlessdata/frictionless-r
 Suggests: 
     covr,
     knitr,

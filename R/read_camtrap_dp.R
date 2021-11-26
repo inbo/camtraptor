@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @importFrom frictionless-r read_package read_resource
+#' @importFrom frictionless read_package read_resource
 #' @importFrom dplyr %>% .data left_join one_of relocate select starts_with
 #' @importFrom here here
 #' @importFrom jsonlite read_json

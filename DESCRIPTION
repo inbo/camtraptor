@@ -41,7 +41,7 @@ Imports:
     stringr,
     tidyr
 Remotes:
-    inbo/datapackage
+    frictionlessdata/frictionless-r
 Suggests: 
     covr,
     knitr,

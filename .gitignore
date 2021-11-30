@@ -1,50 +1,38 @@
-# History files
-.Rhistory
+
+.DS_Store
+.httr-oauth
 .Rapp.history
-
-# Session Data files
 .RData
-
-# User-specific files
-.Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
+.Renviron
+.Rhistory
 .Rproj.user
+.Rproj.user/
+.Ruserdata
+*_cache/
+*-Ex.R
+*.html
+*.knit.md
 *.Rproj
-
+*.utf8.md
+/*.Rcheck/
+/*.tar.gz
+/cache/
+# big files
+# Example code in package build process
+# History files
+# knitr and R markdown default cache directories
+# Mac OS
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+# Output files from R CMD build
+# Output files from R CMD check
+# pkgdown
 # produced vignettes
+# R Environment Variables
+# RStudio files
+# Session Data files
+# Temporary files created by R markdown
+# User-specific files
+docs
+inst/extdata/gmu8-monitoring-faunabeheerzone-8-20210908082146
 vignettes/*.html
 vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# pkgdown
-docs
-
-# Mac OS
-.DS_Store
-
-# big files
-inst/extdata/gmu8-monitoring-faunabeheerzone-8-20210908082146

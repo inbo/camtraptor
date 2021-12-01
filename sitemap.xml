@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://inbo.github.io/camtrapdp/404.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/camera-operation-matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/filter-predicates.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/record-table.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/articles/visualize-deployment-features.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/camtrapdp/authors.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/index.html</loc>
   </url>
   <url>
@@ -67,6 +97,9 @@
     <loc>https://inbo.github.io/camtrapdp/reference/get_species.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/camtrapdp/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/camtrapdp/reference/map_dep.html</loc>
   </url>
   <url>
@@ -80,17 +113,5 @@
   </url>
   <url>
     <loc>https://inbo.github.io/camtrapdp/reference/transform_effort_to_common_units.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtrapdp/articles/camera-operation-matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtrapdp/articles/filter-predicates.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtrapdp/articles/record-table.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtrapdp/articles/visualize-deployment-features.html</loc>
   </url>
 </urlset>

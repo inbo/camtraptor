@@ -43,8 +43,8 @@ read_camtrap_dp <- function(path, media = TRUE) {
               msg = "media must be a logical: TRUE or FALSE")
   # read files
   package <- read_package(file.path(path, "datapackage.json"))
-  deployments <- read_resource("deployments", package)
-  observations <- read_resource("observations", package)
+  deployments <- read_resource(package, "deployments")
+  observations <- read_resource(package, "observations")
 
   taxon_infos <- get_species(list(
     "datapackage" = package,
@@ -62,7 +62,7 @@ read_camtrap_dp <- function(path, media = TRUE) {
       relocate(one_of(cols_taxon_infos), .after = .data$cameraSetup)
   }
   if (media == TRUE) {
-    media <- read_resource("media", package)
+    media <- read_resource(package, "media")
   }
 
   # return list

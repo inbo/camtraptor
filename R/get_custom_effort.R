@@ -74,3 +74,60 @@ effort2 <- dailyOps2 %>%
   arrange(y, m) %>%
   mutate(trapEffort_hours = trapEffort_days * 24)
 
+# FIRST DRAFT OF FUNCTION ######################################################
+
+get_custom_effort <- function(data, # the df with all the deployments
+                              stationCol="deploymentID", # deploymentID
+                              setupCol=start, # start of different deployments
+                              retrievalCol=end, # end of different deployments
+                              startdate=min(setupCol), # start of custom time frame
+                              enddate=max(retrievalCol), # end of custom time frame
+                              group_by=c("day", "month", "year")) {
+  require(lubridate)
+  require(tidyverse)
+  require(camtrapR)
+  data <- data %>%
+    mutate(start = ymd_hms(setupCol, tz="UTC"),
+           end = ymd_hms(retrievalCol, tz="UTC")) %>%
+    filter(!is.na(start)) %>%
+    filter(!is.na(end))
+  operations <- cameraOperation(data,
+                                stationCol = stationCol,
+                                setupCol = setupCol,
+                                retrievalCol = retrievalCol)
+  dailyOps <- colSums(operations, na.rm = T, dims = 1)
+  dailyOps <- data.frame(date = names(dailyOps),
+                         ncams = dailyOps,
+                         row.names = NULL)
+  if (group_by=="day") {
+    effort <- dailyOps %>%
+      rename(trapEffort_days = ncams) %>%
+      mutate(trapEffort_hours = trapEffort_days * 24)
+      }
+  if (group_by=="month") {
+    dailyOps <- dailyOps %>%
+      mutate(date = ymd(date)) %>%
+      mutate(m = month(date, label=T, abbr=F),
+             y = year(date))
+    # tally by month/year for effort
+    effort <- dailyOps %>%
+      group_by(m, y) %>%
+      tally(ncams, name="trapEffort_days") %>%
+      ungroup() %>%
+      arrange(y, m) %>%
+      mutate(trapEffort_hours = trapEffort_days * 24)
+  }
+  if (group_by=="year") {
+    dailyOps <- dailyOps %>%
+      mutate(date = ymd(date)) %>%
+      mutate(y = year(date))
+    # tally by year for effort
+    effort <- dailyOps %>%
+      group_by(y) %>%
+      tally(ncams, name="trapEffort_days") %>%
+      ungroup() %>%
+      arrange(y) %>%
+      mutate(trapEffort_hours = trapEffort_days * 24)
+  }
+  return(effort)
+}

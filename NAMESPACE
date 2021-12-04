@@ -3,6 +3,7 @@
 export(apply_filter_predicate)
 export(check_species)
 export(get_cam_op)
+export(get_custom_effort)
 export(get_dep_no_obs)
 export(get_effort)
 export(get_n_individuals)

@@ -1,133 +1,159 @@
-library(lubridate) # require
-library(tidyverse) # require
-library(readr) # require
-library(camtrapR) # require
+#' Get custom effort
+#'
+#' Function to get custom effort (deployment duration) for a custom time windows
+#' and a specific time interval such as day or month. The custom effort is also
+#' calculated over all deployments, although filtering predicates can be applied
+#' as well.
+#'
+#' @param datapkg Camera trap data package object, as returned by
+#'   `read_camtrap_dp()`.
+#' @param ... Filter predicates
+#' @param start Start date. Default: `NULL`. If `NULL` the earliest start date
+#'   among all deployments is used.
+#' @param end End date. Default: `NULL`. If `NULL` the latest end date among all
+#'   deployments is used.
+#' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`. The
+#'   effort is calculated at the interval rate defined in `group_by`. Default:
+#'   `NULL`: no grouping, i.e. the entire interval from `start` to `end` is
+#'   taken into account as a whole.
+#' @param unit Time unit to use while returning custom effort
+#'   (duration). One of:
+#'
+#' - `second`
+#' - `minute`
+#' - `hour`
+#' - `day`
+#' - `month`
+#' - `year`
+#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
+#' @param ... filter predicates
+#' @importFrom dplyr .data %>%
+#' @importFrom rlang !!
+#' @export
+#' @return A tibble (data.frame) with one column:
+#' - `effort`: duration object (duration is a class from lubridate package) if `unit` is `NULL`, or a number if `unit` is not `NULL`.
+#' - `effort_unit`: Character specifying the effort_unit.
+#' @family get_functions
+#' @examples
+#' # a global effort over the entire duration of the project (datapackage)
+#' get_custom_effort(mica)
+#'
+#' # effort expressed as days
+#' get_custom_effort(mica, unit = "day")
+#'
+#' # effort from a specific start to a specific end
+#' get_custom_effort(
+#'   mica,
+#'   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
+#'   end = as.Date("2021-01-10")
+#' )
+#'
+#' # effort at weekly interval
+#' get_custom_effort(
+#'   mica,
+#'   start = as.Date("2019-12-15"),
+#'   end = as.Date("2021-01-10"),
+#'   group_by = "week"
+#' )
+get_custom_effort <- function(datapkg,
+                              ...,
+                              start = NULL,
+                              end = NULL,
+                              group_by = NULL,
+                              unit = NULL) {
 
-# Test scripts ################################################################
+  # define possible unit values
+  units <- c("second",
+             "minute",
+             "hour",
+             "day",
+             "month",
+             "year")
 
-## For Meerdaal ###############################################################
+  # check unit
+  check_value(unit, units, "unit", null_allowed = TRUE)
 
-# test df from Agouti for Florian
-mrdl <- read.delim("./tests/mrdl_deployments.csv",
-                   sep=",") # input: data
-# parse dates
-mrdl <- mrdl %>%
-  mutate(start = ymd_hms(start, tz="UTC"),
-         end = ymd_hms(end, tz="UTC")) # input: start/end column names
-# using camtrapR to get operations matrix
-operations1 <- cameraOperation(mrdl, 
-                              stationCol = "deploymentID", 
-                              setupCol = "start", 
-                              retrievalCol = "end")
-# Adding up the number of cams active each day
-dailyOps1 <- colSums(operations1, na.rm = T, dims = 1) # ouput : vector
-# change vector to df
-dailyOps1 <- data.frame(date = names(dailyOps1),
-                       ncams = dailyOps1,
-                       row.names = NULL)
-# parse dates again, extract month and year
-dailyOps1 <- dailyOps1 %>%
-  mutate(date = ymd(date)) %>%
-  mutate(m = month(date, label=T, abbr=F),
-         y = year(date))
-# tally by month/year for effort
-effort1 <- dailyOps1 %>%
-  group_by(m, y) %>%
-  tally(ncams, name="trapEffort_days") %>%
-  ungroup() %>%
-  arrange(y, m) %>%
-  mutate(trapEffort_hours = trapEffort_days * 24)
+  # define possible group_by values
+  group_bys <- c("day",
+                 "week",
+                 "month",
+                 "year")
 
-## For Hoge Kempen #############################################################
+  # check group_by
+  check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
-# test df from Agouti for Florian
-nphk <- read.delim("./tests/nphk_deployments.csv",
-                   sep=",")
-# parse dates
-nphk <- nphk %>%
-  mutate(start = ymd_hms(start, tz="UTC"),
-         end = ymd_hms(end, tz="UTC")) %>% # JIM CHECK DATES THAT DON'T PARSE (7)
-  filter(!is.na(start)) %>% # unparsed dates give NA
-  filter(!is.na(end)) # same
+  # check datapackage
+  check_datapkg(datapkg)
 
-# using camtrapR to get operations matrix
-operations2 <- cameraOperation(nphk, 
-                              stationCol = "deploymentID", 
-                              setupCol = "start", 
-                              retrievalCol = "end")
-# Adding up the number of cams active each day
-dailyOps2 <- colSums(operations2, na.rm = T, dims = 1) # ouput : vector
-# change vector to df
-dailyOps2 <- data.frame(date = names(dailyOps2),
-                       ncams = dailyOps2,
-                       row.names = NULL)
-# parse dates again, extract month and year
-dailyOps2 <- dailyOps2 %>%
-  mutate(date = ymd(date)) %>%
-  mutate(m = month(date, label=T, abbr=F),
-         y = year(date))
-# tally by month/year for effort
-effort2 <- dailyOps2 %>%
-  group_by(m, y) %>%
-  tally(ncams, name="trapEffort_days") %>%
-  ungroup() %>%
-  arrange(y, m) %>%
-  mutate(trapEffort_hours = trapEffort_days * 24)
+  # get deployments
+  deployments <- datapkg$deployments
 
-# FIRST DRAFT OF FUNCTION ######################################################
+  # camera operation matrix with filter(s) on deployments
+  cam_op <- get_cam_op(datapkg, ...)
 
-get_custom_effort <- function(data, # the df with all the deployments
-                              stationCol="deploymentID", # deploymentID
-                              setupCol=start, # start of different deployments
-                              retrievalCol=end, # end of different deployments
-                              startdate=min(setupCol), # start of custom time frame
-                              enddate=max(retrievalCol), # end of custom time frame
-                              group_by=c("day", "month", "year")) {
-  require(lubridate)
-  require(tidyverse)
-  require(camtrapR)
-  data <- data %>%
-    mutate(start = ymd_hms(setupCol, tz="UTC"),
-           end = ymd_hms(retrievalCol, tz="UTC")) %>%
-    filter(!is.na(start)) %>%
-    filter(!is.na(end))
-  operations <- cameraOperation(data,
-                                stationCol = stationCol,
-                                setupCol = setupCol,
-                                retrievalCol = retrievalCol)
-  dailyOps <- colSums(operations, na.rm = T, dims = 1)
-  dailyOps <- data.frame(date = names(dailyOps),
-                         ncams = dailyOps,
-                         row.names = NULL)
-  if (group_by=="day") {
-    effort <- dailyOps %>%
-      rename(trapEffort_days = ncams) %>%
-      mutate(trapEffort_hours = trapEffort_days * 24)
-      }
-  if (group_by=="month") {
-    dailyOps <- dailyOps %>%
-      mutate(date = ymd(date)) %>%
-      mutate(m = month(date, label=T, abbr=F),
-             y = year(date))
-    # tally by month/year for effort
-    effort <- dailyOps %>%
-      group_by(m, y) %>%
-      tally(ncams, name="trapEffort_days") %>%
-      ungroup() %>%
-      arrange(y, m) %>%
-      mutate(trapEffort_hours = trapEffort_days * 24)
+  # Sum effort over all deployments for each day
+  n_deploys <- colSums(cam_op, na.rm = TRUE, dims = 1)
+
+  n_deploys <- dplyr::tibble(date = lubridate::as_date(names(n_deploys)),
+                            n_deployments = n_deploys)
+
+  # check start and end are both dates
+  assertthat::assert_that(
+    is.null(start) | class(start) == "Date",
+    msg = glue::glue(
+      "start must be NULL or an object of class Date.",
+      "Did you maybe forget to convert a string to Date with as.Date() ?"
+    )
+  )
+  assertthat::assert_that(
+    is.null(end) | class(end) == "Date",
+    msg = glue::glue(
+      "end must be NULL or an object of class Date.",
+      "Did you maybe forget to convert a string to Date with as.Date() ?"
+    )
+  )
+
+  # set start to date of the earliest deployment
+  if (is.null(start)) start <- n_deploys$date[1]
+  if (is.null(end)) end <- n_deploys$date[nrow(n_deploys)]
+  # check start earlier than end
+  assertthat::assert_that(start < end,
+                          msg = "start must be earlier than end.")
+
+  # filter by start and end date
+  n_deploys <- n_deploys %>%
+    filter(.data$date >= start & .data$date <= end)
+
+  if (is.null(group_by)) {
+    n_deploys <-
+      n_deploys %>%
+        dplyr::summarise(n_deployments = sum(.data$n_deployments))
+  } else {
+    # add year column
+    n_deploys <- n_deploys %>%
+      mutate(year = lubridate::year(date))
+
+    if (group_by == "week") {
+      # add week column
+      n_deploys <- n_deploys %>%
+        mutate(week = lubridate::week(date)) %>%
+        group_by(year, week)
+    }
+
+    if (group_by == "month") {
+      # add month column
+      n_deploys <- n_deploys %>%
+        mutate(m = lubridate::month(date)) %>%
+        group_by(year, month)
+    }
+
+    # count number of deployments per group
+    n_deploys <-
+      n_deploys %>%
+      dplyr::count(n_deployments, name="effort") %>%
+      dplyr::ungroup()
   }
-  if (group_by=="year") {
-    dailyOps <- dailyOps %>%
-      mutate(date = ymd(date)) %>%
-      mutate(y = year(date))
-    # tally by year for effort
-    effort <- dailyOps %>%
-      group_by(y) %>%
-      tally(ncams, name="trapEffort_days") %>%
-      ungroup() %>%
-      arrange(y) %>%
-      mutate(trapEffort_hours = trapEffort_days * 24)
-  }
-  return(effort)
+
+  # transform to unit
+  n_deploys
 }

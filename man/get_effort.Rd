@@ -44,6 +44,7 @@ get_effort(mica, unit = "day")
 }
 \seealso{
 Other get_functions: 
-\code{\link{filter_predicate}}
+\code{\link{filter_predicate}},
+\code{\link{get_custom_effort}()}
 }
 \concept{get_functions}

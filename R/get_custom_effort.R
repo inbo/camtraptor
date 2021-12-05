@@ -112,16 +112,16 @@ get_custom_effort <- function(datapkg,
 
   # check start and end are both dates
   assertthat::assert_that(
-    is.null(start) | class(start) == "Date",
+    is.null(start) | all(class(start) == "Date"),
     msg = glue::glue(
-      "start must be NULL or an object of class Date.",
+      "start must be NULL or an object of class Date. ",
       "Did you maybe forget to convert a string to Date with as.Date()?"
     )
   )
   assertthat::assert_that(
-    is.null(end) | class(end) == "Date",
+    is.null(end) | all(class(end) == "Date"),
     msg = glue::glue(
-      "end must be NULL or an object of class Date.",
+      "end must be NULL or an object of class Date. ",
       "Did you maybe forget to convert a string to Date with as.Date()?"
     )
   )
@@ -141,7 +141,7 @@ get_custom_effort <- function(datapkg,
     # total effort (days) over all deployments
     sum_effort <-
       sum_effort %>%
-        dplyr::summarise(begin = min(.data$date),
+        dplyr::summarise(begin = min(.data$date, na.rm = TRUE),
                          effort = sum(.data$sum_effort))
   } else {
     # add year column
@@ -177,7 +177,7 @@ get_custom_effort <- function(datapkg,
     # sum total effort over each interval
     sum_effort <-
       sum_effort %>%
-      dplyr::summarise(begin = min(.data$date),
+      dplyr::summarise(begin = min(.data$date, na.rm = TRUE),
                        effort = sum(.data$sum_effort)) %>%
       dplyr::ungroup()
   }

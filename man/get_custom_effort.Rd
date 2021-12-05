@@ -60,7 +60,7 @@ as well.
 measured in hours
 get_custom_effort(mica)
 
-# effort expressed as days
+# global effort expressed in days
 get_custom_effort(mica, unit = "day")
 
 # total effort from a specific start to a specific end
@@ -90,6 +90,8 @@ get_custom_effort(
   mica,
   group_by = "year"
 )
+# applying filter(s), e.g. deployments with latitude >= 51.18
+get_custom_effort(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other get_functions: 

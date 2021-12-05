@@ -38,7 +38,7 @@
 #' @family get_functions
 #' @examples
 #' # a global effort over the entire duration of the project (datapackage)
-#' measured in hours
+#' # measured in hours
 #' get_custom_effort(mica)
 #'
 #' # global effort expressed in days

@@ -10,7 +10,7 @@ get_custom_effort(
   start = NULL,
   end = NULL,
   group_by = NULL,
-  unit = NULL
+  unit = "hour"
 )
 }
 \arguments{
@@ -30,23 +30,23 @@ effort is calculated at the interval rate defined in \code{group_by}. Default:
 \code{NULL}: no grouping, i.e. the entire interval from \code{start} to \code{end} is
 taken into account as a whole.}
 
-\item{unit}{Time unit to use while returning custom effort
-(duration). One of:
-\itemize{
-\item \code{second}
-\item \code{minute}
-\item \code{hour}
-\item \code{day}
-\item \code{month}
-\item \code{year}
-\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks))
-}}
+\item{unit}{Character, the time unit to use while returning custom effort.
+One of: \code{hour} (default), \code{day}.}
 }
 \value{
-A tibble (data.frame) with one column:
+A tibble (data.frame) with following columns:
 \itemize{
-\item \code{effort}: duration object (duration is a class from lubridate package) if \code{unit} is \code{NULL}, or a number if \code{unit} is not \code{NULL}.
+\item \code{begin}: Date: begin of the interval the effort is calculated over.
+\item \code{effort}: The effort as number.
 \item \code{effort_unit}: Character specifying the effort_unit.
+\item \code{year}: Numeric, the year \code{begin} belongs to. This column is not present if
+\code{group_by} is \code{NULL}.
+\item \code{month}: Numeric, the month \code{begin} belongs to. This column is present if
+\code{group_by} is \code{"month"} or \code{"day"}.
+\item \code{week}: Numeric, the week \code{begin} belongs to. This column is present if
+\code{group_by} is \code{"week"}.
+\item \code{day}: Numeric, the day \code{begin} belongs to. This column is present if
+\code{group_by} is \code{"day"}.
 }
 }
 \description{
@@ -57,24 +57,38 @@ as well.
 }
 \examples{
 # a global effort over the entire duration of the project (datapackage)
+measured in hours
 get_custom_effort(mica)
 
 # effort expressed as days
 get_custom_effort(mica, unit = "day")
 
-# effort from a specific start to a specific end
+# total effort from a specific start to a specific end
 get_custom_effort(
   mica,
   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
   end = as.Date("2021-01-10")
 )
 
+# effort at daily interval
+get_custom_effort(
+  mica,
+  group_by = "day"
+)
 # effort at weekly interval
 get_custom_effort(
   mica,
-  start = as.Date("2019-12-15"),
-  end = as.Date("2021-01-10"),
   group_by = "week"
+)
+# effort at monthly interval
+get_custom_effort(
+  mica,
+  group_by = "month"
+)
+# effort at yearly interval
+get_custom_effort(
+  mica,
+  group_by = "year"
 )
 }
 \seealso{

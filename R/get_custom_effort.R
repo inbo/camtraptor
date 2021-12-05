@@ -16,62 +16,75 @@
 #'   effort is calculated at the interval rate defined in `group_by`. Default:
 #'   `NULL`: no grouping, i.e. the entire interval from `start` to `end` is
 #'   taken into account as a whole.
-#' @param unit Time unit to use while returning custom effort
-#'   (duration). One of:
+#' @param unit Character, the time unit to use while returning custom effort.
+#'   One of: `hour` (default), `day`.
 #'
-#' - `second`
-#' - `minute`
-#' - `hour`
-#' - `day`
-#' - `month`
-#' - `year`
-#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
 #' @param ... filter predicates
 #' @importFrom dplyr .data %>%
-#' @importFrom rlang !!
 #' @export
-#' @return A tibble (data.frame) with one column:
-#' - `effort`: duration object (duration is a class from lubridate package) if `unit` is `NULL`, or a number if `unit` is not `NULL`.
+#' @return A tibble (data.frame) with following columns:
+#'
+#' - `begin`: Date: begin of the interval the effort is calculated over.
+#' - `effort`: The effort as number.
 #' - `effort_unit`: Character specifying the effort_unit.
+#' - `year`: Numeric, the year `begin` belongs to. This column is not present if
+#' `group_by` is `NULL`.
+#' - `month`: Numeric, the month `begin` belongs to. This column is present if
+#' `group_by` is `"month"` or `"day"`.
+#' - `week`: Numeric, the week `begin` belongs to. This column is present if
+#' `group_by` is `"week"`.
+#' - `day`: Numeric, the day `begin` belongs to. This column is present if
+#' `group_by` is `"day"`.
 #' @family get_functions
 #' @examples
 #' # a global effort over the entire duration of the project (datapackage)
+#' measured in hours
 #' get_custom_effort(mica)
 #'
-#' # effort expressed as days
+#' # global effort expressed in days
 #' get_custom_effort(mica, unit = "day")
 #'
-#' # effort from a specific start to a specific end
+#' # total effort from a specific start to a specific end
 #' get_custom_effort(
 #'   mica,
 #'   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
 #'   end = as.Date("2021-01-10")
 #' )
 #'
+#' # effort at daily interval
+#' get_custom_effort(
+#'   mica,
+#'   group_by = "day"
+#' )
 #' # effort at weekly interval
 #' get_custom_effort(
 #'   mica,
-#'   start = as.Date("2019-12-15"),
-#'   end = as.Date("2021-01-10"),
 #'   group_by = "week"
 #' )
+#' # effort at monthly interval
+#' get_custom_effort(
+#'   mica,
+#'   group_by = "month"
+#' )
+#' # effort at yearly interval
+#' get_custom_effort(
+#'   mica,
+#'   group_by = "year"
+#' )
+#' # applying filter(s), e.g. deployments with latitude >= 51.18
+#' get_custom_effort(mica, pred_gte("latitude", 51.18))
 get_custom_effort <- function(datapkg,
                               ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
-                              unit = NULL) {
+                              unit = "hour") {
 
   # define possible unit values
-  units <- c("second",
-             "minute",
-             "hour",
-             "day",
-             "month",
-             "year")
+  units <- c("hour", "day")
 
   # check unit
-  check_value(unit, units, "unit", null_allowed = TRUE)
+  check_value(unit, units, "unit", null_allowed = FALSE)
 
   # define possible group_by values
   group_bys <- c("day",
@@ -91,69 +104,96 @@ get_custom_effort <- function(datapkg,
   # camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(datapkg, ...)
 
-  # Sum effort over all deployments for each day
-  n_deploys <- colSums(cam_op, na.rm = TRUE, dims = 1)
+  # Sum effort over all deployments for each day  (in day units)
+  sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)
 
-  n_deploys <- dplyr::tibble(date = lubridate::as_date(names(n_deploys)),
-                            n_deployments = n_deploys)
+  sum_effort <- dplyr::tibble(date = lubridate::as_date(names(sum_effort)),
+                              sum_effort = sum_effort)
 
   # check start and end are both dates
   assertthat::assert_that(
     is.null(start) | class(start) == "Date",
     msg = glue::glue(
       "start must be NULL or an object of class Date.",
-      "Did you maybe forget to convert a string to Date with as.Date() ?"
+      "Did you maybe forget to convert a string to Date with as.Date()?"
     )
   )
   assertthat::assert_that(
     is.null(end) | class(end) == "Date",
     msg = glue::glue(
       "end must be NULL or an object of class Date.",
-      "Did you maybe forget to convert a string to Date with as.Date() ?"
+      "Did you maybe forget to convert a string to Date with as.Date()?"
     )
   )
 
   # set start to date of the earliest deployment
-  if (is.null(start)) start <- n_deploys$date[1]
-  if (is.null(end)) end <- n_deploys$date[nrow(n_deploys)]
+  if (is.null(start)) start <- sum_effort$date[1]
+  if (is.null(end)) end <- sum_effort$date[nrow(sum_effort)]
   # check start earlier than end
   assertthat::assert_that(start < end,
                           msg = "start must be earlier than end.")
 
   # filter by start and end date
-  n_deploys <- n_deploys %>%
+  sum_effort <- sum_effort %>%
     filter(.data$date >= start & .data$date <= end)
 
   if (is.null(group_by)) {
-    n_deploys <-
-      n_deploys %>%
-        dplyr::summarise(n_deployments = sum(.data$n_deployments))
+    # total effort (days) over all deployments
+    sum_effort <-
+      sum_effort %>%
+        dplyr::summarise(begin = min(.data$date),
+                         effort = sum(.data$sum_effort))
   } else {
     # add year column
-    n_deploys <- n_deploys %>%
-      mutate(year = lubridate::year(date))
+    sum_effort <- sum_effort %>%
+      dplyr::mutate(year = lubridate::year(.data$date))
 
-    if (group_by == "week") {
-      # add week column
-      n_deploys <- n_deploys %>%
-        mutate(week = lubridate::week(date)) %>%
-        group_by(year, week)
+    if (group_by == "year") {
+      sum_effort <- sum_effort %>% dplyr::group_by(.data$year)
     }
 
     if (group_by == "month") {
       # add month column
-      n_deploys <- n_deploys %>%
-        mutate(m = lubridate::month(date)) %>%
-        group_by(year, month)
+      sum_effort <- sum_effort %>%
+        dplyr::mutate(month = lubridate::month(.data$date)) %>%
+        dplyr::group_by(.data$year, .data$month)
     }
 
-    # count number of deployments per group
-    n_deploys <-
-      n_deploys %>%
-      dplyr::count(n_deployments, name="effort") %>%
+    if (group_by == "week") {
+      # add week column
+      sum_effort <- sum_effort %>%
+        mutate(week = lubridate::week(.data$date)) %>%
+        group_by(.data$year, .data$week)
+    }
+
+    if (group_by == "day") {
+      # add day column
+      sum_effort <- sum_effort %>%
+        mutate(month = lubridate::month(.data$date),
+               day = lubridate::day(.data$date)) %>%
+        group_by(.data$year, .data$month, .data$day)
+    }
+
+    # sum total effort over each interval
+    sum_effort <-
+      sum_effort %>%
+      dplyr::summarise(begin = min(.data$date),
+                       effort = sum(.data$sum_effort)) %>%
       dplyr::ungroup()
   }
 
-  # transform to unit
-  n_deploys
+  # transform effort to hours if needed
+  if (unit == "hour") {
+    sum_effort <-
+      sum_effort %>%
+      dplyr::mutate(effort = .data$effort * 24)
+  }
+
+  # add unit column and adjust column order
+  sum_effort %>%
+    dplyr::mutate(unit = unit) %>%
+    dplyr::select(.data$begin,
+                  .data$effort,
+                  .data$unit,
+                  dplyr::everything())
 }

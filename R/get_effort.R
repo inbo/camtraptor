@@ -45,11 +45,15 @@ get_effort <- function(datapkg, ..., unit = NULL) {
 
   # check datapackage
   check_datapkg(datapkg)
-  # get deployments
-  deployments <- datapkg$deployments
 
   # apply filtering
-  deployments <- apply_filter_predicate(df = deployments, verbose = TRUE, ...)
+  datapkg$deployments <- apply_filter_predicate(
+    df = datapkg$deployments,
+    verbose = TRUE, ...
+  )
+
+  # get deployments
+  deployments <- datapkg$deployments
 
   # calculate effort of deployments
   effort_df <-

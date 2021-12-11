@@ -4,7 +4,7 @@
 \alias{read_camtrap_dp}
 \title{Read camtrap-dp formatted data}
 \usage{
-read_camtrap_dp(file, media = TRUE, path = lifecycle::deprecated())
+read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}

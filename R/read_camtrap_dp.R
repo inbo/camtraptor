@@ -40,17 +40,20 @@ read_camtrap_dp <- function(file = NULL,
     "to the `datapackage.json` file. The use of argument",
     "`path` with path to the local directory is deprecated since version 0.6.0."
   )
-  if (lifecycle::is_present(path)) {
+  if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
     lifecycle::deprecate_warn(
       when = "0.6.0",
       what = "read_camtrap_dp(path)",
       details = warning_detail
     )
-    file <- file.path(path, "datapackage.json")
   }
 
-  if (!grepl(pattern = "datapackage.json$", x = file)) {
-    warning(warning_detail)
+  # define the right file value
+  if (lifecycle::is_present(path)) {
+    file <- file.path(path, "datapackage.json")
+  }
+  # file value is a valid path
+  if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
 

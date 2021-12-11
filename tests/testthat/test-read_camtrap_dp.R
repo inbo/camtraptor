@@ -132,3 +132,23 @@ test_that("file can be an URL", {
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
                     class(dp$observations)))
 })
+
+test_that("path is deprecated", {
+  dp_path_warning <- system.file("extdata", "mica", package = "camtrapdp")
+  rlang::with_options(
+    lifecycle_verbosity = "warning",
+    expect_warning(read_camtrap_dp(
+      file = dp_path_warning,
+      media = FALSE
+      )
+    )
+  )
+  rlang::with_options(
+    lifecycle_verbosity = "warning",
+    expect_warning(read_camtrap_dp(
+      path = dp_path_warning,
+      media = FALSE
+      )
+    )
+  )
+})

@@ -10,7 +10,8 @@
 #' @param file Path or URL to a `datapackage.json` file.
 #' @param media If `TRUE`, read media records into memory. If `FALSE`,
 #'   ignore media file to speed up reading larger Camtrap DP packages.
-#'
+#' @param path Path to the directory containing the datapackage. Use  `file`
+#'   with path or URL to a `datapackage.json` file instead.
 #' @return A list containing three (tibble) data.frames:
 #'   1. `observations`
 #'   2. `deployments`

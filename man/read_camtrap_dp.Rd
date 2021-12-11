@@ -11,6 +11,9 @@ read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 
 \item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE},
 ignore media file to speed up reading larger Camtrap DP packages.}
+
+\item{path}{Path to the directory containing the datapackage. Use  \code{file}
+with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
 A list containing three (tibble) data.frames:

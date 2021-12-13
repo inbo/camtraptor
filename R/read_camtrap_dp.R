@@ -90,16 +90,16 @@ read_camtrap_dp <- function(file = NULL,
   if (is.data.frame(media)) {
     list(
       "datapackage" = package,
-      "deployments" = deployments,
-      "media" = media,
-      "observations" = observations
+      "deployments" = dplyr::tibble(deployments),
+      "media" = dplyr::tibble(media),
+      "observations" = dplyr::tibble(observations)
     )
   } else {
     list(
       "datapackage" = package,
-      "deployments" = deployments,
+      "deployments" = dplyr::tibble(deployments),
       "media" = NULL,
-      "observations" = observations
+      "observations" = dplyr::tibble(observations)
     )
   }
 }

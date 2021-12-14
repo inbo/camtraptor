@@ -78,7 +78,8 @@ test_that("sex filters data correctly", {
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
   expect_equal(nrow(n_obs_females), nrow(rai_females))
-  expect_equal(n_obs_females[, 1:2], rai_females[, 1:2])
+  expect_equal(n_obs_females[, 1:2], rai_females[, 1:2],
+               ignore_attr = TRUE)
 })
 
 test_that("life_stage filters data correctly", {
@@ -88,5 +89,6 @@ test_that("life_stage filters data correctly", {
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
   expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))
-  expect_equal(n_obs_subadult[, 1:2], rai_subadult[, 1:2])
+  expect_equal(n_obs_subadult[, 1:2], rai_subadult[, 1:2],
+               ignore_attr = TRUE)
 })

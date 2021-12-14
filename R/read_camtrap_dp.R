@@ -7,10 +7,11 @@
 #' _observations_, so they are added to the observations as defined in the
 #' metadata (slot `taxonomic`), if present.
 #'
-#' @param path Path to the folder containing the camera trap data files.
+#' @param file Path or URL to a `datapackage.json` file.
 #' @param media If `TRUE`, read media records into memory. If `FALSE`,
 #'   ignore media file to speed up reading larger Camtrap DP packages.
-#'
+#' @param path Path to the directory containing the datapackage. Use  `file`
+#'   with path or URL to a `datapackage.json` file instead.
 #' @return A list containing three (tibble) data.frames:
 #'   1. `observations`
 #'   2. `deployments`
@@ -20,65 +21,85 @@
 #'
 #' @export
 #'
-#' @importFrom frictionless read_package read_resource
-#' @importFrom dplyr %>% .data left_join one_of relocate select starts_with
-#' @importFrom here here
-#' @importFrom jsonlite read_json
-
-#' @importFrom readr read_csv cols col_character col_number col_datetime
+#' @importFrom dplyr %>% .data
 #'
 #' @examples
 #' \dontrun{
 #' library(here)
 #' # Read Camtrap DP package
-#' camtrap_dp_dir <- here("inst", "extdata", "mica")
+#' camtrap_dp_dir <- here("inst", "extdata", "mica", "datapackage.json")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 #'
 #' # Read Camtrap DP package and ignore media file
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, media = FALSE)
 #' }
-read_camtrap_dp <- function(path, media = TRUE) {
-  # check media
-  assert_that(media %in% c(TRUE, FALSE),
-              msg = "media must be a logical: TRUE or FALSE")
-  # read files
-  package <- read_package(file.path(path, "datapackage.json"))
-  deployments <- read_resource(package, "deployments")
-  observations <- read_resource(package, "observations")
+read_camtrap_dp <- function(file = NULL,
+                            media = TRUE,
+                            path = lifecycle::deprecated()) {
+  warning_detail <- paste(
+    "Use argument `file` containing the path or URL",
+    "to the `datapackage.json` file. The use of argument",
+    "`path` with path to the local directory is deprecated since version 0.6.0."
+  )
+  if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
+    lifecycle::deprecate_warn(
+      when = "0.6.0",
+      what = "read_camtrap_dp(path)",
+      details = warning_detail
+    )
+  }
 
+  # define the right file value
+  if (lifecycle::is_present(path)) {
+    file <- file.path(path, "datapackage.json")
+  }
+  # file value is a valid path
+  if (dir.exists(file)) {
+    file <- file.path(file, "datapackage.json")
+  }
+
+  # check media
+  assertthat::assert_that(media %in% c(TRUE, FALSE),
+                          msg = "media must be a logical: TRUE or FALSE")
+  # read files
+  package <- frictionless::read_package(file)
+  deployments <- frictionless::read_resource(package, "deployments")
+  observations <- frictionless::read_resource(package, "observations")
+
+  # get taxonomic info
   taxon_infos <- get_species(list(
     "datapackage" = package,
     "deployments" = deployments,
     "media" = NULL,
     "observations" = observations
   ))
+  # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
-    # add vernacular names to observations
-    observations <- left_join(observations,
-                              taxon_infos,
-                              by  = c("taxonID", "scientificName"))
+    observations <- dplyr::left_join(observations,
+                                     taxon_infos,
+                                     by  = c("taxonID", "scientificName"))
     observations <- observations %>%
-      relocate(one_of(cols_taxon_infos), .after = .data$cameraSetup)
+      dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
   }
   if (media == TRUE) {
-    media <- read_resource(package, "media")
+    media <- frictionless::read_resource(package, "media")
   }
 
   # return list
   if (is.data.frame(media)) {
     list(
       "datapackage" = package,
-      "deployments" = deployments,
-      "media" = media,
-      "observations" = observations
+      "deployments" = dplyr::tibble(deployments),
+      "media" = dplyr::tibble(media),
+      "observations" = dplyr::tibble(observations)
     )
   } else {
     list(
       "datapackage" = package,
-      "deployments" = deployments,
+      "deployments" = dplyr::tibble(deployments),
       "media" = NULL,
-      "observations" = observations
+      "observations" = dplyr::tibble(observations)
     )
   }
 }

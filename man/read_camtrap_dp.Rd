@@ -4,13 +4,16 @@
 \alias{read_camtrap_dp}
 \title{Read camtrap-dp formatted data}
 \usage{
-read_camtrap_dp(path, media = TRUE)
+read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 }
 \arguments{
-\item{path}{Path to the folder containing the camera trap data files.}
+\item{file}{Path or URL to a \code{datapackage.json} file.}
 
 \item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE},
 ignore media file to speed up reading larger Camtrap DP packages.}
+
+\item{path}{Path to the directory containing the datapackage. Use  \code{file}
+with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
 A list containing three (tibble) data.frames:
@@ -34,7 +37,7 @@ metadata (slot \code{taxonomic}), if present.
 \dontrun{
 library(here)
 # Read Camtrap DP package
-camtrap_dp_dir <- here("inst", "extdata", "mica")
+camtrap_dp_dir <- here("inst", "extdata", "mica", "datapackage.json")
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
 
 # Read Camtrap DP package and ignore media file

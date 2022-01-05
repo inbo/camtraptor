@@ -28,7 +28,7 @@ library(lubridate)
 library(dplyr)
 ```
 
-By loading pacakge `camtrapdp`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+By loading package `camtrapdp`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
 
 ## Camera operation matrix
 
@@ -40,16 +40,19 @@ get_cam_op(mica)
 
 The function will read the `deployments` slot of the data package to create the matrix.
 
-The matrix rows are the location IDs (unique values of field `locationName` of `deployments`) preceded by prefix `"Station"` as done by camtrapR's `cameraOperation()`. Column names are dates. The matrix values are: 0 if deployment is not active, an integer (1 or more) if one or more deployments are fully active during all day, a decimal number if at least one deployment is not fully active during the entire day.
+The matrix rows are the location names, by default the values of field `locationName` of `deployments`. Column names are dates. The matrix values are: 0 if station is not or only partially active, an integer (1 or more) if one or more deployments linked to the same station are fully active during the whole day.
 
-In the example above there was a one-to-one relation between deployments and locations: the daily effort was not more than one.
+In the example above there was a one-to-one relation between deployments and locations: the daily effort was 0 or 1.
 
-In the example below we show what happens if all four deployments are set to the same location (`B_DL_val 5_beek kleine vijver`):
+In the example below we show what happens if all four deployments are set to the same location (`B_DL_val 5_beek kleine vijver`) and they are active during the same days:
 
-```{r four_deploys_for_location}
+```{r four_deploys_same_start_end_for_one_location}
 mica1 <- mica
 mica1$deployments$locationName <- mica1$deployments$locationName[1]
-get_cam_op(mica1)
+mica1$deployments$start <- mica1$deployments$start[1]
+mica1$deployments$end <- mica1$deployments$end[1]
+multiple_deploys_matrix <- get_cam_op(mica1)
+multiple_deploys_matrix
 ```
 
 In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two deployments active in two different periods:
@@ -61,7 +64,39 @@ mica2$deployments$start[4] <- mica2$deployments$end[3] + ddays(5)
 mica2$deployments$end[4] <- mica2$deployments$start[4] + ddays(5)
 mica2$deployments %>% select(locationName, start, end)
 ```
+This results in the following camera operation matrix:
 
 ```{r camOp_two_deploys_two_periods}
-get_cam_op(mica2)
+two_deploys_two_periods_matrix <- get_cam_op(mica2)
+days_to_show <- seq(as.Date(mica2$deployments$start[3]),
+                    as.Date(mica2$deployments$end[4]),
+                    by = "days")
+two_deploys_two_periods_matrix[3,as.character(days_to_show)]
 ```
+
+### Station names
+
+You can specify the column containing the station names instead of using the default `locationName`.  In the example below we use the column `locationID`. A small preview of the matrix is shown:
+
+```{r cam_op_with_locationID}
+cam_op_with_locationID <- get_cam_op(mica, station_col = "locationID")
+cam_op_with_locationID[1:4, 1:2]
+```
+
+You can also decide to use prefix `"Station"` in the station names as done by camtrapR's `cameraOperation()` by setting `use_prefix = TRUE`. A small preview of the entire matrix is shown:
+
+```{r use_prefix}
+cam_op_with_prefix <- get_cam_op(mica, use_prefix = TRUE)
+cam_op_with_prefix[1:4,1:2]
+```
+### Assign decimal values to partially active days
+
+The use of decimal figures to express partial active days is possible by setting argument `use_decimal` to `TRUE`. Here below a basic example where partial active days, i.e. `start` and `end` days, result in decimal values:
+
+```{r basic_example_raw_decimal}
+cam_op_matrix_decimals <- get_cam_op(mica, use_decimal = TRUE)
+cam_op_matrix_decimals[1:4,c(as.character(as.Date(mica$deployments$start)),
+                             as.character(as.Date(mica$deployments$end)))]
+```
+
+Notice that `get_cam_op()` with option `use_decimal` equal `TRUE` is internally used by `get_custom_effort()` to calculate custom efforts. 

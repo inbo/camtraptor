@@ -66,7 +66,7 @@ as defined in column \code{fileName} of \code{media}
 }
 \description{
 This function calculate the record table from a camera trap data package
-and so tabulating species records. The record table is a concept develoepd
+and so tabulating species records. The record table is a concept developed
 within the camtrapR package: see article
 https://jniedballa.github.io/camtrapR/articles/camtrapr3.html. See also the
 camtrapR's function documentation

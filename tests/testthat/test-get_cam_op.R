@@ -1,22 +1,38 @@
-test_that("input of get_cam_op, camtrap dp, is checked properly", {
+test_that("input camtrap dp is checked properly", {
   expect_error(get_cam_op("aaa"))
   expect_error(get_cam_op(1))
 })
 
-test_that("output of get_cam_op is a matrix", {
+test_that("output is a matrix", {
   cam_op_matrix <- get_cam_op(mica)
   expect_true("matrix" %in% class(cam_op_matrix))
 })
 
 test_that("output matrix has locations as rownames", {
   cam_op_matrix <- get_cam_op(mica)
+  locations <- mica$deployments$locationName
+  n_locations <- length(mica$deployments$locationName)
+  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_equal(row.names(cam_op_matrix), locations)
+})
+
+test_that("output matrix has Station prefix in rownames", {
+  cam_op_matrix <- get_cam_op(mica, use_prefix = TRUE)
   locations <- paste0("Station", mica$deployments$locationName)
   n_locations <- length(mica$deployments$locationName)
   expect_equal(nrow(cam_op_matrix), n_locations)
   expect_equal(row.names(cam_op_matrix), locations)
 })
 
-test_that("output matrix has all days of deployment activity as colnames", {
+test_that("output matrix has specified location column as rownames", {
+  cam_op_matrix <- get_cam_op(mica, station_col = "locationID")
+  locations <- mica$deployments$locationID
+  n_locations <- length(mica$deployments$locationID)
+  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_equal(row.names(cam_op_matrix), locations)
+})
+
+test_that("output matrix has all deployment days as colnames", {
   cam_op_matrix <- get_cam_op(mica)
   days_activity <- seq(as.Date(min(mica$deployments$start)),
                         as.Date(max(mica$deployments$end)),
@@ -27,17 +43,17 @@ test_that("output matrix has all days of deployment activity as colnames", {
   expect_equal(colnames(cam_op_matrix), days_activity)
 })
 
-test_that("daily effort is > 0 for active days, 0 for inactive days", {
-  cam_op_matrix <- get_cam_op(mica)
+test_that("daily effort is > 0 for fully active days, 0 for inactive days", {
+  cam_op_matrix <- get_cam_op(mica, use_decimal = TRUE)
   location <- mica$deployments$locationName[4]
-  deployment_start <- min(mica$deployments %>%
-                             filter(locationName == location) %>%
-                             pull(start))
-  deployment_end <- max(mica$deployments %>%
-                             filter(locationName == location) %>%
-                             pull(end))
-  cols_activity <- seq(as.Date(deployment_start),
-                       as.Date(deployment_end),
+  deployment_start <- mica$deployments %>%
+    filter(locationName == location) %>%
+    pull(start)
+  deployment_end <- mica$deployments %>%
+    filter(locationName == location) %>%
+    pull(end)
+  cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
+                       as.Date(deployment_end) - lubridate::ddays(1),
                        by = "days")
   cols_activity <- as.character(cols_activity)
 
@@ -49,8 +65,17 @@ test_that("daily effort is > 0 for active days, 0 for inactive days", {
   expect_true(all(cam_op_matrix[4, cols_inactivity] == 0))
 })
 
-test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
+test_that("daily effort is == 0 for partial active days (start/end), use_decimals = FALSE (default)", {
   cam_op_matrix <- get_cam_op(mica)
+  location <- mica$deployments$locationName[4]
+  start <- as.character(as.Date(mica$deployments$start[4]))
+  end <- as.character(as.Date(mica$deployments$end[4]))
+  expect_true(cam_op_matrix[4, start] == 0)
+  expect_true(cam_op_matrix[4, end] == 0)
+})
+
+test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
+  cam_op_matrix <- get_cam_op(mica, use_decimal = TRUE)
   location <- mica$deployments$locationName[4]
   start <- as.character(as.Date(mica$deployments$start[4]))
   end <- as.character(as.Date(mica$deployments$end[4]))
@@ -62,5 +87,5 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
 
 test_that("filtering predicates are allowed and work well", {
   filtered_cam_op_matrix <- get_cam_op(mica, pred_lt("longitude", 4.0))
-  expect_equal(rownames(filtered_cam_op_matrix), "StationMica Viane")
+  expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
 })

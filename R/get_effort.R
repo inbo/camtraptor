@@ -19,9 +19,11 @@
 #' @importFrom lubridate as.duration
 #' @export
 
-#' @return a tibble (data.frame) with the following columns:
-#' - `deploymentID` deployment unique identifier
-#' - `effort`: a duration object (duration is a class from lubridate package)
+#' @return a tibble (data.frame) with the following columns: - `deploymentID`
+#'   deployment unique identifier - `effort`: a duration object (duration is a
+#'   class from lubridate package) - `unit`: the unit used to express the
+#'   effort. One of the values available for argument `unit`, except `NULL`. If
+#'   `NULL`, the returned column `unit` is equal to `"Duration"`.
 #' @family get_functions
 #' @examples
 #' # efforts expressed as Durations
@@ -65,9 +67,9 @@ get_effort <- function(datapkg, ..., unit = NULL) {
     effort_df$effort <- transform_effort_to_common_units(
       effort = effort_df$effort,
       unit = unit)
-    effort_df$effort_unit <- unit
+    effort_df$unit <- unit
   } else {
-    effort_df$effort_unit <- "Duration"
+    effort_df$unit <- "Duration"
   }
   return(effort_df)
 }
@@ -112,11 +114,11 @@ transform_effort_to_common_units <- function(effort, unit) {
   assert_that(length(unit) == 1,
               msg = "unit must have length 1")
 
-  # define possible effort_unit values
-  effort_units <- c("second", "minute", "hour", "day", "week", "month", "year")
+  # define possible unit values
+  units <- c("second", "minute", "hour", "day", "week", "month", "year")
 
-  # check effort_unit
-  check_value(unit, effort_units, "effort_unit", null_allowed = FALSE)
+  # check unit
+  check_value(unit, units, "unit", null_allowed = FALSE)
 
   if (unit == "second") {
     effort / dseconds()

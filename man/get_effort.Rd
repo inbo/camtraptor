@@ -4,7 +4,7 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg, ..., unit = NULL)
+get_effort(datapkg, ..., unit = "hour")
 }
 \arguments{
 \item{datapkg}{a camera trap data package object, as returned by
@@ -21,21 +21,23 @@ get_effort(datapkg, ..., unit = NULL)
 \item \code{day}
 \item \code{month}
 \item \code{year}
-\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks))
 }}
 }
 \value{
-a tibble (data.frame) with the following columns: - \code{deploymentID}
-deployment unique identifier - \code{effort}: a duration object (duration is a
-class from lubridate package) - \code{unit}: the unit used to express the
-effort. One of the values available for argument \code{unit}, except \code{NULL}. If
-\code{NULL}, the returned column \code{unit} is equal to \code{"Duration"}.
+a tibble (data.frame) with the following columns:
+\itemize{
+\item \code{deploymentID}: deployment unique identifier.
+\item \code{effort}: effort expressed in the unit passed by argument \code{unit}.
+\item \code{unit}: the unit used to express the effort. One of the values available
+for argument \code{unit}.
+\item \code{effort_duration}: a duration object (duration is a class from lubridate package).
+}
 }
 \description{
 Function to get the effort (deployment duration) per deployment.
 }
 \examples{
-# efforts expressed as Durations
+# efforts expressed in hours
 get_effort(mica)
 
 # effort expressed as days

@@ -190,8 +190,8 @@ get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
   # extract deployments
   deployments <- datapkg$deployments
 
-  # get deployment duration (effort) in seconds (standard duration in lubridate)
-  dep_effort <- get_effort(datapkg, unit = NULL, ...)
+  # get deployment duration (effort) in days
+  dep_effort <- get_effort(datapkg, unit = "day", ...)
 
   # calculate RAI
   n_df %>%
@@ -199,6 +199,6 @@ get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
               by = "deploymentID") %>%
     group_by(.data$deploymentID,
              .data$scientificName) %>%
-    summarise(rai = .data$n * 100 / (as.numeric(.data$effort)/24/60/60)) %>%
+    summarise(rai = .data$n * 100 / .data$effort) %>%
     ungroup()
 }

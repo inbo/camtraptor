@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.1</span>
       </span>
     </div>
 
@@ -92,9 +92,11 @@
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a tibble (data.frame) with the following columns:</p><ul><li><p><code>deploymentID</code> deployment unique identifier</p></li>
-<li><p><code>effort</code>: a duration object (duration is a class from lubridate package)</p></li>
-</ul></div>
+    <p>a tibble (data.frame) with the following columns: - <code>deploymentID</code>deployment unique identifier - <code>effort</code>: a duration object (duration is a
+class from lubridate package) - <code>unit</code>: the unit used to express the
+effort. One of the values available for argument <code>unit</code>, except <code>NULL</code>. If
+<code>NULL</code>, the returned column <code>unit</code> is equal to <code>"Duration"</code>.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other get_functions: 
@@ -107,22 +109,22 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># efforts expressed as Durations</span></span>
 <span class="r-in"><span class="fu">get_effort</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         effort                 effort_unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;Duration&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 859859s (~1.42 weeks)  Duration   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 786802s (~1.3 weeks)   Duration   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 1903602s (~3.15 weeks) Duration   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 1204929s (~1.99 weeks) Duration   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         effort                 unit    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;Duration&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 859859s (~1.42 weeks)  Duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 786802s (~1.3 weeks)   Duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 1903602s (~3.15 weeks) Duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 1204929s (~1.99 weeks) Duration</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># effort expressed as days</span></span>
 <span class="r-in"><span class="fu">get_effort</span><span class="op">(</span><span class="va">mica</span>, unit <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         effort effort_unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8   9.95 day        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372   9.11 day        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1  22.0  day        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7  13.9  day        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         effort unit </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8   9.95 day  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372   9.11 day  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1  22.0  day  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7  13.9  day  </span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

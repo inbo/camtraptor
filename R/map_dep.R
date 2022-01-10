@@ -70,18 +70,9 @@
 #'   = `FALSE`). Default: `c(10, 50)`
 #' @param ... filter predicates for subsetting deployments
 #'
-#' @seealso Check documentation about filter predicates: [pred()], [pred_in()], [pred_and()], ...
-#' @importFrom assertthat assert_that
-#' @importFrom dplyr .data %>% as_tibble bind_rows bind_cols left_join mutate
-#'   one_of rename select
-#' @importFrom leaflet addControl addLegend addTiles addCircleMarkers
-#'   colorNumeric leaflet markerClusterOptions setView
-#' @importFrom glue glue
-#' @importFrom grDevices rgb
-#' @importFrom htmltools HTML tags
-#' @importFrom lubridate is.POSIXt
-#' @importFrom purrr map2 map
-#' @importFrom tidyr unite
+#' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
+#'   [pred_and()], ...
+#' @importFrom dplyr .data %>%
 #'
 #' @export
 #'
@@ -249,12 +240,12 @@ map_dep <- function(datapkg,
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
-  assert_that(length(feature) == 1,
+  assertthat::assert_that(length(feature) == 1,
               msg = "feature must have length 1")
 
   # check effort_unit in combination with feature
   if (!is.null(effort_unit) & feature != "effort") {
-    warning(glue("effort_unit argument ignored for feature = {feature}"))
+    warning(glue::glue("effort_unit argument ignored for feature = {feature}"))
     effort_unit <- NULL
   }
 
@@ -263,14 +254,14 @@ map_dep <- function(datapkg,
                                       "n_individuals",
                                       "rai",
                                       "rai_individuals")) {
-    warning(glue("sex argument ignored for feature = {feature}"))
+    warning(glue::glue("sex argument ignored for feature = {feature}"))
     sex <- NULL
   }
   if (!is.null(life_stage) & !feature %in% c("n_obs",
                                       "n_individuals",
                                       "rai",
                                       "rai_individuals")) {
-    warning(glue("life_stage argument ignored for feature = {feature}"))
+    warning(glue::glue("life_stage argument ignored for feature = {feature}"))
     life_stage <- NULL
   }
 
@@ -286,7 +277,7 @@ map_dep <- function(datapkg,
   if (is.null(species) | (!is.null(species) & feature %in% c("n_species",
                                                              "effort"))) {
     if (!is.null(species) & feature %in% c("n_species", "effort")) {
-      warning(glue("species argument ignored for feature = {feature}"))
+      warning(glue::glue("species argument ignored for feature = {feature}"))
       species <- NULL
     }
     hover_columns <- hover_columns[hover_columns != "species"]
@@ -298,7 +289,7 @@ map_dep <- function(datapkg,
   }
 
   # check cluster
-  assert_that(cluster %in% c(TRUE, FALSE),
+  assertthat::assert_that(cluster %in% c(TRUE, FALSE),
               msg = "cluster must be TRUE or FALSE"
   )
 
@@ -317,23 +308,22 @@ map_dep <- function(datapkg,
                                       hover_columns != "scientificName"]
     n_not_found_cols <- length(not_found_cols)
     if (n_not_found_cols > 0) {
-      warning(glue("There are {n_not_found_cols} columns defined in",
-                   " hover_columns not found in deployments: {not_found_cols*}",
-                   .transformer = collapse_transformer(
-                     sep = ", ",
-                     last = " and "
-                   )
-      ))
+      warning(glue::glue("There are {n_not_found_cols} columns defined in",
+                         " hover_columns not found in deployments: {not_found_cols*}",
+                         .transformer = collapse_transformer(
+                           sep = ", ",
+                           last = " and "
+                         )))
     }
   }
 
   # check combination relative_scale and max_scale
   if (relative_scale == FALSE) {
-    assert_that(!is.null(max_scale),
+    assertthat::assert_that(!is.null(max_scale),
                 msg = paste("If you use an absolute scale,",
                             "max_scale must be a number, not NULL")
     )
-    assert_that(is.numeric(max_scale),
+    assertthat::assert_that(is.numeric(max_scale),
                 msg = paste("If you use an absolute scale,",
                             "max_scale must be a number")
     )
@@ -357,16 +347,19 @@ map_dep <- function(datapkg,
                                  ...)
   } else if (feature == "rai") {
     feat_df <- get_rai(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
-    feat_df <- feat_df %>% rename(n = .data$rai)
+    feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(datapkg,
                                    species = species,
                                    sex = sex,
                                    life_stage = life_stage, ...)
-    feat_df <- feat_df %>% rename(n = .data$rai)
+    feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg, unit = effort_unit, ...)
-    feat_df <- feat_df %>% rename(n = .data$effort)
+    feat_df <- get_effort(datapkg, ...)
+    if (is.null(effort_unit)) {
+      feat_df$effort <- feat_df$effort_duration
+    }
+    feat_df <- feat_df %>% dplyr::rename(n = .data$effort)
   }
 
   # define title legend
@@ -381,10 +374,10 @@ map_dep <- function(datapkg,
   if (nrow(feat_df) == 0) {
     message("No deployments left.")
     leaflet_map <-
-      leaflet(feat_df) %>%
-      setView(lng = avg_lon, lat = avg_lat, zoom = 10) %>%
-      addTiles() %>%
-      addControl(tags$b(title), position = "bottomright")
+      leaflet::leaflet(feat_df) %>%
+      leaflet::setView(lng = avg_lon, lat = avg_lat, zoom = 10) %>%
+      leaflet::addTiles() %>%
+      leaflet::addControl(htmltools::tags$b(title), position = "bottomright")
     return(leaflet_map)
   }
 
@@ -397,8 +390,8 @@ map_dep <- function(datapkg,
                                                     hover_columns != "scientificName"]))
   feat_df <-
     feat_df %>%
-    left_join(deployments %>%
-                select(one_of(deploy_columns_to_add)),
+    dplyr::left_join(deployments %>%
+                dplyr::select(dplyr::one_of(deploy_columns_to_add)),
               by = "deploymentID"
     )
 
@@ -407,23 +400,23 @@ map_dep <- function(datapkg,
     hover_info_df <- get_prefixes(feature, hover_columns)
     ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
-    hover_infos <- as_tibble(map2(hover_info_df$prefix,
+    hover_infos <- dplyr::as_tibble(purrr::map2(hover_info_df$prefix,
                                   hover_info_df$info,
                                   function(x,y) {
                                     info <- feat_df[[y]]
-                                    if (is.POSIXt(info)) {
+                                    if (lubridate::is.POSIXt(info)) {
                                       info <- format(info)
                                     }
                                     paste0(x, as.character(feat_df[[y]]))
                                   }), .name_repair = "minimal") %>%
-      unite(col = "hover_info", sep = "</p><p>")
+      tidyr::unite(col = "hover_info", sep = "</p><p>")
     hover_infos <-
       hover_infos %>%
-      mutate(hover_info = paste0("<p>", .data$hover_info, "</p>"))
-    hover_infos$hover_info <- map(hover_infos$hover_info, ~HTML(.))
+      dplyr::mutate(hover_info = paste0("<p>", .data$hover_info, "</p>"))
+    hover_infos$hover_info <- purrr::map(hover_infos$hover_info, ~htmltools::HTML(.))
     feat_df <-
       feat_df %>%
-      bind_cols(hover_infos)
+      dplyr::bind_cols(hover_infos)
   } else {
     feat_df$hover_info <- NA
   }
@@ -433,7 +426,7 @@ map_dep <- function(datapkg,
     # set all n > max_scale to max_scale
     feat_df <-
       feat_df %>%
-      mutate(n = ifelse(.data$n > max_scale,
+      dplyr::mutate(n = ifelse(.data$n > max_scale,
                         max_scale,
                         .data$n
       ))
@@ -450,16 +443,16 @@ map_dep <- function(datapkg,
 
   # define color palette
   palette_colors <- c("white", "blue")
-  pal <- colorNumeric(
+  pal <- leaflet::colorNumeric(
     palette = palette_colors,
     domain = c(0, max_n)
   )
   # remove NA color to legend until this issue is solved:
   # https://github.com/rstudio/leaflet/issues/615
-  pal_without_na <- colorNumeric(
+  pal_without_na <- leaflet::colorNumeric(
     palette = palette_colors,
     domain = c(0, max_n),
-    na.color = rgb(0, 0, 0, 0)
+    na.color = grDevices::rgb(0, 0, 0, 0)
   )
 
   # define bins for ticks of legend
@@ -480,11 +473,11 @@ map_dep <- function(datapkg,
 
   # make basic start map
   leaflet_map <-
-    leaflet(feat_df) %>%
-    addTiles()
+    leaflet::leaflet(feat_df) %>%
+    leaflet::addTiles()
 
   leaflet_map %>%
-    addCircleMarkers(
+    leaflet::addCircleMarkers(
       lng = ~longitude,
       lat = ~latitude,
       radius = ~ ifelse(is.na(n), radius_min, n * conv_factor + radius_min),
@@ -492,9 +485,9 @@ map_dep <- function(datapkg,
       stroke = FALSE,
       fillOpacity = 0.5,
       label = ~hover_info,
-      clusterOptions = if (cluster == TRUE) markerClusterOptions() else NULL
+      clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
     ) %>%
-    addLegend("bottomright",
+    leaflet::addLegend("bottomright",
               pal = pal_without_na,
               values = legend_values,
               title = title,

@@ -29,7 +29,8 @@ they are also returned on screen in common units, e.g. "2594308s (~4.29
 weeks)", the values in seconds are used in color scales, not very handy to be
 interpreted. Converting them in the most suitable time unit is also useful
 for communication purposes (reports, research articles, ...). Obviously the
-conversion can be not always precise, e.g. month is not always 30 days long.
+conversion can be not always precise, e.g. a month is not always 30 days
+long.
 }
 \examples{
 # create efforts (durations) to transform
@@ -40,3 +41,4 @@ transform_effort_to_common_units(efforts, "hour")
 # transform effort to days
 transform_effort_to_common_units(efforts, "day")
 }
+\keyword{internal}

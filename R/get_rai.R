@@ -148,7 +148,7 @@ get_rai_individuals <- function(datapkg, ...,
 #' - `"n_obs"`: calculate RAI based on number of observation (standard)
 #' - `"n_individuals"`: calculate RAI based on number of individuals
 #'
-#' @importFrom dplyr .data %>% group_by left_join select summarise ungroup
+#' @importFrom dplyr .data %>%
 #'
 #' @keywords internal
 #'
@@ -195,10 +195,10 @@ get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
 
   # calculate RAI
   n_df %>%
-    left_join(dep_effort,
+    dplyr::left_join(dep_effort,
               by = "deploymentID") %>%
-    group_by(.data$deploymentID,
+    dplyr::group_by(.data$deploymentID,
              .data$scientificName) %>%
-    summarise(rai = .data$n * 100 / .data$effort) %>%
-    ungroup()
+    dplyr::summarise(rai = .data$n * 100 / .data$effort) %>%
+    dplyr::ungroup()
 }

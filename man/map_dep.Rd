@@ -241,5 +241,6 @@ map_dep(
 }
 }
 \seealso{
-Check documentation about filter predicates: \code{\link[=pred]{pred()}}, \code{\link[=pred_in]{pred_in()}}, \code{\link[=pred_and]{pred_and()}}, ...
+Check documentation about filter predicates: \code{\link[=pred]{pred()}}, \code{\link[=pred_in]{pred_in()}},
+\code{\link[=pred_and]{pred_and()}}, ...
 }

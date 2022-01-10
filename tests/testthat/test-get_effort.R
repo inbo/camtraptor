@@ -5,6 +5,7 @@ test_that("get_effort returns error if species is specified", {
 
 test_that("get_effort returns error for invalid effort units", {
   expect_error(get_effort(mica, unit = "bad_unit"))
+  expect_error(get_effort(mica, unit = NULL))
 })
 
 test_that("get_effort returns error for invalid datapackage", {
@@ -18,13 +19,15 @@ test_that("values in column unit are all the same", {
   expect_equal(length(distinct_efffort_unit_values), 1)
 })
 
-test_that("column unit is equal to 'Duration' if unit is NULL", {
+test_that("column effort_duration is of class 'Duration'", {
   effort_df <- get_effort(mica)
-  efffort_unit_value <- unique(effort_df$unit)
-  expect_equal(efffort_unit_value, "Duration")
+  expect_equal(class(effort_df$effort_duration)[1], "Duration")
+  expect_equal(attr(class(effort_df$effort_duration),
+                   which = "package"),
+              "lubridate")
 })
 
-test_that("column unit is always equal to unit if unit is not NULL", {
+test_that("column unit is always equal to argument unit", {
   unit_to_test <- c("second", "minute", "hour", "day", "month", "year")
   for (chosen_unit in unit_to_test) {
     effort_df <- get_effort(mica, unit = chosen_unit)
@@ -46,13 +49,14 @@ test_that("get_effort returns the right dataframe", {
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deploymentID, effort and unit only
+  # columns deploymentID, effort, unit and effort_duration only
   expect_equal(
     names(effort_df),
     c(
       "deploymentID",
       "effort",
-      "unit"
+      "unit",
+      "effort_duration"
     )
   )
 })

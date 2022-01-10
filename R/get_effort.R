@@ -13,26 +13,25 @@
 #' - `day`
 #' - `month`
 #' - `year`
-#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks))
 #' @param ... filter predicates
-#' @importFrom dplyr .data %>% mutate %>% select mutate
-#' @importFrom lubridate as.duration
+#' @importFrom dplyr .data %>%
 #' @export
 
-#' @return a tibble (data.frame) with the following columns: - `deploymentID`
-#'   deployment unique identifier - `effort`: a duration object (duration is a
-#'   class from lubridate package) - `unit`: the unit used to express the
-#'   effort. One of the values available for argument `unit`, except `NULL`. If
-#'   `NULL`, the returned column `unit` is equal to `"Duration"`.
+#' @return a tibble (data.frame) with the following columns:
+#' - `deploymentID`: deployment unique identifier.
+#' - `effort`: effort expressed in the unit passed by argument `unit`.
+#' - `unit`: the unit used to express the effort. One of the values available
+#' for argument `unit`.
+##' - `effort_duration`: a duration object (duration is a class from lubridate package).
 #' @family get_functions
 #' @examples
-#' # efforts expressed as Durations
+#' # efforts expressed in hours
 #' get_effort(mica)
 #'
 #' # effort expressed as days
 #' get_effort(mica, unit = "day")
 #'
-get_effort <- function(datapkg, ..., unit = NULL) {
+get_effort <- function(datapkg, ..., unit = "hour") {
 
   # define possible unit values
   units <- c("second",
@@ -43,7 +42,7 @@ get_effort <- function(datapkg, ..., unit = NULL) {
              "year")
 
   # check unit
-  check_value(unit, units, "unit", null_allowed = TRUE)
+  check_value(unit, units, "unit", null_allowed = FALSE)
 
   # check datapackage
   check_datapkg(datapkg)
@@ -60,18 +59,18 @@ get_effort <- function(datapkg, ..., unit = NULL) {
   # calculate effort of deployments
   effort_df <-
     deployments %>%
-    mutate(effort = as.duration(.data$end - .data$start)) %>%
-    select(.data$deploymentID, .data$effort)
-  # convert effort in specified effort time units (arg units)
-  if (!is.null(unit)) {
-    effort_df$effort <- transform_effort_to_common_units(
-      effort = effort_df$effort,
+    dplyr::mutate(effort_duration = lubridate::as.duration(.data$end - .data$start)) %>%
+    dplyr::select(.data$deploymentID, .data$effort_duration)
+  # convert effort duration in specified effort time units (arg units)
+  effort_df$effort <- transform_effort_to_common_units(
+      effort = effort_df$effort_duration,
       unit = unit)
     effort_df$unit <- unit
-  } else {
-    effort_df$unit <- "Duration"
-  }
-  return(effort_df)
+  effort_df %>%
+    dplyr::relocate(.data$deploymentID,
+                    .data$effort,
+                    .data$unit,
+                    .data$effort_duration)
 }
 
 #' Transform efforts to common units.
@@ -82,9 +81,8 @@ get_effort <- function(datapkg, ..., unit = NULL) {
 #' weeks)", the values in seconds are used in color scales, not very handy to be
 #' interpreted. Converting them in the most suitable time unit is also useful
 #' for communication purposes (reports, research articles, ...). Obviously the
-#' conversion can be not always precise, e.g. month is not always 30 days long.
-#'
-#' @importFrom lubridate dseconds dminutes dhours ddays dweeks dmonths dyears
+#' conversion can be not always precise, e.g. a month is not always 30 days
+#' long.
 #'
 #' @param effort a vector of duration objects
 #' @param unit common unit to express duration objects. One of:
@@ -98,6 +96,7 @@ get_effort <- function(datapkg, ..., unit = NULL) {
 #'
 #' @export
 #'
+#' @keywords internal
 #' @return a numeric vector
 #'
 #' @examples
@@ -121,18 +120,18 @@ transform_effort_to_common_units <- function(effort, unit) {
   check_value(unit, units, "unit", null_allowed = FALSE)
 
   if (unit == "second") {
-    effort / dseconds()
+    effort / lubridate::dseconds()
   } else if (unit == "minute") {
-    effort / dminutes()
+    effort / lubridate::dminutes()
   } else if (unit == "hour") {
-    effort / dhours()
+    effort / lubridate::dhours()
   } else if (unit == "day") {
-    effort / ddays()
+    effort / lubridate::ddays()
   } else if (unit == "week") {
-    effort / dweeks()
+    effort / lubridate::dweeks()
   } else if (unit == "month") {
-    effort / dmonths()
+    effort / lubridate::dmonths()
   } else if (unit == "year") {
-    effort / dyears()
+    effort / lubridate::dyears()
   }
 }

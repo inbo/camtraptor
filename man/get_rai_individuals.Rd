@@ -26,9 +26,9 @@ selected}
 or \code{c("male", "unknown")}.  If \code{NULL}, default, all observations of all
 sex classes are taken into account.}
 
-\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
-\code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
-of all life stage classes are taken into account.}
+\item{life_stage}{a character vector defining the life stage class to filter
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all
+observations of all life stage classes are taken into account.}
 }
 \value{
 a tibble (data.frame) with the following columns:

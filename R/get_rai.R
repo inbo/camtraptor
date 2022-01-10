@@ -82,9 +82,9 @@ get_rai <- function(datapkg, ...,
 #' @param sex a character defining the sex class to filter on, e.g. `"female"`
 #'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
 #'   sex classes are taken into account.
-#' @param life_stage a character vector defining the life stage class to filter on, e.g.
-#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all life stage classes are taken into account.
+#' @param life_stage a character vector defining the life stage class to filter
+#'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all
+#'   observations of all life stage classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
 #'
 #' @export

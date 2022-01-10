@@ -25,11 +25,11 @@ get_effort(datapkg, ..., unit = NULL)
 }}
 }
 \value{
-a tibble (data.frame) with the following columns:
-\itemize{
-\item \code{deploymentID} deployment unique identifier
-\item \code{effort}: a duration object (duration is a class from lubridate package)
-}
+a tibble (data.frame) with the following columns: - \code{deploymentID}
+deployment unique identifier - \code{effort}: a duration object (duration is a
+class from lubridate package) - \code{unit}: the unit used to express the
+effort. One of the values available for argument \code{unit}, except \code{NULL}. If
+\code{NULL}, the returned column \code{unit} is equal to \code{"Duration"}.
 }
 \description{
 Function to get the effort (deployment duration) per deployment.

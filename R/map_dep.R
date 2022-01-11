@@ -442,17 +442,10 @@ map_dep <- function(datapkg,
   )
 
   # define color palette
-  palette_colors <- c("white", "blue")
+  # palette_colors <- c("white", "blue")
   pal <- leaflet::colorNumeric(
-    palette = palette_colors,
+    palette = "magma",
     domain = c(0, max_n)
-  )
-  # remove NA color to legend until this issue is solved:
-  # https://github.com/rstudio/leaflet/issues/615
-  pal_without_na <- leaflet::colorNumeric(
-    palette = palette_colors,
-    domain = c(0, max_n),
-    na.color = grDevices::rgb(0, 0, 0, 0)
   )
 
   # define bins for ticks of legend
@@ -483,12 +476,12 @@ map_dep <- function(datapkg,
       radius = ~ ifelse(is.na(n), radius_min, n * conv_factor + radius_min),
       color = ~ pal(n),
       stroke = FALSE,
-      fillOpacity = 0.5,
-      label = ~hover_info,
+      fillOpacity = 0.8,
+      label = ~ hover_info,
       clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
     ) %>%
     leaflet::addLegend("bottomright",
-              pal = pal_without_na,
+              pal = pal,
               values = legend_values,
               title = title,
               opacity = 1,

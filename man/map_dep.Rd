@@ -129,7 +129,7 @@ map_dep(
   species = "Anas platyrhynchos"
 )
 
-# show number of observations of subadult individuals of AnasAnas strepera
+# show number of observations of subadult individuals of Anas strepera
 map_dep(
   mica,
   "n_obs",

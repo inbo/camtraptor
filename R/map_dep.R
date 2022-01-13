@@ -192,18 +192,18 @@
 #'   effort_unit = "month"
 #' )
 #'
-#' # use viridis palette
+#' # use viridis palette (viridis palettes)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = "viridis"
 #' )
 #'
-#' # use a palette defined by color names
+#' # use "BuPu" color palette (RColorBrewer palettes)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
-#'   palette = palette(value = c("black", "blue", "white"))
+#'   palette = "BuPu"
 #' )
 #'
 #' # use a palette defined by hex colors

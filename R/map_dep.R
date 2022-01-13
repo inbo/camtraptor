@@ -55,8 +55,17 @@
 #'
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
-#' @param relative_scale a logical indicating whether to use a relative color
 #'   list of columns you can use.
+#' @param palette The palette name or the color function that values will be
+#'   mapped to.
+#'   Typically one of the following:
+#'   - A character vector of RGB or named colors. Examples: `palette(),
+#'   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)`.
+#'   - the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
+#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
+#'   For more options, see argument `palette` of [leaflet::colorNumeric()].
+#'
+#' @param relative_scale Logical indicating whether to use a relative color
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
 #'   is used, specify a valid `max_scale`.
 #' @param max_scale Number indicating the max value used to map color
@@ -183,7 +192,28 @@
 #'   effort_unit = "month"
 #' )
 #'
-#' # cluster disabled
+#' # use viridis palette
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = "viridis"
+#' )
+#'
+#' # use a palette defined by color names
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = palette(value = c("black", "blue", "white"))
+#' )
+#'
+#' # use a palette defined by hex colors
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+#' )
+#'
+#' # disable cluster
 #' map_dep(mica,
 #'   "n_species",
 #'   cluster = FALSE
@@ -221,6 +251,7 @@ map_dep <- function(datapkg,
                                       "locationID", "locationName",
                                       "latitude", "longitude",
                                       "start", "end"),
+                    palette = "inferno",
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50)
@@ -441,9 +472,8 @@ map_dep <- function(datapkg,
   )
 
   # define color palette
-  # palette_colors <- c("white", "blue")
   pal <- leaflet::colorNumeric(
-    palette = "magma",
+    palette = palette,
     domain = c(0, max_n)
   )
 

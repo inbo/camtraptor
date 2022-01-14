@@ -237,7 +237,14 @@ map_dep(
   palette = "BuPu"
 )
 
-# use a palette defined by hex colors
+# use a palette defined by color names
+map_dep(
+  mica,
+  "n_obs",
+  palette = palette(c("black", "blue", "white"))
+)
+
+#' # use a palette defined by hex colors
 map_dep(
   mica,
   "n_obs",

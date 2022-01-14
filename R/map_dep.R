@@ -206,7 +206,14 @@
 #'   palette = "BuPu"
 #' )
 #'
-#' # use a palette defined by hex colors
+#' # use a palette defined by color names
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = palette(c("black", "blue", "white"))
+#' )
+#'
+#' #' # use a palette defined by hex colors
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -293,6 +300,29 @@ map_dep <- function(datapkg,
                                       "rai_individuals")) {
     warning(glue::glue("life_stage argument ignored for feature = {feature}"))
     life_stage <- NULL
+  }
+
+  # check palette
+  viridis_valid_palettes <- c(
+    "magma",
+    "inferno",
+    "plasma",
+    "viridis"
+  )
+  r_color_brewer_palettes <- rownames(RColorBrewer::brewer.pal.info)
+  palettes <- c(viridis_valid_palettes, r_color_brewer_palettes)
+  assertthat::assert_that(
+    length(palette) > 0,
+    msg = "Argument palette must be a valid color palette."
+  )
+  if (length(palette) == 1) {
+    check_value(arg = palette,
+                options = palettes,
+                arg_name = "palette",
+                null_allowed = FALSE
+    )
+  } else {
+
   }
 
   # extract observations and deployments

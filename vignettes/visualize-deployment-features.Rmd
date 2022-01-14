@@ -257,6 +257,38 @@ map_dep(mica_less_obs,
         feature = "n_species")
 ```
 
+### Use a color palette
+
+The default color palette is a [viridis color palette](https://cran.microsoft.com/snapshot/2017-08-01/web/packages/viridis/vignettes/intro-to-viridis.html) called `"inferno"`. You can specify another viridis color palette, e.g. `"viridis"` or `"magma"`, or a [RColorBrewer](https://renenyffenegger.ch/notes/development/languages/R/packages/RColorBrewer/index) palette, e.g. `"BuPu"` or `"Oranges"`. Below we use the `viridis` color palette:
+
+```{r use_viridis}
+map_dep(
+  mica,
+  "n_obs",
+  palette = "viridis"
+)
+```
+
+We can use a palette from `RColorBrewer`, e.g. the `"BuPu"` palette:
+
+```{r use_BuPu}
+map_dep(
+  mica,
+  "n_obs",
+  palette = "BuPu"
+)
+```
+
+Another easy way to specify a palette is to create it by passing some colors as a vector to the function `palette()`, e.g. `c("black", "blue", "white")`:
+
+```{r use_black_blue_white}
+map_dep(
+  mica,
+  "n_obs",
+  palette = palette(value = c("black", "blue", "white"))
+)
+```
+
 ### Modify circle size
 
 You can also modify the upper and lower limit of the circle sizes by specifying `radius_range` (default:   `c(10,50`):

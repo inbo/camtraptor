@@ -15,39 +15,40 @@ map_dep(
   cluster = TRUE,
   hover_columns = c("n", "species", "deploymentID", "locationID", "locationName",
     "latitude", "longitude", "start", "end"),
+  palette = "inferno",
   relative_scale = TRUE,
   max_scale = NULL,
   radius_range = c(10, 50)
 )
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{datapkg}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{feature}{character, deployment feature to visualize. One of:
+\item{feature}{deployment feature to visualize. One of:
 \itemize{
-\item \code{n_species}: number of identified species
-\item \code{n_obs}: number of observations
-\item \code{n_individuals}: number of individuals
-\item \code{rai}: Relative Abundance Index
-\item \code{effort}: effort (duration) of the deployment
+\item \code{"n_species"}: number of identified species
+\item \code{"n_obs"}: number of observations
+\item \code{"n_individuals"}: number of individuals
+\item \code{"rai"}: Relative Abundance Index
+\item \code{"effort"}: effort (duration) of the deployment
 }}
 
-\item{...}{filter predicates for subsetting deployments}
+\item{...}{Filter predicates for subsetting deployments.}
 
-\item{species}{a character with a scientific name. Required for  \code{rai},
-optional for \code{n_obs}. Default: \code{NULL}}
+\item{species}{Character with a scientific name. Required for  \code{rai},
+optional for \code{n_obs}. Default: \code{NULL}.}
 
-\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}.
+\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}.
 If \code{NULL}, default, all observations of all sex classes are taken into
-account. Optional argument for \code{n_obs} and \code{n_individuals}}
+account. Optional argument for \code{n_obs} and \code{n_individuals}.}
 
-\item{life_stage}{a character vector defining the life stage class to filter on, e.g.
+\item{life_stage}{Character vector defining the life stage class to filter on, e.g.
 \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all observations
 of all life stage classes are taken into account. Optional argument for \code{n_obs}
-and \code{n_individuals}}
+and \code{n_individuals}.}
 
-\item{effort_unit}{time unit to use while visualizing deployment effort
+\item{effort_unit}{Time unit to use while visualizing deployment effort
 (duration). One of:
 \itemize{
 \item \code{second}
@@ -57,14 +58,13 @@ and \code{n_individuals}}
 \item \code{month}
 \item \code{year}
 \item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
-while hovering and seconds shown in legend
+while hovering and seconds shown in legend.
 }}
 
-\item{cluster}{a logical value
-indicating whether using the cluster option while visualizing maps.
-Default: TRUE}
+\item{cluster}{Logical value indicating whether using the cluster option
+while visualizing maps. Default: TRUE.}
 
-\item{hover_columns}{character with the name of the columns to use for
+\item{hover_columns}{Character vector with the name of the columns to use for
 showing location deployment information while hovering the mouse over. One
 or more from deployment columns. Use \code{NULL} to disable hovering. Default
 information:
@@ -82,16 +82,26 @@ created internally by a \verb{get_*()} function)
 }
 
 See \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{section Deployment of Camtrap DP standard} for the full
-list of columns you can use}
+list of columns you can use.}
 
-\item{relative_scale}{a logical indicating whether to use a relative color
+\item{palette}{The palette name or the color function that values will be
+mapped to.
+Typically one of the following:
+\itemize{
+\item A character vector of RGB or named colors. Examples: \verb{palette(),   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)}.
+\item the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
+viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}
+For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
+}}
+
+\item{relative_scale}{Logical indicating whether to use a relative color
 and radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale
-is used, specify a valid \code{max_scale}}
+is used, specify a valid \code{max_scale}.}
 
-\item{max_scale}{a number indicating the max value used to map color
-and radius}
+\item{max_scale}{Number indicating the max value used to map color
+and radius.}
 
-\item{radius_range}{a vector of length 2 containing the lower and upper limit
+\item{radius_range}{Vector of length 2 containing the lower and upper limit
 of the circle radius. The lower value is used for deployments with zero
 feature value, i.e. no observations, no identified species, zero RAI or
 zero effort. The upper value is used for the deployment(s) with the highest
@@ -129,7 +139,7 @@ map_dep(
   species = "Anas platyrhynchos"
 )
 
-# show number of observations of subadult individuals of AnasAnas strepera
+# show number of observations of subadult individuals of Anas strepera
 map_dep(
   mica,
   "n_obs",
@@ -213,7 +223,35 @@ map_dep(
   effort_unit = "month"
 )
 
-# cluster disabled
+# use viridis palette (viridis palettes)
+map_dep(
+  mica,
+  "n_obs",
+  palette = "viridis"
+)
+
+# use "BuPu" color palette (RColorBrewer palettes)
+map_dep(
+  mica,
+  "n_obs",
+  palette = "BuPu"
+)
+
+# use a palette defined by color names
+map_dep(
+  mica,
+  "n_obs",
+  palette = palette(c("black", "blue", "white"))
+)
+
+#' # use a palette defined by hex colors
+map_dep(
+  mica,
+  "n_obs",
+  palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+)
+
+# disable cluster
 map_dep(mica,
   "n_species",
   cluster = FALSE

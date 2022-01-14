@@ -39,7 +39,6 @@ Imports:
     dplyr,
     frictionless,
     glue,
-    grDevices,
     here,
     htmltools,
     leaflet,

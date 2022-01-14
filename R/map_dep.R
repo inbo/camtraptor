@@ -5,19 +5,19 @@
 #' color are proportional to the mapped feature. Deployments without
 #' observations are shown as gray circles and a message is returned.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param datapkg Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param feature character, deployment feature to visualize. One of:
+#' @param feature deployment feature to visualize. One of:
 #'
-#' - `n_species`: number of identified species
-#' - `n_obs`: number of observations
-#' -  `n_individuals`: number of individuals
-#' - `rai`: Relative Abundance Index
-#' - `effort`: effort (duration) of the deployment
+#' - `"n_species"`: number of identified species
+#' - `"n_obs"`: number of observations
+#' -  `"n_individuals"`: number of individuals
+#' - `"rai"`: Relative Abundance Index
+#' - `"effort"`: effort (duration) of the deployment
 #'
-#' @param species a character with a scientific name. Required for  `rai`,
-#'   optional for `n_obs`. Default: `NULL`
-#' @param effort_unit time unit to use while visualizing deployment effort
+#' @param species Character with a scientific name. Required for  `rai`,
+#'   optional for `n_obs`. Default: `NULL`.
+#' @param effort_unit Time unit to use while visualizing deployment effort
 #'   (duration). One of:
 #'
 #' - `second`
@@ -27,18 +27,17 @@
 #' - `month`
 #' - `year`
 #' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
-#' while hovering and seconds shown in legend
-#' @param sex a character defining the sex class to filter on, e.g. `"female"`.
+#' while hovering and seconds shown in legend.
+#' @param sex Character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL`, default, all observations of all sex classes are taken into
-#'   account. Optional argument for `n_obs` and `n_individuals`
-#' @param life_stage a character vector defining the life stage class to filter on, e.g.
+#'   account. Optional argument for `n_obs` and `n_individuals`.
+#' @param life_stage Character vector defining the life stage class to filter on, e.g.
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
 #'   of all life stage classes are taken into account. Optional argument for `n_obs`
-#'   and `n_individuals`
-#' @param cluster a logical value
-#'   indicating whether using the cluster option while visualizing maps.
-#'   Default: TRUE
-#' @param hover_columns character with the name of the columns to use for
+#'   and `n_individuals`.
+#' @param cluster Logical value indicating whether using the cluster option
+#'   while visualizing maps. Default: TRUE.
+#' @param hover_columns Character vector with the name of the columns to use for
 #'   showing location deployment information while hovering the mouse over. One
 #'   or more from deployment columns. Use `NULL` to disable hovering. Default
 #'   information:
@@ -56,19 +55,28 @@
 #'
 #'   See [section Deployment of Camtrap DP
 #'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
-#'   list of columns you can use
-#' @param relative_scale a logical indicating whether to use a relative color
+#'   list of columns you can use.
+#' @param palette The palette name or the color function that values will be
+#'   mapped to.
+#'   Typically one of the following:
+#'   - A character vector of RGB or named colors. Examples: `palette(),
+#'   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)`.
+#'   - the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
+#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
+#'   For more options, see argument `palette` of [leaflet::colorNumeric()].
+#'
+#' @param relative_scale Logical indicating whether to use a relative color
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
-#'   is used, specify a valid `max_scale`
-#' @param max_scale a number indicating the max value used to map color
-#'   and radius
-#' @param radius_range a vector of length 2 containing the lower and upper limit
+#'   is used, specify a valid `max_scale`.
+#' @param max_scale Number indicating the max value used to map color
+#'   and radius.
+#' @param radius_range Vector of length 2 containing the lower and upper limit
 #'   of the circle radius. The lower value is used for deployments with zero
 #'   feature value, i.e. no observations, no identified species, zero RAI or
 #'   zero effort. The upper value is used for the deployment(s) with the highest
 #'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`). Default: `c(10, 50)`
-#' @param ... filter predicates for subsetting deployments
+#' @param ... Filter predicates for subsetting deployments.
 #'
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
 #'   [pred_and()], ...
@@ -100,7 +108,7 @@
 #'   species = "Anas platyrhynchos"
 #' )
 #'
-#' # show number of observations of subadult individuals of AnasAnas strepera
+#' # show number of observations of subadult individuals of Anas strepera
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -184,7 +192,35 @@
 #'   effort_unit = "month"
 #' )
 #'
-#' # cluster disabled
+#' # use viridis palette (viridis palettes)
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = "viridis"
+#' )
+#'
+#' # use "BuPu" color palette (RColorBrewer palettes)
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = "BuPu"
+#' )
+#'
+#' # use a palette defined by color names
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = palette(c("black", "blue", "white"))
+#' )
+#'
+#' #' # use a palette defined by hex colors
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+#' )
+#'
+#' # disable cluster
 #' map_dep(mica,
 #'   "n_species",
 #'   cluster = FALSE
@@ -222,6 +258,7 @@ map_dep <- function(datapkg,
                                       "locationID", "locationName",
                                       "latitude", "longitude",
                                       "start", "end"),
+                    palette = "inferno",
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50)
@@ -263,6 +300,29 @@ map_dep <- function(datapkg,
                                       "rai_individuals")) {
     warning(glue::glue("life_stage argument ignored for feature = {feature}"))
     life_stage <- NULL
+  }
+
+  # check palette
+  viridis_valid_palettes <- c(
+    "magma",
+    "inferno",
+    "plasma",
+    "viridis"
+  )
+  r_color_brewer_palettes <- rownames(RColorBrewer::brewer.pal.info)
+  palettes <- c(viridis_valid_palettes, r_color_brewer_palettes)
+  assertthat::assert_that(
+    length(palette) > 0,
+    msg = "Argument palette must be a valid color palette."
+  )
+  if (length(palette) == 1) {
+    check_value(arg = palette,
+                options = palettes,
+                arg_name = "palette",
+                null_allowed = FALSE
+    )
+  } else {
+
   }
 
   # extract observations and deployments
@@ -442,17 +502,9 @@ map_dep <- function(datapkg,
   )
 
   # define color palette
-  palette_colors <- c("white", "blue")
   pal <- leaflet::colorNumeric(
-    palette = palette_colors,
+    palette = palette,
     domain = c(0, max_n)
-  )
-  # remove NA color to legend until this issue is solved:
-  # https://github.com/rstudio/leaflet/issues/615
-  pal_without_na <- leaflet::colorNumeric(
-    palette = palette_colors,
-    domain = c(0, max_n),
-    na.color = grDevices::rgb(0, 0, 0, 0)
   )
 
   # define bins for ticks of legend
@@ -483,12 +535,12 @@ map_dep <- function(datapkg,
       radius = ~ ifelse(is.na(n), radius_min, n * conv_factor + radius_min),
       color = ~ pal(n),
       stroke = FALSE,
-      fillOpacity = 0.5,
-      label = ~hover_info,
+      fillOpacity = 0.8,
+      label = ~ hover_info,
       clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
     ) %>%
     leaflet::addLegend("bottomright",
-              pal = pal_without_na,
+              pal = pal,
               values = legend_values,
               title = title,
               opacity = 1,

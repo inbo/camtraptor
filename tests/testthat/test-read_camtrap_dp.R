@@ -68,7 +68,7 @@ test_that("Datapackage metadata is a list", {
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
-  expect_s3_class(dp_without_media$datapackage, "datapackage")
+  expect_type(dp_without_media$datapackage, "list")
 })
 
 test_that("Datapackage resources are named as in metadata$resource_names", {
@@ -126,7 +126,6 @@ test_that("file can be an URL", {
     file = dp_path,
     media = FALSE)
   expect_true(is.list(dp))
-  expect_s3_class(dp$datapackage, "datapackage")
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
                     class(dp$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%

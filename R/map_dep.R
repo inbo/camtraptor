@@ -415,7 +415,7 @@ map_dep <- function(datapkg,
                                    life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg, ...)
+    feat_df <- get_effort(datapkg, unit = effort_unit, ...)
     if (is.null(effort_unit)) {
       feat_df$effort <- feat_df$effort_duration
     }

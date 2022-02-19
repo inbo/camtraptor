@@ -57,8 +57,6 @@ and \code{n_individuals}.}
 \item \code{day}
 \item \code{month}
 \item \code{year}
-\item \code{NULL} (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
-while hovering and seconds shown in legend.
 }}
 
 \item{cluster}{Logical value indicating whether using the cluster option
@@ -201,12 +199,6 @@ map_dep(
   species = "Anas strepera",
   sex = "female",
   life_stage = "adult"
-)
-
-# show effort (basic duration in seconds)
-map_dep(
-  mica,
-  "effort"
 )
 
 # show effort (days)

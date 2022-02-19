@@ -209,7 +209,7 @@ get_record_table <- function(datapkg,
     mutate(delta.time.mins = .data$delta.time.secs/60) %>%
     mutate(delta.time.hours = .data$delta.time.mins/60) %>%
     mutate(delta.time.days = .data$delta.time.hours/24) %>%
-    mutate(across(starts_with("delta.time"), replace_na, 0)) %>%
+    mutate(across(starts_with("delta.time."), replace_na, 0)) %>%
     ungroup()
 
   record_table <- record_table %>%

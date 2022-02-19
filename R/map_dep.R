@@ -26,8 +26,6 @@
 #' - `day`
 #' - `month`
 #' - `year`
-#' - `NULL` (default) duration objects (e.g. 2594308s (~4.29 weeks)) are shown
-#' while hovering and seconds shown in legend.
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL`, default, all observations of all sex classes are taken into
 #'   account. Optional argument for `n_obs` and `n_individuals`.
@@ -170,12 +168,6 @@
 #'   species = "Anas strepera",
 #'   sex = "female",
 #'   life_stage = "adult"
-#' )
-#'
-#' # show effort (basic duration in seconds)
-#' map_dep(
-#'   mica,
-#'   "effort"
 #' )
 #'
 #' # show effort (days)
@@ -415,7 +407,7 @@ map_dep <- function(datapkg,
                                    life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg, ...)
+    feat_df <- get_effort(datapkg, unit = effort_unit, ...)
     if (is.null(effort_unit)) {
       feat_df$effort <- feat_df$effort_duration
     }

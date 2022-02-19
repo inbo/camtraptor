@@ -208,14 +208,6 @@ map_dep(mica,
         effort_unit = "month")
 ```
 
-By deafult, the effort is visualized as an object of class `Duration`, i.e. seconds, with an automatically added larger time range unit shown while hovering:
-
-```{r effort_default}
-map_dep(mica, 
-        feature = "effort")
-```
-
-
 ### Clustering and hovering
 
 You can specify which information you want to show while hovering with the mouse over the deployment. You can choose among all columns from deployments (see allowed fields in [camera trap data package standard documentation](https://tdwg.github.io/camtrap-dp/data/#deployments)) and `n` (number of species, number of observations or RAI).

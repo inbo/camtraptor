@@ -4,7 +4,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 ![last commit](https://img.shields.io/github/last-commit/inbo/camtrapdp)
-[![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](http://lifewatch.be)
+[![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be)
 [![R-CMD-check](https://github.com/inbo/camtrapdp/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/camtrapdp/actions)
 [![Codecov test coverage](https://codecov.io/gh/inbo/camtrapdp/branch/main/graph/badge.svg)](https://codecov.io/gh/inbo/camtrapdp?branch=main)
 <!-- badges: end -->

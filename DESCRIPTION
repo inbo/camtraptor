@@ -27,7 +27,7 @@ Authors@R: c(
            role = "ctb",
            email = "lynn.pallemaerts@inbo.be",
            comment = c(ORCID = "0000-0002-5034-5416")))
-Description: This package is a test environment for
+Description: A test environment for
     visualization of camera trap data formatted following the [Camera Trap
     Data Package standard](https://github.com/tdwg/camtrap-dp).
 License: MIT + file LICENSE

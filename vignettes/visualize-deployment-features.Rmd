@@ -249,6 +249,10 @@ map_dep(mica_less_obs,
         feature = "n_species")
 ```
 
+Notice that this allows you to visually distinguish
+- deployments without observations: marker and grey circle
+- deployments with observations of unknown species: marker and black circle
+
 ### Use a color palette
 
 The default color palette is a [viridis color palette](https://cran.microsoft.com/snapshot/2017-08-01/web/packages/viridis/vignettes/intro-to-viridis.html) called `"inferno"`. You can specify another viridis color palette, e.g. `"viridis"` or `"magma"`, or a [RColorBrewer](https://renenyffenegger.ch/notes/development/languages/R/packages/RColorBrewer/index) palette, e.g. `"BuPu"` or `"Oranges"`. Below we use the `viridis` color palette:

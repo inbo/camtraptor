@@ -515,12 +515,21 @@ map_dep <- function(datapkg,
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
+  # define marker icon for deployments with 0 values
+  icons <- leaflet::awesomeIcons(
+    icon = 'ios-close',
+    iconColor = 'black',
+    library = 'ion',
+    markerColor = "gray"
+  )
+
   # make basic start map
   leaflet_map <-
     leaflet::leaflet(feat_df) %>%
     leaflet::addTiles()
 
-  leaflet_map %>%
+  leaflet_map <-
+    leaflet_map %>%
     leaflet::addCircleMarkers(
       lng = ~longitude,
       lat = ~latitude,
@@ -542,4 +551,19 @@ map_dep <- function(datapkg,
                 max_scale = max_scale
               )
     )
+
+  # add markers for deployments with zero values
+  zero_values <- feat_df %>%
+    filter(.data$n == 0 | is.na(.data$n))
+  if (nrow(zero_values) > 0) {
+    leaflet_map <-
+      leaflet_map %>%
+      leaflet::addAwesomeMarkers(data = zero_values,
+                                 lng = ~longitude,
+                                 lat = ~latitude,
+                                 icon = icons,
+                                 label = ~ hover_info
+      )
+  }
+  leaflet_map
 }

@@ -126,9 +126,12 @@ get_custom_effort <- function(datapkg,
     )
   )
 
-  # set start to date of the earliest deployment
+  # set start to date of the earliest deployment if NULL
   if (is.null(start)) start <- sum_effort$date[1]
+
+  # set end to date of the latest deployment if NULL
   if (is.null(end)) end <- sum_effort$date[nrow(sum_effort)]
+
   # check start earlier than end
   assertthat::assert_that(start < end,
                           msg = "start must be earlier than end.")

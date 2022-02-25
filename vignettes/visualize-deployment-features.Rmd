@@ -73,6 +73,8 @@ map_dep(mica,
         species = "Anas platyrhynchos")
 ```
 
+Notice how zero values are also visualized by a marker for ease detection.
+
 You can filter by sex:
 
 ```{r filter_sex}

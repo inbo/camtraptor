@@ -146,7 +146,7 @@ get_custom_effort <- function(datapkg,
   } else {
     # add year column
     sum_effort <- sum_effort %>%
-      dplyr::mutate(year = lubridate::year(.data$date))
+      dplyr::mutate(year = lubridate::isoyear(.data$date))
 
     if (group_by == "year") {
       sum_effort <- sum_effort %>% dplyr::group_by(.data$year)
@@ -162,7 +162,7 @@ get_custom_effort <- function(datapkg,
     if (group_by == "week") {
       # add week column
       sum_effort <- sum_effort %>%
-        mutate(week = lubridate::week(.data$date)) %>%
+        mutate(week = lubridate::isoweek(.data$date)) %>%
         group_by(.data$year, .data$week)
     }
 

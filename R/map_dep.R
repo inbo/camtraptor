@@ -554,7 +554,7 @@ map_dep <- function(datapkg,
 
   # add markers for deployments with zero values
   zero_values <- feat_df %>%
-    filter(.data$n == 0 | is.na(.data$n))
+    dplyr::filter(.data$n == 0 | is.na(.data$n))
   if (nrow(zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%

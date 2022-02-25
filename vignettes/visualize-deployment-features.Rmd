@@ -73,6 +73,8 @@ map_dep(mica,
         species = "Anas platyrhynchos")
 ```
 
+Notice how zero values are also visualized by a marker for ease detection.
+
 You can filter by sex:
 
 ```{r filter_sex}
@@ -248,6 +250,10 @@ mica_less_obs$observations <-
 map_dep(mica_less_obs,
         feature = "n_species")
 ```
+
+Notice that this allows you to visually distinguish
+- deployments without observations: marker and grey circle
+- deployments with observations of unknown species: marker and black circle
 
 ### Use a color palette
 

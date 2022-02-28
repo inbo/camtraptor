@@ -25,6 +25,51 @@ test_that("get_custom_effort returns error for invalid effort units", {
   expect_error(get_custom_effort(mica, unit = "year"))
 })
 
+test_that("get_custom_effort returns warning if start set too early", {
+  expect_warning(get_custom_effort(mica, start = as.Date("1990-01-01")))
+})
+
+test_that("get_custom_effort returns warning if start set too early", {
+  start_too_early <- evaluate_promise(
+    get_custom_effort(mica,
+                      start = as.Date("1900-01-01"),
+                      group_by = "day")
+  )
+  expect_equal(
+    start_too_early$warnings,
+    paste0("start argument set too early. Earliest deployment start date: 2019-10-09.",
+           " With the given group_by value the earliest start possible is: ",
+           "2019-10-09.\nstart argument set to start date of earliest deployment: ",
+           "2019-10-09."
+    )
+  )
+  expect_equal(
+    start_too_early$result$begin[1],
+    lubridate::as_date(min(mica$deployments$start))
+  )
+})
+
+test_that("get_custom_effort returns warning if end set too late", {
+  end_too_late <- evaluate_promise(
+    get_custom_effort(mica,
+                      end = as.Date("2100-01-01"),
+                      group_by = "day")
+  )
+  expect_equal(
+    end_too_late$warnings,
+    paste0("end argument set too late. Latest deployment end date: 2021-04-18.",
+           " With the given group_by value the latest end possible is: ",
+           "2021-04-18.\nend argument set to end date of latest deployment: ",
+           "2021-04-18."
+    )
+  )
+  expect_equal(
+    end_too_late$result$begin[nrow(end_too_late$result)],
+    lubridate::as_date(max(mica$deployments$end))
+  )
+})
+
+
 test_that("right columns, cols types, right relative number of rows", {
   # right cols and col types: no groups
   tot_effort <- get_custom_effort(mica)
@@ -36,27 +81,22 @@ test_that("right columns, cols types, right relative number of rows", {
   # right cols and col types: group by year
   effort_by_year<- get_custom_effort(mica, group_by = "year")
   expect_true(
-    all(colnames(effort_by_year) == c("begin", "effort", "unit", "year"))
+    all(colnames(effort_by_year) == c("begin", "effort", "unit"))
   )
-  expect_equal(class(effort_by_year$year), "numeric")
 
   # right cols and col types: group by month
   effort_by_month<- get_custom_effort(mica, group_by = "month")
   expect_true(
-    all(
-      colnames(effort_by_month) == c("begin", "effort", "unit", "year", "month")
-    )
+    all(colnames(effort_by_month) == c("begin", "effort", "unit"))
   )
-  expect_equal(class(effort_by_month$month), "numeric")
 
   # right cols and col types: group by week
   effort_by_week<- get_custom_effort(mica, group_by = "week")
   expect_true(
     all(
-      colnames(effort_by_week) == c("begin", "effort", "unit", "year", "week")
+      colnames(effort_by_week) == c("begin", "effort", "unit")
     )
   )
-  expect_equal(class(effort_by_week$week), "numeric")
 
   # right cols and col types: group by day
   effort_by_day<- get_custom_effort(mica, group_by = "day")
@@ -64,34 +104,28 @@ test_that("right columns, cols types, right relative number of rows", {
     all(
       colnames(effort_by_day) == c("begin",
                                     "effort",
-                                    "unit",
-                                    "year",
-                                    "month",
-                                    "day")
+                                    "unit")
     )
   )
-  expect_equal(class(effort_by_day$day), "integer")
 
   # number of rows is equal to 1 if group_by is NULL
   expect_equal(nrow(tot_effort), 1)
 
-  # number of rows with grouping by year is equal to number of years in
-  # deployments
-  first_year <- lubridate::year(min(mica$deployments$start))
-  last_year <- lubridate::year(max(mica$deployments$end))
-  n_years <- last_year - first_year + 1
+  # number of rows with grouping by year is equal to number of days divided by
+  # 365
+  first_day <- min(mica$deployments$start)
+  last_day <- max(mica$deployments$end)
+  n_years <- as.numeric(last_day - first_day) %/% 365 + 1
   expect_equal(nrow(effort_by_year), n_years)
 
-  # number of rows with grouping by year is equal to number of months from start
-  # very first deployment and end of the very last deployment
-  first_month <- lubridate::month(min(mica$deployments$start, na.rm = TRUE))
-  last_month <- lubridate::month(max(mica$deployments$end, na.rm = TRUE))
-  n_months <- max(last_year - first_year - 1, 0) * 12 +
-    (12-first_month + 1) + last_month
+  # number of rows with grouping by month is equal to number of days divided by
+  # 30
+  n_months <- as.numeric(last_day - first_day) %/% 30 + 1
   expect_equal(nrow(effort_by_month), n_months)
 
-  # number of rows for weekly groups is higher than for monthly groups
-  expect_gte(nrow(effort_by_week), nrow(effort_by_month))
+  # number of rows with grouping by week is equal to number of days divided by 7
+  n_weeks <- as.numeric(last_day - first_day) %/% 7 + 1
+  expect_equal(nrow(effort_by_week), n_weeks)
 
   # number of rows for daily groups is higher than for weekly groups
   expect_gte(nrow(effort_by_day), nrow(effort_by_week))

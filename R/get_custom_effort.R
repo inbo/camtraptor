@@ -26,7 +26,6 @@
 #'
 #' - `begin`: Date: begin of the interval the effort is calculated over.
 #' - `effort`: The effort as number.
-#' - `effort_unit`: Character specifying the effort_unit.
 #' - `year`: Numeric, the year `begin` belongs to. This column is not present if
 #' `group_by` is `NULL`.
 #' - `month`: Numeric, the month `begin` belongs to. This column is present if
@@ -35,6 +34,7 @@
 #' `group_by` is `"week"`.
 #' - `day`: Numeric, the day `begin` belongs to. This column is present if
 #' `group_by` is `"day"`.
+#'   - `effort`: The effort as number.
 #' @family get_functions
 #' @examples
 #' # a global effort over the entire duration of the project (datapackage)

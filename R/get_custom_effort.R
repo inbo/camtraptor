@@ -9,13 +9,24 @@
 #'   `read_camtrap_dp()`.
 #' @param ... Filter predicates
 #' @param start Start date. Default: `NULL`. If `NULL` the earliest start date
-#'   among all deployments is used.
+#'   among all deployments is used. If  `group_by` unit is not `NULL`, the
+#'   lowest start value allowed is one group by unit before the start date of
+#'   the earliest deployment. If this condition doesn't hold true, a warning is
+#'   returned and the earliest start date among all deployments is used. If
+#'   `group_by` unit is `NULL` the start must be later than or equal to the
+#'   start date among all deployments.
 #' @param end End date. Default: `NULL`. If `NULL` the latest end date among all
-#'   deployments is used.
+#'   deployments is used.  If  `group_by` unit is not `NULL`, the
+#'   latest end value allowed is one group by unit after the end date of
+#'   the latest deployment. If this condition doesn't hold true, a warning is
+#'   returned and the latest end date among all deployments is used. If
+#'   `group_by` unit is `NULL` the end must be earlier than or equal to the
+#'   end date among all deployments.
 #' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`. The
 #'   effort is calculated at the interval rate defined in `group_by`. Default:
 #'   `NULL`: no grouping, i.e. the entire interval from `start` to `end` is
-#'   taken into account as a whole.
+#'   taken into account as a whole. A week is defined as a period of 7 days, a
+#'   month as a period of 30 days, a year as a period of 365 days.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
 #'
@@ -24,17 +35,9 @@
 #' @export
 #' @return A tibble (data.frame) with following columns:
 #'
-#' - `begin`: Date: begin of the interval the effort is calculated over.
-#' - `effort`: The effort as number.
-#' - `year`: Numeric, the year `begin` belongs to. This column is not present if
-#' `group_by` is `NULL`.
-#' - `month`: Numeric, the month `begin` belongs to. This column is present if
-#' `group_by` is `"month"` or `"day"`.
-#' - `week`: Numeric, the week `begin` belongs to. This column is present if
-#' `group_by` is `"week"`.
-#' - `day`: Numeric, the day `begin` belongs to. This column is present if
-#' `group_by` is `"day"`.
+#'   - `begin`: Date: begin of the interval the effort is calculated over.
 #'   - `effort`: The effort as number.
+#'   - `unit`: Character specifying the effort unit.
 #' @family get_functions
 #' @examples
 #' # a global effort over the entire duration of the project (datapackage)
@@ -91,6 +94,10 @@ get_custom_effort <- function(datapkg,
                  "week",
                  "month",
                  "year")
+  durations <- c(lubridate::ddays(x =1),
+                 lubridate::dweeks(x= 1),
+                 lubridate::dmonths(x = 1),
+                 lubridate::dyears(x = 1))
 
   # check group_by
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
@@ -126,6 +133,55 @@ get_custom_effort <- function(datapkg,
     )
   )
 
+  # check start is not earlier than start first deployment - 1 group_by unit
+  # duration. Return a warning and set start to first day deployment otherwise.
+  if (!is.null(start)) {
+    days_diff <- sum_effort$date[1] - lubridate::as_date(start)
+    if (!is.null(group_by)) {
+      d <- durations[which(group_bys == group_by)]
+      earliest_start <- sum_effort$date[1] - d + lubridate::ddays(1)
+    } else{
+      d <- lubridate::as.duration(0)
+      earliest_start <- sum_effort$date[1]
+    }
+    if (days_diff >= d) {
+      start <- sum_effort$date[1]
+      warning(
+        glue::glue("start argument set too early. ",
+                   "Earliest deployment start date: {sum_effort$date[1]}. ",
+                   "With the given group_by value ",
+                   "the earliest start possible is: {earliest_start}.",
+                   "
+                   start argument set to start date of earliest deployment: {start}.
+                   ")
+      )
+    }
+  }
+
+  # check end is not later than end last deployment + 1 group_by unit
+  # duration. Return a warning and set end to last day deployment otherwise.
+  if (!is.null(end)) {
+    days_diff <- lubridate::as_date(end) - sum_effort$date[nrow(sum_effort)]
+    if (!is.null(group_by)) {
+      d <- durations[which(group_bys == group_by)]
+      latest_end <- sum_effort$date[nrow(sum_effort)] + d - lubridate::ddays(1)
+    } else{
+      d <- lubridate::as.duration(0)
+      latest_end <- sum_effort$date[nrow(sum_effort)]
+    }
+    if (days_diff >= d) {
+      end <- sum_effort$date[nrow(sum_effort)]
+      warning(
+        glue::glue("end argument set too late. ",
+                   "Latest deployment end date: {sum_effort$date[nrow(sum_effort)]}. ",
+                   "With the given group_by value ",
+                   "the latest end possible is: {latest_end}.",
+                   "
+                   end argument set to end date of latest deployment: {end}.
+                   ")
+      )
+    }
+  }
   # set start to date of the earliest deployment if NULL
   if (is.null(start)) start <- sum_effort$date[1]
 
@@ -136,6 +192,13 @@ get_custom_effort <- function(datapkg,
   assertthat::assert_that(start < end,
                           msg = "start must be earlier than end.")
 
+  # create df with all dates from start to end
+  dates_df <- dplyr::tibble(date = seq(start, end, by ="days"))
+
+  # join dates_df to sum_effort
+  sum_effort <- dates_df %>%
+    left_join(sum_effort, by ="date")
+
   # filter by start and end date
   sum_effort <- sum_effort %>%
     filter(.data$date >= start & .data$date <= end)
@@ -144,44 +207,33 @@ get_custom_effort <- function(datapkg,
     # total effort (days) over all deployments
     sum_effort <-
       sum_effort %>%
-        dplyr::summarise(begin = min(.data$date, na.rm = TRUE),
-                         effort = sum(.data$sum_effort))
+        dplyr::summarise(begin = start,
+                         effort = sum(.data$sum_effort, na.rm = TRUE))
   } else {
-    # add year column
-    sum_effort <- sum_effort %>%
-      dplyr::mutate(year = lubridate::isoyear(.data$date))
 
-    if (group_by == "year") {
-      sum_effort <- sum_effort %>% dplyr::group_by(.data$year)
-    }
-
-    if (group_by == "month") {
-      # add month column
-      sum_effort <- sum_effort %>%
-        dplyr::mutate(month = lubridate::month(.data$date)) %>%
-        dplyr::group_by(.data$year, .data$month)
+    if (group_by == "day") {
+      period <- 1 # ndays within a group by unit
     }
 
     if (group_by == "week") {
-      # add week column
-      sum_effort <- sum_effort %>%
-        mutate(week = lubridate::isoweek(.data$date)) %>%
-        group_by(.data$year, .data$week)
+      period <- 7 # ndays within a group by unit
     }
-
-    if (group_by == "day") {
-      # add day column
-      sum_effort <- sum_effort %>%
-        mutate(month = lubridate::month(.data$date),
-               day = lubridate::day(.data$date)) %>%
-        group_by(.data$year, .data$month, .data$day)
+    if (group_by == "month") {
+      period <- 30 # ndays within a group by unit
     }
+    if (group_by == "year") {
+      period <- 365 # ndays within a group by unit
+    }
+    # add period column and group by it
+    sum_effort <- sum_effort %>%
+      mutate(period = as.numeric(.data$date- .data$date[1]) %/% period) %>%
+      group_by(.data$period)
 
     # sum total effort over each interval
     sum_effort <-
       sum_effort %>%
       dplyr::summarise(begin = min(.data$date, na.rm = TRUE),
-                       effort = sum(.data$sum_effort)) %>%
+                       effort = sum(.data$sum_effort, na.rm = TRUE)) %>%
       dplyr::ungroup()
   }
 
@@ -197,6 +249,5 @@ get_custom_effort <- function(datapkg,
     dplyr::mutate(unit = unit) %>%
     dplyr::select(.data$begin,
                   .data$effort,
-                  .data$unit,
-                  dplyr::everything())
+                  .data$unit)
 }

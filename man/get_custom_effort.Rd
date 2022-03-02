@@ -20,15 +20,26 @@ get_custom_effort(
 \item{...}{filter predicates}
 
 \item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date
-among all deployments is used.}
+among all deployments is used. If  \code{group_by} unit is not \code{NULL}, the
+lowest start value allowed is one group by unit before the start date of
+the earliest deployment. If this condition doesn't hold true, a warning is
+returned and the earliest start date among all deployments is used. If
+\code{group_by} unit is \code{NULL} the start must be later than or equal to the
+start date among all deployments.}
 
 \item{end}{End date. Default: \code{NULL}. If \code{NULL} the latest end date among all
-deployments is used.}
+deployments is used.  If  \code{group_by} unit is not \code{NULL}, the
+latest end value allowed is one group by unit after the end date of
+the latest deployment. If this condition doesn't hold true, a warning is
+returned and the latest end date among all deployments is used. If
+\code{group_by} unit is \code{NULL} the end must be earlier than or equal to the
+end date among all deployments.}
 
 \item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}. The
 effort is calculated at the interval rate defined in \code{group_by}. Default:
 \code{NULL}: no grouping, i.e. the entire interval from \code{start} to \code{end} is
-taken into account as a whole.}
+taken into account as a whole. A week is defined as a period of 7 days, a
+month as a period of 30 days, a year as a period of 365 days.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
@@ -38,15 +49,7 @@ A tibble (data.frame) with following columns:
 \itemize{
 \item \code{begin}: Date: begin of the interval the effort is calculated over.
 \item \code{effort}: The effort as number.
-\item \code{effort_unit}: Character specifying the effort_unit.
-\item \code{year}: Numeric, the year \code{begin} belongs to. This column is not present if
-\code{group_by} is \code{NULL}.
-\item \code{month}: Numeric, the month \code{begin} belongs to. This column is present if
-\code{group_by} is \code{"month"} or \code{"day"}.
-\item \code{week}: Numeric, the week \code{begin} belongs to. This column is present if
-\code{group_by} is \code{"week"}.
-\item \code{day}: Numeric, the day \code{begin} belongs to. This column is present if
-\code{group_by} is \code{"day"}.
+\item \code{unit}: Character specifying the effort unit.
 }
 }
 \description{

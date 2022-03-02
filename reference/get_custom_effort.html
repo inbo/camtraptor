@@ -20,7 +20,7 @@ as well."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtrapdp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -94,15 +94,26 @@ as well.</p>
 <dd><p>filter predicates</p></dd>
 <dt>start</dt>
 <dd><p>Start date. Default: <code>NULL</code>. If <code>NULL</code> the earliest start date
-among all deployments is used.</p></dd>
+among all deployments is used. If  <code>group_by</code> unit is not <code>NULL</code>, the
+lowest start value allowed is one group by unit before the start date of
+the earliest deployment. If this condition doesn't hold true, a warning is
+returned and the earliest start date among all deployments is used. If
+<code>group_by</code> unit is <code>NULL</code> the start must be later than or equal to the
+start date among all deployments.</p></dd>
 <dt>end</dt>
 <dd><p>End date. Default: <code>NULL</code>. If <code>NULL</code> the latest end date among all
-deployments is used.</p></dd>
+deployments is used.  If  <code>group_by</code> unit is not <code>NULL</code>, the
+latest end value allowed is one group by unit after the end date of
+the latest deployment. If this condition doesn't hold true, a warning is
+returned and the latest end date among all deployments is used. If
+<code>group_by</code> unit is <code>NULL</code> the end must be earlier than or equal to the
+end date among all deployments.</p></dd>
 <dt>group_by</dt>
 <dd><p>Character, one of <code>"day"</code>, <code>"week"</code>, <code>"month"</code>, <code>"year"</code>. The
 effort is calculated at the interval rate defined in <code>group_by</code>. Default:
 <code>NULL</code>: no grouping, i.e. the entire interval from <code>start</code> to <code>end</code> is
-taken into account as a whole.</p></dd>
+taken into account as a whole. A week is defined as a period of 7 days, a
+month as a period of 30 days, a year as a period of 365 days.</p></dd>
 <dt>unit</dt>
 <dd><p>Character, the time unit to use while returning custom effort.
 One of: <code>hour</code> (default), <code>day</code>.</p></dd>
@@ -111,15 +122,7 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
     <h2>Value</h2>
     <p>A tibble (data.frame) with following columns:</p><ul><li><p><code>begin</code>: Date: begin of the interval the effort is calculated over.</p></li>
 <li><p><code>effort</code>: The effort as number.</p></li>
-<li><p><code>effort_unit</code>: Character specifying the effort_unit.</p></li>
-<li><p><code>year</code>: Numeric, the year <code>begin</code> belongs to. This column is not present if
-<code>group_by</code> is <code>NULL</code>.</p></li>
-<li><p><code>month</code>: Numeric, the month <code>begin</code> belongs to. This column is present if
-<code>group_by</code> is <code>"month"</code> or <code>"day"</code>.</p></li>
-<li><p><code>week</code>: Numeric, the week <code>begin</code> belongs to. This column is present if
-<code>group_by</code> is <code>"week"</code>.</p></li>
-<li><p><code>day</code>: Numeric, the day <code>begin</code> belongs to. This column is present if
-<code>group_by</code> is <code>"day"</code>.</p></li>
+<li><p><code>unit</code>: Character specifying the effort unit.</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -161,77 +164,76 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 <span class="r-in">  <span class="va">mica</span>,</span>
 <span class="r-in">  group_by <span class="op">=</span> <span class="st">"day"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 558 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit   year month   day</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09   12.7 hour   <span style="text-decoration: underline;">2</span>019    10     9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-10-10   24   hour   <span style="text-decoration: underline;">2</span>019    10    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-10-11   24   hour   <span style="text-decoration: underline;">2</span>019    10    11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2019-10-12   24   hour   <span style="text-decoration: underline;">2</span>019    10    12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2019-10-13   24   hour   <span style="text-decoration: underline;">2</span>019    10    13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2019-10-14   24   hour   <span style="text-decoration: underline;">2</span>019    10    14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2019-10-15   24   hour   <span style="text-decoration: underline;">2</span>019    10    15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2019-10-16   24   hour   <span style="text-decoration: underline;">2</span>019    10    16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-10-17   24   hour   <span style="text-decoration: underline;">2</span>019    10    17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-10-18   24   hour   <span style="text-decoration: underline;">2</span>019    10    18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 558 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09   12.7 hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-10-10   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-10-11   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2019-10-12   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2019-10-13   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2019-10-14   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2019-10-15   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2019-10-16   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-10-17   24   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-10-18   24   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 548 more rows</span></span>
 <span class="r-in"><span class="co"># effort at weekly interval</span></span>
 <span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">mica</span>,</span>
 <span class="r-in">  group_by <span class="op">=</span> <span class="st">"week"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 82 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit   year  week</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09  133.  hour   <span style="text-decoration: underline;">2</span>019    41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-10-15  168   hour   <span style="text-decoration: underline;">2</span>019    42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-10-22   34.0 hour   <span style="text-decoration: underline;">2</span>019    43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2019-10-29    0   hour   <span style="text-decoration: underline;">2</span>019    44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2019-11-05    0   hour   <span style="text-decoration: underline;">2</span>019    45</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2019-11-12    0   hour   <span style="text-decoration: underline;">2</span>019    46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2019-11-19    0   hour   <span style="text-decoration: underline;">2</span>019    47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2019-11-26    0   hour   <span style="text-decoration: underline;">2</span>019    48</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-12-03    0   hour   <span style="text-decoration: underline;">2</span>019    49</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-12-10    0   hour   <span style="text-decoration: underline;">2</span>019    50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 72 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09  157.  hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-10-16  168   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-10-23   10.0 hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2019-10-30    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2019-11-06    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2019-11-13    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2019-11-20    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2019-11-27    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-12-04    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-12-11    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows</span></span>
 <span class="r-in"><span class="co"># effort at monthly interval</span></span>
 <span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">mica</span>,</span>
 <span class="r-in">  group_by <span class="op">=</span> <span class="st">"month"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit   year month</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09  335.  hour   <span style="text-decoration: underline;">2</span>019    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-11-01    0   hour   <span style="text-decoration: underline;">2</span>019    11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-12-01    0   hour   <span style="text-decoration: underline;">2</span>019    12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2020-01-01    0   hour   <span style="text-decoration: underline;">2</span>020     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2020-02-01    0   hour   <span style="text-decoration: underline;">2</span>020     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2020-03-01    0   hour   <span style="text-decoration: underline;">2</span>020     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2020-04-01    0   hour   <span style="text-decoration: underline;">2</span>020     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2020-05-01    0   hour   <span style="text-decoration: underline;">2</span>020     5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2020-06-01  219.  hour   <span style="text-decoration: underline;">2</span>020     6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2020-07-01   66.5 hour   <span style="text-decoration: underline;">2</span>020     7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 2020-08-01  172.  hour   <span style="text-decoration: underline;">2</span>020     8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 2020-09-01    0   hour   <span style="text-decoration: underline;">2</span>020     9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 2020-10-01    0   hour   <span style="text-decoration: underline;">2</span>020    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> 2020-11-01    0   hour   <span style="text-decoration: underline;">2</span>020    11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> 2020-12-01    0   hour   <span style="text-decoration: underline;">2</span>020    12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> 2021-01-01    0   hour   <span style="text-decoration: underline;">2</span>021     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 2021-02-01    0   hour   <span style="text-decoration: underline;">2</span>021     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> 2021-03-01   99.4 hour   <span style="text-decoration: underline;">2</span>021     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> 2021-04-01  429.  hour   <span style="text-decoration: underline;">2</span>021     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2019-10-09  335.  hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2019-11-08    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2019-12-08    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2020-01-07    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2020-02-06    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2020-03-07    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2020-04-06    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2020-05-06    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2020-06-05  219.  hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2020-07-05  139.  hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 2020-08-04  100.  hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 2020-09-03    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 2020-10-03    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> 2020-11-02    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> 2020-12-02    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> 2021-01-01    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 2021-01-31    0   hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> 2021-03-02   99.4 hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> 2021-04-01  429.  hour </span>
 <span class="r-in"><span class="co"># effort at yearly interval</span></span>
 <span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">mica</span>,</span>
 <span class="r-in">  group_by <span class="op">=</span> <span class="st">"year"</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit   year</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-10-09   335. hour   <span style="text-decoration: underline;">2</span>019</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2020-01-01   457. hour   <span style="text-decoration: underline;">2</span>020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-01-01   529. hour   <span style="text-decoration: underline;">2</span>021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-10-09   792. hour </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2020-10-08   529. hour </span>
 <span class="r-in"><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span>
 <span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>

@@ -287,6 +287,33 @@ map_dep(
 )
 ```
 
+### Use a specific color for zero values
+
+You can pass to `zero_value_colors` argument your own color, e.g. `"green"` (color name) or `"#03F"` (hex). Modifying the default  value (`"red"`) can be useful as the color of deployments with zero values can be sometimes too similar to one of the colors used in the palette.
+
+Use a color name: 
+
+```{r specify_zero_colors_value_example_1}
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_color = "green"
+)
+```
+
+Use a hexadecimal color:
+
+```{r specify_zero_colors_value_example_2}
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_color = "#00A58F"
+)
+```
+
+
 ### Modify circle size
 
 You can also modify the upper and lower limit of the circle sizes by specifying `radius_range` (default:   `c(10,50`):

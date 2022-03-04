@@ -63,6 +63,8 @@
 #'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
 #'   For more options, see argument `palette` of [leaflet::colorNumeric()].
 #'
+#' @param zero_values_color a string identifying a color, e.g. "black", "#03F".
+#'   Default: "red".
 #' @param relative_scale Logical indicating whether to use a relative color
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
 #'   is used, specify a valid `max_scale`.
@@ -212,6 +214,14 @@
 #'   palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
 #' )
 #'
+#' #' # use a specific color for zero values other than default ("red")
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   life_stage = "subadult",
+#'   zero_values_color = "green"
+#' )
+#'
 #' # disable cluster
 #' map_dep(mica,
 #'   "n_species",
@@ -251,6 +261,7 @@ map_dep <- function(datapkg,
                                       "latitude", "longitude",
                                       "start", "end"),
                     palette = "inferno",
+                    zero_values_color = "red",
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50)
@@ -515,17 +526,17 @@ map_dep <- function(datapkg,
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
-  # define marker icon for deployments with 0 values
-  icons <- leaflet::awesomeIcons(
-    icon = 'ios-close',
-    iconColor = 'black',
-    library = 'ion',
-    markerColor = "gray"
-  )
+  # # define marker icon for deployments with 0 values
+  # icons <- leaflet::awesomeIcons(
+  #   icon = 'ios-close',
+  #   iconColor = 'black',
+  #   library = 'ion',
+  #   markerColor = "gray"
+  # )
 
   # make basic start map
   leaflet_map <-
-    leaflet::leaflet(feat_df) %>%
+    leaflet::leaflet(data = feat_df %>% dplyr::filter(.data$n > 0)) %>%
     leaflet::addTiles()
 
   leaflet_map <-
@@ -558,11 +569,15 @@ map_dep <- function(datapkg,
   if (nrow(zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%
-      leaflet::addAwesomeMarkers(data = zero_values,
-                                 lng = ~longitude,
-                                 lat = ~latitude,
-                                 icon = icons,
-                                 label = ~ hover_info
+      leaflet::addCircleMarkers(data = zero_values,
+                                lng = ~longitude,
+                                lat = ~latitude,
+                                label = ~ hover_info,
+                                radius = radius_min,
+                                color = zero_values_color,
+                                stroke = TRUE,
+                                fillOpacity = 0.5, # default
+                                opacity = 0.5 # default
       )
   }
   leaflet_map

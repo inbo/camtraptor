@@ -576,7 +576,8 @@ map_dep <- function(datapkg,
                                 radius = radius_min,
                                 color = zero_values_color,
                                 stroke = TRUE,
-                                fillOpacity = 0.5 # deafult
+                                fillOpacity = 0.5, # default
+                                opacity = 0.5 # default
       )
   }
   leaflet_map

@@ -73,7 +73,7 @@ map_dep(mica,
         species = "Anas platyrhynchos")
 ```
 
-Notice how zero values are also visualized by a marker for ease detection.
+Notice how zero values are also visualized by a specific circle marker for ease detection. Color: red by default.
 
 You can filter by sex:
 
@@ -237,7 +237,7 @@ map_dep(mica,
 
 ### Visualize deployments without detected aniamals
 
-It can happen that some deployments didn't observe any animal. While visualizing the number of species, they are shown in the map as gray circles and a message is returned to the R console:
+It can happen that some deployments didn't observe any animal. While visualizing the number of species, they are shown in the map as red circles as deployments with zero values and a message is returned to the R console:
 
 ```{r show_deployments_without_observations}
 # create data package with less observations
@@ -252,8 +252,8 @@ map_dep(mica_less_obs,
 ```
 
 Notice that this allows you to visually distinguish
-- deployments without observations: marker and grey circle
-- deployments with observations of unknown species: marker and black circle
+- deployments without observations: grey circle as the number of species, the feature value, is NA
+- deployments with only observations of unknown species: red circle as the number of species, the feature value, is zero
 
 ### Use a color palette
 

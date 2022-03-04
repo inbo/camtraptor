@@ -536,7 +536,8 @@ map_dep <- function(datapkg,
 
   # make basic start map
   leaflet_map <-
-    leaflet::leaflet(data = feat_df %>% dplyr::filter(.data$n > 0)) %>%
+    leaflet::leaflet(data = feat_df %>%
+                       dplyr::filter(.data$n > 0 | is.na(.data$n))) %>%
     leaflet::addTiles()
 
   leaflet_map <-
@@ -565,18 +566,20 @@ map_dep <- function(datapkg,
 
   # add markers for deployments with zero values
   zero_values <- feat_df %>%
-    dplyr::filter(.data$n == 0 | is.na(.data$n))
+    dplyr::filter(.data$n == 0)
   if (nrow(zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%
-      leaflet::addCircleMarkers(data = zero_values,
-                                lng = ~longitude,
-                                lat = ~latitude,
-                                label = ~ hover_info,
-                                radius = radius_min,
-                                color = zero_values_color,
-                                stroke = TRUE,
-                                fillOpacity = 0.5, # default
+      leaflet::addCircleMarkers(
+        data = zero_values,
+        lng = ~longitude,
+        lat = ~latitude,
+        label = ~ hover_info,
+        radius = radius_min,
+        color = zero_values_color,
+        stroke = TRUE,
+        fillOpacity = 0.5, # default
+        opacity = 0.5, # default
         clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       )
   }

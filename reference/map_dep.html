@@ -29,7 +29,7 @@ observations are shown as gray circles and a message is returned."><!-- mathjax 
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -87,6 +87,7 @@ observations are shown as gray circles and a message is returned.</p>
   hover_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"species"</span>, <span class="st">"deploymentID"</span>, <span class="st">"locationID"</span>, <span class="st">"locationName"</span>,
     <span class="st">"latitude"</span>, <span class="st">"longitude"</span>, <span class="st">"start"</span>, <span class="st">"end"</span><span class="op">)</span>,
   palette <span class="op">=</span> <span class="st">"inferno"</span>,
+  zero_values_color <span class="op">=</span> <span class="st">"red"</span>,
   relative_scale <span class="op">=</span> <span class="cn">TRUE</span>,
   max_scale <span class="op">=</span> <span class="cn">NULL</span>,
   radius_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>
@@ -155,6 +156,9 @@ Typically one of the following:</p><ul><li><p>A character vector of RGB or named
 viridis palette: <code>"viridis"</code>, <code>"magma"</code>, <code>"inferno"</code> or <code>"plasma"</code>
 For more options, see argument <code>palette</code> of <code><a href="https://rdrr.io/pkg/leaflet/man/colorNumeric.html" class="external-link">leaflet::colorNumeric()</a></code>.</p></li>
 </ul></dd>
+<dt>zero_values_color</dt>
+<dd><p>a string identifying a color, e.g. "black", "#03F".
+Default: "red".</p></dd>
 <dt>relative_scale</dt>
 <dd><p>Logical indicating whether to use a relative color
 and radius scale (<code>TRUE</code>) or an absolute scale (<code>FALSE</code>). If absolute scale

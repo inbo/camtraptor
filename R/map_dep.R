@@ -577,7 +577,7 @@ map_dep <- function(datapkg,
                                 color = zero_values_color,
                                 stroke = TRUE,
                                 fillOpacity = 0.5, # default
-                                opacity = 0.5 # default
+        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       )
   }
   leaflet_map

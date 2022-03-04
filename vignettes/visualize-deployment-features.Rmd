@@ -235,7 +235,7 @@ map_dep(mica,
         hover_columns = NULL)
 ```
 
-### Visualize deployments without detected aniamals
+### Visualize deployments without detected animals
 
 It can happen that some deployments didn't observe any animal. While visualizing the number of species, they are shown in the map as red circles as deployments with zero values and a message is returned to the R console:
 

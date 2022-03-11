@@ -534,39 +534,17 @@ map_dep <- function(datapkg,
   #   markerColor = "gray"
   # )
 
+  # non_zero values deploys
+  non_zero_values <-feat_df %>% dplyr::filter(.data$n > 0)
+  # zero values
+  zero_values <- feat_df %>% dplyr::filter(.data$n == 0 | is.na(.data$n))
+
   # make basic start map
   leaflet_map <-
-    leaflet::leaflet(data = feat_df %>%
-                       dplyr::filter(.data$n > 0 | is.na(.data$n))) %>%
+    leaflet::leaflet() %>%
     leaflet::addTiles()
 
-  leaflet_map <-
-    leaflet_map %>%
-    leaflet::addCircleMarkers(
-      lng = ~longitude,
-      lat = ~latitude,
-      radius = ~ ifelse(is.na(n), radius_min, n * conv_factor + radius_min),
-      color = ~ pal(n),
-      stroke = FALSE,
-      fillOpacity = 0.8,
-      label = ~ hover_info,
-      clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
-    ) %>%
-    leaflet::addLegend("bottomright",
-              pal = pal,
-              values = legend_values,
-              title = title,
-              opacity = 1,
-              bins = bins,
-              na.label = "",
-              labFormat = labelFormat_scale(
-                max_scale = max_scale
-              )
-    )
-
   # add markers for deployments with zero values
-  zero_values <- feat_df %>%
-    dplyr::filter(.data$n == 0)
   if (nrow(zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%
@@ -581,6 +559,33 @@ map_dep <- function(datapkg,
         fillOpacity = 0.5, # default
         opacity = 0.5, # default
         clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
+      )
+  }
+
+  if (nrow(non_zero_values) > 0) {
+    leaflet_map <-
+      leaflet_map %>%
+      leaflet::addCircleMarkers(
+        data = non_zero_values,
+        lng = ~longitude,
+        lat = ~latitude,
+        radius = ~ ifelse(is.na(n), radius_min, n * conv_factor + radius_min),
+        color = ~ pal(n),
+        stroke = FALSE,
+        fillOpacity = 0.8,
+        label = ~ hover_info,
+        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
+      ) %>%
+      leaflet::addLegend("bottomright",
+                         pal = pal,
+                         values = legend_values,
+                         title = title,
+                         opacity = 1,
+                         bins = bins,
+                         na.label = "",
+                         labFormat = labelFormat_scale(
+                           max_scale = max_scale
+                         )
       )
   }
   leaflet_map

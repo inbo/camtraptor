@@ -17,9 +17,9 @@ commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 Camtraptor is an R package to read, explore and visualize Camera Trap
 Data Packages ([Camtrap DP](https://tdwg.github.io/camtrap-dp/)).
 Camtrap DP is a community developed data exchange format for this type
-of data. With camtraptor you can read and filter data and create maps
-and overviews observed species, relative abundance index, and show these
-per deployment on a map.
+of data. With camtraptor you can read and filter data, create overviews
+of observed species, relative abundance or effort, and plot these data
+on a map.
 
 To get started, see:
 

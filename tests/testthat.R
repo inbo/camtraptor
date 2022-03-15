@@ -1,6 +1,6 @@
 library(testthat)
-library(camtrapdp)
+library(camtraptor)
 library(dplyr)
 library(lubridate)
 
-test_check("camtrapdp")
+test_check("camtraptor")

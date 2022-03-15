@@ -23,12 +23,12 @@ This vignette shows how to get a _camera trap station operability matrix_, short
 Load packages:
 
 ```{r load_pkgs}
-library(camtrapdp)
+library(camtraptor)
 library(lubridate)
 library(dplyr)
 ```
 
-By loading package `camtrapdp`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+By loading package `camtraptor`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
 
 ## Camera operation matrix
 

@@ -28,7 +28,7 @@ This vignette shows how to use function `map_dep()` to visualize important deplo
 Load packages:
 
 ```{r load}
-library(camtrapdp)
+library(camtraptor)
 library(lubridate)
 library(dplyr)
 ```
@@ -356,4 +356,4 @@ map_dep(mica,
         feature = "n_obs")
 ```
 
-More about filter predicates in [filter predicates](https://inbo.github.io/camtrapdp/articles/filter-predicates.html) article.
+More about filter predicates in [filter predicates](https://inbo.github.io/camtraptor/articles/filter-predicates.html) article.

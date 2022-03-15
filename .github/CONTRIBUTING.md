@@ -1,14 +1,14 @@
-# Contributing to camtrapdp
+# Contributing to camtraptor
 
-First of all, thanks for considering contributing to camtrapdp! 👍 It's people like you that make it rewarding for us - the project maintainers - to work on camtrapdp. 😊
+First of all, thanks for considering contributing to camtraptor! 👍 It's people like you that make it rewarding for us - the project maintainers - to work on camtraptor. 😊
 
-camtrapdp is an open source project, maintained by people who care. We are not directly funded to do so.
+camtraptor is an open source project, maintained by people who care. We are not directly funded to do so.
 
-[repo]: https://github.com/inbo/camtrapdp
-[issues]: https://github.com/inbo/camtrapdp/issues
-[new_issue]: https://github.com/inbo/camtrapdp/issues/new
-[website]: https://inbo.github.io/camtrapdp
-[citation]: https://inbo.github.io/camtrapdp/authors.html
+[repo]: https://github.com/inbo/camtraptor
+[issues]: https://github.com/inbo/camtraptor/issues
+[new_issue]: https://github.com/inbo/camtraptor/issues/new
+[website]: https://inbo.github.io/camtraptor
+[citation]: https://inbo.github.io/camtraptor/authors.html
 [email]: mailto:damiano.oldoni@inbo.be
 
 ## Code of conduct
@@ -21,19 +21,19 @@ There are several ways you can contribute to this project. If you want to know m
 
 ### Share the love ❤️
 
-Think camtrapdp is useful? Let others discover it, by telling them in person, via Twitter or a blog post.
+Think camtraptor is useful? Let others discover it, by telling them in person, via Twitter or a blog post.
 
-Using camtrapdp for a paper you are writing? Consider [citing it][citation]. Still, this package is more a test environment to contribute and improve existent packages, such as [camtrapR](https://jniedballa.github.io/camtrapR/).
+Using camtraptor for a paper you are writing? Consider [citing it][citation]. Still, this package is more a test environment to contribute and improve existent packages, such as [camtrapR](https://jniedballa.github.io/camtrapR/).
 
 ### Ask a question ⁉️
 
-Using camtrapdp and got stuck? Browse the [documentation][website] to see if you can find a solution. Still stuck? Post your question as an [issue on GitHub][new_issue]. While we cannot offer user support, we'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
+Using camtraptor and got stuck? Browse the [documentation][website] to see if you can find a solution. Still stuck? Post your question as an [issue on GitHub][new_issue]. While we cannot offer user support, we'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
 
 Want to ask a question in private? Contact the package maintainer by [email][email].
 
 ### Propose an idea 💡
 
-Have an idea for a new camtrapdp feature? Take a look at the [documentation][website] and [issue list][issues] to see if it isn't included or suggested yet. If not, suggest your idea as an [issue on GitHub][new_issue]. While we can't promise to implement your idea, it helps to:
+Have an idea for a new camtraptor feature? Take a look at the [documentation][website] and [issue list][issues] to see if it isn't included or suggested yet. If not, suggest your idea as an [issue on GitHub][new_issue]. While we can't promise to implement your idea, it helps to:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible.
@@ -42,7 +42,7 @@ See below if you want to contribute code for your idea as well.
 
 ### Report a bug 🐛
 
-Using camtrapdp and discovered a bug? That's annoying! Don't let others have the same experience and report it as an [issue on GitHub][new_issue] so we can fix it. A good bug report makes it easier for us to do so, so please include:
+Using camtraptor and discovered a bug? That's annoying! Don't let others have the same experience and report it as an [issue on GitHub][new_issue] so we can fix it. A good bug report makes it easier for us to do so, so please include:
 
 * Your operating system name and version (e.g. Mac OS 10.13.6).
 * Any details about your local setup that might be helpful in troubleshooting.
@@ -66,7 +66,7 @@ Functions are described as comments near their code and translated to documentat
 
 ### Contribute code 📝
 
-Care to fix bugs or implement new functionality for camtrapdp? Awesome! 👏 Have a look at the [issue list][issues] and leave a comment on the things you want to work on. See also the development guidelines below.
+Care to fix bugs or implement new functionality for camtraptor? Awesome! 👏 Have a look at the [issue list][issues] and leave a comment on the things you want to work on. See also the development guidelines below.
 
 ## Development guidelines
 

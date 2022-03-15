@@ -47,9 +47,9 @@ records. Some more details about the columns returned:
 defined  in argument \code{stationCol}
 \item \code{Species}: character, the scientific name of the observed species
 \item \code{DateTimeOriginal}: datetime object, as found in column \code{timestamp} of
-\code{observations}
-\item \code{Date}: date object, the date part of \code{DateTimeOriginal}
-\item \code{Time}: character, the time part of \code{DateTimeOriginal}
+\code{observations}, in UTC format.
+\item \code{Date}: date object, the date part of \code{DateTimeOriginal}, in UTC format.
+\item \code{Time}: character, the time part of \code{DateTimeOriginal} in UTC format.
 \item \code{delta.time.secs}: numeric, the duration in seconds from the previous
 independent record of a given species at a certain location
 \item \code{delta.time.mins}: numeric, the duration in minutes from the previous
@@ -70,7 +70,8 @@ and so tabulating species records. The record table is a concept developed
 within the camtrapR package: see article
 https://jniedballa.github.io/camtrapR/articles/camtrapr3.html. See also the
 camtrapR's function documentation
-\href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{recordTable}
+\href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{recordTable}.
+\strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
 get_record_table(mica)

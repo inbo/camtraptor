@@ -9,24 +9,24 @@ read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 
-\item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE},
-ignore media file to speed up reading larger Camtrap DP packages.}
+\item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE}, ignore
+media file to speed up reading larger Camtrap DP packages.}
 
 \item{path}{Path to the directory containing the datapackage. Use  \code{file}
 with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-A list containing three (tibble) data.frames:
-\enumerate{
-\item \code{observations}
-\item \code{deployments}
-\item \code{media}
-}
+A list containing three (tibble) data.frames: 1. \code{observations} 2.
+\code{deployments} 3. \code{media}
 
 and a list with metadata: \code{datapackage}
 }
 \description{
-This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format.
+This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format. The
+function is built upon the functions \link[frictionless]{read_package} and
+\link[frictionless]{read_resource}. This means a.o. that all datetime
+information included in the camera trap data package is automatically
+transformed to UTC (Coordinated Universal Time).
 }
 \details{
 Vernacular names are typically used while working with camera trap

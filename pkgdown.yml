@@ -6,8 +6,8 @@ articles:
   filter-predicates: filter-predicates.html
   record-table: record-table.html
   visualize-deployment-features: visualize-deployment-features.html
-last_built: 2022-03-15T10:58Z
+last_built: 2022-03-15T15:14Z
 urls:
-  reference: https://inbo.github.io/camtrapdp/reference
-  article: https://inbo.github.io/camtrapdp/articles
+  reference: https://inbo.github.io/camtraptor/reference
+  article: https://inbo.github.io/camtraptor/articles
 

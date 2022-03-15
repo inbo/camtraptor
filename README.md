@@ -39,9 +39,42 @@ You can install the development version of camtraptor from
 devtools::install_github("inbo/camtraptor")
 ```
 
+## Example
 
+Get the taxonomic coverage for an example Camera Trap Data Package
+`mica`:
+
+``` r
 library(camtraptor)
+get_species(mica)
+#> # A tibble: 9 × 5
+#>   taxonID taxonIDReference      scientificName vernacularNames… vernacularNames…
+#>   <chr>   <chr>                 <chr>          <chr>            <chr>           
+#> 1 DGP6    https://www.catalogu… Anas platyrhy… mallard          wilde eend      
+#> 2 DGPL    https://www.catalogu… Anas strepera  gadwall          krakeend        
+#> 3 32FH    https://www.catalogu… Ardea          great herons     reigers         
+#> 4 GCHS    https://www.catalogu… Ardea cinerea  grey heron       blauwe reiger   
+#> 5 RQPW    https://www.catalogu… Castor fiber   Eurasian beaver  bever           
+#> 6 6MB3T   https://www.catalogu… Homo sapiens   human            mens            
+#> 7 3Y9VW   https://www.catalogu… Martes foina   beech marten     steenmarter     
+#> 8 44QYC   https://www.catalogu… Mustela putor… European polecat bunzing         
+#> 9 5BSG3   https://www.catalogu… Vulpes vulpes  red fox          vos
 ```
+
+Filter observations in `mica` on female mallards and map the number of
+individuals per deployment location:
+
+``` r
+map_dep(
+  mica,
+  feature = "n_individuals",
+  species = "Anas platyrhynchos",
+  sex = "female"
+)
+#> There are 4 deployments with no observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ## camtraptor vs camtrapR and activity
 

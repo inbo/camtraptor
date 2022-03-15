@@ -39,6 +39,26 @@ You can install the development version of camtraptor from [GitHub](https://gith
 devtools::install_github("inbo/camtraptor")
 ```
 
+## Example
+
+Get the taxonomic coverage for an example Camera Trap Data Package `mica`:
+
+```{r}
+library(camtraptor)
+get_species(mica)
+```
+
+Filter observations in `mica` on female mallards and map the number of individuals per deployment location:
+
+```{r}
+map_dep(
+  mica,
+  feature = "n_individuals",
+  species = "Anas platyrhynchos",
+  sex = "female"
+)
+```
+
 ## camtraptor vs camtrapR and activity
 
 Camtraptor wants to provide and bundle much needed functionality to read, explore and visualize Camera Trap Data Packages. Over time we hope to include some or all of this functionality in widely used R packages such as [camtrapR](https://cran.r-project.org/package=camtrapR) and [activity](https://cran.r-project.org/package=activity).

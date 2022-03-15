@@ -1,21 +1,23 @@
 #' Read camtrap-dp formatted data
 #'
 #' This function reads camera trap data formatted following the [Camera Trap
-#' Data Package (Camtrap DP)](https://github.com/tdwg/camtrap-dp) format.
+#' Data Package (Camtrap DP)](https://github.com/tdwg/camtrap-dp) format. The
+#' function is built upon the functions \link[frictionless]{read_package} and
+#' \link[frictionless]{read_resource}. This means a.o. that all datetime
+#' information included in the camera trap data package is automatically
+#' transformed to UTC (Coordinated Universal Time).
 #'
 #' Vernacular names are typically used while working with camera trap
 #' _observations_, so they are added to the observations as defined in the
 #' metadata (slot `taxonomic`), if present.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param media If `TRUE`, read media records into memory. If `FALSE`,
-#'   ignore media file to speed up reading larger Camtrap DP packages.
+#' @param media If `TRUE`, read media records into memory. If `FALSE`, ignore
+#'   media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
-#' @return A list containing three (tibble) data.frames:
-#'   1. `observations`
-#'   2. `deployments`
-#'   3. `media`
+#' @return A list containing three (tibble) data.frames: 1. `observations` 2.
+#'   `deployments` 3. `media`
 #'
 #'   and a list with metadata: `datapackage`
 #'

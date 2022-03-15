@@ -5,7 +5,8 @@
 #' within the camtrapR package: see article
 #' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html. See also the
 #' camtrapR's function documentation
-#' [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html)
+#' [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
+#' **Note**: All dates and times are expressed in UTC format.
 #'
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
@@ -40,9 +41,9 @@
 #'   defined  in argument `stationCol`
 #'   2. `Species`: character, the scientific name of the observed species
 #'   3. `DateTimeOriginal`: datetime object, as found in column `timestamp` of
-#'   `observations`
-#'   4. `Date`: date object, the date part of `DateTimeOriginal`
-#'   5. `Time`: character, the time part of `DateTimeOriginal`
+#'   `observations`, in UTC format.
+#'   4. `Date`: date object, the date part of `DateTimeOriginal`, in UTC format.
+#'   5. `Time`: character, the time part of `DateTimeOriginal` in UTC format.
 #'   6. `delta.time.secs`: numeric, the duration in seconds from the previous
 #'   independent record of a given species at a certain location
 #'   7. `delta.time.mins`: numeric, the duration in minutes from the previous

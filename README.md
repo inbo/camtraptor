@@ -78,10 +78,10 @@ map_dep(
 
 ## camtraptor vs camtrapR and activity
 
-Camtraptor wants to provide and bundle much needed functionality to
-read, explore and visualize Camera Trap Data Packages. Over time we hope
-to include some or all of this functionality in widely used R packages
-such as [camtrapR](https://cran.r-project.org/package=camtrapR) and
+Camtraptor provides and bundles much needed functionality to read,
+explore and visualize Camera Trap Data Packages. Over time we hope to
+include some or all of this functionality in widely used R packages such
+as [camtrapR](https://cran.r-project.org/package=camtrapR) and
 [activity](https://cran.r-project.org/package=activity).
 
 ## Meta

@@ -49,8 +49,6 @@ Imports:
     rlang,
     stringr,
     tidyr
-Remotes:
-    frictionlessdata/frictionless-r
 Suggests: 
     covr,
     knitr,

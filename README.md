@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/inbo/camtraptor/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/camtraptor/actions)
+[![R-CMD-check-OS](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml)
 [![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -15,11 +15,11 @@ commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 <!-- badges: end -->
 
 Camtraptor is an R package to read, explore and visualize Camera Trap
-Data Packages ([Camtrap DP](https://tdwg.github.io/camtrap-dp/)).
-Camtrap DP is a community developed data exchange format for this type
-of data. With camtraptor you can read and filter data, create overviews
-of observed species, relative abundance or effort, and plot these data
-on a map.
+Data Packages (Camtrap DP). [Camtrap
+DP](https://tdwg.github.io/camtrap-dp/) is a community developed data
+exchange format for this type of data. With camtraptor you can read and
+filter data, create overviews of observed species, relative abundance or
+effort, and plot these data on a map.
 
 To get started, see:
 

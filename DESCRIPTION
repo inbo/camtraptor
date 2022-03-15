@@ -27,8 +27,11 @@ Authors@R: c(
            role = "ctb",
            email = "lynn.pallemaerts@inbo.be",
            comment = c(ORCID = "0000-0002-5034-5416")))
-Description: Read, explore and visualize Camera Trap Data Packages
-    (Camtrap DP, <https://tdwg.github.io/camtrap-dp/>).
+Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
+    'Camtrap DP' (<https://tdwg.github.io/camtrap-dp/>) is a community developed 
+    data exchange format for this type of data. With camtraptor you can read and 
+    filter data, create overviews of observed species, relative abundance or 
+    effort, and plot these data on a map.
 License: MIT + file LICENSE
 BugReports: https://github.com/inbo/camtraptor/issues
 Depends: 

@@ -27,7 +27,7 @@ Authors@R: c(
            role = "ctb",
            email = "lynn.pallemaerts@inbo.be",
            comment = c(ORCID = "0000-0002-5034-5416")))
-Description: Read, Explore and visualize Camera Trap Data Packages
+Description: Read, explore and visualize Camera Trap Data Packages
     (Camtrap DP, <https://tdwg.github.io/camtrap-dp/>).
 License: MIT + file LICENSE
 BugReports: https://github.com/inbo/camtraptor/issues

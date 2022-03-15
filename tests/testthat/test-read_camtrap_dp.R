@@ -5,7 +5,7 @@ test_that("file is checked properly", {
 
 test_that("media is checked properly", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   expect_error(read_camtrap_dp(
     file = dp_path,
     media = "must_be_a_logical!")
@@ -14,7 +14,7 @@ test_that("media is checked properly", {
 
 test_that("output is a list", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -24,7 +24,7 @@ test_that("output is a list", {
 
 test_that("output is a list of length 4", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -33,7 +33,7 @@ test_that("output is a list of length 4", {
 
 test_that("media arg influences only slot media", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_with_media <- read_camtrap_dp(
     file = dp_path,
     media = TRUE)
@@ -64,7 +64,7 @@ test_that("media arg influences only slot media", {
 
 test_that("Datapackage metadata is a list", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -73,7 +73,7 @@ test_that("Datapackage metadata is a list", {
 
 test_that("Datapackage resources are named as in metadata$resource_names", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -83,7 +83,7 @@ test_that("Datapackage resources are named as in metadata$resource_names", {
 
 test_that("Datapackage resources are tibble dataframes", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -95,7 +95,7 @@ test_that("Datapackage resources are tibble dataframes", {
 
 test_that("sc. names and vernacular names in obs match the info in taxonomic slot", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtrapdp")
+                         package = "camtraptor")
   dp <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
@@ -133,7 +133,7 @@ test_that("file can be an URL", {
 })
 
 test_that("path is deprecated", {
-  dp_path_warning <- system.file("extdata", "mica", package = "camtrapdp")
+  dp_path_warning <- system.file("extdata", "mica", package = "camtraptor")
   rlang::with_options(
     lifecycle_verbosity = "warning",
     expect_warning(read_camtrap_dp(

@@ -23,12 +23,12 @@ This vignette shows how to get a _species record table_ as returned by camtrapR'
 Load packages:
 
 ```{r load_pkgs}
-library(camtrapdp)
+library(camtraptor)
 library(lubridate)
 library(dplyr)
 ```
 
-By loading pacakge `camtrapdp`, a camera trap data package called `camtrapdp` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+By loading package `camtraptor`, a camera trap data package called `camtraptor` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
 
 ## Species record table
 
@@ -112,4 +112,4 @@ get_record_table(mica, pred_gt("latitude", 51.18))
 
 ### Other arguments needed?
 
-Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtrapdp/issues)!
+Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtraptor/issues)!

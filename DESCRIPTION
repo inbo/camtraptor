@@ -1,6 +1,6 @@
-Package: camtrapdp
-Title: Visualize camtrap-dp formatted data
-Version: 0.10.0
+Package: camtraptor
+Title: Read, Explore and Visualize Camera Trap Data Packages
+Version: 0.11.0
 Authors@R: c(
     person(given = "Damiano",
            family = "Oldoni",
@@ -27,11 +27,10 @@ Authors@R: c(
            role = "ctb",
            email = "lynn.pallemaerts@inbo.be",
            comment = c(ORCID = "0000-0002-5034-5416")))
-Description: A test environment for
-    visualization of camera trap data formatted following the [Camera Trap
-    Data Package standard](https://github.com/tdwg/camtrap-dp).
+Description: Read, explore and visualize Camera Trap Data Packages
+    (Camtrap DP, <https://tdwg.github.io/camtrap-dp/>).
 License: MIT + file LICENSE
-BugReports: https://github.com/inbo/camtrapdp/issues
+BugReports: https://github.com/inbo/camtraptor/issues
 Depends: 
     R (>= 3.5.0)
 Imports:
@@ -49,8 +48,6 @@ Imports:
     rlang,
     stringr,
     tidyr
-Remotes:
-    frictionlessdata/frictionless-r
 Suggests: 
     covr,
     knitr,

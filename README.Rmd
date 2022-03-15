@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # camtraptor
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/inbo/camtraptor/workflows/R-CMD-check/badge.svg)](https://github.com/inbo/camtraptor/actions)
+[![R-CMD-check-OS](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml)
 [![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![funding](https://img.shields.io/static/v1?label=funded+by&message=FWO+for+lifewatch.be&labelColor=1a4e8a&color=f15922)](https://lifewatch.be/)

@@ -58,13 +58,17 @@
 #'   mapped to.
 #'   Typically one of the following:
 #'   - A character vector of RGB or named colors. Examples: `palette(),
-#'   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)`.
+#'   c("#000000", "#0000FF", "#FFFFFF")), palette(topo.colors(10))`.
 #'   - the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 #'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
 #'   For more options, see argument `palette` of [leaflet::colorNumeric()].
-#'
-#' @param zero_values_color a string identifying a color, e.g. "black", "#03F".
-#'   Default: "red".
+#' @param zero_values_show Logical indicating whether to show deployments with
+#'   zero values. Default: `TRUE`.
+#' @param zero_values_icon_url character with URL to icon for showing
+#'   deployments with zero values. Default: a cross (multiply symbol)
+#'   `"https://img.icons8.com/ios-glyphs/30/000000/multiply.png"`.
+#' @param zero_values_icon_size a number to set the size of the icon to show
+#'   deployments with wero values. Default: 10.
 #' @param relative_scale Logical indicating whether to use a relative color
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
 #'   is used, specify a valid `max_scale`.
@@ -214,22 +218,58 @@
 #'   palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
 #' )
 #'
-#' #' # use a specific color for zero values other than default ("red")
+#' #' # do not show deployments with zero values
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   life_stage = "subadult",
-#'   zero_values_color = "green"
+#'   zero_values_show = FALSE
+#' )
+#'
+#' #' # use same icon but but a non default color for zero values deployments,
+#' e.g. red (hex: E74C3C)
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   life_stage = "subadult",
+#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
+#' )
+#'
+#' # or yellow (F1C40F)
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   life_stage = "subadult",
+#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
+#' )
+#'
+#' # use another icon via a different URL, e.g. the character Fry from Futurama
+#' in green (2ECC71)
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   life_stage = "subadult",
+#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
+#' )
+#'
+#' # set size of the icon for zero values deployments
+#' map_dep(
+#'   mica,
+#'   "n_obs",
+#'   life_stage = "subadult",
+#'   zero_values_icon_size = 30
 #' )
 #'
 #' # disable cluster
-#' map_dep(mica,
+#' map_dep(
+#'   mica,
 #'   "n_species",
 #'   cluster = FALSE
 #' )
 #'
 #' # show only number of observations and location name while hovering
-#' map_dep(mica,
+#' map_dep(
+#'   mica,
 #'   "n_obs",
 #'   hover_columns = c("locationName", "n")
 #' )
@@ -261,7 +301,9 @@ map_dep <- function(datapkg,
                                       "latitude", "longitude",
                                       "start", "end"),
                     palette = "inferno",
-                    zero_values_color = "red",
+                    zero_values_show = TRUE,
+                    zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
+                    zero_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50)
@@ -315,17 +357,49 @@ map_dep <- function(datapkg,
   r_color_brewer_palettes <- rownames(RColorBrewer::brewer.pal.info)
   palettes <- c(viridis_valid_palettes, r_color_brewer_palettes)
   assertthat::assert_that(
-    length(palette) > 0,
+    length(palette) == 1,
     msg = "Argument palette must be a valid color palette."
   )
-  if (length(palette) == 1) {
-    check_value(arg = palette,
+  check_value(arg = palette,
                 options = palettes,
                 arg_name = "palette",
                 null_allowed = FALSE
-    )
-  } else {
+  )
 
+  # check zero_values_icon_url
+  if (!is.null(zero_values_icon_url)) {
+    assertthat::assert_that(
+      is.character(zero_values_icon_url),
+      msg = "Argument zero_values_icon_url must be a character (URL)."
+    )
+    # check zero_values_icon_url in combination with zero_values_show
+    if (zero_values_show == FALSE) {
+      message(glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_url argument ignored."))
+      zero_values_icon_url <- NULL
+    }
+  } else {
+    assertthat::assert_that(
+      !is.null(zero_values_show),
+      msg = glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_url must not be NULL.")
+    )
+  }
+
+  # check zero_values_icon_size
+  if (!is.null(zero_values_icon_size)) {
+    assertthat::assert_that(
+      is.character(zero_values_icon_size),
+      msg = "Argument zero_values_icon_size must be a character (URL)."
+    )
+    # check zero_values_icon_size in combination with zero_values_show
+    if (zero_values_show == FALSE) {
+      message(glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_size argument ignored."))
+      zero_values_icon_size <- NULL
+    }
+  } else {
+    assertthat::assert_that(
+      !is.null(zero_values_show),
+      msg = glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_size must not be NULL.")
+    )
   }
 
   # extract observations and deployments
@@ -526,14 +600,6 @@ map_dep <- function(datapkg,
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
-  # # define marker icon for deployments with 0 values
-  # icons <- leaflet::awesomeIcons(
-  #   icon = 'ios-close',
-  #   iconColor = 'black',
-  #   library = 'ion',
-  #   markerColor = "gray"
-  # )
-
   # non_zero values deploys
   non_zero_values <-feat_df %>% dplyr::filter(.data$n > 0)
   # zero values
@@ -544,21 +610,27 @@ map_dep <- function(datapkg,
     leaflet::leaflet() %>%
     leaflet::addTiles()
 
-  # add markers for deployments with zero values
-  if (nrow(zero_values) > 0) {
+  # add markers for deployments with zero values if needed
+  if ((zero_values_show == TRUE) & (nrow(zero_values) > 0)) {
+    # create icon
+    icons <- leaflet::icons(
+      iconUrl = zero_values_icon_url,
+      iconWidth = zero_values_icon_size,
+      iconHeight = zero_values_icon_size
+    )
+
     leaflet_map <-
       leaflet_map %>%
-      leaflet::addCircleMarkers(
+      leaflet::addMarkers(
+        icon = icons,
         data = zero_values,
         lng = ~longitude,
         lat = ~latitude,
         label = ~ hover_info,
-        radius = radius_min,
-        color = zero_values_color,
-        stroke = TRUE,
-        fillOpacity = 0.5, # default
-        opacity = 0.5, # default
-        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
+        clusterOptions = ifelse(cluster == TRUE,
+                                leaflet::markerClusterOptions(),
+                                NULL
+        )
       )
   }
 

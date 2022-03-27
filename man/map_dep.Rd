@@ -89,7 +89,7 @@ list of columns you can use.}
 mapped to.
 Typically one of the following:
 \itemize{
-\item A character vector of RGB or named colors. Examples: \verb{palette(),   c("#000000", "#0000FF", "#FFFFFF")), palette(topo.colors(10))}.
+\item A character vector of RGB or named colors. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}
 For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
@@ -246,14 +246,14 @@ map_dep(
 map_dep(
   mica,
   "n_obs",
-  palette = palette(c("black", "blue", "white"))
+  palette = c("black", "blue", "white")
 )
 
 #' # use a palette defined by hex colors
 map_dep(
   mica,
   "n_obs",
-  palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+  palette = c("#000000", "#0000FF", "#FFFFFF")
 )
 
 #' # do not show deployments with zero values

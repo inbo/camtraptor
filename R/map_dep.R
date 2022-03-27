@@ -57,8 +57,8 @@
 #' @param palette The palette name or the color function that values will be
 #'   mapped to.
 #'   Typically one of the following:
-#'   - A character vector of RGB or named colors. Examples: `palette(),
-#'   c("#000000", "#0000FF", "#FFFFFF")), palette(topo.colors(10))`.
+#'   - A character vector of RGB or named colors. Examples: `c("#000000",
+#'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 #'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
 #'   For more options, see argument `palette` of [leaflet::colorNumeric()].
@@ -208,14 +208,14 @@
 #' map_dep(
 #'   mica,
 #'   "n_obs",
-#'   palette = palette(c("black", "blue", "white"))
+#'   palette = c("black", "blue", "white")
 #' )
 #'
 #' #' # use a palette defined by hex colors
 #' map_dep(
 #'   mica,
 #'   "n_obs",
-#'   palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+#'   palette = c("#000000", "#0000FF", "#FFFFFF")
 #' )
 #'
 #' #' # do not show deployments with zero values
@@ -347,7 +347,7 @@ map_dep <- function(datapkg,
     life_stage <- NULL
   }
 
-  # check palette
+  # check palette/colors
   viridis_valid_palettes <- c(
     "magma",
     "inferno",
@@ -356,15 +356,13 @@ map_dep <- function(datapkg,
   )
   r_color_brewer_palettes <- rownames(RColorBrewer::brewer.pal.info)
   palettes <- c(viridis_valid_palettes, r_color_brewer_palettes)
-  assertthat::assert_that(
-    length(palette) == 1,
-    msg = "Argument palette must be a valid color palette."
-  )
-  check_value(arg = palette,
+  if (length(palette) == 1) {
+    check_value(arg = palette,
                 options = palettes,
                 arg_name = "palette",
                 null_allowed = FALSE
-  )
+    )
+  }
 
   # check zero_values_icon_url
   if (!is.null(zero_values_icon_url)) {

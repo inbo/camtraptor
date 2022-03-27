@@ -277,13 +277,13 @@ map_dep(
 )
 ```
 
-Another easy way to specify a palette is to create it by passing some colors as a vector to the function `palette()`, e.g. `c("black", "blue", "white")`:
+Another easy way to specify a palette is to create it by passing a vector of colors as names or hex colors, e.g. `c("black", "blue", "#A3675F")`:
 
 ```{r use_black_blue_white}
 map_dep(
   mica,
   "n_obs",
-  palette = palette(value = c("black", "blue", "white"))
+  palette = c("black", "blue", "#A3675F")
 )
 ```
 

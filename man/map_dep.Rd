@@ -89,7 +89,7 @@ list of columns you can use.}
 mapped to.
 Typically one of the following:
 \itemize{
-\item A character vector of RGB or named colors. Examples: \verb{palette(),   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)}.
+\item A character vector of RGB or named colors. Examples: \verb{palette(),   c("#000000", "#0000FF", "#FFFFFF")), palette(topo.colors(10))}.
 \item the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}
 For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
@@ -295,7 +295,7 @@ map_dep(
   mica,
   "n_obs",
   life_stage = "subadult",
-  zero_values_size = 30
+  zero_values_icon_size = 30
 )
 
 # disable cluster

@@ -387,8 +387,8 @@ map_dep <- function(datapkg,
   # check zero_values_icon_size
   if (!is.null(zero_values_icon_size)) {
     assertthat::assert_that(
-      is.character(zero_values_icon_size),
-      msg = "Argument zero_values_icon_size must be a character (URL)."
+      is.numeric(zero_values_icon_size),
+      msg = "Argument zero_values_icon_size must be a number."
     )
     # check zero_values_icon_size in combination with zero_values_show
     if (zero_values_show == FALSE) {

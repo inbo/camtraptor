@@ -625,10 +625,7 @@ map_dep <- function(datapkg,
         lng = ~longitude,
         lat = ~latitude,
         label = ~ hover_info,
-        clusterOptions = ifelse(cluster == TRUE,
-                                leaflet::markerClusterOptions(),
-                                NULL
-        )
+        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       )
   }
 

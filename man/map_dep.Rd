@@ -16,7 +16,9 @@ map_dep(
   hover_columns = c("n", "species", "deploymentID", "locationID", "locationName",
     "latitude", "longitude", "start", "end"),
   palette = "inferno",
-  zero_values_color = "red",
+  zero_values_show = TRUE,
+  zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
+  zero_values_icon_size = 10,
   relative_scale = TRUE,
   max_scale = NULL,
   radius_range = c(10, 50)
@@ -87,14 +89,21 @@ list of columns you can use.}
 mapped to.
 Typically one of the following:
 \itemize{
-\item A character vector of RGB or named colors. Examples: \verb{palette(),   c("#000000", "#0000FF", "#FFFFFF"), topo.colors(10)}.
+\item A character vector of RGB or named colors. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}
 For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
 }}
 
-\item{zero_values_color}{a string identifying a color, e.g. "black", "#03F".
-Default: "red".}
+\item{zero_values_show}{Logical indicating whether to show deployments with
+zero values. Default: \code{TRUE}.}
+
+\item{zero_values_icon_url}{character with URL to icon for showing
+deployments with zero values. Default: a cross (multiply symbol)
+\code{"https://img.icons8.com/ios-glyphs/30/000000/multiply.png"}.}
+
+\item{zero_values_icon_size}{a number to set the size of the icon to show
+deployments with wero values. Default: 10.}
 
 \item{relative_scale}{Logical indicating whether to use a relative color
 and radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale
@@ -237,32 +246,68 @@ map_dep(
 map_dep(
   mica,
   "n_obs",
-  palette = palette(c("black", "blue", "white"))
+  palette = c("black", "blue", "white")
 )
 
 #' # use a palette defined by hex colors
 map_dep(
   mica,
   "n_obs",
-  palette = palette(c("#000000", "#0000FF", "#FFFFFF"))
+  palette = c("#000000", "#0000FF", "#FFFFFF")
 )
 
-#' # use a specific color for zero values other than default ("red")
+#' # do not show deployments with zero values
 map_dep(
   mica,
   "n_obs",
   life_stage = "subadult",
-  zero_values_color = "green"
+  zero_values_show = FALSE
+)
+
+#' # use same icon but but a non default color for zero values deployments,
+e.g. red (hex: E74C3C)
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
+)
+
+# or yellow (F1C40F)
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
+)
+
+# use another icon via a different URL, e.g. the character Fry from Futurama
+in green (2ECC71)
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
+)
+
+# set size of the icon for zero values deployments
+map_dep(
+  mica,
+  "n_obs",
+  life_stage = "subadult",
+  zero_values_icon_size = 30
 )
 
 # disable cluster
-map_dep(mica,
+map_dep(
+  mica,
   "n_species",
   cluster = FALSE
 )
 
 # show only number of observations and location name while hovering
-map_dep(mica,
+map_dep(
+  mica,
   "n_obs",
   hover_columns = c("locationName", "n")
 )

@@ -27,13 +27,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(here)
 #' # Read Camtrap DP package
-#' camtrap_dp_dir <- here("inst", "extdata", "mica", "datapackage.json")
-#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir)
+#' camtrap_dp_file <-  system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
 #' # Read Camtrap DP package and ignore media file
-#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_dir, media = FALSE)
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
 #' }
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,

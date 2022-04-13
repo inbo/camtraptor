@@ -41,7 +41,6 @@ Imports:
     dplyr,
     frictionless,
     glue,
-    here,
     htmltools,
     leaflet,
     lifecycle,

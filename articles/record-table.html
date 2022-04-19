@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 data-toc-skip class="author">Damiano Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-04-15</h4>
+            <h4 data-toc-skip class="date">2022-04-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -333,10 +333,51 @@
 <span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
+</h3>
+<p>It can happen that duplicates occur, e.g. when two distinct observations of the same species are made based on the same sequence of images and all . You can decide what to do with these duplicates by using the argument <code>removeDuplicateRecords</code>: by default it is equalt to <code>TRUE</code>. The duplicates are therefore removed. To not remove them, set <code>removeDuplicateRecords</code> equal to <code>FALSE</code>.</p>
+<p>Let’s create an easy example with duplicates based on <code>mica</code> datapackage:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mica_dup</span> <span class="op">&lt;-</span> <span class="va">mica</span>
+  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">scientificName</span> <span class="op">&lt;-</span> <span class="st">"Anas strepera"</span></code></pre></div>
+<p>Record table without duplicates:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># equivalent of get_record_table(mica, removeDuplicateRecords = TRUE)</span>
+<span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 11</span></span>
+<span class="co">#&gt;   Station           Species DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B_DL_val 5_beek … Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<p>Record table without duplicates:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 11</span></span>
+<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 17 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
 </h3>
 <p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; df %&gt;% filter((latitude &gt; 51.18))</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 11</span></span>

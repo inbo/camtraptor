@@ -123,7 +123,7 @@ Record table without duplicates:
 get_record_table(mica_dup)
 ```
 
-Record table without duplicates:
+Record table with duplicates:
 
 ```{r duplicates_allowed}
 get_record_table(mica_dup, removeDuplicateRecords = FALSE)

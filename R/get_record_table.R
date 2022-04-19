@@ -189,19 +189,18 @@ get_record_table <- function(datapkg,
       tidyr::unnest(cols = c(data))
     # add independence information to record_table
     record_table <- record_table %>%
-      dplyr::left_join(record_independence, by = c("scientificName",
-                                            stationCol,
-                                            "observationID"))
+      dplyr::left_join(record_independence,
+                       by = c("scientificName", stationCol, "observationID"))
   }
 
   # remove not independent observations
   n_dependent_obs <- record_table %>%
-    filter(.data$independent == FALSE) %>%
+    dplyr::filter(.data$independent == FALSE) %>%
     nrow()
   if (n_dependent_obs > 0) {
     message(glue("Number of not independent observations to be removed: {n_dependent_obs}"))
     record_table <- record_table %>%
-      filter(.data$independent == TRUE)
+      dplyr::filter(.data$independent == TRUE)
   }
 
   # get time between obs of two individuals of same species at same location
@@ -211,7 +210,8 @@ get_record_table <- function(datapkg,
     dplyr::mutate(delta.time.mins = .data$delta.time.secs/60) %>%
     dplyr::mutate(delta.time.hours = .data$delta.time.mins/60) %>%
     dplyr::mutate(delta.time.days = .data$delta.time.hours/24) %>%
-    dplyr::mutate(dplyr::across(dplyr::starts_with("delta.time."), tidyr::replace_na, 0)) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("delta.time."),
+                                tidyr::replace_na, 0)) %>%
     dplyr::ungroup()
 
   record_table <- record_table %>%
@@ -284,6 +284,6 @@ assess_temporal_independence <- function(df, minDeltaTime_dur, deltaTimeCompared
       last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
     }
   }
-  return(tibble(observationID = df$observationID,
-                independent = df$independent))
+  return(dplyr::tibble(observationID = df$observationID,
+                       independent = df$independent))
 }

@@ -10,7 +10,8 @@ get_record_table(
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
-  deltaTimeComparedTo = NULL
+  deltaTimeComparedTo = NULL,
+  removeDuplicateRecords = TRUE
 )
 }
 \arguments{
@@ -36,6 +37,9 @@ record of the same species (\code{deltaTimeComparedTo = "lastIndependentRecord"}
 ), or \code{minDeltaTime} minutes after the last record (
 \code{deltaTimeComparedTo = "lastRecord"})? If \code{minDeltaTime} is 0,
 \code{deltaTimeComparedTo} must be NULL (deafult)}
+
+\item{removeDuplicateRecords}{(logical) If there are several records of the
+same species at the same station at exactly the same time, show only one?}
 }
 \value{
 A (tibble) data frame containing species records and additional

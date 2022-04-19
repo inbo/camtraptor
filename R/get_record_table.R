@@ -24,15 +24,11 @@
 #'   ), or `minDeltaTime` minutes after the last record (
 #'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0,
 #'   `deltaTimeComparedTo` must be NULL (deafult)
+#' @param removeDuplicateRecords (logical) If there are several records of the
+#'   same species at the same station at exactly the same time, show only one?
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% across arrange bind_cols distinct group_by last
-#'   lag left_join mutate rename select starts_with ungroup
-#' @importFrom assertthat assert_that
-#' @importFrom lubridate date duration
-#' @importFrom purrr map
-#' @importFrom rlang !! := sym
-#' @importFrom stringr str_starts
-#' @importFrom tidyr nest replace_na unnest
+#' @importFrom dplyr .data %>%
+#' @importFrom rlang !! :=
 #' @return A (tibble) data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
@@ -88,12 +84,13 @@ get_record_table <- function(datapkg,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
-                             deltaTimeComparedTo = NULL) {
+                             deltaTimeComparedTo = NULL,
+                             removeDuplicateRecords = TRUE) {
   # check data package
   check_datapkg(datapkg)
 
   # check stationCol is a valid column name
-  assert_that(stationCol %in% names(datapkg$deployments),
+  assertthat::assert_that(stationCol %in% names(datapkg$deployments),
               msg = glue("station column name (stationCol) not valid: ",
                          "it must be one of the deployments column names."))
 
@@ -103,7 +100,7 @@ get_record_table <- function(datapkg,
   }
 
   # check minDeltaTime
-  assert_that(is.numeric(minDeltaTime) & minDeltaTime >= 0,
+  assertthat::assert_that(is.numeric(minDeltaTime) & minDeltaTime >= 0,
               msg = "minDeltaTime must be a number greater or equal to 0")
   # minDeltaTime is set to an integer
   if (minDeltaTime != as.integer(minDeltaTime)) {
@@ -112,7 +109,7 @@ get_record_table <- function(datapkg,
   }
 
   # make a duration object out of minDeltaTime
-  minDeltaTime_duration <- duration(minutes = minDeltaTime)
+  minDeltaTime_duration <- lubridate::duration(minutes = minDeltaTime)
 
   # check deltaTimeComparedTo
   if (minDeltaTime > 0) {
@@ -122,9 +119,13 @@ get_record_table <- function(datapkg,
                 null_allowed = FALSE)
   }
   if (minDeltaTime == 0) {
-    assert_that(is.null(deltaTimeComparedTo),
+    assertthat::assert_that(is.null(deltaTimeComparedTo),
                 msg = "minDeltaTime is 0: deltaTimeComparedTo must be NULL")
   }
+
+  assertthat::assert_that(
+    is.logical(removeDuplicateRecords) & !is.na(removeDuplicateRecords),
+    msg = "removeDuplicateRecords must be a logical: TRUE or FALSE.")
 
   # remove observations of unidentified individuals
   obs <- datapkg$observations %>%
@@ -145,50 +146,50 @@ get_record_table <- function(datapkg,
 
   # add station column from deployments to observations
   obs <- obs %>%
-    left_join(deployments %>% select(.data$deploymentID, !!sym(stationCol)),
+    dplyr::left_join(deployments %>% dplyr::select(.data$deploymentID, !!rlang::sym(stationCol)),
               by = "deploymentID")
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
     datapkg$media %>%
-    select(.data$sequenceID,
+    dplyr::select(.data$sequenceID,
            .data$filePath,
            .data$fileName,
            .data$timestamp) %>%
-    group_by(.data$sequenceID) %>%
+    dplyr::group_by(.data$sequenceID) %>%
     summarise(filePath = list(.data$filePath),
               fileName = list(.data$fileName),
               # important if deltaTimeComparedTo is lastRecord
-              last_timestamp = last(.data$timestamp))
+              last_timestamp = dplyr::last(.data$timestamp))
   # add needed media info from media to observations
   obs <- obs %>%
-    left_join(grouped_media_info,
+    dplyr::left_join(grouped_media_info,
               by = "sequenceID")
 
   # get record table
   record_table <- obs %>%
-    mutate(Date = date(.data$timestamp),
+    dplyr::mutate(Date = lubridate::date(.data$timestamp),
            Time = format(.data$timestamp, format = "%H:%M:%S")) %>%
-    group_by(.data$scientificName, !!sym(stationCol)) %>%
-    arrange(.data$scientificName, !!sym(stationCol), .data$timestamp)
+    dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
+    dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
     record_table <- record_table %>%
-      mutate(independent = TRUE)
+      dplyr::mutate(independent = TRUE)
   } else {
     # assess independence
     record_independence <- record_table %>%
-      mutate(independent = FALSE) %>%
-      nest() %>%
-      mutate(data = map(.data$data,
+      dplyr::mutate(independent = FALSE) %>%
+      tidyr::nest() %>%
+      dplyr::mutate(data = purrr::map(.data$data,
                         assess_temporal_independence,
                         minDeltaTime_duration,
                         deltaTimeComparedTo))
     record_independence <- record_independence %>%
-      unnest(cols = c(data))
+      tidyr::unnest(cols = c(data))
     # add independence information to record_table
     record_table <- record_table %>%
-      left_join(record_independence, by = c("scientificName",
+      dplyr::left_join(record_independence, by = c("scientificName",
                                             stationCol,
                                             "observationID"))
   }
@@ -205,21 +206,21 @@ get_record_table <- function(datapkg,
 
   # get time between obs of two individuals of same species at same location
   record_table <- record_table %>%
-    mutate(delta.time = .data$timestamp - lag(.data$timestamp)) %>%
-    mutate(delta.time.secs = as.numeric(.data$delta.time)) %>%
-    mutate(delta.time.mins = .data$delta.time.secs/60) %>%
-    mutate(delta.time.hours = .data$delta.time.mins/60) %>%
-    mutate(delta.time.days = .data$delta.time.hours/24) %>%
-    mutate(across(starts_with("delta.time."), replace_na, 0)) %>%
-    ungroup()
+    dplyr::mutate(delta.time = .data$timestamp - dplyr::lag(.data$timestamp)) %>%
+    dplyr::mutate(delta.time.secs = as.numeric(.data$delta.time)) %>%
+    dplyr::mutate(delta.time.mins = .data$delta.time.secs/60) %>%
+    dplyr::mutate(delta.time.hours = .data$delta.time.mins/60) %>%
+    dplyr::mutate(delta.time.days = .data$delta.time.hours/24) %>%
+    dplyr::mutate(dplyr::across(dplyr::starts_with("delta.time."), tidyr::replace_na, 0)) %>%
+    dplyr::ungroup()
 
   record_table <- record_table %>%
-    rename(Station := !! stationCol,
+    dplyr::rename(Station := !! stationCol,
            Species = .data$scientificName,
            DateTimeOriginal = .data$timestamp,
            Directory = .data$filePath,
            FileName = .data$fileName) %>%
-    select(.data$Station,
+    dplyr::select(.data$Station,
            .data$Species,
            .data$DateTimeOriginal,
            .data$Date,
@@ -230,6 +231,22 @@ get_record_table <- function(datapkg,
            .data$delta.time.days,
            .data$Directory,
            .data$FileName)
+  # remove duplicates if needed
+  if (isTRUE(removeDuplicateRecords)) {
+    record_table <- record_table %>%
+      dplyr::group_by(.data$Station,
+               .data$Species,
+               .data$DateTimeOriginal,
+               .data$Date,
+               .data$Time,
+               .data$Directory,
+               .data$FileName) %>%
+      dplyr::mutate(row_number = dplyr::row_number()) %>%
+      dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs) &
+                      .data$row_number == max(.data$row_number)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-.data$row_number)
+  }
   return(record_table)
 }
 

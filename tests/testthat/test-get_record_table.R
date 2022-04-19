@@ -131,9 +131,9 @@ test_that(
 test_that(paste("removeDuplicateRecords allows removing duplicates,",
                 "but structure output remains the same"), {
   mica_duplicates <- mica
-  mica_duplicates$observations$sequenceID <- b$observations$sequenceID[1]
-  mica_duplicates$observations$deploymentID <- b$observations$deploymentID[1]
-  mica_duplicates$observations$timestamp <- b$observations$timestamp[1]
+  mica_duplicates$observations$sequenceID <- mica_duplicates$observations$sequenceID[1]
+  mica_duplicates$observations$deploymentID <- mica_duplicates$observations$deploymentID[1]
+  mica_duplicates$observations$timestamp <- mica_duplicates$observations$timestamp[1]
   mica_duplicates$observations$scientificName <- "Anas strepera"
   rec_table <- get_record_table(mica_duplicates)
   rec_table_dup <- get_record_table(mica_duplicates,

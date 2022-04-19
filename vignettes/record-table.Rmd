@@ -102,6 +102,33 @@ The column containing the station names can also be defined by the user if the d
 get_record_table(mica, stationCol = "locationID")
 ```
 
+### Remove duplicates
+
+It can happen that duplicates occur, e.g. when two distinct observations of the same species are made based on the same sequence of images and all . You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equalt to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
+
+Let's create an easy example with duplicates based on `mica` datapackage:
+
+```{r dummy_data_with_duplicates}
+mica_dup <- mica
+  mica_dup$observations$sequenceID <- mica_dup$observations$sequenceID[1]
+  mica_dup$observations$deploymentID <- mica_dup$observations$deploymentID[1]
+  mica_dup$observations$timestamp <- mica_dup$observations$timestamp[1]
+  mica_dup$observations$scientificName <- "Anas strepera"
+```
+
+Record table without duplicates:
+
+```{r no_duplicates}
+# equivalent of get_record_table(mica, removeDuplicateRecords = TRUE)
+get_record_table(mica_dup)
+```
+
+Record table without duplicates:
+
+```{r duplicates_allowed}
+get_record_table(mica_dup, removeDuplicateRecords = FALSE)
+```
+
 ### Use filter predicates
 
 As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:

@@ -197,11 +197,11 @@ get_custom_effort <- function(datapkg,
 
   # join dates_df to sum_effort
   sum_effort <- dates_df %>%
-    left_join(sum_effort, by ="date")
+    dplyr::left_join(sum_effort, by ="date")
 
   # filter by start and end date
   sum_effort <- sum_effort %>%
-    filter(.data$date >= start & .data$date <= end)
+    dplyr::filter(.data$date >= start & .data$date <= end)
 
   if (is.null(group_by)) {
     # total effort (days) over all deployments
@@ -226,8 +226,8 @@ get_custom_effort <- function(datapkg,
     }
     # add period column and group by it
     sum_effort <- sum_effort %>%
-      mutate(period = as.numeric(.data$date- .data$date[1]) %/% period) %>%
-      group_by(.data$period)
+      dplyr::mutate(period = as.numeric(.data$date- .data$date[1]) %/% period) %>%
+      dplyr::group_by(.data$period)
 
     # sum total effort over each interval
     sum_effort <-

@@ -16,9 +16,7 @@
 #'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
 #'   of all life stage classes are taken into account.
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% as_tibble bind_rows group_by n_distinct mutate
-#'   rename select summarise ungroup relocate
-#' @importFrom glue glue
+#' @importFrom dplyr .data %>%
 #' @export
 
 #' @return a tibble (data.frame) with the following columns:
@@ -76,7 +74,7 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, life_stage = NU
       # if also other values are present, they will be ignored
       if (length(species) > 1) {
         ignored_species <- species[!species == "all"]
-        warning(glue(
+        warning(glue::glue(
           "Value 'all' found in species.
               All others values are ignored: {ignored_species*}.",
           .transformer = collapse_transformer(
@@ -91,21 +89,21 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, life_stage = NU
     species <- check_species(datapkg, species)
     datapkg$observations <-
       datapkg$observations %>%
-      filter(tolower(.data$scientificName) %in% tolower(species))
+      dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # get observations of the specified sex
   if (!is.null(sex)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(sex %in% sex_value)
+      dplyr::filter(sex %in% sex_value)
   }
 
   # get observations of the specified life stage
   if (!is.null(life_stage)) {
     datapkg$observations <-
       datapkg$observations %>%
-      filter(.data$lifeStage %in% life_stage)
+      dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # extract observations and deployments
@@ -128,38 +126,36 @@ get_n_obs <- function(datapkg, ..., species = "all", sex = NULL, life_stage = NU
   # get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
-    group_by(.data$deploymentID,
-             .data$scientificName) %>%
-    summarise(n = n_distinct(.data$sequenceID)) %>%
-    ungroup()
+    dplyr::group_by(.data$deploymentID, .data$scientificName) %>%
+    dplyr::summarise(n = n_distinct(.data$sequenceID)) %>%
+    dplyr::ungroup()
 
   # get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(deployments$deploymentID,
                 unique(c(unique(observations$scientificName), species))) %>%
-    rename(deploymentID = .data$Var1,
-           scientificName = .data$Var2) %>%
-    as_tibble()
+    dplyr::rename(deploymentID = .data$Var1, scientificName = .data$Var2) %>%
+    dplyr::as_tibble()
 
   # set 0 to combinations without observations (i.e. n = NA after join)
   n_obs <-
     combinations_dep_species %>%
-    left_join(n_obs,
-              by = c("deploymentID", "scientificName")) %>%
-    mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
-    mutate(n = as.integer(.data$n))
+    dplyr::left_join(n_obs,
+                     by = c("deploymentID", "scientificName")) %>%
+    dplyr::mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
+    dplyr::mutate(n = as.integer(.data$n))
 
   if (is.null(species)) {
     # sum all observations per deployment
     n_obs <-
       n_obs %>%
-      group_by(.data$deploymentID) %>%
-      summarise(n = sum(.data$n)) %>%
-      ungroup()
+      dplyr::group_by(.data$deploymentID) %>%
+      dplyr::summarise(n = sum(.data$n)) %>%
+      dplyr::ungroup()
   }
 
   # order result by deployments and follow same order as in deployments df
   deployments %>%
-    select(deploymentID) %>%
-    left_join(n_obs, by = "deploymentID")
+    dplyr::select(deploymentID) %>%
+    dplyr::left_join(n_obs, by = "deploymentID")
 }

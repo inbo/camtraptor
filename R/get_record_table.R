@@ -53,6 +53,7 @@
 #'   11. `Filename`: list, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`
 #' @export
+#' @family get_functions
 #' @examples
 #' get_record_table(mica)
 #'

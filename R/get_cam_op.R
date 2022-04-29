@@ -22,6 +22,7 @@
 #' @importFrom dplyr %>% .data
 #' @return a matrix. Row names always indicate the station ID. Column names are
 #'   dates.
+#' @family get_functions
 #' @export
 #' @examples
 #' get_cam_op(mica)

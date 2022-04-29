@@ -44,3 +44,11 @@ get_cam_op(mica, station_col = "locationID")
 # Use prefix Station as in camtrapR's camera operation matrix
 get_cam_op(mica, use_prefix = TRUE)
 }
+\seealso{
+Other get_functions: 
+\code{\link{filter_predicate}},
+\code{\link{get_custom_effort}()},
+\code{\link{get_effort}()},
+\code{\link{get_record_table}()}
+}
+\concept{get_functions}

@@ -4,13 +4,7 @@
 \alias{get_cam_op}
 \title{Get camera operation matrix}
 \usage{
-get_cam_op(
-  datapkg,
-  ...,
-  station_col = "locationName",
-  use_prefix = FALSE,
-  use_decimal = FALSE
-)
+get_cam_op(datapkg, ..., station_col = "locationName", use_prefix = FALSE)
 }
 \arguments{
 \item{datapkg}{A camera trap data package object, as returned by
@@ -24,10 +18,6 @@ get_cam_op(
 \item{use_prefix}{logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
 names will start with prefix \code{"Station"} as returned by
 \code{camtrapR::cameraOperation()}. Default: \code{FALSE}.}
-
-\item{use_decimal}{logical (\code{TRUE} or \code{FALSE}). If \code{TRUE} partially active
-days result in decimal values. Default: \code{FALSE}, same behavior as
-camtrapR's function \code{cameraOperation()}.}
 }
 \value{
 a matrix. Row names always indicate the station ID. Column names are
@@ -41,6 +31,9 @@ as returned by camtrapR's function \code{cameraOperation()}.
 The deployment data are by default grouped by \code{locationName} (station ID in
 camtrapR jargon) or another column specified by the user. If multiple
 deployments are linked to same location, daily efforts higher than 1 occur.
+
+Partially active days, e.g. the first or the last day of a deployment result
+in decimal effort values, same behavior as camtrapR's function \code{cameraOperation()}.
 }
 \examples{
 get_cam_op(mica)
@@ -50,6 +43,4 @@ get_cam_op(mica, pred_gte("latitude", 51.18))
 get_cam_op(mica, station_col = "locationID")
 # Use prefix Station as in camtrapR's camera operation matrix
 get_cam_op(mica, use_prefix = TRUE)
-# Use decimal values for partially active days
-get_cam_op(mica, use_decimal = TRUE)
 }

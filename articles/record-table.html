@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.1</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 data-toc-skip class="author">Damiano Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-04-19</h4>
+            <h4 data-toc-skip class="date">2022-04-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -335,7 +335,7 @@
 <div class="section level3">
 <h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
 </h3>
-<p>It can happen that duplicates occur, e.g. when two distinct observations of the same species are made based on the same sequence of images and all . You can decide what to do with these duplicates by using the argument <code>removeDuplicateRecords</code>: by default it is equalt to <code>TRUE</code>. The duplicates are therefore removed. To not remove them, set <code>removeDuplicateRecords</code> equal to <code>FALSE</code>.</p>
+<p>It can happen that “duplicates” occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different <code>lifeStage</code> or <code>sex</code>. You can decide what to do with these duplicates by using the argument <code>removeDuplicateRecords</code>: by default it is equalt to <code>TRUE</code>. The duplicates are therefore removed. To not remove them, set <code>removeDuplicateRecords</code> equal to <code>FALSE</code>.</p>
 <p>Let’s create an easy example with duplicates based on <code>mica</code> datapackage:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mica_dup</span> <span class="op">&lt;-</span> <span class="va">mica</span>
@@ -424,7 +424,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

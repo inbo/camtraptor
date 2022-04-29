@@ -1,12 +1,12 @@
 pandoc: 2.7.3
-pkgdown: 2.0.2
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   camera-operation-matrix: camera-operation-matrix.html
   filter-predicates: filter-predicates.html
   record-table: record-table.html
   visualize-deployment-features: visualize-deployment-features.html
-last_built: 2022-04-19T21:56Z
+last_built: 2022-04-29T21:44Z
 urls:
   reference: https://inbo.github.io/camtraptor/reference
   article: https://inbo.github.io/camtraptor/articles

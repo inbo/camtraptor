@@ -43,8 +43,8 @@ test_that("output matrix has all deployment days as colnames", {
   expect_equal(colnames(cam_op_matrix), days_activity)
 })
 
-test_that("daily effort is > 0 for fully active days, 0 for inactive days", {
-  cam_op_matrix <- get_cam_op(mica, use_decimal = TRUE)
+test_that("daily effort is > 0 for fully active days, NA for inactive days", {
+  cam_op_matrix <- get_cam_op(mica)
   location <- mica$deployments$locationName[4]
   deployment_start <- mica$deployments %>%
     filter(locationName == location) %>%
@@ -62,20 +62,11 @@ test_that("daily effort is > 0 for fully active days, 0 for inactive days", {
                            by = "days")
   cols_inactivity <- as.character(cols_inactivity)
   expect_true(all(cam_op_matrix[4, cols_activity] > 0))
-  expect_true(all(cam_op_matrix[4, cols_inactivity] == 0))
-})
-
-test_that("daily effort is == 0 for partial active days (start/end), use_decimals = FALSE (default)", {
-  cam_op_matrix <- get_cam_op(mica)
-  location <- mica$deployments$locationName[4]
-  start <- as.character(as.Date(mica$deployments$start[4]))
-  end <- as.character(as.Date(mica$deployments$end[4]))
-  expect_true(cam_op_matrix[4, start] == 0)
-  expect_true(cam_op_matrix[4, end] == 0)
+  expect_true(all(is.na(cam_op_matrix[4, cols_inactivity])))
 })
 
 test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
-  cam_op_matrix <- get_cam_op(mica, use_decimal = TRUE)
+  cam_op_matrix <- get_cam_op(mica)
   location <- mica$deployments$locationName[4]
   start <- as.character(as.Date(mica$deployments$start[4]))
   end <- as.character(as.Date(mica$deployments$end[4]))

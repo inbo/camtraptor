@@ -157,7 +157,7 @@ get_record_table <- function(datapkg,
            .data$fileName,
            .data$timestamp) %>%
     dplyr::group_by(.data$sequenceID) %>%
-    summarise(filePath = list(.data$filePath),
+    dplyr::summarise(filePath = list(.data$filePath),
               fileName = list(.data$fileName),
               # important if deltaTimeComparedTo is lastRecord
               last_timestamp = dplyr::last(.data$timestamp))

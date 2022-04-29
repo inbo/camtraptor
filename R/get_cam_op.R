@@ -8,6 +8,9 @@
 #' camtrapR jargon) or another column specified by the user. If multiple
 #' deployments are linked to same location, daily efforts higher than 1 occur.
 #'
+#' Partially active days, e.g. the first or the last day of a deployment result
+#' in decimal effort values, same behavior as camtrapR's function `cameraOperation()`.
+#'
 #' @param datapkg A camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param station_col Column name to use for identifying the stations. Default:
@@ -15,9 +18,6 @@
 #' @param use_prefix logical (`TRUE`or `FALSE`). If `TRUE` the returned row
 #'   names will start with prefix `"Station"` as returned by
 #'   `camtrapR::cameraOperation()`. Default: `FALSE`.
-#' @param use_decimal logical (`TRUE` or `FALSE`). If `TRUE` partially active
-#'   days result in decimal values. Default: `FALSE`, same behavior as
-#'   camtrapR's function `cameraOperation()`.
 #' @param ... filter predicates for filtering on deployments.
 #' @importFrom dplyr %>% .data
 #' @return a matrix. Row names always indicate the station ID. Column names are
@@ -31,13 +31,10 @@
 #' get_cam_op(mica, station_col = "locationID")
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
-#' # Use decimal values for partially active days
-#' get_cam_op(mica, use_decimal = TRUE)
 get_cam_op <- function(datapkg,
                        ...,
                        station_col = "locationName",
-                       use_prefix = FALSE,
-                       use_decimal = FALSE) {
+                       use_prefix = FALSE) {
   # check data package
   check_datapkg(datapkg)
 
@@ -77,13 +74,16 @@ get_cam_op <- function(datapkg,
       # edge cases start and end day
       deploy_df  <- deploys %>%
         dplyr::filter(.data$deploymentID == x)
-      if (use_decimal == TRUE) {
-        daily_effort_start <- calc_daily_effort(deploy_df, calc_start=TRUE)
-        daily_effort_end <- calc_daily_effort(deploy_df, calc_end=TRUE)
-        operational[days_operations == start_day] <- daily_effort_start
-        operational[days_operations == end_day] <- daily_effort_end
-      }
+      daily_effort_start <- calc_daily_effort(deploy_df, calc_start=TRUE)
+      daily_effort_end <- calc_daily_effort(deploy_df, calc_end=TRUE)
+      operational[days_operations == start_day] <- daily_effort_start
+      operational[days_operations == end_day] <- daily_effort_end
       operational <- dplyr::as_tibble(operational)
+      # the 0s should actually be NAs meaning "camera(s) not set up". Notice
+      # that in the actual stadium of camera trap dp exchange format, 0s as
+      # returned by camtrapR::cameraOperation()` meaning "camera(s) not
+      # operational", will never occur.
+      operational <- dplyr::na_if(operational, y = 0)
       names(operational) <- x
       return(operational)
     })

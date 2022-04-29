@@ -53,6 +53,7 @@
 #'   11. `Filename`: list, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`
 #' @export
+#' @family get_functions
 #' @examples
 #' get_record_table(mica)
 #'
@@ -157,7 +158,7 @@ get_record_table <- function(datapkg,
            .data$fileName,
            .data$timestamp) %>%
     dplyr::group_by(.data$sequenceID) %>%
-    summarise(filePath = list(.data$filePath),
+    dplyr::summarise(filePath = list(.data$filePath),
               fileName = list(.data$fileName),
               # important if deltaTimeComparedTo is lastRecord
               last_timestamp = dplyr::last(.data$timestamp))

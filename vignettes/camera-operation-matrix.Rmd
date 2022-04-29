@@ -40,9 +40,13 @@ get_cam_op(mica)
 
 The function will read the `deployments` slot of the data package to create the matrix.
 
-The matrix rows are the location names, by default the values of field `locationName` of `deployments`. Column names are dates. The matrix values are: 0 if station is not or only partially active, an integer (1 or more) if one or more deployments linked to the same station are fully active during the whole day.
+The matrix rows are the location names, by default the values of field
+`locationName` of `deployments`. Column names are dates. The matrix values are:
+0 if station is not active, an integer (1 or more) if one or more deployments
+linked to the same station are fully active during the whole day and a decimal
+value for partially active stations.
 
-In the example above there was a one-to-one relation between deployments and locations: the daily effort was 0 or 1.
+In the example above there was a one-to-one relation between deployments and locations: the daily effort is between 0 and 1.
 
 In the example below we show what happens if all four deployments are set to the same location (`B_DL_val 5_beek kleine vijver`) and they are active during the same days:
 
@@ -89,14 +93,3 @@ You can also decide to use prefix `"Station"` in the station names as done by ca
 cam_op_with_prefix <- get_cam_op(mica, use_prefix = TRUE)
 cam_op_with_prefix[1:4,1:2]
 ```
-### Assign decimal values to partially active days
-
-The use of decimal figures to express partial active days is possible by setting argument `use_decimal` to `TRUE`. Here below a basic example where partial active days, i.e. `start` and `end` days, result in decimal values:
-
-```{r basic_example_raw_decimal}
-cam_op_matrix_decimals <- get_cam_op(mica, use_decimal = TRUE)
-cam_op_matrix_decimals[1:4,c(as.character(as.Date(mica$deployments$start)),
-                             as.character(as.Date(mica$deployments$end)))]
-```
-
-Notice that `get_cam_op()` with option `use_decimal` equal `TRUE` is internally used by `get_custom_effort()` to calculate custom efforts. 

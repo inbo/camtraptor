@@ -109,7 +109,7 @@ get_custom_effort <- function(datapkg,
   deployments <- datapkg$deployments
 
   # camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(datapkg, ..., use_decimal = TRUE)
+  cam_op <- get_cam_op(datapkg, ...)
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

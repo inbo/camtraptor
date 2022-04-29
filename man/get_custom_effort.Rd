@@ -99,6 +99,8 @@ get_custom_effort(mica, pred_gte("latitude", 51.18))
 \seealso{
 Other get_functions: 
 \code{\link{filter_predicate}},
-\code{\link{get_effort}()}
+\code{\link{get_cam_op}()},
+\code{\link{get_effort}()},
+\code{\link{get_record_table}()}
 }
 \concept{get_functions}

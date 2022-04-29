@@ -186,7 +186,9 @@ pred_notna("scientificName")
 }
 \seealso{
 Other get_functions: 
+\code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
-\code{\link{get_effort}()}
+\code{\link{get_effort}()},
+\code{\link{get_record_table}()}
 }
 \concept{get_functions}

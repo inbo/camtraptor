@@ -104,7 +104,7 @@ get_record_table(mica, stationCol = "locationID")
 
 ### Remove duplicates
 
-It can happen that duplicates occur, e.g. when two distinct observations of the same species are made based on the same sequence of images and all . You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equalt to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
+It can happen that "duplicates" occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different `lifeStage` or `sex`. You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equalt to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
 
 Let's create an easy example with duplicates based on `mica` datapackage:
 

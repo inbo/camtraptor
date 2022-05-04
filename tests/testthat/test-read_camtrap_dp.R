@@ -3,6 +3,24 @@ test_that("file is checked properly", {
   expect_error(read_camtrap_dp(1))
 })
 
+testthat::test_that("test warnings", {
+  local_edition(2)
+  camtrap_dp_file_with_issues <- system.file("extdata", "mica_parsing_issues", "datapackage_for_parsing_issues.json", package = "camtraptor")
+  # deployments
+  expect_warning(camtraptor::read_camtrap_dp(
+    file = camtrap_dp_file_with_issues),
+    "One or more parsing issues occurred while reading deployments.")
+  # observations
+  expect_warning(camtraptor::read_camtrap_dp(
+    file = camtrap_dp_file_with_issues),
+    "One or more parsing issues occurred while reading observations.")
+  # media
+  expect_warning(camtraptor::read_camtrap_dp(
+    file = camtrap_dp_file_with_issues),
+    "One or more parsing issues occurred while reading media.")
+})
+
+
 test_that("media is checked properly", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
                          package = "camtraptor")

@@ -16,10 +16,12 @@
 #'   media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
-#' @return A list containing three (tibble) data.frames: 1. `observations` 2.
-#'   `deployments` 3. `media`
+#' @return A list containing three (tibble) data.frames:
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `media`
 #'
-#'   and a list with metadata: `datapackage`
+#' and a list with metadata: `datapackage`.
 #'
 #' @export
 #'
@@ -33,6 +35,19 @@
 #'
 #' # Read Camtrap DP package and ignore media file
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+#'
+#' # If parsing issues while reading deployments, observations or media arise,
+#' use readr::problems()
+#' camtrap_dp_file_with_issues <- system.file(
+#'   "extdata",
+#'   "mica_parsing_issues",
+#'   "datapackage_for_parsing_issues.json",
+#'   package = "camtraptor"
+#' )
+#' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
+#' readr::problems(muskrat_coypu_with_issues$deployments)
+#' readr::problems(muskrat_coypu_with_issues$observations)
+#' readr::problems(muskrat_coypu_with_issues$media)
 #' }
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
@@ -65,7 +80,23 @@ read_camtrap_dp <- function(file = NULL,
   # read files
   package <- frictionless::read_package(file)
   deployments <- frictionless::read_resource(package, "deployments")
+  issues_deployments <- readr::problems(deployments)
+  if (nrow(issues_deployments) > 0) {
+    warning(
+    glue("One or more parsing issues occurred while reading deployments. ",
+         "On how to use readr::problems() with datapackages, ",
+         "see examples in documentation of function read_camtrap_dp."
+    ))
+  }
   observations <- frictionless::read_resource(package, "observations")
+  issues_observations <- readr::problems(observations)
+  if (nrow(issues_observations) > 0) {
+    warning(
+      glue("One or more parsing issues occurred while reading observations. ",
+           "On how to use readr::problems() with datapackages, ",
+           "see examples in documentation of function read_camtrap_dp."
+    ))
+  }
 
   # get taxonomic info
   taxon_infos <- get_species(list(
@@ -82,25 +113,34 @@ read_camtrap_dp <- function(file = NULL,
                                      by  = c("taxonID", "scientificName"))
     observations <- observations %>%
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
+    # Inherit parsing issues from reading
+    attr(observations, which = "problems") <- issues_observations
   }
   if (media == TRUE) {
     media <- frictionless::read_resource(package, "media")
+    issues_media <- readr::problems(media)
+    if (nrow(issues_media) > 0) {
+      warning(glue("One or more parsing issues occurred while reading media. ",
+                   "On how to use readr::problems() with datapackages, ",
+                   "see examples in documentation of function read_camtrap_dp.")
+      )
+    }
   }
 
   # return list
   if (is.data.frame(media)) {
     list(
       "datapackage" = package,
-      "deployments" = dplyr::tibble(deployments),
-      "media" = dplyr::tibble(media),
-      "observations" = dplyr::tibble(observations)
+      "deployments" = deployments,
+      "media" = media,
+      "observations" = observations
     )
   } else {
     list(
       "datapackage" = package,
-      "deployments" = dplyr::tibble(deployments),
+      "deployments" = deployments,
       "media" = NULL,
-      "observations" = dplyr::tibble(observations)
+      "observations" = observations
     )
   }
 }

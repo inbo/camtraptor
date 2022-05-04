@@ -16,10 +16,14 @@ media file to speed up reading larger Camtrap DP packages.}
 with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-A list containing three (tibble) data.frames: 1. \code{observations} 2.
-\code{deployments} 3. \code{media}
+A list containing three (tibble) data.frames:
+\enumerate{
+\item \code{observations}
+\item \code{deployments}
+\item \code{media}
+}
 
-and a list with metadata: \code{datapackage}
+and a list with metadata: \code{datapackage}.
 }
 \description{
 This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format. The
@@ -41,5 +45,13 @@ muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 
 # Read Camtrap DP package and ignore media file
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+
+# If parsing issues while reading deployments, observations or media arise,
+use readr::problems()
+muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+readr::problems(muskrat_coypu$deployments)
+readr::problems(muskrat_coypu$observations)
+readr::problems(muskrat_coypu$media)
+
 }
 }

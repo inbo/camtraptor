@@ -16,10 +16,12 @@
 #'   media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
-#' @return A list containing three (tibble) data.frames: 1. `observations` 2.
-#'   `deployments` 3. `media`
+#' @return A list containing three (tibble) data.frames:
+#' 1. `observations`
+#' 2. `deployments`
+#' 3. `media`
 #'
-#'   and a list with metadata: `datapackage`
+#' and a list with metadata: `datapackage`.
 #'
 #' @export
 #'
@@ -33,6 +35,14 @@
 #'
 #' # Read Camtrap DP package and ignore media file
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+#'
+#' # If parsing issues while reading deployments, observations or media arise,
+#' use readr::problems()
+#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+#' readr::problems(muskrat_coypu$deployments)
+#' readr::problems(muskrat_coypu$observations)
+#' readr::problems(muskrat_coypu$media)
+#'
 #' }
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
@@ -65,7 +75,15 @@ read_camtrap_dp <- function(file = NULL,
   # read files
   package <- frictionless::read_package(file)
   deployments <- frictionless::read_resource(package, "deployments")
+  issues_deployments <- readr::problems(deployments)
+  if (nrow(issues_deployments) > 0) {
+    warning("One or more parsing issues occurred while reading deployments. On how to use readr::problems(), see examples in documentation.")
+  }
   observations <- frictionless::read_resource(package, "observations")
+  issues_observations <- readr::problems(observations)
+  if (nrow(issues_observations) > 0) {
+    warning("One or more parsing issues occurred while reading observations. On how to use readr::problems(), see examples in documentation.")
+  }
 
   # get taxonomic info
   taxon_infos <- get_species(list(
@@ -85,6 +103,10 @@ read_camtrap_dp <- function(file = NULL,
   }
   if (media == TRUE) {
     media <- frictionless::read_resource(package, "media")
+    issues_media <- readr::problems(media)
+    if (nrow(issues_media) > 0) {
+      warning("One or more parsing issues occurred while reading media. On how to use readr::problems(), see examples in documentation.")
+    }
   }
 
   # return list

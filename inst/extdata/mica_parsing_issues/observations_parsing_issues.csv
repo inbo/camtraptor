@@ -1,0 +1,5 @@
+observationID,deploymentID,sequenceID,mediaID,timestamp,observationType,cameraSetup,taxonID,scientificName,count,countNew,lifeStage,sex,behaviour,individualID,classificationMethod,classifiedBy,classificationTimestamp,classificationConfidence,comments,_id
+ef2f7140-ae97-4b44-8309-ab1ffbc02879,29b7d356-4bb4-4ec4-b792-2af5cc32efa8,8f5ffbf2-52c4-4dd2-b502-d93a8aa64640,,2020-07-29TT05:29:41Z,unknown,FALSE,,,,,,,,,human,,,,,
+68686a75-ad44-4676-b45e-2b85f60e4d11,29b7d356-4bb4-4ec4-b792-2af5cc32efa8,1d98da96-c3ce-4479-9b97-8883cd33724f,,2020-07-2905:38:55Z,blank,FALSE,,,,,,,,,human,,,,,
+3d065f23-426a-449b-8693-f3c6b2ac9c7a,29b7d356-4bb4-4ec4-b792-2af5cc32efa8,89b807ca-697f-4452-8349-b235622c94fa,,2020-07-29T05:46:48Z,animal,FALSE,DGPL,Anas strepera,4,,subadult,unknown,,,human,Danny Van der beeck,2020-08-17T06:57:28Z,,,
+1fa8b00a-8f0e-485e-b98e-eb9bb1ee5a9f,29b7d356-4bb4-4ec4-b792-2af5cc32efa8,710eac2a-e261-478d-84e8-de99f418138c,,2020-07-30T04:29:31Z,animal,FALSE,DGPL,Anas strepera,1,,adult,female,,,human,Danny Van der beeck,2020-08-17T06:57:50Z,,,

@@ -1,6 +1,13 @@
 test_that("input camtrap dp is checked properly", {
+  # character instead of datapackage
   expect_error(get_cam_op("aaa"))
+  # numeric instead of datapackage
   expect_error(get_cam_op(1))
+  # station_col value is not a column of deployments
+  expect_error(get_cam_op(mica, station_col = "bla"))
+  # use_prefix must be TRUE or FALSE
+  expect_error(get_cam_op(mica, use_prefix = "bla"))
+  expect_error(get_cam_op(mica, use_prefix = NA))
 })
 
 test_that("output is a matrix", {

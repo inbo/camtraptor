@@ -165,10 +165,10 @@ test_that(paste(
   species <- "Anas platyrhynchos"
   n_obs_via_sequence_id <-
     mica$observations %>%
-    filter(deploymentID == deploy_id) %>%
-    filter(scientificName == species) %>%
-    pull(sequenceID ) %>%
-    n_distinct()
+    dplyr::filter(.data$deploymentID == deploy_id) %>%
+    dplyr::filter(.data$scientificName == species) %>%
+    dplyr::pull(.data$sequenceID) %>%
+    dplyr::n_distinct()
   # one sequenceID  linked to two observations (different age, sex and count)
   n_obs <- get_n_obs(mica,
     species = "Mallard",
@@ -195,8 +195,8 @@ test_that("multiple sex values allowed", {
   expect_equal(
     tot_n_obs_females_unknown,
     mica$observations %>%
-      filter(sex %in% sex_value) %>%
-      distinct(sequenceID ) %>%
+      dplyr::filter(.data$sex %in% sex_value) %>%
+      dplyr::distinct(.data$sequenceID) %>%
       nrow()
   )
   expect_equal(nrow(n_obs_females_unknown), nrow(mica$deployments))
@@ -206,8 +206,8 @@ test_that("life_stage filters data correctly", {
   life_stage_value <- "subadult"
   n_obs_subadult_via_distinct <-
     mica$observations %>%
-    filter(lifeStage %in% life_stage_value) %>%
-    distinct(sequenceID ) %>%
+    dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
+    dplyr::distinct(.data$sequenceID) %>%
     nrow()
   n_obs_subadult <- get_n_obs(mica, species = NULL, life_stage = life_stage_value)
   tot_n_obs_subadult <- sum(n_obs_subadult$n)
@@ -219,9 +219,9 @@ test_that("multiple age values allowed", {
   life_stage_value <- c("subadult", "adult")
   n_obs_subadult_adult <- get_n_obs(mica, species = NULL, life_stage = life_stage_value)
   tot_n_obs_subadult_adult <- sum(n_obs_subadult_adult$n)
-  n_obs_subadult_adult_calculate <- 
+  n_obs_subadult_adult_calculate <-
     mica$observations %>%
-    filter(lifeStage %in% life_stage_value) %>%
+    dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
     nrow()
   expect_equal(tot_n_obs_subadult_adult,n_obs_subadult_adult_calculate )
   expect_equal(nrow(n_obs_subadult_adult), nrow(mica$deployments))

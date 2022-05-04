@@ -39,6 +39,16 @@ get_cam_op <- function(datapkg,
   # check data package
   check_datapkg(datapkg)
 
+  # Check that station_col is one of the columns in deployments
+  assertthat::assert_that(
+    station_col %in% names(datapkg$deployments),
+    msg = glue("station column name (station_col) not valid: ",
+               "it must be one of the deployments column names.")
+  )
+
+  assertthat::assert_that(use_prefix %in% c(TRUE, FALSE),
+                          msg = "use_prefix must be TRUE or FALSE.")
+
   # extract and apply filtering on deployments
   deploys <- apply_filter_predicate(
     df = datapkg$deployments,

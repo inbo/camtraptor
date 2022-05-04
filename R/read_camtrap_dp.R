@@ -44,7 +44,7 @@
 #'   "datapackage_for_parsing_issues.json",
 #'   package = "camtraptor"
 #' )
-#' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = FALSE)
+#' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
 #' readr::problems(muskrat_coypu_with_issues$deployments)
 #' readr::problems(muskrat_coypu_with_issues$observations)
 #' readr::problems(muskrat_coypu_with_issues$media)

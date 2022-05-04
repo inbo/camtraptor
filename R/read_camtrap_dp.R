@@ -77,12 +77,20 @@ read_camtrap_dp <- function(file = NULL,
   deployments <- frictionless::read_resource(package, "deployments")
   issues_deployments <- readr::problems(deployments)
   if (nrow(issues_deployments) > 0) {
-    warning("One or more parsing issues occurred while reading deployments. On how to use readr::problems(), see examples in documentation.")
+    warning(
+    glue("One or more parsing issues occurred while reading deployments. ",
+         "On how to use readr::problems() with datapackages, ",
+         "see examples in documentation of function read_camtrap_dp."
+    ))
   }
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)
   if (nrow(issues_observations) > 0) {
-    warning("One or more parsing issues occurred while reading observations. On how to use readr::problems(), see examples in documentation.")
+    warning(
+      glue("One or more parsing issues occurred while reading observations. ",
+           "On how to use readr::problems() with datapackages, ",
+           "see examples in documentation of function read_camtrap_dp."
+    ))
   }
 
   # get taxonomic info
@@ -100,12 +108,17 @@ read_camtrap_dp <- function(file = NULL,
                                      by  = c("taxonID", "scientificName"))
     observations <- observations %>%
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
+    # Inherit parsing issues from reading
+    attr(observations, which = "problems") <- issues_observations
   }
   if (media == TRUE) {
     media <- frictionless::read_resource(package, "media")
     issues_media <- readr::problems(media)
     if (nrow(issues_media) > 0) {
-      warning("One or more parsing issues occurred while reading media. On how to use readr::problems(), see examples in documentation.")
+      warning(glue("One or more parsing issues occurred while reading media. ",
+                   "On how to use readr::problems() with datapackages, ",
+                   "see examples in documentation of function read_camtrap_dp.")
+      )
     }
   }
 

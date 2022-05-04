@@ -48,10 +48,15 @@ muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
 
 # If parsing issues while reading deployments, observations or media arise,
 use readr::problems()
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-readr::problems(muskrat_coypu$deployments)
-readr::problems(muskrat_coypu$observations)
-readr::problems(muskrat_coypu$media)
-
+camtrap_dp_file_with_issues <- system.file(
+  "extdata",
+  "mica_parsing_issues",
+  "datapackage_for_parsing_issues.json",
+  package = "camtraptor"
+)
+muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = FALSE)
+readr::problems(muskrat_coypu_with_issues$deployments)
+readr::problems(muskrat_coypu_with_issues$observations)
+readr::problems(muskrat_coypu_with_issues$media)
 }
 }

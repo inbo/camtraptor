@@ -90,11 +90,6 @@ get_cam_op <- function(datapkg,
       operational[days_operations == start_day] <- daily_effort_start
       operational[days_operations == end_day] <- daily_effort_end
       operational <- dplyr::as_tibble(operational)
-      # the 0s should actually be NAs meaning "camera(s) not set up". Notice
-      # that in the actual stadium of camera trap dp exchange format, 0s as
-      # returned by camtrapR::cameraOperation()` meaning "camera(s) not
-      # operational", will never occur.
-      operational <- dplyr::na_if(operational, y = 0)
       names(operational) <- x
       return(operational)
     })
@@ -114,12 +109,17 @@ get_cam_op <- function(datapkg,
         names(deployment_operational) %in% deploys_id]
       dep_op <- dplyr::bind_cols(dep_dfs)
       # sum daily effort along all deployments at same location
-      dep_op <- dplyr::as_tibble(rowSums(dep_op[, names(dep_op)]))
+      dep_op <- dplyr::as_tibble(rowSums(dep_op[, names(dep_op)], na.rm = TRUE))
       # set locations as station id
       names(dep_op) <- loc_name
       if (use_prefix == TRUE) {
         names(dep_op) <- paste0("Station", names(dep_op))
       }
+      # the 0s should actually be NAs meaning "camera(s) not set up". Notice
+      # that in the actual stadium of camera trap dp exchange format, 0s as
+      # returned by camtrapR::cameraOperation()` meaning "camera(s) not
+      # operational", will never occur.
+      dep_op <- dplyr::na_if(dep_op, y = 0)
       dep_op[[names(dep_op)]] <- as.numeric(dep_op[[names(dep_op)]])
       return(dep_op)
     })

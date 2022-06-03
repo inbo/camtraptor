@@ -117,7 +117,9 @@ Internally, the input to \verb{pred*} functions turn into a character string,
 which forms the body of a filter expression.
 For example:
 
-\code{pred("tags", "boven de stroom")} gives:\preformatted{$arg
+\code{pred("tags", "boven de stroom")} gives:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{$arg
 [1] "tags"
 
 $value
@@ -129,16 +131,22 @@ $type
 $expr
 (tags == "boven de stroom")
 
-}
+}\if{html}{\out{</div>}}
 
-\code{pred_gt("latitude", 51.27)} gives, (only \code{expr} slot shown):\preformatted{(latitude > 51.27)
-}
+\code{pred_gt("latitude", 51.27)} gives, (only \code{expr} slot shown):
 
-\code{pred_or()} gives:\preformatted{((tags == "boven de stroom") | (latitude > 51.28))
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{(latitude > 51.27)
+}\if{html}{\out{</div>}}
 
-\code{pred_or()} gives:\preformatted{((tags == "boven de stroom") & (latitude > 51.28))
-}
+\code{pred_or()} gives:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{((tags == "boven de stroom") | (latitude > 51.28))
+}\if{html}{\out{</div>}}
+
+\code{pred_or()} gives:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{((tags == "boven de stroom") & (latitude > 51.28))
+}\if{html}{\out{</div>}}
 }
 
 \section{Keys}{

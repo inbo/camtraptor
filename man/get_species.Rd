@@ -19,5 +19,4 @@ Function to get all identified species
 }
 \examples{
 get_species(mica)
-
 }

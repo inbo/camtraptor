@@ -1,24 +1,19 @@
 /*
-Created by Peter Desmet (INBO)
-Mapping from Camtrap DP: https://tdwg.github.io/camtrap-dp
-Mapping to Audubon Media Description: https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml
-Y = included in DwC, N = not included in DwC
+Schema: https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml
+Camtrap DP terms and whether they are included in DwC (Y) or not (N):
 
-CAMTRAP DP MEDIA
-
-mediaID                         Y: as link to observation
-deploymentID                    N: included at observation level
-sequenceID                      Y: as link to observation
-captureMethod                   ?
-timestamp                       Y
-filePath                        Y
-fileName                        Y: to sort data
-fileMediatype                   Y
-exifData                        N
-favourite                       N
-comments                        N
-_id                             N
-
+media.mediaID                           Y: as link to observation
+media.deploymentID                      N: included at observation level
+media.sequenceID                        Y: as link to observation
+media.captureMethod                     Y
+media.timestamp                         Y
+media.filePath                          Y
+media.fileName                          Y: to sort data
+media.fileMediatype                     Y
+media.exifData                          N
+media.favourite                         N
+media.comments                          Y
+media._id                               N
 */
 
 -- Observations can be based on sequences (sequenceID) or individual files (mediaID)
@@ -38,33 +33,21 @@ WITH observations_media AS (
 )
 
 SELECT
--- occurrenceID
-  obs_med.observationID AS occurrenceID,
--- creator
--- providerLiteral
--- provider
--- rights
-  {metadata$mediaLicense} AS rights,
--- owner
--- identifier
-  obs_med.mediaID AS identifier,
--- type
+  obs_med.observationID                 AS occurrenceID,
+-- provider: can be org managing the platform, but that info is not available
+  {media_license_url}                   AS rights,
+  obs_med.mediaID                       AS identifier,
   CASE
     WHEN obs_med.fileMediatype LIKE '%video%' THEN 'MovingImage'
     ELSE 'StillImage'
-  END AS type,
--- providerManagedID
-  obs_med._id AS providerManagedID,
--- captureDevice
---  dep.cameraModel AS captureDevice,
--- resourceCreationTechnique
-  obs_med.captureMethod AS resourceCreationTechnique,
--- accessURI
-  obs_med.filePath AS accessURI,
--- format
-  obs_med.fileMediatype AS format,
--- CreateDate
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', datetime(obs_med.timestamp, 'unixepoch')) AS createDate
+  END                                   AS type,
+  obs_med._id                           AS providerManagedID,
+  obs_med.comments                      AS comments,
+  dep.cameraModel                       AS captureDevice,
+  obs_med.captureMethod                 AS resourceCreationTechnique,
+  obs_med.filePath                      AS accessURI,
+  obs_med.fileMediatype                 AS format,
+  STRFTIME('%Y-%m-%dT%H:%M:%SZ', datetime(obs_med.timestamp, 'unixepoch')) AS CreateDate
 
 FROM
   observations_media AS obs_med

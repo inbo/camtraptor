@@ -74,6 +74,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   message("Creating EML metadata.")
   eml <- movepub::datacite_to_eml(doi)
 
+  # Set platform
+  platform <- package$platform$title # Use in DwC
+
   # Update title
   title <- paste(eml$dataset$title, "[animal observations]") # Used in DwC
   eml$dataset$title <- title
@@ -83,6 +86,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
+
+  # Set media license
+  media_license_url <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
 
   # Add extra paragraph to description
   first_author <- eml$dataset$creator[[1]]$individualName$surName

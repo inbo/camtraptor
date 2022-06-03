@@ -177,42 +177,41 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Read data from package
-  # message("Reading data from `package`.")
-  # assertthat::assert_that(
-  #   c("reference-data") %in% frictionless::resources(package),
-  #   msg = "`package` must contain resource `reference-data`."
-  # )
-  # assertthat::assert_that(
-  #   c("gps") %in% frictionless::resources(package),
-  #   msg = "`package` must contain resource `gps`."
-  # )
-  # ref <- frictionless::read_resource(package, "reference-data")
-  # gps <- frictionless::read_resource(package, "gps")
+  # Already read with read_camtrap_dp()
 
   # Create database
-  # message("Creating database and transforming to Darwin Core.")
-  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  # DBI::dbWriteTable(con, "reference_data", ref)
-  # DBI::dbWriteTable(con, "gps", gps)
+  message("Creating database and transforming to Darwin Core.")
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  DBI::dbWriteTable(con, "deployments", orig_package$deployments)
+  DBI::dbWriteTable(con, "media", orig_package$media)
+  DBI::dbWriteTable(con, "observations", orig_package$observations)
 
   # Query database
-  # dwc_occurrence_sql <- glue::glue_sql(
-  #   readr::read_file(
-  #     system.file("sql/movebank_dwc_occurrence.sql", package = "movepub")
-  #   ),
-  #   .con = con
-  # )
-  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  # DBI::dbDisconnect(con)
+  dwc_occurrence_sql <- glue::glue_sql(
+    readr::read_file(
+      system.file("sql/dwc_occurrence.sql", package = "camtraptor")
+    ),
+    .con = con
+  )
+  dwc_multimedia_sql <- glue::glue_sql(
+    readr::read_file(
+      system.file("sql/dwc_multimedia.sql", package = "camtraptor")
+    ),
+    .con = con
+  )
+  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  dwc_multimedia <- DBI::dbGetQuery(con, dwc_multimedia_sql)
+  DBI::dbDisconnect(con)
 
   # Write files
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
   EML::write_eml(eml, file.path(directory, "eml.xml"))
-  # readr::write_csv(
-  #   dwc_occurrence,
-  #   file.path(directory, "dwc_occurrence.csv"),
-  #   na = ""
-  # )
+  readr::write_csv(
+    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"), na = ""
+  )
+  readr::write_csv(
+    dwc_multimedia, file.path(directory, "dwc_multimedia.csv"), na = ""
+  )
 }

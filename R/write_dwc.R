@@ -23,7 +23,7 @@
 #' Uses `movepub::datacite_to_eml()` under the hood.
 #' The following properties are set:
 #'
-#' - **title**: Original title + `[subsampled representation]`.
+#' - **title**: Original title + `[animal observations]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
 #' - **license**: License of the original dataset.
@@ -45,7 +45,6 @@
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency**, and **publishing organization**.
 #'
-#' Not set: associated parties, project data, sampling methods, and citations.
 #' Not set: sampling methods and citations.
 #' Not applicable: collection data.
 #'
@@ -76,7 +75,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   eml <- movepub::datacite_to_eml(doi)
 
   # Update title
-  title <- paste(eml$dataset$title, "[subsampled representation]") # Used in DwC
+  title <- paste(eml$dataset$title, "[animal observations]") # Used in DwC
   eml$dataset$title <- title
 
   # Update license

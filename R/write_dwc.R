@@ -182,9 +182,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Create database
   message("Creating database and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "deployments", orig_package$deployments)
-  DBI::dbWriteTable(con, "media", orig_package$media)
-  DBI::dbWriteTable(con, "observations", orig_package$observations)
+  DBI::dbWriteTable(con, "deployments", dplyr::tibble(orig_package$deployments))
+  DBI::dbWriteTable(con, "media", dplyr::tibble(orig_package$media))
+  DBI::dbWriteTable(con, "observations", dplyr::tibble(orig_package$observations))
 
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(

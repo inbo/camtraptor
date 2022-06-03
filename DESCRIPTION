@@ -38,7 +38,6 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
-    camtraptor,
     dplyr,
     frictionless,
     glue,

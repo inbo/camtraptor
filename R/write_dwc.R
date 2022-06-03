@@ -23,24 +23,26 @@
 #' Uses `movepub::datacite_to_eml()` under the hood.
 #' The following properties are set:
 #'
-#' - TO TEST **title**: Original title + `[subsampled representation]`.
+#' - **title**: Original title + `[subsampled representation]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
-#' - **creators**: Creators of the original dataset.
 #' - **license**: License of the original dataset.
+#' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
 #' - **keywords**: Keywords of the original dataset.
-#' - **alternative identifier**: DOI of original dataset. This way, no new DOI
-#'   will be created when publishing to GBIF.
-#' - TO TEST **external link** (and alternative identifier): URL of the Movebank study.
+#' - **geographic coverage**: Bounding box as defined `package$spatial`.
+#' - **taxonomic coverage**: Species as defined in `package$taxonomic`.
+#' - **temporal coverage**: Date range as defined in `package$temporal`.
+#' - **alternative identifier**: DOI of the original dataset. This way, no new
+#'   DOI will be created when publishing to GBIF.
+#'
 #'
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency**, and **publishing organization**.
 #'
-#' Not set: geographic, taxonomic, temporal coverage, associated parties,
-#' project data, sampling methods, and citations. Not applicable: collection
-#' data.
+#' Not set: associated parties, project data, sampling methods, and citations.
+#' Not applicable: collection data.
 #'
 #' @section Data:
 #'
@@ -57,6 +59,7 @@
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL) {
   # TODO: Hotfix to deal with 1 level deep metadata
+  orig_package <- package
   package <- package$datapackage
 
   # Retrieve metadata from DataCite and build EML
@@ -110,6 +113,33 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     )
   }
   eml$dataset$metadataProvider <- eml$dataset$contact
+
+  # Set taxonomic coverage
+  taxonomy <- get_species(orig_package)
+  if ("taxonRank" %in% names(taxonomy)) {
+    taxonomy <- dplyr::filter(taxonomy, taxonRank == "species")
+  }
+  sci_names <-
+    rename(taxonomy, Species = scientificName) %>%
+    select(Species)
+
+  # Set temporal coverage
+  begin <- package$temporal$start
+  end <- package$temporal$end
+
+  # Set geographic coverage
+  bbox <- dp$datapackage$spatial$bbox
+
+  # Set coverage
+  eml$dataset$coverage <- set_coverage(
+    begin = begin,
+    end = end,
+    west = bbox[1],
+    south = bbox[2],
+    east = bbox[3],
+    north = bbox[4],
+    sci_names = sci_names
+  )
 
   # Read data from package
   # message("Reading data from `package`.")

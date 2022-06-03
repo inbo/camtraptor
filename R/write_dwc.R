@@ -31,17 +31,22 @@
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
 #' - **keywords**: Keywords of the original dataset.
+#' - **associated parties**: Organizations as defined in
+#'   `package$organizations`.
 #' - **geographic coverage**: Bounding box as defined `package$spatial`.
 #' - **taxonomic coverage**: Species as defined in `package$taxonomic`.
 #' - **temporal coverage**: Date range as defined in `package$temporal`.
+#' - **project data**: Title, identifier, description, and sampling design
+#'   information as defined in `package$project`.
 #' - **alternative identifier**: DOI of the original dataset. This way, no new
 #'   DOI will be created when publishing to GBIF.
-#'
+#' - **external link**: URL of the project as defined in `package$project$path`.
 #'
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency**, and **publishing organization**.
 #'
 #' Not set: associated parties, project data, sampling methods, and citations.
+#' Not set: sampling methods and citations.
 #' Not applicable: collection data.
 #'
 #' @section Data:
@@ -57,7 +62,7 @@
 #' @examples
 #' # TODO
 write_dwc <- function(package, directory = ".", doi = package$id,
-                      contact = NULL, rights_holder = NULL) {
+                      contact = NULL, rights_holder = package$rightsHolder) {
   # TODO: Hotfix to deal with 1 level deep metadata
   orig_package <- package
   package <- package$datapackage
@@ -87,10 +92,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   first_para <- glue::glue(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This camera trap dataset is derived from ",
-    "{first_author} et al. ({pub_year}, <a href=\"{doi_url}\">{doi_url}</a>). ",
+    "{first_author} et al. ({pub_year}, <a href=\"{doi_url}\">{doi_url}</a>), ",
+    "a Camera Trap Data Package ",
+    "(<a href=\"https://tdwg.github.io/camtrap-dp/\">Camtrap DP</a>). ",
     "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/camtraptor/\">camtraptor</a> R package ",
-    "and exclude observations of humans and absence records. ",
+    "and only include observations (and associated media) of animals. ",
+    "Excluded are records that document blank or unclassified media, ",
+    "vehicles and observations of humans. ",
     "The original dataset description follows.",
     .null = ""
   )
@@ -114,7 +123,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
   eml$dataset$metadataProvider <- eml$dataset$contact
 
-  # Set taxonomic coverage
+  # Add organizations as associated parties
+  eml$dataset$associatedParty <-
+    purrr::map(package$organizations, ~ EML::set_responsibleParty(
+      givenName = "", # Circumvent https://github.com/ropensci/EML/issues/345
+      organizationName = .$title,
+      onlineUrl = .$path
+    ))
+
+  # Set coverage
+  bbox <- dp$datapackage$spatial$bbox
   taxonomy <- get_species(orig_package)
   if ("taxonRank" %in% names(taxonomy)) {
     taxonomy <- dplyr::filter(taxonomy, taxonRank == "species")
@@ -123,23 +141,41 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     rename(taxonomy, Species = scientificName) %>%
     select(Species)
 
-  # Set temporal coverage
-  begin <- package$temporal$start
-  end <- package$temporal$end
-
-  # Set geographic coverage
-  bbox <- dp$datapackage$spatial$bbox
-
-  # Set coverage
   eml$dataset$coverage <- set_coverage(
-    begin = begin,
-    end = end,
+    begin = package$temporal$start,
+    end = package$temporal$end,
     west = bbox[1],
     south = bbox[2],
     east = bbox[3],
     north = bbox[4],
     sci_names = sci_names
   )
+
+  # Set project metadata
+  project <- package$project
+  capture_method <- paste(package$project$captureMethod, collapse = " and ")
+  animal_type <- paste(package$project$animalTypes, collapse = " and ")
+  design_para <- glue::glue(
+    "This project uses a {project$samplingDesign} sampling design, ",
+    "with {animal_type} animals and ",
+    "camera traps taking media using {capture_method}. ",
+    "Media are classified at {project$classificationLevel} level."
+  )
+  eml$dataset$project <- list(
+    id = project$id, # Can be NULL, assigned as <project id="id">
+    title = project$title,
+    abstract = list(para = project$description), # Can be NULL
+    designDescription = list(description = list(para = design_para))
+  )
+
+  # Set external link to project URL (can be NULL)
+  if (!is.null(project$path)) {
+    eml$dataset$distribution = list(
+      scope = "document", online = list(
+        url = list("function" = "information", project$path)
+      )
+    )
+  }
 
   # Read data from package
   # message("Reading data from `package`.")

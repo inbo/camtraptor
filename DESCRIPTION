@@ -38,7 +38,9 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
+    DBI,
     dplyr,
+    EML,
     frictionless,
     glue,
     htmltools,
@@ -48,6 +50,7 @@ Imports:
     purrr,
     readr,
     rlang,
+    RSQLite,
     stringr,
     tidyr
 Remotes:

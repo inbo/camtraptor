@@ -1,7 +1,7 @@
-#' Read camtrap-dp formatted data
+#' Read Camtrap DP formatted data
 #'
 #' This function reads camera trap data formatted following the [Camera Trap
-#' Data Package (Camtrap DP)](https://github.com/tdwg/camtrap-dp) format. The
+#' Data Package (Camtrap DP)](https://tdwg.github.io/camtrap-dpdp) format. The
 #' function is built upon the functions \link[frictionless]{read_package} and
 #' \link[frictionless]{read_resource}. This means a.o. that all datetime
 #' information included in the camera trap data package is automatically

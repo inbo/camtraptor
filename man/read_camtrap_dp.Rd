@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_camtrap_dp.R
 \name{read_camtrap_dp}
 \alias{read_camtrap_dp}
-\title{Read camtrap-dp formatted data}
+\title{Read Camtrap DP formatted data}
 \usage{
 read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 }
@@ -26,7 +26,7 @@ A list containing three (tibble) data.frames:
 and a list with metadata: \code{datapackage}.
 }
 \description{
-This function reads camera trap data formatted following the \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} format. The
+This function reads camera trap data formatted following the \href{https://tdwg.github.io/camtrap-dpdp}{Camera Trap Data Package (Camtrap DP)} format. The
 function is built upon the functions \link[frictionless]{read_package} and
 \link[frictionless]{read_resource}. This means a.o. that all datetime
 information included in the camera trap data package is automatically

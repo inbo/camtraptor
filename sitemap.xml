@@ -117,4 +117,7 @@
   <url>
     <loc>https://inbo.github.io/camtraptor/reference/transform_effort_to_common_units.html</loc>
   </url>
+  <url>
+    <loc>https://inbo.github.io/camtraptor/reference/write_dwc.html</loc>
+  </url>
 </urlset>

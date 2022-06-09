@@ -150,26 +150,14 @@ one of the locations in: "B_ML_val 05_molenkreek", "B_ML_val 03_De Val" and
 <p>Internally, the input to <code>pred*</code> functions turn into a character string,
 which forms the body of a filter expression.
 For example:</p>
-<p><code>pred("tags", "boven de stroom")</code> gives:</p><div class="sourceCode"><pre><code>$arg
-[1] "tags"
-
-$value
-[1] "boven de stroom"
-
-$type
-[1] "equals"
-
-$expr
-(tags == "boven de stroom")
-
-</code></pre></div>
-
-<p><code>pred_gt("latitude", 51.27)</code> gives, (only <code>expr</code> slot shown):</p><div class="sourceCode"><pre><code><span class="op">(</span><span class="va">latitude</span> <span class="op">&gt;</span> <span class="fl">51.27</span><span class="op">)</span></code></pre></div>
-
-<p><code>pred_or()</code> gives:</p><div class="sourceCode"><pre><code><span class="op">(</span><span class="op">(</span><span class="va">tags</span> <span class="op">==</span> <span class="st">"boven de stroom"</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">latitude</span> <span class="op">&gt;</span> <span class="fl">51.28</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-
-<p><code>pred_or()</code> gives:</p><div class="sourceCode"><pre><code><span class="op">(</span><span class="op">(</span><span class="va">tags</span> <span class="op">==</span> <span class="st">"boven de stroom"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">latitude</span> <span class="op">&gt;</span> <span class="fl">51.28</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-
+<p><code>pred("tags", "boven de stroom")</code> gives:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p><code>pred_gt("latitude", 51.27)</code> gives, (only <code>expr</code> slot shown):</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p><code>pred_or()</code> gives:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p><code>pred_or()</code> gives:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div id="keys">
     <h2>Keys</h2>

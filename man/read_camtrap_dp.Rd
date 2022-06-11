@@ -16,14 +16,13 @@ media file to speed up reading larger Camtrap DP packages.}
 with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-A list containing three (tibble) data.frames:
+A list containing metadata and resources. The resources are grouped
+in a slot called \code{data}. The resources of a camera trap data package are:
 \enumerate{
-\item \code{observations}
 \item \code{deployments}
 \item \code{media}
+\item \code{observations}
 }
-
-and a list with metadata: \code{datapackage}.
 }
 \description{
 This function reads camera trap data formatted following the \href{https://tdwg.github.io/camtrap-dpdp}{Camera Trap Data Package (Camtrap DP)} format. The

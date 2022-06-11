@@ -29,8 +29,8 @@ get_n_species <- function(datapkg, ...) {
   check_datapkg(datapkg)
 
   # extract observations and deployments
-  observations <- datapkg$observations
-  deployments <- datapkg$deployments
+  observations <- datapkg$data$observations
+  deployments <- datapkg$data$deployments
 
   # apply filtering
   deployments <- apply_filter_predicate(

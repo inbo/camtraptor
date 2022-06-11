@@ -16,12 +16,11 @@
 #'   media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
-#' @return A list containing three (tibble) data.frames:
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `media`
-#'
-#' and a list with metadata: `datapackage`.
+#' @return A list containing metadata and resources. The resources are grouped
+#'   in a slot called `data`. The resources of a camera trap data package are:
+#'   1. `deployments`
+#'   2. `media`
+#'   3. `observations`
 #'
 #' @export
 #'
@@ -98,13 +97,15 @@ read_camtrap_dp <- function(file = NULL,
     ))
   }
 
-  # get taxonomic info
-  taxon_infos <- get_species(list(
-    "datapackage" = package,
+  # create first version datapackage with resources in data slot
+  data <- list(
     "deployments" = deployments,
     "media" = NULL,
     "observations" = observations
-  ))
+  )
+  package$data <- data
+  # get taxonomic info
+  taxon_infos <- get_species(package)
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
@@ -115,6 +116,7 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
+    package$data$observations <- observations
   }
   if (media == TRUE) {
     media <- frictionless::read_resource(package, "media")
@@ -127,20 +129,14 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
 
-  # return list
+  # return list resources
   if (is.data.frame(media)) {
-    list(
-      "datapackage" = package,
+    data <- list(
       "deployments" = deployments,
       "media" = media,
       "observations" = observations
     )
-  } else {
-    list(
-      "datapackage" = package,
-      "deployments" = deployments,
-      "media" = NULL,
-      "observations" = observations
-    )
+    package$data <- data
   }
+  package
 }

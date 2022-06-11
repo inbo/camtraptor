@@ -1,19 +1,19 @@
 test_that("right (number of) species", {
   expect_identical(
     get_species(mica),
-    tibble(
-      taxonID = map_chr(mica$datapackage$taxonomic, ~.[["taxonID"]]),
+    dplyr::tibble(
+      taxonID = map_chr(mica$taxonomic, ~.[["taxonID"]]),
       taxonIDReference = map_chr(
-        mica$datapackage$taxonomic, ~.[["taxonIDReference"]]
+        mica$taxonomic, ~.[["taxonIDReference"]]
       ),
       scientificName = map_chr(
-        mica$datapackage$taxonomic, ~.[["scientificName"]]
+        mica$taxonomic, ~.[["scientificName"]]
       ),
       vernacularNames.en = map_chr(
-        mica$datapackage$taxonomic, ~.[["vernacularNames"]][["en"]]
+        mica$taxonomic, ~.[["vernacularNames"]][["en"]]
       ),
       vernacularNames.nl = map_chr(
-        mica$datapackage$taxonomic, ~.[["vernacularNames"]][["nl"]]
+        mica$taxonomic, ~.[["vernacularNames"]][["nl"]]
       )
     )
   )
@@ -30,10 +30,10 @@ test_that("function works fine with missing vernacular name slots", {
     list(scientificName = "Anas strepera", vernacularNames = list())
   )
   mica_modified <- mica
-  mica_modified$datapackage$taxonomic <- taxonomy
+  mica_modified$taxonomic <- taxonomy
   species_df <- get_species(mica_modified)
   # number of rows = number of species
-  expect_equal(nrow(species_df), length(mica_modified$datapackage$taxonomic))
+  expect_equal(nrow(species_df), length(mica_modified$taxonomic))
   # number of columns = number of slots of species list + vernacular names - 1
   expect_equal(
     ncol(species_df),
@@ -41,7 +41,7 @@ test_that("function works fine with missing vernacular name slots", {
   )
   # column names
   expect_equal(
-    names(species_df), 
+    names(species_df),
     c("scientificName",
       paste("vernacularNames", names(taxonomy[[1]]$vernacularNames),sep = ".")
     )

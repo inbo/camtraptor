@@ -37,7 +37,7 @@ test_that("Functions works with a mix of scientific and vernacular names", {
 })
 
 test_that("Taxon IDs are not allowed", {
-  taxon_id <- mica$datapackage$taxonomic[[1]]$taxonID
+  taxon_id <- mica$taxonomic[[1]]$taxonID
   expect_error(check_species(mica, taxon_id))
 })
 

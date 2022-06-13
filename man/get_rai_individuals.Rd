@@ -5,33 +5,38 @@
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
 get_rai_individuals(
-  datapkg,
+  package = NULL,
   ...,
   species = "all",
   sex = NULL,
-  life_stage = NULL
+  life_stage = NULL,
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{...}{filter predicates for filtering on deployments}
+\item{...}{Filter predicates for filtering on deployments.}
 
-\item{species}{a character with scientific names or common names (case
-insensitive). If "all" (default), all scientific names are automatically
-selected}
+\item{species}{Character with scientific names or common names (case
+insensitive).
+If "all" (default), all scientific names are automatically selected.}
 
-\item{sex}{a character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "unknown")}.  If \code{NULL}, default, all observations of all
-sex classes are taken into account.}
+\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
+or \code{c("male", "unknown")}.
+If \code{NULL}, default, all observations of all sex classes are taken into
+account.}
 
-\item{life_stage}{a character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL}, default, all
-observations of all life stage classes are taken into account.}
+\item{life_stage}{Character vector defining the life stage class to filter
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+If \code{NULL}, default, all observations of all life stage classes are taken
+into account.}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a tibble (data.frame) with the following columns:
+Tibble data.frame with the following columns:
 \itemize{
 \item \code{deploymentID} deployment unique identifier
 \item \code{scientificName} scientific name

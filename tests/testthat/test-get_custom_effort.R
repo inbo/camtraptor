@@ -167,3 +167,12 @@ test_that("check effort and unit values", {
   # unit value is equal to day if unit value is set to "day"
   expect_equal(unique(tot_effort_days$unit), "day")
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_custom_effort(datapkg = mica)
+    )
+  )
+})

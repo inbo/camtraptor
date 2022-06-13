@@ -5,19 +5,22 @@
 #' as returned by camtrapR's function `cameraOperation()`.
 #'
 #' The deployment data are by default grouped by `locationName` (station ID in
-#' camtrapR jargon) or another column specified by the user. If multiple
-#' deployments are linked to same location, daily efforts higher than 1 occur.
+#' camtrapR jargon) or another column specified by the user.
+#' If multiple deployments are linked to same location, daily efforts higher
+#' than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment result
-#' in decimal effort values, same behavior as camtrapR's function `cameraOperation()`.
+#' in decimal effort values, same behavior as camtrapR's function
+#' `cameraOperation()`.
 #'
-#' @param datapkg A camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
-#' @param use_prefix logical (`TRUE`or `FALSE`). If `TRUE` the returned row
+#' @param use_prefix Logical (`TRUE`or `FALSE`). If `TRUE` the returned row
 #'   names will start with prefix `"Station"` as returned by
 #'   `camtrapR::cameraOperation()`. Default: `FALSE`.
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
 #' @importFrom dplyr %>% .data
 #' @return a matrix. Row names always indicate the station ID. Column names are
@@ -32,16 +35,17 @@
 #' get_cam_op(mica, station_col = "locationID")
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
-get_cam_op <- function(datapkg,
+get_cam_op <- function(package = NULL,
                        ...,
                        station_col = "locationName",
-                       use_prefix = FALSE) {
-  # check data package
-  check_datapkg(datapkg)
+                       use_prefix = FALSE,
+                       datapkg = NULL) {
+  # check camera trap data package
+  package <- check_package(package, datapkg, "get_cam_op")
 
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
-    station_col %in% names(datapkg$data$deployments),
+    station_col %in% names(package$data$deployments),
     msg = glue("station column name (station_col) not valid: ",
                "it must be one of the deployments column names.")
   )
@@ -51,7 +55,7 @@ get_cam_op <- function(datapkg,
 
   # extract and apply filtering on deployments
   deploys <- apply_filter_predicate(
-    df = datapkg$data$deployments,
+    df = package$data$deployments,
     verbose = TRUE,
     ...)
 

@@ -2,9 +2,9 @@
 #'
 #' Function to get the effort (deployment duration) per deployment.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param unit time unit to use while returning deployment effort
+#' @param unit Time unit to use while returning deployment effort
 #'   (duration). One of:
 #'
 #' - `second`
@@ -13,7 +13,9 @@
 #' - `day`
 #' - `month`
 #' - `year`
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates
+#'
 #' @importFrom dplyr .data %>%
 #' @export
 
@@ -31,7 +33,10 @@
 #' # effort expressed as days
 #' get_effort(mica, unit = "day")
 #'
-get_effort <- function(datapkg, ..., unit = "hour") {
+get_effort <- function(package = NULL,
+                       ...,
+                       unit = "hour",
+                       datapkg = lifecycle::deprecated()) {
 
   # define possible unit values
   units <- c("second",
@@ -44,17 +49,17 @@ get_effort <- function(datapkg, ..., unit = "hour") {
   # check unit
   check_value(unit, units, "unit", null_allowed = FALSE)
 
-  # check datapackage
-  check_datapkg(datapkg)
+  # check camera trap data package
+  package <- check_package(package, datapkg, "get_effort")
 
   # apply filtering
-  datapkg$data$deployments <- apply_filter_predicate(
-    df = datapkg$data$deployments,
+  package$data$deployments <- apply_filter_predicate(
+    df = package$data$deployments,
     verbose = TRUE, ...
   )
 
   # get deployments
-  deployments <- datapkg$data$deployments
+  deployments <- package$data$deployments
 
   # calculate effort of deployments
   effort_df <-

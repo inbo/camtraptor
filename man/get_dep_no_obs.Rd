@@ -4,18 +4,21 @@
 \alias{get_dep_no_obs}
 \title{Get deployments with no observations}
 \usage{
-get_dep_no_obs(datapkg, ...)
+get_dep_no_obs(package = NULL, ..., datapkg = lifecycle::deprecated())
 }
 \arguments{
-\item{datapkg}{Camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{...}{filter predicates for filtering on deployments}
+\item{...}{Filter predicates for filtering on deployments}
 }
 \value{
-a tibble (data.frame) with deployments not linked to any observations
+Tibble data.frame with deployments not linked to any observations.
 }
 \description{
 Return subset of deployments without observations. A message is also returned
 to list the ID of such deployments.
+}
+\examples{
+get_dep_no_obs(mica)
 }

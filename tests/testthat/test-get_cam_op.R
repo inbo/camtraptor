@@ -54,11 +54,11 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   cam_op_matrix <- get_cam_op(mica)
   location <- mica$data$deployments$locationName[4]
   deployment_start <- mica$data$deployments %>%
-    filter(locationName == location) %>%
-    pull(start)
+    dplyr::filter(locationName == location) %>%
+    dplyr::pull(start)
   deployment_end <- mica$data$deployments %>%
-    filter(locationName == location) %>%
-    pull(end)
+    dplyr::filter(locationName == location) %>%
+    dplyr::pull(end)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
                        as.Date(deployment_end) - lubridate::ddays(1),
                        by = "days")
@@ -137,3 +137,11 @@ test_that("filtering predicates are allowed and work well", {
   expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
 })
 
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_cam_op(datapkg = mica)
+    )
+  )
+})

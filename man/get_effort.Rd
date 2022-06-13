@@ -4,15 +4,20 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(datapkg, ..., unit = "hour")
+get_effort(
+  package = NULL,
+  ...,
+  unit = "hour",
+  datapkg = lifecycle::deprecated()
+)
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates}
 
-\item{unit}{time unit to use while returning deployment effort
+\item{unit}{Time unit to use while returning deployment effort
 (duration). One of:
 \itemize{
 \item \code{second}
@@ -22,6 +27,8 @@ get_effort(datapkg, ..., unit = "hour")
 \item \code{month}
 \item \code{year}
 }}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 a tibble (data.frame) with the following columns:

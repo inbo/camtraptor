@@ -4,16 +4,18 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(datapkg, ...)
+get_n_species(package = NULL, ..., datapkg = lifecycle::deprecated())
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{...}{filter predicates for filtering on deployments}
+\item{...}{Filter predicates for filtering on deployments}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a tibble (data.frame) with the following columns:
+Tibble data.frame with the following columns:
 \itemize{
 \item \code{deploymentID}: deployment unique identifier
 \item \code{n}: (integer) number of observed and identified species

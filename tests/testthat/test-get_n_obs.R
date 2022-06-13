@@ -240,3 +240,12 @@ test_that(paste("scientific_name column contains all specified species,",
   expect_true(all(n_obs$scientificName %in% species_value))
   expect_true(all(species_value %in% n_obs$scientificName))
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_n_obs(datapkg = mica)
+    )
+  )
+})

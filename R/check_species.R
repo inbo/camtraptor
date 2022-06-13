@@ -3,17 +3,14 @@
 #' Check names against all scientific and vernacular names contained in a camera
 #' trap data package.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param species a character vector with scientific or vernacular names
-#' @param arg_name character with argument name to return in error message
+#' @param species Character vector with scientific or vernacular names
+#' @param arg_name Character with argument name to return in error message
 #'   Default: "species".
+#' @param datapkg Deprecated. Use `package` instead.
 #'
-#' @importFrom dplyr %>% .data select
-#' @importFrom glue glue
-#' @importFrom purrr map_chr
-#' @importFrom assertthat assert_that
-#' @importFrom stringr str_to_sentence
+#' @importFrom dplyr %>% .data
 #'
 #' @export
 #'
@@ -34,26 +31,30 @@
 #' \dontrun{
 #' check_species(mica, "bad name")
 #' }
-check_species <- function(datapkg, species, arg_name = "species") {
-
-  assert_that(!is.null(species) & length(species) > 0,
+check_species <- function(package = NULL,
+                          species,
+                          arg_name = "species",
+                          datapkg = lifecycle::deprecated()) {
+  # Check camera trap data package
+  package <- check_package(package, datapkg, "check_species")
+  assertthat::assert_that(!is.null(species) & length(species) > 0,
               msg = "species argument must be specified")
 
-  all_species <- get_species(datapkg) %>%
-    select(-c(.data$taxonID, .data$taxonIDReference))
+  all_species <- get_species(package = package) %>%
+    dplyr::select(-c(.data$taxonID, .data$taxonIDReference))
   check_value(tolower(species),
               unlist(all_species) %>% tolower(),
               arg_name,
               null_allowed = FALSE)
 
-  map_chr(species, function(x) {
+  purrr::map_chr(species, function(x) {
     # get scientific name in case a vernacular names is given
     if (!tolower(x) %in% tolower(all_species$scientificName)) {
-      sn <- get_scientific_name(datapkg, x)
+      sn <- get_scientific_name(package, x)
       message(glue("Scientific name of {x}: {sn}"))
       sn
     } else {
-      str_to_sentence(x) # in case the scientific name is not capitalized
+      stringr::str_to_sentence(x) # in case the scientific name is not capitalized
     }
   })
 }

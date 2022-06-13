@@ -50,19 +50,28 @@ test_that("function works fine with missing vernacular name slots", {
   # Dutch vernacular name of Ardea cinerea not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Ardea cinerea") %>%
-            pull(vernacularNames.nl))
+            dplyr::filter(scientificName == "Ardea cinerea") %>%
+            dplyr::pull(vernacularNames.nl))
   )
   # English vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Anas strepera") %>%
-            pull(vernacularNames.en))
+            dplyr::filter(scientificName == "Anas strepera") %>%
+            dplyr::pull(vernacularNames.en))
   )
   # Dutch vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Anas strepera") %>%
-            pull(vernacularNames.nl))
+            dplyr::filter(scientificName == "Anas strepera") %>%
+            dplyr::pull(vernacularNames.nl))
+  )
+})
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_species(datapkg = mica)
+    )
   )
 })

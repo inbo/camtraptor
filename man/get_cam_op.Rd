@@ -4,10 +4,16 @@
 \alias{get_cam_op}
 \title{Get camera operation matrix}
 \usage{
-get_cam_op(datapkg, ..., station_col = "locationName", use_prefix = FALSE)
+get_cam_op(
+  package = NULL,
+  ...,
+  station_col = "locationName",
+  use_prefix = FALSE,
+  datapkg = NULL
+)
 }
 \arguments{
-\item{datapkg}{A camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments.}
@@ -15,9 +21,11 @@ get_cam_op(datapkg, ..., station_col = "locationName", use_prefix = FALSE)
 \item{station_col}{Column name to use for identifying the stations. Default:
 \code{"locationName"}.}
 
-\item{use_prefix}{logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
+\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
 names will start with prefix \code{"Station"} as returned by
 \code{camtrapR::cameraOperation()}. Default: \code{FALSE}.}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 a matrix. Row names always indicate the station ID. Column names are
@@ -29,11 +37,13 @@ as returned by camtrapR's function \code{cameraOperation()}.
 }
 \details{
 The deployment data are by default grouped by \code{locationName} (station ID in
-camtrapR jargon) or another column specified by the user. If multiple
-deployments are linked to same location, daily efforts higher than 1 occur.
+camtrapR jargon) or another column specified by the user.
+If multiple deployments are linked to same location, daily efforts higher
+than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment result
-in decimal effort values, same behavior as camtrapR's function \code{cameraOperation()}.
+in decimal effort values, same behavior as camtrapR's function
+\code{cameraOperation()}.
 }
 \examples{
 get_cam_op(mica)

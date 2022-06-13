@@ -7,7 +7,7 @@
 check_filter_value_type(value)
 }
 \arguments{
-\item{value}{a character, a number, a Date or a POSIXct object}
+\item{value}{Character, number, Date or POSIXct object}
 }
 \value{
 \code{TRUE} or an error message

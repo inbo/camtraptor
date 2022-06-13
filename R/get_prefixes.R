@@ -4,23 +4,22 @@
 #' mouse. List fields in deployments as in
 #' https://tdwg.github.io/camtrap-dp/data/#deployments
 #'
-#' Returns a data.frame of all prefixes with the following columns: - `info`:
-#' deployment info - `prefix`: prefix to use
-#'
-#' @importFrom dplyr as_tibble
+#' Returns a data.frame of all prefixes with the following columns:
+#' - `info`: deployment info
+#' - `prefix`: prefix to use
 #'
 #' @noRd
 #'
 #' @usage map_dep_prefixes()
 #'
 #' @keywords internal
-map_dep_prefixes <- function() as_tibble(mapdep_prefixes)
+map_dep_prefixes <- function() dplyr::as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
   info = c(
     "scientificName", "deploymentID", "locationID", "locationName", "longitude",
     "latitude", "coordinateUncertainty", "start", "end", "setupBy", "cameraID",
-    "cameraModel", "cameraInterval", "cameraHeight", "cameraTilt", 
+    "cameraModel", "cameraInterval", "cameraHeight", "cameraTilt",
     "cameraHeading", "timestampIssues", "baitUse", "session", "array",
     "featureType", "habitat", "tags", "comments", "n_species", "n_obs",
     "n_individuals", "rai", "rai_individuals", "effort"
@@ -62,7 +61,7 @@ mapdep_prefixes <- structure(list(
 #' Retrieve prefixes (fields) for text to show while hovering with mouse over a
 #' deployment
 #'
-#' @param feature character, one of:
+#' @param feature Character, one of:
 #'
 #' - `n_species`
 #' - `n_obs`
@@ -71,7 +70,7 @@ mapdep_prefixes <- structure(list(
 #'
 #' @param infos character vector with deployment fields
 #'
-#' @importFrom dplyr .data %>% filter
+#' @importFrom dplyr .data %>%
 #'
 #' @noRd
 #'
@@ -83,5 +82,5 @@ get_prefixes <- function(feature,
   # get all prefixes
   prefixes <- map_dep_prefixes()
   # return the prefixes we need
-  prefixes %>% filter(.data$info %in% infos)
+  prefixes %>% dplyr::filter(.data$info %in% infos)
 }

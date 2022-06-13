@@ -4,10 +4,17 @@
 \alias{get_rai}
 \title{Get Relative Abundance Index (RAI)}
 \usage{
-get_rai(datapkg, ..., species = "all", sex = NULL, life_stage = NULL)
+get_rai(
+  package = NULL,
+  ...,
+  species = "all",
+  sex = NULL,
+  life_stage = NULL,
+  datapkg = lifecycle::deprecated()
+)
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{a camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates for filtering on deployments}

@@ -2,27 +2,28 @@
 #'
 #' Function to get all identified species
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
+#' @param datapkg Deprecated. Use `package` instead.
 #'
 #' @importFrom dplyr %>%
 #'
 #' @export
 #'
-#' @return a data.frame with all scientific names and vernacular names of the
-#'   identified species.
+#' @return Tibble data.frame with all scientific names and vernacular names of
+#'   the identified species.
 #'
 #' @examples
 #' get_species(mica)
-get_species <- function(datapkg) {
-  # Check input data package
-  check_datapkg(datapkg)
+get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {
+  # Check camera trap data package
+  package <- check_package(package, datapkg, "get_species")
 
   # Get taxonomic information from package metadata
-  if (!"taxonomic" %in% names(datapkg)) {
+  if (!"taxonomic" %in% names(package)) {
     return(NULL)
   } else {
-    taxonomy <- datapkg$taxonomic
+    taxonomy <- package$taxonomic
     if ("vernacularNames" %in% names(taxonomy[[1]])) {
       # Get all languages used in vernacularNames
       langs <- purrr::map(taxonomy, function(x) {

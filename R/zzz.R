@@ -1,25 +1,40 @@
-#' Check validity data package
+#' Check validity camera trap data package
 #'
-#' This function checks the validity of a camera trap data package. Up to now it
-#' checks whether the data package contains the 4 elements: `datapackage`,
-#' `observations`,  `multimedia` and `deployments` and their type (list for the
-#' metadata `datapakage`, data.frame for the other three). More checks can be
-#' added in the future...
+#' This function checks the validity of a camera trap data package.
+#' It checks whether the data package is a list containing a slot called `data`
+#' with the following resources as tibble dataframes:
+#' - `observations`,
+#' - `multimedia`,
+#' - `deployments`
 #'
-#' @param datapkg a camera trap data package
-#'
+#' @param package Camera trap data package
+#' @param datapkg Deprecated. Use `package` instead.
 #' @noRd
-#'
+#' @return A camera trap data package.
 #' @keywords internal
 #'
-check_datapkg <- function(datapkg) {
-  # data package is a list
-  assertthat::assert_that(is.list(datapkg))
-  assertthat::assert_that(!is.data.frame(datapkg))
+check_package <- function(package = NULL,
+                          datapkg = NULL,
+                          function_name) {
+  if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
+    lifecycle::deprecate_warn(
+      when = "0.16.0",
+      what = paste0(function_name, "(datapkg = )"),
+      with = paste0(function_name, "(package = )")
+    )
+    if (is.null(package)) {
+      package <- datapkg
+    }
+  }
+  # camera trap data package is a list
+  assertthat::assert_that(is.list(package))
+  assertthat::assert_that(!is.data.frame(package))
+  # check existence of a slot called data
+  assertthat::assert_that("data" %in% names(package))
   # check validity data slot of package: does it contain all 4 elements?
   elements <- c("deployments", "media", "observations")
   tables_absent <- names(elements)[
-    !names(elements) %in% names(datapkg$data)
+    !names(elements) %in% names(package$data)
   ]
   n_tables_absent <- length(tables_absent)
   assertthat::assert_that(n_tables_absent == 0,
@@ -35,12 +50,13 @@ check_datapkg <- function(datapkg) {
 
 
   # check observations and deployments are data.frames
-  assertthat::assert_that(is.data.frame(datapkg$data$observations))
-  assertthat::assert_that(is.data.frame(datapkg$data$deployments))
+  assertthat::assert_that(is.data.frame(package$data$observations))
+  assertthat::assert_that(is.data.frame(package$data$deployments))
   # check multimedia is a data.frame (if imported, i.e. if not NULL)
-  if (!is.null(datapkg$data$multimedia)) {
-    assertthat::assert_that(is.data.frame(datapkg$data$multimedia))
+  if (!is.null(package$data$multimedia)) {
+    assertthat::assert_that(is.data.frame(package$data$multimedia))
   }
+  package
 }
 
 #' Check input value against list of provided values
@@ -187,23 +203,28 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param datapkg Camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#'
-#' @param ... filter predicates for filtering on deployments
+#' @param datapkg Deprecated. Use `package` instead.
+#' @param ... Filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>%
 #'
 #' @export
 #'
-#' @return a tibble (data.frame) with deployments not linked to any observations
-get_dep_no_obs <- function(datapkg, ...) {
+#' @return Tibble data.frame with deployments not linked to any observations.
+#'
+#' @examples
+#' get_dep_no_obs(mica)
+get_dep_no_obs <- function(package = NULL,
+                           ...,
+                           datapkg = lifecycle::deprecated()) {
 
-  # check input data package
-  check_datapkg(datapkg)
+  # check input camera trap data package
+  package <- check_package(package, datapkg, "get_dep_no_obs")
 
   # extract observations and deployments
-  observations <- datapkg$data$observations
-  deployments <- datapkg$data$deployments
+  observations <- package$data$observations
+  deployments <- package$data$deployments
 
   # apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)

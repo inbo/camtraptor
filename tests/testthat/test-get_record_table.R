@@ -49,7 +49,7 @@ test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow
   testthat::expect_equal(nrow_output,
                mica$data$observations %>%
-                 filter(!is.na(scientificName)) %>% nrow)
+                 dplyr::filter(!is.na(scientificName)) %>% nrow)
 })
 
 test_that("nrows = n obs of red foxes if all other species are excluded", {
@@ -66,7 +66,7 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
     nrow
   testthat::expect_equal(nrow_foxes,
                mica$data$observations %>%
-                 filter(scientificName == "Vulpes vulpes") %>% nrow)
+                 dplyr::filter(scientificName == "Vulpes vulpes") %>% nrow)
 })
 
 test_that("Higher minDeltaTime means less rows returned", {
@@ -85,7 +85,7 @@ test_that("Higher minDeltaTime means less rows returned", {
 
 test_that("stations names are equal to values in column passed to StationCOl", {
   # use locationName as Station
-  stations <- get_record_table(mica) %>% distinct(Station) %>% pull()
+  stations <- get_record_table(mica) %>% dplyr::distinct(Station) %>% dplyr::pull()
   location_names <- unique(mica$data$deployments$locationName)
   testthat::expect_true(all(stations %in% location_names))
 
@@ -110,7 +110,7 @@ test_that(
   output <- get_record_table(mica)
   # add n media, observationID and sequenceID to record table
   output <- output %>%
-    mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
+    dplyr::mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
     dplyr::left_join(mica$data$observations %>%
                 dplyr::select(.data$observationID,
                               .data$timestamp,
@@ -120,8 +120,8 @@ test_that(
                      "Species" = "scientificName"))
   n_media <-
     mica$data$media %>%
-    group_by(sequenceID) %>%
-    count()
+    dplyr::group_by(sequenceID) %>%
+    dplyr::count()
   output <- output %>%
     dplyr::left_join(n_media,
               by = "sequenceID")
@@ -154,7 +154,16 @@ test_that("filtering predicates are allowed and work well", {
     get_record_table(mica, pred_lt("longitude", 4.0))$Station
   )
   stations_calculate <- mica$data$deployments %>%
-    filter(longitude < 4.0) %>%
-    pull(locationName)
+    dplyr::filter(longitude < 4.0) %>%
+    dplyr::pull(locationName)
   testthat::expect_identical(stations, stations_calculate)
+})
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_record_table(datapkg = mica)
+    )
+  )
 })

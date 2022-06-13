@@ -2,17 +2,17 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(mica),
     dplyr::tibble(
-      taxonID = map_chr(mica$taxonomic, ~.[["taxonID"]]),
-      taxonIDReference = map_chr(
+      taxonID = purrr::map_chr(mica$taxonomic, ~.[["taxonID"]]),
+      taxonIDReference = purrr::map_chr(
         mica$taxonomic, ~.[["taxonIDReference"]]
       ),
-      scientificName = map_chr(
+      scientificName = purrr::map_chr(
         mica$taxonomic, ~.[["scientificName"]]
       ),
-      vernacularNames.en = map_chr(
+      vernacularNames.en = purrr::map_chr(
         mica$taxonomic, ~.[["vernacularNames"]][["en"]]
       ),
-      vernacularNames.nl = map_chr(
+      vernacularNames.nl = purrr::map_chr(
         mica$taxonomic, ~.[["vernacularNames"]][["nl"]]
       )
     )

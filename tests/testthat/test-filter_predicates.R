@@ -99,7 +99,7 @@ test_that("specific tests: pred_na and pred_notna", {
   expect_equal(na_pred$arg, "a")
   expect_true(is.na(na_pred$value))
   expect_equal(na_pred$type, "na")
-  expect_equal(na_pred$expr, glue("(is.na(a))"))
+  expect_equal(na_pred$expr, glue::glue("(is.na(a))"))
 
   # pred_notna
   expect_error(pred_notna(arg = "a", value = "b"))
@@ -107,7 +107,7 @@ test_that("specific tests: pred_na and pred_notna", {
   expect_equal(notna_pred$arg, "a")
   expect_true(is.na(notna_pred$value))
   expect_equal(notna_pred$type, "notNa")
-  expect_equal(notna_pred$expr, glue("(!is.na(a))"))
+  expect_equal(notna_pred$expr, glue::glue("(!is.na(a))"))
 })
 
 test_that("specific tests: pred and pred_not", {
@@ -116,13 +116,13 @@ test_that("specific tests: pred and pred_not", {
   expect_equal(basic_pred$arg, "a")
   expect_equal(basic_pred$value, "b")
   expect_equal(basic_pred$type, "equals")
-  expect_equal(basic_pred$expr, glue("(a == \"b\")"))
+  expect_equal(basic_pred$expr, glue::glue("(a == \"b\")"))
   # pred_not
   not_pred <- pred_not(arg = "a", value = "b")
   expect_equal(not_pred$arg, "a")
   expect_equal(not_pred$value, "b")
   expect_equal(not_pred$type, "notEquals")
-  expect_equal(not_pred$expr, glue("(a != \"b\")"))
+  expect_equal(not_pred$expr, glue::glue("(a != \"b\")"))
 })
 
 test_that("specific tests: pred_gt and pred_gte", {
@@ -131,13 +131,13 @@ test_that("specific tests: pred_gt and pred_gte", {
   expect_equal(gt_pred$arg, "a")
   expect_equal(gt_pred$value, 3)
   expect_equal(gt_pred$type, "greaterThan")
-  expect_equal(gt_pred$expr, glue("(a > 3)"))
+  expect_equal(gt_pred$expr, glue::glue("(a > 3)"))
   # pred_gte
   gte_pred <- pred_gte(arg = "a", value = 3)
   expect_equal(gte_pred$arg, "a")
   expect_equal(gte_pred$value, 3)
   expect_equal(gte_pred$type, "greaterThanOrEquals")
-  expect_equal(gte_pred$expr, glue("(a >= 3)"))
+  expect_equal(gte_pred$expr, glue::glue("(a >= 3)"))
 })
 
 test_that("specific tests: pred_lt and pred_lte", {
@@ -146,13 +146,13 @@ test_that("specific tests: pred_lt and pred_lte", {
   expect_equal(lt_pred$arg, "a")
   expect_equal(lt_pred$value, 3)
   expect_equal(lt_pred$type, "lessThan")
-  expect_equal(lt_pred$expr, glue("(a < 3)"))
+  expect_equal(lt_pred$expr, glue::glue("(a < 3)"))
   # pred_lte
   lte_pred <- pred_lte(arg = "a", value = 3)
   expect_equal(lte_pred$arg, "a")
   expect_equal(lte_pred$value, 3)
   expect_equal(lte_pred$type, "lessThanOrEquals")
-  expect_equal(lte_pred$expr, glue("(a <= 3)"))
+  expect_equal(lte_pred$expr, glue::glue("(a <= 3)"))
 })
 
 test_that("specific tests: pred_in and pred_notin", {
@@ -161,13 +161,13 @@ test_that("specific tests: pred_in and pred_notin", {
   expect_equal(in_pred$arg, "a")
   expect_equal(in_pred$value, c("b", "c"))
   expect_equal(in_pred$type, "in")
-  expect_equal(in_pred$expr, glue("(a %in% c(\"b\",\"c\"))"))
+  expect_equal(in_pred$expr, glue::glue("(a %in% c(\"b\",\"c\"))"))
   # pred_notin
   notin_pred <- pred_notin(arg = "a", value = c("b", "c"))
   expect_equal(notin_pred$arg, "a")
   expect_equal(notin_pred$value, c("b", "c"))
   expect_equal(notin_pred$type, "notIn")
-  expect_equal(notin_pred$expr, glue("(!(a %in% c(\"b\",\"c\")))"))
+  expect_equal(notin_pred$expr, glue::glue("(!(a %in% c(\"b\",\"c\")))"))
 })
 
 test_that("specific tests: pred_and and pred_or", {
@@ -195,9 +195,9 @@ test_that("specific tests: pred_and and pred_or", {
     lt_pred$type,
     notna_pred$type
   ))
-  expect_equal(and_pred$expr, glue(
+  expect_equal(and_pred$expr, glue::glue(
     "(",
-    glue_collapse(c(
+    glue::glue_collapse(c(
       basic_pred$expr,
       in_pred$expr,
       lt_pred$expr,
@@ -227,9 +227,9 @@ test_that("specific tests: pred_and and pred_or", {
     lt_pred$type,
     notna_pred$type
   ))
-  expect_equal(or_pred$expr, glue(
+  expect_equal(or_pred$expr, glue::glue(
     "(",
-    glue_collapse(c(
+    glue::glue_collapse(c(
       basic_pred$expr,
       in_pred$expr,
       lt_pred$expr,
@@ -260,9 +260,9 @@ test_that("specific tests: nesting pred_and and pred_or", {
   expect_equal(nested_pred$type[[2]], pred_or(lt_pred, notna_pred)$type)
   expect_equal(
     nested_pred$expr,
-    glue(
+    glue::glue(
       "(",
-      glue_collapse(c(
+      glue::glue_collapse(c(
         pred_and(basic_pred, in_pred)$expr,
         pred_or(lt_pred, notna_pred)$expr
       ),

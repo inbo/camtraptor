@@ -120,7 +120,7 @@ Notice how these two predicates return `filter_predicate` objects with the same 
 
 ## How to use filter predicates
 
-The filter predicates are useful to select a subset of deployments for the `get_*()` functions and the visualization function `map_dep()`.
+The filter predicates are useful to select a subset of **deployments** for the `get_*()` functions and the visualization function `map_dep()`.
 
 ### One predicate
 
@@ -167,7 +167,7 @@ map_dep(mica,
           pred_lt("latitude", 50.7)))
 ```
 
-Notice also that you can pass as much predicates as you want to get_* functions or `map_dep()` by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51 degrees AND eastern than 4 degrees, you can simplify this:
+Notice also that you can pass as much predicates as you want to `get_*()` functions or `map_dep()` by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51 degrees AND eastern than 4 degrees, you can simplify this:
 
 ```{r example_pred_and_get_n_species}
 get_n_species(mica,
@@ -186,14 +186,14 @@ get_n_species(mica,
 This is similar to the behvaior of dplyr's  `filter()` function, where this:
 
 ```{r example_dplyr_filter_and}
-mica$deployments %>%
+mica$data$deployments %>%
   filter(latitude < 51 & longitude > 4)
 ```
 
 is exactly the same as this:
 
 ```{r example_dplyr_filter_and_simplified}
-mica$deployments %>%
+mica$data$deployments %>%
   filter(latitude < 51, longitude > 4)
 ```
 

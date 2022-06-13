@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a _camera trap station operability matrix_, shortly called _camera operation matrix_ as returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+This vignette shows how to get a *camera trap station operability matrix*, shortly called *camera operation matrix* as returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 
 ## Setup
 
@@ -40,11 +40,7 @@ get_cam_op(mica)
 
 The function will read the `deployments` slot of the data package to create the matrix.
 
-The matrix rows are the location names, by default the values of field
-`locationName` of `deployments`. Column names are dates. The matrix values are:
-0 if station is not active, an integer (1 or more) if one or more deployments
-linked to the same station are fully active during the whole day and a decimal
-value for partially active stations.
+The matrix rows are the location names, by default the values of field `locationName` of `deployments`. Column names are dates. The matrix values are: 0 if station is not active, an integer (1 or more) if one or more deployments linked to the same station are fully active during the whole day and a decimal value for partially active stations.
 
 In the example above there was a one-to-one relation between deployments and locations: the daily effort is between 0 and 1.
 
@@ -52,9 +48,9 @@ In the example below we show what happens if all four deployments are set to the
 
 ```{r four_deploys_same_start_end_for_one_location}
 mica1 <- mica
-mica1$deployments$locationName <- mica1$deployments$locationName[1]
-mica1$deployments$start <- mica1$deployments$start[1]
-mica1$deployments$end <- mica1$deployments$end[1]
+mica1$data$deployments$locationName <- mica1$data$deployments$locationName[1]
+mica1$data$deployments$start <- mica1$data$deployments$start[1]
+mica1$data$deployments$end <- mica1$data$deployments$end[1]
 multiple_deploys_matrix <- get_cam_op(mica1)
 multiple_deploys_matrix
 ```
@@ -63,24 +59,25 @@ In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two 
 
 ```{r two_deploys_two_periods}
 mica2 <- mica
-mica2$deployments$locationName[4] <- mica2$deployments$locationName[3]
-mica2$deployments$start[4] <- mica2$deployments$end[3] + ddays(5)
-mica2$deployments$end[4] <- mica2$deployments$start[4] + ddays(5)
-mica2$deployments %>% select(locationName, start, end)
+mica2$data$deployments$locationName[4] <- mica2$data$deployments$locationName[3]
+mica2$data$deployments$start[4] <- mica2$data$deployments$end[3] + ddays(5)
+mica2$data$deployments$end[4] <- mica2$data$deployments$start[4] + ddays(5)
+mica2$data$deployments %>% select(locationName, start, end)
 ```
+
 This results in the following camera operation matrix:
 
 ```{r camOp_two_deploys_two_periods}
 two_deploys_two_periods_matrix <- get_cam_op(mica2)
-days_to_show <- seq(as.Date(mica2$deployments$start[3]),
-                    as.Date(mica2$deployments$end[4]),
+days_to_show <- seq(as.Date(mica2$data$deployments$start[3]),
+                    as.Date(mica2$data$deployments$end[4]),
                     by = "days")
 two_deploys_two_periods_matrix[3,as.character(days_to_show)]
 ```
 
 ### Station names
 
-You can specify the column containing the station names instead of using the default `locationName`.  In the example below we use the column `locationID`. A small preview of the matrix is shown:
+You can specify the column containing the station names instead of using the default `locationName`. In the example below we use the column `locationID`. A small preview of the matrix is shown:
 
 ```{r cam_op_with_locationID}
 cam_op_with_locationID <- get_cam_op(mica, station_col = "locationID")

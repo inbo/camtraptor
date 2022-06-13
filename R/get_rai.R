@@ -180,8 +180,10 @@ get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
 
   # check use
   check_value(use, uses, "use", null_allowed = FALSE)
-  assert_that(length(use) == 1,
-              msg = "use must have length 1")
+  assertthat::assert_that(
+    length(use) == 1,
+    msg = "use must have length 1"
+  )
 
   # get all identified species if species arg is equal to "all"
   if ("all" %in% species) {

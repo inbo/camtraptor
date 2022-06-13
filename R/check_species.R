@@ -51,7 +51,7 @@ check_species <- function(package = NULL,
     # get scientific name in case a vernacular names is given
     if (!tolower(x) %in% tolower(all_species$scientificName)) {
       sn <- get_scientific_name(package, x)
-      message(glue("Scientific name of {x}: {sn}"))
+      message(glue::glue("Scientific name of {x}: {sn}"))
       sn
     } else {
       stringr::str_to_sentence(x) # in case the scientific name is not capitalized

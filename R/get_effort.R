@@ -115,7 +115,7 @@ get_effort <- function(package = NULL,
 transform_effort_to_common_units <- function(effort, unit) {
 
   # only one unit allowed
-  assert_that(length(unit) == 1,
+  assertthat::assert_that(length(unit) == 1,
               msg = "unit must have length 1")
 
   # define possible unit values

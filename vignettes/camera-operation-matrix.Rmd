@@ -62,7 +62,7 @@ mica2 <- mica
 mica2$data$deployments$locationName[4] <- mica2$data$deployments$locationName[3]
 mica2$data$deployments$start[4] <- mica2$data$deployments$end[3] + ddays(5)
 mica2$data$deployments$end[4] <- mica2$data$deployments$start[4] + ddays(5)
-mica2$data$deployments %>% select(locationName, start, end)
+mica2$data$deployments %>% dplyr::select(locationName, start, end)
 ```
 
 This results in the following camera operation matrix:

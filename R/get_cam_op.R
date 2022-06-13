@@ -77,7 +77,7 @@ get_cam_op <- function(package = NULL,
            end_day = lubridate::date(.data$end))
 
   # make a operation table per deployment
-  deployment_operational <- map(
+  deployment_operational <- purrr::map(
     deploys$deploymentID,
     function(x) {
       start_day <- deploys %>% dplyr::filter(.data$deploymentID == x) %>%

@@ -11,6 +11,8 @@ get_dep_no_obs(package = NULL, ..., datapkg = lifecycle::deprecated())
 \code{read_camtrap_dp()}.}
 
 \item{...}{Filter predicates for filtering on deployments}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 Tibble data.frame with deployments not linked to any observations.

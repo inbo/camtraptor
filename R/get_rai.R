@@ -172,7 +172,7 @@ get_rai_individuals <- function(package = NULL,
 #'
 #' @noRd
 #'
-#' @return Tibble data.frame
+#' @return Tibble data.frame.
 get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
 
   # define possible feature values

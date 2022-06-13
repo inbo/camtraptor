@@ -100,7 +100,7 @@ get_record_table <- function(package = NULL,
 
   # check scientific names of species to be excluded
   if (!is.null(exclude)) {
-    exclude <- check_species(package, exclude, arg_name = "exclude")
+    exclude <- check_species(package, species = exclude, arg_name = "exclude")
   }
 
   # check minDeltaTime

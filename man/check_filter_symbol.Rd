@@ -7,10 +7,10 @@
 check_filter_symbol(symbol)
 }
 \arguments{
-\item{symbol}{character with symbol for filter predicate, e.g. "=="}
+\item{symbol}{Character with symbol for filter predicate, e.g. "==".}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 Check that the symbol used in a filter predicate is a character and has

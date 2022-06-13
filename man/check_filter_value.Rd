@@ -7,10 +7,10 @@
 check_filter_value(value)
 }
 \arguments{
-\item{value}{value of a basic filter predicate}
+\item{value}{Value of a basic filter predicate.}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 Check that the value argument in a filter predicate has length one and it is

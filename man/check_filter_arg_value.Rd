@@ -7,12 +7,12 @@
 check_filter_arg_value(arg, value)
 }
 \arguments{
-\item{arg}{the argument of the filter predicate}
+\item{arg}{Argument of the filter predicate.}
 
-\item{value}{the value of the filter predicate}
+\item{value}{Value of the filter predicate.}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 This help function checks the argument (\code{arg}) and the value (\code{value}) of a basic

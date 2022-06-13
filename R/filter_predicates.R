@@ -138,19 +138,16 @@
 pred <- function(arg, value) {
   pred_primitive(arg, value, symbol = "==", type = "equals")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_not <- function(arg, value) {
   pred_primitive(arg, value, symbol = "!=", type = "notEquals")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_gt <- function(arg, value) {
   pred_primitive(arg, value, symbol = ">", type = "greaterThan")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_gte <- function(arg, value) {
@@ -308,7 +305,6 @@ pred_or <- function(...) {
 #' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
 #' @param ... filter predicates to apply to `df`
 #'
-#'
 #' @return a data.frame
 #' @export
 #'
@@ -354,10 +350,10 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #' This help function checks the argument (`arg`) and the value (`value`) of a basic
 #' one argument - one value filter predicate
 #'
-#' @param arg the argument of the filter predicate
-#' @param value  the value of the filter predicate
+#' @param arg Argument of the filter predicate.
+#' @param value  Value of the filter predicate.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -379,9 +375,9 @@ check_filter_arg_value <- function(arg, value) {
 #' Check that the filter argument in a filter predicate is a character and has
 #' length one.
 #'
-#' @param arg character with the argument name of the filter predicate
+#' @param arg Character with the argument name of the filter predicate.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -402,9 +398,9 @@ check_filter_arg <- function(arg) {
 #' Check that the value argument in a filter predicate is one of the supported
 #' types. Required for basic filter predicates.  Used in `check_filter_value()`.
 #'
-#' @param value Character, number, Date or POSIXct object
+#' @param value Character, number, Date or POSIXct object.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -430,11 +426,9 @@ check_filter_value_type <- function(value) {
 #' Check that the value in filter predicates has length one. Required for
 #' basic filter predicates. Used in `check_filter_value()`.
 #'
-#' @param value value of the filter predicate
+#' @param value Value of the filter predicate.
 #'
-
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -453,9 +447,9 @@ check_filter_value_length <- function(value) {
 #' Check that the value argument in a filter predicate has length one and it is
 #' one of the supported types. This is required for basic filter predicates.
 #'
-#' @param value value of a basic filter predicate
+#' @param value Value of a basic filter predicate.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -475,11 +469,9 @@ check_filter_value <- function(value) {
 #' Check that the symbol used in a filter predicate is a character and has
 #' length one.
 #'
-#' @param symbol character with symbol for filter predicate, e.g. "=="
+#' @param symbol Character with symbol for filter predicate, e.g. "==".
 #'
-
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -502,11 +494,9 @@ check_filter_symbol <- function(symbol) {
 #' Check that the filter predicate type is a character and has
 #' length one.
 #
-#' @param type character with type for filter predicate, e.g. "equals"
+#' @param type Character with type for filter predicate, e.g. "equals".
 #'
-
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'

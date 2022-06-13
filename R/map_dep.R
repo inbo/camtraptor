@@ -89,7 +89,7 @@
 #'
 #' @export
 #'
-#' @return Leaflet map
+#' @return Leaflet map.
 #'
 #' @examples
 #' \dontrun{

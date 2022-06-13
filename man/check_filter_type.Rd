@@ -7,10 +7,10 @@
 check_filter_type(type)
 }
 \arguments{
-\item{type}{character with type for filter predicate, e.g. "equals"}
+\item{type}{Character with type for filter predicate, e.g. "equals".}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 Check that the filter predicate type is a character and has

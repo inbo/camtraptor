@@ -123,7 +123,7 @@ feature value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{r
 \item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-Leaflet map
+Leaflet map.
 }
 \description{
 This function visualizes deployments features such as number of detected

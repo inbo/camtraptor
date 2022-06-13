@@ -16,8 +16,9 @@ media file to speed up reading larger Camtrap DP packages.}
 with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-A list containing metadata and resources. The resources are grouped
-in a slot called \code{data}. The resources of a camera trap data package are:
+List describing a Data Package (as returned by
+\code{\link[frictionless:read_package]{frictionless::read_package()}}) containing the original metadata, as well
+as a property \code{data} containing the data as three data frames:
 \enumerate{
 \item \code{deployments}
 \item \code{media}
@@ -25,16 +26,11 @@ in a slot called \code{data}. The resources of a camera trap data package are:
 }
 }
 \description{
-This function reads camera trap data formatted following the \href{https://tdwg.github.io/camtrap-dpdp}{Camera Trap Data Package (Camtrap DP)} format. The
-function is built upon the functions \link[frictionless]{read_package} and
-\link[frictionless]{read_resource}. This means a.o. that all datetime
-information included in the camera trap data package is automatically
-transformed to UTC (Coordinated Universal Time).
-}
-\details{
-Vernacular names are typically used while working with camera trap
-\emph{observations}, so they are added to the observations as defined in the
-metadata (slot \code{taxonomic}), if present.
+Reads camera trap data formatted as a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} into memory.
+All datetime information is automatically transformed to UTC (Coordinated
+Universal Time).
+Vernacular names found in the metadata (element \code{taxonomic}) are added to
+the \code{observations} data frame.
 }
 \examples{
 \dontrun{
@@ -54,8 +50,8 @@ camtrap_dp_file_with_issues <- system.file(
   package = "camtraptor"
 )
 muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-readr::problems(muskrat_coypu_with_issues$deployments)
-readr::problems(muskrat_coypu_with_issues$observations)
-readr::problems(muskrat_coypu_with_issues$media)
+readr::problems(muskrat_coypu_with_issues$data$eployments)
+readr::problems(muskrat_coypu_with_issues$data$observations)
+readr::problems(muskrat_coypu_with_issues$data$media)
 }
 }

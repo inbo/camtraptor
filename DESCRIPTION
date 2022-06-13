@@ -2,31 +2,21 @@ Package: camtraptor
 Title: Read, Explore and Visualize Camera Trap Data Packages
 Version: 0.15.0
 Authors@R: c(
-    person(given = "Damiano",
-           family = "Oldoni",
-           role = c("aut", "cre"),
-           email = "damiano.oldoni@inbo.be",
-           comment = c(ORCID = "0000-0003-3445-7562")),
-    person(given = "Peter",
-           family = "Desmet",
-           role = "aut",
-           email = "peter.desmet@inbo.be",
-           comment =  c(ORCID = "0000-0002-8442-8025")),
-    person(given = "Thierry",
-           family = "Onkelinx",
-           role = "ctb",
-           email = "thierry.onkelinx@inbo.be",
-           comment = c(ORCID = "0000-0001-8804-4216")),
-    person(given = "Jim",
-           family = "Casaer",
-           role = "ctb",
-           email = "jim.casaer@inbo.be",
-           comment = c(ORCID = "0000-0001-6788-5876")),
-    person(given = "Lynn",
-           family = "Pallemaerts",
-           role = "ctb",
-           email = "lynn.pallemaerts@inbo.be",
-           comment = c(ORCID = "0000-0002-5034-5416")))
+    person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3445-7562")),
+    person("Peter", "Desmet", email = "peter.desmet@inbo.be",
+           role = "aut", comment =  c(ORCID = "0000-0002-8442-8025")),
+    person("Thierry", "Onkelinx", email = "thierry.onkelinx@inbo.be",
+           role = "ctb", comment = c(ORCID = "0000-0001-8804-4216")),
+    person("Jim", "Casaer", email = "jim.casaer@inbo.be",
+           role = "ctb", comment = c(ORCID = "0000-0001-6788-5876")),
+    person("Lynn", "Pallemaerts", email = "lynn.pallemaerts@inbo.be",
+           role = "ctb", comment = c(ORCID = "0000-0002-5034-5416")),
+    person("Research Institute for Nature and Forest (INBO)",
+           role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+    person("Research Foundation - Flanders (FWO)",
+           role = "fnd", comment = "https://lifewatch.be")
+  )
 Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
     'Camtrap DP' (<https://tdwg.github.io/camtrap-dp/>) is a community developed 
     data exchange format for this type of data. With camtraptor you can read and 

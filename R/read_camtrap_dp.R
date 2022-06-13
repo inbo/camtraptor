@@ -78,19 +78,19 @@ read_camtrap_dp <- function(file = NULL,
   deployments <- frictionless::read_resource(package, "deployments")
   issues_deployments <- readr::problems(deployments)
   if (nrow(issues_deployments) > 0) {
-    warning(
-    glue("One or more parsing issues occurred while reading deployments. ",
-         "On how to use readr::problems() with datapackages, ",
-         "see examples in documentation of function read_camtrap_dp."
+    warning(glue::glue(
+      "One or more parsing issues occurred while reading deployments. ",
+      "On how to use readr::problems() with datapackages, ",
+      "see examples in documentation of function read_camtrap_dp."
     ))
   }
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)
   if (nrow(issues_observations) > 0) {
-    warning(
-      glue("One or more parsing issues occurred while reading observations. ",
-           "On how to use readr::problems() with datapackages, ",
-           "see examples in documentation of function read_camtrap_dp."
+    warning(glue::glue(
+        "One or more parsing issues occurred while reading observations. ",
+        "On how to use readr::problems() with datapackages, ",
+        "see examples in documentation of function read_camtrap_dp."
     ))
   }
 
@@ -119,9 +119,10 @@ read_camtrap_dp <- function(file = NULL,
     media <- frictionless::read_resource(package, "media")
     issues_media <- readr::problems(media)
     if (nrow(issues_media) > 0) {
-      warning(glue("One or more parsing issues occurred while reading media. ",
-                   "On how to use readr::problems() with datapackages, ",
-                   "see examples in documentation of function read_camtrap_dp.")
+      warning(glue::glue(
+        "One or more parsing issues occurred while reading media. ",
+        "On how to use readr::problems() with datapackages, ",
+        "see examples in documentation of function read_camtrap_dp.")
       )
     }
   }

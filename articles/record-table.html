@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 data-toc-skip class="author">Damiano Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-06-09</h4>
+            <h4 data-toc-skip class="date">2022-06-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -347,31 +347,53 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># equivalent of get_record_table(mica, removeDuplicateRecords = TRUE)</span>
 <span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 11</span></span>
-<span class="co">#&gt;   Station           Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B_DL_val 5_beek … Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
+<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
 <p>Record table with duplicates:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 11</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
 <span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-07-29 05:2…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 17 more rows, and 5 more variables: delta.time.mins &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.hours &lt;dbl&gt;, delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
@@ -424,7 +446,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>

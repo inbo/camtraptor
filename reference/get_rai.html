@@ -18,7 +18,7 @@ deployment. The RAI is normalized using 100 days deployment activity."><!-- math
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -79,24 +79,35 @@ deployment. The RAI is normalized using 100 days deployment activity.</p>
     <dl><dt>datapkg</dt>
 <dd><p>a camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>filter predicates for filtering on deployments</p></dd>
+
+
 <dt>species</dt>
 <dd><p>a character with scientific names or common names (case
 insensitive). If "all" (default), all scientific names are automatically
 selected</p></dd>
+
+
 <dt>sex</dt>
 <dd><p>a character defining the sex class to filter on, e.g. <code>"female"</code>
 or <code>c("male", "unknown")</code>.  If <code>NULL</code>, default, all observations of all
 sex classes are taken into account.</p></dd>
+
+
 <dt>life_stage</dt>
 <dd><p>a character vector defining the life stage class to filter on, e.g.
 <code>"adult"</code> or <code>c("subadult", "adult")</code>. If <code>NULL</code>, default, all observations
 of all life stage classes are taken into account.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a tibble (data.frame) with the following columns:</p><ul><li><p><code>deploymentID</code> deployment unique identifier</p></li>
+    
+
+<p>a tibble (data.frame) with the following columns:</p><ul><li><p><code>deploymentID</code> deployment unique identifier</p></li>
 <li><p><code>scientificName</code> scientific name</p></li>
 <li><p><code>rai</code>: relative abundance index</p></li>
 </ul></div>
@@ -307,7 +318,7 @@ of all life stage classes are taken into account.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ observations are shown as gray circles and a message is returned."><!-- mathjax 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -101,6 +101,8 @@ observations are shown as gray circles and a message is returned.</p>
     <dl><dt>datapkg</dt>
 <dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
+
+
 <dt>feature</dt>
 <dd><p>deployment feature to visualize. One of:</p><ul><li><p><code>"n_species"</code>: number of identified species</p></li>
 <li><p><code>"n_obs"</code>: number of observations</p></li>
@@ -108,20 +110,30 @@ observations are shown as gray circles and a message is returned.</p>
 <li><p><code>"rai"</code>: Relative Abundance Index</p></li>
 <li><p><code>"effort"</code>: effort (duration) of the deployment</p></li>
 </ul></dd>
+
+
 <dt>...</dt>
 <dd><p>Filter predicates for subsetting deployments.</p></dd>
+
+
 <dt>species</dt>
 <dd><p>Character with a scientific name. Required for  <code>rai</code>,
 optional for <code>n_obs</code>. Default: <code>NULL</code>.</p></dd>
+
+
 <dt>sex</dt>
 <dd><p>Character defining the sex class to filter on, e.g. <code>"female"</code>.
 If <code>NULL</code>, default, all observations of all sex classes are taken into
 account. Optional argument for <code>n_obs</code> and <code>n_individuals</code>.</p></dd>
+
+
 <dt>life_stage</dt>
 <dd><p>Character vector defining the life stage class to filter on, e.g.
 <code>"adult"</code> or <code>c("subadult", "adult")</code>. If <code>NULL</code>, default, all observations
 of all life stage classes are taken into account. Optional argument for <code>n_obs</code>
 and <code>n_individuals</code>.</p></dd>
+
+
 <dt>effort_unit</dt>
 <dd><p>Time unit to use while visualizing deployment effort
 (duration). One of:</p><ul><li><p><code>second</code></p></li>
@@ -131,9 +143,13 @@ and <code>n_individuals</code>.</p></dd>
 <li><p><code>month</code></p></li>
 <li><p><code>year</code></p></li>
 </ul></dd>
+
+
 <dt>cluster</dt>
 <dd><p>Logical value indicating whether using the cluster option
 while visualizing maps. Default: TRUE.</p></dd>
+
+
 <dt>hover_columns</dt>
 <dd><p>Character vector with the name of the columns to use for
 showing location deployment information while hovering the mouse over. One
@@ -150,6 +166,8 @@ created internally by a <code>get_*()</code> function)</p></li>
 <li><p><code>longitude</code></p></li>
 </ul><p>See <a href="https://tdwg.github.io/camtrap-dp/data/#deployments" class="external-link">section Deployment of Camtrap DP standard</a> for the full
 list of columns you can use.</p></dd>
+
+
 <dt>palette</dt>
 <dd><p>The palette name or the color function that values will be
 mapped to.
@@ -158,23 +176,35 @@ Typically one of the following:</p><ul><li><p>A character vector of RGB or named
 viridis palette: <code>"viridis"</code>, <code>"magma"</code>, <code>"inferno"</code> or <code>"plasma"</code>
 For more options, see argument <code>palette</code> of <code><a href="https://rdrr.io/pkg/leaflet/man/colorNumeric.html" class="external-link">leaflet::colorNumeric()</a></code>.</p></li>
 </ul></dd>
+
+
 <dt>zero_values_show</dt>
 <dd><p>Logical indicating whether to show deployments with
 zero values. Default: <code>TRUE</code>.</p></dd>
+
+
 <dt>zero_values_icon_url</dt>
 <dd><p>character with URL to icon for showing
 deployments with zero values. Default: a cross (multiply symbol)
 <code>"https://img.icons8.com/ios-glyphs/30/000000/multiply.png"</code>.</p></dd>
+
+
 <dt>zero_values_icon_size</dt>
 <dd><p>a number to set the size of the icon to show
 deployments with wero values. Default: 10.</p></dd>
+
+
 <dt>relative_scale</dt>
 <dd><p>Logical indicating whether to use a relative color
 and radius scale (<code>TRUE</code>) or an absolute scale (<code>FALSE</code>). If absolute scale
 is used, specify a valid <code>max_scale</code>.</p></dd>
+
+
 <dt>max_scale</dt>
 <dd><p>Number indicating the max value used to map color
 and radius.</p></dd>
+
+
 <dt>radius_range</dt>
 <dd><p>Vector of length 2 containing the lower and upper limit
 of the circle radius. The lower value is used for deployments with zero
@@ -182,10 +212,13 @@ feature value, i.e. no observations, no identified species, zero RAI or
 zero effort. The upper value is used for the deployment(s) with the highest
 feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_scale</code> (<code>relative_scale</code>
 = <code>FALSE</code>). Default: <code>c(10, 50)</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a leaflet map</p>
+    
+
+<p>a leaflet map</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -209,7 +242,7 @@ feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_sca
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

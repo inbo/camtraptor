@@ -20,7 +20,7 @@ as well."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -90,8 +90,12 @@ as well.</p>
     <dl><dt>datapkg</dt>
 <dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>filter predicates</p></dd>
+
+
 <dt>start</dt>
 <dd><p>Start date. Default: <code>NULL</code>. If <code>NULL</code> the earliest start date
 among all deployments is used. If  <code>group_by</code> unit is not <code>NULL</code>, the
@@ -100,6 +104,8 @@ the earliest deployment. If this condition doesn't hold true, a warning is
 returned and the earliest start date among all deployments is used. If
 <code>group_by</code> unit is <code>NULL</code> the start must be later than or equal to the
 start date among all deployments.</p></dd>
+
+
 <dt>end</dt>
 <dd><p>End date. Default: <code>NULL</code>. If <code>NULL</code> the latest end date among all
 deployments is used.  If  <code>group_by</code> unit is not <code>NULL</code>, the
@@ -108,19 +114,26 @@ the latest deployment. If this condition doesn't hold true, a warning is
 returned and the latest end date among all deployments is used. If
 <code>group_by</code> unit is <code>NULL</code> the end must be earlier than or equal to the
 end date among all deployments.</p></dd>
+
+
 <dt>group_by</dt>
 <dd><p>Character, one of <code>"day"</code>, <code>"week"</code>, <code>"month"</code>, <code>"year"</code>. The
 effort is calculated at the interval rate defined in <code>group_by</code>. Default:
 <code>NULL</code>: no grouping, i.e. the entire interval from <code>start</code> to <code>end</code> is
 taken into account as a whole. A week is defined as a period of 7 days, a
 month as a period of 30 days, a year as a period of 365 days.</p></dd>
+
+
 <dt>unit</dt>
 <dd><p>Character, the time unit to use while returning custom effort.
 One of: <code>hour</code> (default), <code>day</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble (data.frame) with following columns:</p><ul><li><p><code>begin</code>: Date: begin of the interval the effort is calculated over.</p></li>
+    
+
+<p>A tibble (data.frame) with following columns:</p><ul><li><p><code>begin</code>: Date: begin of the interval the effort is calculated over.</p></li>
 <li><p><code>effort</code>: The effort as number.</p></li>
 <li><p><code>unit</code>: Character specifying the effort unit.</p></li>
 </ul></div>
@@ -257,7 +270,7 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

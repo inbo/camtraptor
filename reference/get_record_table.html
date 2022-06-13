@@ -23,7 +23,7 @@ Note: All dates and times are expressed in UTC format."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -97,18 +97,28 @@ camtrapR's function documentation
     <dl><dt>datapkg</dt>
 <dd><p>a camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>filter predicates for filtering on deployments</p></dd>
+
+
 <dt>stationCol</dt>
 <dd><p>(character) name of the column containing stations.
 Default: <code>"locationName"</code></p></dd>
+
+
 <dt>exclude</dt>
 <dd><p>(character) vector of species names (scientific names or
 vernacular names) to be excluded from the record table. Default: <code>NULL</code></p></dd>
+
+
 <dt>minDeltaTime</dt>
 <dd><p>(integer) time difference between records of the same
 species at the same station to be considered independent (in minutes).
 Default: 0</p></dd>
+
+
 <dt>deltaTimeComparedTo</dt>
 <dd><p>(character) <code>"lastIndependentRecord"</code> or
 <code>"lastRecord"</code>. For two records to be considered independent, must the
@@ -117,13 +127,18 @@ record of the same species (<code>deltaTimeComparedTo = "lastIndependentRecord"<
 ), or <code>minDeltaTime</code> minutes after the last record (
 <code>deltaTimeComparedTo = "lastRecord"</code>)? If <code>minDeltaTime</code> is 0,
 <code>deltaTimeComparedTo</code> must be NULL (deafult)</p></dd>
+
+
 <dt>removeDuplicateRecords</dt>
 <dd><p>(logical) If there are several records of the
 same species at the same station at exactly the same time, show only one?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A (tibble) data frame containing species records and additional
+    
+
+<p>A (tibble) data frame containing species records and additional
 information about stations, date, time and further metadata, such as
 filenames and directories of the images (media) linked to the species
 records. Some more details about the columns returned:</p><ol><li><p><code>Station</code>: character, station names, as found in the deployment column
@@ -322,7 +337,7 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

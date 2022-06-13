@@ -18,7 +18,7 @@ deployments."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -78,20 +78,27 @@ deployments.</p>
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>data.frame we want to apply filter(s) expression(s)</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Show (<code>TRUE</code>) or not (<code>FALSE</code>) the filter predicate expression</p></dd>
+
+
 <dt>...</dt>
 <dd><p>filter predicates to apply to <code>df</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data.frame</p>
+    
+
+<p>a data.frame</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># and</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">deployments</span>,</span>
+<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span></span>
@@ -105,7 +112,7 @@ deployments.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
 <span class="r-in"><span class="co"># equivalent of</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">deployments</span>,</span>
+<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -121,7 +128,7 @@ deployments.</p>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># or</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">deployments</span>,</span>
+<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_or</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -148,7 +155,7 @@ deployments.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

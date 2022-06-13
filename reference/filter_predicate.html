@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
       </span>
     </div>
 
@@ -98,15 +98,22 @@
     <h2>Arguments</h2>
     <dl><dt>arg</dt>
 <dd><p>(character) the key for the predicate. See "Keys" below</p></dd>
+
+
 <dt>value</dt>
 <dd><p>(various) the value for the predicate</p></dd>
+
+
 <dt>...</dt>
 <dd><p>for <code>pred_or()</code> or <code>pred_and()</code>: one or more objects of
 class <code>filter_predicate</code>, created by any other <code>pred*</code> function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a predicate object. An object of class predicate is a list with the
+    
+
+<p>a predicate object. An object of class predicate is a list with the
 following slots:</p><ol><li><p><code>arg</code>: a (list of) character with all arguments in the predicate(s)</p></li>
 <li><p><code>value</code>:  a (list of) character with all values in the predicate(s)</p></li>
 <li><p><code>type</code>:  a (list of) character with all predicate types, see section
@@ -151,13 +158,24 @@ one of the locations in: "B_ML_val 05_molenkreek", "B_ML_val 03_De Val" and
 which forms the body of a filter expression.
 For example:</p>
 <p><code>pred("tags", "boven de stroom")</code> gives:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="op">$</span>arg</span>
+<span id="cb1-2"><a href="#cb1-2"></a>[<span class="dv">1</span>] <span class="st">"tags"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="op">$</span>value</span>
+<span id="cb1-5"><a href="#cb1-5"></a>[<span class="dv">1</span>] <span class="st">"boven de stroom"</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="op">$</span>type</span>
+<span id="cb1-8"><a href="#cb1-8"></a>[<span class="dv">1</span>] <span class="st">"equals"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="op">$</span>expr</span>
+<span id="cb1-11"><a href="#cb1-11"></a>(tags <span class="op">==</span><span class="st"> "boven de stroom"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span></code></pre><p></p></div>
 <p><code>pred_gt("latitude", 51.27)</code> gives, (only <code>expr</code> slot shown):</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>(latitude <span class="op">&gt;</span><span class="st"> </span><span class="fl">51.27</span>)</span></code></pre><p></p></div>
 <p><code>pred_or()</code> gives:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>((tags <span class="op">==</span><span class="st"> "boven de stroom"</span>) <span class="op">|</span><span class="st"> </span>(latitude <span class="op">&gt;</span><span class="st"> </span><span class="fl">51.28</span>))</span></code></pre><p></p></div>
 <p><code>pred_or()</code> gives:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>((tags <span class="op">==</span><span class="st"> "boven de stroom"</span>) <span class="op">&amp;</span><span class="st"> </span>(latitude <span class="op">&gt;</span><span class="st"> </span><span class="fl">51.28</span>))</span></code></pre><p></p></div>
     </div>
     <div id="keys">
     <h2>Keys</h2>
@@ -524,7 +542,7 @@ data.frame you are applying the filter predicates.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

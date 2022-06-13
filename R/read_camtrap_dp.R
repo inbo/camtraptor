@@ -1,27 +1,23 @@
 #' Read Camtrap DP formatted data
 #'
-#' This function reads camera trap data formatted following the [Camera Trap
-#' Data Package (Camtrap DP)](https://tdwg.github.io/camtrap-dpdp) format. The
-#' function is built upon the functions \link[frictionless]{read_package} and
-#' \link[frictionless]{read_resource}. This means a.o. that all datetime
-#' information included in the camera trap data package is automatically
-#' transformed to UTC (Coordinated Universal Time).
-#'
-#' Vernacular names are typically used while working with camera trap
-#' _observations_, so they are added to the observations as defined in the
-#' metadata (slot `taxonomic`), if present.
+#' Reads camera trap data formatted as a [Camera Trap Data Package
+#' (Camtrap DP)](https://tdwg.github.io/camtrap-dp) into memory.
+#' All datetime information is automatically transformed to UTC (Coordinated
+#' Universal Time).
+#' Vernacular names found in the metadata (element `taxonomic`) are added to
+#' the `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @param media If `TRUE`, read media records into memory. If `FALSE`, ignore
 #'   media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
-#' @return A list containing three (tibble) data.frames:
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `media`
-#'
-#' and a list with metadata: `datapackage`.
+#' @return List describing a Data Package (as returned by
+#'   [frictionless::read_package()]) containing the original metadata, as well
+#'   as a property `data` containing the data as three data frames:
+#'   1. `deployments`
+#'   2. `media`
+#'   3. `observations`
 #'
 #' @export
 #'
@@ -45,9 +41,9 @@
 #'   package = "camtraptor"
 #' )
 #' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-#' readr::problems(muskrat_coypu_with_issues$deployments)
-#' readr::problems(muskrat_coypu_with_issues$observations)
-#' readr::problems(muskrat_coypu_with_issues$media)
+#' readr::problems(muskrat_coypu_with_issues$data$deployments)
+#' readr::problems(muskrat_coypu_with_issues$data$observations)
+#' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
@@ -98,13 +94,15 @@ read_camtrap_dp <- function(file = NULL,
     ))
   }
 
-  # get taxonomic info
-  taxon_infos <- get_species(list(
-    "datapackage" = package,
+  # create first version datapackage with resources in data slot
+  data <- list(
     "deployments" = deployments,
     "media" = NULL,
     "observations" = observations
-  ))
+  )
+  package$data <- data
+  # get taxonomic info
+  taxon_infos <- get_species(package)
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
@@ -115,6 +113,7 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
+    package$data$observations <- observations
   }
   if (media == TRUE) {
     media <- frictionless::read_resource(package, "media")
@@ -127,20 +126,14 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
 
-  # return list
+  # return list resources
   if (is.data.frame(media)) {
-    list(
-      "datapackage" = package,
+    data <- list(
       "deployments" = deployments,
       "media" = media,
       "observations" = observations
     )
-  } else {
-    list(
-      "datapackage" = package,
-      "deployments" = deployments,
-      "media" = NULL,
-      "observations" = observations
-    )
+    package$data <- data
   }
+  package
 }

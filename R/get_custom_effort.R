@@ -106,7 +106,7 @@ get_custom_effort <- function(datapkg,
   check_datapkg(datapkg)
 
   # get deployments
-  deployments <- datapkg$deployments
+  deployments <- datapkg$data$deployments
 
   # camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(datapkg, ...)

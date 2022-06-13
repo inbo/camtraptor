@@ -242,8 +242,8 @@ It can happen that some deployments didn't observe any animal. While visualizing
 ```{r show_deployments_without_observations}
 # create data package with less observations
 mica_less_obs <- mica
-mica_less_obs$observations <- 
-  mica$observations %>% 
+mica_less_obs$data$observations <- 
+  mica$data$observations %>% 
   filter(timestamp > lubridate::as_datetime("2020-06-30"))
 
 # create new map

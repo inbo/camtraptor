@@ -10,39 +10,37 @@
 #'
 #' @noRd
 #'
-#' @importFrom assertthat assert_that
-#'
 #' @keywords internal
 #'
 check_datapkg <- function(datapkg) {
   # data package is a list
-  assert_that(!is.data.frame(datapkg))
-  # check validity data package: does it contain all 4 elements?
-  elements <- c("datapackage", "deployments", "media", "observations")
+  assertthat::assert_that(is.list(datapkg))
+  assertthat::assert_that(!is.data.frame(datapkg))
+  # check validity data slot of package: does it contain all 4 elements?
+  elements <- c("deployments", "media", "observations")
   tables_absent <- names(elements)[
-    !names(elements) %in% names(datapkg)
+    !names(elements) %in% names(datapkg$data)
   ]
   n_tables_absent <- length(tables_absent)
-  assert_that(n_tables_absent == 0,
-              msg = glue("There are {n_tables_absent} elements not found in",
-                         " data package: {tables_absent*}",
-                         .transformer = collapse_transformer(
-                           sep = ", ",
-                           last = " and ")
-                         )
+  assertthat::assert_that(n_tables_absent == 0,
+              msg = glue::glue(
+                "There are {n_tables_absent} elements not found in",
+                " data package: {tables_absent*}",
+                .transformer = collapse_transformer(
+                  sep = ", ",
+                  last = " and "
+                  )
               )
+  )
 
 
   # check observations and deployments are data.frames
-  assert_that(is.data.frame(datapkg$observations))
-  assert_that(is.data.frame(datapkg$deployments))
+  assertthat::assert_that(is.data.frame(datapkg$data$observations))
+  assertthat::assert_that(is.data.frame(datapkg$data$deployments))
   # check multimedia is a data.frame (if imported, i.e. if not NULL)
-  if (!is.null(datapkg$multimedia)) {
-    assert_that(is.data.frame(datapkg$multimedia))
+  if (!is.null(datapkg$data$multimedia)) {
+    assertthat::assert_that(is.data.frame(datapkg$data$multimedia))
   }
-
-  # check element datapackage (metadata) is a list
-  assert_that(is.list(datapkg$datapackage))
 }
 
 #' Check input value against list of provided values
@@ -61,9 +59,6 @@ check_datapkg <- function(datapkg) {
 #' @return If no error, `TRUE`.
 #'
 #' @noRd
-#'
-#' @importFrom assertthat assert_that
-#' @importFrom glue glue
 #'
 #' @keywords internal
 #'
@@ -97,7 +92,7 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
         Valid inputs are: {options_to_print*}."
   }
 
-  msg_to_print <- glue(
+  msg_to_print <- glue::glue(
     string_to_print,
     .transformer = collapse_transformer(
       sep = ", ",
@@ -107,12 +102,12 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # Provide user message
   if (!is.null(arg)) {
-    assert_that(
+    assertthat::assert_that(
       all(arg %in% options),
       msg = msg_to_print
     )
   } else {
-      assert_that(null_allowed == TRUE,
+      assertthat::assert_that(null_allowed == TRUE,
                   msg = msg_to_print
       )
     }
@@ -125,8 +120,6 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 #'
 #' @noRd
 #'
-#' @importFrom glue glue_collapse
-#'
 #' @keywords internal
 collapse_transformer <- function(regex = "[*]$", ...) {
   function(code, envir) {
@@ -134,7 +127,7 @@ collapse_transformer <- function(regex = "[*]$", ...) {
       code <- sub(regex, "", code)
     }
     res <- eval(parse(text = code), envir)
-    glue_collapse(res, ...)
+    glue::glue_collapse(res, ...)
   }
 }
 
@@ -194,17 +187,11 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param datapkg a camera trap data package object, as returned by
-#'   `read_camtrap_dp()`, i.e. a list containing three data.frames:
+#' @param datapkg Camera trap data package object, as returned by
+#'   `read_camtrap_dp()`.
 #'
-#' 1. `observations`
-#' 2. `deployments`
-#' 3. `multimedia`
-#'
-#' and a list with metadata: `datapackage`
 #' @param ... filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>% anti_join distinct
-#' @importFrom  glue glue
+#' @importFrom dplyr .data %>%
 #'
 #' @export
 #'
@@ -215,8 +202,8 @@ get_dep_no_obs <- function(datapkg, ...) {
   check_datapkg(datapkg)
 
   # extract observations and deployments
-  observations <- datapkg$observations
-  deployments <- datapkg$deployments
+  observations <- datapkg$data$observations
+  deployments <- datapkg$data$deployments
 
   # apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
@@ -224,8 +211,8 @@ get_dep_no_obs <- function(datapkg, ...) {
   # deployment with no observations
   dep_no_obs <-
     deployments %>%
-    anti_join(observations %>%
-                distinct(.data$deploymentID),
+    dplyr::anti_join(observations %>%
+                dplyr::distinct(.data$deploymentID),
               by = "deploymentID")
 
   dep_no_obs_ids <- dep_no_obs$deploymentID
@@ -239,7 +226,7 @@ get_dep_no_obs <- function(datapkg, ...) {
     } else {
       options_to_print <- dep_no_obs_ids
     }
-    message(glue("There are {n_dep_no_obs} deployments",
+    message(glue::glue("There are {n_dep_no_obs} deployments",
                  " with no observations: {options_to_print*}",
                  .transformer = collapse_transformer(
                    sep = ", ",
@@ -256,36 +243,34 @@ get_dep_no_obs <- function(datapkg, ...) {
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
 #' the fraction of the day the camera was on
 #'
-#' @importFrom dplyr %>% if_else mutate %>% pull
-#' @importFrom assertthat assert_that
-#' @importFrom lubridate as.duration as_datetime ddays
+#' @importFrom dplyr %>%
 #'
 #' @noRd
 #'
 #' @keywords internal
 calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
   # check calc_start or calc_end are passed
-  assert_that(
+  assertthat::assert_that(
     (is.null(calc_start) & !is.null(calc_end)) |
       (!is.null(calc_start) & is.null(calc_end)),
     msg = "Either calc_start or calc_end must be defined.")
   deploy_df <- deploy_df %>%
-    mutate(edge = if_else(!is.null(calc_start), .data$start, .data$end),
-           edge_day = if_else(!is.null(calc_start), .data$start_day, .data$end_day))
+    dplyr::mutate(edge = dplyr::if_else(!is.null(calc_start), .data$start, .data$end),
+           edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day))
   deploy_df %>%
   # calculate the duration of the start/end day (edge day)
-  mutate(edge_day_duration =
-           as.duration(as_datetime(.data$edge_day) +
-                         ddays(1) -
-                         as_datetime(.data$edge_day))) %>%
+  dplyr::mutate(edge_day_duration =
+           lubridate::as.duration(lubridate::as_datetime(.data$edge_day) +
+                         lubridate::ddays(1) -
+                         lubridate::as_datetime(.data$edge_day))) %>%
     # calculate the duration of the active part of the start/end day
-  mutate(active_edge_day_duration = if_else(
+  dplyr::mutate(active_edge_day_duration = dplyr::if_else(
     !is.null(calc_start),
     # start day
-    .data$edge_day_duration - as.duration(.data$edge - as_datetime(.data$edge_day)),
+    .data$edge_day_duration - lubridate::as.duration(.data$edge - lubridate::as_datetime(.data$edge_day)),
     # end day
-    .data$edge_day_duration - as.duration(as_datetime(.data$edge_day) + ddays(1) - .data$edge))) %>%
+    .data$edge_day_duration - lubridate::as.duration(lubridate::as_datetime(.data$edge_day) + lubridate::ddays(1) - .data$edge))) %>%
     # calculate the fraction of the duration of the active part
-  mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
-  pull(.data$daily_effort)
+  dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
+  dplyr::pull(.data$daily_effort)
 }

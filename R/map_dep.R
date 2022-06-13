@@ -401,8 +401,8 @@ map_dep <- function(datapkg,
   }
 
   # extract observations and deployments
-  observations <- datapkg$observations
-  deployments <- datapkg$deployments
+  observations <- datapkg$data$observations
+  deployments <- datapkg$data$deployments
 
   # get average lat lon for empyt map without deployments (after filtering)
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)

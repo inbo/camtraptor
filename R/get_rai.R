@@ -188,7 +188,7 @@ get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
   }
 
   # extract deployments
-  deployments <- datapkg$deployments
+  deployments <- datapkg$data$deployments
 
   # get deployment duration (effort) in days
   dep_effort <- get_effort(datapkg, unit = "day", ...)

@@ -17,32 +17,32 @@ test_that("output is a matrix", {
 
 test_that("output matrix has locations as rownames", {
   cam_op_matrix <- get_cam_op(mica)
-  locations <- mica$deployments$locationName
-  n_locations <- length(mica$deployments$locationName)
+  locations <- mica$data$deployments$locationName
+  n_locations <- length(mica$data$deployments$locationName)
   expect_equal(nrow(cam_op_matrix), n_locations)
   expect_equal(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has Station prefix in rownames", {
   cam_op_matrix <- get_cam_op(mica, use_prefix = TRUE)
-  locations <- paste0("Station", mica$deployments$locationName)
-  n_locations <- length(mica$deployments$locationName)
+  locations <- paste0("Station", mica$data$deployments$locationName)
+  n_locations <- length(mica$data$deployments$locationName)
   expect_equal(nrow(cam_op_matrix), n_locations)
   expect_equal(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has specified location column as rownames", {
   cam_op_matrix <- get_cam_op(mica, station_col = "locationID")
-  locations <- mica$deployments$locationID
-  n_locations <- length(mica$deployments$locationID)
+  locations <- mica$data$deployments$locationID
+  n_locations <- length(mica$data$deployments$locationID)
   expect_equal(nrow(cam_op_matrix), n_locations)
   expect_equal(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has all deployment days as colnames", {
   cam_op_matrix <- get_cam_op(mica)
-  days_activity <- seq(as.Date(min(mica$deployments$start)),
-                        as.Date(max(mica$deployments$end)),
+  days_activity <- seq(as.Date(min(mica$data$deployments$start)),
+                        as.Date(max(mica$data$deployments$end)),
                        by = "days")
   days_activity <- as.character(days_activity)
   n_days <- length(days_activity)
@@ -52,11 +52,11 @@ test_that("output matrix has all deployment days as colnames", {
 
 test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   cam_op_matrix <- get_cam_op(mica)
-  location <- mica$deployments$locationName[4]
-  deployment_start <- mica$deployments %>%
+  location <- mica$data$deployments$locationName[4]
+  deployment_start <- mica$data$deployments %>%
     filter(locationName == location) %>%
     pull(start)
-  deployment_end <- mica$deployments %>%
+  deployment_end <- mica$data$deployments %>%
     filter(locationName == location) %>%
     pull(end)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
@@ -64,8 +64,8 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
                        by = "days")
   cols_activity <- as.character(cols_activity)
 
-  cols_inactivity <- seq(as.Date(deployment_end+ddays(1)),
-                           as.Date(max(mica$deployments$end)),
+  cols_inactivity <- seq(as.Date(deployment_end+lubridate::ddays(1)),
+                           as.Date(max(mica$data$deployments$end)),
                            by = "days")
   cols_inactivity <- as.character(cols_inactivity)
   expect_true(all(cam_op_matrix[4, cols_activity] > 0))
@@ -74,9 +74,9 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
 
 test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   cam_op_matrix <- get_cam_op(mica)
-  location <- mica$deployments$locationName[4]
-  start <- as.character(as.Date(mica$deployments$start[4]))
-  end <- as.character(as.Date(mica$deployments$end[4]))
+  location <- mica$data$deployments$locationName[4]
+  start <- as.character(as.Date(mica$data$deployments$start[4]))
+  end <- as.character(as.Date(mica$data$deployments$end[4]))
   expect_true(cam_op_matrix[4, start] > 0)
   expect_true(cam_op_matrix[4, start] <  1)
   expect_true(cam_op_matrix[4, end] > 0)
@@ -86,18 +86,20 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
 test_that(
   "effort is > 1 for locations with multiple deployments active at same time", {
   mica1 <- mica
-  mica1$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-  mica1$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
-  mica1$deployments$locationName[2] <- mica1$deployments$locationName[1]
+  mica1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
+  mica1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
+  mica1$data$deployments$locationName[2] <- mica1$data$deployments$locationName[1]
   cam_op_matrix <- get_cam_op(mica1)
 
-  first_full_day_two_deps <- as.character(as.Date(mica1$deployments$start[2]) +
-                                            lubridate::ddays(1))
-  last_full_day_two_deps <- as.character(as.Date(mica1$deployments$end[2]) -
-                                           lubridate::ddays(1))
+  first_full_day_two_deps <- as.character(
+    as.Date(mica1$data$deployments$start[2]) + lubridate::ddays(1)
+  )
+  last_full_day_two_deps <- as.character(
+    as.Date(mica1$data$deployments$end[2]) - lubridate::ddays(1)
+  )
   # as many rows as locations
   expect_true(
-    nrow(cam_op_matrix) == length(unique(mica1$deployments$locationName))
+    nrow(cam_op_matrix) == length(unique(mica1$data$deployments$locationName))
   )
   expect_true(cam_op_matrix[1, first_full_day_two_deps] > 1)
   expect_true(cam_op_matrix[1, last_full_day_two_deps] > 1)
@@ -106,13 +108,13 @@ test_that(
 test_that(
   "0<effort<=1 for locations with multiple deployments not simultaneously active", {
     mica1 <- mica
-    mica1$deployments$locationName[2] <- mica1$deployments$locationName[1]
+    mica1$data$deployments$locationName[2] <- mica1$data$deployments$locationName[1]
     cam_op_matrix1 <- get_cam_op(mica1)
     cam_op_matrix <- get_cam_op(mica)
-    start_date1 <- as.character(as.Date(mica$deployments$start[1]))
-    start_date2 <- as.character(as.Date(mica$deployments$start[2]))
-    end_date1 <- as.character(as.Date(mica$deployments$end[1]))
-    end_date2 <- as.character(as.Date(mica$deployments$end[2]))
+    start_date1 <- as.character(as.Date(mica$data$deployments$start[1]))
+    start_date2 <- as.character(as.Date(mica$data$deployments$start[2]))
+    end_date1 <- as.character(as.Date(mica$data$deployments$end[1]))
+    end_date2 <- as.character(as.Date(mica$data$deployments$end[2]))
     col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
     col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
     col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)

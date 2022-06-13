@@ -5,10 +5,10 @@
 #' @param datapkg a camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #'
-#' @importFrom dplyr %>% tibble
-#' @importFrom purrr map_dfr map
+#' @importFrom dplyr %>%
+#'
 #' @export
-
+#'
 #' @return a data.frame with all scientific names and vernacular names of the
 #'   identified species.
 #'
@@ -19,13 +19,13 @@ get_species <- function(datapkg) {
   check_datapkg(datapkg)
 
   # Get taxonomic information from package metadata
-  if (!"taxonomic" %in% names(datapkg$datapackage)) {
+  if (!"taxonomic" %in% names(datapkg)) {
     return(NULL)
   } else {
-    taxonomy <- datapkg$datapackage$taxonomic
+    taxonomy <- datapkg$taxonomic
     if ("vernacularNames" %in% names(taxonomy[[1]])) {
       # Get all languages used in vernacularNames
-      langs <- map(taxonomy, function(x) {
+      langs <- purrr::map(taxonomy, function(x) {
         vernacular_languages <- NULL
         if ("vernacularNames" %in% names(x)) {
           vernacular_languages <- names(x$vernacularNames)
@@ -34,7 +34,7 @@ get_species <- function(datapkg) {
       langs <- unique(unlist(langs))
 
       # Fill empty vernacular names with NA
-      taxonomy <- map(taxonomy, function(x) {
+      taxonomy <- purrr::map(taxonomy, function(x) {
         missing_langs <- langs[!langs %in% names(x$vernacularNames)]
         for (i in missing_langs) {
           x$vernacularNames[[i]] <- NA_character_
@@ -42,8 +42,8 @@ get_species <- function(datapkg) {
         x
       })
     }
-    map_dfr(taxonomy, function(x) {
-      tibble(as.data.frame(x))
+    purrr::map_dfr(taxonomy, function(x) {
+      dplyr::tibble(as.data.frame(x))
     })
   }
 }

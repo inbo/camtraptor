@@ -40,7 +40,7 @@ test_that("get_n_individuals returns the right structure of dataframe", {
 
 test_that("get_n_individuals returns the right number of rows: all species selected", {
   all_species <- get_species(mica)
-  all_deployments <- unique(mica$deployments$deploymentID)
+  all_deployments <- unique(mica$data$deployments$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -59,7 +59,7 @@ test_that(paste(
   "get_n_individuals returns always the right number of rows:",
   "species undetected in one deployment"
 ), {
-  deployments <- unique(mica$deployments$deploymentID)
+  deployments <- unique(mica$data$deployments$deploymentID)
 
   n_deployments <- length(deployments)
 
@@ -76,7 +76,7 @@ test_that(
   "get_n_individuals returns rows ordered by the original order of deployments",
   {
     # get the original order of deployment IDs
-    deploymentIDs <- unique(mica$deployments$deploymentID)
+    deploymentIDs <- unique(mica$data$deployments$deploymentID)
 
     # apply function
     n_individuals <- get_n_individuals(mica)
@@ -87,7 +87,7 @@ test_that(
 
 test_that("species = 'all' returns the same of using a vector with all species", {
   all_species <- get_species(mica)
-  all_deployments <- unique(mica$deployments$deploymentID)
+  all_deployments <- unique(mica$data$deployments$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -161,7 +161,7 @@ test_that("number of individuals is equal to sum of counts", {
   deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   species <- "Anas platyrhynchos"
   n_individuals_via_count <-
-    mica$observations %>%
+    mica$data$observations %>%
     filter(deploymentID == deploy_id) %>%
     filter(scientificName == species) %>%
     pull(count) %>%
@@ -176,20 +176,20 @@ test_that("number of individuals is equal to sum of counts", {
 test_that("sex filters data correctly", {
   sex_value <- "unknown"
   n_individuals_via_count <-
-    mica$observations %>%
+    mica$data$observations %>%
     filter(sex == sex_value) %>%
     pull(count) %>%
     sum()
   n_individuals_females <- get_n_individuals(mica, species = NULL, sex = sex_value)
   tot_n_individuals_females <- sum(n_individuals_females$n)
   expect_equal(tot_n_individuals_females, n_individuals_via_count)
-  expect_equal(nrow(n_individuals_females), nrow(mica$deployments))
+  expect_equal(nrow(n_individuals_females), nrow(mica$data$deployments))
 })
 
 test_that("multiple sex values allowed", {
   sex_value <- c("female", "unknown")
   n_individuals_females_undefined_via_count <-
-    mica$observations %>%
+    mica$data$observations %>%
     filter(sex %in% sex_value) %>%
     pull(count) %>%
     sum()
@@ -204,27 +204,27 @@ test_that("multiple sex values allowed", {
   )
   expect_equal(
     nrow(n_individuals_females_undefined),
-    nrow(mica$deployments)
+    nrow(mica$data$deployments)
   )
 })
 
 test_that("life stage filters data correctly", {
   life_stage_value <- "subadult"
   n_individuals_juvenile_via_count <-
-    mica$observations %>%
+    mica$data$observations %>%
     filter(lifeStage == life_stage_value) %>%
     pull(count) %>%
     sum()
   n_individuals_juvenile <- get_n_individuals(mica, species = NULL, life_stage = life_stage_value)
   tot_n_individuals_juvenile <- sum(n_individuals_juvenile$n)
   expect_equal(tot_n_individuals_juvenile, n_individuals_juvenile_via_count)
-  expect_equal(nrow(n_individuals_juvenile), nrow(mica$deployments))
+  expect_equal(nrow(n_individuals_juvenile), nrow(mica$data$deployments))
 })
 
 test_that("multiple age values allowed", {
   life_stage_value <- c("subadult", "adult")
   n_individuals_juvenile_adult_via_count <-
-    mica$observations %>%
+    mica$data$observations %>%
     filter(lifeStage %in% life_stage_value) %>%
     pull(count) %>%
     sum()
@@ -237,7 +237,7 @@ test_that("multiple age values allowed", {
     tot_n_individuals_juvenile_adult,
     n_individuals_juvenile_adult_via_count
   )
-  expect_equal(nrow(n_individuals_juvenile_adult), nrow(mica$deployments))
+  expect_equal(nrow(n_individuals_juvenile_adult), nrow(mica$data$deployments))
 })
 
 test_that("error returned if life stage or sex is not present", {

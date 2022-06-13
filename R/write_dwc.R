@@ -62,9 +62,6 @@
 #' # TODO
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = package$rightsHolder) {
-  # TODO: Hotfix to deal with 1 level deep metadata
-  orig_package <- package
-  package <- package$datapackage
 
   # Retrieve metadata from DataCite and build EML
   assertthat::assert_that(
@@ -138,7 +135,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Set coverage
   bbox <- package$spatial$bbox
-  taxonomy <- get_species(orig_package)
+  taxonomy <- get_species(package)
   if ("taxonRank" %in% names(taxonomy)) {
     taxonomy <- dplyr::filter(taxonomy, taxonRank == "species")
   }
@@ -188,9 +185,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Create database
   message("Creating database and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "deployments", dplyr::tibble(orig_package$deployments))
-  DBI::dbWriteTable(con, "media", dplyr::tibble(orig_package$media))
-  DBI::dbWriteTable(con, "observations", dplyr::tibble(orig_package$observations))
+  DBI::dbWriteTable(con, "deployments", dplyr::tibble(package$data$deployments))
+  DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
+  DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
 
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(

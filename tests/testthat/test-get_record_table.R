@@ -48,7 +48,7 @@ test_that("input of get_record_table, removeDuplicateRecords, is checked properl
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow
   testthat::expect_equal(nrow_output,
-               mica$observations %>%
+               mica$data$observations %>%
                  filter(!is.na(scientificName)) %>% nrow)
 })
 
@@ -65,7 +65,7 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
   nrow_foxes <- get_record_table(mica, exclude = species_to_exclude) %>%
     nrow
   testthat::expect_equal(nrow_foxes,
-               mica$observations %>%
+               mica$data$observations %>%
                  filter(scientificName == "Vulpes vulpes") %>% nrow)
 })
 
@@ -86,14 +86,14 @@ test_that("Higher minDeltaTime means less rows returned", {
 test_that("stations names are equal to values in column passed to StationCOl", {
   # use locationName as Station
   stations <- get_record_table(mica) %>% distinct(Station) %>% pull()
-  location_names <- unique(mica$deployments$locationName)
+  location_names <- unique(mica$data$deployments$locationName)
   testthat::expect_true(all(stations %in% location_names))
 
   # use locationID as Station
   stations <- get_record_table(mica, stationCol = "locationID") %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
-  location_ids <- unique(mica$deployments$locationID)
+  location_ids <- unique(mica$data$deployments$locationID)
   testthat::expect_true(all(stations %in% location_ids))
 })
 
@@ -111,7 +111,7 @@ test_that(
   # add n media, observationID and sequenceID to record table
   output <- output %>%
     mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
-    dplyr::left_join(mica$observations %>%
+    dplyr::left_join(mica$data$observations %>%
                 dplyr::select(.data$observationID,
                               .data$timestamp,
                               .data$scientificName,
@@ -119,7 +119,7 @@ test_that(
               by = c("DateTimeOriginal" = "timestamp",
                      "Species" = "scientificName"))
   n_media <-
-    mica$media %>%
+    mica$data$media %>%
     group_by(sequenceID) %>%
     count()
   output <- output %>%
@@ -131,21 +131,21 @@ test_that(
 test_that(paste("removeDuplicateRecords allows removing duplicates,",
                 "but structure output remains the same"), {
   mica_duplicates <- mica
-  mica_duplicates$observations$sequenceID <- mica_duplicates$observations$sequenceID[1]
-  mica_duplicates$observations$deploymentID <- mica_duplicates$observations$deploymentID[1]
-  mica_duplicates$observations$timestamp <- mica_duplicates$observations$timestamp[1]
-  mica_duplicates$observations$scientificName <- "Anas strepera"
+  mica_duplicates$data$observations$sequenceID <- mica_duplicates$data$observations$sequenceID[1]
+  mica_duplicates$data$observations$deploymentID <- mica_duplicates$data$observations$deploymentID[1]
+  mica_duplicates$data$observations$timestamp <- mica_duplicates$data$observations$timestamp[1]
+  mica_duplicates$data$observations$scientificName <- "Anas strepera"
   rec_table <- get_record_table(mica_duplicates)
   rec_table_dup <- get_record_table(mica_duplicates,
                                     removeDuplicateRecords = FALSE)
   testthat::expect_equal(nrow(rec_table), 1)
   testthat::expect_equal(
-    rec_table$DateTimeOriginal, mica$observations$timestamp[1]
+    rec_table$DateTimeOriginal, mica$data$observations$timestamp[1]
   )
   testthat::expect_equal(rec_table$delta.time.secs, 0)
   testthat::expect_equal(names(rec_table_dup), names(rec_table))
   testthat::expect_equal(nrow(rec_table_dup),
-                         nrow(mica_duplicates$observations)
+                         nrow(mica_duplicates$data$observations)
   )
 })
 
@@ -153,7 +153,7 @@ test_that("filtering predicates are allowed and work well", {
   stations <- unique(
     get_record_table(mica, pred_lt("longitude", 4.0))$Station
   )
-  stations_calculate <- mica$deployments %>%
+  stations_calculate <- mica$data$deployments %>%
     filter(longitude < 4.0) %>%
     pull(locationName)
   testthat::expect_identical(stations, stations_calculate)

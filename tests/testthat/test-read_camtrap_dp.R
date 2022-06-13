@@ -40,13 +40,13 @@ test_that("output is a list", {
   expect_equal(class(dp_without_media), "list")
 })
 
-test_that("output is a list of length 4", {
+test_that("output data slot is a list of length 3", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
                          package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
-  expect_equal(length(dp_without_media), 4)
+  expect_equal(length(dp_without_media$data), 3)
 })
 
 test_that("media arg influences only slot media", {
@@ -59,44 +59,46 @@ test_that("media arg influences only slot media", {
     file = dp_path,
     media = FALSE)
   # media is NULL only for dp_without_media
-  expect_null(dp_without_media$media)
-  expect_false(is.null(dp_with_media$media))
+  expect_null(dp_without_media$data$media)
+  expect_false(is.null(dp_with_media$data$media))
   # metadata are the same
-  expect_identical(dp_with_media$metadata,
-                        dp_without_media$metadata)
+  metadata_with_media <- dp_with_media
+  metadata_with_media$data <- NULL
+  metadata_without_media <- dp_without_media
+  metadata_without_media$data <- NULL
+  expect_identical(metadata_with_media, metadata_without_media)
   # observations are the same
   expect_identical(
     # remove columns with NA only
-    dp_with_media$observations[colSums(!is.na(dp_with_media$observations)) > 0],
+    dp_with_media$data$observations[colSums(
+      !is.na(dp_with_media$data$observations)
+    ) > 0],
     # remove columns with NA only
-    dp_without_media$observations[colSums(!is.na(dp_without_media$observations)) > 0]
+    dp_without_media$data$observations[colSums(
+      !is.na(dp_without_media$data$observations)
+    ) > 0]
   )
   # deployments are the same
   expect_identical(
     # remove columns with NA only
-    dp_with_media$deployments[colSums(!is.na(dp_with_media$deployments)) > 0],
+    dp_with_media$data$deployments[colSums(
+      !is.na(dp_with_media$data$deployments)
+    ) > 0],
     # remove columns with NA only
-    dp_with_media$deployments[colSums(!is.na(dp_with_media$deployments)) > 0]
+    dp_with_media$data$deployments[colSums(
+      !is.na(dp_with_media$data$deployments)
+    ) > 0]
   )
 })
 
-test_that("Datapackage metadata is a list", {
+test_that("Datapackage resources are named as in resource_names", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
                          package = "camtraptor")
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
-  expect_type(dp_without_media$datapackage, "list")
-})
-
-test_that("Datapackage resources are named as in metadata$resource_names", {
-  dp_path <- system.file("extdata", "mica", "datapackage.json",
-                         package = "camtraptor")
-  dp_without_media <- read_camtrap_dp(
-    file = dp_path,
-    media = FALSE)
-  resource_names <- dp_without_media$metadata$resource_names
-  expect_true(all(resource_names %in% names(dp_without_media)))
+  resource_names <- dp_without_media$resource_names
+  expect_true(all(resource_names %in% names(dp_without_media$data)))
 })
 
 test_that("Datapackage resources are tibble dataframes", {
@@ -106,9 +108,9 @@ test_that("Datapackage resources are tibble dataframes", {
     file = dp_path,
     media = FALSE)
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                class(dp_without_media$deployments)))
+                class(dp_without_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                class(dp_without_media$deployments)))
+                class(dp_without_media$data$observations)))
 })
 
 test_that("sc. names and vernacular names in obs match the info in taxonomic slot", {
@@ -117,24 +119,30 @@ test_that("sc. names and vernacular names in obs match the info in taxonomic slo
   dp <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
-  taxon_infos <- map_dfr(
-    dp$datapackage$taxonomic,
+  taxon_infos <- purrr::map_dfr(
+    dp$taxonomic,
     function(x) x %>% as.data.frame()) %>%
-    tibble()
-  expect_true(all(names(taxon_infos) %in% names(dp$observations)))
+    dplyr::tibble()
+  expect_true(all(names(taxon_infos) %in% names(dp$data$observations)))
   # get scientific names from observations and check that they match with
   # taxonomic info
-  sc_names <- dp$observations$scientificName[!is.na(dp$observations$scientificName)]
+  sc_names <- dp$data$observations$scientificName[!is.na(
+    dp$data$observations$scientificName
+  )]
   expect_true(all(sc_names %in% taxon_infos$scientificName))
 
   # get vernacular names in English from observations and check that they match
   # with taxonomic info
-  en_names <- dp$observations$vernacularNames.en[!is.na(dp$observations$vernacularNames.en)]
+  en_names <- dp$data$observations$vernacularNames.en[!is.na(
+    dp$data$observations$vernacularNames.en
+  )]
   expect_true(all(en_names %in% taxon_infos$vernacularNames.en))
 
   # get vernacular names in Dutch from observations and check that they match
   # with taxonomic info
-  nl_names <- dp$observations$vernacularNames.nl[!is.na(dp$observations$vernacularNames.nl)]
+  nl_names <- dp$data$observations$vernacularNames.nl[!is.na(
+    dp$data$observations$vernacularNames.nl
+  )]
   expect_true(all(nl_names %in% taxon_infos$vernacularNames.nl))
 })
 
@@ -145,9 +153,9 @@ test_that("file can be an URL", {
     media = FALSE)
   expect_true(is.list(dp))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp$deployments)))
+                    class(dp$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp$observations)))
+                    class(dp$data$observations)))
 })
 
 test_that("path is deprecated", {

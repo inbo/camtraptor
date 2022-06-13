@@ -45,7 +45,7 @@ test_that("get_custom_effort returns warning if start set too early", {
   )
   expect_equal(
     start_too_early$result$begin[1],
-    lubridate::as_date(min(mica$deployments$start))
+    lubridate::as_date(min(mica$data$deployments$start))
   )
 })
 
@@ -65,7 +65,7 @@ test_that("get_custom_effort returns warning if end set too late", {
   )
   expect_equal(
     end_too_late$result$begin[nrow(end_too_late$result)],
-    lubridate::as_date(max(mica$deployments$end))
+    lubridate::as_date(max(mica$data$deployments$end))
   )
 })
 
@@ -113,8 +113,8 @@ test_that("right columns, cols types, right relative number of rows", {
 
   # number of rows with grouping by year is equal to number of days divided by
   # 365
-  first_day <- min(mica$deployments$start)
-  last_day <- max(mica$deployments$end)
+  first_day <- min(mica$data$deployments$start)
+  last_day <- max(mica$data$deployments$end)
   n_years <- as.numeric(last_day - first_day) %/% 365 + 1
   expect_equal(nrow(effort_by_year), n_years)
 

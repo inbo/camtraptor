@@ -91,7 +91,7 @@ get_record_table <- function(datapkg,
   check_datapkg(datapkg)
 
   # check stationCol is a valid column name
-  assertthat::assert_that(stationCol %in% names(datapkg$deployments),
+  assertthat::assert_that(stationCol %in% names(datapkg$data$deployments),
               msg = glue("station column name (stationCol) not valid: ",
                          "it must be one of the deployments column names."))
 
@@ -129,7 +129,7 @@ get_record_table <- function(datapkg,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE.")
 
   # remove observations of unidentified individuals
-  obs <- datapkg$observations %>%
+  obs <- datapkg$data$observations %>%
     filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
@@ -138,7 +138,7 @@ get_record_table <- function(datapkg,
 
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
-    df = datapkg$deployments,
+    df = datapkg$data$deployments,
     verbose = TRUE,
     ...)
   # remove observations from filtered out deployments
@@ -152,7 +152,7 @@ get_record_table <- function(datapkg,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    datapkg$media %>%
+    datapkg$data$media %>%
     dplyr::select(.data$sequenceID,
            .data$filePath,
            .data$fileName,

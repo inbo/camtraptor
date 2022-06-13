@@ -5,7 +5,7 @@
 \alias{mica}
 \title{Sample of camtrap-dp formatted data}
 \format{
-An object of class \code{list} of length 4.
+An object of class \code{datapackage} (inherits from \code{list}) of length 16.
 }
 \source{
 https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example

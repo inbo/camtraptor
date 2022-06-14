@@ -40,7 +40,7 @@ check_species <- function(package = NULL,
   assertthat::assert_that(!is.null(species) & length(species) > 0,
               msg = "species argument must be specified")
 
-  all_species <- get_species(package = package) %>%
+  all_species <- get_species(package) %>%
     dplyr::select(-c(.data$taxonID, .data$taxonIDReference))
   check_value(tolower(species),
               unlist(all_species) %>% tolower(),

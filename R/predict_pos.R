@@ -6,7 +6,8 @@
 #' @param dat Dataframe of animal position digitisation data.
 #'   It must contain (at least) the columns defined in args `x`, `y`, `dep_tag`,
 #'   `image_width`, `image_height`.
-#' @param mods Named list of deployment calibration models.
+#' @param mods Named list of deployment calibration models or site calibration models (`depcal` objects), produced using
+#'   `cal.site()`). The deployment names are used as names.
 #' @param dep_tag Character naming the column within `dat` against which names of the
 #'   elements can be matched to apply the right deployment calibration models.
 #'   Default: `"deployment"`.

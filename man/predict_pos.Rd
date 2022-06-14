@@ -19,7 +19,8 @@ predict_pos(
 It must contain (at least) the columns defined in args \code{x}, \code{y}, \code{dep_tag},
 \code{image_width}, \code{image_height}.}
 
-\item{mods}{Named list of deployment calibration models.}
+\item{mods}{Named list of deployment calibration models or site calibration models (\code{depcal} objects), produced using
+\code{cal.site()}). The deployment names are used as names.}
 
 \item{dep_tag}{Character naming the column within \code{dat} against which names of the
 elements can be matched to apply the right deployment calibration models.

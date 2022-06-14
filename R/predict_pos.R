@@ -56,7 +56,9 @@ predict_pos <- function(dat, mods,
 
   deps <- unique(dat[, dep_tag])
   got_model <- deps %in% names(mods)
-  null_model <- names(mods)[unlist(lapply(mods, function(m) is.null(m$model)))]
+  null_model <- names(mods)[unlist(
+    lapply(mods, function(m) {is.null(m$model) | is.null(m$cam.model)})
+  )]
   got_model[match(null_model, deps)] <- FALSE
   if (!all(got_model)) {
     warning(

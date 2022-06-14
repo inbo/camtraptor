@@ -4,10 +4,8 @@
 #' calibration models.
 #'
 #' @param dat Dataframe of animal position digitisation data.
-#'   It must contain (at least) the following columns:
-#'   - columns defined in args `x`, `y` and `dep_tag`.
-#'   - `ImageWidth`, `ImageHeight`: x and y pixel dimensions of each image. It
-#'   must be consistent for each deployment.
+#'   It must contain (at least) the columns defined in args `x`, `y`, `dep_tag`,
+#'   `image_width`, `image_height`.
 #' @param mods Named list of deployment calibration models.
 #' @param dep_tag Character naming the column within `dat` against which names of the
 #'   elements can be matched to apply the right deployment calibration models.
@@ -16,6 +14,10 @@
 #'   positions for each digitised point. Default: `"x"`.
 #' @param y Character naming the column within `dat` containing y pixel
 #'   positions for each digitised point. Default: `"y"`.
+#' @param image_width pixel x dimension of each image.
+#'   It must be consistent for each deployment.
+#' @param image_height pixel y dimension of each image.
+#'   It must be consistent for each deployment.
 #'
 #' @export
 #' @return Original (tibble) dataframe as passed via `dat` with additional
@@ -26,15 +28,23 @@
 #'
 #' @examples
 #' To be done
-predict_pos <- function(dat, mods, dep_tag = "deployment", x = "x", y = "y") {
+predict_pos <- function(dat, mods,
+                        dep_tag = "deployment",
+                        x = "x", y = "y",
+                        image_width = "ImageWidth",
+                        image_height = "ImageHeight") {
   # dat is a data.frame
   assertthat::assert_that(is.data.frame(dat))
   # Check presence required columns
-  required <- c(x, y, "ImageWidth", "ImageHeight", dep_tag)
+  required <- c(x, y, image_width, image_height, dep_tag)
   not_found_cols <- required[!required %in% names(dat)]
   assertthat::assert_that(
     length(not_found_cols) == 0,
-    msg = glue::glue("Columns {not_found_cols} not found in dat.")
+    msg = glue::glue(
+      "Columns ",
+      glue::glue_collapse(not_found_cols, sep = ", ", last = " and "),
+      " not found in dat."
+     )
   )
 
   # mods is a list
@@ -62,8 +72,8 @@ predict_pos <- function(dat, mods, dep_tag = "deployment", x = "x", y = "y") {
 
   # Check that image width and height are the same for all multimedia from the
   # same deployment
-  multidim <- lapply(tapply(dat$ImageWidth, dat[,dep_tag], unique), length) > 1 |
-    lapply(tapply(dat$ImageHeight, dat[,dep_tag], unique), length) > 1
+  multidim <- lapply(tapply(dat[, image_width], dat[, dep_tag], unique), length) > 1 |
+    lapply(tapply(dat[, image_height], dat[, dep_tag], unique), length) > 1
   if (any(multidim)) {
     warning(
       glue::glue(
@@ -75,13 +85,15 @@ predict_pos <- function(dat, mods, dep_tag = "deployment", x = "x", y = "y") {
   }
 
   res <- lapply(deps, function(d) {
-    dt <- subset(dat, dat[,dep_tag]==d)
+    dt <- subset(dat, dat[, dep_tag] == d)
     cm <- mods[[d]]$cam.model
     sm <- mods[[d]]$model
     dplyr::tibble(
       dt,
-      radius = predict_r(sm, dt[[x]]/dt$ImageWidth-0.5, dt[[y]]/dt$ImageHeight),
-      angle = cm$APratio * (dt[[x]]/dt$ImageWidth-0.5))
+      radius = predict_r(sm,
+                         dt[, x] / dt[, image_width] - 0.5,
+                         dt[, y] / dt[, image_height]),
+      angle = cm$APratio * (dt[, x]/ dt[, ImageWidth] - 0.5))
   })
   res <- dplyr::bind_rows(res)
   tab <- table(res$sequence_id)

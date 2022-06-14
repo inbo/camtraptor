@@ -4,16 +4,20 @@
 \alias{predict_pos}
 \title{Predict position}
 \usage{
-predict_pos(dat, mods, dep_tag = "deployment", x = "x", y = "y")
+predict_pos(
+  dat,
+  mods,
+  dep_tag = "deployment",
+  x = "x",
+  y = "y",
+  image_width = "ImageWidth",
+  image_height = "ImageHeight"
+)
 }
 \arguments{
 \item{dat}{Dataframe of animal position digitisation data.
-It must contain (at least) the following columns:
-\itemize{
-\item columns defined in args \code{x}, \code{y} and \code{dep_tag}.
-\item \code{ImageWidth}, \code{ImageHeight}: x and y pixel dimensions of each image. It
-must be consistent for each deployment.
-}}
+It must contain (at least) the columns defined in args \code{x}, \code{y}, \code{dep_tag},
+\code{image_width}, \code{image_height}.}
 
 \item{mods}{Named list of deployment calibration models.}
 
@@ -26,6 +30,12 @@ positions for each digitised point. Default: \code{"x"}.}
 
 \item{y}{Character naming the column within \code{dat} containing y pixel
 positions for each digitised point. Default: \code{"y"}.}
+
+\item{image_width}{pixel x dimension of each image.
+It must be consistent for each deployment.}
+
+\item{image_height}{pixel y dimension of each image.
+It must be consistent for each deployment.}
 }
 \value{
 Original (tibble) dataframe as passed via \code{dat} with additional

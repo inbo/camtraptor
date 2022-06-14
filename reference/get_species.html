@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -69,22 +69,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_species</span><span class="op">(</span><span class="va">datapkg</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_species</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span>, datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>datapkg</dt>
-<dd><p>a camera trap data package object, as returned by
+    <dl><dt>package</dt>
+<dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
+
+
+<dt>datapkg</dt>
+<dd><p>Deprecated. Use <code>package</code> instead.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>a data.frame with all scientific names and vernacular names of the
-identified species.</p>
+<p>Tibble data.frame with all scientific names and vernacular names of
+the identified species.</p>
     </div>
 
     <div id="ref-examples">

@@ -19,7 +19,7 @@ observations."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -74,48 +74,55 @@ observations.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_rai_individuals</span><span class="op">(</span>
-  <span class="va">datapkg</span>,
+  package <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>,
   species <span class="op">=</span> <span class="st">"all"</span>,
   sex <span class="op">=</span> <span class="cn">NULL</span>,
-  life_stage <span class="op">=</span> <span class="cn">NULL</span>
+  life_stage <span class="op">=</span> <span class="cn">NULL</span>,
+  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>datapkg</dt>
-<dd><p>a camera trap data package object, as returned by
+    <dl><dt>package</dt>
+<dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>filter predicates for filtering on deployments</p></dd>
+<dd><p>Filter predicates for filtering on deployments.</p></dd>
 
 
 <dt>species</dt>
-<dd><p>a character with scientific names or common names (case
-insensitive). If "all" (default), all scientific names are automatically
-selected</p></dd>
+<dd><p>Character with scientific names or common names (case
+insensitive).
+If "all" (default), all scientific names are automatically selected.</p></dd>
 
 
 <dt>sex</dt>
-<dd><p>a character defining the sex class to filter on, e.g. <code>"female"</code>
-or <code>c("male", "unknown")</code>.  If <code>NULL</code>, default, all observations of all
-sex classes are taken into account.</p></dd>
+<dd><p>Character defining the sex class to filter on, e.g. <code>"female"</code>
+or <code>c("male", "unknown")</code>.
+If <code>NULL</code>, default, all observations of all sex classes are taken into
+account.</p></dd>
 
 
 <dt>life_stage</dt>
-<dd><p>a character vector defining the life stage class to filter
-on, e.g. <code>"adult"</code> or <code>c("subadult", "adult")</code>. If <code>NULL</code>, default, all
-observations of all life stage classes are taken into account.</p></dd>
+<dd><p>Character vector defining the life stage class to filter
+on, e.g. <code>"adult"</code> or <code>c("subadult", "adult")</code>.
+If <code>NULL</code>, default, all observations of all life stage classes are taken
+into account.</p></dd>
+
+
+<dt>datapkg</dt>
+<dd><p>Deprecated. Use <code>package</code> instead.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>a tibble (data.frame) with the following columns:</p><ul><li><p><code>deploymentID</code> deployment unique identifier</p></li>
+<p>Tibble data.frame with the following columns:</p><ul><li><p><code>deploymentID</code> deployment unique identifier</p></li>
 <li><p><code>scientificName</code> scientific name</p></li>
 <li><p><code>rai</code>: relative abundance index</p></li>
 </ul></div>
@@ -290,8 +297,8 @@ observations of all life stage classes are taken into account.</p></dd>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># apply filter(s): deployments with latitude &gt;= 51.18</span></span>
 <span class="r-in"><span class="fu">get_rai_individuals</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 18 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName       rai</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

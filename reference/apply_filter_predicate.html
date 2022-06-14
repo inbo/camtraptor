@@ -18,7 +18,7 @@ deployments."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@ deployments.</p>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
@@ -116,7 +116,7 @@ deployments.</p>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
@@ -132,7 +132,7 @@ deployments.</p>
 <span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_or</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
 <span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>

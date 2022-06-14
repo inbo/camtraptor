@@ -20,7 +20,7 @@ as well."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -76,18 +76,19 @@ as well.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_custom_effort</span><span class="op">(</span>
-  <span class="va">datapkg</span>,
+  package <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>,
   start <span class="op">=</span> <span class="cn">NULL</span>,
   end <span class="op">=</span> <span class="cn">NULL</span>,
   group_by <span class="op">=</span> <span class="cn">NULL</span>,
-  unit <span class="op">=</span> <span class="st">"hour"</span>
+  unit <span class="op">=</span> <span class="st">"hour"</span>,
+  datapkg <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>datapkg</dt>
+    <dl><dt>package</dt>
 <dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
 
@@ -127,6 +128,10 @@ month as a period of 30 days, a year as a period of 365 days.</p></dd>
 <dt>unit</dt>
 <dd><p>Character, the time unit to use while returning custom effort.
 One of: <code>hour</code> (default), <code>day</code>.</p></dd>
+
+
+<dt>datapkg</dt>
+<dd><p>Deprecated. Use <code>package</code> instead.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -251,7 +256,7 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2020-10-08   529. hour </span>
 <span class="r-in"><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span>
 <span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>

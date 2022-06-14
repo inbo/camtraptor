@@ -23,7 +23,7 @@ Note: All dates and times are expressed in UTC format."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -82,56 +82,61 @@ camtrapR's function documentation
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_record_table</span><span class="op">(</span>
-  <span class="va">datapkg</span>,
+  package <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">...</span>,
   stationCol <span class="op">=</span> <span class="st">"locationName"</span>,
   exclude <span class="op">=</span> <span class="cn">NULL</span>,
   minDeltaTime <span class="op">=</span> <span class="fl">0</span>,
   deltaTimeComparedTo <span class="op">=</span> <span class="cn">NULL</span>,
-  removeDuplicateRecords <span class="op">=</span> <span class="cn">TRUE</span>
+  removeDuplicateRecords <span class="op">=</span> <span class="cn">TRUE</span>,
+  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>datapkg</dt>
-<dd><p>a camera trap data package object, as returned by
+    <dl><dt>package</dt>
+<dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>filter predicates for filtering on deployments</p></dd>
+<dd><p>Filter predicates for filtering on deployments</p></dd>
 
 
 <dt>stationCol</dt>
-<dd><p>(character) name of the column containing stations.
-Default: <code>"locationName"</code></p></dd>
+<dd><p>Character name of the column containing stations.
+Default: <code>"locationName"</code>.</p></dd>
 
 
 <dt>exclude</dt>
-<dd><p>(character) vector of species names (scientific names or
-vernacular names) to be excluded from the record table. Default: <code>NULL</code></p></dd>
+<dd><p>Character vector of species names (scientific names or
+vernacular names) to be excluded from the record table. Default: <code>NULL</code>.</p></dd>
 
 
 <dt>minDeltaTime</dt>
-<dd><p>(integer) time difference between records of the same
+<dd><p>Time difference between records of the same
 species at the same station to be considered independent (in minutes).
-Default: 0</p></dd>
+Default: 0.</p></dd>
 
 
 <dt>deltaTimeComparedTo</dt>
-<dd><p>(character) <code>"lastIndependentRecord"</code> or
-<code>"lastRecord"</code>. For two records to be considered independent, must the
-second one be at least <code>minDeltaTime</code> minutes after the last independent
-record of the same species (<code>deltaTimeComparedTo = "lastIndependentRecord"</code>
-), or <code>minDeltaTime</code> minutes after the last record (
-<code>deltaTimeComparedTo = "lastRecord"</code>)? If <code>minDeltaTime</code> is 0,
-<code>deltaTimeComparedTo</code> must be NULL (deafult)</p></dd>
+<dd><p>One of <code>"lastIndependentRecord"</code> or
+<code>"lastRecord"</code>.
+For two records to be considered independent, the second one must be at
+least <code>minDeltaTime</code> minutes after the last independent record of the same
+species (<code>deltaTimeComparedTo = "lastIndependentRecord"</code> ), or
+<code>minDeltaTime</code> minutes after the last record ( <code>deltaTimeComparedTo = "lastRecord"</code>).
+If <code>minDeltaTime</code> is 0, <code>deltaTimeComparedTo</code> must be NULL (deafult).</p></dd>
 
 
 <dt>removeDuplicateRecords</dt>
 <dd><p>(logical) If there are several records of the
 same species at the same station at exactly the same time, show only one?</p></dd>
+
+
+<dt>datapkg</dt>
+<dd><p>Deprecated. Use <code>package</code> instead.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -304,7 +309,7 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
 <span class="r-in"><span class="co"># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span>
 <span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% filter((latitude &gt;= 51.18))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

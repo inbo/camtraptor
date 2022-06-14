@@ -20,7 +20,7 @@ observations are shown as gray circles and a message is returned."><!-- mathjax 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">camtraptor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.16.0</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@ observations are shown as gray circles and a message is returned.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_dep</span><span class="op">(</span>
-  <span class="va">datapkg</span>,
+  package <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">feature</span>,
   <span class="va">...</span>,
   species <span class="op">=</span> <span class="cn">NULL</span>,
@@ -92,19 +92,20 @@ observations are shown as gray circles and a message is returned.</p>
   zero_values_icon_size <span class="op">=</span> <span class="fl">10</span>,
   relative_scale <span class="op">=</span> <span class="cn">TRUE</span>,
   max_scale <span class="op">=</span> <span class="cn">NULL</span>,
-  radius_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>
+  radius_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,
+  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>datapkg</dt>
+    <dl><dt>package</dt>
 <dd><p>Camera trap data package object, as returned by
 <code><a href="read_camtrap_dp.html">read_camtrap_dp()</a></code>.</p></dd>
 
 
 <dt>feature</dt>
-<dd><p>deployment feature to visualize. One of:</p><ul><li><p><code>"n_species"</code>: number of identified species</p></li>
+<dd><p>Deployment feature to visualize. One of:</p><ul><li><p><code>"n_species"</code>: number of identified species</p></li>
 <li><p><code>"n_obs"</code>: number of observations</p></li>
 <li><p><code>"n_individuals"</code>: number of individuals</p></li>
 <li><p><code>"rai"</code>: Relative Abundance Index</p></li>
@@ -211,14 +212,18 @@ of the circle radius. The lower value is used for deployments with zero
 feature value, i.e. no observations, no identified species, zero RAI or
 zero effort. The upper value is used for the deployment(s) with the highest
 feature value (<code>relative_scale</code> = <code>TRUE</code>) or <code>max_scale</code> (<code>relative_scale</code>
-= <code>FALSE</code>). Default: <code>c(10, 50)</code></p></dd>
+= <code>FALSE</code>). Default: <code>c(10, 50)</code>.</p></dd>
+
+
+<dt>datapkg</dt>
+<dd><p>Deprecated. Use <code>package</code> instead.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>a leaflet map</p>
+<p>Leaflet map.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>

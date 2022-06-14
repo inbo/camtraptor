@@ -187,14 +187,14 @@ This is similar to the behvaior of dplyr's  `filter()` function, where this:
 
 ```{r example_dplyr_filter_and}
 mica$data$deployments %>%
-  filter(latitude < 51 & longitude > 4)
+  dplyr::filter(latitude < 51 & longitude > 4)
 ```
 
 is exactly the same as this:
 
 ```{r example_dplyr_filter_and_simplified}
 mica$data$deployments %>%
-  filter(latitude < 51, longitude > 4)
+  dplyr::filter(latitude < 51, longitude > 4)
 ```
 
 Happy filtering!

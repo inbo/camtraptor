@@ -5,22 +5,25 @@
 #' @description Function to get the RAI (Relative Abundance Index) per
 #'   deployment. The RAI is normalized using 100 days deployment activity.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param species a character with scientific names or common names (case
-#'   insensitive). If "all" (default), all scientific names are automatically
-#'   selected
-#' @param sex a character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
-#'   sex classes are taken into account.
-#' @param life_stage a character vector defining the life stage class to filter on, e.g.
-#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all life stage classes are taken into account.
-#' @param ... filter predicates for filtering on deployments
+#' @param species Character with scientific names or common names (case
+#'   insensitive).
+#'   If "all" (default), all scientific names are automatically selected.
+#' @param sex Character defining the sex class to filter on, e.g. `"female"`
+#'   or `c("male", "unknown")`.
+#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   account.
+#' @param life_stage Character vector defining the life stage class to filter
+#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
+#'   If `NULL`, default, all observations of all life stage classes are taken
+#'   into account.
+#' @param datapkg Deprecated. Use `package` instead.
+#' @param ... Filter predicates for filtering on deployments.
 #'
 #' @export
 
-#' @return a tibble (data.frame) with the following columns:
+#' @return Tibble data.frame with the following columns:
 #' - `deploymentID` deployment unique identifier
 #' - `scientificName` scientific name
 #' - `rai`: relative abundance index
@@ -55,15 +58,21 @@
 #' # apply filter(s): deployments with latitude >= 51.18
 #' get_rai(mica, pred_gte("latitude", 51.18))
 #'
-get_rai <- function(datapkg, ...,
+get_rai <- function(package = NULL,
+                    ...,
                     species = "all",
                     sex = NULL,
-                    life_stage = NULL
+                    life_stage = NULL,
+                    datapkg = lifecycle::deprecated()
                     ) {
-  get_rai_primitive(datapkg, ...,
+  # check camera trap data package
+  package <- check_package(package, datapkg, "get_rai")
+
+  get_rai_primitive(package, ...,
                     use = "n_obs",
                     species = species,
-                    sex = sex, life_stage = life_stage)
+                    sex = sex,
+                    life_stage = life_stage)
 }
 
 #' Get Relative Abundance Index (RAI) based on number of individuals
@@ -74,22 +83,25 @@ get_rai <- function(datapkg, ...,
 #'   deployment based on number of detected individuals instead of the number of
 #'   observations.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param species a character with scientific names or common names (case
-#'   insensitive). If "all" (default), all scientific names are automatically
-#'   selected
-#' @param sex a character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "unknown")`.  If `NULL`, default, all observations of all
-#'   sex classes are taken into account.
-#' @param life_stage a character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all
-#'   observations of all life stage classes are taken into account.
-#' @param ... filter predicates for filtering on deployments
+#' @param species Character with scientific names or common names (case
+#'   insensitive).
+#'   If "all" (default), all scientific names are automatically selected.
+#' @param sex Character defining the sex class to filter on, e.g. `"female"`
+#'   or `c("male", "unknown")`.
+#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   account.
+#' @param life_stage Character vector defining the life stage class to filter
+#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
+#'   If `NULL`, default, all observations of all life stage classes are taken
+#'   into account.
+#' @param datapkg Deprecated. Use `package` instead.
+#' @param ... Filter predicates for filtering on deployments.
 #'
 #' @export
 
-#' @return a tibble (data.frame) with the following columns:
+#' @return Tibble data.frame with the following columns:
 #' - `deploymentID` deployment unique identifier
 #' - `scientificName` scientific name
 #' - `rai`: relative abundance index
@@ -126,15 +138,20 @@ get_rai <- function(datapkg, ...,
 #' # apply filter(s): deployments with latitude >= 51.18
 #' get_rai_individuals(mica, pred_gte("latitude", 51.18))
 #'
-get_rai_individuals <- function(datapkg, ...,
-                    species = "all",
-                    sex = NULL,
-                    life_stage = NULL
+get_rai_individuals <- function(package = NULL,
+                                ...,
+                                species = "all",
+                                sex = NULL,
+                                life_stage = NULL,
+                                datapkg = lifecycle::deprecated()
 ) {
-  get_rai_primitive(datapkg, ...,
+  # check camera trap data package
+  package <- check_package(package, datapkg, "get_rai_individuals")
+  get_rai_primitive(package, ...,
                     use = "n_individuals",
                     species = species,
-                    sex = sex, life_stage = life_stage)
+                    sex = sex,
+                    life_stage = life_stage)
 }
 
 
@@ -143,8 +160,9 @@ get_rai_individuals <- function(datapkg, ...,
 #' This function is the primitive function behind `get_rai()` and
 #' `get_rai_individuals()` to calculate RAI based on number of observations or
 #' number of individuals respectivel
-#'
-#' @param use character, one of:
+#' @param package Camera trap data package object, as returned by
+#'   `read_camtrap_dp()`.
+#' @param use Character, one of:
 #' - `"n_obs"`: calculate RAI based on number of observation (standard)
 #' - `"n_individuals"`: calculate RAI based on number of individuals
 #'
@@ -154,32 +172,32 @@ get_rai_individuals <- function(datapkg, ...,
 #'
 #' @noRd
 #'
-#' @return a data.frame (tibble)
-get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
-  # check input data package
-  check_datapkg(datapkg)
+#' @return Tibble data.frame.
+get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
 
   # define possible feature values
   uses <- c("n_obs", "n_individuals")
 
   # check use
   check_value(use, uses, "use", null_allowed = FALSE)
-  assert_that(length(use) == 1,
-              msg = "use must have length 1")
+  assertthat::assert_that(
+    length(use) == 1,
+    msg = "use must have length 1"
+  )
 
   # get all identified species if species arg is equal to "all"
   if ("all" %in% species) {
-    species <- get_species(datapkg)$scientificName
+    species <- get_species(package)$scientificName
   }
   # check species
-  species <- check_species(datapkg, species)
+  species <- check_species(package, species)
 
   if (use == "n_obs") {
     # get number of observations
-    n_df <- get_n_obs(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
+    n_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage, ...)
   } else {
     # get number of individuals
-    n_df <- get_n_individuals(datapkg,
+    n_df <- get_n_individuals(package,
                               species = species,
                               sex = sex,
                               life_stage = life_stage,
@@ -188,10 +206,10 @@ get_rai_primitive <- function(datapkg, use, species, sex, life_stage, ...) {
   }
 
   # extract deployments
-  deployments <- datapkg$data$deployments
+  deployments <- package$data$deployments
 
   # get deployment duration (effort) in days
-  dep_effort <- get_effort(datapkg, unit = "day", ...)
+  dep_effort <- get_effort(package, unit = "day", ...)
 
   # calculate RAI
   n_df %>%

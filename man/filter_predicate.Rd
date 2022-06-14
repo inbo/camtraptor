@@ -41,12 +41,12 @@ pred_and(...)
 pred_or(...)
 }
 \arguments{
-\item{arg}{(character) the key for the predicate. See "Keys" below}
+\item{arg}{(character) The key for the predicate. See "Keys" below.}
 
-\item{value}{(various) the value for the predicate}
+\item{value}{(various) The value for the predicate.}
 
-\item{...}{for \code{pred_or()} or \code{pred_and()}: one or more objects of
-class \code{filter_predicate}, created by any other \verb{pred*} function}
+\item{...}{For \code{pred_or()} or \code{pred_and()}: one or more objects of
+class \code{filter_predicate}, created by any other \verb{pred*} function.}
 }
 \value{
 a predicate object. An object of class predicate is a list with the

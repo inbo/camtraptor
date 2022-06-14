@@ -5,16 +5,17 @@
 \title{Get custom effort}
 \usage{
 get_custom_effort(
-  datapkg,
+  package = NULL,
   ...,
   start = NULL,
   end = NULL,
   group_by = NULL,
-  unit = "hour"
+  unit = "hour",
+  datapkg = NULL
 )
 }
 \arguments{
-\item{datapkg}{Camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
 \item{...}{filter predicates}
@@ -43,6 +44,8 @@ month as a period of 30 days, a year as a period of 365 days.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 A tibble (data.frame) with following columns:

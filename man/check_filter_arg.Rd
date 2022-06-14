@@ -7,10 +7,10 @@
 check_filter_arg(arg)
 }
 \arguments{
-\item{arg}{character with the argument name of the filter predicate}
+\item{arg}{Character with the argument name of the filter predicate.}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 Check that the filter argument in a filter predicate is a character and has

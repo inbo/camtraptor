@@ -5,41 +5,44 @@
 \title{Get record table}
 \usage{
 get_record_table(
-  datapkg,
+  package = NULL,
   ...,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL,
-  removeDuplicateRecords = TRUE
+  removeDuplicateRecords = TRUE,
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{...}{filter predicates for filtering on deployments}
+\item{...}{Filter predicates for filtering on deployments}
 
-\item{stationCol}{(character) name of the column containing stations.
-Default: \code{"locationName"}}
+\item{stationCol}{Character name of the column containing stations.
+Default: \code{"locationName"}.}
 
-\item{exclude}{(character) vector of species names (scientific names or
-vernacular names) to be excluded from the record table. Default: \code{NULL}}
+\item{exclude}{Character vector of species names (scientific names or
+vernacular names) to be excluded from the record table. Default: \code{NULL}.}
 
-\item{minDeltaTime}{(integer) time difference between records of the same
+\item{minDeltaTime}{Time difference between records of the same
 species at the same station to be considered independent (in minutes).
-Default: 0}
+Default: 0.}
 
-\item{deltaTimeComparedTo}{(character) \code{"lastIndependentRecord"} or
-\code{"lastRecord"}. For two records to be considered independent, must the
-second one be at least \code{minDeltaTime} minutes after the last independent
-record of the same species (\code{deltaTimeComparedTo = "lastIndependentRecord"}
-), or \code{minDeltaTime} minutes after the last record (
-\code{deltaTimeComparedTo = "lastRecord"})? If \code{minDeltaTime} is 0,
-\code{deltaTimeComparedTo} must be NULL (deafult)}
+\item{deltaTimeComparedTo}{One of \code{"lastIndependentRecord"} or
+\code{"lastRecord"}.
+For two records to be considered independent, the second one must be at
+least \code{minDeltaTime} minutes after the last independent record of the same
+species (\code{deltaTimeComparedTo = "lastIndependentRecord"} ), or
+\code{minDeltaTime} minutes after the last record ( \code{deltaTimeComparedTo = "lastRecord"}).
+If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be NULL (deafult).}
 
 \item{removeDuplicateRecords}{(logical) If there are several records of the
 same species at the same station at exactly the same time, show only one?}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 A (tibble) data frame containing species records and additional

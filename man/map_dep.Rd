@@ -5,7 +5,7 @@
 \title{Visualize deployments features}
 \usage{
 map_dep(
-  datapkg,
+  package = NULL,
   feature,
   ...,
   species = NULL,
@@ -21,14 +21,15 @@ map_dep(
   zero_values_icon_size = 10,
   relative_scale = TRUE,
   max_scale = NULL,
-  radius_range = c(10, 50)
+  radius_range = c(10, 50),
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{
-\item{datapkg}{Camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{feature}{deployment feature to visualize. One of:
+\item{feature}{Deployment feature to visualize. One of:
 \itemize{
 \item \code{"n_species"}: number of identified species
 \item \code{"n_obs"}: number of observations
@@ -117,10 +118,12 @@ of the circle radius. The lower value is used for deployments with zero
 feature value, i.e. no observations, no identified species, zero RAI or
 zero effort. The upper value is used for the deployment(s) with the highest
 feature value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
-= \code{FALSE}). Default: \code{c(10, 50)}}
+= \code{FALSE}). Default: \code{c(10, 50)}.}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a leaflet map
+Leaflet map.
 }
 \description{
 This function visualizes deployments features such as number of detected

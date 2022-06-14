@@ -5,7 +5,7 @@
 #' calculated over all deployments, although filtering predicates can be applied
 #' as well.
 #'
-#' @param datapkg Camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param ... Filter predicates
 #' @param start Start date. Default: `NULL`. If `NULL` the earliest start date
@@ -29,7 +29,7 @@
 #'   month as a period of 30 days, a year as a period of 365 days.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#'
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates
 #' @importFrom dplyr .data %>%
 #' @export
@@ -76,12 +76,13 @@
 #' )
 #' # applying filter(s), e.g. deployments with latitude >= 51.18
 #' get_custom_effort(mica, pred_gte("latitude", 51.18))
-get_custom_effort <- function(datapkg,
+get_custom_effort <- function(package = NULL,
                               ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
-                              unit = "hour") {
+                              unit = "hour",
+                              datapkg = NULL) {
 
   # define possible unit values
   units <- c("hour", "day")
@@ -102,14 +103,14 @@ get_custom_effort <- function(datapkg,
   # check group_by
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
-  # check datapackage
-  check_datapkg(datapkg)
+  # check camera trap data package
+  package <- check_package(package, datapkg, "get_custom_effort")
 
   # get deployments
-  deployments <- datapkg$data$deployments
+  deployments <- package$data$deployments
 
   # camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(datapkg, ...)
+  cam_op <- get_cam_op(package, ...)
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

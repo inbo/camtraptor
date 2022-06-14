@@ -162,9 +162,9 @@ test_that("number of individuals is equal to sum of counts", {
   species <- "Anas platyrhynchos"
   n_individuals_via_count <-
     mica$data$observations %>%
-    filter(deploymentID == deploy_id) %>%
-    filter(scientificName == species) %>%
-    pull(count) %>%
+    dplyr::filter(deploymentID == deploy_id) %>%
+    dplyr::filter(scientificName == species) %>%
+    dplyr::pull(count) %>%
     sum()
   n_individuals <- get_n_individuals(mica,
     species = "Mallard",
@@ -177,8 +177,8 @@ test_that("sex filters data correctly", {
   sex_value <- "unknown"
   n_individuals_via_count <-
     mica$data$observations %>%
-    filter(sex == sex_value) %>%
-    pull(count) %>%
+    dplyr::filter(sex == sex_value) %>%
+    dplyr::pull(count) %>%
     sum()
   n_individuals_females <- get_n_individuals(mica, species = NULL, sex = sex_value)
   tot_n_individuals_females <- sum(n_individuals_females$n)
@@ -190,8 +190,8 @@ test_that("multiple sex values allowed", {
   sex_value <- c("female", "unknown")
   n_individuals_females_undefined_via_count <-
     mica$data$observations %>%
-    filter(sex %in% sex_value) %>%
-    pull(count) %>%
+    dplyr::filter(sex %in% sex_value) %>%
+    dplyr::pull(count) %>%
     sum()
   n_individuals_females_undefined <- get_n_individuals(mica,
     species = NULL,
@@ -212,8 +212,8 @@ test_that("life stage filters data correctly", {
   life_stage_value <- "subadult"
   n_individuals_juvenile_via_count <-
     mica$data$observations %>%
-    filter(lifeStage == life_stage_value) %>%
-    pull(count) %>%
+    dplyr::filter(lifeStage == life_stage_value) %>%
+    dplyr::pull(count) %>%
     sum()
   n_individuals_juvenile <- get_n_individuals(mica, species = NULL, life_stage = life_stage_value)
   tot_n_individuals_juvenile <- sum(n_individuals_juvenile$n)
@@ -225,8 +225,8 @@ test_that("multiple age values allowed", {
   life_stage_value <- c("subadult", "adult")
   n_individuals_juvenile_adult_via_count <-
     mica$data$observations %>%
-    filter(lifeStage %in% life_stage_value) %>%
-    pull(count) %>%
+    dplyr::filter(lifeStage %in% life_stage_value) %>%
+    dplyr::pull(count) %>%
     sum()
   n_individuals_juvenile_adult <- get_n_individuals(mica,
     species = NULL,
@@ -243,4 +243,13 @@ test_that("multiple age values allowed", {
 test_that("error returned if life stage or sex is not present", {
   expect_error(get_n_individuals(mica, life_stage = "bad"))
   expect_error(get_n_individuals(mica, sex = "bad"))
+})
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_n_individuals(datapkg = mica)
+    )
+  )
 })

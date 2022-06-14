@@ -1,13 +1,10 @@
 #' Filter predicate
 #'
 #' @name filter_predicate
-#' @param arg (character) the key for the predicate. See "Keys" below
-#' @param value (various) the value for the predicate
-#' @param ... for `pred_or()` or `pred_and()`: one or more objects of
-#' class `filter_predicate`, created by any other `pred*` function
-#' @importFrom glue glue double_quote
-#' @importFrom lubridate is.POSIXct
-#' @importFrom purrr map map_chr
+#' @param arg (character) The key for the predicate. See "Keys" below.
+#' @param value (various) The value for the predicate.
+#' @param ... For `pred_or()` or `pred_and()`: one or more objects of
+#' class `filter_predicate`, created by any other `pred*` function.
 #'
 #' @return a predicate object. An object of class predicate is a list with the
 #'   following slots:
@@ -141,19 +138,16 @@
 pred <- function(arg, value) {
   pred_primitive(arg, value, symbol = "==", type = "equals")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_not <- function(arg, value) {
   pred_primitive(arg, value, symbol = "!=", type = "notEquals")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_gt <- function(arg, value) {
   pred_primitive(arg, value, symbol = ">", type = "greaterThan")
 }
-
 #' @rdname filter_predicate
 #' @export
 pred_gte <- function(arg, value) {
@@ -174,12 +168,11 @@ pred_lte <- function(arg, value) {
 #' This function is a primitive function to build all basic one arg - one value
 #' filter predicates
 #'
-#' @param arg a character with the argument of the filter predicate
-#' @param value the value the filter predicate uses to value `arg`. It can be a
-#'   number, a character, a date object or a POSIXct object
-#' @param symbol a character with the symbol relation of the filter predicate
-#' @param type a character with the type of the filter predicate
-#' @importFrom lubridate is.POSIXct
+#' @param arg Character with the argument of the filter predicate.
+#' @param value Value the filter predicate uses to value `arg`.
+#'   It can be a number, a character, a date object or a POSIXct object.
+#' @param symbol Character with the symbol relation of the filter predicate.
+#' @param type Character with the type of the filter predicate.
 #'
 #' @return a filter predicate object
 #'
@@ -198,19 +191,18 @@ pred_primitive <- function(arg, value, symbol, type) {
   # build predicate object
   predicate <- list(arg = arg, value = value, type = type)
   # build expr
-  if (any(is.POSIXct(value), class(value) == "Date")) {
-    value <- double_quote(value)
-    predicate$expr <- glue("({arg} {symbol} as_datetime({value}))")
+  if (any(lubridate::is.POSIXct(value), class(value) == "Date")) {
+    value <- glue::double_quote(value)
+    predicate$expr <- glue::glue("({arg} {symbol} as_datetime({value}))")
   } else {
     if (is.character(value)){
-      value <- double_quote(value)
+      value <- glue::double_quote(value)
     }
-    predicate$expr <- glue("({arg} {symbol} {value})")
+    predicate$expr <- glue::glue("({arg} {symbol} {value})")
   }
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
-#' @importFrom glue glue double_quote glue_collapse
 #' @export
 pred_in <- function(arg, value) {
   # check arg and value
@@ -219,35 +211,34 @@ pred_in <- function(arg, value) {
   # build predicate object
   predicate <- list(arg = arg, value = value, type = "in")
   # build expr
-  if (any(all(is.POSIXct(value)), class(value) == "Date")) {
-    value <- double_quote(value)
+  if (any(all(lubridate::is.POSIXct(value)), class(value) == "Date")) {
+    value <- glue::double_quote(value)
     if (length(value) > 0) {
-      predicate$expr <- glue(
+      predicate$expr <- glue::glue(
         "({arg} %in% as_datetime(c(",
-        glue_collapse(value, sep = ","),
+        glue::glue_collapse(value, sep = ","),
         ")))"
       )
     } else {
-      predicate$expr <- glue("({arg} %in% as_datetime(character(0)))")
+      predicate$expr <- glue::glue("({arg} %in% as_datetime(character(0)))")
     }
   } else {
     if (is.character(value)){
-      value <- double_quote(value)
+      value <- glue::double_quote(value)
     }
     if (length(value) > 0) {
-      predicate$expr <- glue(
+      predicate$expr <- glue::glue(
         "({arg} %in% c(",
-        glue_collapse(value, sep = ","),
+        glue::glue_collapse(value, sep = ","),
         "))"
       )
     } else {
-      predicate$expr <- glue("({arg} %in% character(0))")
+      predicate$expr <- glue::glue("({arg} %in% character(0))")
     }
   }
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
-#' @importFrom glue glue
 #' @export
 pred_notin <- function(arg, value) {
   # build predicate object starting from the "in" predicate
@@ -255,11 +246,10 @@ pred_notin <- function(arg, value) {
   # set right type
   predicate$type <- "notIn"
   # add negation to expr
-  predicate$expr <- glue("(!", predicate$expr, ")")
+  predicate$expr <- glue::glue("(!", predicate$expr, ")")
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
-#' @importFrom glue glue
 #' @export
 pred_na <- function(arg) {
   # check arg
@@ -267,33 +257,30 @@ pred_na <- function(arg) {
   # build predicate object
   predicate <- list(arg = arg, value = NA, type = "na")
   # build expr
-  predicate$expr <- glue("(is.na({arg}))")
+  predicate$expr <- glue::glue("(is.na({arg}))")
   return(structure(predicate, class = "filter_predicate"))
 }
 #' @rdname filter_predicate
-#' @importFrom glue glue
 #' @export
 pred_notna <- function(arg) {
   # build predicate object
   predicate <- list(arg = arg, value = NA, type = "notNa")
   # add negation to expr
-  predicate$expr <- glue("(!is.na({arg}))")
+  predicate$expr <- glue::glue("(!is.na({arg}))")
   return(structure(predicate, class = "filter_predicate"))
 }
-#' @importFrom purrr map map_chr
-#' @importFrom glue glue glue_collapse
 pred_and_or_primitive <- function(symbol, ...) {
   preds <- list(...)
   # build predicate object
   predicate <- list(
-    arg = map(preds,  ~.[["arg"]]),
-    value = map(preds,  ~.[["value"]]),
-    type = map(preds,  ~.[["type"]])
+    arg = purrr::map(preds,  ~.[["arg"]]),
+    value = purrr::map(preds,  ~.[["value"]]),
+    type = purrr::map(preds,  ~.[["type"]])
   )
   # build expr
-  filter_expr <- map_chr(preds, ~.[["expr"]])
-  filter_expr <- glue_collapse(filter_expr, sep = symbol)
-  filter_expr <- glue("(", filter_expr, ")")
+  filter_expr <- purrr::map_chr(preds, ~.[["expr"]])
+  filter_expr <- glue::glue_collapse(filter_expr, sep = symbol)
+  filter_expr <- glue::glue("(", filter_expr, ")")
   # add expr to predicate
   predicate$expr <- filter_expr
   return(structure(predicate, class = "filter_predicate"))
@@ -318,9 +305,6 @@ pred_or <- function(...) {
 #' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
 #' @param ... filter predicates to apply to `df`
 #'
-#' @importFrom glue glue
-#' @importFrom assertthat assert_that
-#'
 #' @return a data.frame
 #' @export
 #'
@@ -343,7 +327,7 @@ pred_or <- function(...) {
 #'                        pred_or(pred_gte("latitude", 51.28),
 #'                                 pred_lt("longitude", 3.56)))
 apply_filter_predicate <- function(df, verbose, ...) {
-  assert_that(is.data.frame(df), msg = "Predicates must be applied to a df")
+  assertthat::assert_that(is.data.frame(df), msg = "Predicates must be applied to a df")
   preds <- list(...)
   if (length(preds) > 0) {
     filters <- pred_and(...)
@@ -353,7 +337,7 @@ apply_filter_predicate <- function(df, verbose, ...) {
                 options = names(df),
                 null_allowed = FALSE,
                 arg_name = "predicate's arg")
-    filter_expr <- glue("df %>% filter", filters$expr)
+    filter_expr <- glue::glue("df %>% dplyr::filter", filters$expr)
     if (verbose == TRUE) message(filter_expr)
     eval(parse(text = filter_expr))
   } else df
@@ -366,10 +350,10 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #' This help function checks the argument (`arg`) and the value (`value`) of a basic
 #' one argument - one value filter predicate
 #'
-#' @param arg the argument of the filter predicate
-#' @param value  the value of the filter predicate
+#' @param arg Argument of the filter predicate.
+#' @param value  Value of the filter predicate.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -391,11 +375,9 @@ check_filter_arg_value <- function(arg, value) {
 #' Check that the filter argument in a filter predicate is a character and has
 #' length one.
 #'
-#' @param arg character with the argument name of the filter predicate
+#' @param arg Character with the argument name of the filter predicate.
 #'
-#' @importFrom assertthat assert_that
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -408,20 +390,17 @@ check_filter_arg_value <- function(arg, value) {
 #' }
 check_filter_arg <- function(arg) {
   # check arg
-  assert_that(is.character(arg), msg = "'arg' must be a character")
-  assert_that(length(arg) == 1, msg = "'arg' must be length 1")
+  assertthat::assert_that(is.character(arg), msg = "'arg' must be a character")
+  assertthat::assert_that(length(arg) == 1, msg = "'arg' must be length 1")
 }
 #' Check filter value type
 #'
 #' Check that the value argument in a filter predicate is one of the supported
 #' types. Required for basic filter predicates.  Used in `check_filter_value()`.
 #'
-#' @param value a character, a number, a Date or a POSIXct object
+#' @param value Character, number, Date or POSIXct object.
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom lubridate is.POSIXct
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -434,11 +413,11 @@ check_filter_arg <- function(arg) {
 #' }
 check_filter_value_type <- function(value) {
   # check value
-  assert_that(
+  assertthat::assert_that(
     any(is.character(value),
         is.numeric(value),
         class(value) == "Date",
-        is.POSIXct(value)),
+        lubridate::is.POSIXct(value)),
     msg = "'value' must be a character, a number, a date or a datetime(POSIXct)"
   )
 }
@@ -447,11 +426,9 @@ check_filter_value_type <- function(value) {
 #' Check that the value in filter predicates has length one. Required for
 #' basic filter predicates. Used in `check_filter_value()`.
 #'
-#' @param value value of the filter predicate
+#' @param value Value of the filter predicate.
 #'
-#' @importFrom assertthat assert_that
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -463,16 +440,16 @@ check_filter_value_type <- function(value) {
 #' check_filter_value_length(c("a", "aa"))
 #' }
 check_filter_value_length <- function(value) {
-  assert_that(length(value) == 1, msg = "'value' must be length 1")
+  assertthat::assert_that(length(value) == 1, msg = "'value' must be length 1")
 }
 #' Check filter value
 #'
 #' Check that the value argument in a filter predicate has length one and it is
 #' one of the supported types. This is required for basic filter predicates.
 #'
-#' @param value value of a basic filter predicate
+#' @param value Value of a basic filter predicate.
 #'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -492,11 +469,9 @@ check_filter_value <- function(value) {
 #' Check that the symbol used in a filter predicate is a character and has
 #' length one.
 #'
-#' @param symbol character with symbol for filter predicate, e.g. "=="
+#' @param symbol Character with symbol for filter predicate, e.g. "==".
 #'
-#' @importFrom assertthat assert_that
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -511,19 +486,17 @@ check_filter_value <- function(value) {
 #' }
 check_filter_symbol <- function(symbol) {
   # check symbol
-  assert_that(is.character(symbol), msg = "'symbol' must be a character")
-  assert_that(length(symbol) == 1, msg = "'symbol' must be length 1")
+  assertthat::assert_that(is.character(symbol), msg = "'symbol' must be a character")
+  assertthat::assert_that(length(symbol) == 1, msg = "'symbol' must be length 1")
 }
 #' Check filter type
 #'
 #' Check that the filter predicate type is a character and has
 #' length one.
 #
-#' @param type character with type for filter predicate, e.g. "equals"
+#' @param type Character with type for filter predicate, e.g. "equals".
 #'
-#' @importFrom assertthat assert_that
-#'
-#' @return `TRUE` or an error message
+#' @return `TRUE` or an error message.
 #'
 #' @keywords internal
 #'
@@ -538,6 +511,6 @@ check_filter_symbol <- function(symbol) {
 #' }
 check_filter_type <- function(type) {
   # check type
-  assert_that(is.character(type), msg = "'type' must be a character")
-  assert_that(length(type) == 1, msg = "'type' must be length 1")
+  assertthat::assert_that(is.character(type), msg = "'type' must be a character")
+  assertthat::assert_that(length(type) == 1, msg = "'type' must be length 1")
 }

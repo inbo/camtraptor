@@ -7,10 +7,10 @@
 check_filter_value_type(value)
 }
 \arguments{
-\item{value}{a character, a number, a Date or a POSIXct object}
+\item{value}{Character, number, Date or POSIXct object.}
 }
 \value{
-\code{TRUE} or an error message
+\code{TRUE} or an error message.
 }
 \description{
 Check that the value argument in a filter predicate is one of the supported

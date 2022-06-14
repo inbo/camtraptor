@@ -7,14 +7,14 @@
 pred_primitive(arg, value, symbol, type)
 }
 \arguments{
-\item{arg}{a character with the argument of the filter predicate}
+\item{arg}{Character with the argument of the filter predicate.}
 
-\item{value}{the value the filter predicate uses to value \code{arg}. It can be a
-number, a character, a date object or a POSIXct object}
+\item{value}{Value the filter predicate uses to value \code{arg}.
+It can be a number, a character, a date object or a POSIXct object.}
 
-\item{symbol}{a character with the symbol relation of the filter predicate}
+\item{symbol}{Character with the symbol relation of the filter predicate.}
 
-\item{type}{a character with the type of the filter predicate}
+\item{type}{Character with the type of the filter predicate.}
 }
 \value{
 a filter predicate object

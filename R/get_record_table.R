@@ -8,25 +8,27 @@
 #' [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
-#' @param datapkg a camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param stationCol (character) name of the column containing stations.
-#'   Default: `"locationName"`
-#' @param exclude	(character) vector of species names (scientific names or
-#'   vernacular names) to be excluded from the record table. Default: `NULL`
-#' @param minDeltaTime (integer) time difference between records of the same
+#' @param stationCol Character name of the column containing stations.
+#'   Default: `"locationName"`.
+#' @param exclude Character vector of species names (scientific names or
+#'   vernacular names) to be excluded from the record table. Default: `NULL`.
+#' @param minDeltaTime Time difference between records of the same
 #'   species at the same station to be considered independent (in minutes).
-#'   Default: 0
-#' @param deltaTimeComparedTo (character) `"lastIndependentRecord"` or
-#'   `"lastRecord"`. For two records to be considered independent, must the
-#'   second one be at least `minDeltaTime` minutes after the last independent
-#'   record of the same species (`deltaTimeComparedTo = "lastIndependentRecord"`
-#'   ), or `minDeltaTime` minutes after the last record (
-#'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0,
-#'   `deltaTimeComparedTo` must be NULL (deafult)
+#'   Default: 0.
+#' @param deltaTimeComparedTo One of `"lastIndependentRecord"` or
+#'   `"lastRecord"`.
+#'   For two records to be considered independent, the second one must be at
+#'   least `minDeltaTime` minutes after the last independent record of the same
+#'   species (`deltaTimeComparedTo = "lastIndependentRecord"` ), or
+#'   `minDeltaTime` minutes after the last record ( `deltaTimeComparedTo =
+#'   "lastRecord"`).
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be NULL (deafult).
 #' @param removeDuplicateRecords (logical) If there are several records of the
 #'   same species at the same station at exactly the same time, show only one?
-#' @param ... filter predicates for filtering on deployments
+#' @param datapkg Deprecated. Use `package` instead.
+#' @param ... Filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
 #' @return A (tibble) data frame containing species records and additional
@@ -80,24 +82,25 @@
 #'     deltaTimeComparedTo = "lastRecord")
 #' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
-get_record_table <- function(datapkg,
+get_record_table <- function(package = NULL,
                              ...,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
-                             removeDuplicateRecords = TRUE) {
+                             removeDuplicateRecords = TRUE,
+                             datapkg = lifecycle::deprecated()) {
   # check data package
-  check_datapkg(datapkg)
+  package <- check_package(package, datapkg, "get_record_table")
 
   # check stationCol is a valid column name
-  assertthat::assert_that(stationCol %in% names(datapkg$data$deployments),
-              msg = glue("station column name (stationCol) not valid: ",
+  assertthat::assert_that(stationCol %in% names(package$data$deployments),
+              msg = glue::glue("station column name (stationCol) not valid: ",
                          "it must be one of the deployments column names."))
 
   # check scientific names of species to be excluded
   if (!is.null(exclude)) {
-    exclude <- check_species(datapkg, exclude, arg_name = "exclude")
+    exclude <- check_species(package, species = exclude, arg_name = "exclude")
   }
 
   # check minDeltaTime
@@ -106,7 +109,7 @@ get_record_table <- function(datapkg,
   # minDeltaTime is set to an integer
   if (minDeltaTime != as.integer(minDeltaTime)) {
     minDeltaTime <- as.integer(minDeltaTime)
-    message(glue("minDeltaTime has to be an integer. Set to {minDeltaTime}"))
+    message(glue::glue("minDeltaTime has to be an integer. Set to {minDeltaTime}"))
   }
 
   # make a duration object out of minDeltaTime
@@ -129,21 +132,21 @@ get_record_table <- function(datapkg,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE.")
 
   # remove observations of unidentified individuals
-  obs <- datapkg$data$observations %>%
-    filter(!is.na(.data$scientificName))
+  obs <- package$data$observations %>%
+    dplyr::filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
   obs <- obs %>%
-    filter(!.data$scientificName %in% exclude)
+    dplyr::filter(!.data$scientificName %in% exclude)
 
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
-    df = datapkg$data$deployments,
+    df = package$data$deployments,
     verbose = TRUE,
     ...)
   # remove observations from filtered out deployments
   obs <- obs %>%
-    filter(.data$deploymentID %in% deployments$deploymentID)
+    dplyr::filter(.data$deploymentID %in% deployments$deploymentID)
 
   # add station column from deployments to observations
   obs <- obs %>%
@@ -152,7 +155,7 @@ get_record_table <- function(datapkg,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    datapkg$data$media %>%
+    package$data$media %>%
     dplyr::select(.data$sequenceID,
            .data$filePath,
            .data$fileName,
@@ -199,7 +202,7 @@ get_record_table <- function(datapkg,
     dplyr::filter(.data$independent == FALSE) %>%
     nrow()
   if (n_dependent_obs > 0) {
-    message(glue("Number of not independent observations to be removed: {n_dependent_obs}"))
+    message(glue::glue("Number of not independent observations to be removed: {n_dependent_obs}"))
     record_table <- record_table %>%
       dplyr::filter(.data$independent == TRUE)
   }

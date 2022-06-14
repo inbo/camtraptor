@@ -5,9 +5,9 @@
 #' color are proportional to the mapped feature. Deployments without
 #' observations are shown as gray circles and a message is returned.
 #'
-#' @param datapkg Camera trap data package object, as returned by
+#' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param feature deployment feature to visualize. One of:
+#' @param feature Deployment feature to visualize. One of:
 #'
 #' - `"n_species"`: number of identified species
 #' - `"n_obs"`: number of observations
@@ -79,7 +79,8 @@
 #'   feature value, i.e. no observations, no identified species, zero RAI or
 #'   zero effort. The upper value is used for the deployment(s) with the highest
 #'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
-#'   = `FALSE`). Default: `c(10, 50)`
+#'   = `FALSE`). Default: `c(10, 50)`.
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for subsetting deployments.
 #'
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
@@ -88,7 +89,7 @@
 #'
 #' @export
 #'
-#' @return a leaflet map
+#' @return Leaflet map.
 #'
 #' @examples
 #' \dontrun{
@@ -288,7 +289,7 @@
 #'   radius_range = c(40, 150)
 #' )
 #' }
-map_dep <- function(datapkg,
+map_dep <- function(package = NULL,
                     feature,
                     ...,
                     species = NULL,
@@ -306,11 +307,12 @@ map_dep <- function(datapkg,
                     zero_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
-                    radius_range = c(10, 50)
+                    radius_range = c(10, 50),
+                    datapkg = lifecycle::deprecated()
 ) {
 
-  # check input data package
-  check_datapkg(datapkg)
+  # check camera trap data package
+  package <- check_package(package, datapkg, "map_dep")
 
   # define possible feature values
   features <- c("n_species",
@@ -401,8 +403,8 @@ map_dep <- function(datapkg,
   }
 
   # extract observations and deployments
-  observations <- datapkg$data$observations
-  deployments <- datapkg$data$deployments
+  observations <- package$data$observations
+  deployments <- package$data$deployments
 
   # get average lat lon for empyt map without deployments (after filtering)
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
@@ -471,26 +473,26 @@ map_dep <- function(datapkg,
 
   # calculate and get feature values
   if (feature == "n_species") {
-    feat_df <- get_n_species(datapkg, ...)
+    feat_df <- get_n_species(package, ...)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
+    feat_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage, ...)
   } else if (feature == "n_individuals") {
-    feat_df <- get_n_individuals(datapkg,
+    feat_df <- get_n_individuals(package,
                                  species = species,
                                  sex = sex,
                                  life_stage = life_stage,
                                  ...)
   } else if (feature == "rai") {
-    feat_df <- get_rai(datapkg, species = species, sex = sex, life_stage = life_stage, ...)
+    feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "rai_individuals") {
-    feat_df <- get_rai_individuals(datapkg,
+    feat_df <- get_rai_individuals(package,
                                    species = species,
                                    sex = sex,
                                    life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(datapkg, unit = effort_unit, ...)
+    feat_df <- get_effort(package, unit = effort_unit, ...)
     if (is.null(effort_unit)) {
       feat_df$effort <- feat_df$effort_duration
     }

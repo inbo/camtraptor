@@ -137,11 +137,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   bbox <- package$spatial$bbox
   taxonomy <- get_species(package)
   if ("taxonRank" %in% names(taxonomy)) {
-    taxonomy <- dplyr::filter(taxonomy, taxonRank == "species")
+    taxonomy <- dplyr::filter(taxonomy, .data$taxonRank == "species")
   }
   sci_names <-
-    dplyr::rename(taxonomy, Species = scientificName) %>%
-    dplyr::select(Species)
+    dplyr::rename(taxonomy, Species = .data$scientificName) %>%
+    dplyr::select(.data$Species)
 
   eml$dataset$coverage <- EML::set_coverage(
     begin = package$temporal$start,

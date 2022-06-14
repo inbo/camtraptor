@@ -4,16 +4,22 @@
 \alias{get_scientific_name}
 \title{Get scientific name based on its input_vernacular name}
 \usage{
-get_scientific_name(datapkg, vernacular_name)
+get_scientific_name(
+  package = NULL,
+  vernacular_name,
+  datapkg = lifecycle::deprecated()
+)
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{vernacular_name}{a character vector with input vernacular name(s)}
+\item{vernacular_name}{Character vector with input vernacular name(s)}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a character vector of scientific name(s)
+Character vector of scientific name(s)
 }
 \description{
 This function returns the scientific name(s) of a vector of input_vernacular
@@ -29,7 +35,7 @@ If a vernacular name is not valid, an error is returned
 # one or more vernacular names
 get_scientific_name(mica, "beech marten")
 get_scientific_name(mica, c("beech marten", "mallard"))
-# vernacular names can be passed in different languages 
+# vernacular names can be passed in different languages
 get_scientific_name(mica, c("beech marten", "wilde eend"))
 # the search is performed case insensitively
 get_scientific_name(mica, c("MaLLarD"))

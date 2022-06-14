@@ -92,3 +92,12 @@ test_that("life_stage filters data correctly", {
   expect_equal(n_obs_subadult[, 1:2], rai_subadult[, 1:2],
                ignore_attr = TRUE)
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_rai(datapkg = mica)
+    )
+  )
+})

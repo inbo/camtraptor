@@ -4,15 +4,17 @@
 \alias{get_species}
 \title{Get species}
 \usage{
-get_species(datapkg)
+get_species(package = NULL, datapkg = lifecycle::deprecated())
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a data.frame with all scientific names and vernacular names of the
-identified species.
+Tibble data.frame with all scientific names and vernacular names of
+the identified species.
 }
 \description{
 Function to get all identified species

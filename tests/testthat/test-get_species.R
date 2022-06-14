@@ -2,17 +2,17 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(mica),
     dplyr::tibble(
-      taxonID = map_chr(mica$taxonomic, ~.[["taxonID"]]),
-      taxonIDReference = map_chr(
+      taxonID = purrr::map_chr(mica$taxonomic, ~.[["taxonID"]]),
+      taxonIDReference = purrr::map_chr(
         mica$taxonomic, ~.[["taxonIDReference"]]
       ),
-      scientificName = map_chr(
+      scientificName = purrr::map_chr(
         mica$taxonomic, ~.[["scientificName"]]
       ),
-      vernacularNames.en = map_chr(
+      vernacularNames.en = purrr::map_chr(
         mica$taxonomic, ~.[["vernacularNames"]][["en"]]
       ),
-      vernacularNames.nl = map_chr(
+      vernacularNames.nl = purrr::map_chr(
         mica$taxonomic, ~.[["vernacularNames"]][["nl"]]
       )
     )
@@ -50,19 +50,28 @@ test_that("function works fine with missing vernacular name slots", {
   # Dutch vernacular name of Ardea cinerea not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Ardea cinerea") %>%
-            pull(vernacularNames.nl))
+            dplyr::filter(scientificName == "Ardea cinerea") %>%
+            dplyr::pull(vernacularNames.nl))
   )
   # English vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Anas strepera") %>%
-            pull(vernacularNames.en))
+            dplyr::filter(scientificName == "Anas strepera") %>%
+            dplyr::pull(vernacularNames.en))
   )
   # Dutch vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            filter(scientificName == "Anas strepera") %>%
-            pull(vernacularNames.nl))
+            dplyr::filter(scientificName == "Anas strepera") %>%
+            dplyr::pull(vernacularNames.nl))
+  )
+})
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_species(datapkg = mica)
+    )
   )
 })

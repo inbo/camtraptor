@@ -6,14 +6,12 @@
 #' Returns a data.frame of all titles with the following columns: - `feature`:
 #' deployment feature to visualize - `legend_title`: legend title
 #'
-#' @importFrom dplyr as_tibble
-#'
 #' @noRd
 #'
 #' @usage map_legend_title()
 #'
 #' @keywords internal
-map_legend_title <- function() as_tibble(mapdep_legend_titles)
+map_legend_title <- function() dplyr::as_tibble(mapdep_legend_titles)
 
 mapdep_legend_titles <- structure(list(
   feature = c(
@@ -43,7 +41,7 @@ mapdep_legend_titles <- structure(list(
 #' - `rai`
 #' - `effort`
 #'
-#' @importFrom dplyr .data %>% filter
+#' @importFrom dplyr .data %>%
 #'
 #' @noRd
 #'
@@ -53,8 +51,8 @@ get_legend_title <- function(feat) {
   titles <- map_legend_title()
   # return the legend title we need
   titles %>%
-    filter(.data$feature == feat) %>%
-    pull(.data$legend_title)
+    dplyr::filter(.data$feature == feat) %>%
+    dplyr::pull(.data$legend_title)
 }
 
 

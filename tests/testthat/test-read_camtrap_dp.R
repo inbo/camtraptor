@@ -46,6 +46,7 @@ test_that("output data slot is a list of length 3", {
   dp_without_media <- read_camtrap_dp(
     file = dp_path,
     media = FALSE)
+  expect_true("data" %in% names(dp_without_media))
   expect_equal(length(dp_without_media$data), 3)
 })
 

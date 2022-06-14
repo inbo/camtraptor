@@ -4,16 +4,23 @@
 \alias{check_species}
 \title{Check validity of the given scientific or vernacular name(s)}
 \usage{
-check_species(datapkg, species, arg_name = "species")
+check_species(
+  package = NULL,
+  species,
+  arg_name = "species",
+  datapkg = lifecycle::deprecated()
+)
 }
 \arguments{
-\item{datapkg}{a camera trap data package object, as returned by
+\item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{species}{a character vector with scientific or vernacular names}
+\item{species}{Character vector with scientific or vernacular names}
 
-\item{arg_name}{character with argument name to return in error message
+\item{arg_name}{Character with argument name to return in error message
 Default: "species".}
+
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 a character vector with the correspondent scientific names

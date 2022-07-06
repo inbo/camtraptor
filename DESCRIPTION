@@ -14,7 +14,7 @@ Authors@R: c(
            role = "ctb", comment = c(ORCID = "0000-0002-5034-5416")),
     person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
-    person("Research Foundation - Flanders (FWO)",
+    person("LifeWatch Belgium",
            role = "fnd", comment = "https://lifewatch.be")
   )
 Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).

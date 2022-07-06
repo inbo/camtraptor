@@ -71,7 +71,7 @@ deployments.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">df</span>, <span class="va">verbose</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">df</span>, <span class="va">verbose</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -97,11 +97,11 @@ deployments.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># and</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
-<span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
-<span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># and</span></span></span>
+<span class="r-in"><span><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span></span>
+<span class="r-in"><span>                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                       <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
@@ -111,11 +111,11 @@ deployments.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
-<span class="r-in"><span class="co"># equivalent of</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
-<span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
-<span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># equivalent of</span></span></span>
+<span class="r-in"><span><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span></span>
+<span class="r-in"><span>                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                       <span class="fu"><a href="filter_predicate.html">pred_and</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
@@ -125,13 +125,13 @@ deployments.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># or</span></span>
-<span class="r-in"><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span>
-<span class="r-in">                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                       <span class="fu"><a href="filter_predicate.html">pred_or</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span>
-<span class="r-in">                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># or</span></span></span>
+<span class="r-in"><span><span class="fu">apply_filter_predicate</span><span class="op">(</span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span></span>
+<span class="r-in"><span>                       verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                       <span class="fu"><a href="filter_predicate.html">pred_or</a></span><span class="op">(</span><span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.28</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                <span class="fu"><a href="filter_predicate.html">pred_lt</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="fl">3.56</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
@@ -151,11 +151,11 @@ deployments.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

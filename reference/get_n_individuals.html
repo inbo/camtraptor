@@ -73,14 +73,14 @@ deployment. The number of observed individuals is stored in field <code>count</c
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_n_individuals</span><span class="op">(</span>
-  package <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  species <span class="op">=</span> <span class="st">"all"</span>,
-  sex <span class="op">=</span> <span class="cn">NULL</span>,
-  life_stage <span class="op">=</span> <span class="cn">NULL</span>,
-  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_n_individuals</span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  species <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  sex <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  life_stage <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -131,9 +131,9 @@ if argument <code>species</code> = NULL</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># get number of observations for each species</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get number of observations for each species</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 36 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName         n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -148,9 +148,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get number of obs of all species, not identified individuals as well</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get number of obs of all species, not identified individuals as well</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                             n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -158,9 +158,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372     6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7     2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get number of observations of Anas platyrhynchos</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"Anas platyrhynchos"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get number of observations of Anas platyrhynchos</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"Anas platyrhynchos"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         scientificName         n</span>
@@ -169,9 +169,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 Anas platyrhynchos     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Anas platyrhynchos     0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get number of observations of eurasian beaver (vernacular name)</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"eurasian beaver"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get number of observations of eurasian beaver (vernacular name)</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"eurasian beaver"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scientific name of eurasian beaver: Castor fiber</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -181,9 +181,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 Castor fiber       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Castor fiber       0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># mix scientific and vernacular names</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Anas platyrhynchos"</span>, <span class="st">"eurasian beaver"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># mix scientific and vernacular names</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Anas platyrhynchos"</span>, <span class="st">"eurasian beaver"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scientific name of eurasian beaver: Castor fiber</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 2 deployments with no observations: 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 3</span></span>
@@ -197,9 +197,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 Castor fiber           0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Anas platyrhynchos     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Castor fiber           0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># case insensitive</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"AnAS PLatyrhyncHOS"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># case insensitive</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"AnAS PLatyrhyncHOS"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   deploymentID                         scientificName         n</span>
@@ -208,7 +208,7 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 Anas platyrhynchos     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Anas platyrhynchos     0</span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"eurasian BEAVER"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="st">"eurasian BEAVER"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scientific name of eurasian BEAVER: Castor fiber</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
@@ -218,9 +218,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 62c200a9-0e03-4495-bcd8-032944f6f5a1 Castor fiber       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Castor fiber       0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify life stage</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, life_stage <span class="op">=</span> <span class="st">"adult"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify life stage</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, life_stage <span class="op">=</span> <span class="st">"adult"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 1 deployments with no observations: 62c200a9-0e03-4495-bcd8-032944f6f5a1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 36 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName         n</span>
@@ -236,9 +236,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify sex</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"female"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify sex</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"female"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 36 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName         n</span>
@@ -254,9 +254,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify both sex and life stage</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"unknown"</span>, life_stage <span class="op">=</span> <span class="st">"adult"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify both sex and life stage</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"unknown"</span>, life_stage <span class="op">=</span> <span class="st">"adult"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 3 deployments with no observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 36 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName         n</span>
@@ -272,9 +272,9 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber           1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span>
-<span class="r-in"><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span></span>
+<span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 18 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    deploymentID                         scientificName         n</span>
@@ -297,7 +297,7 @@ if argument <code>species</code> = NULL</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea cinerea          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea                  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Homo sapiens           0</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -308,11 +308,11 @@ if argument <code>species</code> = NULL</p></li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

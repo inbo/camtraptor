@@ -83,7 +83,7 @@ long.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">effort</span>, <span class="va">unit</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">effort</span>, <span class="va">unit</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -111,14 +111,14 @@ long.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create efforts (durations) to transform</span></span>
-<span class="r-in"><span class="va">efforts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">duration</a></span><span class="op">(</span><span class="st">"2hours 2minutes 1second"</span><span class="op">)</span>,</span>
-<span class="r-in">            <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">duration</a></span><span class="op">(</span><span class="st">"3days 2hours"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># transform effort to hours</span></span>
-<span class="r-in"><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">efforts</span>, <span class="st">"hour"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create efforts (durations) to transform</span></span></span>
+<span class="r-in"><span><span class="va">efforts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">duration</a></span><span class="op">(</span><span class="st">"2hours 2minutes 1second"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>            <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">duration</a></span><span class="op">(</span><span class="st">"3days 2hours"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># transform effort to hours</span></span></span>
+<span class="r-in"><span><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">efforts</span>, <span class="st">"hour"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2.033611 74.000000</span>
-<span class="r-in"><span class="co"># transform effort to days</span></span>
-<span class="r-in"><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">efforts</span>, <span class="st">"day"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># transform effort to days</span></span></span>
+<span class="r-in"><span><span class="fu">transform_effort_to_common_units</span><span class="op">(</span><span class="va">efforts</span>, <span class="st">"day"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0847338 3.0833333</span>
 </code></pre></div>
     </div>
@@ -130,11 +130,11 @@ long.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

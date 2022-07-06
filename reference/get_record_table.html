@@ -81,16 +81,16 @@ camtrapR's function documentation
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_record_table</span><span class="op">(</span>
-  package <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  stationCol <span class="op">=</span> <span class="st">"locationName"</span>,
-  exclude <span class="op">=</span> <span class="cn">NULL</span>,
-  minDeltaTime <span class="op">=</span> <span class="fl">0</span>,
-  deltaTimeComparedTo <span class="op">=</span> <span class="cn">NULL</span>,
-  removeDuplicateRecords <span class="op">=</span> <span class="cn">TRUE</span>,
-  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_record_table</span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  stationCol <span class="op">=</span> <span class="st">"locationName"</span>,</span>
+<span>  exclude <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  minDeltaTime <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  deltaTimeComparedTo <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  removeDuplicateRecords <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  datapkg <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -177,7 +177,7 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -200,12 +200,12 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set a minDeltaTime of 20 minutes from last independent record for filtering</span></span>
-<span class="r-in"><span class="co"># out not independent observations</span></span>
-<span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span>
-<span class="r-in">    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set a minDeltaTime of 20 minutes from last independent record for filtering</span></span></span>
+<span class="r-in"><span><span class="co"># out not independent observations</span></span></span>
+<span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span></span>
+<span class="r-in"><span>    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -228,12 +228,12 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set a minDeltaTime of 20 minutes from last record for filtering out not</span></span>
-<span class="r-in"><span class="co"># independent observations</span></span>
-<span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span>
-<span class="r-in">    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set a minDeltaTime of 20 minutes from last record for filtering out not</span></span></span>
+<span class="r-in"><span><span class="co"># independent observations</span></span></span>
+<span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span></span>
+<span class="r-in"><span>    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -256,10 +256,10 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># exclude observations of brown rat</span></span>
-<span class="r-in"><span class="co"># exclude is case insensitive and vernacular names are allowed</span></span>
-<span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="st">"wilde eend"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># exclude observations of brown rat</span></span></span>
+<span class="r-in"><span><span class="co"># exclude is case insensitive and vernacular names are allowed</span></span></span>
+<span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="st">"wilde eend"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scientific name of wilde eend: Anas platyrhynchos</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
@@ -279,12 +279,12 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># specify column to pass station names</span></span>
-<span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span>
-<span class="r-in">    stationCol <span class="op">=</span> <span class="st">"locationID"</span>,</span>
-<span class="r-in">    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># specify column to pass station names</span></span></span>
+<span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>,</span></span>
+<span class="r-in"><span>    stationCol <span class="op">=</span> <span class="st">"locationID"</span>,</span></span>
+<span class="r-in"><span>    minDeltaTime <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>    deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -307,8 +307,8 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> ff1535c0-6b5d-4… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span>
-<span class="r-in"><span class="co"># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span>
-<span class="r-in"><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span></span>
+<span class="r-in"><span><span class="fu">get_record_table</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
@@ -338,11 +338,11 @@ as defined in column <code>fileName</code> of <code>media</code></p></li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Record table</h1>
                         <h4 data-toc-skip class="author">Damiano Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-06-14</h4>
+            <h4 data-toc-skip class="date">2022-07-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="hidden name"><code>record-table.Rmd</code></div>
@@ -102,22 +102,22 @@
 </h2>
 <p>Load packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">camtraptor</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'lubridate'</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     date, intersect, setdiff, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">camtraptor</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     date, intersect, setdiff, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
 <p>By loading package <code>camtraptor</code>, a camera trap data package called <code>camtraptor</code> is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.</p>
 </div>
 <div class="section level2">
@@ -130,29 +130,29 @@
 <p>At a certain extent the aggregation of <code>media</code> (e.g. images) into <code>observations</code> is already done in a camera trap data package.</p>
 <p>If we consider that all observations are independent, then, it will be sufficient to run the following:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 <p>The function returns the same columns as the camtrapR’s function <code>recordTable()</code>. The following mapping is applied:</p>
 <table class="table">
 <colgroup>
@@ -225,112 +225,112 @@
 <p>As described in <a href="https://jniedballa.github.io/camtrapR/articles/camtrapr3.html" class="external-link">Chapter 3</a> of camptrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for <code>recordTable()</code>, this is achieved via argument <code>minDeltaTime</code>, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.</p>
 <p>Again, as for <code>recordTable()</code>, we provide an argument, <code>deltaTimeComparedTo</code>, to further control how independence between records is assessed. Setting it to <code>“lastRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last recorded media file. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, 
-                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, 
-                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, </span>
+<span>                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, </span>
+<span>                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 <p>Setting <code>deltaTimeComparedTo</code> to <code>“lastIndependentRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last independent record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last observation. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, 
-                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, 
-                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, </span>
+<span>                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, </span>
+<span>                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="exclude-some-species">Exclude some species<a class="anchor" aria-label="anchor" href="#exclude-some-species"></a>
 </h3>
 <p>Similar to <code>recordTable()</code>, the function <code><a href="../reference/get_record_table.html">get_record_table()</a></code> allows you also to exclude some species. Both vernacular names and scientific names are allowed (case insensitive):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grey heron"</span>, <span class="st">"Anas platyrhynchos"</span>, <span class="st">"mens"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Scientific name of grey heron: Ardea cinerea</span>
-<span class="co">#&gt; Scientific name of mens: Homo sapiens</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grey heron"</span>, <span class="st">"Anas platyrhynchos"</span>, <span class="st">"mens"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Scientific name of grey heron: Ardea cinerea</span></span>
+<span><span class="co">#&gt; Scientific name of mens: Homo sapiens</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
 </h3>
 <p>The column containing the station names can also be defined by the user if the default value, <code>"locationName"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>locationID</code> is used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, stationCol <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2df5259b-b4b4-4… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2df5259b-b4b4-4… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2df5259b-b4b4-4… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2df5259b-b4b4-4… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2df5259b-b4b4-4… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2df5259b-b4b4-4… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2df5259b-b4b4-4… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ce943ced-1bcf-4… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ce943ced-1bcf-4… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ce943ced-1bcf-4… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> ff1535c0-6b5d-4… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 3232bcfd-5dfa-4… Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> ff1535c0-6b5d-4… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> ff1535c0-6b5d-4… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> ff1535c0-6b5d-4… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> ff1535c0-6b5d-4… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ff1535c0-6b5d-4… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, stationCol <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2df5259b-b4b4-4… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2df5259b-b4b4-4… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2df5259b-b4b4-4… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2df5259b-b4b4-4… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2df5259b-b4b4-4… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2df5259b-b4b4-4… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2df5259b-b4b4-4… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ce943ced-1bcf-4… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ce943ced-1bcf-4… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ce943ced-1bcf-4… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> ff1535c0-6b5d-4… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 3232bcfd-5dfa-4… Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> ff1535c0-6b5d-4… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> ff1535c0-6b5d-4… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> ff1535c0-6b5d-4… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> ff1535c0-6b5d-4… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ff1535c0-6b5d-4… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
@@ -338,88 +338,88 @@
 <p>It can happen that “duplicates” occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different <code>lifeStage</code> or <code>sex</code>. You can decide what to do with these duplicates by using the argument <code>removeDuplicateRecords</code>: by default it is equalt to <code>TRUE</code>. The duplicates are therefore removed. To not remove them, set <code>removeDuplicateRecords</code> equal to <code>FALSE</code>.</p>
 <p>Let’s create an easy example with duplicates based on <code>mica</code> datapackage:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mica_dup</span> <span class="op">&lt;-</span> <span class="va">mica</span>
-  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">scientificName</span> <span class="op">&lt;-</span> <span class="st">"Anas strepera"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mica_dup</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
+<span>  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">deploymentID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">timestamp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">scientificName</span> <span class="op">&lt;-</span> <span class="st">"Anas strepera"</span></span></code></pre></div>
 <p>Record table without duplicates:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># equivalent of get_record_table(mica, removeDuplicateRecords = TRUE)</span>
-<span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># equivalent of get_record_table(mica, removeDuplicateRecords = TRUE)</span></span>
+<span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 <p>Record table with duplicates:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DM_val 4_'t W… Ardea   2021-04-05 <span style="color: #949494;">19:08:33</span> 2021-04-05 19:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DM_val 4_'t W… Ardea   2021-04-11 <span style="color: #949494;">19:43:09</span> 2021-04-11 19:4…          <span style="text-decoration: underline;">520</span>476</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DM_val 4_'t W… Ardea … 2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-03-27 20:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Mica Viane       Homo s… 2019-10-23 <span style="color: #949494;">10:19:44</span> 2019-10-23 10:1…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
 </h3>
 <p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; df %&gt;% dplyr::filter((latitude &gt; 51.18))</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 11</span></span>
-<span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; df %&gt;% dplyr::filter((latitude &gt; 51.18))</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 11</span></span></span>
+<span><span class="co">#&gt;    Station          Species DateTimeOriginal    Date       Time  delta.time.secs</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val 5_beek… Anas p… 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> B_DL_val 5_beek… Anas p… 2020-08-02 <span style="color: #949494;">05:00:14</span> 2020-08-02 05:0…          <span style="text-decoration: underline;">173</span>801</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> B_DL_val 5_beek… Anas p… 2020-08-03 <span style="color: #949494;">05:09:12</span> 2020-08-03 05:0…           <span style="text-decoration: underline;">86</span>938</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> B_DL_val 5_beek… Anas p… 2020-08-04 <span style="color: #949494;">05:04:09</span> 2020-08-04 05:0…           <span style="text-decoration: underline;">86</span>097</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> B_DL_val 5_beek… Anas s… 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> B_DL_val 5_beek… Anas s… 2020-07-30 <span style="color: #949494;">04:29:31</span> 2020-07-30 04:2…           <span style="text-decoration: underline;">81</span>763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> B_DL_val 5_beek… Anas s… 2020-08-05 <span style="color: #949494;">05:02:01</span> 2020-08-05 05:0…          <span style="text-decoration: underline;">520</span>350</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> B_DL_val 3_dikk… Castor… 2020-06-19 <span style="color: #949494;">22:05:55</span> 2020-06-19 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val 3_dikk… Martes… 2020-06-28 <span style="color: #949494;">22:01:12</span> 2020-06-28 22:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val 3_dikk… Mustel… 2020-06-19 <span style="color: #949494;">22:31:51</span> 2020-06-19 22:3…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val 3_dikk… Mustel… 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> B_DL_val 3_dikk… Mustel… 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val 3_dikk… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="other-arguments-needed">Other arguments needed?<a class="anchor" aria-label="anchor" href="#other-arguments-needed"></a>
@@ -441,12 +441,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+<p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

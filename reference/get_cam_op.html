@@ -71,13 +71,13 @@ as returned by camtrapR's function <code>cameraOperation()</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_cam_op</span><span class="op">(</span>
-  package <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  station_col <span class="op">=</span> <span class="st">"locationName"</span>,
-  use_prefix <span class="op">=</span> <span class="cn">FALSE</span>,
-  datapkg <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_cam_op</span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  station_col <span class="op">=</span> <span class="st">"locationName"</span>,</span>
+<span>  use_prefix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  datapkg <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -134,7 +134,7 @@ in decimal effort values, same behavior as camtrapR's function
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               2019-10-09 2019-10-10 2019-10-11 2019-10-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 3_dikke boom                 NA         NA         NA         NA</span>
@@ -835,8 +835,8 @@ in decimal effort values, same behavior as camtrapR's function
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 3_dikke boom                 NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DM_val 4_'t WAD                      1  0.8923611</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mica Viane                            NA         NA</span>
-<span class="r-in"><span class="co"># Applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span>
-<span class="r-in"><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Applying filter(s) on deployments, e.g. deployments with latitude &gt;= 51.18</span></span></span>
+<span class="r-in"><span><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               2020-06-19 2020-06-20 2020-06-21 2020-06-22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span>
@@ -877,8 +877,8 @@ in decimal effort values, same behavior as camtrapR's function
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               2020-08-06 2020-08-07 2020-08-08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 5_beek kleine vijver          1          1  0.1810185</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B_DL_val 3_dikke boom                 NA         NA         NA</span>
-<span class="r-in"><span class="co"># Specify column with station names</span></span>
-<span class="r-in"><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, station_col <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Specify column with station names</span></span></span>
+<span class="r-in"><span><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, station_col <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                      2019-10-09 2019-10-10 2019-10-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2df5259b-b4b4-4f43-8cf7-effcced06d6f         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ff1535c0-6b5d-44be-b3ef-c4d4204dad74         NA         NA         NA</span>
@@ -1809,8 +1809,8 @@ in decimal effort values, same behavior as camtrapR's function
 <span class="r-out co"><span class="r-pr">#&gt;</span> ff1535c0-6b5d-44be-b3ef-c4d4204dad74         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ce943ced-1bcf-4140-9a2e-e8ee5e8c10e6          1          1  0.8923611</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3232bcfd-5dfa-496e-b7ab-14593bb1b7f1         NA         NA         NA</span>
-<span class="r-in"><span class="co"># Use prefix Station as in camtrapR's camera operation matrix</span></span>
-<span class="r-in"><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, use_prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Use prefix Station as in camtrapR's camera operation matrix</span></span></span>
+<span class="r-in"><span><span class="fu">get_cam_op</span><span class="op">(</span><span class="va">mica</span>, use_prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                      2019-10-09 2019-10-10 2019-10-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> StationB_DL_val 5_beek kleine vijver         NA         NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> StationB_DL_val 3_dikke boom                 NA         NA         NA</span>
@@ -2751,11 +2751,11 @@ in decimal effort values, same behavior as camtrapR's function
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

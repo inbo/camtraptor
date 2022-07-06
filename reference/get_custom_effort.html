@@ -75,15 +75,15 @@ as well.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_custom_effort</span><span class="op">(</span>
-  package <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>,
-  start <span class="op">=</span> <span class="cn">NULL</span>,
-  end <span class="op">=</span> <span class="cn">NULL</span>,
-  group_by <span class="op">=</span> <span class="cn">NULL</span>,
-  unit <span class="op">=</span> <span class="st">"hour"</span>,
-  datapkg <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_custom_effort</span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  start <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  end <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  unit <span class="op">=</span> <span class="st">"hour"</span>,</span>
+<span>  datapkg <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -153,37 +153,37 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># a global effort over the entire duration of the project (datapackage)</span></span>
-<span class="r-in"><span class="co"># measured in hours</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a global effort over the entire duration of the project (datapackage)</span></span></span>
+<span class="r-in"><span><span class="co"># measured in hours</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-10-09  <span style="text-decoration: underline;">1</span>321. hour </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># global effort expressed in days</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, unit <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># global effort expressed in days</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, unit <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-10-09   55.0 day  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># total effort from a specific start to a specific end</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">mica</span>,</span>
-<span class="r-in">  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-12-15"</span><span class="op">)</span>, <span class="co"># or lubridate::as_date("2019-12-15")</span></span>
-<span class="r-in">  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021-01-10"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># total effort from a specific start to a specific end</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mica</span>,</span></span>
+<span class="r-in"><span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-12-15"</span><span class="op">)</span>, <span class="co"># or lubridate::as_date("2019-12-15")</span></span></span>
+<span class="r-in"><span>  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021-01-10"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-12-15   457. hour </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># effort at daily interval</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">mica</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"day"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># effort at daily interval</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mica</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"day"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 558 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -198,11 +198,11 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-10-17   24   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-10-18   24   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 548 more rows</span></span>
-<span class="r-in"><span class="co"># effort at weekly interval</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">mica</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"week"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># effort at weekly interval</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mica</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"week"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -217,11 +217,11 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2019-12-04    0   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2019-12-11    0   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows</span></span>
-<span class="r-in"><span class="co"># effort at monthly interval</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">mica</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"month"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># effort at monthly interval</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mica</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"month"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 19 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -244,18 +244,18 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 2021-01-31    0   hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> 2021-03-02   99.4 hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> 2021-04-01  429.  hour </span>
-<span class="r-in"><span class="co"># effort at yearly interval</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">mica</span>,</span>
-<span class="r-in">  group_by <span class="op">=</span> <span class="st">"year"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># effort at yearly interval</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">mica</span>,</span></span>
+<span class="r-in"><span>  group_by <span class="op">=</span> <span class="st">"year"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2019-10-09   792. hour </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2020-10-08   529. hour </span>
-<span class="r-in"><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span>
-<span class="r-in"><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># applying filter(s), e.g. deployments with latitude &gt;= 51.18</span></span></span>
+<span class="r-in"><span><span class="fu">get_custom_effort</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.18))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   begin      effort unit </span>
@@ -271,11 +271,11 @@ One of: <code>hour</code> (default), <code>day</code>.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, Research Foundation - Flanders (FWO).</p>
+  <p></p><p>Developed by <a href="https://twitter.com/damianozingaro" class="external-link">Damiano Oldoni</a>, <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72">.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

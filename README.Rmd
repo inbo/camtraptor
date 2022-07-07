@@ -64,7 +64,7 @@ Camtraptor provides and bundles much needed functionality to read, explore and v
 
 ## Meta
 
-* We welcome [contributions](.github/CONTRIBUTING.md) including bug reports.
-* License: MIT
-* Get citation information for `camtraptor` in R doing `citation("camtraptor")`.
-* Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+- We welcome [contributions](.github/CONTRIBUTING.md) including bug reports.
+- License: MIT
+- Get citation information for camtraptor in R doing `citation("camtraptor")`.
+- Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.

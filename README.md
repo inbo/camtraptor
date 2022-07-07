@@ -88,7 +88,7 @@ as [camtrapR](https://cran.r-project.org/package=camtrapR) and
 -   We welcome [contributions](.github/CONTRIBUTING.md) including bug
     reports.
 -   License: MIT
--   Get citation information for `camtraptor` in R doing
+-   Get citation information for camtraptor in R doing
     `citation("camtraptor")`.
 -   Please note that this project is released with a [Contributor Code
     of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this

@@ -5,7 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check-OS](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/check_on_different_r_os.yml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project.org/package=camtraptor)
+[![R-CMD-check](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)

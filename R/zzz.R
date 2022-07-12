@@ -295,3 +295,26 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
   dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
   dplyr::pull(.data$daily_effort)
 }
+
+#' Predict radial distance
+#'
+#' Predict radial distance from camera given pixel positions.
+#'
+#' @param mod Site calibration model (`depcal` object), produced using
+#'   `cal.site()`).
+#' @param relx x pixel position relative to the centre line.
+#' @param rely y pixel position relative to the top edge.
+#'
+#' @return Vector numeric radii.
+#'
+#' @note Units depend on the units of pole height above ground used to calibrate
+#'   the site model.
+#'
+#' @noRd
+#'
+#' @keywords internal
+predict_r <- function(mod, relx, rely) {
+  res <- predict(mod, newdata = data.frame(relx = relx, rely = rely))
+  res[res<0] <- Inf
+  res
+}

@@ -196,14 +196,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     ),
     .con = con
   )
-  dwc_multimedia_sql <- glue::glue_sql(
+  dwc_audubon_sql <- glue::glue_sql(
     readr::read_file(
-      system.file("sql/dwc_multimedia.sql", package = "camtraptor")
+      system.file("sql/dwc_audubon.sql", package = "camtraptor")
     ),
     .con = con
   )
   dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  dwc_multimedia <- DBI::dbGetQuery(con, dwc_multimedia_sql)
+  dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
   DBI::dbDisconnect(con)
 
   # Write files
@@ -215,6 +215,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     dwc_occurrence, file.path(directory, "dwc_occurrence.csv"), na = ""
   )
   readr::write_csv(
-    dwc_multimedia, file.path(directory, "dwc_multimedia.csv"), na = ""
+    dwc_audubon, file.path(directory, "dwc_audubon.csv"), na = ""
   )
 }

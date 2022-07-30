@@ -19,7 +19,6 @@
 #'
 wi_to_dwc <- function(import_directory = ".",
                       export_directory = ".",
-                      projects = "",
                       class_keep = c("Mammalia", "Aves", "Reptilia", "Amphibia")) {
   
   if (!file.exists(import_directory)) {
@@ -62,6 +61,8 @@ wi_to_dwc <- function(import_directory = ".",
     left_join(deployments) %>%
     left_join(cameras) %>%
     left_join(projects)
+  
+  stopifnot(length(unique(obs$project_name))==1)
 
   # Filter
   # See https://www.wildlifeinsights.org/get-started/taxonomy
@@ -73,89 +74,96 @@ wi_to_dwc <- function(import_directory = ".",
     filter(species != "sapiens") %>% # Remove any humans
     filter(common_name != "Unknown species") # Remove unknown species
 
-  # deploymentRemark
   obs <- obs %>%
     mutate(
       cameraDetails = paste0(
-        ifelse(is.na(make), "", paste0(" | make: ", make)),
+        ifelse(is.na(make), "", paste0("make: ", make)),
         ifelse(is.na(model), "", paste0(" | model: ", model)),
         ifelse(is.na(serial_number), "", paste0(" | serial_number: ", serial_number)),
         ifelse(is.na(year_purchased), "", paste0(" | make: ", year_purchased))
-      ) %>%
+      )) %>%
         mutate(
           deploymentRemark = paste0(
             "bait_type: ", bait_type, ifelse(is.na(bait_description), "", paste0(" (", bait_description, ")")),
-            "bait_type: ", feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")")),
+            " | feature_type: ", feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")")),
             " | quiet_period: ", quiet_period,
             " | camera_functioning: ", camera_functioning,
             " | sensor_height: ", ifelse(sensor_height == "Other", height_other, sensor_height),
             " | sensor_orientation: ", ifelse(sensor_orientation == "Other", orientation_other, sensor_orientation)
           ),
-          " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", pasteo("(", cameraDetails, ")"))
+          " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", paste0("(", cameraDetails, ")"))
         )
-    )
+
 
   dwc_occurrence <- obs %>%
     dplyr::transmute(
       # RECORD-LEVEL
       type = "Event", # Why not StillImage?
-      license = license, # take the licence from images.csv (note that there is also a licens for metatdata and the images themselves)
+      license = metadata_license,
       # rightsHolder = '',
-      bibliographicCitation:data_citation,
-      # datasetID = , # Note sure this is appropriate:
-      # institutionCode = , project_admin_organization: not a code, but cann't find where to place it. Metadata is enough?
+      # bibliographicCitation = data_citation,
+      # datasetID = ,
+      # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?
       # collectionCode = , initiative_id (https://www.wildlifeinsights.org/get-started/glossary) or project_id
       datasetName = project_name, # Can this be a different value? should we filter the export to a single project ID?
       basisOfRecord = "MachineObservation",
-      # informationWithheld = 'see metadata', Is this not assumed if not provided?
+      # informationWithheld = 'see metadata',
       # OCCURRENCE
       occurrenceID = image_id,
       recordedBy = recorded_by,
-      individualCount = number_of_objects, # count_optional,
-      sex = sex,
-      lifeStage = age,
-      # behavior = "",
+      individualCount = number_of_objects,
+      sex = tolower(sex),
+      lifeStage = tolower(age),
+      # behavior = ,
       occurrenceStatus = "present",
       # occurrenceRemarks = , # could include any of the following field: filename markings, highlighted, individual_id, individual_animal_notes
       # ORGANISM
-      # organismID = , I don't understand what is the difference with taxon
+      organismID = individual_id,
       # EVENT
       eventID = deployment_id,
       parentEventID = project_id,
-      eventDate = timestamp, # Is thi correct? time at which the photo was taken
-      habitat = paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
-      samplingProtocol = paste0("camera trap", bait), # project_sensor_layout project_sensor_layout_targeted_type project_stratification project_stratification_type project_sensor_method project_individual_animals
+      eventDate = timestamp,
+      # habitat = paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
+      samplingProtocol = "camera trap", # project_sensor_layout project_sensor_layout_targeted_type project_stratification project_stratification_type project_sensor_method project_individual_animals
       samplingEffort = lubridate::interval(start = start_date, end = end_date),
       eventRemarks = deploymentRemark,
       # LOCATION
-      locationID = placename,
-      # locality = placename,
-      locationRemarks = "", # feature_type, feature_type_description or see eventRemarks
+      # locationID = ,
+      locality = placename,
+      # locationRemarks=,
       decimalLatitude = latitude,
       decimalLongitude = longitude,
       geodeticDatum = "WGS84",
-      # coordinateUncertaintyInMeters = dep.coordinateUncertainty,
+      # coordinateUncertaintyInMeters = ,
       # IDENTIFICATION
       identifiedBy = identified_by,
       # dateIdentified =,
-      # identificationRemarks = "" # uncertainty
+      identificationRemarks = ifelse(identified_by=="Computer Vision",cv_confidence,""), #uncertainty
       # TAXON
       taxonID = wi_taxon_id,
-      scientificName = obs.scientificName,
       kingdom = "Animalia",
       class = class,
       order = order,
       family = family,
       genus = genus,
-      genericName = species,
-      # taxonRank = ?
+      scientificName = paste0(genus," ",species),
+      # taxonRank = 
       vernacularName = common_name,
-      nameAccordingTo = "Wildlife Insight Taxonomy", # ?
-      # taxonRemaks = uncertainty
+      # taxonRemarks =
     )
 
-
-
+  dwc_audubon <- obs %>%
+    dplyr::transmute(
+      occurrenceID = image_id,
+      # identifier = filename
+      rights = image_license,
+      type = 'StillImage',
+      captureDevice = cameraDetails,
+      # resourceCreationTechnique = ,
+      accessURI = location, # e.g. "gs://my_first_project_1587661402925__main/deployment/2032997/4ce8fc0f-dc20-49e1-8b93-583895048f94.JPG"
+      format = tools::file_ext(obs$location),
+      # CreateDate =
+    )
 
   # Write files
   if (!dir.exists(export_directory)) {
@@ -167,7 +175,6 @@ wi_to_dwc <- function(import_directory = ".",
     na = ""
   )
   readr::write_csv(
-    events, file.path(export_directory, "events.csv"),
-    na = ""
+    dwc_audubon, file.path(directory, "dwc_audubon.csv"), na = ""
   )
 }

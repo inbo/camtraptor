@@ -8,19 +8,12 @@
 #' This function read the zip file from the download and convert the Projects, Cameras, Deployements
 #' csv file to Darwin Core standard
 #'
-#' The function allows you to choose which animal class to keep in the data. See [https://www.wildlifeinsights.org/get-started/taxonomy]
-#' for more information on the class available. The main ones are: `"Mammalia", "Aves", "Reptilia",
-#' "Amphibia", "Arachnida","Gastropoda","Malacostraca","Clitellata","Chilopoda","Diplopoda",
-#' "Insecta", "Domestic animal"`. Note that Domestic animal is only for the class level domestic animal (ie, does not include domestic cattle, goat etc...)
-#'
-#' @param import_directory
+#' @param import_directory Path to local directory to read the WI files
 #' @param export_directory Path to local directory to write files to.
 #' @return CSV (data) files written to disk.
 #'
 wi_to_dwc <- function(import_directory = ".",
-                      export_directory = ".",
-                      class_keep = c("Mammalia", "Aves", "Reptilia", "Amphibia")) {
-  
+                      export_directory = ".") {
   if (!file.exists(import_directory)) {
     stop(paste0("The import directory does not exist: ", import_directory))
   }
@@ -61,8 +54,8 @@ wi_to_dwc <- function(import_directory = ".",
     left_join(deployments) %>%
     left_join(cameras) %>%
     left_join(projects)
-  
-  stopifnot(length(unique(obs$project_name))==1)
+
+  stopifnot(length(unique(obs$project_name)) == 1)
 
   # Filter
   # See https://www.wildlifeinsights.org/get-started/taxonomy
@@ -70,7 +63,10 @@ wi_to_dwc <- function(import_directory = ".",
   # wi_taxa <- jsonlite::fromJSON("https://api.wildlifeinsights.org/api/v1/taxonomy?fields=class,order,family,genus,species,authority,taxonomyType,uniqueIdentifier,commonNameEnglish&page[size]=30000")
   # unique(wi_taxa$data$class)
   obs <- obs %>%
-    filter(class %in% class_keep) %>% # This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
+    filter(class %in% c(
+      "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
+      "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
+    )) %>% # This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
     filter(species != "sapiens") %>% # Remove any humans
     filter(common_name != "Unknown species") # Remove unknown species
 
@@ -81,18 +77,19 @@ wi_to_dwc <- function(import_directory = ".",
         ifelse(is.na(model), "", paste0(" | model: ", model)),
         ifelse(is.na(serial_number), "", paste0(" | serial_number: ", serial_number)),
         ifelse(is.na(year_purchased), "", paste0(" | make: ", year_purchased))
-      )) %>%
-        mutate(
-          deploymentRemark = paste0(
-            "bait_type: ", bait_type, ifelse(is.na(bait_description), "", paste0(" (", bait_description, ")")),
-            " | feature_type: ", feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")")),
-            " | quiet_period: ", quiet_period,
-            " | camera_functioning: ", camera_functioning,
-            " | sensor_height: ", ifelse(sensor_height == "Other", height_other, sensor_height),
-            " | sensor_orientation: ", ifelse(sensor_orientation == "Other", orientation_other, sensor_orientation)
-          ),
-          " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", paste0("(", cameraDetails, ")"))
-        )
+      )
+    ) %>%
+    mutate(
+      deploymentRemark = paste0(
+        "bait_type: ", bait_type, ifelse(is.na(bait_description), "", paste0(" (", bait_description, ")")),
+        " | feature_type: ", feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")")),
+        " | quiet_period: ", quiet_period,
+        " | camera_functioning: ", camera_functioning,
+        " | sensor_height: ", ifelse(sensor_height == "Other", height_other, sensor_height),
+        " | sensor_orientation: ", ifelse(sensor_orientation == "Other", orientation_other, sensor_orientation)
+      ),
+      " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", paste0("(", cameraDetails, ")"))
+    )
 
 
   dwc_occurrence <- obs %>%
@@ -138,7 +135,7 @@ wi_to_dwc <- function(import_directory = ".",
       # IDENTIFICATION
       identifiedBy = identified_by,
       # dateIdentified =,
-      identificationRemarks = ifelse(identified_by=="Computer Vision",cv_confidence,""), #uncertainty
+      identificationRemarks = ifelse(identified_by == "Computer Vision", cv_confidence, ""), # uncertainty
       # TAXON
       taxonID = wi_taxon_id,
       kingdom = "Animalia",
@@ -146,8 +143,8 @@ wi_to_dwc <- function(import_directory = ".",
       order = order,
       family = family,
       genus = genus,
-      scientificName = paste0(genus," ",species),
-      # taxonRank = 
+      scientificName = paste0(genus, " ", species),
+      # taxonRank =
       vernacularName = common_name,
       # taxonRemarks =
     )
@@ -157,7 +154,7 @@ wi_to_dwc <- function(import_directory = ".",
       occurrenceID = image_id,
       # identifier = filename
       rights = image_license,
-      type = 'StillImage',
+      type = "StillImage",
       captureDevice = cameraDetails,
       # resourceCreationTechnique = ,
       accessURI = location, # e.g. "gs://my_first_project_1587661402925__main/deployment/2032997/4ce8fc0f-dc20-49e1-8b93-583895048f94.JPG"
@@ -175,6 +172,7 @@ wi_to_dwc <- function(import_directory = ".",
     na = ""
   )
   readr::write_csv(
-    dwc_audubon, file.path(directory, "dwc_audubon.csv"), na = ""
+    dwc_audubon, file.path(export_directory, "dwc_audubon.csv"),
+    na = ""
   )
 }

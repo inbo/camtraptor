@@ -12,7 +12,7 @@
 #' @param export_directory Path to local directory to write files to.
 #' @return CSV (data) files written to disk.
 #'
-wi_to_dwc <- function(import_directory = ".",
+write_dwc_wi <- function(import_directory = ".",
                       export_directory = ".") {
   if (!file.exists(import_directory)) {
     stop(paste0("The import directory does not exist: ", import_directory))
@@ -95,39 +95,39 @@ wi_to_dwc <- function(import_directory = ".",
   dwc_occurrence <- obs %>%
     dplyr::transmute(
       # RECORD-LEVEL
-      type = "Event", # Why not StillImage?
+      type = "StillImage",
       license = metadata_license,
-      # rightsHolder = '',
+      rightsHolder = project_admin_organization,
       # bibliographicCitation = data_citation,
-      # datasetID = ,
+      datasetID = 'project_id',
       # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?
-      # collectionCode = , initiative_id (https://www.wildlifeinsights.org/get-started/glossary) or project_id
+      collectionCode = 'Wildlife Insights',
       datasetName = project_name, # Can this be a different value? should we filter the export to a single project ID?
       basisOfRecord = "MachineObservation",
       # informationWithheld = 'see metadata',
       # OCCURRENCE
       occurrenceID = image_id,
-      recordedBy = recorded_by,
+      # recordedBy = recorded_by,
       individualCount = number_of_objects,
       sex = tolower(sex),
       lifeStage = tolower(age),
       # behavior = ,
       occurrenceStatus = "present",
-      # occurrenceRemarks = , # could include any of the following field: filename markings, highlighted, individual_id, individual_animal_notes
+      occurrenceRemarks = individual_animal_notes,
       # ORGANISM
       organismID = individual_id,
       # EVENT
-      eventID = deployment_id,
-      parentEventID = project_id,
+      eventID = image_id,
+      parentEventID = deployment_id,
       eventDate = timestamp,
       # habitat = paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
       samplingProtocol = "camera trap", # project_sensor_layout project_sensor_layout_targeted_type project_stratification project_stratification_type project_sensor_method project_individual_animals
-      samplingEffort = lubridate::interval(start = start_date, end = end_date),
+      samplingEffort = paste0(strftime(start_date , "%Y-%m-%dT%H:%M:%S%z"),"/",strftime(end_date , "%Y-%m-%dT%H:%M:%S%z")),
       eventRemarks = deploymentRemark,
       # LOCATION
       # locationID = ,
       locality = placename,
-      # locationRemarks=,
+      locationRemarks= paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
       decimalLatitude = latitude,
       decimalLongitude = longitude,
       geodeticDatum = "WGS84",
@@ -138,12 +138,12 @@ wi_to_dwc <- function(import_directory = ".",
       identificationRemarks = ifelse(identified_by == "Computer Vision", cv_confidence, ""), # uncertainty
       # TAXON
       taxonID = wi_taxon_id,
+      scientificName = paste0(genus, " ", species),
       kingdom = "Animalia",
       class = class,
       order = order,
       family = family,
       genus = genus,
-      scientificName = paste0(genus, " ", species),
       # taxonRank =
       vernacularName = common_name,
       # taxonRemarks =

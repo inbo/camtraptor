@@ -60,7 +60,6 @@ SELECT
   {platform}                            AS collectionCode,
   {title}                               AS datasetName,
   'MachineObservation'                  AS basisOfRecord,
-  'see metadata'                        AS informationWithheld,
 -- OCCURRENCE
   obs.observationID                     AS occurrenceID,
   obs.count                             AS individualCount,

@@ -10,10 +10,14 @@
 #'
 #' @param import_directory Path to local directory to read the WI files
 #' @param export_directory Path to local directory to write files to.
+#' @param rights_holder Acronym of the organization owning or managing the rights over the data.
+#' @param coordinateUncertaintyInMeters Uncertainty of the coordinate in meters (default=30m)
 #' @return CSV (data) files written to disk.
-#'
+#' @export
 write_dwc_wi <- function(import_directory = ".",
-                      export_directory = ".") {
+                      export_directory = ".",
+                      rights_holder = "project_admin_organization",
+                      coordinateUncertaintyInMeters = 30) {
   if (!file.exists(import_directory)) {
     stop(paste0("The import directory does not exist: ", import_directory))
   }
@@ -51,9 +55,9 @@ write_dwc_wi <- function(import_directory = ".",
 
   # Join in a single database
   obs <- images %>%
-    left_join(deployments) %>%
-    left_join(cameras) %>%
-    left_join(projects)
+    dplyr::left_join(deployments) %>%
+    dplyr::left_join(cameras) %>%
+    dplyr::left_join(projects)
 
   stopifnot(length(unique(obs$project_name)) == 1)
 
@@ -89,6 +93,8 @@ write_dwc_wi <- function(import_directory = ".",
         " | sensor_orientation: ", ifelse(sensor_orientation == "Other", orientation_other, sensor_orientation)
       ),
       " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", paste0("(", cameraDetails, ")"))
+    ) %>% mutate(
+      dataset_id = stringr::str_extract(data_citation, "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
     )
 
 
@@ -97,9 +103,9 @@ write_dwc_wi <- function(import_directory = ".",
       # RECORD-LEVEL
       type = "StillImage",
       license = metadata_license,
-      rightsHolder = project_admin_organization,
+      rightsHolder = ifelse(rightsHolder=="project_admin_organization",project_admin_organization,rightsHolder),
       # bibliographicCitation = data_citation,
-      datasetID = 'project_id',
+      datasetID = dataset_id,
       # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?
       collectionCode = 'Wildlife Insights',
       datasetName = project_name, # Can this be a different value? should we filter the export to a single project ID?
@@ -131,7 +137,7 @@ write_dwc_wi <- function(import_directory = ".",
       decimalLatitude = latitude,
       decimalLongitude = longitude,
       geodeticDatum = "WGS84",
-      # coordinateUncertaintyInMeters = ,
+      coordinateUncertaintyInMeters = coordinateUncertaintyInMeters,
       # IDENTIFICATION
       identifiedBy = identified_by,
       # dateIdentified =,
@@ -157,7 +163,7 @@ write_dwc_wi <- function(import_directory = ".",
       type = "StillImage",
       captureDevice = cameraDetails,
       # resourceCreationTechnique = ,
-      accessURI = location, # e.g. "gs://my_first_project_1587661402925__main/deployment/2032997/4ce8fc0f-dc20-49e1-8b93-583895048f94.JPG"
+      accessURI = location,
       format = tools::file_ext(obs$location),
       # CreateDate =
     )

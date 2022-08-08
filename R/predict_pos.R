@@ -78,8 +78,8 @@ predict_pos <- function(animal_pos, calib_models,
   # same deployment
   n_dims <- animal_pos %>% 
     dplyr::group_by(.data[[dep_tag]]) %>% 
-    dplyr::summarise(heights = n_distinct(.data[[image_width]]),
-                     widths = n_distinct(.data[[image_height]])
+    dplyr::summarise(heights = dplyr::n_distinct(.data[[image_width]]),
+                     widths = dplyr::n_distinct(.data[[image_height]])
   )
   dep_multidim <- n_dims %>% 
     dplyr::filter(.data$heights > 1 | .data$widths > 1) %>% 

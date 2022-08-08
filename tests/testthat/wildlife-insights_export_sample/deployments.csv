@@ -1,0 +1,6 @@
+project_id,deployment_id,placename,longitude,latitude,start_date,end_date,bait_type,bait_description,feature_type,feature_type_methodology,camera_id,quiet_period,camera_functioning,sensor_height,height_other,sensor_orientation,orientation_other,plot_treatment,plot_treatment_description,detection_distance,subproject_name,subproject_design,event_name,event_description,event_type,recorded_by
+2001317,2019-04-17_i9_C09,2019-04-17_i9_C09,39.83953978,-2.94849027,4/17/19 00:00,5/26/19 00:00,None,,Trail game,,2010194,0,Camera Functioning,Knee height,,Parallel,,,,,,,,,,
+2001317,2019-04-19_l7_C01,2019-04-19_l7_C01,39.82124057,-2.96696509,4/19/19 00:00,5/26/19 00:00,None,,Trail game,,2010186,0,Camera Functioning,Knee height,,Parallel,,,,,,,,,,
+2001317,2019-07-24_j8_C03,2019-07-24_j8_C03,39.83063877,-2.95770052,7/27/19 00:00,8/21/19 00:00,None,,Trail game,,2010190,0,Camera Functioning,Knee height,,Parallel,,,,,,,,,,
+2001317,2019-07-24_i9_C05,2019-07-24_i9_C05,39.83807593,-2.94767024,7/24/19 00:00,9/21/19 00:00,None,,Trail game,,2010190,0,Camera Functioning,Knee height,,Parallel,,,,,,,,,,
+2001317,2019-04-19_j8_C10,2019-04-19_j8_C10,39.83065242,-2.95769479,4/19/19 00:00,5/26/19 00:00,None,,Trail game,,2010191,0,Camera Functioning,Knee height,,Parallel,,,,,,,,,,

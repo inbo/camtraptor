@@ -1,34 +1,38 @@
-#' Transform camera trap data to Darwin Core
+#' Transform Wildlife Insight camera trap data to Darwin Core
 #'
-#' Transforms a Wildlife Insight dataset to Darwin Core CSV that can be uploaded to a
+#' Transforms a [Wildlife Insight (WI)](https://www.wildlifeinsights.org/) 
+#' dataset to Darwin Core CSV that can be uploaded to a 
 #' [GBIF IPT](https://www.gbif.org/ipt) for publication.
 #'
-#' Wildlife Insight offers to export your dataset [as private download](https://www.wildlifeinsights.org/get-started/download/private).
-#' or [public download](https://www.wildlifeinsights.org/get-started/data-download/public).
-#' This function read the zip file from the download and convert the Projects, Cameras, Deployements
-#' csv file to Darwin Core standard
+#' Wildlife Insight offers to export your dataset [as private download](
+#' https://www.wildlifeinsights.org/get-started/download/private) or 
+#' [public download](
+#' https://www.wildlifeinsights.org/get-started/data-download/public).
+#' This function read the zip file from the download and convert the Projects, 
+#' Cameras, Deployements csv file to Darwin Core standard
 #'
 #' @param import_directory Path to local directory to read the WI files
 #' @param export_directory Path to local directory to write files to.
-#' @param rights_holder Acronym of the organization owning or managing the rights over the data.
-#' @param coordinateUncertaintyInMeters Uncertainty of the coordinate in meters (default=30m)
+#' @param rights_holder Acronym of the organization owning or managing the 
+#' rights over the data.
+#' @param coordinateUncertaintyInMeters Uncertainty of the coordinate in meters.
 #' @return CSV (data) files written to disk.
 #' @export
 write_dwc_wi <- function(import_directory = ".",
-                      export_directory = ".",
-                      rights_holder = "project_admin_organization",
-                      coordinateUncertaintyInMeters = 30) {
+                         export_directory = ".",
+                         rights_holder = "project_admin_organization",
+                         coordinateUncertaintyInMeters = 30) {
   if (!file.exists(import_directory)) {
     stop(paste0("The import directory does not exist: ", import_directory))
   }
-
+  
   # If zip file, unzip
   if (tools::file_ext(import_directory) == "zip") {
     utils::unzip(import_directory, exdir = dirname(import_directory))
     import_directory <- tools::file_path_sans_ext(import_directory)
   }
-
-  # Read data from export
+  
+  # Get file location and check existance
   deployements_file <- file.path(import_directory, "deployments.csv")
   if (!file.exists(deployements_file)) {
     stop(paste0("The deployements file does not exist: ", deployements_file))
@@ -45,23 +49,24 @@ write_dwc_wi <- function(import_directory = ".",
   if (!file.exists(cameras_file)) {
     stop(paste0("The project file does not exist: ", projects_file))
   }
-
-  # Read files
+  
+  # Read data from file
   deployments <- readr::read_csv(deployements_file, show_col_types = FALSE)
   images <- readr::read_csv(images_file, show_col_types = FALSE)
   cameras <- readr::read_csv(cameras_file, show_col_types = FALSE)
   projects <- readr::read_csv(projects_file, show_col_types = FALSE)
-
-
-  # Join in a single database
+  
+  
+  # Join all data in a single data.frame
   obs <- images %>%
-    dplyr::left_join(deployments) %>%
-    dplyr::left_join(cameras) %>%
-    dplyr::left_join(projects)
-
+    dplyr::left_join(deployments, by = c("project_id", "deployment_id")) %>%
+    dplyr::left_join(cameras, by = c("project_id", "camera_id")) %>%
+    dplyr::left_join(projects, by = "project_id")
+  
+  # Check that there is only a single project
   stopifnot(length(unique(obs$project_name)) == 1)
-
-  # Filter
+  
+  # Filter species and class to keep only non-human wildlife entries.
   # See https://www.wildlifeinsights.org/get-started/taxonomy
   # https://wildlifeinsights-taxonomy-ewutmovdfa-uc.a.run.app/
   # wi_taxa <- jsonlite::fromJSON("https://api.wildlifeinsights.org/api/v1/taxonomy?fields=class,order,family,genus,species,authority,taxonomyType,uniqueIdentifier,commonNameEnglish&page[size]=30000")
@@ -73,41 +78,53 @@ write_dwc_wi <- function(import_directory = ".",
     )) %>% # This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
     filter(species != "sapiens") %>% # Remove any humans
     filter(common_name != "Unknown species") # Remove unknown species
-
+  
+  # Create details/remarks from mulitple columns.  
   obs <- obs %>%
     mutate(
       cameraDetails = paste0(
         ifelse(is.na(make), "", paste0("make: ", make)),
         ifelse(is.na(model), "", paste0(" | model: ", model)),
-        ifelse(is.na(serial_number), "", paste0(" | serial_number: ", serial_number)),
+        ifelse(is.na(serial_number), "", paste0(" | serial_number: ", 
+                                                serial_number)),
         ifelse(is.na(year_purchased), "", paste0(" | make: ", year_purchased))
       )
     ) %>%
     mutate(
       deploymentRemark = paste0(
-        "bait_type: ", bait_type, ifelse(is.na(bait_description), "", paste0(" (", bait_description, ")")),
-        " | feature_type: ", feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")")),
+        "bait_type: ", bait_type, ifelse(is.na(bait_description), "", 
+                                         paste0(" (", bait_description, ")")),
+        " | feature_type: ", feature_type, 
+        ifelse(is.na(feature_type_methodology), "", 
+               paste0(" (", feature_type_methodology, ")")),
         " | quiet_period: ", quiet_period,
         " | camera_functioning: ", camera_functioning,
-        " | sensor_height: ", ifelse(sensor_height == "Other", height_other, sensor_height),
-        " | sensor_orientation: ", ifelse(sensor_orientation == "Other", orientation_other, sensor_orientation)
+        " | sensor_height: ", ifelse(sensor_height == "Other", height_other, 
+                                     sensor_height),
+        " | sensor_orientation: ", ifelse(sensor_orientation == "Other", 
+                                          orientation_other, sensor_orientation)
       ),
-      " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", paste0("(", cameraDetails, ")"))
-    ) %>% mutate(
-      dataset_id = stringr::str_extract(data_citation, "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
+      " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", 
+                                          paste0("(", cameraDetails, ")"))
+    ) %>%
+    mutate(
+      dataset_id = stringr::str_extract(
+        data_citation, 
+        "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
     )
-
-
+  
+  # Create the Darwin Core occurrence table
   dwc_occurrence <- obs %>%
     dplyr::transmute(
       # RECORD-LEVEL
       type = "StillImage",
       license = metadata_license,
-      rightsHolder = ifelse(rightsHolder=="project_admin_organization",project_admin_organization,rightsHolder),
+      rightsHolder = ifelse(rightsHolder == "project_admin_organization", 
+                            project_admin_organization, rightsHolder),
       # bibliographicCitation = data_citation,
       datasetID = dataset_id,
       # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?
-      collectionCode = 'Wildlife Insights',
+      collectionCode = "Wildlife Insights",
       datasetName = project_name, # Can this be a different value? should we filter the export to a single project ID?
       basisOfRecord = "MachineObservation",
       # informationWithheld = 'see metadata',
@@ -127,13 +144,17 @@ write_dwc_wi <- function(import_directory = ".",
       parentEventID = deployment_id,
       eventDate = timestamp,
       # habitat = paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
-      samplingProtocol = "camera trap", # project_sensor_layout project_sensor_layout_targeted_type project_stratification project_stratification_type project_sensor_method project_individual_animals
-      samplingEffort = paste0(strftime(start_date , "%Y-%m-%dT%H:%M:%S%z"),"/",strftime(end_date , "%Y-%m-%dT%H:%M:%S%z")),
+      samplingProtocol = "camera trap", 
+      samplingEffort = paste0(strftime(start_date, "%Y-%m-%dT%H:%M:%S%z"), "/", 
+                              strftime(end_date, "%Y-%m-%dT%H:%M:%S%z")),
       eventRemarks = deploymentRemark,
       # LOCATION
       # locationID = ,
       locality = placename,
-      locationRemarks= paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
+      locationRemarks = paste0(feature_type, 
+                               ifelse(is.na(feature_type_methodology), "", 
+                                      paste0(" (", feature_type_methodology, ")"
+                                             ))),
       decimalLatitude = latitude,
       decimalLongitude = longitude,
       geodeticDatum = "WGS84",
@@ -141,7 +162,8 @@ write_dwc_wi <- function(import_directory = ".",
       # IDENTIFICATION
       identifiedBy = identified_by,
       # dateIdentified =,
-      identificationRemarks = ifelse(identified_by == "Computer Vision", cv_confidence, ""), # uncertainty
+      identificationRemarks = ifelse(identified_by == "Computer Vision", 
+                                     cv_confidence, ""), # uncertainty
       # TAXON
       taxonID = wi_taxon_id,
       scientificName = paste0(genus, " ", species),
@@ -154,7 +176,8 @@ write_dwc_wi <- function(import_directory = ".",
       vernacularName = common_name,
       # taxonRemarks =
     )
-
+  
+  # Create the Darwin Core Audubon (https://ac.tdwg.org/introduction/)
   dwc_audubon <- obs %>%
     dplyr::transmute(
       occurrenceID = image_id,
@@ -167,12 +190,13 @@ write_dwc_wi <- function(import_directory = ".",
       format = tools::file_ext(obs$location),
       # CreateDate =
     )
-
-  # Write files
+  
+  # Create export directory
   if (!dir.exists(export_directory)) {
     dir.create(export_directory, recursive = TRUE)
   }
-
+  
+  # Write files
   readr::write_csv(
     dwc_occurrence, file.path(export_directory, "dwc_occurrence.csv"),
     na = ""

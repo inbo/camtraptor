@@ -112,6 +112,9 @@ write_dwc_wi <- function(import_directory = ".",
       dataset_id = stringr::str_extract(
         .data$data_citation, 
         "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
+    ) %>% 
+    dplyr::mutate(
+      access_uri = stringr::str_replace(stringr::str_replace(.data$location, "gs://", "https://storage.googleapis.com/"),"__main","__thumbnails")
     )
   
   # Create the Darwin Core occurrence table
@@ -186,7 +189,7 @@ write_dwc_wi <- function(import_directory = ".",
       rights = .data$image_license,
       type = "StillImage",
       captureDevice = .data$cameraDetails,
-      accessURI = .data$location,
+      accessURI = .data$access_uri,
       format = tools::file_ext(.data$location),
       CreateDate = .data$timestamp
     )

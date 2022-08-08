@@ -72,12 +72,13 @@ write_dwc_wi <- function(import_directory = ".",
   # wi_taxa <- jsonlite::fromJSON("https://api.wildlifeinsights.org/api/v1/taxonomy?fields=class,order,family,genus,species,authority,taxonomyType,uniqueIdentifier,commonNameEnglish&page[size]=30000")
   # unique(wi_taxa$data$class)
   obs <- obs %>%
-    filter(class %in% c(
+    filter(obs$species != "sapiens") %>% # Remove any humans
+    filter(obs$common_name != "Unknown species") %>%  # Remove unknown species
+    filter(obs$class %in% c(
       "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
       "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
-    )) %>% # This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
-    filter(species != "sapiens") %>% # Remove any humans
-    filter(common_name != "Unknown species") # Remove unknown species
+    ))# This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
+    
   
   # Create details/remarks from mulitple columns.  
   obs <- obs %>%
@@ -119,8 +120,8 @@ write_dwc_wi <- function(import_directory = ".",
       # RECORD-LEVEL
       type = "StillImage",
       license = metadata_license,
-      rightsHolder = ifelse(rightsHolder == "project_admin_organization", 
-                            project_admin_organization, rightsHolder),
+      rightsHolder = ifelse(rights_holder == "project_admin_organization", 
+                            project_admin_organization, rights_holder),
       # bibliographicCitation = data_citation,
       datasetID = dataset_id,
       # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?

@@ -46,7 +46,7 @@ get_cam_op <- function(package = NULL,
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
     station_col %in% names(package$data$deployments),
-    msg = glue("station column name (station_col) not valid: ",
+    msg = glue::glue("station column name (station_col) not valid: ",
                "it must be one of the deployments column names.")
   )
 

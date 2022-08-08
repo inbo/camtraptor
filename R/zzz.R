@@ -313,8 +313,9 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
 #' @noRd
 #'
 #' @keywords internal
-predict_r <- function(mod, relx, rely) {
-  res <- predict(mod, newdata = data.frame(relx = relx, rely = rely))
+predict_r <- function(mod, rel_x, rel_y) {
+  new_data <- data.frame(relx = rel_x, rely = rel_y)  
+  res <- predict(mod, newdata = new_data)
   res[res<0] <- Inf
-  res
+  return(res)
 }

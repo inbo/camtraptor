@@ -5,8 +5,8 @@
 \title{Predict position}
 \usage{
 predict_pos(
-  dat,
-  mods,
+  animal_pos,
+  calib_models,
   dep_tag = "deployment",
   x = "x",
   y = "y",
@@ -15,21 +15,22 @@ predict_pos(
 )
 }
 \arguments{
-\item{dat}{Dataframe of animal position digitisation data.
+\item{animal_pos}{Dataframe of animal position digitisation data.
 It must contain (at least) the columns defined in args \code{x}, \code{y}, \code{dep_tag},
 \code{image_width}, \code{image_height}.}
 
-\item{mods}{Named list of deployment calibration models or site calibration models (\code{depcal} objects), produced using
-\code{cal.site()}). The deployment names are used as names.}
+\item{calib_models}{Named list of deployment calibration models or site calibration
+models (\code{calibs} objects), produced using \code{cal.site()} (not yet included in
+this package). The deployment names are used as names.}
 
-\item{dep_tag}{Character naming the column within \code{dat} against which names of the
-elements can be matched to apply the right deployment calibration models.
-Default: \code{"deployment"}.}
+\item{dep_tag}{Character naming the column within \code{animal_pos} against which
+names of the elements can be matched to apply the right deployment
+calibration models. Default: \code{"deployment"}.}
 
-\item{x}{Character naming the column within \code{dat} containing x pixel
+\item{x}{Character naming the column within \code{animal_pos} containing x pixel
 positions for each digitised point. Default: \code{"x"}.}
 
-\item{y}{Character naming the column within \code{dat} containing y pixel
+\item{y}{Character naming the column within \code{animal_pos} containing y pixel
 positions for each digitised point. Default: \code{"y"}.}
 
 \item{image_width}{pixel x dimension of each image.
@@ -39,8 +40,8 @@ It must be consistent for each deployment.}
 It must be consistent for each deployment.}
 }
 \value{
-Original (tibble) dataframe as passed via \code{dat} with additional
-columns:
+Original (tibble) dataframe as passed via \code{animal_pos} with
+additional columns:
 \itemize{
 \item \code{radius}: radial distance from camera
 \item \code{angle}: angular distance from camera
@@ -52,5 +53,5 @@ Predicts position relative to camera given image pixel positions and site
 calibration models.
 }
 \examples{
-To be done
+predict_pos(animal_positions, dep_calib_models)
 }

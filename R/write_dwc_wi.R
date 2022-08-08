@@ -72,9 +72,9 @@ write_dwc_wi <- function(import_directory = ".",
   # wi_taxa <- jsonlite::fromJSON("https://api.wildlifeinsights.org/api/v1/taxonomy?fields=class,order,family,genus,species,authority,taxonomyType,uniqueIdentifier,commonNameEnglish&page[size]=30000")
   # unique(wi_taxa$data$class)
   obs <- obs %>%
-    filter(obs$species != "sapiens") %>% # Remove any humans
-    filter(obs$common_name != "Unknown species") %>%  # Remove unknown species
-    filter(obs$class %in% c(
+    dplyr::filter(.data$species != "sapiens") %>% # Remove any humans
+    dplyr::filter(.data$common_name != "Unknown species") %>%  # Remove unknown species
+    dplyr::filter(.data$class %in% c(
       "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
       "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
     ))# This also remove CV Needed, CV Failed, No CV Result, NA, Other and ""
@@ -82,7 +82,7 @@ write_dwc_wi <- function(import_directory = ".",
   
   # Create details/remarks from mulitple columns.  
   obs <- obs %>%
-    mutate(
+    dplyr::mutate(
       cameraDetails = paste0(
         ifelse(is.na(make), "", paste0("make: ", make)),
         ifelse(is.na(model), "", paste0(" | model: ", model)),
@@ -91,7 +91,7 @@ write_dwc_wi <- function(import_directory = ".",
         ifelse(is.na(year_purchased), "", paste0(" | make: ", year_purchased))
       )
     ) %>%
-    mutate(
+    dplyr::mutate(
       deploymentRemark = paste0(
         "bait_type: ", bait_type, ifelse(is.na(bait_description), "", 
                                          paste0(" (", bait_description, ")")),
@@ -108,7 +108,7 @@ write_dwc_wi <- function(import_directory = ".",
       " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", 
                                           paste0("(", cameraDetails, ")"))
     ) %>%
-    mutate(
+    dplyr::mutate(
       dataset_id = stringr::str_extract(
         data_citation, 
         "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
@@ -119,76 +119,76 @@ write_dwc_wi <- function(import_directory = ".",
     dplyr::transmute(
       # RECORD-LEVEL
       type = "StillImage",
-      license = metadata_license,
+      license = .data$metadata_license,
       rightsHolder = ifelse(rights_holder == "project_admin_organization", 
-                            project_admin_organization, rights_holder),
+                            .data$project_admin_organization, rights_holder),
       # bibliographicCitation = data_citation,
-      datasetID = dataset_id,
+      datasetID = .data$dataset_id,
       # institutionCode = , project_admin_organization: not a code, but can't find where to place it. Metadata is enough?
       collectionCode = "Wildlife Insights",
-      datasetName = project_name, # Can this be a different value? should we filter the export to a single project ID?
+      datasetName = .data$project_name, # Can this be a different value? should we filter the export to a single project ID?
       basisOfRecord = "MachineObservation",
       # informationWithheld = 'see metadata',
       # OCCURRENCE
-      occurrenceID = image_id,
+      occurrenceID = .data$image_id,
       # recordedBy = recorded_by,
-      individualCount = number_of_objects,
-      sex = tolower(sex),
-      lifeStage = tolower(age),
+      individualCount = .data$number_of_objects,
+      sex = tolower(.data$sex),
+      lifeStage = tolower(.data$age),
       # behavior = ,
       occurrenceStatus = "present",
-      occurrenceRemarks = individual_animal_notes,
+      occurrenceRemarks = .data$individual_animal_notes,
       # ORGANISM
-      organismID = individual_id,
+      organismID = .data$individual_id,
       # EVENT
-      eventID = image_id,
-      parentEventID = deployment_id,
-      eventDate = timestamp,
+      eventID = .data$image_id,
+      parentEventID = .data$deployment_id,
+      eventDate = .data$timestamp,
       # habitat = paste0(feature_type, ifelse(is.na(feature_type_methodology), "", paste0(" (", feature_type_methodology, ")"))),
       samplingProtocol = "camera trap", 
-      samplingEffort = paste0(strftime(start_date, "%Y-%m-%dT%H:%M:%S%z"), "/", 
-                              strftime(end_date, "%Y-%m-%dT%H:%M:%S%z")),
-      eventRemarks = deploymentRemark,
+      samplingEffort = paste0(strftime(.data$start_date, "%Y-%m-%dT%H:%M:%S%z"), "/", 
+                              strftime(.data$end_date, "%Y-%m-%dT%H:%M:%S%z")),
+      eventRemarks = .data$deploymentRemark,
       # LOCATION
       # locationID = ,
-      locality = placename,
-      locationRemarks = paste0(feature_type, 
-                               ifelse(is.na(feature_type_methodology), "", 
-                                      paste0(" (", feature_type_methodology, ")"
+      locality = .data$placename,
+      locationRemarks = paste0(.data$feature_type, 
+                               ifelse(is.na(.data$feature_type_methodology), "", 
+                                      paste0(" (", .data$feature_type_methodology, ")"
                                              ))),
-      decimalLatitude = latitude,
-      decimalLongitude = longitude,
+      decimalLatitude = .data$latitude,
+      decimalLongitude = .data$longitude,
       geodeticDatum = "WGS84",
       coordinateUncertaintyInMeters = coordinateUncertaintyInMeters,
       # IDENTIFICATION
-      identifiedBy = identified_by,
+      identifiedBy = .data$identified_by,
       # dateIdentified =,
       identificationRemarks = ifelse(identified_by == "Computer Vision", 
-                                     cv_confidence, ""), # uncertainty
+                                     .data$cv_confidence, ""), # uncertainty
       # TAXON
-      taxonID = wi_taxon_id,
-      scientificName = paste0(genus, " ", species),
+      taxonID = .data$wi_taxon_id,
+      scientificName = paste0(.data$genus, " ", .data$species),
       kingdom = "Animalia",
-      class = class,
-      order = order,
-      family = family,
-      genus = genus,
+      class = .data$class,
+      order = .data$order,
+      family = .data$family,
+      genus = .data$genus,
       # taxonRank =
-      vernacularName = common_name,
+      vernacularName = .data$common_name,
       # taxonRemarks =
     )
   
   # Create the Darwin Core Audubon (https://ac.tdwg.org/introduction/)
   dwc_audubon <- obs %>%
     dplyr::transmute(
-      occurrenceID = image_id,
+      occurrenceID = .data$image_id,
       # identifier = filename
-      rights = image_license,
+      rights = .data$image_license,
       type = "StillImage",
-      captureDevice = cameraDetails,
+      captureDevice = .data$cameraDetails,
       # resourceCreationTechnique = ,
-      accessURI = location,
-      format = tools::file_ext(obs$location),
+      accessURI = .data$location,
+      format = tools::file_ext(.data$location),
       # CreateDate =
     )
   

@@ -84,33 +84,33 @@ write_dwc_wi <- function(import_directory = ".",
   obs <- obs %>%
     dplyr::mutate(
       cameraDetails = paste0(
-        ifelse(is.na(make), "", paste0("make: ", make)),
-        ifelse(is.na(model), "", paste0(" | model: ", model)),
-        ifelse(is.na(serial_number), "", paste0(" | serial_number: ", 
-                                                serial_number)),
-        ifelse(is.na(year_purchased), "", paste0(" | make: ", year_purchased))
+        ifelse(is.na(.data$make), "", paste0("make: ", .data$make)),
+        ifelse(is.na(.data$model), "", paste0(" | model: ", .data$model)),
+        ifelse(is.na(.data$serial_number), "", paste0(" | serial_number: ", 
+                                                .data$serial_number)),
+        ifelse(is.na(.data$year_purchased), "", paste0(" | make: ", .data$year_purchased))
       )
     ) %>%
     dplyr::mutate(
       deploymentRemark = paste0(
-        "bait_type: ", bait_type, ifelse(is.na(bait_description), "", 
-                                         paste0(" (", bait_description, ")")),
-        " | feature_type: ", feature_type, 
-        ifelse(is.na(feature_type_methodology), "", 
-               paste0(" (", feature_type_methodology, ")")),
-        " | quiet_period: ", quiet_period,
-        " | camera_functioning: ", camera_functioning,
-        " | sensor_height: ", ifelse(sensor_height == "Other", height_other, 
-                                     sensor_height),
-        " | sensor_orientation: ", ifelse(sensor_orientation == "Other", 
-                                          orientation_other, sensor_orientation)
+        "bait_type: ", .data$bait_type, ifelse(is.na(.data$bait_description), "", 
+                                         paste0(" (", .data$bait_description, ")")),
+        " | feature_type: ", .data$feature_type, 
+        ifelse(is.na(.data$feature_type_methodology), "", 
+               paste0(" (", .data$feature_type_methodology, ")")),
+        " | quiet_period: ", .data$quiet_period,
+        " | camera_functioning: ", .data$camera_functioning,
+        " | sensor_height: ", ifelse(.data$sensor_height == "Other", .data$height_other, 
+                                     .data$sensor_height),
+        " | sensor_orientation: ", ifelse(.data$sensor_orientation == "Other", 
+                                          .data$orientation_other, .data$sensor_orientation)
       ),
-      " | camera_id: ", camera_id, ifelse(cameraDetails == "", "", 
-                                          paste0("(", cameraDetails, ")"))
+      " | camera_id: ", .data$camera_id, ifelse(.data$cameraDetails == "", "", 
+                                          paste0("(", .data$cameraDetails, ")"))
     ) %>%
     dplyr::mutate(
       dataset_id = stringr::str_extract(
-        data_citation, 
+        .data$data_citation, 
         "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
     )
   
@@ -163,7 +163,7 @@ write_dwc_wi <- function(import_directory = ".",
       # IDENTIFICATION
       identifiedBy = .data$identified_by,
       # dateIdentified =,
-      identificationRemarks = ifelse(identified_by == "Computer Vision", 
+      identificationRemarks = ifelse(.data$identified_by == "Computer Vision", 
                                      .data$cv_confidence, ""), # uncertainty
       # TAXON
       taxonID = .data$wi_taxon_id,
@@ -182,14 +182,13 @@ write_dwc_wi <- function(import_directory = ".",
   dwc_audubon <- obs %>%
     dplyr::transmute(
       occurrenceID = .data$image_id,
-      # identifier = filename
+      mediaID = .data$image_id,
       rights = .data$image_license,
       type = "StillImage",
       captureDevice = .data$cameraDetails,
-      # resourceCreationTechnique = ,
       accessURI = .data$location,
       format = tools::file_ext(.data$location),
-      # CreateDate =
+      CreateDate = .data$timestamp
     )
   
   # Create export directory

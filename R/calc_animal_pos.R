@@ -4,14 +4,14 @@
 #' calibration models.
 #'
 #' @param animal_pos Data.frame (tibble) of animal position digitisation data.
-#'   It must contain (at least) the columns defined in args `x`, `y`, `dep_tag`,
-#'   `image_width`, `image_height`.
+#'   It must contain (at least) the columns defined in args `dep_tag`,
+#'   `sequence_id`, `x`, `y`, `image_width` and `image_height`.
 #' @param calib_models Named list of deployment calibration models or site calibration
 #'   models (`calibs` objects), produced using `cal.site()` (not yet included in
 #'   this package). The deployment names are used as names.
 #' @param dep_tag Character naming the column within `animal_pos` against which
 #'   names of the elements can be matched to apply the right deployment
-#'   calibration models. Default: `"deployment"`.
+#'   calibration models. Default: `"deploymentID"`.
 #' @param sequence_id Character naming the column within `animal_pos` containing
 #'   the sequence ID the images belong to. Default: `"sequenceID"`.
 #' @param x Character naming the column within `animal_pos` containing x pixel
@@ -19,9 +19,9 @@
 #' @param y Character naming the column within `animal_pos` containing y pixel
 #'   positions for each digitised point. Default: `"y"`.
 #' @param image_width Pixel x dimension of each image.
-#'   It must be consistent for each deployment.
+#'   It must be consistent for each deployment. Default: `"imageWidth"`.
 #' @param image_height Pixel y dimension of each image.
-#'   It must be consistent for each deployment.
+#'   It must be consistent for each deployment. Default: `"imageHeight"`.
 #'
 #' @export
 #' @return Original (tibble) dataframe as passed via `animal_pos` with
@@ -34,11 +34,11 @@
 #' # use default values
 #' calc_animal_pos(animal_positions, dep_calib_models)
 calc_animal_pos <- function(animal_pos, calib_models,
-                            dep_tag = "deployment",
+                            dep_tag = "deploymentID",
                             sequence_id = "sequenceID",
                             x = "x", y = "y",
-                            image_width = "ImageWidth",
-                            image_height = "ImageHeight") {
+                            image_width = "imageWidth",
+                            image_height = "imageHeight") {
   # animal_pos is a data.frame
   assertthat::assert_that(is.data.frame(animal_pos))
   # Check presence required columns
@@ -87,13 +87,13 @@ calc_animal_pos <- function(animal_pos, calib_models,
   )
   dep_multidim <- n_dims %>% 
     dplyr::filter(.data$heights > 1 | .data$widths > 1) %>% 
-    dplyr::distinct(.data$deployment) %>% 
-    dplyr::pull(.data$deployment)
+    dplyr::distinct(.data[[dep_tag]]) %>% 
+    dplyr::pull(.data[[dep_tag]])
   if (length(dep_multidim) > 0) {
     warning(
       glue::glue(
-        "There is more than one unique value per deployment for ImageWidth",
-        " and/or ImageHeight in deployment(s): ",
+        "There is more than one unique value per deployment for imageWidth",
+        " and/or imageHeight in deployment(s): ",
         glue::glue_collapse(dep_multidim, sep=",")
       )
     )

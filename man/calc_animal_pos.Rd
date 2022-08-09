@@ -7,18 +7,18 @@
 calc_animal_pos(
   animal_pos,
   calib_models,
-  dep_tag = "deployment",
+  dep_tag = "deploymentID",
   sequence_id = "sequenceID",
   x = "x",
   y = "y",
-  image_width = "ImageWidth",
-  image_height = "ImageHeight"
+  image_width = "imageWidth",
+  image_height = "imageHeight"
 )
 }
 \arguments{
 \item{animal_pos}{Data.frame (tibble) of animal position digitisation data.
-It must contain (at least) the columns defined in args \code{x}, \code{y}, \code{dep_tag},
-\code{image_width}, \code{image_height}.}
+It must contain (at least) the columns defined in args \code{dep_tag},
+\code{sequence_id}, \code{x}, \code{y}, \code{image_width} and \code{image_height}.}
 
 \item{calib_models}{Named list of deployment calibration models or site calibration
 models (\code{calibs} objects), produced using \code{cal.site()} (not yet included in
@@ -26,7 +26,7 @@ this package). The deployment names are used as names.}
 
 \item{dep_tag}{Character naming the column within \code{animal_pos} against which
 names of the elements can be matched to apply the right deployment
-calibration models. Default: \code{"deployment"}.}
+calibration models. Default: \code{"deploymentID"}.}
 
 \item{sequence_id}{Character naming the column within \code{animal_pos} containing
 the sequence ID the images belong to. Default: \code{"sequenceID"}.}
@@ -38,10 +38,10 @@ positions for each digitised point. Default: \code{"x"}.}
 positions for each digitised point. Default: \code{"y"}.}
 
 \item{image_width}{Pixel x dimension of each image.
-It must be consistent for each deployment.}
+It must be consistent for each deployment. Default: \code{"imageWidth"}.}
 
 \item{image_height}{Pixel y dimension of each image.
-It must be consistent for each deployment.}
+It must be consistent for each deployment. Default: \code{"imageHeight"}.}
 }
 \value{
 Original (tibble) dataframe as passed via \code{animal_pos} with

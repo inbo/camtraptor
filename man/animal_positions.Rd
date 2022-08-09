@@ -5,7 +5,7 @@
 \alias{animal_positions}
 \title{Sample of animal position digitisation data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 42 rows and 19 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 42 rows and 6 columns.
 }
 \usage{
 animal_positions

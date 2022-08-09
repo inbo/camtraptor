@@ -12,6 +12,8 @@
 #' @param dep_tag Character naming the column within `animal_pos` against which
 #'   names of the elements can be matched to apply the right deployment
 #'   calibration models. Default: `"deployment"`.
+#' @param sequence_id Character naming the column within `animal_pos` containing
+#'   the sequence ID the images belong to. Default: `"sequenceID"`.
 #' @param x Character naming the column within `animal_pos` containing x pixel
 #'   positions for each digitised point. Default: `"x"`.
 #' @param y Character naming the column within `animal_pos` containing y pixel
@@ -29,16 +31,18 @@
 #'   - `frame_count`: indicator of the frame order within each sequence
 #'
 #' @examples
+#' # use default values
 #' calc_animal_pos(animal_positions, dep_calib_models)
 calc_animal_pos <- function(animal_pos, calib_models,
                             dep_tag = "deployment",
+                            sequence_id = "sequenceID",
                             x = "x", y = "y",
                             image_width = "ImageWidth",
                             image_height = "ImageHeight") {
   # animal_pos is a data.frame
   assertthat::assert_that(is.data.frame(animal_pos))
   # Check presence required columns
-  required <- c(x, y, image_width, image_height, dep_tag)
+  required <- c(dep_tag, sequence_id, x, y, image_width, image_height)
   not_found_cols <- required[!required %in% names(animal_pos)]
   assertthat::assert_that(
     length(not_found_cols) == 0,
@@ -108,8 +112,9 @@ calc_animal_pos <- function(animal_pos, calib_models,
       radius = r,
       angle = a)
   })
+  
   res <- dplyr::bind_rows(res)
-  tab <- table(res$sequence_id)
+  tab <- table(res[[sequence_id]])
   res$frame_count <- sequence(tab)
   res
 }

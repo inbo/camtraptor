@@ -13,8 +13,11 @@
 
 #' Sample of animal position digitisation data
 #'
-#' It must contain at least columns containing the coordinates (x, y), the
-#' deployment and the image dimensions (width and height).
+#' A tibble data.frame with the following columns:
+#' - `deploymentID`
+#' - `sequenceID`
+#' - `x` and `y`: the coordinates
+#' - `imageWidth` and `imageHeight`: the image dimensions
 "animal_positions"
 
 #' Sample of deployment calibration models or site calibration models (`depcal` objects)

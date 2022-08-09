@@ -11,7 +11,12 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 animal_positions
 }
 \description{
-It must contain at least columns containing the coordinates (x, y), the
-deployment and the image dimensions (width and height).
+A tibble data.frame with the following columns:
+\itemize{
+\item \code{deploymentID}
+\item \code{sequenceID}
+\item \code{x} and \code{y}: the coordinates
+\item \code{imageWidth} and \code{imageHeight}: the image dimensions
+}
 }
 \keyword{datasets}

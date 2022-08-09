@@ -16,9 +16,9 @@
 #'   positions for each digitised point. Default: `"x"`.
 #' @param y Character naming the column within `animal_pos` containing y pixel
 #'   positions for each digitised point. Default: `"y"`.
-#' @param image_width pixel x dimension of each image.
+#' @param image_width Pixel x dimension of each image.
 #'   It must be consistent for each deployment.
-#' @param image_height pixel y dimension of each image.
+#' @param image_height Pixel y dimension of each image.
 #'   It must be consistent for each deployment.
 #'
 #' @export

@@ -14,7 +14,8 @@ https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81
 mica
 }
 \description{
-A sample camera trap data package, based on data from the MICA project. Also stored in \code{inst}.
+A sample camera trap data package, based on data from the MICA project. Also
+stored in \code{inst}.
 }
 \details{
 This sample is an extract from a bigger camera trap data package saved as raw

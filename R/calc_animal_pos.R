@@ -9,22 +9,24 @@
 #' @param calib_models Named list of deployment calibration models or site calibration
 #'   models (`calibs` objects), produced using `cal.site()` (not yet included in
 #'   this package). The deployment names are used as names.
-#' @param dep_tag Character naming the column within `animal_pos` against which
+#' @param dep_tag Column in `animal_pos` against which
 #'   names of the elements can be matched to apply the right deployment
 #'   calibration models. Default: `"deploymentID"`.
-#' @param sequence_id Character naming the column within `animal_pos` containing
+#' @param sequence_id Column in `animal_pos` containing
 #'   the sequence ID the images belong to. Default: `"sequenceID"`.
-#' @param x Character naming the column within `animal_pos` containing x pixel
+#' @param x Column in `animal_pos` containing x pixel
 #'   positions for each digitised point. Default: `"x"`.
-#' @param y Character naming the column within `animal_pos` containing y pixel
+#' @param y Column in `animal_pos` containing y pixel
 #'   positions for each digitised point. Default: `"y"`.
-#' @param image_width Pixel x dimension of each image.
-#'   It must be consistent for each deployment. Default: `"imageWidth"`.
-#' @param image_height Pixel y dimension of each image.
-#'   It must be consistent for each deployment. Default: `"imageHeight"`.
+#' @param image_width Column in `animal_pos` containing the pixel x dimension of
+#'   each image. Default: `"imageWidth"`. Notice that the pixel x dimension must
+#'   be consistent for each deployment.
+#' @param image_height Column in `animal_pos` containing the pixel y dimension
+#'   of each image. Default: `"imageHeight"`. Notice that the pixel y dimension
+#'   must be consistent for each deployment.
 #'
 #' @export
-#' @return Original (tibble) dataframe as passed via `animal_pos` with
+#' @return Original (tibble) data.frame as passed via `animal_pos` with
 #'   additional columns:
 #'   - `radius`: radial distance from camera
 #'   - `angle`: angular distance from camera

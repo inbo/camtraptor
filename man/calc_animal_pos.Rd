@@ -24,27 +24,29 @@ It must contain (at least) the columns defined in args \code{dep_tag},
 models (\code{calibs} objects), produced using \code{cal.site()} (not yet included in
 this package). The deployment names are used as names.}
 
-\item{dep_tag}{Character naming the column within \code{animal_pos} against which
+\item{dep_tag}{Column in \code{animal_pos} against which
 names of the elements can be matched to apply the right deployment
 calibration models. Default: \code{"deploymentID"}.}
 
-\item{sequence_id}{Character naming the column within \code{animal_pos} containing
+\item{sequence_id}{Column in \code{animal_pos} containing
 the sequence ID the images belong to. Default: \code{"sequenceID"}.}
 
-\item{x}{Character naming the column within \code{animal_pos} containing x pixel
+\item{x}{Column in \code{animal_pos} containing x pixel
 positions for each digitised point. Default: \code{"x"}.}
 
-\item{y}{Character naming the column within \code{animal_pos} containing y pixel
+\item{y}{Column in \code{animal_pos} containing y pixel
 positions for each digitised point. Default: \code{"y"}.}
 
-\item{image_width}{Pixel x dimension of each image.
-It must be consistent for each deployment. Default: \code{"imageWidth"}.}
+\item{image_width}{Column in \code{animal_pos} containing the pixel x dimension of
+each image. Default: \code{"imageWidth"}. Notice that the pixel x dimension must
+be consistent for each deployment.}
 
-\item{image_height}{Pixel y dimension of each image.
-It must be consistent for each deployment. Default: \code{"imageHeight"}.}
+\item{image_height}{Column in \code{animal_pos} containing the pixel y dimension
+of each image. Default: \code{"imageHeight"}. Notice that the pixel y dimension
+must be consistent for each deployment.}
 }
 \value{
-Original (tibble) dataframe as passed via \code{animal_pos} with
+Original (tibble) data.frame as passed via \code{animal_pos} with
 additional columns:
 \itemize{
 \item \code{radius}: radial distance from camera

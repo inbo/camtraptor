@@ -608,7 +608,8 @@ map_dep <- function(package = NULL,
   # make basic start map
   leaflet_map <-
     leaflet::leaflet() %>%
-    leaflet::addTiles()
+    leaflet::addTiles() %>%
+    leaflet::addScaleBar()
 
   # add markers for deployments with zero values if needed
   if ((zero_values_show == TRUE) & (nrow(zero_values) > 0)) {

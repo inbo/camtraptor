@@ -34,7 +34,13 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/animal_positions.html</loc>
+  </url>
+  <url>
     <loc>/reference/apply_filter_predicate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calc_animal_pos.html</loc>
   </url>
   <url>
     <loc>/reference/check_filter_arg.html</loc>
@@ -59,6 +65,9 @@
   </url>
   <url>
     <loc>/reference/check_species.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dep_calib_models.html</loc>
   </url>
   <url>
     <loc>/reference/filter_predicate.html</loc>

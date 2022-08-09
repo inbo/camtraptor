@@ -7,7 +7,7 @@ testthat::test_that(
     calc_animal_pos(dplyr::tibble(deploymentID = "A",
                                   imageWidth = 5,
                                   imageHeight = 10),
-                list(a = "a")),
+                    list(a = "a")),
     "Columns sequenceID, x and y not found in animal_pos."
   )
   # imageWidth, imageHeight and deploymentID columns missing

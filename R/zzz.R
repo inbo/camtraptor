@@ -302,8 +302,8 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
 #'
 #' @param mod Site calibration model (`depcal` object), produced using
 #'   `cal.site()`).
-#' @param relx x pixel position relative to the centre line.
-#' @param rely y pixel position relative to the top edge.
+#' @param relx x Pixel position relative to the centre line.
+#' @param rely y Pixel position relative to the top edge.
 #'
 #' @return Vector numeric radii.
 #'

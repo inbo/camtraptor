@@ -51,7 +51,7 @@ observations._id                        N
 
 SELECT
 -- RECORD-LEVEL
-  'Event'                               AS type,
+  'Image'                               AS type,
   {license_url}                         AS license,
   {rights_holder}                       AS rightsHolder,
 -- bibliographicCitation: how *record* should be cited, so not package bibliographicCitation
@@ -60,7 +60,6 @@ SELECT
   {platform}                            AS collectionCode,
   {title}                               AS datasetName,
   'MachineObservation'                  AS basisOfRecord,
-  'see metadata'                        AS informationWithheld,
 -- OCCURRENCE
   obs.observationID                     AS occurrenceID,
   obs.count                             AS individualCount,

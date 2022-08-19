@@ -21,8 +21,8 @@
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates for filtering on deployments
 #' @importFrom dplyr .data %>%
+#'
 #' @export
-
 #' @return Tibble data.frame with the following columns:
 #' - `deploymentID`:  deployment unique identifier
 #' - `scientificName`: scientific name of the species. This column is omitted

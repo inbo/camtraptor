@@ -66,6 +66,9 @@ write_dwc_wi <- function(import_directory = ".",
   # Check that there is only a single project
   stopifnot(length(unique(obs$project_name)) == 1)
   
+  # Check that occurence ID is unique
+  stopifnot(length(unique(obs$image_id)) == length(obs$image_id))
+  
   # Filter species and class to keep only non-human wildlife entries.
   # See https://www.wildlifeinsights.org/get-started/taxonomy
   # https://wildlifeinsights-taxonomy-ewutmovdfa-uc.a.run.app/
@@ -111,10 +114,9 @@ write_dwc_wi <- function(import_directory = ".",
     dplyr::mutate(
       dataset_id = stringr::str_extract(
         .data$data_citation, 
-        "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
-    ) %>% 
-    dplyr::mutate(
-      access_uri = stringr::str_replace(stringr::str_replace(.data$location, "gs://", "https://storage.googleapis.com/"),"__main","__thumbnails")
+        "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"),
+      access_uri = stringr::str_replace(stringr::str_replace(.data$location, "gs://", "https://storage.googleapis.com/"),"__main","__thumbnails"),
+      occurrence_id = paste0(.data$image_id,'_',.data$taxon_id)
     )
   
   # Create the Darwin Core occurrence table
@@ -133,7 +135,7 @@ write_dwc_wi <- function(import_directory = ".",
       basisOfRecord = "MachineObservation",
       # informationWithheld = 'see metadata',
       # OCCURRENCE
-      occurrenceID = .data$image_id,
+      occurrenceID = .data$occurrence_id,
       # recordedBy = recorded_by,
       individualCount = .data$number_of_objects,
       sex = tolower(.data$sex),
@@ -184,7 +186,8 @@ write_dwc_wi <- function(import_directory = ".",
   # Create the Darwin Core Audubon (https://ac.tdwg.org/introduction/)
   dwc_audubon <- obs %>%
     dplyr::transmute(
-      occurrenceID = .data$image_id,
+      identifier = .data$image_id,
+      occurrenceID = .data$occurrence_id,
       mediaID = .data$image_id,
       rights = .data$image_license,
       type = "StillImage",
@@ -192,7 +195,7 @@ write_dwc_wi <- function(import_directory = ".",
       accessURI = .data$access_uri,
       format = tools::file_ext(.data$location),
       CreateDate = .data$timestamp
-    )
+    ) %>% unique()
   
   # Create export directory
   if (!dir.exists(export_directory)) {

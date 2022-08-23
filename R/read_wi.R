@@ -126,20 +126,20 @@ read_wi <- function(directory = ".",
   package$spatial <- list(
     type = "Feature",
     bbox = list(
-      min(deployments$longitude),
-      min(deployments$latitude),
-      max(deployments$longitude),
-      max(deployments$latitude)
+      min(wi_deployments$longitude),
+      min(wi_deployments$latitude),
+      max(wi_deployments$longitude),
+      max(wi_deployments$latitude)
     ),
     properties = list(),
     geometry = list(
       type = "Polygon",
       coordinates = list(
-        list(min(deployments$longitude), min(deployments$latitude)),
-        list(max(deployments$longitude), min(deployments$latitude)),
-        list(max(deployments$longitude), max(deployments$latitude)),
-        list(min(deployments$longitude), min(deployments$latitude)),
-        list(min(deployments$longitude), min(deployments$latitude))
+        list(min(wi_deployments$longitude), min(wi_deployments$latitude)),
+        list(max(wi_deployments$longitude), min(wi_deployments$latitude)),
+        list(max(wi_deployments$longitude), max(wi_deployments$latitude)),
+        list(min(wi_deployments$longitude), min(wi_deployments$latitude)),
+        list(min(wi_deployments$longitude), min(wi_deployments$latitude))
       )
     )
   )

@@ -177,7 +177,7 @@ read_wi <- function(directory = ".",
 
   # deployments (see https://tdwg.github.io/camtrap-dp/data/#deployments)
   deployments <- wi_deployments %>%
-    dplyr::left_join(wi_cameras) %>%
+    dplyr::left_join(wi_cameras, by = c("project_id", "camera_id")) %>%
     dplyr::transmute(
       deploymentID = .data$deployment_id,
       locationName = .data$placename,

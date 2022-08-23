@@ -148,7 +148,7 @@ read_wi <- function(directory = ".",
     end = max(wi_deployments$end_date)
   )
   package$taxonomic <- wi_images %>%
-    transmute(
+    dplyr::transmute(
       taxonID = .data$wi_taxon_id,
       taxonIDReference = "https://github.com/ConservationInternational/Wildlife-Insights----Data-Migration/tree/master/WI_Global_Taxonomy",
       taxonRank = ifelse(.data$species != "", "species",
@@ -177,8 +177,8 @@ read_wi <- function(directory = ".",
 
   # deployments (see https://tdwg.github.io/camtrap-dp/data/#deployments)
   deployments <- wi_deployments %>%
-    left_join(wi_cameras) %>%
-    transmute(
+    dplyr::left_join(wi_cameras) %>%
+    dplyr::transmute(
       deploymentID = .data$deployment_id,
       locationName = .data$placename,
       locationID = .data$placename,
@@ -208,7 +208,7 @@ read_wi <- function(directory = ".",
 
   # https://tdwg.github.io/camtrap-dp/data/#media
   media <- wi_images %>%
-    transmute(
+    dplyr::transmute(
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
       # sequenceID
@@ -226,7 +226,7 @@ read_wi <- function(directory = ".",
 
   # https://tdwg.github.io/camtrap-dp/data/#observations
   observations <- wi_images %>%
-    transmute(
+    dplyr::transmute(
       observationID = paste(.data$image_id, .data$wi_taxon_id),
       deploymentID = .data$deployment_id,
       # sequenceID

@@ -191,19 +191,19 @@ read_wi <- function(directory = ".",
       cameraID = as.character(.data$camera_id),
       cameraModel = .data$model,
       cameraInterval = .data$quiet_period,
-      cameraHeight = .data$sensor_height,
-      # cameraTilt = NULL,
+      cameraHeight = .data$sensor_height, # "Knee height" not valid
+      cameraTilt = NA_integer_,
       cameraHeading = .data$sensor_orientation,
-      # detectionDistance = NULL,
-      # timestampIssues = FALSE,
+      detectionDistance = NA_real_,
+      timestampIssues = FALSE,
       baitUse = tolower(.data$bait_type),
-      # session subproject_name?
-      # array ?
+      session = NA_character_, # subproject_name?
+      array = NA_character_,
       featureType = tolower(.data$feature_type),
-      # habitat
-      # tags
-      # comments = event_description?
-      # _id
+      habitat = NA_character_,
+      tags = NA_character_,
+      comments = NA_character_, # event_description?
+      `_id` = NA_character_
     )
 
   # https://tdwg.github.io/camtrap-dp/data/#media
@@ -211,16 +211,16 @@ read_wi <- function(directory = ".",
     dplyr::transmute(
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
-      # sequenceID
+      sequenceID = NA_character_,
       captureMethod = captureMethod,
       timestamp = .data$timestamp,
       filePath = .data$location,
       fileName = .data$filename,
       fileMediatype = "image/jpeg", # tools::file_ext(.data$location) would return ".jpg), should we use this?
-      # exifData
-      # comments =
-      # _id
+      exifData = NA_character_,
       favourite = .data$highlighted,
+      comments = NA_character_,
+      `_id` = NA_character_
     ) %>%
     unique() # unique remove the images with multiple observations
 
@@ -229,50 +229,49 @@ read_wi <- function(directory = ".",
     dplyr::transmute(
       observationID = paste(.data$image_id, .data$wi_taxon_id),
       deploymentID = .data$deployment_id,
-      # sequenceID
+      sequenceID = NA_character_,
       mediaID = .data$image_id,
       timestamp = .data$timestamp, # why do we need this again? How can it be different from media$timestamp
       observationType = .data$observationType,
-      # cameraSetup
+      cameraSetup = NA,
       taxonID = .data$wi_taxon_id, # Why this is not required?
       scientificName = paste0(.data$genus, " ", .data$species), # Why do we need this again here?
       count = .data$number_of_objects,
-      # countNew
+      countNew = NA_integer_,
       lifeStage = tolower(.data$age),
       sex = tolower(.data$sex),
-      # behaviour
-      # individualID = individual_id or animal_recognizable ?  I am not sure what are WI export option if that is the case?
+      behaviour = NA_character_,
+      individualID = NA_character_, # individual_id or animal_recognizable? I am not sure what are WI export option if that is the case?
       classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
       classifiedBy = .data$identified_by,
-      # classificationTimestamp
+      classificationTimestamp = NA,
       classificationConfidence = .data$cv_confidence, # or uncertainty ? not sure of the difference
       comments = .data$individual_animal_notes,
-      # _id
+      `_id` = NA_character_
       # Not use: license and markings.
     )
 
 
-  # To be use in the future
-  # package <- package %>%
-  #   frictionless::add_resource(
-  #     package,
-  #     resource_name = "deployments",
-  #     data = deployments,
-  #     schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/deployments-table-schema.json"
-  #   ) %>%
-  #   frictionless::add_resource(
-  #     package,
-  #     resource_name = "media",
-  #     data = media,
-  #     schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/media-table-schema.json"
-  #   ) %>%
-  #   frictionless::add_resource(
-  #     package,
-  #     resource_name = "observations",
-  #     data = observations,
-  #     schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/observations-table-schema.json"
-  #   )
-
+  # Add data frames as resources (in separate steps for better error handling)
+  # TODO: enable as part of https://github.com/inbo/camtraptor/issues/144
+  # package <- frictionless::add_resource(
+  #   package,
+  #   resource_name = "deployments",
+  #   data = deployments,
+  #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/deployments-table-schema.json"
+  # )
+  # package <- frictionless::add_resource(
+  #   package,
+  #   resource_name = "media",
+  #   data = media,
+  #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/media-table-schema.json"
+  # )
+  # package <- frictionless::add_resource(
+  #   package,
+  #   resource_name = "observations",
+  #   data = observations,
+  #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/observations-table-schema.json"
+  # )
 
   # Check
   package$data <- list(

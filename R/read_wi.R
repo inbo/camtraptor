@@ -9,7 +9,7 @@
 #' [public download](
 #' https://www.wildlifeinsights.org/get-started/data-download/public).
 #' This function read the zip file from the download and convert the Projects,
-#' Cameras, Deployements csv file to Darwin Core standard
+#' Cameras, Deployments csv file to Darwin Core standard
 #'
 #' @param directory Path to local directory to read the WI files
 #' @param rights_holder Acronym of the organization owning or managing the
@@ -33,9 +33,9 @@ read_wi <- function(directory = ".",
   }
 
   # Get file location and check existence
-  deployements_file <- file.path(directory, "deployments.csv")
-  if (!file.exists(deployements_file)) {
-    stop(paste0("The deployements file does not exist: ", deployements_file))
+  deployments_file <- file.path(directory, "deployments.csv")
+  if (!file.exists(deployments_file)) {
+    stop(paste0("The deployments file does not exist: ", deployments_file))
   }
   images_file <- file.path(directory, "images.csv")
   if (!file.exists(images_file)) {
@@ -51,7 +51,7 @@ read_wi <- function(directory = ".",
   }
 
   # Read data from file
-  wi_deployments <- readr::read_csv(deployements_file, show_col_types = FALSE)
+  wi_deployments <- readr::read_csv(deployments_file, show_col_types = FALSE)
   wi_images <- readr::read_csv(images_file, show_col_types = FALSE)
   wi_cameras <- readr::read_csv(cameras_file, show_col_types = FALSE)
   wi_projects <- readr::read_csv(projects_file, show_col_types = FALSE)
@@ -85,8 +85,8 @@ read_wi <- function(directory = ".",
       TRUE ~ "unknown"
     )
   )
-  
-  
+
+
   # Create the package
   package <- frictionless::create_package()
 
@@ -120,26 +120,26 @@ read_wi <- function(directory = ".",
     captureMethod = captureMethod,
     animalTypes = ifelse(mean(is.na(wi_images$markings)) == 1, "unmarked", ifelse(mean(is.na(wi_images$markings)) == 0, "marked", c("marked", "unmarked"))), # marked and/or unmarked
     classificationLevel = ifelse(wi_projects$project_type == "Image", "media", "sequence") # Need to check how WI export sequence data.
-    # sequenceInterval # deployement specific, see https://github.com/tdwg/camtrap-dp/issues/203
+    # sequenceInterval # deployment specific, see https://github.com/tdwg/camtrap-dp/issues/203
     # references # none used in WI
   )
   package$spatial <- list(
     type = "Feature",
     bbox = list(
-      min(deployements$longitude),
-      min(deployements$latitude),
-      max(deployements$longitude),
-      max(deployements$latitude)
+      min(deployments$longitude),
+      min(deployments$latitude),
+      max(deployments$longitude),
+      max(deployments$latitude)
     ),
     properties = list(),
     geometry = list(
       type = "Polygon",
       coordinates = list(
-        list(min(deployements$longitude), min(deployements$latitude)),
-        list(max(deployements$longitude), min(deployements$latitude)),
-        list(max(deployements$longitude), max(deployements$latitude)),
-        list(min(deployements$longitude), min(deployements$latitude)),
-        list(min(deployements$longitude), min(deployements$latitude))
+        list(min(deployments$longitude), min(deployments$latitude)),
+        list(max(deployments$longitude), min(deployments$latitude)),
+        list(max(deployments$longitude), max(deployments$latitude)),
+        list(min(deployments$longitude), min(deployments$latitude)),
+        list(min(deployments$longitude), min(deployments$latitude))
       )
     )
   )
@@ -175,8 +175,8 @@ read_wi <- function(directory = ".",
     # packageID = ""
   )
 
-  # Deployements (see https://tdwg.github.io/camtrap-dp/data/#deployments)
-  deployements <- wi_deployments %>%
+  # deployments (see https://tdwg.github.io/camtrap-dp/data/#deployments)
+  deployments <- wi_deployments %>%
     left_join(wi_cameras) %>%
     transmute(
       deploymentID = .data$deployment_id,
@@ -251,7 +251,7 @@ read_wi <- function(directory = ".",
       # Not use: license and markings.
     )
 
-  
+
   # To be use in the future
   # package <- package %>%
   #   frictionless::add_resource(
@@ -280,6 +280,6 @@ read_wi <- function(directory = ".",
     media = media,
     observations = observations
   )
-  
+
   return(package)
 }

@@ -180,15 +180,15 @@ read_wi <- function(directory = ".",
     dplyr::left_join(wi_cameras, by = c("project_id", "camera_id")) %>%
     dplyr::transmute(
       deploymentID = .data$deployment_id,
-      locationName = .data$placename,
       locationID = .data$placename,
-      .data$longitude,
-      .data$latitude,
+      locationName = .data$placename,
+      longitude = .data$longitude,
+      latitude = .data$latitude,
       coordinateUncertainty = coordinateUncertaintyInMeters,
       start = .data$start_date,
       end = .data$end_date,
       setupBy = .data$recorded_by,
-      cameraID = .data$camera_id,
+      cameraID = as.character(.data$camera_id),
       cameraModel = .data$model,
       cameraInterval = .data$quiet_period,
       cameraHeight = .data$sensor_height,
@@ -218,9 +218,9 @@ read_wi <- function(directory = ".",
       fileName = .data$filename,
       fileMediatype = "image/jpeg", # tools::file_ext(.data$location) would return ".jpg), should we use this?
       # exifData
-      favorite = .data$highlighted,
       # comments =
       # _id
+      favourite = .data$highlighted,
     ) %>%
     unique() # unique remove the images with multiple observations
 
@@ -235,7 +235,7 @@ read_wi <- function(directory = ".",
       observationType = .data$observationType,
       # cameraSetup
       taxonID = .data$wi_taxon_id, # Why this is not required?
-      # scientificName = paste0(.data$genus, " ", .data$species), Why do we need this again here?
+      scientificName = paste0(.data$genus, " ", .data$species), # Why do we need this again here?
       count = .data$number_of_objects,
       # countNew
       lifeStage = tolower(.data$age),

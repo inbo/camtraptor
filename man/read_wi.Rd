@@ -33,5 +33,5 @@ data exchange format.
 Wildlife Insight offers to export your dataset \href{https://www.wildlifeinsights.org/get-started/download/private}{as private download} or
 \href{https://www.wildlifeinsights.org/get-started/data-download/public}{public download}.
 This function read the zip file from the download and convert the Projects,
-Cameras, Deployements csv file to Darwin Core standard
+Cameras, Deployments csv file to Darwin Core standard
 }

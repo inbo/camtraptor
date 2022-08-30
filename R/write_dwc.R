@@ -16,7 +16,7 @@
 #' into an
 #' [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml) and
 #' [Audubon Media Description extension](https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml).
-#' See the [SQL files]((https://github.com/inbo/camtraptor/tree/main/inst/sql)
+#' See the [SQL files](https://github.com/inbo/camtraptor/tree/main/inst/sql)
 #' used by this function for details.
 #'
 #' The following terms are set from the `package` metadata:

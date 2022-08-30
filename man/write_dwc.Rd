@@ -26,7 +26,7 @@ Data are transformed following best practices (Reyserhove et al. in prep.)
 into an
 \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core} and
 \href{https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml}{Audubon Media Description extension}.
-See the \link{SQL files}((https://github.com/inbo/camtraptor/tree/main/inst/sql)
+See the \href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{SQL files}
 used by this function for details.
 
 The following terms are set from the \code{package} metadata:

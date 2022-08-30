@@ -82,7 +82,7 @@ write_eml <- function(package, directory = ".", title = package$title,
     system = "uuid",
     dataset = list()
   )
-  message("ℹ Please review generated metadata carefully before publishing.")
+  message("Please review generated metadata carefully before publishing.")
 
   # Get properties
   project <- package$project
@@ -144,21 +144,21 @@ write_eml <- function(package, directory = ".", title = package$title,
       # creators does not contain "...", reduce contributors to selected names
       contributors <- filter(contributors, title %in% creators)
     } else {
-      # creators does contain "...", expand to full contributors
+      # creators does contain "...", expand creators to full contributors
       creators <- c(
-        head(creators, ellipsis - 1),
-        filter(contributors, !title %in% creators)$title,
-        tail(creators, -ellipsis)
+        utils::head(creators, ellipsis - 1),
+        dplyr::filter(contributors, !title %in% creators)$title,
+        utils::tail(creators, -ellipsis)
       )
     }
     # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order(factor(title, levels = creators))
+      contributors, order_by = order(factor(title, levels = creators))
     )
   }
   creator_list <- purrr::transpose(contributors) # Create list
   message(glue::glue(
-    "ℹ Dataset creators: {creators}",
+    "Dataset creators: {creators}",
     creators = paste(purrr::map_chr(creator_list, "title"), collapse = ", ")
   ))
 

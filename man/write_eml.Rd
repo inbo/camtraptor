@@ -9,7 +9,7 @@ write_eml(
   directory = ".",
   title = package$title,
   description = package$description,
-  authors = NULL,
+  creators = NULL,
   keywords = c("camera traps")
 )
 }
@@ -26,17 +26,16 @@ for extended/adapting the EML before writing with \code{\link[EML:write_eml]{EML
 Will be added after an automatically generated paragraph.
 Multiple paragraphs can be provided as a character vector.}
 
-\item{authors}{Dataset authors.
+\item{creators}{Dataset creators
 \itemize{
-\item If \code{NULL} then all \code{package$contributors} will be added as authors, in the
+\item If \code{NULL} then all \code{package$contributors} will be added as creators, in the
 order as listed.
 \item If e.g. \code{c("Emma Cartuyvels", "Jim Casaer", "...", "Peter Desmet")}, then
 Emma Cartuyvels, Jim Casaer and Peter Desmet will be set as first, second
-and last authors respectively, on the condition that their name is present
-in \code{package$contributor} (matching happens on the \code{title} property of
-contributors).
-Because of the presence of \code{"..."}, all other contributors will be included
-at that position, sorted on their last name.
+and last creators respectively, on the condition that their name (\code{title})
+is present in \code{package$contributors}.
+All other contributors will be inserted at \code{"..."}, sorted on their last
+name.
 }}
 
 \item{keywords}{Dataset keywords.}
@@ -52,7 +51,6 @@ Transforms the metadata of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Tr
 }
 \section{Transformation details}{
 
-
 Metadata is derived from what is provided in \code{package} and in the function
 parameters.
 The following properties are set:
@@ -64,7 +62,7 @@ The description is preceded by an automatically generated paragraph
 describing from which project and platform the dataset is derived.
 \item \strong{license}: License with scope \code{data} as provided in \code{package$licenses}.
 \item \strong{creators}: Contributors (all roles) as provided in
-\code{package$contributors}, reordered or selected based on \code{authors}.
+\code{package$contributors}, filtered/reordered based on \code{creators}.
 \item \strong{contact}: First creator.
 \item \strong{metadata provider}: First creator.
 \item \strong{keywords}: Keywords as provided in \code{keywords}.
@@ -86,7 +84,8 @@ If this is a DOI, no new DOI will be created when publishing to GBIF.
 To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
 \strong{update frequency} and \strong{publishing organization}.
 
-Not set: sampling methods and citations.
-Not applicable: collection data.
+Not set: \strong{sampling methods} and \strong{citations}.
+
+Not applicable: \strong{collection data}.
 }
 

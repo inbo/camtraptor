@@ -13,24 +13,21 @@
 #' @param description Dataset description.
 #'   Will be added after an automatically generated paragraph.
 #'   Multiple paragraphs can be provided as a character vector.
-#' @param authors Dataset authors.
-#' - If `NULL` then all `package$contributors` will be added as authors, in the
+#' @param creators Dataset creators
+#' - If `NULL` then all `package$contributors` will be added as creators, in the
 #'   order as listed.
 #' - If e.g. `c("Emma Cartuyvels", "Jim Casaer", "...", "Peter Desmet")`, then
 #'   Emma Cartuyvels, Jim Casaer and Peter Desmet will be set as first, second
-#'   and last authors respectively, on the condition that their name is present
-#'   in `package$contributor` (matching happens on the `title` property of
-#'   contributors).
-#'   Because of the presence of `"..."`, all other contributors will be included
-#'   at that position, sorted on their last name.
+#'   and last creators respectively, on the condition that their name (`title`)
+#'   is present in `package$contributors`.
+#'   All other contributors will be inserted at `"..."`, sorted on their last
+#'   name.
 #' @param keywords Dataset keywords.
 #' @return `eml.xml` file written to disk or `EML` object when
 #'   `directory = NULL`.
 #' @export
 #' @importFrom dplyr %>%
-#'
 #' @section Transformation details:
-#'
 #' Metadata is derived from what is provided in `package` and in the function
 #' parameters.
 #' The following properties are set:
@@ -41,7 +38,7 @@
 #'   describing from which project and platform the dataset is derived.
 #' - **license**: License with scope `data` as provided in `package$licenses`.
 #' - **creators**: Contributors (all roles) as provided in
-#'   `package$contributors`, reordered or selected based on `authors`.
+#'   `package$contributors`, filtered/reordered based on `creators`.
 #' - **contact**: First creator.
 #' - **metadata provider**: First creator.
 #' - **keywords**: Keywords as provided in `keywords`.
@@ -62,10 +59,11 @@
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency** and **publishing organization**.
 #'
-#' Not set: sampling methods and citations.
-#' Not applicable: collection data.
+#' Not set: **sampling methods** and **citations**.
+#'
+#' Not applicable: **collection data**.
 write_eml <- function(package, directory = ".", title = package$title,
-                      description = package$description, authors = NULL,
+                      description = package$description, creators = NULL,
                       keywords = c("camera traps")) {
   # Check input
   assertthat::assert_that(
@@ -138,33 +136,33 @@ write_eml <- function(package, directory = ".", title = package$title,
     ) %>%
     dplyr::arrange(last_name)
 
-  # Filter/sort contributors on authors param (or leave as is when NULL)
-  if (!is.null(authors)) {
-    ellipsis <- match("...", authors)
+  # Filter/sort contributors on creators param (or leave as is when NULL)
+  if (!is.null(creators)) {
+    ellipsis <- match("...", creators)
     if (is.na(ellipsis)) {
-      # authors does not contain "...", reduce contributors to selected authors
-      contributors <- filter(contributors, title %in% authors)
+      # creators does not contain "...", reduce contributors to selected names
+      contributors <- filter(contributors, title %in% creators)
     } else {
-      # authors does contain "...", expand to full authors
-      authors <- c(
-        head(authors, ellipsis - 1),
-        filter(contributors, !title %in% authors)$title,
-        tail(authors, -ellipsis)
+      # creators does contain "...", expand to full contributors
+      creators <- c(
+        head(creators, ellipsis - 1),
+        filter(contributors, !title %in% creators)$title,
+        tail(creators, -ellipsis)
       )
     }
-    # Sort contributors on order in authors
+    # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order(factor(title, levels = authors))
+      contributors, order(factor(title, levels = creators))
     )
   }
-  creators <- purrr::transpose(contributors) # Create list
+  creator_list <- purrr::transpose(contributors) # Create list
   message(glue::glue(
-    "ℹ Authors: {creators}",
-    creators = paste(purrr::map_chr(creators, "title"), collapse = ", ")
+    "ℹ Dataset creators: {creators}",
+    creators = paste(purrr::map_chr(creator_list, "title"), collapse = ", ")
   ))
 
   # Set creators
-  eml$dataset$creator <- purrr::map(creators, ~ EML::set_responsibleParty(
+  eml$dataset$creator <- purrr::map(creator_list, ~ EML::set_responsibleParty(
     givenName = .$first_name,
     surName = .$last_name,
     organizationName = .$organization, # Discouraged by EML, but used by IPT

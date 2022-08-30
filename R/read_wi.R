@@ -22,16 +22,8 @@ read_wi <- function(directory = ".",
                     rightsHolder = "project_admin_organization",
                     coordinateUncertaintyInMeters = 30,
                     captureMethod = "motion detection") {
-  if (!file.exists(directory)) {
-    stop(paste0("The import directory does not exist: ", directory))
-  }
 
-  # If zip file, unzip
-  if (tools::file_ext(directory) == "zip") {
-    utils::unzip(directory, exdir = dirname(directory))
-    directory <- tools::file_path_sans_ext(directory)
-  }
-
+  assertthat::assert_that(dir.exists(directory))
   # Get file location and check existence
   deployments_file <- file.path(directory, "deployments.csv")
   if (!file.exists(deployments_file)) {
@@ -156,6 +148,13 @@ read_wi <- function(directory = ".",
           )
         )
       )
+      # kingdom = "Animalia",
+      # phylum = , # not present
+      # class,
+      # order,
+      # family,
+      # subfamily = , # not present
+      # genus 
     ) %>%
     unique() %>%
     purrr::transpose()
@@ -205,9 +204,6 @@ read_wi <- function(directory = ".",
 
   # https://tdwg.github.io/camtrap-dp/data/#media
   media <- wi_images %>%
-    dpylr::mutate(
-      fileExtension = tolower(tools::file_ext(.data$location))
-    ) %>%
     dplyr::transmute(
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
@@ -216,11 +212,7 @@ read_wi <- function(directory = ".",
       timestamp = .data$timestamp,
       filePath = .data$location,
       fileName = .data$filename,
-      fileMediatype = dplyr::case_when(
-        fileExtension == ".jpeg", ~"image/jpeg",
-        fileExtension == ".png" ~ "image/png",
-        fileExtension == "jpg" ~ "image/jpg"
-      ),
+      fileMediatype = paste0("image/", tolower(tools::file_ext(.data$location))),
       exifData = NA_character_,
       favourite = .data$highlighted,
       comments = NA_character_,
@@ -235,7 +227,7 @@ read_wi <- function(directory = ".",
       deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
       mediaID = .data$image_id,
-      timestamp = .data$timestamp, # why do we need this again? How can it be different from media$timestamp
+      timestamp = .data$timestamp,
       observationType = dplyr::case_when(
         species == "sapiens" ~ "human",
         # common_name == "common_name" ~ "unknown",
@@ -248,8 +240,8 @@ read_wi <- function(directory = ".",
         TRUE ~ "unknown"
       ),
       cameraSetup = NA,
-      taxonID = .data$wi_taxon_id, # Why this is not required?
-      scientificName = paste0(.data$genus, " ", .data$species), # Why do we need this again here?
+      taxonID = .data$wi_taxon_id,
+      scientificName = paste0(.data$genus, " ", .data$species),
       count = .data$number_of_objects,
       countNew = NA_integer_,
       lifeStage = tolower(.data$age),

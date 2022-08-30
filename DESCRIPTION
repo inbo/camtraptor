@@ -37,16 +37,15 @@ Imports:
     leaflet,
     lifecycle,
     lubridate,
-    movepub,
     purrr,
     RColorBrewer,
     readr,
     rlang,
     RSQLite,
     stringr,
-    tidyr
-Remotes:
-    inbo/movepub
+    tidyr,
+    utils,
+    uuid
 Suggests: 
     covr,
     knitr,

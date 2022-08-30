@@ -12,7 +12,7 @@
 #' Cameras, Deployments csv file to Darwin Core standard
 #'
 #' @param directory Path to local directory to read the WI files
-#' @param rights_holder Acronym of the organization owning or managing the
+#' @param rightsHolder Acronym of the organization owning or managing the
 #' rights over the data.
 #' @param coordinateUncertaintyInMeters Uncertainty of the coordinate in meters.
 #' @param captureMethod Either `"motion detection"` or `"time lapse"`.
@@ -24,6 +24,10 @@ read_wi <- function(directory = ".",
                     captureMethod = "motion detection") {
 
   assertthat::assert_that(dir.exists(directory))
+  assertthat::assert_that(assertthat::is.string(rightsHolder))
+  assertthat::assert_that(assertthat::is.number(coordinateUncertaintyInMeters))
+  assertthat::assert_that(captureMethod=="motion detection" | captureMethod=="time lapse")
+  
   # Get file location and check existence
   deployments_file <- file.path(directory, "deployments.csv")
   if (!file.exists(deployments_file)) {
@@ -114,7 +118,7 @@ read_wi <- function(directory = ".",
       max(wi_deployments$longitude),
       max(wi_deployments$latitude)
     ),
-    properties = setNames(list(), character(0)),
+    properties = stats::setNames(list(), character(0)),
     geometry = list(
       type = "Polygon",
       coordinates = list(list(

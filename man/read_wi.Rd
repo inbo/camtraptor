@@ -14,12 +14,12 @@ read_wi(
 \arguments{
 \item{directory}{Path to local directory to read the WI files}
 
+\item{rightsHolder}{Acronym of the organization owning or managing the
+rights over the data.}
+
 \item{coordinateUncertaintyInMeters}{Uncertainty of the coordinate in meters.}
 
 \item{captureMethod}{Either \code{"motion detection"} or \code{"time lapse"}.}
-
-\item{rights_holder}{Acronym of the organization owning or managing the
-rights over the data.}
 }
 \value{
 CSV (data) files written to disk.

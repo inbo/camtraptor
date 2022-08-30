@@ -25,6 +25,7 @@
 #' @param keywords Dataset keywords.
 #' @return `eml.xml` file written to disk or `EML` object when
 #'   `directory = NULL`.
+#' @family export functions
 #' @export
 #' @importFrom dplyr %>%
 #' @section Transformation details:

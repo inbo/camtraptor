@@ -89,3 +89,8 @@ Not set: \strong{sampling methods} and \strong{citations}.
 Not applicable: \strong{collection data}.
 }
 
+\seealso{
+Other export functions: 
+\code{\link{write_dwc}()}
+}
+\concept{export functions}

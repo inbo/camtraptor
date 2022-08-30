@@ -35,7 +35,7 @@ WITH observations_media AS (
 SELECT
   obs_med.observationID                 AS occurrenceID,
 -- provider: can be org managing the platform, but that info is not available
-  {media_license_url}                   AS rights,
+  {media_license}                       AS rights,
   obs_med.mediaID                       AS identifier,
   CASE
     WHEN obs_med.fileMediatype LIKE '%video%' THEN 'MovingImage'

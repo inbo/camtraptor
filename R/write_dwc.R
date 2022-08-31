@@ -30,7 +30,7 @@
 #'   `package$licenses`.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
-  dataset_name <- package$platform$title
+  dataset_name <- package$title
   dataset_id <- package$id
   rights_holder <- package$rightsHolder
   collection_code <- package$platform$title

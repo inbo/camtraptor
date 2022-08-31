@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
       <img src="" class="logo" alt=""><h1>Record table</h1>
                         <h4 data-toc-skip class="author">Damiano Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-08-09</h4>
+            <h4 data-toc-skip class="date">2022-08-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="d-none name"><code>record-table.Rmd</code></div>
@@ -138,8 +138,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 <p>The function returns the same columns as the camtrapR’s function <code>recordTable()</code>. The following mapping is applied:</p>
 <table class="table">
 <colgroup>
@@ -237,8 +236,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 <p>Setting <code>deltaTimeComparedTo</code> to <code>“lastIndependentRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last independent record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last observation. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, </span>
@@ -266,8 +264,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="exclude-some-species">Exclude some species<a class="anchor" aria-label="anchor" href="#exclude-some-species"></a>
@@ -293,8 +290,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
@@ -324,8 +320,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ff1535c… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
@@ -364,8 +359,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 <p>Record table with duplicates:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -391,8 +385,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
@@ -419,8 +412,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_va… Vulpes… 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…       0      0      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="other-arguments-needed">Other arguments needed?<a class="anchor" aria-label="anchor" href="#other-arguments-needed"></a>

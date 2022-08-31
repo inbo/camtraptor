@@ -11,9 +11,9 @@ media.filePath                          Y
 media.fileName                          Y: to sort data
 media.fileMediatype                     Y
 media.exifData                          N
-media.favourite                         N
+media.favourite                         Y
 media.comments                          Y
-media._id                               N
+media._id                               Y
 */
 
 -- Observations can be based on sequences (sequenceID) or individual files (mediaID)
@@ -42,7 +42,11 @@ SELECT
     ELSE 'StillImage'
   END                                   AS type,
   obs_med._id                           AS providerManagedID,
-  obs_med.comments                      AS comments,
+  CASE
+    WHEN obs_med.favourite AND obs_med.comments != '' THEN 'media marked as favourite | ' || obs_med.comments
+    WHEN obs_med.favourite THEN 'media marked as favourite'
+    ELSE obs_med.comments
+  END                                   AS comments,
   dep.cameraModel                       AS captureDevice,
   obs_med.captureMethod                 AS resourceCreationTechnique,
   obs_med.filePath                      AS accessURI,

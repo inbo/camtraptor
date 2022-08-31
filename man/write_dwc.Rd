@@ -2,89 +2,48 @@
 % Please edit documentation in R/write_dwc.R
 \name{write_dwc}
 \alias{write_dwc}
-\title{Transform camera trap data to Darwin Core}
+\title{Transform Camtrap DP data to Darwin Core}
 \usage{
-write_dwc(
-  package,
-  directory = ".",
-  doi = package$id,
-  contact = NULL,
-  rights_holder = package$rightsHolder
-)
+write_dwc(package, directory = ".")
 }
 \arguments{
 \item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
 
-\item{directory}{Path to local directory to write files to.}
-
-\item{doi}{DOI of the original dataset, used to get metadata.}
-
-\item{contact}{Person to be set as resource contact and metadata provider.
-To be provided as a \code{person()}.}
-
-\item{rights_holder}{Acronym of the organization owning or managing the
-rights over the data.}
+\item{directory}{Path to local directory to write file to.}
 }
 \value{
-CSV (data) and EML (metadata) files written to disk.
+CSV files written to disk.
 }
 \description{
-Transforms a published \href{https://github.com/tdwg/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} to Darwin Core CSV and EML
-files that can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT} for
-publication.
+Transforms the data of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package (Camtrap DP)} to
+\href{https://dwc.tdwg.org/}{Darwin Core} CSV files that can be uploaded to a
+\href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
 A \code{meta.xml} file is not created.
 }
-\section{Metadata}{
+\section{Transformation details}{
 
+Data are transformed following best practices (Reyserhove et al. in prep.)
+into an
+\href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core} and
+\href{https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml}{Audubon Media Description extension}.
+See the \href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{SQL files}
+used by this function for details.
 
-Metadata are derived from the original dataset by looking up its \code{doi} in
-DataCite (\href{https://doi.org/10.5281/zenodo.5590881}{example}) and transforming
-these to EML.
-Uses \code{movepub::datacite_to_eml()} under the hood.
-The following properties are set:
+The following terms are set from the \code{package} metadata:
 \itemize{
-\item \strong{title}: Original title + \verb{[animal observations]}.
-\item \strong{description}: Automatically created first paragraph describing this is
-a derived dataset, followed by the original dataset description.
-\item \strong{license}: License of the original dataset.
-\item \strong{creators}: Creators of the original dataset.
-\item \strong{contact}: \code{contact} or first creator of the original dataset.
-\item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
-\item \strong{keywords}: Keywords of the original dataset.
-\item \strong{associated parties}: Organizations as defined in
-\code{package$organizations}.
-\item \strong{geographic coverage}: Bounding box as defined \code{package$spatial}.
-\item \strong{taxonomic coverage}: Species as defined in \code{package$taxonomic}.
-\item \strong{temporal coverage}: Date range as defined in \code{package$temporal}.
-\item \strong{project data}: Title, identifier, description, and sampling design
-information as defined in \code{package$project}.
-\item \strong{alternative identifier}: DOI of the original dataset. This way, no new
-DOI will be created when publishing to GBIF.
-\item \strong{external link}: URL of the project as defined in \code{package$project$path}.
-}
-
-To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
-\strong{update frequency}, and \strong{publishing organization}.
-
-Not set: sampling methods and citations.
-Not applicable: collection data.
-}
-
-\section{Data}{
-
-
-\code{package} is expected to contain the resources \code{deployments}, \code{media} and
-\code{observations}.
-Their CSV data are loaded in to a SQLite database,
-\href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{transformed to Darwin Core using SQL}
-and written to disk as CSV file(s).
-
-Key features of the Darwin Core transformation:
-\itemize{
-\item TODO
+\item \strong{datasetName}: Title as provided in \code{package$title}.
+\item \strong{datasetID}: Identifier as provided in \code{package$id}.
+Can be a DOI.
+\item \strong{rightsHolder}: Rights holder as provided in \code{package$rightsHolder}.
+\item \strong{collectionCode}: Platform name as provided in \code{package$platform$title}.
+\item \strong{license}: License with scope \code{data} as provided in \code{package$licenses}.
+\item \strong{rights} for media files: License with scope \code{media} as provided in
+\code{package$licenses}.
 }
 }
 
-\examples{
-# TODO
+\seealso{
+Other export functions: 
+\code{\link{write_eml}()}
 }
+\concept{export functions}

@@ -44,6 +44,7 @@ Can be a DOI.
 
 \seealso{
 Other export functions: 
+\code{\link{round_coordinates}()},
 \code{\link{write_eml}()}
 }
 \concept{export functions}

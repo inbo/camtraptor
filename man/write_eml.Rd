@@ -91,6 +91,7 @@ Not applicable: \strong{collection data}.
 
 \seealso{
 Other export functions: 
+\code{\link{round_coordinates}()},
 \code{\link{write_dwc}()}
 }
 \concept{export functions}

@@ -83,7 +83,7 @@ round_coordinates <- function(package, digits = 3) {
         is.na(coordinateUncertainty) ~ 30 + uncertainty[digits],
         # No precision in metadata: original uncertainty, add rounding uncertainty
         is.null(original_precision) ~ coordinateUncertainty + uncertainty[digits],
-        # Otherwise: substract old rounding uncertainty, add new rounding uncertainty
+        # Otherwise: subtract old rounding uncertainty, add new rounding uncertainty
         TRUE ~ coordinateUncertainty - uncertainty[original_digits] + uncertainty[digits]
       )
     )

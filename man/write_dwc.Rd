@@ -39,6 +39,9 @@ Can be a DOI.
 \item \strong{license}: License with scope \code{data} as provided in \code{package$licenses}.
 \item \strong{rights} for media files: License with scope \code{media} as provided in
 \code{package$licenses}.
+\item \strong{dwc:dataGeneralizations}: "coordinates rounded to
+\code{package$coordinatePrecision} degrees".
+\item \strong{coordinatePrecision}: \code{package$coordinatePrecision} (e.g. \code{0.001}).
 }
 }
 

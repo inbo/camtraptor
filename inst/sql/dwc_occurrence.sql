@@ -60,6 +60,7 @@ SELECT
   {collection_code}                     AS collectionCode,
   {dataset_name}                        AS datasetName,
   'MachineObservation'                  AS basisOfRecord,
+  "coordinates rounded to " || {coordinate_precision} || " degrees" AS dataGeneralizations, -- Or NULL
 -- OCCURRENCE
   obs.observationID                     AS occurrenceID,
   obs.count                             AS individualCount,
@@ -97,6 +98,7 @@ SELECT
   dep.longitude                         AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
   dep.coordinateUncertainty             AS coordinateUncertaintyInMeters,
+  {coordinate_precision}                AS coordinatePrecision,
 -- IDENTIFICATION
   obs.classifiedBy                      AS identifiedBy,
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.classificationTimestamp, 'unixepoch')) AS dateIdentified,

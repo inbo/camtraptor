@@ -34,15 +34,19 @@ notice the effect on precision and uncertainty.
 Publish the coordinates as is (i.e. do not use this function) if the data
 are not sensitive.\tabular{llll}{
    sensitivity \tab digits \tab coordinatePrecision \tab coordinateUncertainty \cr
-   high \tab 1 \tab 0.1 \tab 15,961 m + original uncertainty \cr
-   medium \tab 2 \tab 0.01 \tab 1,570 m + original uncertainty \cr
-   low \tab 3 \tab 0.001 \tab 157 m + original uncertainty \cr
+   high \tab 1 \tab 0.1 \tab original uncertainty + 15691 m \cr
+   medium \tab 2 \tab 0.01 \tab original uncertainty + 1570 m \cr
+   low \tab 3 \tab 0.001 \tab original uncertainty + 157 m \cr
 }
 
 
 For records with \code{coordinateUncertainty = NA} the function will assume the
 coordinates were obtained by GPS and use \verb{30 m} as original uncertainty,
 before adding uncertainty caused by rounding.
+The added uncertainty is the largest possible value caused by rounding (see
+\href{https://doi.org/10.15468/doc-gg7h-s853#table-uncertainty}{Table 3} in
+Chapman & Wieczorek 2020).
+)
 }
 
 \examples{

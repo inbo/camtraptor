@@ -26,13 +26,17 @@
 #'
 #' sensitivity | digits | coordinatePrecision | coordinateUncertainty
 #' --- | --- | --- | ---
-#' high | 1 | 0.1 | 15,961 m + original uncertainty
-#' medium | 2 | 0.01 | 1,570 m + original uncertainty
-#' low | 3 | 0.001 | 157 m + original uncertainty
+#' high | 1 | 0.1 | original uncertainty + 15691 m
+#' medium | 2 | 0.01 | original uncertainty + 1570 m
+#' low | 3 | 0.001 | original uncertainty + 157 m
 #'
 #' For records with `coordinateUncertainty = NA` the function will assume the
 #' coordinates were obtained by GPS and use `30 m` as original uncertainty,
 #' before adding uncertainty caused by rounding.
+#' The added uncertainty is the largest possible value caused by rounding (see
+#' [Table 3](https://doi.org/10.15468/doc-gg7h-s853#table-uncertainty) in
+#' Chapman & Wieczorek 2020).
+#' )
 #' @examples
 #' # Round coordinates of example package to 3 digits
 #' mica <- round_coordinates(mica, 3)

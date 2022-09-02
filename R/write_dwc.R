@@ -28,6 +28,9 @@
 #' - **license**: License with scope `data` as provided in `package$licenses`.
 #' - **rights** for media files: License with scope `media` as provided in
 #'   `package$licenses`.
+#' - **dwc:dataGeneralizations**: "coordinates rounded to
+#'   `package$coordinatePrecision` degrees".
+#' - **coordinatePrecision**: `package$coordinatePrecision` (e.g. `0.001`).
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
   dataset_name <- package$title
@@ -36,6 +39,7 @@ write_dwc <- function(package, directory = ".") {
   collection_code <- package$platform$title
   license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
   media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
+  coordinate_precision <- package$coordinatePrecision
 
   # Create database
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")

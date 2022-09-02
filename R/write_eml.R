@@ -36,7 +36,8 @@
 #' - **description**: Description as provided in `description` or
 #'   `package$description`.
 #'   The description is preceded by an automatically generated paragraph
-#'   describing from which project and platform the dataset is derived.
+#'   describing from which project and platform the dataset is derived, and
+#'   to which extend coordinates are rounded (`package$coordinatePrecision`).
 #' - **license**: License with scope `data` as provided in `package$licenses`.
 #' - **creators**: Contributors (all roles) as provided in
 #'   `package$contributors`, filtered/reordered based on `creators`.
@@ -101,6 +102,7 @@ write_eml <- function(package, directory = ".", title = package$title,
     "and only include observations (and associated media) of animals. ",
     "Excluded are records that document blank or unclassified media, ",
     "vehicles and observations of humans. ",
+    "Geospatial coordinates are {rounded_coordinates}. ",
     "The original dataset description follows.",
     project = if (is.null(project$path)) {
       glue::glue("<em>{project$title}</em>")
@@ -111,6 +113,11 @@ write_eml <- function(package, directory = ".", title = package$title,
       platform$title
     } else {
       glue::glue("<a href=\"{platform$path}\">{platform$title}</a>")
+    },
+    rounded_coordinates = if (is.null(package$coordinatePrecision)) {
+      "provided as is"
+    } else {
+      glue::glue("rounded to {package$coordinatePrecision} degrees")
     },
     .null = ""
   )

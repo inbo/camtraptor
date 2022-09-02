@@ -59,7 +59,8 @@ The following properties are set:
 \item \strong{description}: Description as provided in \code{description} or
 \code{package$description}.
 The description is preceded by an automatically generated paragraph
-describing from which project and platform the dataset is derived.
+describing from which project and platform the dataset is derived, and
+to which extend coordinates are rounded (\code{package$coordinatePrecision}).
 \item \strong{license}: License with scope \code{data} as provided in \code{package$licenses}.
 \item \strong{creators}: Contributors (all roles) as provided in
 \code{package$contributors}, filtered/reordered based on \code{creators}.

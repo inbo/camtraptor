@@ -67,15 +67,15 @@ round_coordinates <- function(package, digits = 3) {
   } else {
     original_digits <- deployments %>%
       dplyr::mutate(
-        longitude_digits = nchar(stringr::str_extract(longitude, "\\d+$"))
+        lat_digits = nchar(stringr::str_extract(latitude, "\\d+$"))
       ) %>%
-      dplyr::summarize(max(longitude_digits)) %>%
+      dplyr::summarize(max(lat_digits)) %>%
       dplyr::pull()
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
       msg = glue::glue(
         "Can't round from {original_digits} to {digits} digits.",
-        "`{original_digits}` is the maximum number of decimals for longitude in the data.",
+        "`{original_digits}` is the maximum number of decimals for latitude in the data.",
         .sep = "\n",
       )
     )

@@ -6,40 +6,64 @@ test_that("round_coordinates() returns error on invalid digits", {
 })
 
 test_that("round_coordinates() sets lat, long, uncertainty and precision", {
-  # Set coordinates and uncertainty of first 2 deployments
-  mica$data$deployments$longitude[[1]] <- 5.6555
-  mica$data$deployments$latitude[[1]] <- 51.1815
+  # Set coordinates and uncertainty of deployments along latitude gradients
+  mica$data$deployments$longitude[[1]] <- 5.65555
+  mica$data$deployments$latitude[[1]] <- 15.1815 # 0 latitude
   mica$data$deployments$coordinateUncertainty[[1]] <- 10
   mica$data$deployments$longitude[[2]] <- 5.65
-  mica$data$deployments$latitude[[2]] <- 51.18
+  mica$data$deployments$latitude[[2]] <- 51.18 # 30 latitude
   mica$data$deployments$coordinateUncertainty[[2]] <- NA_integer_
+  mica$data$deployments$longitude[[3]] <- 5.65
+  mica$data$deployments$latitude[[3]] <- -61.18 # 60 latitude
+  mica$data$deployments$coordinateUncertainty[[3]] <- NA_integer_
+  mica$data$deployments$longitude[[4]] <- 5.65
+  mica$data$deployments$latitude[[4]] <- -85.18 # 85 latitude
+  mica$data$deployments$coordinateUncertainty[[4]] <- NA_integer_
 
   mica1 <- round_coordinates(mica, 1)
   expect_equal(mica1$coordinatePrecision, 0.1)
   expect_equal(mica1$data$deployments$longitude[[1]], 5.7)
-  expect_equal(mica1$data$deployments$latitude[[1]], 51.2)
-  expect_equal(mica1$data$deployments$coordinateUncertainty[[1]], 10 + 15961)
+  expect_equal(mica1$data$deployments$latitude[[1]], 15.2)
+  expect_equal(mica1$data$deployments$coordinateUncertainty[[1]], 10 + 15691)
   expect_equal(mica1$data$deployments$longitude[[2]], 5.7)
   expect_equal(mica1$data$deployments$latitude[[2]], 51.2)
-  expect_equal(mica1$data$deployments$coordinateUncertainty[[2]], 30 + 15961)
+  expect_equal(mica1$data$deployments$coordinateUncertainty[[2]], 30 + 15691)
+  expect_equal(mica1$data$deployments$longitude[[3]], 5.7)
+  expect_equal(mica1$data$deployments$latitude[[3]], -61.2)
+  expect_equal(mica1$data$deployments$coordinateUncertainty[[3]], 30 + 15691)
+  expect_equal(mica1$data$deployments$longitude[[4]], 5.7)
+  expect_equal(mica1$data$deployments$latitude[[4]], -85.2)
+  expect_equal(mica1$data$deployments$coordinateUncertainty[[4]], 30 + 15691)
 
   mica2 <- round_coordinates(mica, 2)
   expect_equal(mica2$coordinatePrecision, 0.01)
   expect_equal(mica2$data$deployments$longitude[[1]], 5.66)
-  expect_equal(mica2$data$deployments$latitude[[1]], 51.18)
+  expect_equal(mica2$data$deployments$latitude[[1]], 15.18)
   expect_equal(mica2$data$deployments$coordinateUncertainty[[1]], 10 + 1570)
   expect_equal(mica2$data$deployments$longitude[[2]], 5.65)
   expect_equal(mica2$data$deployments$latitude[[2]], 51.18)
   expect_equal(mica2$data$deployments$coordinateUncertainty[[2]], 30 + 1570)
+  expect_equal(mica2$data$deployments$longitude[[3]], 5.65)
+  expect_equal(mica2$data$deployments$latitude[[3]], -61.18)
+  expect_equal(mica2$data$deployments$coordinateUncertainty[[3]], 30 + 1570)
+  expect_equal(mica2$data$deployments$longitude[[4]], 5.65)
+  expect_equal(mica2$data$deployments$latitude[[4]], -85.18)
+  expect_equal(mica2$data$deployments$coordinateUncertainty[[4]], 30 + 1570)
 
   mica3 <- round_coordinates(mica, 3)
   expect_equal(mica3$coordinatePrecision, 0.001)
   expect_equal(mica3$data$deployments$longitude[[1]], 5.656)
-  expect_equal(mica3$data$deployments$latitude[[1]], 51.182)
+  expect_equal(mica3$data$deployments$latitude[[1]], 15.182)
   expect_equal(mica3$data$deployments$coordinateUncertainty[[1]], 10 + 157)
   expect_equal(mica3$data$deployments$longitude[[2]], 5.65) # Unchanged
   expect_equal(mica3$data$deployments$latitude[[2]], 51.18) # Unchanged
   expect_equal(mica3$data$deployments$coordinateUncertainty[[2]], 30 + 157)
+  expect_equal(mica3$data$deployments$longitude[[3]], 5.65) # Unchanged
+  expect_equal(mica3$data$deployments$latitude[[3]], -61.18) # Unchanged
+  expect_equal(mica3$data$deployments$coordinateUncertainty[[3]], 30 + 157)
+  expect_equal(mica3$data$deployments$longitude[[4]], 5.65) # Unchanged
+  expect_equal(mica3$data$deployments$latitude[[4]], -85.18) # Unchanged
+  expect_equal(mica3$data$deployments$coordinateUncertainty[[4]], 30 + 157)
 })
 
 test_that("round_coordinates() does not allow to round to higher precision", {

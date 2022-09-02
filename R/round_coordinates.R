@@ -33,17 +33,12 @@
 #' For records with `coordinateUncertainty = NA` the function will assume the
 #' coordinates were obtained by GPS and use `30 m` as original uncertainty,
 #' before adding uncertainty caused by rounding.
-#' @examples 
-#' library(camtraptor)
-#' # coordinate precision missing
+#' @examples
+#' # Round coordinates of example package to 3 digits
+#' mica <- round_coordinates(mica, 3)
+#' # coordinatePrecision is set in metadata
 #' mica$coordinatePrecision
-#' # coordinateUncertainty of deployments missing (NA)
-#' mica$data$deployments$coordinateUncertainty
-#' # set precision to 3 digits
-#' mica <- round_coordinates(mica)
-#' # check new coordinatePrecision
-#' mica$coordinatePrecision
-#' # check new coordinateUncertainty
+#' # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 #' mica$data$deployments$coordinateUncertainty
 round_coordinates <- function(package, digits = 3) {
   assertthat::assert_that(

@@ -82,7 +82,7 @@ round_coordinates <- function(package, digits = 3) {
   }
 
   # Set uncertainties
-  uncertainty <- c(15961, 1570, 157) # In order for 1, 2, 3, digits
+  uncertainty <- c(15691, 1570, 157) # In order for 1, 2, 3, digits
 
   # Update longitude, latitude and coordinateUncertainty
   package$data$deployments <-

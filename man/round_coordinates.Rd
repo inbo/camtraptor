@@ -45,6 +45,19 @@ coordinates were obtained by GPS and use \verb{30 m} as original uncertainty,
 before adding uncertainty caused by rounding.
 }
 
+\examples{
+library(camtraptor)
+# coordinate precision missing
+mica$coordinatePrecision
+# coordinateUncertainty of deployments missing (NA)
+mica$data$deployments$coordinateUncertainty
+# set precision to 3 digits
+mica <- round_coordinates(mica)
+# check new coordinatePrecision
+mica$coordinatePrecision
+# check new coordinateUncertainty
+mica$data$deployments$coordinateUncertainty
+}
 \seealso{
 Other export functions: 
 \code{\link{write_dwc}()},

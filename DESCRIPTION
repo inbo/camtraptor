@@ -44,6 +44,7 @@ Imports:
     RSQLite,
     stringr,
     tidyr,
+    tools,
     utils,
     uuid
 Suggests: 

@@ -186,29 +186,29 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   package$taxonomic <-
     wi_images %>%
     dplyr::transmute(
-      taxonID = .data$wi_taxon_id,
+      taxonID = wi_taxon_id,
       taxonIDReference = "https://github.com/ConservationInternational/Wildlife-Insights----Data-Migration/tree/master/WI_Global_Taxonomy",
-      scientificName = ifelse(.data$species != "", paste0(.data$genus, " ", .data$species),
-        ifelse(.data$genus != "", .data$genus,
-          ifelse(.data$family != "", .data$family,
-            ifelse(.data$order != "", .data$order, .data$class)
-          )
-        )
+      scientificName = dplyr::case_when(
+        !is.na(species) & !is.na(genus) ~ paste(genus, species),
+        !is.na(genus) ~ genus,
+        !is.na(family) ~ family,
+        !is.na(order) ~ order,
+        TRUE ~ class
       ),
-      taxonRank = ifelse(.data$species != "", "species",
-        ifelse(.data$genus != "", "genus",
-          ifelse(.data$family != "", "family",
-            ifelse(.data$order != "", "order", "class")
-          )
-        )
+      taxonRank = dplyr::case_when(
+        !is.na(species) & !is.na(genus) ~ "species",
+        !is.na(genus) ~ "genus",
+        !is.na(family) ~ "family",
+        !is.na(order) ~ "order",
+        TRUE ~ "class"
       ),
       kingdom = "Animalia",
-      # phylum = , # not present
-      .data$class,
-      .data$order,
-      .data$family,
-      # subfamily = , # not present
-      .data$genus
+      # phylum = not present, likely Chordata
+      class = class,
+      order = order,
+      family = family,
+      # subfamily = not present
+      genus = genus
     ) %>%
     unique() %>%
     purrr::transpose()

@@ -207,7 +207,8 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       .data$order,
       .data$family,
       # subfamily = , # not present
-      .data$genus
+      .data$genus,
+      vernacularNames = .data$common_name
     ) %>%
     unique() %>%
     purrr::transpose()

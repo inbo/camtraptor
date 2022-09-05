@@ -237,7 +237,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       end = end_date,
       setupBy = recorded_by,
       cameraID = as.character(camera_id),
-      cameraModel = model,
+      cameraModel = paste(make, model, sep = "-"),
       cameraInterval = quiet_period,
       cameraHeight = dplyr::case_when(
         sensor_height == "Chest height" ~ 1.5,

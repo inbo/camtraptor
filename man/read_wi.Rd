@@ -18,7 +18,7 @@ Character (vector) with \verb{motion detection} and/or \verb{time lapse}.}
 CSV (data) files written to disk.
 }
 \description{
-Reads files from an unzipped \href{https://www.wildlifeinsights.org/}{Wildlife Insights (WI)} export into memory.
+Reads files from an unzipped \href{https://www.wildlifeinsights.org/}{Wildlife Insights} export into memory.
 Data can be exported from Wildlife Insights as a \href{https://www.wildlifeinsights.org/get-started/data-download/public}{public} or
 \href{https://www.wildlifeinsights.org/get-started/download/private}{private}
 download.

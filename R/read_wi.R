@@ -1,6 +1,6 @@
 #' Read a Wildlife Insights export
 #'
-#' Reads files from an unzipped [Wildlife Insights (WI)](
+#' Reads files from an unzipped [Wildlife Insights](
 #' https://www.wildlifeinsights.org/) export into memory.
 #' Data can be exported from Wildlife Insights as a [public](
 #' https://www.wildlifeinsights.org/get-started/data-download/public) or
@@ -215,7 +215,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
 
   # Set platform
   package$platform <- list(
-    title = "Wildlife Insight",
+    title = "Wildlife Insights",
     path = "https://www.wildlifeinsights.org/"
     # version = "",
     # packageID = ""

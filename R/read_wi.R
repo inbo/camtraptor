@@ -162,7 +162,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       max(wi_deployments$longitude),
       max(wi_deployments$latitude)
     ),
-    properties = stats::setNames(list(), character(0)),
+    properties = list(),
     geometry = list(
       type = "Polygon",
       coordinates = list(list(
@@ -174,6 +174,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       ))
     )
   )
+  names(package$spatial$properties) <- character(0) # Set as {} in json
 
   # Set temporal
   package$temporal <- list(

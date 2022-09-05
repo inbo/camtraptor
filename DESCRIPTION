@@ -1,6 +1,6 @@
 Package: camtraptor
 Title: Read, Explore and Visualize Camera Trap Data Packages
-Version: 0.16.0
+Version: 0.18.0
 Authors@R: c(
     person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3445-7562")),
@@ -38,13 +38,14 @@ Imports:
     lifecycle,
     lubridate,
     purrr,
+    RColorBrewer,
     readr,
     rlang,
     RSQLite,
     stringr,
-    tidyr
-Remotes:
-    inbo/movepub
+    tidyr,
+    utils,
+    uuid
 Suggests: 
     covr,
     knitr,

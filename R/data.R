@@ -1,6 +1,7 @@
 #' Sample of camtrap-dp formatted data
 #'
-#' A sample camera trap data package, based on data from the MICA project. Also stored in `inst`.
+#' A sample camera trap data package, based on data from the MICA project. Also
+#' stored in `inst`.
 #' 
 #' This sample is an extract from a bigger camera trap data package saved as raw
 #' data in `inst/extdata/mica_zenodo_5590881`. For memory reasons `media.csv`
@@ -9,3 +10,17 @@
 #'
 #' @source https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example
 "mica"
+
+#' Sample of animal position digitisation data
+#'
+#' A tibble data.frame with the following columns:
+#' - `deploymentID`
+#' - `sequenceID`
+#' - `x` and `y`: the coordinates
+#' - `imageWidth` and `imageHeight`: the image dimensions
+"animal_positions"
+
+#' Sample of deployment calibration models or site calibration models (`depcal` objects)
+#' 
+#' A `calibs` object (list). The deployment names are used as names.
+"dep_calib_models"

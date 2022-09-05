@@ -51,16 +51,16 @@ observations._id                        N
 
 SELECT
 -- RECORD-LEVEL
-  'Event'                               AS type,
-  {license_url}                         AS license,
+  'Image'                               AS type,
+  {license}                             AS license,
   {rights_holder}                       AS rightsHolder,
 -- bibliographicCitation: how *record* should be cited, so not package bibliographicCitation
-  {doi_url}                             AS datasetID,
+  {dataset_id}                          AS datasetID,
 -- institutionCode: org managing the platform/collection, but that info is not available
-  {platform}                            AS collectionCode,
-  {title}                               AS datasetName,
+  {collection_code}                     AS collectionCode,
+  {dataset_name}                        AS datasetName,
   'MachineObservation'                  AS basisOfRecord,
-  'see metadata'                        AS informationWithheld,
+  "coordinates rounded to " || {coordinate_precision} || " degrees" AS dataGeneralizations, -- Or NULL
 -- OCCURRENCE
   obs.observationID                     AS occurrenceID,
   obs.count                             AS individualCount,
@@ -98,6 +98,7 @@ SELECT
   dep.longitude                         AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
   dep.coordinateUncertainty             AS coordinateUncertaintyInMeters,
+  {coordinate_precision}                AS coordinatePrecision,
 -- IDENTIFICATION
   obs.classifiedBy                      AS identifiedBy,
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.classificationTimestamp, 'unixepoch')) AS dateIdentified,

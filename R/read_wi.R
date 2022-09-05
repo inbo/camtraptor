@@ -71,8 +71,23 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   package$name <- basename(directory) # Unique name if unchanged from the WI export zip
   package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
   package$created <- lubridate::format_ISO8601(lubridate::now())
-  if (length(unique(wi_images$license))>1){
-    warning("There are different licenses for the media. We will only use the one of the first image")
+
+  # Set licenses
+  media_licenses <-
+    wi_images %>%
+    dplyr::group_by(license) %>%
+    dplyr::count() %>%
+    dplyr::arrange(desc(n)) %>%
+    dplyr::first()
+  if (length(media_licenses) > 1) {
+    warning(
+      glue::glue(
+        "`images.csv` contains multiple licenses: `{media_licenses_collapse}`. ",
+        "Camtrap DP only supports one media license: `{media_licenses[1]}` ",
+        "(the most occurring license) will be assigned to all media.",
+        media_licenses_collapse = paste(media_licenses, collapse = "`, `")
+      )
+    )
   }
   package$licenses <- list(
     list(
@@ -80,7 +95,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       scope = "data"
     ),
     list(
-      name = wi_images$license[0],
+      name = media_licenses[1],
       scope = "media"
     )
   )

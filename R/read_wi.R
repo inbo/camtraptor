@@ -185,6 +185,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Set taxonomic
   package$taxonomic <-
     wi_images %>%
+    dplyr::distinct(wi_taxon_id, .keep_all = TRUE) %>%
     dplyr::transmute(
       taxonID = wi_taxon_id,
       taxonIDReference = "https://github.com/ConservationInternational/Wildlife-Insights----Data-Migration/tree/master/WI_Global_Taxonomy",
@@ -209,9 +210,8 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       family = family,
       # subfamily = not present
       genus = genus,
-      vernacularNames = common_name
+      vernacularNames = common_name # TODO: should be "en" = common_name
     ) %>%
-    unique() %>%
     purrr::transpose()
 
   # Set platform
@@ -263,6 +263,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Create media, see https://tdwg.github.io/camtrap-dp/data/#media
   media <-
     wi_images %>%
+    dplyr::distinct(location, .keep_all = TRUE) %>%
     dplyr::transmute(
       mediaID = image_id,
       deploymentID = deployment_id,
@@ -280,8 +281,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       favourite = highlighted,
       comments = NA_character_,
       `_id` = NA_character_
-    ) %>%
-    unique() # Remove the images with multiple observations
+    )
 
   # Create observations, see https://tdwg.github.io/camtrap-dp/data/#observations
   observations <-

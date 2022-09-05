@@ -1,9 +1,9 @@
 #' Transform Camtrap DP data to Darwin Core
 #'
-#' Transforms the data of a [Camera Trap Data Package
-#' (Camtrap DP)](https://tdwg.github.io/camtrap-dp/) to
-#' [Darwin Core](https://dwc.tdwg.org/) CSV files that can be uploaded to a
-#' [GBIF IPT](https://www.gbif.org/ipt) for publication.
+#' Transforms the data of a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/)
+#' CSV files that can be uploaded to a [GBIF IPT](https://www.gbif.org/ipt) for
+#' publication.
 #' A `meta.xml` file is not created.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].

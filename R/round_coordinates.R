@@ -1,7 +1,7 @@
 #' Round coordinates to generalize camera trap locations
 #'
-#' Rounds deployment coordinates to a certain number of digits to fuzzy/
-#' generalize camera trap locations.
+#' Rounds deployment coordinates to a certain number of digits to
+#' fuzzy/generalize camera trap locations.
 #' This function can be used before publishing data in order to protect
 #' sensitive species and/or prevent theft of active cameras.
 #'

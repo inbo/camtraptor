@@ -1,9 +1,9 @@
 #' Transform Camtrap DP metadata to EML
 #'
-#' Transforms the metadata of a [Camera Trap Data Package
-#' (Camtrap DP)](https://tdwg.github.io/camtrap-dp/) to an
-#' [EML](https://eml.ecoinformatics.org/) file that can be uploaded to a
-#' [GBIF IPT](https://www.gbif.org/ipt) for publication.
+#' Transforms the metadata of a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp/) to an [EML](
+#' https://eml.ecoinformatics.org/) file that can be uploaded to a [GBIF IPT](
+#' https://www.gbif.org/ipt) for publication.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file to.

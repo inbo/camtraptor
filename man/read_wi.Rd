@@ -2,36 +2,31 @@
 % Please edit documentation in R/read_wi.R
 \name{read_wi}
 \alias{read_wi}
-\title{Import Wildlife Insight camera trap data to Camera Trap Data Package}
+\title{Read a Wildlife Insights export}
 \usage{
-read_wi(
-  directory = ".",
-  rightsHolder = "project_admin_organization",
-  coordinateUncertaintyInMeters = 30,
-  captureMethod = "motion detection"
-)
+read_wi(directory = ".", capture_method = "motion detection")
 }
 \arguments{
-\item{directory}{Path to local directory to read the WI files}
+\item{directory}{Path to local directory to read files from.
+The function expects \code{projects.csv}, \code{deployments.csv}, \code{cameras.csv}, and
+\code{images.csv}.}
 
-\item{rightsHolder}{Acronym of the organization owning or managing the
-rights over the data.}
-
-\item{coordinateUncertaintyInMeters}{Uncertainty of the coordinate in meters.}
-
-\item{captureMethod}{Either \code{"motion detection"} or \code{"time lapse"}.}
+\item{capture_method}{How media files were obtained.
+Character (vector) with \verb{motion detection} and/or \verb{time lapse}.}
 }
 \value{
 CSV (data) files written to disk.
 }
 \description{
-Transforms a \href{https://www.wildlifeinsights.org/}{Wildlife Insight (WI)}
-dataset to \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package}
-data exchange format.
+Reads files from an unzipped \href{https://www.wildlifeinsights.org/}{Wildlife Insights (WI)} export into memory.
+Data can be exported from Wildlife Insights as a \href{https://www.wildlifeinsights.org/get-started/data-download/public}{public} or
+\href{https://www.wildlifeinsights.org/get-started/download/private}{private}
+download.
+The function transforms data and metadata to a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} which can be written to file with
+\code{\link[frictionless:write_package]{frictionless::write_package()}}.
 }
-\details{
-Wildlife Insight offers to export your dataset \href{https://www.wildlifeinsights.org/get-started/download/private}{as private download} or
-\href{https://www.wildlifeinsights.org/get-started/data-download/public}{public download}.
-This function read the zip file from the download and convert the Projects,
-Cameras, Deployments csv file to Darwin Core standard
+\seealso{
+Other read functions: 
+\code{\link{read_camtrap_dp}()}
 }
+\concept{read functions}

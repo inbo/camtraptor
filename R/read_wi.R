@@ -1,21 +1,23 @@
-#' Import Wildlife Insight camera trap data to Camera Trap Data Package
+#' Read a Wildlife Insights export
 #'
-#' Transforms a [Wildlife Insight (WI)](https://www.wildlifeinsights.org/)
-#' dataset to [Camera Trap Data Package](https://tdwg.github.io/camtrap-dp/)
-#' data exchange format.
+#' Reads files from an unzipped [Wildlife Insights (WI)](
+#' https://www.wildlifeinsights.org/) export into memory.
+#' Data can be exported from Wildlife Insights as a [public](
+#' https://www.wildlifeinsights.org/get-started/data-download/public) or
+#' [private](https://www.wildlifeinsights.org/get-started/download/private)
+#' download.
+#' The function transforms data and metadata to a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp) which can be written to file with
+#' [frictionless::write_package()].
 #'
-#' Wildlife Insight offers to export your dataset [as private download](
-#' https://www.wildlifeinsights.org/get-started/download/private) or
-#' [public download](
-#' https://www.wildlifeinsights.org/get-started/data-download/public).
-#' This function read the zip file from the download and convert the Projects,
-#' Cameras, Deployments csv file to Darwin Core standard
-#'
-#' @param directory Path to local directory to read the WI files
 #' @param rightsHolder Acronym of the organization owning or managing the
 #' rights over the data.
 #' @param coordinateUncertaintyInMeters Uncertainty of the coordinate in meters.
-#' @param captureMethod Either `"motion detection"` or `"time lapse"`.
+#' @param directory Path to local directory to read files from.
+#'   The function expects `projects.csv`, `deployments.csv`, `cameras.csv`, and
+#'   `images.csv`.
+#' @param capture_method How media files were obtained.
+#'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
 read_wi <- function(directory = ".",

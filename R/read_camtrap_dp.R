@@ -1,7 +1,7 @@
-#' Read Camtrap DP formatted data
+#' Read a Camtrap DP
 #'
-#' Reads camera trap data formatted as a [Camera Trap Data Package
-#' (Camtrap DP)](https://tdwg.github.io/camtrap-dp) into memory.
+#' Reads files from a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp) into memory.
 #' All datetime information is automatically transformed to UTC (Coordinated
 #' Universal Time).
 #' Vernacular names found in the metadata (element `taxonomic`) are added to
@@ -18,11 +18,9 @@
 #'   1. `deployments`
 #'   2. `media`
 #'   3. `observations`
-#'
+#' @family read functions
 #' @export
-#'
 #' @importFrom dplyr %>% .data
-#'
 #' @examples
 #' \dontrun{
 #' # Read Camtrap DP package
@@ -45,8 +43,7 @@
 #' readr::problems(muskrat_coypu_with_issues$data$observations)
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
-read_camtrap_dp <- function(file = NULL,
-                            media = TRUE,
+read_camtrap_dp <- function(file = NULL, media = TRUE,
                             path = lifecycle::deprecated()) {
   warning_detail <- paste(
     "Use argument `file` containing the path or URL",

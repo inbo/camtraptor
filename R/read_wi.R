@@ -17,8 +17,6 @@
 #'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
-  assertthat::assert_that(captureMethod=="motion detection" | captureMethod=="time lapse")
-  
 #' @importFrom dplyr %>% .data
 #' @family read functions
 read_wi <- function(directory = ".", capture_method = "motion detection") {
@@ -32,6 +30,15 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   images_file <- file.path(directory, "images.csv")
   assertthat::assert_that(file.exists(images_file))
 
+  # Check capture method
+  capture_methods = c("motion detection", "time lapse")
+  assertthat::assert_that(
+    all(capture_method %in% capture_methods),
+    msg = glue::glue(
+      "`capture_method` must be `{capture_method_collapse}`",
+      capture_method_collapse = paste(capture_methods, collapse = "` and/or `")
+    )
+  )
 
   # Read data from files
   wi_projects <- readr::read_csv(
@@ -210,7 +217,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
-      captureMethod = captureMethod,
+      captureMethod = ifelse(
+        length(capture_method) == 1,
+        capture_method,
+        NA_character_
+      ),
       timestamp = .data$timestamp,
       filePath = .data$location,
       fileName = .data$filename,

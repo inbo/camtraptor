@@ -17,7 +17,7 @@
 #'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
-#' @importFrom dplyr %>% .data
+#' @importFrom dplyr %>%
 #' @family read functions
 read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Check files
@@ -222,21 +222,22 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   )
 
   # Create deployments, see https://tdwg.github.io/camtrap-dp/data/#deployments
-  deployments <- wi_deployments %>%
+  deployments <-
+    wi_deployments %>%
     dplyr::left_join(wi_cameras, by = c("project_id", "camera_id")) %>%
     dplyr::transmute(
-      deploymentID = .data$deployment_id,
-      locationID = .data$placename,
-      locationName = .data$placename,
-      longitude = .data$longitude,
-      latitude = .data$latitude,
+      deploymentID = deployment_id,
+      locationID = placename,
+      locationName = placename,
+      longitude = longitude,
+      latitude = latitude,
       coordinateUncertainty = NA_integer_,
-      start = .data$start_date,
-      end = .data$end_date,
-      setupBy = .data$recorded_by,
-      cameraID = as.character(.data$camera_id),
-      cameraModel = .data$model,
-      cameraInterval = .data$quiet_period,
+      start = start_date,
+      end = end_date,
+      setupBy = recorded_by,
+      cameraID = as.character(camera_id),
+      cameraModel = model,
+      cameraInterval = quiet_period,
       cameraHeight = dplyr::case_when(
         .data$sensor_height == "Chest height" ~ 150,
         .data$sensor_height == "Knee height" ~ 50,
@@ -245,49 +246,51 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
         .data$sensor_height == "Other" ~ NA_real_, # .data$height_other is a description
       ),
       cameraTilt = NA_integer_,
-      cameraHeading = .data$sensor_orientation,
+      cameraHeading = sensor_orientation,
       detectionDistance = NA_real_,
       timestampIssues = FALSE,
-      baitUse = tolower(.data$bait_type),
+      baitUse = tolower(bait_type),
       session = NA_character_,
       array = NA_character_,
-      featureType = tolower(.data$feature_type),
+      featureType = tolower(feature_type),
       habitat = NA_character_,
-      tags = subproject_name,
-      comments = event_description, # Need to be checked with another dataset
+      tags = subproject_name, # Set subproject as tag
+      comments = event_description, # TODO: check with other dataset
       `_id` = NA_character_
     )
 
   # Create media, see https://tdwg.github.io/camtrap-dp/data/#media
-  media <- wi_images %>%
+  media <-
+    wi_images %>%
     dplyr::transmute(
-      mediaID = .data$image_id,
-      deploymentID = .data$deployment_id,
+      mediaID = image_id,
+      deploymentID = deployment_id,
       sequenceID = NA_character_,
       captureMethod = ifelse(
         length(capture_method) == 1,
         capture_method,
         NA_character_
       ),
-      timestamp = .data$timestamp,
-      filePath = .data$location,
-      fileName = .data$filename,
-      fileMediatype = paste0("image/", tolower(tools::file_ext(.data$location))),
+      timestamp = timestamp,
+      filePath = location,
+      fileName = filename,
+      fileMediatype = paste0("image/", tolower(tools::file_ext(location))),
       exifData = NA_character_,
-      favourite = .data$highlighted,
+      favourite = highlighted,
       comments = NA_character_,
       `_id` = NA_character_
     ) %>%
-    unique() # unique remove the images with multiple observations
+    unique() # Remove the images with multiple observations
 
   # Create observations, see https://tdwg.github.io/camtrap-dp/data/#observations
-  observations <- wi_images %>%
+  observations <-
+    wi_images %>%
     dplyr::transmute(
-      observationID = paste(.data$image_id, .data$wi_taxon_id),
-      deploymentID = .data$deployment_id,
+      observationID = paste(image_id, wi_taxon_id, sep = ":"), # TODO: not guaranteed unique
+      deploymentID = deployment_id,
       sequenceID = NA_character_,
-      mediaID = .data$image_id,
-      timestamp = .data$timestamp,
+      mediaID = image_id,
+      timestamp = timestamp,
       observationType = dplyr::case_when(
         species == "sapiens" ~ "human",
         # common_name == "common_name" ~ "unknown",
@@ -300,19 +303,19 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
         TRUE ~ "unknown"
       ),
       cameraSetup = NA,
-      taxonID = .data$wi_taxon_id,
-      scientificName = paste0(.data$genus, " ", .data$species),
-      count = .data$number_of_objects,
+      taxonID = wi_taxon_id,
+      scientificName = paste(genus, species),
+      count = number_of_objects,
       countNew = NA_integer_,
-      lifeStage = tolower(.data$age),
-      sex = tolower(.data$sex),
+      lifeStage = tolower(age),
+      sex = tolower(sex),
       behaviour = NA_character_,
-      individualID = NA_character_, # individual_id or animal_recognizable? I am not sure what are WI export option if that is the case?
-      classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
-      classifiedBy = .data$identified_by,
+      individualID = NA_character_, # TODO: individual_id or animal_recognizable
+      classificationMethod = ifelse(is.na(cv_confidence), "human", "machine"),
+      classifiedBy = identified_by,
       classificationTimestamp = NA,
-      classificationConfidence = .data$cv_confidence, # or uncertainty ? not sure of the difference
-      comments = .data$individual_animal_notes,
+      classificationConfidence = cv_confidence, # TODO: or uncertainty? not sure of the difference
+      comments = individual_animal_notes,
       `_id` = NA_character_
       # Not use: license and markings.
     )

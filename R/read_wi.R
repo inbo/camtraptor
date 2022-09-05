@@ -54,8 +54,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     images_file, show_col_types = FALSE, progress = FALSE
   )
 
-  # Check that there is only a single project
-  assertthat::assert_that(nrow(wi_projects) == 1)
+  # Create project as list
+  assertthat::assert_that(
+    nrow(wi_projects) == 1,
+    msg = "`projects.csv` must contain exactly one project."
+  )
   wi_project <- as.list(wi_projects[1:1, ])
   wi_project$ark_id <- stringr::str_extract(
     wi_project$data_citation,

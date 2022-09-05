@@ -239,11 +239,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       cameraModel = model,
       cameraInterval = quiet_period,
       cameraHeight = dplyr::case_when(
-        .data$sensor_height == "Chest height" ~ 150,
-        .data$sensor_height == "Knee height" ~ 50,
-        .data$sensor_height == "Canopy" ~ 3, # huge range depending on your forest...
-        .data$sensor_height == "Unknown" ~ NA_real_,
-        .data$sensor_height == "Other" ~ NA_real_, # .data$height_other is a description
+        sensor_height == "Chest height" ~ 1.5,
+        sensor_height == "Knee height" ~ 0.5,
+        sensor_height == "Canopy" ~ 3.0, # Dubious: range depends on forest
+        sensor_height == "Unknown" ~ NA_real_,
+        sensor_height == "Other" ~ NA_real_,
       ),
       cameraTilt = NA_integer_,
       cameraHeading = sensor_orientation,

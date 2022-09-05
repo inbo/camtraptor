@@ -17,31 +17,35 @@
 #'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
-
-  assertthat::assert_that(dir.exists(directory))
-  assertthat::assert_that(assertthat::is.string(rightsHolder))
-  assertthat::assert_that(assertthat::is.number(coordinateUncertaintyInMeters))
   assertthat::assert_that(captureMethod=="motion detection" | captureMethod=="time lapse")
   
-  # Get file location and check existence
 #' @importFrom dplyr %>% .data
 #' @family read functions
 read_wi <- function(directory = ".", capture_method = "motion detection") {
+  # Check files
+  projects_file <- file.path(directory, "projects.csv")
+  assertthat::assert_that(file.exists(projects_file))
+  cameras_file <- file.path(directory, "cameras.csv")
+  assertthat::assert_that(file.exists(cameras_file))
   deployments_file <- file.path(directory, "deployments.csv")
   assertthat::assert_that(file.exists(deployments_file))
   images_file <- file.path(directory, "images.csv")
   assertthat::assert_that(file.exists(images_file))
-  cameras_file <- file.path(directory, "cameras.csv")
-  assertthat::assert_that(file.exists(cameras_file))
-  projects_file <- file.path(directory, "projects.csv")
-  assertthat::assert_that(file.exists(projects_file))
 
 
-  # Read data from file
-  wi_deployments <- readr::read_csv(deployments_file, show_col_types = FALSE)
-  wi_images <- readr::read_csv(images_file, show_col_types = FALSE)
-  wi_cameras <- readr::read_csv(cameras_file, show_col_types = FALSE)
-  wi_projects <- readr::read_csv(projects_file, show_col_types = FALSE)
+  # Read data from files
+  wi_projects <- readr::read_csv(
+    projects_file, show_col_types = F, progress = FALSE
+  )
+  wi_cameras <- readr::read_csv(
+    cameras_file, show_col_types = FALSE, progress = FALSE
+  )
+  wi_deployments <- readr::read_csv(
+    deployments_file, show_col_types = FALSE, progress = FALSE
+  )
+  wi_images <- readr::read_csv(
+    images_file, show_col_types = FALSE, progress = FALSE
+  )
 
   # Check that there is only a single project
   assertthat::assert_that(nrow(wi_projects) == 1)

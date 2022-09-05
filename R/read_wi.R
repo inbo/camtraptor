@@ -136,8 +136,14 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       wi_project$project_sensor_layout == "Convinience" ~ "opportunistic",
       wi_project$project_sensor_layout == "Targeted" ~ "targeted"
     ),
-    animalTypes = ifelse(mean(is.na(wi_images$markings)) == 1, "unmarked", ifelse(mean(is.na(wi_images$markings)) == 0, "marked", c("marked", "unmarked"))), # marked and/or unmarked
     captureMethod = capture_method,
+    animalTypes = if (all(is.na(wi_images$markings))) {
+      "unmarked"
+    } else if (!any(is.na(wi_images$markings))) {
+      "marked"
+    } else {
+      c("marked", "unmarked")
+    },
     classificationLevel = ifelse(
       wi_project$project_type == "Image", # TODO: Check how WI exports sequence data
       "media",

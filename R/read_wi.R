@@ -102,7 +102,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
 
   # Set sources
   package$sources <- c(list(
-    title = "Wildlife Insight",
+    title = "Wildlife Insights",
     path = "https://www.wildlifeinsights.org/"
   ))
 
@@ -133,7 +133,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     samplingDesign = dplyr::case_when(
       wi_project$project_sensor_layout == "Systematic" ~ "systematic random",
       wi_project$project_sensor_layout == "Randomized" ~ "simple random",
-      wi_project$project_sensor_layout == "Convinience" ~ "opportunistic",
+      wi_project$project_sensor_layout == "Convenience" ~ "opportunistic",
       wi_project$project_sensor_layout == "Targeted" ~ "targeted"
     ),
     captureMethod = capture_method,

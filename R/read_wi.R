@@ -61,8 +61,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   )
   wi_project <- as.list(wi_projects[1:1, ])
   wi_project$ark_id <- stringr::str_extract(
-    wi_project$data_citation,
-    "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    wi_project$data_citation, "http[s]?:\\/\\/n2t.net\\/ark:\\/\\d*\\/w\\d*"
   )
 
   # Create the package

@@ -35,7 +35,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   assertthat::assert_that(
     all(capture_method %in% capture_methods),
     msg = glue::glue(
-      "`capture_method` must be `{capture_method_collapse}`",
+      "`capture_method` must be `{capture_method_collapse}`.",
       capture_method_collapse = paste(capture_methods, collapse = "` and/or `")
     )
   )

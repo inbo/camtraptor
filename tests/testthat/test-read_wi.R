@@ -1,22 +1,21 @@
-# directory <- "tests/testthat/wi_export_sample/"
-
-directory <- "wi_export_sample/"
-test_that("file is checked properly", {
-  # Work as expected in the default case
-  expect_error(read_wi(directory = directory), NA)
-  
-  # Return error with incorrect arguments
-  expect_error(read_wi(directory = "not_a_directory"))
-  expect_error(read_wi(directory = ".")) # empty directory
-  expect_error(read_wi(directory = directory, rightsHolder = 1)) # wrong rightsHolder
-  expect_error(read_wi(directory = directory, coordinateUncertaintyInMeters = "no_a_number"))
-  expect_error(read_wi(directory = directory, captureMethod = "no_a_captureMethod"))
+test_that("read_wi() returns error when files are not found", {
+  expect_error(
+    read_wi("."),
+    "Path './projects.csv' does not exist"
+  )
 })
 
-test_that("Check returned list", {
-  dp <- read_wi(directory = directory)
-  expect_true(is.list(dp))
-  expect_equal(length(dp), 18)
-  expect_true("data" %in% names(dp))
-  expect_equal(length(dp$data), 3)
+test_that("read_wi() returns error on invalid capture_method", {
+  expect_error(
+    read_wi("data", capture_method = "not_a_capture_method"),
+    "`capture_method` must be `motion detection` and/or `time lapse`"
+  )
+  expect_error(
+    read_wi("data", capture_method = c("time lapse", "not_a_capture_method")),
+    "`capture_method` must be `motion detection` and/or `time lapse`"
+  )
+})
+
+test_that("read_wi() returns a valid package", {
+  expect_type(camtraptor:::check_package(read_wi("data")), "list")
 })

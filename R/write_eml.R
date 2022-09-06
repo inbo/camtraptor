@@ -27,7 +27,7 @@
 #'   `directory = NULL`.
 #' @family export functions
 #' @export
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .$data
 #' @section Transformation details:
 #' Metadata is derived from what is provided in `package` and in the function
 #' parameters.
@@ -139,10 +139,14 @@ write_eml <- function(package, directory = ".", title = package$title,
     ) %>%
     # Move ORCID from path to separate column
     dplyr::mutate(
-      orcid = stringr::str_extract(path, orcid_regex),
-      path = ifelse(stringr::str_detect(path, orcid_regex), NA_character_, path)
+      orcid = stringr::str_extract(.data$path, orcid_regex),
+      path = ifelse(
+        stringr::str_detect(.data$path, orcid_regex),
+        NA_character_,
+        .data$path
+      )
     ) %>%
-    dplyr::arrange(last_name)
+    dplyr::arrange(.data$last_name)
 
   # Filter/sort contributors on creators param (or leave as is when NULL)
   if (!is.null(creators)) {
@@ -160,7 +164,7 @@ write_eml <- function(package, directory = ".", title = package$title,
     }
     # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order_by = order(factor(title, levels = creators))
+      contributors, order_by = order(factor(.data$title, levels = creators))
     )
   }
   creator_list <- purrr::transpose(contributors) # Create list

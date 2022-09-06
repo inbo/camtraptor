@@ -17,7 +17,7 @@
 #'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .data
 #' @family read functions
 read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Check files
@@ -185,32 +185,32 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Set taxonomic
   package$taxonomic <-
     wi_images %>%
-    dplyr::distinct(wi_taxon_id, .keep_all = TRUE) %>%
+    dplyr::distinct(.data$wi_taxon_id, .keep_all = TRUE) %>%
     dplyr::transmute(
-      taxonID = wi_taxon_id,
+      taxonID = .data$wi_taxon_id,
       taxonIDReference = "https://github.com/ConservationInternational/Wildlife-Insights----Data-Migration/tree/master/WI_Global_Taxonomy",
       scientificName = dplyr::case_when(
-        !is.na(species) & !is.na(genus) ~ paste(genus, species),
-        !is.na(genus) ~ genus,
-        !is.na(family) ~ family,
-        !is.na(order) ~ order,
+        !is.na(.data$species) & !is.na(.data$genus) ~ paste(.data$genus, .data$species),
+        !is.na(.data$genus) ~ .data$genus,
+        !is.na(.data$family) ~ .data$family,
+        !is.na(.data$order) ~ .data$order,
         TRUE ~ class
       ),
       taxonRank = dplyr::case_when(
-        !is.na(species) & !is.na(genus) ~ "species",
-        !is.na(genus) ~ "genus",
-        !is.na(family) ~ "family",
-        !is.na(order) ~ "order",
+        !is.na(.data$species) & !is.na(.data$genus) ~ "species",
+        !is.na(.data$genus) ~ "genus",
+        !is.na(.data$family) ~ "family",
+        !is.na(.data$order) ~ "order",
         TRUE ~ "class"
       ),
       kingdom = "Animalia",
       # phylum = not present, likely Chordata
-      class = class,
-      order = order,
-      family = family,
+      class = .data$class,
+      order = .data$order,
+      family = .data$family,
       # subfamily = not present
-      genus = genus,
-      vernacularNames = common_name # TODO: should be "en" = common_name
+      genus = .data$genus,
+      vernacularNames = .data$common_name # TODO: should be "en" = common_name
     ) %>%
     purrr::transpose()
 
@@ -227,58 +227,58 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     wi_deployments %>%
     dplyr::left_join(wi_cameras, by = c("project_id", "camera_id")) %>%
     dplyr::transmute(
-      deploymentID = deployment_id,
-      locationID = placename,
-      locationName = placename,
-      longitude = longitude,
-      latitude = latitude,
+      deploymentID = .data$deployment_id,
+      locationID = .data$placename,
+      locationName = .data$placename,
+      longitude = .data$longitude,
+      latitude = .data$latitude,
       coordinateUncertainty = NA_integer_,
-      start = start_date,
-      end = end_date,
-      setupBy = recorded_by,
-      cameraID = as.character(camera_id),
-      cameraModel = paste(make, model, sep = "-"),
-      cameraInterval = quiet_period,
+      start = .data$start_date,
+      end = .data$end_date,
+      setupBy = .data$recorded_by,
+      cameraID = as.character(.data$camera_id),
+      cameraModel = paste(.data$make, .data$model, sep = "-"),
+      cameraInterval = .data$quiet_period,
       cameraHeight = dplyr::case_when(
-        sensor_height == "Chest height" ~ 1.5,
-        sensor_height == "Knee height" ~ 0.5,
-        sensor_height == "Canopy" ~ 3.0, # Dubious: range depends on forest
-        sensor_height == "Unknown" ~ NA_real_,
-        sensor_height == "Other" ~ NA_real_,
+        .data$sensor_height == "Chest height" ~ 1.5,
+        .data$sensor_height == "Knee height" ~ 0.5,
+        .data$sensor_height == "Canopy" ~ 3.0, # Dubious: range depends on forest
+        .data$sensor_height == "Unknown" ~ NA_real_,
+        .data$sensor_height == "Other" ~ NA_real_,
       ),
       cameraTilt = NA_integer_,
-      cameraHeading = sensor_orientation,
+      cameraHeading = .data$sensor_orientation,
       detectionDistance = NA_real_,
       timestampIssues = FALSE,
-      baitUse = tolower(bait_type),
+      baitUse = tolower(.data$bait_type),
       session = NA_character_,
       array = NA_character_,
-      featureType = tolower(feature_type),
+      featureType = tolower(.data$feature_type),
       habitat = NA_character_,
-      tags = subproject_name, # Set subproject as tag
-      comments = event_description, # TODO: check with other dataset
+      tags = .data$subproject_name, # Set subproject as tag
+      comments = .data$event_description, # TODO: check with other dataset
       `_id` = NA_character_
     )
 
   # Create media, see https://tdwg.github.io/camtrap-dp/data/#media
   media <-
     wi_images %>%
-    dplyr::distinct(location, .keep_all = TRUE) %>%
+    dplyr::distinct(.data$location, .keep_all = TRUE) %>%
     dplyr::transmute(
-      mediaID = image_id,
-      deploymentID = deployment_id,
+      mediaID = .data$image_id,
+      deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
       captureMethod = ifelse(
         length(capture_method) == 1,
         capture_method,
         NA_character_
       ),
-      timestamp = timestamp,
-      filePath = location,
-      fileName = filename,
-      fileMediatype = paste0("image/", tolower(tools::file_ext(location))),
+      timestamp = .data$timestamp,
+      filePath = .data$location,
+      fileName = .data$filename,
+      fileMediatype = paste0("image/", tolower(tools::file_ext(.data$location))),
       exifData = NA_character_,
-      favourite = highlighted,
+      favourite = .data$highlighted,
       comments = NA_character_,
       `_id` = NA_character_
     )
@@ -287,36 +287,36 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   observations <-
     wi_images %>%
     dplyr::transmute(
-      observationID = paste(image_id, wi_taxon_id, sep = ":"), # TODO: not guaranteed unique
-      deploymentID = deployment_id,
+      observationID = paste(.data$image_id, .data$wi_taxon_id, sep = ":"), # TODO: not guaranteed unique
+      deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
-      mediaID = image_id,
-      timestamp = timestamp,
+      mediaID = .data$image_id,
+      timestamp = .data$timestamp,
       observationType = dplyr::case_when(
-        species == "sapiens" ~ "human",
+        .data$species == "sapiens" ~ "human",
         # common_name == "common_name" ~ "unknown",
-        is_blank == 1 ~ "blank",
-        class %in% c(
+        .data$is_blank == 1 ~ "blank",
+        .data$class %in% c(
           "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
           "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
         ) ~ "animal",
-        class %in% c("CV Needed", "CV Failed", "No CV Result") ~ "unclassified",
+        .data$class %in% c("CV Needed", "CV Failed", "No CV Result") ~ "unclassified",
         TRUE ~ "unknown"
       ),
       cameraSetup = NA,
-      taxonID = wi_taxon_id,
-      scientificName = paste(genus, species),
-      count = number_of_objects,
+      taxonID = .data$wi_taxon_id,
+      scientificName = paste(.data$genus, .data$species),
+      count = .data$number_of_objects,
       countNew = NA_integer_,
-      lifeStage = tolower(age),
-      sex = tolower(sex),
+      lifeStage = tolower(.data$age),
+      sex = tolower(.data$sex),
       behaviour = NA_character_,
       individualID = NA_character_, # TODO: individual_id or animal_recognizable
-      classificationMethod = ifelse(is.na(cv_confidence), "human", "machine"),
-      classifiedBy = identified_by,
+      classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
+      classifiedBy = .data$identified_by,
       classificationTimestamp = NA,
-      classificationConfidence = cv_confidence, # TODO: or uncertainty? not sure of the difference
-      comments = individual_animal_notes,
+      classificationConfidence = .data$cv_confidence, # TODO: or uncertainty? not sure of the difference
+      comments = .data$individual_animal_notes,
       `_id` = NA_character_
       # Not use: license and markings.
     )

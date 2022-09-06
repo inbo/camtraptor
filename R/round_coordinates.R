@@ -13,7 +13,7 @@
 #'   metadata).
 #' @family export functions
 #' @export
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .data
 #' @section Details:
 #' Rounding coordinates is a recommended method to generalize sensitive
 #' biodiversity information (see
@@ -67,9 +67,9 @@ round_coordinates <- function(package, digits = 3) {
   } else {
     original_digits <- deployments %>%
       dplyr::mutate(
-        lat_digits = nchar(stringr::str_extract(latitude, "\\d+$"))
+        lat_digits = nchar(stringr::str_extract(.data$latitude, "\\d+$"))
       ) %>%
-      dplyr::summarize(max(lat_digits)) %>%
+      dplyr::summarize(max(.data$lat_digits)) %>%
       dplyr::pull()
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
@@ -87,15 +87,15 @@ round_coordinates <- function(package, digits = 3) {
   # Update longitude, latitude and coordinateUncertainty
   package$data$deployments <-
     dplyr::mutate(deployments,
-      longitude = round(longitude, digits),
-      latitude = round(latitude, digits),
+      longitude = round(.data$longitude, digits),
+      latitude = round(.data$latitude, digits),
       coordinateUncertainty = dplyr::case_when(
         # No uncertainty in data: assume 30, add rounding uncertainty
-        is.na(coordinateUncertainty) ~ 30 + uncertainty[digits],
+        is.na(.data$coordinateUncertainty) ~ 30 + uncertainty[digits],
         # No precision in metadata: original uncertainty, add rounding uncertainty
-        is.null(original_precision) ~ coordinateUncertainty + uncertainty[digits],
+        is.null(original_precision) ~ .data$coordinateUncertainty + uncertainty[digits],
         # Otherwise: subtract old rounding uncertainty, add new rounding uncertainty
-        TRUE ~ coordinateUncertainty - uncertainty[original_digits] + uncertainty[digits]
+        TRUE ~ .data$coordinateUncertainty - uncertainty[original_digits] + uncertainty[digits]
       )
     )
 

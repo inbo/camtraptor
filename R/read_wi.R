@@ -210,9 +210,14 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       family = .data$family,
       # subfamily = not present
       genus = .data$genus,
-      vernacularNames = .data$common_name # TODO: should be "en" = common_name
+      vernacularNames = .data$common_name
     ) %>%
-    purrr::transpose()
+    purrr::transpose() %>%
+    # Change "vernacularNames": "fox" to "vernacularNames": ["en" = "fox"]
+    purrr::map(function(x) {
+      x$vernacularNames <- list(en = x$vernacularNames)
+      x
+    })
 
   # Set platform
   package$platform <- list(

@@ -136,7 +136,7 @@ read_wi <- function(directory = ".") {
       FALSE
     ), # TODO: already implements https://github.com/tdwg/camtrap-dp/issues/232
     classificationLevel = ifelse(
-      wi_project$project_type == "Image", # TODO: Test with WI sequence data
+      wi_project$project_type == "Image",
       "media",
       "sequence"
     )
@@ -345,14 +345,13 @@ read_wi <- function(directory = ".") {
       lifeStage = tolower(.data$age),
       sex = tolower(.data$sex),
       behaviour = NA_character_,
-      individualID = NA_character_, # TODO: individual_id or animal_recognizable
+      individualID = NA_character_,
       classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
       classifiedBy = .data$identified_by,
       classificationTimestamp = NA,
-      classificationConfidence = .data$cv_confidence, # TODO: or uncertainty? not sure of the difference
+      classificationConfidence = .data$cv_confidence/100,
       comments = .data$individual_animal_notes,
       `_id` = NA_character_
-      # Not use: license and markings.
     )
 
   # Add data frames as resources (in separate steps for better error handling)

@@ -42,7 +42,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
 
   # Read data from files
   wi_projects <- readr::read_csv(
-    projects_file, show_col_types = F, progress = FALSE
+    projects_file, show_col_types = FALSE, progress = FALSE
   )
   wi_cameras <- readr::read_csv(
     cameras_file, show_col_types = FALSE, progress = FALSE
@@ -68,7 +68,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   package <- frictionless::create_package() # Also sets profile, resources
 
   # Set metadata properties, see https://tdwg.github.io/camtrap-dp/metadata
-  package$name <- basename(directory) # Unique name if unchanged from the WI export zip
+  package$name <- basename(directory) # Unique name if unchanged from WI export zip
   package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
   package$created <- lubridate::format_ISO8601(lubridate::now())
 
@@ -82,10 +82,10 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   if (length(media_licenses) > 1) {
     warning(
       glue::glue(
-        "`images.csv` contains multiple licenses: `{media_licenses_collapse}`. ",
-        "Camtrap DP only supports one media license: `{media_licenses[1]}` ",
-        "(the most occurring license) will be assigned to all media.",
-        media_licenses_collapse = paste(media_licenses, collapse = "`, `")
+        "`images.csv` contains multiple licenses ({media_licenses_collapse}), ",
+        "while Camtrap DP/Camtraptor only supports one. `{media_licenses[1]}` ",
+        "will be assigned to all media.",
+        media_licenses_collapse = paste(media_licenses, collapse = ", ")
       )
     )
   }
@@ -145,11 +145,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       c("marked", "unmarked")
     },
     classificationLevel = ifelse(
-      wi_project$project_type == "Image", # TODO: Check how WI exports sequence data
+      wi_project$project_type == "Image", # TODO: Test with WI sequence data
       "media",
       "sequence"
     )
-    # sequenceInterval = deployment specific, see https://github.com/tdwg/camtrap-dp/issues/203
+    # sequenceInterval = TODO: how to set for images
     # references = not used in WI
   )
 

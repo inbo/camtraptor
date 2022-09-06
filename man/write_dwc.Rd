@@ -15,9 +15,9 @@ write_dwc(package, directory = ".")
 CSV files written to disk.
 }
 \description{
-Transforms the data of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package (Camtrap DP)} to
-\href{https://dwc.tdwg.org/}{Darwin Core} CSV files that can be uploaded to a
-\href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
+Transforms the data of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to \href{https://dwc.tdwg.org/}{Darwin Core}
+CSV files that can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT} for
+publication.
 A \code{meta.xml} file is not created.
 }
 \section{Transformation details}{

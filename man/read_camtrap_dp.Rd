@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_camtrap_dp.R
 \name{read_camtrap_dp}
 \alias{read_camtrap_dp}
-\title{Read Camtrap DP formatted data}
+\title{Read a Camtrap DP}
 \usage{
 read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 }
@@ -26,7 +26,7 @@ as a property \code{data} containing the data as three data frames:
 }
 }
 \description{
-Reads camera trap data formatted as a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package (Camtrap DP)} into memory.
+Reads files from a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} into memory.
 All datetime information is automatically transformed to UTC (Coordinated
 Universal Time).
 Vernacular names found in the metadata (element \code{taxonomic}) are added to
@@ -55,3 +55,8 @@ readr::problems(muskrat_coypu_with_issues$data$observations)
 readr::problems(muskrat_coypu_with_issues$data$media)
 }
 }
+\seealso{
+Other read functions: 
+\code{\link{read_wi}()}
+}
+\concept{read functions}

@@ -252,7 +252,6 @@ read_wi <- function(directory = ".") {
         "Other" = NA_real_,
         .default = NA_real_
       ),
-      detectionDistance = NA_real_,
       cameraTilt = dplyr::recode(.data$sensor_orientation,
         "Parallel" = 0,
         "Pointed Downward" = -90,
@@ -262,6 +261,7 @@ read_wi <- function(directory = ".") {
         .default = NA_integer_
       ),
       cameraHeading = NA_integer_,
+      detectionDistance = .data$detection_distance,
       timestampIssues = FALSE,
       baitUse = dplyr::recode(.data$bait_type,
         "None" = "none",

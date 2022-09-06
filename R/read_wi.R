@@ -347,12 +347,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/observations-table-schema.json"
   # )
 
-  # Check
+  # Attach data to package
   package$data <- list(
     deployments = deployments,
     media = media,
     observations = observations
   )
-
-  return(package)
+  package
 }

@@ -27,7 +27,7 @@
 #'   `directory = NULL`.
 #' @family export functions
 #' @export
-#' @importFrom dplyr %>% .$data
+#' @importFrom dplyr %>% .data
 #' @section Transformation details:
 #' Metadata is derived from what is provided in `package` and in the function
 #' parameters.

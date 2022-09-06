@@ -84,7 +84,12 @@ check_package <- function(package = NULL,
 #' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")
 #'
 #' # Invalid inputs for species
-#' check_value("ddsf", c("Canis lupus", "Corvus monedula"), "species")
+#' values <- c("Ans streperi", # wrong
+#'   "Anas strepera",
+#'   "wld end", # wrong
+#'   "wilde eend"
+#'  )
+#' check_value(values, c("Anas strepera", "wilde eend"), "species")
 #' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   max_print <- 20
@@ -92,19 +97,22 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   # Drop NA
   options <- options[!is.na(options)]
 
-  # Suppress long messages
+  # Wrong values
+  wrong_values <- arg[!(arg %in% options)]
+  
+  # Suppress long messages with valid options
   if (length(options) > max_print) {
     options_to_print <- c(options[1:max_print], "others..")
   } else {
     options_to_print <- options
   }
-
+  
   # compose error message
   if (null_allowed == TRUE) {
-    string_to_print <- "Invalid value for {arg_name} argument.
+    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
         Valid inputs are: NULL, {options_to_print*}."
   } else {
-    string_to_print <- "Invalid value for {arg_name} argument.
+    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
         Valid inputs are: {options_to_print*}."
   }
 

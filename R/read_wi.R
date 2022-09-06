@@ -75,9 +75,9 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   # Set licenses
   media_licenses <-
     wi_images %>%
-    dplyr::group_by(license) %>%
+    dplyr::group_by(.data$license) %>%
     dplyr::count() %>%
-    dplyr::arrange(desc(n)) %>%
+    dplyr::arrange(dplyr::desc(.data$n)) %>%
     dplyr::first()
   if (length(media_licenses) > 1) {
     warning(

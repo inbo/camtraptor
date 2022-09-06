@@ -153,7 +153,7 @@ write_eml <- function(package, directory = ".", title = package$title,
     ellipsis <- match("...", creators)
     if (is.na(ellipsis)) {
       # creators does not contain "...", reduce contributors to selected names
-      contributors <- filter(contributors, title %in% creators)
+      contributors <- dplyr::filter(contributors, title %in% creators)
     } else {
       # creators does contain "...", expand creators to full contributors
       creators <- c(

@@ -125,18 +125,16 @@ read_wi <- function(directory = ".") {
       "Targeted" = "targeted"
       # Unknown
     ),
-    animalTypes = if (all(is.na(wi_images$markings))) {
-      "unmarked"
-    } else if (!any(is.na(wi_images$markings))) {
-      "marked"
-    } else {
-      c("marked", "unmarked")
-    },
     captureMethod = dplyr::recode(wi_project$project_sensor_method,
       "Sensor Detection" = "motion detection",
       "Time Lapse" = "time lapse",
       "Both" = "both" # Set to vector later
     ),
+    animalTypes = ifelse(
+      wi_project$project_sensor_method == "yes",
+      TRUE,
+      FALSE
+    ), # TODO: already implements https://github.com/tdwg/camtrap-dp/issues/232
     classificationLevel = ifelse(
       wi_project$project_type == "Image", # TODO: Test with WI sequence data
       "media",

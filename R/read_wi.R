@@ -13,13 +13,11 @@
 #' @param directory Path to local directory to read files from.
 #'   The function expects `projects.csv`, `deployments.csv`, `cameras.csv`, and
 #'   `images.csv`.
-#' @param capture_method How media files were obtained.
-#'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
 #' @importFrom dplyr %>% .data
 #' @family read functions
-read_wi <- function(directory = ".", capture_method = "motion detection") {
+read_wi <- function(directory = ".") {
   # Check files
   projects_file <- file.path(directory, "projects.csv")
   assertthat::assert_that(file.exists(projects_file))
@@ -29,16 +27,6 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   assertthat::assert_that(file.exists(deployments_file))
   images_file <- file.path(directory, "images.csv")
   assertthat::assert_that(file.exists(images_file))
-
-  # Check capture method
-  capture_methods = c("motion detection", "time lapse")
-  assertthat::assert_that(
-    all(capture_method %in% capture_methods),
-    msg = glue::glue(
-      "`capture_method` must be `{capture_method_collapse}`.",
-      capture_method_collapse = paste(capture_methods, collapse = "` and/or `")
-    )
-  )
 
   # Read data from files
   wi_projects <- readr::read_csv(
@@ -136,7 +124,6 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       wi_project$project_sensor_layout == "Convenience" ~ "opportunistic",
       wi_project$project_sensor_layout == "Targeted" ~ "targeted"
     ),
-    captureMethod = capture_method,
     animalTypes = if (all(is.na(wi_images$markings))) {
       "unmarked"
     } else if (!any(is.na(wi_images$markings))) {
@@ -144,6 +131,11 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     } else {
       c("marked", "unmarked")
     },
+    captureMethod = dplyr::recode(wi_project$project_sensor_method,
+      "Sensor Detection" = "motion detection",
+      "Time Lapse" = "time lapse",
+      "Both" = "both" # Set to vector later
+    ),
     classificationLevel = ifelse(
       wi_project$project_type == "Image", # TODO: Test with WI sequence data
       "media",
@@ -152,6 +144,9 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     # sequenceInterval = TODO: how to set for images
     # references = not used in WI
   )
+  if (package$project$captureMethod == "both") {
+    package$project$captureMethod <- c("motion detection", "time lapse")
+  }
 
   # Set spatial
   package$spatial <- list(
@@ -279,11 +274,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
-      captureMethod = ifelse(
-        length(capture_method) == 1,
-        capture_method,
-        NA_character_
-      ),
+      captureMethod = NA_character_,
       timestamp = .data$timestamp,
       filePath = .data$location,
       fileName = .data$filename,

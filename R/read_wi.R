@@ -118,11 +118,12 @@ read_wi <- function(directory = ".") {
     acronym = wi_project$project_short_name,
     description = wi_project$project_objectives,
     path = wi_project$ark_id,
-    samplingDesign = dplyr::case_when(
-      wi_project$project_sensor_layout == "Systematic" ~ "systematic random",
-      wi_project$project_sensor_layout == "Randomized" ~ "simple random",
-      wi_project$project_sensor_layout == "Convenience" ~ "opportunistic",
-      wi_project$project_sensor_layout == "Targeted" ~ "targeted"
+    samplingDesign = dplyr::recode(wi_project$project_sensor_layout,
+      "Systematic" = "systematic random",
+      "Randomized" = "simple random",
+      "Convenience" = "opportunistic",
+      "Targeted" = "targeted"
+      # Unknown
     ),
     animalTypes = if (all(is.na(wi_images$markings))) {
       "unmarked"
@@ -245,21 +246,45 @@ read_wi <- function(directory = ".") {
       cameraID = as.character(.data$camera_id),
       cameraModel = paste(.data$make, .data$model, sep = "-"),
       cameraInterval = .data$quiet_period,
-      cameraHeight = dplyr::case_when(
-        .data$sensor_height == "Chest height" ~ 1.5,
-        .data$sensor_height == "Knee height" ~ 0.5,
-        .data$sensor_height == "Canopy" ~ 3.0, # Dubious: range depends on forest
-        .data$sensor_height == "Unknown" ~ NA_real_,
-        .data$sensor_height == "Other" ~ NA_real_,
+      cameraHeight = dplyr::recode(.data$sensor_height,
+        "Chest height" = 1.5,
+        "Knee height" = 0.5,
+        "Canopy" = 3.0, # Dubious: range depends on forest
+        "Unknown" = NA_real_,
+        "Other" = NA_real_,
+        .default = NA_real_
       ),
       cameraTilt = NA_integer_,
       cameraHeading = .data$sensor_orientation,
       detectionDistance = NA_real_,
       timestampIssues = FALSE,
-      baitUse = tolower(.data$bait_type),
+      baitUse = dplyr::recode(.data$bait_type,
+        "None" = "none",
+        "Scent" = "scent",
+        "Meat" = "meat",
+        "Visual" = "visual",
+        "Acoustic" = "acoustic",
+        "Other" = "other"
+      ),
       session = NA_character_,
       array = NA_character_,
-      featureType = tolower(.data$feature_type),
+      featureType = dplyr::recode(.data$feature_type,
+        "None" = "none",
+        "Road paved" = "road paved",
+        "Road dirt" = "road dirt",
+        "Trail hiking" = "trail hiking",
+        "Trail game" = "trail game",
+        "Road underpass" = "road underpass",
+        "Road overpass" = "road overpass",
+        "Road bridge" = "road bridge",
+        "Culvert" = "culvert",
+        "Burrow" = "borrow",
+        "Nest site" = "nest site",
+        "Carcass" = "carcass",
+        "Water source" = "water source",
+        "Fruiting tree" = "fruiting tree",
+        "Other" = "other"
+      ),
       habitat = NA_character_,
       tags = .data$subproject_name, # Set subproject as tag
       comments = .data$event_description, # TODO: check with other dataset

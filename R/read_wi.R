@@ -67,14 +67,14 @@ read_wi <- function(directory = ".") {
   metadata_license <- metadata_licenses[1]
   media_licenses <- stringr::str_split(wi_project$image_license, ", ")[[1]]
   media_license <- media_licenses[1]
-  if (length(metadata_licenses > 1)) {
+  if (length(metadata_licenses) > 1) {
     warning(glue::glue(
       "Multiple metadata licenses found: {licenses_collapse}. ",
       "Metadata license will be set to `{metadata_license}`.",
       licenses_collapse = paste(metadata_licenses, collapse = ", ")
     ))
   }
-  if (length(media_licenses > 1)) {
+  if (length(media_licenses) > 1) {
     warning(glue::glue(
       "Multiple media licenses found: {licenses_collapse}. ",
       "Media license will be set to `{media_license}`.",

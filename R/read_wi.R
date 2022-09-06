@@ -10,6 +10,8 @@
 #' https://tdwg.github.io/camtrap-dp) which can be written to file with
 #' [frictionless::write_package()].
 #'
+#' **The function has only been tested on image-based projects.**
+#'
 #' @param directory Path to local directory to read files from.
 #'   The function expects `projects.csv`, `deployments.csv`, `cameras.csv`, and
 #'   `images.csv`.

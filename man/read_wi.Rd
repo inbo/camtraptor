@@ -21,6 +21,8 @@ Data can be exported from Wildlife Insights as a \href{https://www.wildlifeinsig
 download.
 The function transforms data and metadata to a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} which can be written to file with
 \code{\link[frictionless:write_package]{frictionless::write_package()}}.
+}
+\details{
 \strong{The function has only been tested on image-based projects.}
 }
 \seealso{

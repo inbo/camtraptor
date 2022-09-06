@@ -60,32 +60,28 @@ read_wi <- function(directory = ".") {
   package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
   package$created <- lubridate::format_ISO8601(lubridate::now())
 
-  # Set licenses
-  media_licenses <-
-    wi_images %>%
-    dplyr::group_by(.data$license) %>%
-    dplyr::count() %>%
-    dplyr::arrange(dplyr::desc(.data$n)) %>%
-    dplyr::first()
-  if (length(media_licenses) > 1) {
-    warning(
-      glue::glue(
-        "`images.csv` contains multiple licenses ({media_licenses_collapse}), ",
-        "while Camtrap DP/Camtraptor only supports one. `{media_licenses[1]}` ",
-        "will be assigned to all media.",
-        media_licenses_collapse = paste(media_licenses, collapse = ", ")
-      )
-    )
+  # Set license
+  metadata_licenses <- stringr::str_split(wi_project$metadata_license, ", ")[[1]]
+  metadata_license <- metadata_licenses[1]
+  media_licenses <- stringr::str_split(wi_project$image_license, ", ")[[1]]
+  media_license <- media_licenses[1]
+  if (length(metadata_licenses > 1)) {
+    warning(glue::glue(
+      "Multiple metadata licenses found: {licenses_collapse}. ",
+      "Metadata license will be set to `{metadata_license}`.",
+      licenses_collapse = paste(metadata_licenses, collapse = ", ")
+    ))
+  }
+  if (length(media_licenses > 1)) {
+    warning(glue::glue(
+      "Multiple media licenses found: {licenses_collapse}. ",
+      "Media license will be set to `{media_license}`.",
+      licenses_collapse = paste(media_licenses, collapse = ", ")
+    ))
   }
   package$licenses <- list(
-    list(
-      name = wi_project$metadata_license,
-      scope = "data"
-    ),
-    list(
-      name = media_licenses[1],
-      scope = "media"
-    )
+    list(name = metadata_license, scope = "data"),
+    list(name = media_license, scope = "media")
   )
 
   # Set sources

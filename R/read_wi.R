@@ -249,8 +249,8 @@ read_wi <- function(directory = ".") {
         .default = NA_real_
       ),
       cameraTilt = dplyr::recode(.data$sensor_orientation,
-        "Parallel" = 0,
-        "Pointed Downward" = -90,
+        "Parallel" = as.integer(0),
+        "Pointed Downward" = as.integer(-90),
         "Varies" = NA_integer_,
         "Unknown" = NA_integer_,
         "Other" = NA_integer_,

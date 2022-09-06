@@ -1,9 +1,9 @@
 #' Transform Camtrap DP metadata to EML
 #'
-#' Transforms the metadata of a [Camera Trap Data Package
-#' (Camtrap DP)](https://tdwg.github.io/camtrap-dp/) to an
-#' [EML](https://eml.ecoinformatics.org/) file that can be uploaded to a
-#' [GBIF IPT](https://www.gbif.org/ipt) for publication.
+#' Transforms the metadata of a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp/) to an [EML](
+#' https://eml.ecoinformatics.org/) file that can be uploaded to a [GBIF IPT](
+#' https://www.gbif.org/ipt) for publication.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file to.
@@ -27,7 +27,7 @@
 #'   `directory = NULL`.
 #' @family export functions
 #' @export
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .$data
 #' @section Transformation details:
 #' Metadata is derived from what is provided in `package` and in the function
 #' parameters.
@@ -139,17 +139,21 @@ write_eml <- function(package, directory = ".", title = package$title,
     ) %>%
     # Move ORCID from path to separate column
     dplyr::mutate(
-      orcid = stringr::str_extract(path, orcid_regex),
-      path = ifelse(stringr::str_detect(path, orcid_regex), NA_character_, path)
+      orcid = stringr::str_extract(.data$path, orcid_regex),
+      path = ifelse(
+        stringr::str_detect(.data$path, orcid_regex),
+        NA_character_,
+        .data$path
+      )
     ) %>%
-    dplyr::arrange(last_name)
+    dplyr::arrange(.data$last_name)
 
   # Filter/sort contributors on creators param (or leave as is when NULL)
   if (!is.null(creators)) {
     ellipsis <- match("...", creators)
     if (is.na(ellipsis)) {
       # creators does not contain "...", reduce contributors to selected names
-      contributors <- filter(contributors, title %in% creators)
+      contributors <- dplyr::filter(contributors, title %in% creators)
     } else {
       # creators does contain "...", expand creators to full contributors
       creators <- c(
@@ -160,7 +164,7 @@ write_eml <- function(package, directory = ".", title = package$title,
     }
     # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order_by = order(factor(title, levels = creators))
+      contributors, order_by = order(factor(.data$title, levels = creators))
     )
   }
   creator_list <- purrr::transpose(contributors) # Create list

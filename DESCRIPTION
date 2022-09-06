@@ -1,11 +1,13 @@
 Package: camtraptor
 Title: Read, Explore and Visualize Camera Trap Data Packages
-Version: 0.18.1
+Version: 0.19.0
 Authors@R: c(
     person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3445-7562")),
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
            role = "aut", comment =  c(ORCID = "0000-0002-8442-8025")),
+    person("Raphaël", "Nussbaumer", email = "rafnuss@gmail.com",
+           role = "ctb", comment =  c(ORCID = "0000-0002-8185-10205")),
     person("Thierry", "Onkelinx", email = "thierry.onkelinx@inbo.be",
            role = "ctb", comment = c(ORCID = "0000-0001-8804-4216")),
     person("Jim", "Casaer", email = "jim.casaer@inbo.be",
@@ -44,14 +46,15 @@ Imports:
     RSQLite,
     stringr,
     tidyr,
+    tools,
     utils,
     uuid
-Suggests: 
+Suggests:
     covr,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true

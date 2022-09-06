@@ -183,14 +183,20 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   )
 
   # Set taxonomic
+  animal_classes <- c(
+    "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
+    "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
+  )
   package$taxonomic <-
     wi_images %>%
     dplyr::distinct(.data$wi_taxon_id, .keep_all = TRUE) %>%
+    dplyr::filter(.data$class %in% animal_classes) %>%
     dplyr::transmute(
       taxonID = .data$wi_taxon_id,
       taxonIDReference = "https://github.com/ConservationInternational/Wildlife-Insights----Data-Migration/tree/master/WI_Global_Taxonomy",
       scientificName = dplyr::case_when(
-        !is.na(.data$species) & !is.na(.data$genus) ~ paste(.data$genus, .data$species),
+        !is.na(.data$species) & !is.na(.data$genus)
+        ~ paste(.data$genus, .data$species),
         !is.na(.data$genus) ~ .data$genus,
         !is.na(.data$family) ~ .data$family,
         !is.na(.data$order) ~ .data$order,
@@ -301,16 +307,25 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
         .data$species == "sapiens" ~ "human",
         # common_name == "common_name" ~ "unknown",
         .data$is_blank == 1 ~ "blank",
-        .data$class %in% c(
-          "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
-          "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
-        ) ~ "animal",
+        .data$class %in% animal_classes ~ "animal",
         .data$class %in% c("CV Needed", "CV Failed", "No CV Result") ~ "unclassified",
         TRUE ~ "unknown"
       ),
       cameraSetup = NA,
-      taxonID = .data$wi_taxon_id,
-      scientificName = paste(.data$genus, .data$species),
+      taxonID = ifelse(
+        !.data$class %in% animal_classes,
+        NA_character_, # Set taxonID for non-animals to NULL
+        .data$wi_taxon_id
+      ),
+      scientificName = dplyr::case_when(
+        !.data$class %in% animal_classes ~ NA_character_,
+        !is.na(.data$species) & !is.na(.data$genus)
+          ~ paste(.data$genus, .data$species),
+        !is.na(.data$genus) ~ .data$genus,
+        !is.na(.data$family) ~ .data$family,
+        !is.na(.data$order) ~ .data$order,
+        TRUE ~ class
+      ),
       count = .data$number_of_objects,
       countNew = NA_integer_,
       lifeStage = tolower(.data$age),

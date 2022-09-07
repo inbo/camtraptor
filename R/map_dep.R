@@ -26,6 +26,8 @@
 #' - `day`
 #' - `month`
 #' - `year`
+#' 
+#' If  `NULL` (default), the effort is returned in hours. 
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL`, default, all observations of all sex classes are taken into
 #'   account. Optional argument for `n_obs` and `n_individuals`.
@@ -177,6 +179,12 @@
 #'   life_stage = "adult"
 #' )
 #'
+#' # show effort (hours)
+#' map_dep(
+#'   mica,
+#'   "effort"
+#' )
+#' 
 #' # show effort (days)
 #' map_dep(
 #'   mica,
@@ -184,13 +192,7 @@
 #'   effort_unit = "day"
 #' )
 #'
-#' # show effort (months)
-#' map_dep(
-#'   mica,
-#'   "effort",
-#'   effort_unit = "month"
-#' )
-#'
+#'#'
 #' # use viridis palette (viridis palettes)
 #' map_dep(
 #'   mica,
@@ -492,10 +494,10 @@ map_dep <- function(package = NULL,
                                    life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
-    feat_df <- get_effort(package, unit = effort_unit, ...)
     if (is.null(effort_unit)) {
-      feat_df$effort <- feat_df$effort_duration
+      effort_unit <- "hour" # default value of get_effort()
     }
+    feat_df <- get_effort(package, unit = effort_unit, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$effort)
   }
 

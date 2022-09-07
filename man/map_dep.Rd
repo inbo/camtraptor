@@ -61,7 +61,9 @@ and \code{n_individuals}.}
 \item \code{day}
 \item \code{month}
 \item \code{year}
-}}
+}
+
+If  \code{NULL} (default), the effort is returned in hours.}
 
 \item{cluster}{Logical value indicating whether using the cluster option
 while visualizing maps. Default: TRUE.}
@@ -217,6 +219,12 @@ map_dep(
   life_stage = "adult"
 )
 
+# show effort (hours)
+map_dep(
+  mica,
+  "effort"
+)
+
 # show effort (days)
 map_dep(
   mica,
@@ -224,13 +232,7 @@ map_dep(
   effort_unit = "day"
 )
 
-# show effort (months)
-map_dep(
-  mica,
-  "effort",
-  effort_unit = "month"
-)
-
+#'
 # use viridis palette (viridis palettes)
 map_dep(
   mica,

@@ -112,6 +112,9 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
     string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
         Valid inputs are: NULL, {options_to_print*}."
   } else {
+    if (is.null(wrong_values)) {
+      wrong_values <- "NULL"
+    }
     string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
         Valid inputs are: {options_to_print*}."
   }

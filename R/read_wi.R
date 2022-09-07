@@ -10,16 +10,16 @@
 #' https://tdwg.github.io/camtrap-dp) which can be written to file with
 #' [frictionless::write_package()].
 #'
+#' **The function has only been tested on image-based projects.**
+#'
 #' @param directory Path to local directory to read files from.
 #'   The function expects `projects.csv`, `deployments.csv`, `cameras.csv`, and
 #'   `images.csv`.
-#' @param capture_method How media files were obtained.
-#'   Character (vector) with `motion detection` and/or `time lapse`.
 #' @return CSV (data) files written to disk.
 #' @export
 #' @importFrom dplyr %>% .data
 #' @family read functions
-read_wi <- function(directory = ".", capture_method = "motion detection") {
+read_wi <- function(directory = ".") {
   # Check files
   projects_file <- file.path(directory, "projects.csv")
   assertthat::assert_that(file.exists(projects_file))
@@ -29,16 +29,6 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   assertthat::assert_that(file.exists(deployments_file))
   images_file <- file.path(directory, "images.csv")
   assertthat::assert_that(file.exists(images_file))
-
-  # Check capture method
-  capture_methods = c("motion detection", "time lapse")
-  assertthat::assert_that(
-    all(capture_method %in% capture_methods),
-    msg = glue::glue(
-      "`capture_method` must be `{capture_method_collapse}`.",
-      capture_method_collapse = paste(capture_methods, collapse = "` and/or `")
-    )
-  )
 
   # Read data from files
   wi_projects <- readr::read_csv(
@@ -72,32 +62,28 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
   package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
   package$created <- lubridate::format_ISO8601(lubridate::now())
 
-  # Set licenses
-  media_licenses <-
-    wi_images %>%
-    dplyr::group_by(.data$license) %>%
-    dplyr::count() %>%
-    dplyr::arrange(dplyr::desc(.data$n)) %>%
-    dplyr::first()
+  # Set license
+  metadata_licenses <- stringr::str_split(wi_project$metadata_license, ", ")[[1]]
+  metadata_license <- metadata_licenses[1]
+  media_licenses <- stringr::str_split(wi_project$image_license, ", ")[[1]]
+  media_license <- media_licenses[1]
+  if (length(metadata_licenses) > 1) {
+    warning(glue::glue(
+      "Multiple metadata licenses found: {licenses_collapse}. ",
+      "Metadata license will be set to `{metadata_license}`.",
+      licenses_collapse = paste(metadata_licenses, collapse = ", ")
+    ))
+  }
   if (length(media_licenses) > 1) {
-    warning(
-      glue::glue(
-        "`images.csv` contains multiple licenses ({media_licenses_collapse}), ",
-        "while Camtrap DP/Camtraptor only supports one. `{media_licenses[1]}` ",
-        "will be assigned to all media.",
-        media_licenses_collapse = paste(media_licenses, collapse = ", ")
-      )
-    )
+    warning(glue::glue(
+      "Multiple media licenses found: {licenses_collapse}. ",
+      "Media license will be set to `{media_license}`.",
+      licenses_collapse = paste(media_licenses, collapse = ", ")
+    ))
   }
   package$licenses <- list(
-    list(
-      name = wi_project$metadata_license,
-      scope = "data"
-    ),
-    list(
-      name = media_licenses[1],
-      scope = "media"
-    )
+    list(name = metadata_license, scope = "data"),
+    list(name = media_license, scope = "media")
   )
 
   # Set sources
@@ -130,28 +116,34 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
     acronym = wi_project$project_short_name,
     description = wi_project$project_objectives,
     path = wi_project$ark_id,
-    samplingDesign = dplyr::case_when(
-      wi_project$project_sensor_layout == "Systematic" ~ "systematic random",
-      wi_project$project_sensor_layout == "Randomized" ~ "simple random",
-      wi_project$project_sensor_layout == "Convenience" ~ "opportunistic",
-      wi_project$project_sensor_layout == "Targeted" ~ "targeted"
+    samplingDesign = dplyr::recode(wi_project$project_sensor_layout,
+      "Systematic" = "systematic random",
+      "Randomized" = "simple random",
+      "Convenience" = "opportunistic",
+      "Targeted" = "targeted"
+      # Unknown
     ),
-    captureMethod = capture_method,
-    animalTypes = if (all(is.na(wi_images$markings))) {
-      "unmarked"
-    } else if (!any(is.na(wi_images$markings))) {
-      "marked"
-    } else {
-      c("marked", "unmarked")
-    },
+    captureMethod = dplyr::recode(wi_project$project_sensor_method,
+      "Sensor Detection" = "motion detection",
+      "Time Lapse" = "time lapse",
+      "Both" = "both" # Set to vector later
+    ),
+    animalTypes = ifelse(
+      wi_project$project_sensor_method == "yes",
+      TRUE,
+      FALSE
+    ), # TODO: already implements https://github.com/tdwg/camtrap-dp/issues/232
     classificationLevel = ifelse(
-      wi_project$project_type == "Image", # TODO: Test with WI sequence data
+      wi_project$project_type == "Image",
       "media",
       "sequence"
     )
     # sequenceInterval = TODO: how to set for images
     # references = not used in WI
   )
+  if (package$project$captureMethod == "both") {
+    package$project$captureMethod <- c("motion detection", "time lapse")
+  }
 
   # Set spatial
   package$spatial <- list(
@@ -250,21 +242,52 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       cameraID = as.character(.data$camera_id),
       cameraModel = paste(.data$make, .data$model, sep = "-"),
       cameraInterval = .data$quiet_period,
-      cameraHeight = dplyr::case_when(
-        .data$sensor_height == "Chest height" ~ 1.5,
-        .data$sensor_height == "Knee height" ~ 0.5,
-        .data$sensor_height == "Canopy" ~ 3.0, # Dubious: range depends on forest
-        .data$sensor_height == "Unknown" ~ NA_real_,
-        .data$sensor_height == "Other" ~ NA_real_,
+      cameraHeight = dplyr::recode(.data$sensor_height,
+        "Chest height" = 1.5,
+        "Knee height" = 0.5,
+        "Canopy" = 3.0, # Dubious: range depends on forest
+        "Unknown" = NA_real_,
+        "Other" = NA_real_,
+        .default = NA_real_
       ),
-      cameraTilt = NA_integer_,
-      cameraHeading = .data$sensor_orientation,
-      detectionDistance = NA_real_,
+      cameraTilt = dplyr::recode(.data$sensor_orientation,
+        "Parallel" = as.integer(0),
+        "Pointed Downward" = as.integer(-90),
+        "Varies" = NA_integer_,
+        "Unknown" = NA_integer_,
+        "Other" = NA_integer_,
+        .default = NA_integer_
+      ),
+      cameraHeading = NA_integer_,
+      detectionDistance = .data$detection_distance,
       timestampIssues = FALSE,
-      baitUse = tolower(.data$bait_type),
+      baitUse = dplyr::recode(.data$bait_type,
+        "None" = "none",
+        "Scent" = "scent",
+        "Meat" = "meat",
+        "Visual" = "visual",
+        "Acoustic" = "acoustic",
+        "Other" = "other"
+      ),
       session = NA_character_,
       array = NA_character_,
-      featureType = tolower(.data$feature_type),
+      featureType = dplyr::recode(.data$feature_type,
+        "None" = "none",
+        "Road paved" = "road paved",
+        "Road dirt" = "road dirt",
+        "Trail hiking" = "trail hiking",
+        "Trail game" = "trail game",
+        "Road underpass" = "road underpass",
+        "Road overpass" = "road overpass",
+        "Road bridge" = "road bridge",
+        "Culvert" = "culvert",
+        "Burrow" = "borrow",
+        "Nest site" = "nest site",
+        "Carcass" = "carcass",
+        "Water source" = "water source",
+        "Fruiting tree" = "fruiting tree",
+        "Other" = "other"
+      ),
       habitat = NA_character_,
       tags = .data$subproject_name, # Set subproject as tag
       comments = .data$event_description, # TODO: check with other dataset
@@ -279,11 +302,7 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
       sequenceID = NA_character_,
-      captureMethod = ifelse(
-        length(capture_method) == 1,
-        capture_method,
-        NA_character_
-      ),
+      captureMethod = NA_character_,
       timestamp = .data$timestamp,
       filePath = .data$location,
       fileName = .data$filename,
@@ -331,14 +350,13 @@ read_wi <- function(directory = ".", capture_method = "motion detection") {
       lifeStage = tolower(.data$age),
       sex = tolower(.data$sex),
       behaviour = NA_character_,
-      individualID = NA_character_, # TODO: individual_id or animal_recognizable
+      individualID = NA_character_,
       classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
       classifiedBy = .data$identified_by,
       classificationTimestamp = NA,
-      classificationConfidence = .data$cv_confidence, # TODO: or uncertainty? not sure of the difference
+      classificationConfidence = .data$cv_confidence/100,
       comments = .data$individual_animal_notes,
       `_id` = NA_character_
-      # Not use: license and markings.
     )
 
   # Add data frames as resources (in separate steps for better error handling)

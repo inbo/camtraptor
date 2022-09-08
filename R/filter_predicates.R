@@ -1,11 +1,12 @@
 #' Filter predicate
 #'
-#' @param arg (character) The key for the predicate. See "Keys" below.
+#' @param arg (character) The key for the predicate.
+#'   See "Keys" below.
 #' @param value (various) The value for the predicate.
 #' @param ... For `pred_or()` or `pred_and()`: one or more objects of
-#' class `filter_predicate`, created by any other `pred*` function.
-#' @return a predicate object. An object of class predicate is a list with the
-#'   following slots:
+#'   class `filter_predicate`, created by any other `pred*` function.
+#' @return A predicate object.
+#'   An object of class predicate is a list with the following slots:
 #'   1. `arg`: a (list of) character with all arguments in the predicate(s)
 #'   2. `value`:  a (list of) character with all values in the predicate(s)
 #'   3. `type`:  a (list of) character with all predicate types, see section
@@ -15,9 +16,9 @@
 #' @rdname filter_predicate
 #' @export
 #' @section Predicate methods and their equivalent types:
-#' `pred*` functions are named for the 'type' of operation they do, inspired  by
-#' GBIF [occurrence
-#' predicates](https://www.gbif.org/developer/occurrence#predicates)
+#' `pred*` functions are named for the 'type' of operation they do, inspired by
+#' GBIF [occurrence predicates](
+#' https://www.gbif.org/developer/occurrence#predicates)
 #'
 #' The following functions take one key and one value and are associated to the
 #' following types:
@@ -29,12 +30,12 @@
 #' - `pred_gte`: greaterThanOrEquals
 #' - `pred_like`: like (NOT IMPLEMENTED YET!)
 #'
-#' The following function is only for geospatial queries, and only
-#' accepts a WKT string:
+#' The following function is only for geospatial queries, and only accepts a
+#' WKT string:
 #' - `pred_within`: within (NOT IMPLEMENTED YET!)
 #'
-#' The following functions are only for stating that you do (not) want
-#' a key to be NA, so only accepts one key:
+#' The following functions are only for stating that you do (not) want a key to
+#' be `NA`, so only accepts one key:
 #' - `pred_na`: isNA
 #' - `pred_notna`: isNotNA
 #'
@@ -51,7 +52,6 @@
 #' - `pred_notin`: notIn
 #'
 #' @section What happens internally:
-#'
 #' Internally, the input to `pred*` functions turn into a character string,
 #' which forms the body of a filter expression.
 #' For example:
@@ -70,7 +70,6 @@
 #'
 #' $expr
 #' (tags == "boven de stroom")
-#'
 #' ```
 #'
 #' `pred_gt("latitude", 51.27)` gives, (only `expr` slot shown):
@@ -92,12 +91,11 @@
 #' ```
 #'
 #' @section Keys:
-#'
 #' Acceptable arguments to the `key` parameter are the column names of the
-#' data.frame you are applying the filter predicates.
+#' data frame you are applying the filter predicates.
 #'
 #' @examples
-#' # one arg one value predicates
+#' # One arg one value predicates
 #' pred("scientificName", "Anas platyrhynchos")
 #' pred("tags", "boven de stroom")
 #' pred_gt("latitude", 51.18)
@@ -106,21 +104,21 @@
 #' pred_lte("longitude", 3.95)
 #' pred_not("locationName", "B_DL_val 3_dikke boom")
 #'
-#' # and, or predicates
+#' # and/or predicates
 #' pred_and(pred_lt("longitude", 3.59), pred_gt("latitude", 51.28))
 #' pred_or(pred_gte("count", 2), pred("vernacular_name", "Norway Rat"))
 #'
-#' # use Dates as argument
+#' # Use dates as argument
 #' start_date <- as.Date("2020-06-03", format = "%Y-%m-%d")
 #' end_date <- as.Date("2020-06-10", format = "%Y-%m-%d")
 #' pred_or(pred_gte("start", start_date), pred_lte("end", end_date))
 #'
-#' # use datetimes (POSIXct) as argument
+#' # Use datetimes (POSIXct) as argument
 #' start_date <- lubridate::as_datetime("2020-06-03")
 #' end_date <- lubridate::as_datetime("2020-06-10")
 #' pred_or(pred_gte("start", start_date), pred_lte("end", end_date))
 #'
-#' # one arg multiple values predicates
+#' # One arg multiple values predicates
 #' locations <- c("B_ML_val 03_De Val", "B_ML_val 05_molenkreek")
 #' pred_in("location_name", locations)
 #' pred_notin("location_name", locations)
@@ -128,7 +126,7 @@
 #' pred_in("start", start_dates)
 #' pred_notin("start", start_dates)
 #'
-#' # one arg, no value predicates
+#' # One arg, no value predicates
 #' pred_na("scientificName")
 #' pred_notna("scientificName")
 pred <- function(arg, value) {
@@ -168,7 +166,7 @@ pred_lte <- function(arg, value) {
 #' Primitive filter predicate constructor
 #'
 #' This function is a primitive function to build all basic one arg - one value
-#' filter predicates
+#' filter predicates.
 #'
 #' @param arg Character with the argument of the filter predicate.
 #' @param value Value the filter predicate uses to value `arg`.
@@ -302,15 +300,16 @@ pred_or <- function(...) {
   pred_and_or_primitive(symbol = " | ", ...)
 }
 
-#' Intermediate function to apply filter predicates on a data.frame
+#' Intermediate function to apply filter predicates on a data frame
 #'
 #' This function is used internally by all the `get_*()` functions to filter on
 #' deployments.
 #'
-#' @param df data.frame we want to apply filter(s) expression(s)
-#' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
+#' @param df Data frame we want to apply filter(s) expression(s)
+#' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate
+#'   expression.
 #' @param ... filter predicates to apply to `df`
-#' @return A data.frame.
+#' @return A data frame.
 #' @family filter functions
 #' @export
 #' @examples
@@ -319,7 +318,7 @@ pred_or <- function(...) {
 #'                        verbose = TRUE,
 #'                        pred_gte("latitude", 51.28),
 #'                        pred_lt("longitude", 3.56))
-#' # equivalent of
+#' # Equivalent of
 #' apply_filter_predicate(mica$data$deployments,
 #'                        verbose = TRUE,
 #'                        pred_and(pred_gte("latitude", 51.28),
@@ -352,20 +351,22 @@ apply_filter_predicate <- function(df, verbose, ...) {
 
 #' Check filter argument and value
 #'
-#' This help function checks the argument (`arg`) and the value (`value`) of a basic
-#' one argument - one value filter predicate
+#' This help function checks the argument (`arg`) and the value (`value`) of a
+#' basic one argument - one value filter predicate.
 #'
 #' @param arg Argument of the filter predicate.
-#' @param value  Value of the filter predicate.
+#' @param value Value of the filter predicate.
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_arg_value("latitude", 5)
 #' check_filter_arg_value("locationName", 35)
-#' # this returns an error: arg should be always a character
+#'
+#' # This returns an error: arg should be always a character
 #' check_filter_arg_value(arg = 5, value = 1)
-#' # this returns an error: two values instead of one
+#'
+#' # This returns an error: two values instead of one
 #' check_filter_arg_value(arg = "location_name", value = c(1,4))
 #' }
 check_filter_arg_value <- function(arg, value) {
@@ -385,7 +386,8 @@ check_filter_arg_value <- function(arg, value) {
 #' \dontrun{
 #' check_filter_arg("latitude")
 #' check_filter_arg("locationName")
-#' # this returns an error
+#'
+#' # This returns an error
 #' check_filter_arg(5)
 #' }
 check_filter_arg <- function(arg) {
@@ -397,7 +399,9 @@ check_filter_arg <- function(arg) {
 #' Check filter value type
 #'
 #' Check that the value argument in a filter predicate is one of the supported
-#' types. Required for basic filter predicates.  Used in `check_filter_value()`.
+#' types.
+#' Required for basic filter predicates.
+#' Used in `check_filter_value()`.
 #'
 #' @param value Character, number, Date or POSIXct object.
 #' @return `TRUE` or an error message.
@@ -406,7 +410,8 @@ check_filter_arg <- function(arg) {
 #' \dontrun{
 #' check_filter_value_type("a")
 #' check_filter_value_type(5)
-#' # this returns an error
+#'
+#' # This returns an error
 #' check_filter_value_type(list(5))
 #' }
 check_filter_value_type <- function(value) {
@@ -422,8 +427,9 @@ check_filter_value_type <- function(value) {
 
 #' Check filter value length
 #'
-#' Check that the value in filter predicates has length one. Required for
-#' basic filter predicates. Used in `check_filter_value()`.
+#' Check that the value in filter predicates has length one.
+#' Required for basic filter predicates.
+#' Used in `check_filter_value()`.
 #'
 #' @param value Value of the filter predicate.
 #' @return `TRUE` or an error message.
@@ -432,7 +438,8 @@ check_filter_value_type <- function(value) {
 #' \dontrun{
 #' check_filter_value_length(5)
 #' check_filter_value_length("a")
-#' # this returns an error
+#'
+#' # This returns an error
 #' check_filter_value_length(c("a", "aa"))
 #' }
 check_filter_value_length <- function(value) {
@@ -442,7 +449,8 @@ check_filter_value_length <- function(value) {
 #' Check filter value
 #'
 #' Check that the value argument in a filter predicate has length one and it is
-#' one of the supported types. This is required for basic filter predicates.
+#' one of the supported types.
+#' This is required for basic filter predicates.
 #'
 #' @param value Value of a basic filter predicate.
 #' @return `TRUE` or an error message.
@@ -451,7 +459,8 @@ check_filter_value_length <- function(value) {
 #' \dontrun{
 #' check_filter_value("b")
 #' check_filter_value(5)
-#' # this returns an error message
+#'
+#' # This returns an error message
 #' check_filter_value(list(5))
 #' }
 check_filter_value <- function(value) {
@@ -471,9 +480,11 @@ check_filter_value <- function(value) {
 #' \dontrun{
 #' check_filter_symbol("==")
 #' check_filter_symbol("!=")
-#' # error: not a character
+#'
+#' # Error: not a character
 #' check_filter_symbol(5)
-#' # error: length > 1
+#'
+#' # Error: length > 1
 #' check_filter_symbol(c("==", "%in%"))
 #' }
 check_filter_symbol <- function(symbol) {
@@ -484,8 +495,7 @@ check_filter_symbol <- function(symbol) {
 
 #' Check filter type
 #'
-#' Check that the filter predicate type is a character and has
-#' length one.
+#' Check that the filter predicate type is a character and has length one.
 #
 #' @param type Character with type for filter predicate, e.g. "equals".
 #' @return `TRUE` or an error message.
@@ -494,9 +504,11 @@ check_filter_symbol <- function(symbol) {
 #' \dontrun{
 #' check_filter_type("in")
 #' check_filter_type("equals")
-#' # error: not a character
+#'
+#' # Error: not a character
 #' check_filter_type(5)
-#' # error: length > 1
+#'
+#' # Error: length > 1
 #' check_filter_type(c("in", "equals"))
 #' }
 check_filter_type <- function(type) {

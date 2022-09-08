@@ -27,10 +27,10 @@ as a property \code{data} containing the data as three data frames:
 }
 \description{
 Reads files from a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} into memory.
-All datetime information is automatically transformed to UTC (Coordinated
-Universal Time).
-Vernacular names found in the metadata (element \code{taxonomic}) are added to
-the \code{observations} data frame.
+All datetime information is automatically transformed to Coordinated
+Universal Time (UTC).
+Vernacular names found in the metadata (\code{package$taxonomic}) are added to the
+\code{observations} data frame.
 }
 \examples{
 \dontrun{

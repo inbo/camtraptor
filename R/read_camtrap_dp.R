@@ -2,10 +2,10 @@
 #'
 #' Reads files from a [Camera Trap Data Package](
 #' https://tdwg.github.io/camtrap-dp) into memory.
-#' All datetime information is automatically transformed to UTC (Coordinated
-#' Universal Time).
-#' Vernacular names found in the metadata (element `taxonomic`) are added to
-#' the `observations` data frame.
+#' All datetime information is automatically transformed to Coordinated
+#' Universal Time (UTC).
+#' Vernacular names found in the metadata (`package$taxonomic`) are added to the
+#' `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @param media If `TRUE`, read media records into memory. If `FALSE`, ignore

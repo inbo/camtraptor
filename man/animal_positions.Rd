@@ -3,7 +3,7 @@
 \docType{data}
 \name{animal_positions}
 \alias{animal_positions}
-\title{Sample of animal position digitisation data}
+\title{Sample of animal position digitization data}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 42 rows and 6 columns.
 }
@@ -11,7 +11,7 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 animal_positions
 }
 \description{
-A tibble data.frame with the following columns:
+A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}
 \item \code{sequenceID}

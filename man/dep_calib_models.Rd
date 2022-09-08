@@ -3,7 +3,7 @@
 \docType{data}
 \name{dep_calib_models}
 \alias{dep_calib_models}
-\title{Sample of deployment calibration models or site calibration models (\code{depcal} objects)}
+\title{Sample of deployment calibration models}
 \format{
 An object of class \code{calibs} of length 4.
 }
@@ -11,7 +11,9 @@ An object of class \code{calibs} of length 4.
 dep_calib_models
 }
 \description{
-A \code{calibs} object (list). The deployment names are used as names.
+A list containing a number of calibration models (\code{calibs}) or site
+calibration models (\code{depcal}).
+The deployment names are used as names.
 }
 \seealso{
 Other sample data: 

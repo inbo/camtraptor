@@ -1,29 +1,44 @@
-#' Sample of camtrap-dp formatted data
+#' Sample of Camtrap DP formatted data
 #'
-#' A sample camera trap data package, based on data from the MICA project. Also
-#' stored in `inst`.
+#' A sample [Camera Trap Data Package](https://tdwg.github.io/camtrap-dp) as
+#' read by [read_camtrap_dp()].
+#' This sample is an extract from a larger Camera Trap Data Package saved as raw
+#' data in `inst/extdata/mica_zenodo_5590881`.
+#' To save memory, the `media.csv` resource is not present.
+#' The entire dataset can be downloaded from [Zenodo](
+#' https://zenodo.org/record/5590881).
 #'
-#' This sample is an extract from a bigger camera trap data package saved as raw
-#' data in `inst/extdata/mica_zenodo_5590881`. For memory reasons `media.csv`
-#' resource is not present. The entire data package can be downloaded from
-#' [zenodo](https://zenodo.org/record/5590881).
-#'
-#' @source https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example
 #' @family sample data
+#' @source
+#' <https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example>
+#' @examples
+#' \dontrun{
+#' # mica.rda was created with the code below.
+#' mica <- read_camtrap_dp(
+#'   system.file(
+#'     "extdata/mica_zenodo_5590881", "datapackage.json", package = "camtraptor"
+#'   )
+#' )
+#' save(mica, file = "data/mica.rda")
+#' }
 "mica"
 
-#' Sample of animal position digitisation data
+#' Sample of animal position digitization data
 #'
-#' A tibble data.frame with the following columns:
+#' A tibble data frame with the following columns:
 #' - `deploymentID`
 #' - `sequenceID`
 #' - `x` and `y`: the coordinates
 #' - `imageWidth` and `imageHeight`: the image dimensions
+#'
 #' @family sample data
 "animal_positions"
 
-#' Sample of deployment calibration models or site calibration models (`depcal` objects)
+#' Sample of deployment calibration models
 #'
-#' A `calibs` object (list). The deployment names are used as names.
+#' A list containing a number of calibration models (`calibs`) or site
+#' calibration models (`depcal`).
+#' The deployment names are used as names.
+#'
 #' @family sample data
 "dep_calib_models"

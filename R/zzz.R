@@ -192,7 +192,7 @@ labelFormat_scale <- function(max_scale = NULL,
   }
 }
 
-#' Get deployments with no observations
+#' Get deployments without observations
 #'
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
@@ -204,7 +204,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @return Tibble data.frame with deployments not linked to any observations.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
-#' @export
+#' @noRd
 #' @examples
 #' get_dep_no_obs(mica)
 get_dep_no_obs <- function(package = NULL,

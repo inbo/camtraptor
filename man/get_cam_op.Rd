@@ -57,7 +57,6 @@ get_cam_op(mica, use_prefix = TRUE)
 \seealso{
 Other exploration functions: 
 \code{\link{get_custom_effort}()},
-\code{\link{get_dep_no_obs}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},

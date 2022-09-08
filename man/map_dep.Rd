@@ -64,7 +64,7 @@ and \code{n_individuals}.}
 }}
 
 \item{cluster}{Logical value indicating whether using the cluster option
-while visualizing maps. Default: TRUE.}
+while visualizing maps. Default: \code{TRUE}.}
 
 \item{hover_columns}{Character vector with the name of the columns to use for
 showing location deployment information while hovering the mouse over. One

@@ -1,9 +1,7 @@
 #' Get Relative Abundance Index (RAI)
 #'
-#' @name get_rai
-#'
-#' @description Function to get the RAI (Relative Abundance Index) per
-#'   deployment. The RAI is normalized using 100 days deployment activity.
+#' Function to get the RAI (Relative Abundance Index) per deployment.
+#' The RAI is normalized using 100 days deployment activity.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
@@ -20,16 +18,12 @@
 #'   into account.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#'
-#' @export
-
 #' @return Tibble data.frame with the following columns:
 #' - `deploymentID` deployment unique identifier
 #' - `scientificName` scientific name
 #' - `rai`: relative abundance index
-#'
-#' @family RAI functions
-#'
+#' @family exploration functions
+#' @export
 #' @examples
 #' # calculate RAI for all species
 #' get_rai(mica) # species = "all" by default, so equivalent of
@@ -77,11 +71,8 @@ get_rai <- function(package = NULL,
 
 #' Get Relative Abundance Index (RAI) based on number of individuals
 #'
-#' @name get_rai_individuals
-#'
-#' @description Function to get the RAI (Relative Abundance Index) per
-#'   deployment based on number of detected individuals instead of the number of
-#'   observations.
+#' Function to get the RAI (Relative Abundance Index) per deployment based on
+#' number of detected individuals instead of the number of observations.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
@@ -98,16 +89,12 @@ get_rai <- function(package = NULL,
 #'   into account.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#'
-#' @export
-
 #' @return Tibble data.frame with the following columns:
 #' - `deploymentID` deployment unique identifier
 #' - `scientificName` scientific name
 #' - `rai`: relative abundance index
-#'
-#' @family RAI functions
-#'
+#' @family exploration functions
+#' @export
 #' @examples
 #' # calculate RAI based on number of individuals
 #' get_rai_individuals(mica) # species = "all" by default, so equivalent of
@@ -165,12 +152,9 @@ get_rai_individuals <- function(package = NULL,
 #' @param use Character, one of:
 #' - `"n_obs"`: calculate RAI based on number of observation (standard)
 #' - `"n_individuals"`: calculate RAI based on number of individuals
-#'
-#' @importFrom dplyr .data %>%
-#'
-#' @noRd
-#'
 #' @return Tibble data.frame.
+#' @importFrom dplyr .data %>%
+#' @noRd
 get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
 
   # define possible feature values

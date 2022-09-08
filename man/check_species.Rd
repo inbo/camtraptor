@@ -45,3 +45,4 @@ check_species(mica, "bEEch mARteN")
 check_species(mica, "bad name")
 }
 }
+\concept{validation functions}

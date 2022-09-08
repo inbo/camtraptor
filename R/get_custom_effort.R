@@ -31,14 +31,13 @@
 #'   One of: `hour` (default), `day`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates
-#' @importFrom dplyr .data %>%
-#' @export
 #' @return A tibble (data.frame) with following columns:
-#'
 #'   - `begin`: Date: begin of the interval the effort is calculated over.
 #'   - `effort`: The effort as number.
 #'   - `unit`: Character specifying the effort unit.
-#' @family get_functions
+#' @family exploration functions
+#' @importFrom dplyr .data %>%
+#' @export
 #' @examples
 #' # a global effort over the entire duration of the project (datapackage)
 #' # measured in hours

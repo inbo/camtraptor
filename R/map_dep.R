@@ -8,18 +8,15 @@
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param feature Deployment feature to visualize. One of:
-#'
 #' - `"n_species"`: number of identified species
 #' - `"n_obs"`: number of observations
 #' -  `"n_individuals"`: number of individuals
 #' - `"rai"`: Relative Abundance Index
 #' - `"effort"`: effort (duration) of the deployment
-#'
 #' @param species Character with a scientific name. Required for  `rai`,
 #'   optional for `n_obs`. Default: `NULL`.
 #' @param effort_unit Time unit to use while visualizing deployment effort
 #'   (duration). One of:
-#'
 #' - `second`
 #' - `minute`
 #' - `hour`
@@ -34,12 +31,11 @@
 #'   of all life stage classes are taken into account. Optional argument for `n_obs`
 #'   and `n_individuals`.
 #' @param cluster Logical value indicating whether using the cluster option
-#'   while visualizing maps. Default: TRUE.
+#'   while visualizing maps. Default: `TRUE`.
 #' @param hover_columns Character vector with the name of the columns to use for
 #'   showing location deployment information while hovering the mouse over. One
 #'   or more from deployment columns. Use `NULL` to disable hovering. Default
 #'   information:
-#'
 #'   - `n`: number of species, number of observations, RAI or effort (column
 #'   created internally by a `get_*()` function)
 #'   - `species`: species name(s)
@@ -82,15 +78,12 @@
 #'   = `FALSE`). Default: `c(10, 50)`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for subsetting deployments.
-#'
+#' @return Leaflet map.
+#' @family visualization functions
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
 #'   [pred_and()], ...
 #' @importFrom dplyr .data %>%
-#'
 #' @export
-#'
-#' @return Leaflet map.
-#'
 #' @examples
 #' \dontrun{
 #' # show number of species

@@ -58,8 +58,8 @@ mica$coordinatePrecision
 mica$data$deployments$coordinateUncertainty
 }
 \seealso{
-Other export functions: 
+Other publication functions: 
 \code{\link{write_dwc}()},
 \code{\link{write_eml}()}
 }
-\concept{export functions}
+\concept{publication functions}

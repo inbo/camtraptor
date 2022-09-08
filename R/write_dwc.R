@@ -9,7 +9,7 @@
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file to.
 #' @return CSV files written to disk.
-#' @family export functions
+#' @family publication functions
 #' @export
 #' @section Transformation details:
 #' Data are transformed following best practices (Reyserhove et al. in prep.)

@@ -2,15 +2,11 @@
 #'
 #' Store legend titles for deployment visualizations: RAI, effort, number of
 #' observations, etc.
-#'
 #' Returns a data.frame of all titles with the following columns: - `feature`:
 #' deployment feature to visualize - `legend_title`: legend title
 #'
 #' @noRd
-#'
 #' @usage map_legend_title()
-#'
-#' @keywords internal
 map_legend_title <- function() dplyr::as_tibble(mapdep_legend_titles)
 
 mapdep_legend_titles <- structure(list(
@@ -35,14 +31,11 @@ mapdep_legend_titles <- structure(list(
 #' Retrieve legend title for deployment visualizations
 #'
 #' @param feature character, one of:
-#'
 #' - `n_species`
 #' - `n_obs`
 #' - `rai`
 #' - `effort`
-#'
 #' @importFrom dplyr .data %>%
-#'
 #' @noRd
 get_legend_title <- function(feat) {
   # get all legend titles
@@ -63,9 +56,7 @@ get_legend_title <- function(feat) {
 #' @param unit character with unit to add to `title`
 #' @param use_brackets logical. If `TRUE` (default) `unit` is wrapped between
 #'   brackets, e.g. `(days)`.
-#'
 #' @noRd
-#'
 #' @usage map_legend_title("My title", unit = "day", use_bracket = TRUE)
 add_unit_to_legend_title <- function(title,
                                      unit = NULL,

@@ -39,3 +39,8 @@ apply_filter_predicate(mica$data$deployments,
                        pred_or(pred_gte("latitude", 51.28),
                                 pred_lt("longitude", 3.56)))
 }
+\seealso{
+Other filter functions: 
+\code{\link{pred}()}
+}
+\concept{filter functions}

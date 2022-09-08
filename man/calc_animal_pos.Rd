@@ -62,3 +62,4 @@ calibration models.
 # use default values
 calc_animal_pos(animal_positions, dep_calib_models)
 }
+\concept{density estimation functions}

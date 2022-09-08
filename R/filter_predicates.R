@@ -1,11 +1,9 @@
 #' Filter predicate
 #'
-#' @name filter_predicate
 #' @param arg (character) The key for the predicate. See "Keys" below.
 #' @param value (various) The value for the predicate.
 #' @param ... For `pred_or()` or `pred_and()`: one or more objects of
 #' class `filter_predicate`, created by any other `pred*` function.
-#'
 #' @return a predicate object. An object of class predicate is a list with the
 #'   following slots:
 #'   1. `arg`: a (list of) character with all arguments in the predicate(s)
@@ -13,9 +11,10 @@
 #'   3. `type`:  a (list of) character with all predicate types, see section
 #'   "predicate methods" here below
 #'   4. `expr`: a character: body of a filter expression
-#'
+#' @family filter functions
+#' @rdname filter_predicate
+#' @export
 #' @section Predicate methods and their equivalent types:
-#'
 #' `pred*` functions are named for the 'type' of operation they do, inspired  by
 #' GBIF [occurrence
 #' predicates](https://www.gbif.org/developer/occurrence#predicates)
@@ -97,7 +96,6 @@
 #' Acceptable arguments to the `key` parameter are the column names of the
 #' data.frame you are applying the filter predicates.
 #'
-#' @family get_functions
 #' @examples
 #' # one arg one value predicates
 #' pred("scientificName", "Anas platyrhynchos")
@@ -133,36 +131,40 @@
 #' # one arg, no value predicates
 #' pred_na("scientificName")
 #' pred_notna("scientificName")
-#' @rdname filter_predicate
-#' @export
 pred <- function(arg, value) {
   pred_primitive(arg, value, symbol = "==", type = "equals")
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_not <- function(arg, value) {
   pred_primitive(arg, value, symbol = "!=", type = "notEquals")
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_gt <- function(arg, value) {
   pred_primitive(arg, value, symbol = ">", type = "greaterThan")
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_gte <- function(arg, value) {
   pred_primitive(arg, value, symbol = ">=", type = "greaterThanOrEquals")
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_lt <- function(arg, value) {
   pred_primitive(arg, value, symbol = "<", type = "lessThan")
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_lte <- function(arg, value) {
   pred_primitive(arg, value, symbol = "<=", type = "lessThanOrEquals")
 }
+
 #' Primitive filter predicate constructor
 #'
 #' This function is a primitive function to build all basic one arg - one value
@@ -173,8 +175,7 @@ pred_lte <- function(arg, value) {
 #'   It can be a number, a character, a date object or a POSIXct object.
 #' @param symbol Character with the symbol relation of the filter predicate.
 #' @param type Character with the type of the filter predicate.
-#'
-#' @return a filter predicate object
+#' @return A filter predicate object.
 #' @noRd
 #' @examples
 #' \dontrun{
@@ -200,6 +201,7 @@ pred_primitive <- function(arg, value, symbol, type) {
   }
   return(structure(predicate, class = "filter_predicate"))
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_in <- function(arg, value) {
@@ -236,6 +238,7 @@ pred_in <- function(arg, value) {
   }
   return(structure(predicate, class = "filter_predicate"))
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_notin <- function(arg, value) {
@@ -247,6 +250,7 @@ pred_notin <- function(arg, value) {
   predicate$expr <- glue::glue("(!", predicate$expr, ")")
   return(structure(predicate, class = "filter_predicate"))
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_na <- function(arg) {
@@ -258,6 +262,7 @@ pred_na <- function(arg) {
   predicate$expr <- glue::glue("(is.na({arg}))")
   return(structure(predicate, class = "filter_predicate"))
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_notna <- function(arg) {
@@ -267,6 +272,7 @@ pred_notna <- function(arg) {
   predicate$expr <- glue::glue("(!is.na({arg}))")
   return(structure(predicate, class = "filter_predicate"))
 }
+
 pred_and_or_primitive <- function(symbol, ...) {
   preds <- list(...)
   # build predicate object
@@ -283,11 +289,13 @@ pred_and_or_primitive <- function(symbol, ...) {
   predicate$expr <- filter_expr
   return(structure(predicate, class = "filter_predicate"))
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_and <- function(...) {
   pred_and_or_primitive(symbol = " & ", ...)
 }
+
 #' @rdname filter_predicate
 #' @export
 pred_or <- function(...) {
@@ -302,10 +310,9 @@ pred_or <- function(...) {
 #' @param df data.frame we want to apply filter(s) expression(s)
 #' @param verbose Show (`TRUE`) or not (`FALSE`) the filter predicate expression
 #' @param ... filter predicates to apply to `df`
-#'
-#' @return a data.frame
+#' @return A data.frame.
+#' @family filter functions
 #' @export
-#'
 #' @examples
 #' # and
 #' apply_filter_predicate(mica$data$deployments,
@@ -350,7 +357,6 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #'
 #' @param arg Argument of the filter predicate.
 #' @param value  Value of the filter predicate.
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -366,13 +372,13 @@ check_filter_arg_value <- function(arg, value) {
   check_filter_arg(arg)
   check_filter_value(value)
 }
+
 #' Check filter argument
 #'
 #' Check that the filter argument in a filter predicate is a character and has
 #' length one.
 #'
 #' @param arg Character with the argument name of the filter predicate.
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -387,13 +393,13 @@ check_filter_arg <- function(arg) {
   assertthat::assert_that(is.character(arg), msg = "'arg' must be a character")
   assertthat::assert_that(length(arg) == 1, msg = "'arg' must be length 1")
 }
+
 #' Check filter value type
 #'
 #' Check that the value argument in a filter predicate is one of the supported
 #' types. Required for basic filter predicates.  Used in `check_filter_value()`.
 #'
 #' @param value Character, number, Date or POSIXct object.
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -413,13 +419,13 @@ check_filter_value_type <- function(value) {
     msg = "'value' must be a character, a number, a date or a datetime(POSIXct)"
   )
 }
+
 #' Check filter value length
 #'
 #' Check that the value in filter predicates has length one. Required for
 #' basic filter predicates. Used in `check_filter_value()`.
 #'
 #' @param value Value of the filter predicate.
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -432,13 +438,13 @@ check_filter_value_type <- function(value) {
 check_filter_value_length <- function(value) {
   assertthat::assert_that(length(value) == 1, msg = "'value' must be length 1")
 }
+
 #' Check filter value
 #'
 #' Check that the value argument in a filter predicate has length one and it is
 #' one of the supported types. This is required for basic filter predicates.
 #'
 #' @param value Value of a basic filter predicate.
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -452,13 +458,13 @@ check_filter_value <- function(value) {
   check_filter_value_type(value)
   check_filter_value_length(value)
 }
+
 #' Check filter symbol
 #'
 #' Check that the symbol used in a filter predicate is a character and has
 #' length one.
 #'
 #' @param symbol Character with symbol for filter predicate, e.g. "==".
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples
@@ -475,13 +481,13 @@ check_filter_symbol <- function(symbol) {
   assertthat::assert_that(is.character(symbol), msg = "'symbol' must be a character")
   assertthat::assert_that(length(symbol) == 1, msg = "'symbol' must be length 1")
 }
+
 #' Check filter type
 #'
 #' Check that the filter predicate type is a character and has
 #' length one.
 #
 #' @param type Character with type for filter predicate, e.g. "equals".
-#'
 #' @return `TRUE` or an error message.
 #' @noRd
 #' @examples

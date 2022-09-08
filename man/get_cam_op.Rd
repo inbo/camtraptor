@@ -55,10 +55,17 @@ get_cam_op(mica, station_col = "locationID")
 get_cam_op(mica, use_prefix = TRUE)
 }
 \seealso{
-Other get_functions: 
-\code{\link{filter_predicate}},
+Other exploration functions: 
 \code{\link{get_custom_effort}()},
+\code{\link{get_dep_no_obs}()},
 \code{\link{get_effort}()},
-\code{\link{get_record_table}()}
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
 }
-\concept{get_functions}
+\concept{exploration functions}

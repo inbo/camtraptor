@@ -25,7 +25,6 @@ Tibble data.frame with the following columns:
 Function to get the number of identified species per deployment.
 }
 \examples{
-
 # get number of species
 get_n_species(mica)
 
@@ -33,3 +32,18 @@ get_n_species(mica)
 get_n_species(mica, pred_gte("latitude", 51.18))
 
 }
+\seealso{
+Other exploration functions: 
+\code{\link{get_cam_op}()},
+\code{\link{get_custom_effort}()},
+\code{\link{get_dep_no_obs}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
+}
+\concept{exploration functions}

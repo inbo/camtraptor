@@ -23,4 +23,10 @@ data in \code{inst/extdata/mica_zenodo_5590881}. For memory reasons \code{media.
 resource is not present. The entire data package can be downloaded from
 \href{https://zenodo.org/record/5590881}{zenodo}.
 }
+\seealso{
+Other sample data: 
+\code{\link{animal_positions}},
+\code{\link{dep_calib_models}}
+}
+\concept{sample data}
 \keyword{datasets}

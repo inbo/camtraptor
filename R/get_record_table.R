@@ -29,8 +29,6 @@
 #'   same species at the same station at exactly the same time, show only one?
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>%
-#' @importFrom rlang !! :=
 #' @return A (tibble) data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
@@ -54,8 +52,10 @@
 #'   as defined in column `filePath` of `media`
 #'   11. `Filename`: list, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`
+#' @family exploration functions
+#' @importFrom dplyr .data %>%
+#' @importFrom rlang !! :=
 #' @export
-#' @family get_functions
 #' @examples
 #' get_record_table(mica)
 #'

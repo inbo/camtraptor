@@ -24,14 +24,13 @@
 #' @param image_height Column in `animal_pos` containing the pixel y dimension
 #'   of each image. Default: `"imageHeight"`. Notice that the pixel y dimension
 #'   must be consistent for each deployment.
-#'
-#' @export
 #' @return Original (tibble) data.frame as passed via `animal_pos` with
 #'   additional columns:
 #'   - `radius`: radial distance from camera
 #'   - `angle`: angular distance from camera
 #'   - `frame_count`: indicator of the frame order within each sequence
-#'
+#' @family density estimation functions
+#' @export
 #' @examples
 #' # use default values
 #' calc_animal_pos(animal_positions, dep_calib_models)
@@ -82,14 +81,14 @@ calc_animal_pos <- function(animal_pos, calib_models,
 
   # Check that image width and height are the same for all multimedia from the
   # same deployment
-  n_dims <- animal_pos %>% 
-    dplyr::group_by(.data[[dep_tag]]) %>% 
+  n_dims <- animal_pos %>%
+    dplyr::group_by(.data[[dep_tag]]) %>%
     dplyr::summarise(heights = dplyr::n_distinct(.data[[image_width]]),
                      widths = dplyr::n_distinct(.data[[image_height]])
   )
-  dep_multidim <- n_dims %>% 
-    dplyr::filter(.data$heights > 1 | .data$widths > 1) %>% 
-    dplyr::distinct(.data[[dep_tag]]) %>% 
+  dep_multidim <- n_dims %>%
+    dplyr::filter(.data$heights > 1 | .data$widths > 1) %>%
+    dplyr::distinct(.data[[dep_tag]]) %>%
     dplyr::pull(.data[[dep_tag]])
   if (length(dep_multidim) > 0) {
     warning(
@@ -114,7 +113,7 @@ calc_animal_pos <- function(animal_pos, calib_models,
       radius = r,
       angle = a)
   })
-  
+
   res <- dplyr::bind_rows(res)
   tab <- table(res[[sequence_id]])
   res$frame_count <- sequence(tab)

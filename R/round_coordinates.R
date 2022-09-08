@@ -11,7 +11,7 @@
 #' @return `package` with rounded coordinates as well as updated
 #'   `coordinateUncertainty`.(in deployments) and `coordinatePrecision` (in
 #'   metadata).
-#' @family export functions
+#' @family publication functions
 #' @export
 #' @importFrom dplyr %>% .data
 #' @section Details:

@@ -61,8 +61,8 @@ and observations of humans.
 }
 
 \seealso{
-Other export functions: 
+Other publication functions: 
 \code{\link{round_coordinates}()},
 \code{\link{write_eml}()}
 }
-\concept{export functions}
+\concept{publication functions}

@@ -89,8 +89,8 @@ Not applicable: \strong{collection data}.
 }
 
 \seealso{
-Other export functions: 
+Other publication functions: 
 \code{\link{round_coordinates}()},
 \code{\link{write_dwc}()}
 }
-\concept{export functions}
+\concept{publication functions}

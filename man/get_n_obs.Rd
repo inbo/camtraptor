@@ -51,7 +51,6 @@ deployment. The number of observations is defined as the number of distinct
 sequences (\code{sequenceID}).
 }
 \examples{
-
 # get number of observations for each species
 get_n_obs(mica)
 
@@ -81,3 +80,18 @@ get_n_obs(mica, sex = "unknown", life_stage = "adult")
 get_n_obs(mica, pred_gte("latitude", 51.18))
 
 }
+\seealso{
+Other exploration functions: 
+\code{\link{get_cam_op}()},
+\code{\link{get_custom_effort}()},
+\code{\link{get_dep_no_obs}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
+}
+\concept{exploration functions}

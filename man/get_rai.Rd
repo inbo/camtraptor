@@ -77,7 +77,17 @@ get_rai(mica, pred_gte("latitude", 51.18))
 
 }
 \seealso{
-Other RAI functions: 
-\code{\link{get_rai_individuals}()}
+Other exploration functions: 
+\code{\link{get_cam_op}()},
+\code{\link{get_custom_effort}()},
+\code{\link{get_dep_no_obs}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
 }
-\concept{RAI functions}
+\concept{exploration functions}

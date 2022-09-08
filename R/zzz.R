@@ -46,7 +46,6 @@ check_package <- function(package = NULL,
               )
   )
 
-
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))
   assertthat::assert_that(is.data.frame(package$data$deployments))
@@ -69,9 +68,7 @@ check_package <- function(package = NULL,
 #'   to test
 #' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values
 #'   allowed?
-#'
 #' @return If no error, `TRUE`.
-#'
 #' @noRd
 #' @examples
 #' \dontrun{
@@ -94,14 +91,14 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # Wrong values
   wrong_values <- arg[!(arg %in% options)]
-  
+
   # Suppress long messages with valid options
   if (length(options) > max_print) {
     options_to_print <- c(options[1:max_print], "others..")
   } else {
     options_to_print <- options
   }
-  
+
   # compose error message
   if (null_allowed == TRUE) {
     string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
@@ -136,7 +133,6 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 #'
 #' @param regex Character. A regular expression to parse.
 #' @param ... Additional arguments passed to the collapse.
-#'
 #' @noRd
 collapse_transformer <- function(regex = "[*]$", ...) {
   function(code, envir) {
@@ -164,7 +160,6 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #' @param digits the number of digits of numeric values in labels
 #' @param big.mark the thousand separator
 #' @param transform a function to transform the label value
-#'
 #' @noRd
 labelFormat_scale <- function(max_scale = NULL,
                               prefix = "",
@@ -206,12 +201,10 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   `read_camtrap_dp()`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
-#' @importFrom dplyr .data %>%
-#'
-#' @export
-#'
 #' @return Tibble data.frame with deployments not linked to any observations.
-#'
+#' @family exploration functions
+#' @importFrom dplyr .data %>%
+#' @export
 #' @examples
 #' get_dep_no_obs(mica)
 get_dep_no_obs <- function(package = NULL,
@@ -264,7 +257,6 @@ get_dep_no_obs <- function(package = NULL,
 #' the fraction of the day the camera was on
 #'
 #' @importFrom dplyr %>%
-#'
 #' @noRd
 calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
   # check calc_start or calc_end are passed
@@ -301,14 +293,12 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
 #'   `cal.site()`).
 #' @param relx x Pixel position relative to the centre line.
 #' @param rely y Pixel position relative to the top edge.
-#'
 #' @return Vector numeric radii.
-#'
 #' @noRd
 #' @note Units depend on the units of pole height above ground used to calibrate
 #'   the site model.
 predict_r <- function(mod, rel_x, rel_y) {
-  new_data <- data.frame(relx = rel_x, rely = rel_y)  
+  new_data <- data.frame(relx = rel_x, rely = rel_y)
   res <- stats::predict(mod, newdata = new_data)
   res[res<0] <- Inf
   return(res)

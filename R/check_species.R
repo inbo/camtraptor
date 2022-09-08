@@ -9,13 +9,10 @@
 #' @param arg_name Character with argument name to return in error message
 #'   Default: "species".
 #' @param datapkg Deprecated. Use `package` instead.
-#'
+#' @return A character vector with the correspondent scientific names.
+#' @family validation functions
 #' @importFrom dplyr %>% .data
-#'
 #' @export
-#'
-#' @return a character vector with the correspondent scientific names
-#'
 #' @examples
 #' # species is a scientific name
 #' check_species(mica, "Martes foina")

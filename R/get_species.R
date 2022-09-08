@@ -5,14 +5,11 @@
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param datapkg Deprecated. Use `package` instead.
-#'
-#' @importFrom dplyr %>%
-#'
-#' @export
-#'
 #' @return Tibble data.frame with all scientific names and vernacular names of
 #'   the identified species.
-#'
+#' @family exploration functions
+#' @importFrom dplyr %>%
+#' @export
 #' @examples
 #' get_species(mica)
 get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {

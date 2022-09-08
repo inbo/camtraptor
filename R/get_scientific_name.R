@@ -12,13 +12,10 @@
 #'   `read_camtrap_dp()`.
 #' @param vernacular_name Character vector with input vernacular name(s)
 #' @param datapkg Deprecated. Use `package` instead.
-#'
+#' @family exploration functions
+#' @return Character vector of scientific name(s).
 #' @importFrom dplyr .data %>%
-#'
 #' @export
-#'
-#' @return Character vector of scientific name(s)
-#'
 #' @examples
 #' # one or more vernacular names
 #' get_scientific_name(mica, "beech marten")

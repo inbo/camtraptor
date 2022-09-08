@@ -334,3 +334,4 @@ map_dep(
 Check documentation about filter predicates: \code{\link[=pred]{pred()}}, \code{\link[=pred_in]{pred_in()}},
 \code{\link[=pred_and]{pred_and()}}, ...
 }
+\concept{visualization functions}

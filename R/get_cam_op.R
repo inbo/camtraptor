@@ -22,10 +22,10 @@
 #'   `camtrapR::cameraOperation()`. Default: `FALSE`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
-#' @importFrom dplyr %>% .data
-#' @return a matrix. Row names always indicate the station ID. Column names are
+#' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
-#' @family get_functions
+#' @family exploration functions
+#' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' get_cam_op(mica)

@@ -6,16 +6,13 @@
 #'   `read_camtrap_dp()`.
 #' @param ... Filter predicates for filtering on deployments
 #' @param datapkg Deprecated. Use `package` instead.
-#' @importFrom dplyr .data %>%
-#'
-#' @export
-
 #' @return Tibble data.frame with the following columns:
 #'   - `deploymentID`: deployment unique identifier
 #'   - `n`: (integer) number of observed and identified species
-#'
+#' @family exploration functions
+#' @importFrom dplyr .data %>%
+#' @export
 #' @examples
-#'
 #' # get number of species
 #' get_n_species(mica)
 #'

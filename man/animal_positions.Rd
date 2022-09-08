@@ -19,4 +19,10 @@ A tibble data.frame with the following columns:
 \item \code{imageWidth} and \code{imageHeight}: the image dimensions
 }
 }
+\seealso{
+Other sample data: 
+\code{\link{dep_calib_models}},
+\code{\link{mica}}
+}
+\concept{sample data}
 \keyword{datasets}

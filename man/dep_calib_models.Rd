@@ -13,4 +13,10 @@ dep_calib_models
 \description{
 A \code{calibs} object (list). The deployment names are used as names.
 }
+\seealso{
+Other sample data: 
+\code{\link{animal_positions}},
+\code{\link{mica}}
+}
+\concept{sample data}
 \keyword{datasets}

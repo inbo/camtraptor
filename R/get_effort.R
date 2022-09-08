@@ -6,33 +6,30 @@
 #'   `read_camtrap_dp()`.
 #' @param unit Time unit to use while returning deployment effort
 #'   (duration). One of:
-#'
-#' - `second`
-#' - `minute`
-#' - `hour`
-#' - `day`
-#' - `month`
-#' - `year`
+#'   - `second`
+#'   - `minute`
+#'   - `hour`
+#'   - `day`
+#'   - `month`
+#'   - `year`
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates
-#'
+#' @return a tibble (data.frame) with the following columns:
+#'   - `deploymentID`: deployment unique identifier.
+#'   - `effort`: effort expressed in the unit passed by argument `unit`.
+#'   - `unit`: the unit used to express the effort. One of the values available
+#'   for argument `unit`.
+#'   - `effort_duration`: a duration object (duration is a class from lubridate
+#'   package).
+#' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @export
-
-#' @return a tibble (data.frame) with the following columns:
-#' - `deploymentID`: deployment unique identifier.
-#' - `effort`: effort expressed in the unit passed by argument `unit`.
-#' - `unit`: the unit used to express the effort. One of the values available
-#' for argument `unit`.
-##' - `effort_duration`: a duration object (duration is a class from lubridate package).
-#' @family get_functions
 #' @examples
 #' # efforts expressed in hours
 #' get_effort(mica)
 #'
 #' # effort expressed as days
 #' get_effort(mica, unit = "day")
-#'
 get_effort <- function(package = NULL,
                        ...,
                        unit = "hour",
@@ -91,17 +88,13 @@ get_effort <- function(package = NULL,
 #'
 #' @param effort a vector of duration objects
 #' @param unit common unit to express duration objects. One of:
-#'
 #' - `second`
 #' - `minute`
 #' - `hour`
 #' - `day`
 #' - `month`
 #' - `year`
-#'
-#' @export
-#' @return a numeric vector
-#'
+#' @return A numeric vector.
 #' @noRd
 #' @examples
 #' # create efforts (durations) to transform

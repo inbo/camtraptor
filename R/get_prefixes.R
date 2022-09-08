@@ -9,10 +9,7 @@
 #' - `prefix`: prefix to use
 #'
 #' @noRd
-#'
 #' @usage map_dep_prefixes()
-#'
-#' @keywords internal
 map_dep_prefixes <- function() dplyr::as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
@@ -62,19 +59,14 @@ mapdep_prefixes <- structure(list(
 #' deployment
 #'
 #' @param feature Character, one of:
-#'
 #' - `n_species`
 #' - `n_obs`
 #' - `rai`,
 #' - `effort`
-#'
 #' @param infos character vector with deployment fields
-#'
 #' @importFrom dplyr .data %>%
-#'
 #' @noRd
-get_prefixes <- function(feature,
-                         infos) {
+get_prefixes <- function(feature, infos) {
   # n can represent #species, #observations, RAI, effort
   infos[infos == "n"] <- feature
   # get all prefixes

@@ -100,10 +100,9 @@ get_effort <- function(package = NULL,
 #' - `year`
 #'
 #' @export
-#'
-#' @keywords internal
 #' @return a numeric vector
 #'
+#' @noRd
 #' @examples
 #' # create efforts (durations) to transform
 #' efforts <- c(lubridate::duration("2hours 2minutes 1second"),

@@ -269,9 +269,7 @@ get_record_table <- function(package = NULL,
 #'   ), or `minDeltaTime` minutes after the last record (
 #'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0,
 #'   `deltaTimeComparedTo` should be NULL
-#' @keywords internal
 #' @noRd
-#' @noMd
 assess_temporal_independence <- function(df, minDeltaTime_dur, deltaTimeComparedTo){
 
   # just initialization (set correctly at i = 1)

@@ -168,8 +168,6 @@ get_rai_individuals <- function(package = NULL,
 #'
 #' @importFrom dplyr .data %>%
 #'
-#' @keywords internal
-#'
 #' @noRd
 #'
 #' @return Tibble data.frame.

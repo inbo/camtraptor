@@ -44,8 +44,6 @@ mapdep_legend_titles <- structure(list(
 #' @importFrom dplyr .data %>%
 #'
 #' @noRd
-#'
-#' @keywords internal
 get_legend_title <- function(feat) {
   # get all legend titles
   titles <- map_legend_title()
@@ -69,8 +67,6 @@ get_legend_title <- function(feat) {
 #' @noRd
 #'
 #' @usage map_legend_title("My title", unit = "day", use_bracket = TRUE)
-#'
-#' @keywords internal
 add_unit_to_legend_title <- function(title,
                                      unit = NULL,
                                      use_brackets = TRUE) {

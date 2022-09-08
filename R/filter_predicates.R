@@ -175,9 +175,7 @@ pred_lte <- function(arg, value) {
 #' @param type Character with the type of the filter predicate.
 #'
 #' @return a filter predicate object
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' pred_primitive(arg = "a", value = 5, symbol = ">", type = "greaterThan")
@@ -354,9 +352,7 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #' @param value  Value of the filter predicate.
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_arg_value("latitude", 5)
@@ -378,9 +374,7 @@ check_filter_arg_value <- function(arg, value) {
 #' @param arg Character with the argument name of the filter predicate.
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_arg("latitude")
@@ -401,9 +395,7 @@ check_filter_arg <- function(arg) {
 #' @param value Character, number, Date or POSIXct object.
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_value_type("a")
@@ -429,9 +421,7 @@ check_filter_value_type <- function(value) {
 #' @param value Value of the filter predicate.
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_value_length(5)
@@ -450,9 +440,7 @@ check_filter_value_length <- function(value) {
 #' @param value Value of a basic filter predicate.
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_value("b")
@@ -472,9 +460,7 @@ check_filter_value <- function(value) {
 #' @param symbol Character with symbol for filter predicate, e.g. "==".
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_symbol("==")
@@ -497,9 +483,7 @@ check_filter_symbol <- function(symbol) {
 #' @param type Character with type for filter predicate, e.g. "equals".
 #'
 #' @return `TRUE` or an error message.
-#'
-#' @keywords internal
-#'
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_filter_type("in")

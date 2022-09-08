@@ -9,10 +9,8 @@
 #'
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
-#' @noRd
 #' @return A camera trap data package.
-#' @keywords internal
-#'
+#' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,
                           function_name) {
@@ -75,9 +73,6 @@ check_package <- function(package = NULL,
 #' @return If no error, `TRUE`.
 #'
 #' @noRd
-#'
-#' @keywords internal
-#'
 #' @examples
 #' \dontrun{
 #' # Valid inputs for species
@@ -143,8 +138,6 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 #' @param ... Additional arguments passed to the collapse.
 #'
 #' @noRd
-#'
-#' @keywords internal
 collapse_transformer <- function(regex = "[*]$", ...) {
   function(code, envir) {
     if (grepl(regex, code)) {
@@ -173,8 +166,6 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #' @param transform a function to transform the label value
 #'
 #' @noRd
-#'
-#' @keywords internal
 labelFormat_scale <- function(max_scale = NULL,
                               prefix = "",
                               suffix = "",
@@ -275,8 +266,6 @@ get_dep_no_obs <- function(package = NULL,
 #' @importFrom dplyr %>%
 #'
 #' @noRd
-#'
-#' @keywords internal
 calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
   # check calc_start or calc_end are passed
   assertthat::assert_that(
@@ -315,12 +304,9 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
 #'
 #' @return Vector numeric radii.
 #'
+#' @noRd
 #' @note Units depend on the units of pole height above ground used to calibrate
 #'   the site model.
-#'
-#' @noRd
-#'
-#' @keywords internal
 predict_r <- function(mod, rel_x, rel_y) {
   new_data <- data.frame(relx = rel_x, rely = rel_y)  
   res <- stats::predict(mod, newdata = new_data)

@@ -73,8 +73,6 @@ mapdep_prefixes <- structure(list(
 #' @importFrom dplyr .data %>%
 #'
 #' @noRd
-#'
-#' @keywords internal
 get_prefixes <- function(feature,
                          infos) {
   # n can represent #species, #observations, RAI, effort

@@ -1,9 +1,9 @@
 #' Calculate animal position
 #'
-#' Calculate position relative to camera given image pixel positions and site
-#' calibration models.
+#' Calculates the position of animal relative to a camera based on image pixel
+#' positions and site calibration models.
 #'
-#' @param animal_pos Data.frame (tibble) of animal position digitisation data.
+#' @param animal_pos Data frame (tibble) of animal position digitization data.
 #'   It must contain (at least) the columns defined in args `dep_tag`,
 #'   `sequence_id`, `x`, `y`, `image_width` and `image_height`.
 #' @param calib_models Named list of deployment calibration models or site calibration
@@ -32,7 +32,7 @@
 #' @family density estimation functions
 #' @export
 #' @examples
-#' # use default values
+#' # Use default values
 #' calc_animal_pos(animal_positions, dep_calib_models)
 calc_animal_pos <- function(animal_pos, calib_models,
                             dep_tag = "deploymentID",

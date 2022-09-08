@@ -16,7 +16,7 @@ calc_animal_pos(
 )
 }
 \arguments{
-\item{animal_pos}{Data.frame (tibble) of animal position digitisation data.
+\item{animal_pos}{Data frame (tibble) of animal position digitization data.
 It must contain (at least) the columns defined in args \code{dep_tag},
 \code{sequence_id}, \code{x}, \code{y}, \code{image_width} and \code{image_height}.}
 
@@ -55,11 +55,11 @@ additional columns:
 }
 }
 \description{
-Calculate position relative to camera given image pixel positions and site
-calibration models.
+Calculates the position of animal relative to a camera based on image pixel
+positions and site calibration models.
 }
 \examples{
-# use default values
+# Use default values
 calc_animal_pos(animal_positions, dep_calib_models)
 }
 \concept{density estimation functions}

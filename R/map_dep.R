@@ -1,41 +1,49 @@
 #' Visualize deployments features
 #'
 #' This function visualizes deployments features such as number of detected
-#' species, number of observations and RAI on a dynamic map. The circle size and
-#' color are proportional to the mapped feature. Deployments without
-#' observations are shown as gray circles and a message is returned.
+#' species, number of observations and RAI on a dynamic map.
+#' The circle size and color are proportional to the mapped feature.
+#' Deployments without observations are shown as gray circles and a message is
+#' returned.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param feature Deployment feature to visualize. One of:
-#' - `"n_species"`: number of identified species
-#' - `"n_obs"`: number of observations
-#' -  `"n_individuals"`: number of individuals
-#' - `"rai"`: Relative Abundance Index
-#' - `"effort"`: effort (duration) of the deployment
-#' @param species Character with a scientific name. Required for  `rai`,
-#'   optional for `n_obs`. Default: `NULL`.
+#' @param feature Deployment feature to visualize.
+#'   One of:
+#'   - `n_species`: number of identified species
+#'   - `n_obs`: number of observations
+#'   - `n_individuals`: number of individuals
+#'   - `rai`: Relative Abundance Index
+#'   - `effort`: effort (duration) of the deployment
+#' @param species Character with a scientific name.
+#'   Required for `rai`, optional for `n_obs`.
+#'   Default: `NULL`.
 #' @param effort_unit Time unit to use while visualizing deployment effort
-#'   (duration). One of:
-#' - `second`
-#' - `minute`
-#' - `hour`
-#' - `day`
-#' - `month`
-#' - `year`
+#'   (duration).
+#'   One of:
+#'   - `second`
+#'   - `minute`
+#'   - `hour`
+#'   - `day`
+#'   - `month`
+#'   - `year`
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`.
-#'   If `NULL`, default, all observations of all sex classes are taken into
-#'   account. Optional argument for `n_obs` and `n_individuals`.
-#' @param life_stage Character vector defining the life stage class to filter on, e.g.
-#'   `"adult"` or `c("subadult", "adult")`. If `NULL`, default, all observations
-#'   of all life stage classes are taken into account. Optional argument for `n_obs`
-#'   and `n_individuals`.
+#'   If `NULL` (default) all observations of all sex classes are taken into
+#'   account.
+#'   Optional argument for `n_obs` and `n_individuals`.
+#' @param life_stage Character vector defining the life stage class to filter
+#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
+#'   If `NULL` (default) all observations of all life stage classes are taken
+#'   into account.
+#'   Optional argument for `n_obs` and `n_individuals`.
 #' @param cluster Logical value indicating whether using the cluster option
-#'   while visualizing maps. Default: `TRUE`.
+#'   while visualizing maps.
+#'   Default: `TRUE`.
 #' @param hover_columns Character vector with the name of the columns to use for
-#'   showing location deployment information while hovering the mouse over. One
-#'   or more from deployment columns. Use `NULL` to disable hovering. Default
-#'   information:
+#'   showing location deployment information on mouse hover.
+#'   One or more from deployment columns.
+#'   Use `NULL` to disable hovering.
+#'   Default information:
 #'   - `n`: number of species, number of observations, RAI or effort (column
 #'   created internally by a `get_*()` function)
 #'   - `species`: species name(s)
@@ -47,36 +55,41 @@
 #'   - `latitude`
 #'   - `longitude`
 #'
-#'   See [section Deployment of Camtrap DP
-#'   standard](https://tdwg.github.io/camtrap-dp/data/#deployments) for the full
-#'   list of columns you can use.
+#'   See the [Deployment](https://tdwg.github.io/camtrap-dp/data/#deployments)
+#'   section of Camtrap DP for the full list of columns you can use.
 #' @param palette The palette name or the color function that values will be
 #'   mapped to.
 #'   Typically one of the following:
 #'   - A character vector of RGB or named colors. Examples: `c("#000000",
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
-#'   - the full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
-#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`
+#'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
+#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`.
 #'   For more options, see argument `palette` of [leaflet::colorNumeric()].
 #' @param zero_values_show Logical indicating whether to show deployments with
-#'   zero values. Default: `TRUE`.
-#' @param zero_values_icon_url character with URL to icon for showing
-#'   deployments with zero values. Default: a cross (multiply symbol)
+#'   zero values.
+#'   Default: `TRUE`.
+#' @param zero_values_icon_url Character with URL to icon for showing
+#'   deployments with zero values.
+#'   Default: a cross (multiply symbol)
 #'   `"https://img.icons8.com/ios-glyphs/30/000000/multiply.png"`.
-#' @param zero_values_icon_size a number to set the size of the icon to show
-#'   deployments with wero values. Default: 10.
+#' @param zero_values_icon_size A number to set the size of the icon to show
+#'   deployments with zero values.
+#'   Default: 10.
 #' @param relative_scale Logical indicating whether to use a relative color
-#'   and radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale
-#'   is used, specify a valid `max_scale`.
+#'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
+#'   If absolute scale is used, specify a valid `max_scale`.
 #' @param max_scale Number indicating the max value used to map color
 #'   and radius.
 #' @param radius_range Vector of length 2 containing the lower and upper limit
-#'   of the circle radius. The lower value is used for deployments with zero
-#'   feature value, i.e. no observations, no identified species, zero RAI or
-#'   zero effort. The upper value is used for the deployment(s) with the highest
-#'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
-#'   = `FALSE`). Default: `c(10, 50)`.
-#' @param datapkg Deprecated. Use `package` instead.
+#'   of the circle radius.
+#'   The lower value is used for deployments with zero feature value, i.e. no
+#'   observations, no identified species, zero RAI or zero effort.
+#'   The upper value is used for the deployment(s) with the highest feature
+#'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
+#'   = `FALSE`).
+#'   Default: `c(10, 50)`.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... Filter predicates for subsetting deployments.
 #' @return Leaflet map.
 #' @family visualization functions
@@ -86,27 +99,27 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # show number of species
+#' # Show number of species
 #' map_dep(
 #'   mica,
 #'   "n_species"
 #' )
 #'
-#' # show number of observations  (observations of unidentified species included
+#' # Show number of observations  (observations of unidentified species included
 #' if any)
 #' map_dep(
 #'   mica,
 #'   "n_obs"
 #' )
 #'
-#' # show number of observations of Anas platyrhynchos
+#' # Show number of observations of Anas platyrhynchos
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   species = "Anas platyrhynchos"
 #' )
 #'
-#' # show number of observations of subadult individuals of Anas strepera
+#' # Show number of observations of subadult individuals of Anas strepera
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -114,7 +127,7 @@
 #'   life_stage = "subadult"
 #' )
 #'
-#' # show number of observations of female or unknown individuals of gadwall
+#' # Show number of observations of female or unknown individuals of gadwall
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -122,14 +135,14 @@
 #'   sex = c("female", "unknown")
 #' )
 #'
-#' # show number of individuals (individuals of unidentified species included if
-#' any)
+#' # Show number of individuals (individuals of unidentified species included if
+#' # any)
 #' map_dep(
 #'   mica,
 #'   "n_individuals"
 #' )
 #'
-#' # same filters by life stage and sex as for number of observations apply
+#' # Same filters by life stage and sex as for number of observations apply
 #' map_dep(
 #'   mica,
 #'   "n_individuals",
@@ -138,14 +151,14 @@
 #'   life_stage = "adult"
 #' )
 #'
-#' # show RAI
+#' # Show RAI
 #' map_dep(
 #'   mica,
 #'   "rai",
 #'   species = "Anas strepera"
 #' )
 #'
-#' # same filters by life_stage and sex as for number of observations apply
+#' # Same filters by life_stage and sex as for number of observations apply
 #' map_dep(
 #'   mica,
 #'   "rai",
@@ -154,14 +167,14 @@
 #'   life_stage = "adult"
 #' )
 #'
-#' # show RAI calculated by using number of detected individuals
+#' # Show RAI calculated by using number of detected individuals
 #' map_dep(
 #'   mica,
 #'   "rai_individuals",
 #'   species = "Anas strepera"
 #' )
 #'
-#' # same filters by life stage and sex as for basic RAI apply
+#' # Same filters by life stage and sex as for basic RAI apply
 #' map_dep(
 #'   mica,
 #'   "rai_individuals",
@@ -170,49 +183,49 @@
 #'   life_stage = "adult"
 #' )
 #'
-#' # show effort (days)
+#' # Show effort (days)
 #' map_dep(
 #'   mica,
 #'   "effort",
 #'   effort_unit = "day"
 #' )
 #'
-#' # show effort (months)
+#' # Show effort (months)
 #' map_dep(
 #'   mica,
 #'   "effort",
 #'   effort_unit = "month"
 #' )
 #'
-#' # use viridis palette (viridis palettes)
+#' # Use viridis palette (viridis palettes)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = "viridis"
 #' )
 #'
-#' # use "BuPu" color palette (RColorBrewer palettes)
+#' # Use "BuPu" color palette (RColorBrewer palettes)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = "BuPu"
 #' )
 #'
-#' # use a palette defined by color names
+#' # Use a palette defined by color names
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = c("black", "blue", "white")
 #' )
 #'
-#' #' # use a palette defined by hex colors
+#' # Use a palette defined by hex colors
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = c("#000000", "#0000FF", "#FFFFFF")
 #' )
 #'
-#' #' # do not show deployments with zero values
+#' # Do not show deployments with zero values
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -220,8 +233,8 @@
 #'   zero_values_show = FALSE
 #' )
 #'
-#' #' # use same icon but but a non default color for zero values deployments,
-#' e.g. red (hex: E74C3C)
+#' # Use same icon but but a non default color for zero values deployments,
+#' # e.g. red (hex: E74C3C)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -229,7 +242,7 @@
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
 #' )
 #'
-#' # or yellow (F1C40F)
+#' # ... or yellow (F1C40F)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -237,7 +250,7 @@
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
 #' )
 #'
-#' # use another icon via a different URL, e.g. the character Fry from Futurama
+#' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' in green (2ECC71)
 #' map_dep(
 #'   mica,
@@ -246,7 +259,7 @@
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
 #' )
 #'
-#' # set size of the icon for zero values deployments
+#' # Set size of the icon for zero values deployments
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -254,28 +267,28 @@
 #'   zero_values_icon_size = 30
 #' )
 #'
-#' # disable cluster
+#' # Disable cluster
 #' map_dep(
 #'   mica,
 #'   "n_species",
 #'   cluster = FALSE
 #' )
 #'
-#' # show only number of observations and location name while hovering
+#' # Show only number of observations and location name while hovering
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   hover_columns = c("locationName", "n")
 #' )
 #'
-#' # use absolute scale for colors and radius
+#' # Use absolute scale for colors and radius
 #' map_dep(mica,
 #'   "n_species",
 #'   relative_scale = FALSE,
 #'   max_scale = 4
 #' )
 #'
-#' # change max and min size circles
+#' # Change max and min size circles
 #' map_dep(
 #'   mica,
 #'   "n_obs",

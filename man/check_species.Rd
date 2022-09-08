@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_species.R
 \name{check_species}
 \alias{check_species}
-\title{Check validity of the given scientific or vernacular name(s)}
+\title{Check scientific or vernacular name(s)}
 \usage{
 check_species(
   package = NULL,
@@ -15,7 +15,7 @@ check_species(
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{species}{Character vector with scientific or vernacular names}
+\item{species}{Character vector with scientific or vernacular names.}
 
 \item{arg_name}{Character with argument name to return in error message
 Default: "species".}
@@ -23,24 +23,29 @@ Default: "species".}
 \item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-a character vector with the correspondent scientific names
+A character vector with the correspondent scientific names.
 }
 \description{
-Check names against all scientific and vernacular names contained in a camera
-trap data package.
+Checks if a given scientific or vernacular name(s) can be found in the
+metadata (\code{package$taxonomic}) and returns error if not.
 }
 \examples{
-# species is a scientific name
+# Species is a scientific name
 check_species(mica, "Martes foina")
-# species is a vector of vernacular names
- check_species(mica, c("beech marten", "european polecat"))
-# vernacular names can be specified in any language available
+
+# Species is a vector of vernacular names
+check_species(mica, c("beech marten", "european polecat"))
+
+# Vernacular names can be specified in any language available
 check_species(mica, c("vos", "blauwe reiger"))
-# vernacular names and scientific names can be mixed up
+
+# Vernacular names and scientific names can be mixed up
 check_species(mica, c("beech marten", "blauwe reiger", "Anas strepera"))
-# case insensitive
+
+# Case insensitive
 check_species(mica, "AnaS StrePeRa")
 check_species(mica, "bEEch mARteN")
+
 \dontrun{
 check_species(mica, "bad name")
 }

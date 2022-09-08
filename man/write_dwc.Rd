@@ -43,6 +43,21 @@ Can be a DOI.
 \code{package$coordinatePrecision} degrees".
 \item \strong{coordinatePrecision}: \code{package$coordinatePrecision} (e.g. \code{0.001}).
 }
+
+Key features of the Darwin Core transformation:
+\itemize{
+\item Deployments (of camera traps) are parent events, with observations
+(machine observations) as child events. No information about the parent
+event is provided other than its ID, meaning that data can be expressed in
+an Occurrence Core with one row per observation and \code{parentEventID} shared
+by all occurrences in a deployment.
+\item Sequence-based observations share an \code{eventID} per sequence, image-based
+observations share an \code{eventID} per image.
+\item The image(s) an observation is based on are provided in the \href{https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml}{Audubon Media Description extension}, with a foreign
+key to the observation.
+\item Excluded are records that document blank or unclassified media, vehicles
+and observations of humans.
+}
 }
 
 \seealso{

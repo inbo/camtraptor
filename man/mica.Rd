@@ -26,7 +26,7 @@ The entire dataset can be downloaded from \href{https://zenodo.org/record/559088
 # mica.rda was created with the code below.
 mica <- read_camtrap_dp(
   system.file(
-    "extdata/mica_zenodo_5590881",
+    "extdata/mica",
     "datapackage.json",
     package = "camtraptor"
   )

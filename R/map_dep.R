@@ -320,12 +320,14 @@ map_dep <- function(package = NULL,
   package <- check_package(package, datapkg, "map_dep")
 
   # define possible feature values
-  features <- c("n_species",
-                "n_obs",
-                "n_individuals",
-                "rai",
-                "rai_individuals",
-                "effort")
+  features <- c(
+    "n_species",
+    "n_obs",
+    "n_individuals",
+    "rai",
+    "rai_individuals",
+    "effort"
+  )
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
@@ -339,18 +341,22 @@ map_dep <- function(package = NULL,
   }
 
   # check sex and life stage in combination with feature
-  if (!is.null(sex) & !feature %in% c("n_obs",
-                                      "n_individuals",
-                                      "rai",
-                                      "rai_individuals")) {
-    warning(glue::glue("sex argument ignored for feature = {feature}"))
+  if (!is.null(sex) & !feature %in% c(
+    "n_obs",
+    "n_individuals",
+    "rai",
+    "rai_individuals"
+  )) {
+    warning(glue::glue("`sex` ignored for `feature = {feature}`."))
     sex <- NULL
   }
-  if (!is.null(life_stage) & !feature %in% c("n_obs",
-                                      "n_individuals",
-                                      "rai",
-                                      "rai_individuals")) {
-    warning(glue::glue("life_stage argument ignored for feature = {feature}"))
+  if (!is.null(life_stage) & !feature %in% c(
+    "n_obs",
+    "n_individuals",
+    "rai",
+    "rai_individuals"
+  )) {
+    warning(glue::glue("`life_stage` ignored for `feature = {feature}`."))
     life_stage <- NULL
   }
 
@@ -364,10 +370,11 @@ map_dep <- function(package = NULL,
   r_color_brewer_palettes <- rownames(RColorBrewer::brewer.pal.info)
   palettes <- c(viridis_valid_palettes, r_color_brewer_palettes)
   if (length(palette) == 1) {
-    check_value(arg = palette,
-                options = palettes,
-                arg_name = "palette",
-                null_allowed = FALSE
+    check_value(
+      arg = palette,
+      options = palettes,
+      arg_name = "palette",
+      null_allowed = FALSE
     )
   }
 
@@ -416,8 +423,10 @@ map_dep <- function(package = NULL,
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
   # check species in combination with feature and remove from hover in case
-  if (is.null(species) | (!is.null(species) & feature %in% c("n_species",
-                                                             "effort"))) {
+  if (is.null(species) | (!is.null(species) & feature %in% c(
+    "n_species",
+    "effort"
+  ))) {
     if (!is.null(species) & feature %in% c("n_species", "effort")) {
       warning(glue::glue("species argument ignored for feature = {feature}"))
       species <- NULL
@@ -425,14 +434,16 @@ map_dep <- function(package = NULL,
     hover_columns <- hover_columns[hover_columns != "species"]
   } else {
     # convert species to scientificName in hover_columns
-    hover_columns <- replace(hover_columns,
-                             hover_columns == "species",
-                             "scientificName")
+    hover_columns <- replace(
+      hover_columns,
+      hover_columns == "species",
+      "scientificName"
+    )
   }
 
   # check cluster
   assertthat::assert_that(cluster %in% c(TRUE, FALSE),
-              msg = "cluster must be TRUE or FALSE"
+    msg = "cluster must be TRUE or FALSE"
   )
 
   # check hover_columns
@@ -441,13 +452,15 @@ map_dep <- function(package = NULL,
     possible_hover_columns <- map_dep_prefixes()$info
     possible_hover_columns <-
       possible_hover_columns[!possible_hover_columns %in% features]
-    hover_columns <- match.arg(arg = hover_columns,
-                               choices = c(possible_hover_columns, "n"),
-                               several.ok = TRUE)
+    hover_columns <- match.arg(
+      arg = hover_columns,
+      choices = c(possible_hover_columns, "n"),
+      several.ok = TRUE
+    )
     # check all hover_columns are in deployments except scientificName
     not_found_cols <- hover_columns[!hover_columns %in% names(deployments) &
-                                      hover_columns != "n" &
-                                      hover_columns != "scientificName"]
+      hover_columns != "n" &
+      hover_columns != "scientificName"]
     n_not_found_cols <- length(not_found_cols)
     if (n_not_found_cols > 0) {
       warning(glue::glue("There are {n_not_found_cols} columns defined in",
@@ -462,12 +475,16 @@ map_dep <- function(package = NULL,
   # check combination relative_scale and max_scale
   if (relative_scale == FALSE) {
     assertthat::assert_that(!is.null(max_scale),
-                msg = paste("If you use an absolute scale,",
-                            "max_scale must be a number, not NULL")
+      msg = paste(
+        "If you use an absolute scale,",
+        "`max_scale` must be a number, not `NULL`."
+      )
     )
     assertthat::assert_that(is.numeric(max_scale),
-                msg = paste("If you use an absolute scale,",
-                            "max_scale must be a number")
+      msg = paste(
+        "If you use an absolute scale,",
+        "`max_scale` must be a number."
+      )
     )
   }
 
@@ -482,19 +499,23 @@ map_dep <- function(package = NULL,
   } else if (feature == "n_obs") {
     feat_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage, ...)
   } else if (feature == "n_individuals") {
-    feat_df <- get_n_individuals(package,
-                                 species = species,
-                                 sex = sex,
-                                 life_stage = life_stage,
-                                 ...)
+    feat_df <- get_n_individuals(
+      package,
+      species = species,
+      sex = sex,
+      life_stage = life_stage,
+      ...
+    )
   } else if (feature == "rai") {
     feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage, ...)
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "rai_individuals") {
-    feat_df <- get_rai_individuals(package,
-                                   species = species,
-                                   sex = sex,
-                                   life_stage = life_stage, ...)
+    feat_df <- get_rai_individuals(
+      package,
+      species = species,
+      sex = sex,
+      life_stage = life_stage, ...
+    )
     feat_df <- feat_df %>% dplyr::rename(n = .data$rai)
   } else if (feature == "effort") {
     feat_df <- get_effort(package, unit = effort_unit, ...)
@@ -507,9 +528,11 @@ map_dep <- function(package = NULL,
   # define title legend
   title <- get_legend_title(feature)
   # add unit to legend title (for effort)
-  title <- add_unit_to_legend_title(title,
-                                    unit = effort_unit,
-                                    use_brackets = TRUE)
+  title <- add_unit_to_legend_title(
+    title,
+    unit = effort_unit,
+    use_brackets = TRUE
+  )
 
   # add informative message if no deployments left after applying filters and
   # return empty map
@@ -527,9 +550,11 @@ map_dep <- function(package = NULL,
   # first, mandatory fields to make maps and join
   deploy_columns_to_add <- c("deploymentID", "latitude", "longitude")
   # second, columns for hovering text
-  deploy_columns_to_add <- unique(c(deploy_columns_to_add,
-                                    hover_columns[hover_columns != "n" &
-                                                    hover_columns != "scientificName"]))
+  deploy_columns_to_add <- unique(c(
+    deploy_columns_to_add,
+    hover_columns[hover_columns != "n" &
+      hover_columns != "scientificName"]
+  ))
   feat_df <-
     feat_df %>%
     dplyr::left_join(deployments %>%
@@ -542,20 +567,26 @@ map_dep <- function(package = NULL,
     hover_info_df <- get_prefixes(feature, hover_columns)
     ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
-    hover_infos <- dplyr::as_tibble(purrr::map2(hover_info_df$prefix,
-                                  hover_info_df$info,
-                                  function(x, y) {
-                                    info <- feat_df[[y]]
-                                    if (lubridate::is.POSIXt(info)) {
-                                      info <- format(info)
-                                    }
-                                    paste0(x, as.character(feat_df[[y]]))
-                                  }), .name_repair = "minimal") %>%
+    hover_infos <-
+      dplyr::as_tibble(
+        purrr::map2(
+          hover_info_df$prefix, hover_info_df$info,
+          function(x, y) {
+            info <- feat_df[[y]]
+            if (lubridate::is.POSIXt(info)) {
+              info <- format(info)
+            }
+            paste0(x, as.character(feat_df[[y]]))
+          }
+        ),
+        .name_repair = "minimal"
+      ) %>%
       tidyr::unite(col = "hover_info", sep = "</p><p>")
     hover_infos <-
       hover_infos %>%
       dplyr::mutate(hover_info = paste0("<p>", .data$hover_info, "</p>"))
-    hover_infos$hover_info <- purrr::map(hover_infos$hover_info, ~htmltools::HTML(.))
+    hover_infos$hover_info <-
+      purrr::map(hover_infos$hover_info, ~ htmltools::HTML(.))
     feat_df <-
       feat_df %>%
       dplyr::bind_cols(hover_infos)
@@ -568,19 +599,19 @@ map_dep <- function(package = NULL,
     # set all n > max_scale to max_scale
     feat_df <-
       feat_df %>%
-      dplyr::mutate(n = ifelse(.data$n > max_scale,
-                        max_scale,
-                        .data$n
-      ))
+      dplyr::mutate(
+        n = ifelse(.data$n > max_scale, max_scale, .data$n)
+      )
   }
 
   # max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(is.null(max_scale),
-                  ifelse(!all(is.na(feat_df$n)),
-                         max(feat_df$n, na.rm = TRUE),
-                         0),
-                  max_scale
+    ifelse(!all(is.na(feat_df$n)),
+      max(feat_df$n, na.rm = TRUE),
+      0
+    ),
+    max_scale
   )
 
   # define colour palette
@@ -597,7 +628,7 @@ map_dep <- function(package = NULL,
   radius_max <- radius_range[2]
   radius_min <- radius_range[1]
   if (max_n != 0) {
-    conv_factor <- (radius_max - radius_min)/max_n
+    conv_factor <- (radius_max - radius_min) / max_n
   } else {
     conv_factor <- 0
   }
@@ -632,7 +663,7 @@ map_dep <- function(package = NULL,
         data = zero_values,
         lng = ~longitude,
         lat = ~latitude,
-        label = ~ hover_info,
+        label = ~hover_info,
         clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       )
   }
@@ -648,7 +679,7 @@ map_dep <- function(package = NULL,
         color = ~ pal(n),
         stroke = FALSE,
         fillOpacity = 0.8,
-        label = ~ hover_info,
+        label = ~hover_info,
         clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       ) %>%
       leaflet::addLegend("bottomright",

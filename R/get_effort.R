@@ -60,14 +60,17 @@ get_effort <- function(package = NULL,
     dplyr::select(.data$deploymentID, .data$effort_duration)
   # convert effort duration in specified effort time units (arg units)
   effort_df$effort <- transform_effort_to_common_units(
-      effort = effort_df$effort_duration,
-      unit = unit)
-    effort_df$unit <- unit
+    effort = effort_df$effort_duration,
+    unit = unit
+  )
+  effort_df$unit <- unit
   effort_df %>%
-    dplyr::relocate(.data$deploymentID,
-                    .data$effort,
-                    .data$unit,
-                    .data$effort_duration)
+    dplyr::relocate(
+      .data$deploymentID,
+      .data$effort,
+      .data$unit,
+      .data$effort_duration
+    )
 }
 
 #' Transform efforts to common units.
@@ -95,8 +98,10 @@ get_effort <- function(package = NULL,
 #' @noRd
 #' @examples
 #' # Create efforts (durations) to transform
-#' efforts <- c(lubridate::duration("2hours 2minutes 1second"),
-#'             lubridate::duration("3days 2hours"))
+#' efforts <- c(
+#'   lubridate::duration("2hours 2minutes 1second"),
+#'   lubridate::duration("3days 2hours")
+#' )
 #'
 #' # Transform effort to hours
 #' transform_effort_to_common_units(efforts, "hour")
@@ -106,7 +111,8 @@ get_effort <- function(package = NULL,
 transform_effort_to_common_units <- function(effort, unit) {
   # only one unit allowed
   assertthat::assert_that(length(unit) == 1,
-              msg = "unit must have length 1")
+    msg = "unit must have length 1"
+  )
 
   # define possible unit values
   units <- c("second", "minute", "hour", "day", "week", "month", "year")

@@ -6,18 +6,23 @@ test_that("Error is returned if species is NULL or of length 0", {
 test_that("Error is returned if one or more species are invalid", {
   testthat::expect_error(
     check_species(
-      mica, 
-      c("beech marten",
+      mica,
+      c(
+        "beech marten",
         "Ans streperi", # wrong
         "blauwe reiger",
         "Anas strepera",
-        "bad name")), # wrong
-    paste("Invalid value for species argument: ans streperi and bad",
-          "name.\nValid inputs are: anas platyrhynchos, anas strepera, ardea,",
-          "ardea cinerea, castor fiber, homo sapiens, martes foina, mustela",
-          "putorius, vulpes vulpes, mallard, gadwall, great herons, grey",
-          "heron, eurasian beaver, human, beech marten, european polecat, red",
-          "fox, wilde eend, krakeend and others..."),
+        "bad name"
+      )
+    ), # wrong
+    paste(
+      "Invalid value for species argument: ans streperi and bad",
+      "name.\nValid inputs are: anas platyrhynchos, anas strepera, ardea,",
+      "ardea cinerea, castor fiber, homo sapiens, martes foina, mustela",
+      "putorius, vulpes vulpes, mallard, gadwall, great herons, grey",
+      "heron, eurasian beaver, human, beech marten, european polecat, red",
+      "fox, wilde eend, krakeend and others..."
+    ),
   )
 })
 
@@ -48,10 +53,14 @@ test_that("Functions works well with vernacular names of different languages", {
 test_that("Functions works with a mix of scientific and vernacular names", {
   mixed_names <- c("mallard", "steenmarter", "Castor fiber")
   species <- check_species(mica, mixed_names)
-  testthat::expect_equal(species,
-               c("Anas platyrhynchos",
-                 "Martes foina",
-                 "Castor fiber"))
+  testthat::expect_equal(
+    species,
+    c(
+      "Anas platyrhynchos",
+      "Martes foina",
+      "Castor fiber"
+    )
+  )
 })
 
 test_that("Taxon IDs are not allowed", {
@@ -61,7 +70,7 @@ test_that("Taxon IDs are not allowed", {
 
 test_that("Functions works case insensitively", {
   vn_name <- check_species(mica, c("MallARD"))
-  species <-  check_species(mica, vn_name)
+  species <- check_species(mica, vn_name)
   testthat::expect_equal(species, "Anas platyrhynchos")
 })
 

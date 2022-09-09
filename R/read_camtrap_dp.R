@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' # Read Camtrap DP package
-#' camtrap_dp_file <-  system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+#' camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
 #' # Read Camtrap DP package and ignore media file
@@ -69,8 +69,10 @@ read_camtrap_dp <- function(file = NULL,
   }
 
   # check media
-  assertthat::assert_that(media %in% c(TRUE, FALSE),
-                          msg = "media must be a logical: TRUE or FALSE")
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
+  )
   # read files
   package <- frictionless::read_package(file)
   deployments <- frictionless::read_resource(package, "deployments")
@@ -104,10 +106,13 @@ read_camtrap_dp <- function(file = NULL,
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
-    observations <- dplyr::left_join(observations,
-                                     taxon_infos,
-                                     by  = c("taxonID", "scientificName"))
-    observations <- observations %>%
+    observations <- dplyr::left_join(
+      observations,
+      taxon_infos,
+      by  = c("taxonID", "scientificName")
+    )
+    observations <-
+      observations %>%
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations

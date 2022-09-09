@@ -122,7 +122,7 @@
 #' locations <- c("B_ML_val 03_De Val", "B_ML_val 05_molenkreek")
 #' pred_in("location_name", locations)
 #' pred_notin("location_name", locations)
-#' start_dates <- lubridate::as_datetime(c("2020-06-03 20:10:18","2020-06-03 20:04:33"))
+#' start_dates <- lubridate::as_datetime(c("2020-06-03 20:10:18", "2020-06-03 20:04:33"))
 #' pred_in("start", start_dates)
 #' pred_notin("start", start_dates)
 #'
@@ -192,7 +192,7 @@ pred_primitive <- function(arg, value, symbol, type) {
     value <- glue::double_quote(value)
     predicate$expr <- glue::glue("({arg} {symbol} as_datetime({value}))")
   } else {
-    if (is.character(value)){
+    if (is.character(value)) {
       value <- glue::double_quote(value)
     }
     predicate$expr <- glue::glue("({arg} {symbol} {value})")
@@ -221,7 +221,7 @@ pred_in <- function(arg, value) {
       predicate$expr <- glue::glue("({arg} %in% as_datetime(character(0)))")
     }
   } else {
-    if (is.character(value)){
+    if (is.character(value)) {
       value <- glue::double_quote(value)
     }
     if (length(value) > 0) {
@@ -275,12 +275,12 @@ pred_and_or_primitive <- function(symbol, ...) {
   preds <- list(...)
   # build predicate object
   predicate <- list(
-    arg = purrr::map(preds,  ~.[["arg"]]),
-    value = purrr::map(preds,  ~.[["value"]]),
-    type = purrr::map(preds,  ~.[["type"]])
+    arg = purrr::map(preds, ~ .[["arg"]]),
+    value = purrr::map(preds, ~ .[["value"]]),
+    type = purrr::map(preds, ~ .[["type"]])
   )
   # build expr
-  filter_expr <- purrr::map_chr(preds, ~.[["expr"]])
+  filter_expr <- purrr::map_chr(preds, ~ .[["expr"]])
   filter_expr <- glue::glue_collapse(filter_expr, sep = symbol)
   filter_expr <- glue::glue("(", filter_expr, ")")
   # add expr to predicate
@@ -314,22 +314,32 @@ pred_or <- function(...) {
 #' @export
 #' @examples
 #' # and
-#' apply_filter_predicate(mica$data$deployments,
-#'                        verbose = TRUE,
-#'                        pred_gte("latitude", 51.28),
-#'                        pred_lt("longitude", 3.56))
+#' apply_filter_predicate(
+#'   mica$data$deployments,
+#'   verbose = TRUE,
+#'   pred_gte("latitude", 51.28),
+#'   pred_lt("longitude", 3.56)
+#' )
 #' # Equivalent of
-#' apply_filter_predicate(mica$data$deployments,
-#'                        verbose = TRUE,
-#'                        pred_and(pred_gte("latitude", 51.28),
-#'                                 pred_lt("longitude", 3.56)))
+#' apply_filter_predicate(
+#'   mica$data$deployments,
+#'   verbose = TRUE,
+#'   pred_and(
+#'     pred_gte("latitude", 51.28),
+#'     pred_lt("longitude", 3.56)
+#'   )
+#' )
 #'
 #'
 #' # or
-#' apply_filter_predicate(mica$data$deployments,
-#'                        verbose = TRUE,
-#'                        pred_or(pred_gte("latitude", 51.28),
-#'                                 pred_lt("longitude", 3.56)))
+#' apply_filter_predicate(
+#'   mica$data$deployments,
+#'   verbose = TRUE,
+#'   pred_or(
+#'     pred_gte("latitude", 51.28),
+#'     pred_lt("longitude", 3.56)
+#'   )
+#' )
 apply_filter_predicate <- function(df, verbose, ...) {
   assertthat::assert_that(is.data.frame(df), msg = "Predicates must be applied to a df")
   preds <- list(...)
@@ -337,14 +347,18 @@ apply_filter_predicate <- function(df, verbose, ...) {
     filters <- pred_and(...)
     arg <- unlist(filters$arg)
     # check that all arg values are valid column names in df
-    check_value(arg = arg,
-                options = names(df),
-                null_allowed = FALSE,
-                arg_name = "predicate's arg")
+    check_value(
+      arg = arg,
+      options = names(df),
+      null_allowed = FALSE,
+      arg_name = "predicate's arg"
+    )
     filter_expr <- glue::glue("df %>% dplyr::filter", filters$expr)
     if (verbose == TRUE) message(filter_expr)
     eval(parse(text = filter_expr))
-  } else df
+  } else {
+    df
+  }
 }
 
 ## helpers
@@ -367,7 +381,7 @@ apply_filter_predicate <- function(df, verbose, ...) {
 #' check_filter_arg_value(arg = 5, value = 1)
 #'
 #' # This returns an error: two values instead of one
-#' check_filter_arg_value(arg = "location_name", value = c(1,4))
+#' check_filter_arg_value(arg = "location_name", value = c(1, 4))
 #' }
 check_filter_arg_value <- function(arg, value) {
   check_filter_arg(arg)
@@ -417,10 +431,12 @@ check_filter_arg <- function(arg) {
 check_filter_value_type <- function(value) {
   # check value
   assertthat::assert_that(
-    any(is.character(value),
-        is.numeric(value),
-        class(value) == "Date",
-        lubridate::is.POSIXct(value)),
+    any(
+      is.character(value),
+      is.numeric(value),
+      class(value) == "Date",
+      lubridate::is.POSIXct(value)
+    ),
     msg = "'value' must be a character, a number, a date or a datetime(POSIXct)"
   )
 }

@@ -120,13 +120,14 @@ get_n_obs <- function(package = NULL,
   deployments <- apply_filter_predicate(
     df = deployments,
     verbose = TRUE,
-    ...)
+    ...
+  )
 
   deploymentID <- deployments$deploymentID
 
   deployments_no_obs <- get_dep_no_obs(
     package,
-    pred_in("deploymentID",deploymentID)
+    pred_in("deploymentID", deploymentID)
   )
 
   # get number of observations collected by each deployment for each species
@@ -138,8 +139,10 @@ get_n_obs <- function(package = NULL,
 
   # get all combinations deployments - scientific name
   combinations_dep_species <-
-    expand.grid(deployments$deploymentID,
-                unique(c(unique(observations$scientificName), species))) %>%
+    expand.grid(
+      deployments$deploymentID,
+      unique(c(unique(observations$scientificName), species))
+    ) %>%
     dplyr::rename(deploymentID = .data$Var1, scientificName = .data$Var2) %>%
     dplyr::as_tibble()
 
@@ -147,7 +150,8 @@ get_n_obs <- function(package = NULL,
   n_obs <-
     combinations_dep_species %>%
     dplyr::left_join(n_obs,
-                     by = c("deploymentID", "scientificName")) %>%
+      by = c("deploymentID", "scientificName")
+    ) %>%
     dplyr::mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     dplyr::mutate(n = as.integer(.data$n))
 

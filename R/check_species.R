@@ -39,15 +39,19 @@ check_species <- function(package = NULL,
                           datapkg = lifecycle::deprecated()) {
   # Check camera trap data package
   package <- check_package(package, datapkg, "check_species")
-  assertthat::assert_that(!is.null(species) & length(species) > 0,
-              msg = "species argument must be specified")
+  assertthat::assert_that(
+    !is.null(species) & length(species) > 0,
+    msg = "species argument must be specified"
+  )
 
   all_species <- get_species(package) %>%
     dplyr::select(-c(.data$taxonID, .data$taxonIDReference))
-  check_value(tolower(species),
-              unlist(all_species) %>% tolower(),
-              arg_name,
-              null_allowed = FALSE)
+  check_value(
+    tolower(species),
+    unlist(all_species) %>% tolower(),
+    arg_name,
+    null_allowed = FALSE
+  )
 
   purrr::map_chr(species, function(x) {
     # get scientific name in case a vernacular names is given

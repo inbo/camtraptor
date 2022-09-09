@@ -84,9 +84,11 @@ write_dwc <- function(package, directory = ".") {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(
-    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"), na = ""
+    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"),
+    na = ""
   )
   readr::write_csv(
-    dwc_audubon, file.path(directory, "dwc_audubon.csv"), na = ""
+    dwc_audubon, file.path(directory, "dwc_audubon.csv"),
+    na = ""
   )
 }

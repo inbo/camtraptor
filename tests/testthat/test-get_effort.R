@@ -22,9 +22,12 @@ test_that("values in column unit are all the same", {
 test_that("column effort_duration is of class 'Duration'", {
   effort_df <- get_effort(mica)
   expect_equal(class(effort_df$effort_duration)[1], "Duration")
-  expect_equal(attr(class(effort_df$effort_duration),
-                   which = "package"),
-              "lubridate")
+  expect_equal(
+    attr(class(effort_df$effort_duration),
+      which = "package"
+    ),
+    "lubridate"
+  )
 })
 
 test_that("column unit is always equal to argument unit", {

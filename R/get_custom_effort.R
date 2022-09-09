@@ -99,14 +99,18 @@ get_custom_effort <- function(package = NULL,
   check_value(unit, units, "unit", null_allowed = FALSE)
 
   # define possible group_by values
-  group_bys <- c("day",
-                 "week",
-                 "month",
-                 "year")
-  durations <- c(lubridate::ddays(x =1),
-                 lubridate::dweeks(x= 1),
-                 lubridate::dmonths(x = 1),
-                 lubridate::dyears(x = 1))
+  group_bys <- c(
+    "day",
+    "week",
+    "month",
+    "year"
+  )
+  durations <- c(
+    lubridate::ddays(x = 1),
+    lubridate::dweeks(x = 1),
+    lubridate::dmonths(x = 1),
+    lubridate::dyears(x = 1)
+  )
 
   # check group_by
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
@@ -123,8 +127,10 @@ get_custom_effort <- function(package = NULL,
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)
 
-  sum_effort <- dplyr::tibble(date = lubridate::as_date(names(sum_effort)),
-                              sum_effort = sum_effort)
+  sum_effort <- dplyr::tibble(
+    date = lubridate::as_date(names(sum_effort)),
+    sum_effort = sum_effort
+  )
 
   # check start and end are both dates
   assertthat::assert_that(
@@ -149,20 +155,22 @@ get_custom_effort <- function(package = NULL,
     if (!is.null(group_by)) {
       d <- durations[which(group_bys == group_by)]
       earliest_start <- sum_effort$date[1] - d + lubridate::ddays(1)
-    } else{
+    } else {
       d <- lubridate::as.duration(0)
       earliest_start <- sum_effort$date[1]
     }
     if (days_diff >= d) {
       start <- sum_effort$date[1]
       warning(
-        glue::glue("start argument set too early. ",
-                   "Earliest deployment start date: {sum_effort$date[1]}. ",
-                   "With the given group_by value ",
-                   "the earliest start possible is: {earliest_start}.",
-                   "
+        glue::glue(
+          "start argument set too early. ",
+          "Earliest deployment start date: {sum_effort$date[1]}. ",
+          "With the given group_by value ",
+          "the earliest start possible is: {earliest_start}.",
+          "
                    start argument set to start date of earliest deployment: {start}.
-                   ")
+                   "
+        )
       )
     }
   }
@@ -174,20 +182,22 @@ get_custom_effort <- function(package = NULL,
     if (!is.null(group_by)) {
       d <- durations[which(group_bys == group_by)]
       latest_end <- sum_effort$date[nrow(sum_effort)] + d - lubridate::ddays(1)
-    } else{
+    } else {
       d <- lubridate::as.duration(0)
       latest_end <- sum_effort$date[nrow(sum_effort)]
     }
     if (days_diff >= d) {
       end <- sum_effort$date[nrow(sum_effort)]
       warning(
-        glue::glue("end argument set too late. ",
-                   "Latest deployment end date: {sum_effort$date[nrow(sum_effort)]}. ",
-                   "With the given group_by value ",
-                   "the latest end possible is: {latest_end}.",
-                   "
+        glue::glue(
+          "end argument set too late. ",
+          "Latest deployment end date: {sum_effort$date[nrow(sum_effort)]}. ",
+          "With the given group_by value ",
+          "the latest end possible is: {latest_end}.",
+          "
                    end argument set to end date of latest deployment: {end}.
-                   ")
+                   "
+        )
       )
     }
   }
@@ -199,14 +209,15 @@ get_custom_effort <- function(package = NULL,
 
   # check start earlier than end
   assertthat::assert_that(start < end,
-                          msg = "start must be earlier than end.")
+    msg = "start must be earlier than end."
+  )
 
   # create df with all dates from start to end
-  dates_df <- dplyr::tibble(date = seq(start, end, by ="days"))
+  dates_df <- dplyr::tibble(date = seq(start, end, by = "days"))
 
   # join dates_df to sum_effort
   sum_effort <- dates_df %>%
-    dplyr::left_join(sum_effort, by ="date")
+    dplyr::left_join(sum_effort, by = "date")
 
   # filter by start and end date
   sum_effort <- sum_effort %>%
@@ -216,10 +227,11 @@ get_custom_effort <- function(package = NULL,
     # total effort (days) over all deployments
     sum_effort <-
       sum_effort %>%
-        dplyr::summarise(begin = start,
-                         effort = sum(.data$sum_effort, na.rm = TRUE))
+      dplyr::summarise(
+        begin = start,
+        effort = sum(.data$sum_effort, na.rm = TRUE)
+      )
   } else {
-
     if (group_by == "day") {
       period <- 1 # ndays within a group by unit
     }
@@ -235,14 +247,16 @@ get_custom_effort <- function(package = NULL,
     }
     # add period column and group by it
     sum_effort <- sum_effort %>%
-      dplyr::mutate(period = as.numeric(.data$date- .data$date[1]) %/% period) %>%
+      dplyr::mutate(period = as.numeric(.data$date - .data$date[1]) %/% period) %>%
       dplyr::group_by(.data$period)
 
     # sum total effort over each interval
     sum_effort <-
       sum_effort %>%
-      dplyr::summarise(begin = min(.data$date, na.rm = TRUE),
-                       effort = sum(.data$sum_effort, na.rm = TRUE)) %>%
+      dplyr::summarise(
+        begin = min(.data$date, na.rm = TRUE),
+        effort = sum(.data$sum_effort, na.rm = TRUE)
+      ) %>%
       dplyr::ungroup()
   }
 
@@ -256,7 +270,9 @@ get_custom_effort <- function(package = NULL,
   # add unit column and adjust column order
   sum_effort %>%
     dplyr::mutate(unit = unit) %>%
-    dplyr::select(.data$begin,
-                  .data$effort,
-                  .data$unit)
+    dplyr::select(
+      .data$begin,
+      .data$effort,
+      .data$unit
+    )
 }

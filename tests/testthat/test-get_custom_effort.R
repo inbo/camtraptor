@@ -16,8 +16,9 @@ test_that("get_custom_effort returns error for end not a Date", {
 
 test_that("get_custom_effort returns error if end earlier than start", {
   expect_error(get_custom_effort(mica,
-                                 start = as.Date("2021-01-01"),
-                                 end = as.Date("1990-01-01")))
+    start = as.Date("2021-01-01"),
+    end = as.Date("1990-01-01")
+  ))
 })
 
 test_that("get_custom_effort returns error for invalid effort units", {
@@ -32,15 +33,17 @@ test_that("get_custom_effort returns warning if start set too early", {
 test_that("get_custom_effort returns warning if start set too early", {
   start_too_early <- evaluate_promise(
     get_custom_effort(mica,
-                      start = as.Date("1900-01-01"),
-                      group_by = "day")
+      start = as.Date("1900-01-01"),
+      group_by = "day"
+    )
   )
   expect_equal(
     start_too_early$warnings,
-    paste0("start argument set too early. Earliest deployment start date: 2019-10-09.",
-           " With the given group_by value the earliest start possible is: ",
-           "2019-10-09.\nstart argument set to start date of earliest deployment: ",
-           "2019-10-09."
+    paste0(
+      "start argument set too early. Earliest deployment start date: 2019-10-09.",
+      " With the given group_by value the earliest start possible is: ",
+      "2019-10-09.\nstart argument set to start date of earliest deployment: ",
+      "2019-10-09."
     )
   )
   expect_equal(
@@ -52,15 +55,17 @@ test_that("get_custom_effort returns warning if start set too early", {
 test_that("get_custom_effort returns warning if end set too late", {
   end_too_late <- evaluate_promise(
     get_custom_effort(mica,
-                      end = as.Date("2100-01-01"),
-                      group_by = "day")
+      end = as.Date("2100-01-01"),
+      group_by = "day"
+    )
   )
   expect_equal(
     end_too_late$warnings,
-    paste0("end argument set too late. Latest deployment end date: 2021-04-18.",
-           " With the given group_by value the latest end possible is: ",
-           "2021-04-18.\nend argument set to end date of latest deployment: ",
-           "2021-04-18."
+    paste0(
+      "end argument set too late. Latest deployment end date: 2021-04-18.",
+      " With the given group_by value the latest end possible is: ",
+      "2021-04-18.\nend argument set to end date of latest deployment: ",
+      "2021-04-18."
     )
   )
   expect_equal(
@@ -79,19 +84,19 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_equal(class(tot_effort$unit), "character")
 
   # right cols and col types: group by year
-  effort_by_year<- get_custom_effort(mica, group_by = "year")
+  effort_by_year <- get_custom_effort(mica, group_by = "year")
   expect_true(
     all(colnames(effort_by_year) == c("begin", "effort", "unit"))
   )
 
   # right cols and col types: group by month
-  effort_by_month<- get_custom_effort(mica, group_by = "month")
+  effort_by_month <- get_custom_effort(mica, group_by = "month")
   expect_true(
     all(colnames(effort_by_month) == c("begin", "effort", "unit"))
   )
 
   # right cols and col types: group by week
-  effort_by_week<- get_custom_effort(mica, group_by = "week")
+  effort_by_week <- get_custom_effort(mica, group_by = "week")
   expect_true(
     all(
       colnames(effort_by_week) == c("begin", "effort", "unit")
@@ -99,12 +104,14 @@ test_that("right columns, cols types, right relative number of rows", {
   )
 
   # right cols and col types: group by day
-  effort_by_day<- get_custom_effort(mica, group_by = "day")
+  effort_by_day <- get_custom_effort(mica, group_by = "day")
   expect_true(
     all(
-      colnames(effort_by_day) == c("begin",
-                                    "effort",
-                                    "unit")
+      colnames(effort_by_day) == c(
+        "begin",
+        "effort",
+        "unit"
+      )
     )
   )
 
@@ -132,21 +139,24 @@ test_that("right columns, cols types, right relative number of rows", {
 
   # number of rows with start defined lower than for entire datapackage
   set_start <- get_custom_effort(mica,
-                                 start = as.Date("2021-01-01"),
-                                 group_by = "month")
+    start = as.Date("2021-01-01"),
+    group_by = "month"
+  )
   expect_lt(nrow(set_start), nrow(effort_by_month))
 
   # number of rows with end defined lower than for entire datapackage
   set_end <- get_custom_effort(mica,
-                               end = as.Date("2021-01-01"),
-                               group_by = "month")
+    end = as.Date("2021-01-01"),
+    group_by = "month"
+  )
   expect_lt(nrow(set_end), nrow(effort_by_month))
 
   # number of rows with both specific start and end is the lowest
   set_start_end <- get_custom_effort(mica,
-                                     start= as.Date("2020-08-01"),
-                                     end = as.Date("2021-01-01"),
-                                     group_by = "month")
+    start = as.Date("2020-08-01"),
+    end = as.Date("2021-01-01"),
+    group_by = "month"
+  )
   expect_lt(nrow(set_end), nrow(effort_by_month))
 })
 
@@ -154,8 +164,9 @@ test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
   # filtering deployments reduces effort value
   filter_deploys <- get_custom_effort(mica,
-                                      pred_gte("latitude", 51.18),
-                                      group_by = "year")
+    pred_gte("latitude", 51.18),
+    group_by = "year"
+  )
   expect_lt(filter_deploys$effort, tot_effort$effort)
 
   # effort in hours is higher than effort in days

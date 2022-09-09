@@ -57,16 +57,16 @@ get_rai <- function(package = NULL,
                     species = "all",
                     sex = NULL,
                     life_stage = NULL,
-                    datapkg = lifecycle::deprecated()
-                    ) {
+                    datapkg = lifecycle::deprecated()) {
   # check camera trap data package
   package <- check_package(package, datapkg, "get_rai")
 
   get_rai_primitive(package, ...,
-                    use = "n_obs",
-                    species = species,
-                    sex = sex,
-                    life_stage = life_stage)
+    use = "n_obs",
+    species = species,
+    sex = sex,
+    life_stage = life_stage
+  )
 }
 
 #' Get Relative Abundance Index (RAI) based on number of individuals
@@ -134,10 +134,11 @@ get_rai_individuals <- function(package = NULL,
   # check camera trap data package
   package <- check_package(package, datapkg, "get_rai_individuals")
   get_rai_primitive(package, ...,
-                    use = "n_individuals",
-                    species = species,
-                    sex = sex,
-                    life_stage = life_stage)
+    use = "n_individuals",
+    species = species,
+    sex = sex,
+    life_stage = life_stage
+  )
 }
 
 
@@ -179,11 +180,11 @@ get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
   } else {
     # get number of individuals
     n_df <- get_n_individuals(package,
-                              species = species,
-                              sex = sex,
-                              life_stage = life_stage,
-                              ...
-                              )
+      species = species,
+      sex = sex,
+      life_stage = life_stage,
+      ...
+    )
   }
 
   # extract deployments
@@ -195,9 +196,12 @@ get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
   # calculate RAI
   n_df %>%
     dplyr::left_join(dep_effort,
-              by = "deploymentID") %>%
-    dplyr::group_by(.data$deploymentID,
-             .data$scientificName) %>%
+      by = "deploymentID"
+    ) %>%
+    dplyr::group_by(
+      .data$deploymentID,
+      .data$scientificName
+    ) %>%
     dplyr::summarise(rai = .data$n * 100 / .data$effort) %>%
     dplyr::ungroup()
 }

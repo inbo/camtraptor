@@ -123,36 +123,44 @@ get_n_individuals <- function(package = NULL,
   deployments <- apply_filter_predicate(
     df = deployments,
     verbose = TRUE,
-    ...)
+    ...
+  )
 
   deploymentID <- deployments$deploymentID
 
   deployments_no_obs <- get_dep_no_obs(
     package,
-    pred_in("deploymentID",deploymentID)
+    pred_in("deploymentID", deploymentID)
   )
 
   # get number of individuals collected by each deployment for each species
   n_individuals <-
     observations %>%
-    dplyr::group_by(.data$deploymentID,
-             .data$scientificName) %>%
+    dplyr::group_by(
+      .data$deploymentID,
+      .data$scientificName
+    ) %>%
     dplyr::summarise(n = sum(.data$count)) %>%
     dplyr::ungroup()
 
   # get all combinations deployments - scientific name
   combinations_dep_species <-
-    expand.grid(deployments$deploymentID,
-                unique(c(observations$scientificName, species))) %>%
-    dplyr::rename(deploymentID = .data$Var1,
-           scientificName = .data$Var2) %>%
+    expand.grid(
+      deployments$deploymentID,
+      unique(c(observations$scientificName, species))
+    ) %>%
+    dplyr::rename(
+      deploymentID = .data$Var1,
+      scientificName = .data$Var2
+    ) %>%
     dplyr::as_tibble()
 
   # set 0 to combinations without observed individuals (i.e. n = NA after join)
   n_individuals <-
     combinations_dep_species %>%
     dplyr::left_join(n_individuals,
-              by = c("deploymentID", "scientificName")) %>%
+      by = c("deploymentID", "scientificName")
+    ) %>%
     dplyr::mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     dplyr::mutate(n = as.integer(.data$n))
 

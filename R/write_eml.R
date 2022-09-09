@@ -168,7 +168,8 @@ write_eml <- function(package,
     }
     # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order_by = order(factor(.data$title, levels = creators))
+      contributors,
+      order_by = order(factor(.data$title, levels = creators))
     )
   }
   creator_list <- purrr::transpose(contributors) # Create list
@@ -251,7 +252,7 @@ write_eml <- function(package,
 
   # Set external link = project URL (can be NULL)
   if (!is.null(package$project$path)) {
-    eml$dataset$distribution = list(
+    eml$dataset$distribution <- list(
       scope = "document", online = list(
         url = list("function" = "information", package$project$path)
       )

@@ -43,9 +43,11 @@ get_scientific_name <- function(package = NULL,
     all_sn_vn %>%
     dplyr::select(dplyr::starts_with("vernacularName"))
   # check validity vernacular_name argument
-  check_value(arg = tolower(vernacular_name),
-              options = unlist(all_vn) %>% tolower(),
-              arg_name = "vernacular_name", null_allowed = FALSE)
+  check_value(
+    arg = tolower(vernacular_name),
+    options = unlist(all_vn) %>% tolower(),
+    arg_name = "vernacular_name", null_allowed = FALSE
+  )
 
   input_vernacular <- vernacular_name
 
@@ -61,13 +63,16 @@ get_scientific_name <- function(package = NULL,
       # search within the columns with vernacular names
       sc_n <-
         all_sn_vn %>%
-        dplyr::filter(dplyr::if_any(dplyr::starts_with("vernacularName"),
-                      ~ tolower(.) %in% tolower(v))) %>%
+        dplyr::filter(dplyr::if_any(
+          dplyr::starts_with("vernacularName"),
+          ~ tolower(.) %in% tolower(v)
+        )) %>%
         dplyr::pull(.data$scientificName)
       if (length(sc_n) == 0) {
         message(glue::glue("{v} is not a valid vernacular name."))
         sc_n <- NA_character_
       }
       sc_n
-    })
+    }
+  )
 }

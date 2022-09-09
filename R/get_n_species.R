@@ -33,12 +33,13 @@ get_n_species <- function(package = NULL,
   deployments <- apply_filter_predicate(
     df = deployments,
     verbose = TRUE,
-    ...)
+    ...
+  )
 
   # get deployments without observations among the filtered deployments
   deployments_no_obs <- get_dep_no_obs(
     package,
-    pred_in("deploymentID",deployments$deploymentID)
+    pred_in("deploymentID", deployments$deploymentID)
   )
 
   # get species detected by each deployment after filtering
@@ -63,8 +64,8 @@ get_n_species <- function(package = NULL,
   # remove the count of NA as species and set n as integer
   n_species <- n_species %>%
     dplyr::mutate(n = ifelse(.data$deploymentID %in% unidentified_obs,
-                      as.integer(.data$n - 1),
-                      as.integer(.data$n)
+      as.integer(.data$n - 1),
+      as.integer(.data$n)
     ))
 
   # set up n = NA (number of species) for deployments without observations

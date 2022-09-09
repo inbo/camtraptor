@@ -53,19 +53,23 @@ calc_animal_pos <- function(animal_pos,
       "Columns ",
       glue::glue_collapse(not_found_cols, sep = ", ", last = " and "),
       " not found in animal_pos."
-     )
+    )
   )
 
   # calib_models is a list
   assertthat::assert_that(is.list(calib_models))
   # calib_models is a named list
-  assertthat::assert_that(!is.null(names(calib_models)),
-                          msg = "calib_models must be a named list.")
+  assertthat::assert_that(
+    !is.null(names(calib_models)),
+    msg = "calib_models must be a named list."
+  )
 
   deps <- unique(animal_pos[[dep_tag]])
   got_model <- deps %in% names(calib_models)
   null_model <- names(calib_models)[unlist(
-    lapply(calib_models, function(m) {is.null(m$model) | is.null(m$cam.model)})
+    lapply(calib_models, function(m) {
+      is.null(m$model) | is.null(m$cam.model)
+    })
   )]
   got_model[match(null_model, deps)] <- FALSE
   if (!all(got_model)) {
@@ -85,9 +89,10 @@ calc_animal_pos <- function(animal_pos,
   # same deployment
   n_dims <- animal_pos %>%
     dplyr::group_by(.data[[dep_tag]]) %>%
-    dplyr::summarise(heights = dplyr::n_distinct(.data[[image_width]]),
-                     widths = dplyr::n_distinct(.data[[image_height]])
-  )
+    dplyr::summarise(
+      heights = dplyr::n_distinct(.data[[image_width]]),
+      widths = dplyr::n_distinct(.data[[image_height]])
+    )
   dep_multidim <- n_dims %>%
     dplyr::filter(.data$heights > 1 | .data$widths > 1) %>%
     dplyr::distinct(.data[[dep_tag]]) %>%
@@ -97,7 +102,7 @@ calc_animal_pos <- function(animal_pos,
       glue::glue(
         "There is more than one unique value per deployment for imageWidth",
         " and/or imageHeight in deployment(s): ",
-        glue::glue_collapse(dep_multidim, sep=",")
+        glue::glue_collapse(dep_multidim, sep = ",")
       )
     )
   }
@@ -113,7 +118,8 @@ calc_animal_pos <- function(animal_pos,
     dplyr::tibble(
       dt,
       radius = r,
-      angle = a)
+      angle = a
+    )
   })
 
   res <- dplyr::bind_rows(res)

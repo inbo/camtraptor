@@ -102,7 +102,7 @@ round_coordinates <- function(package, digits = 3) {
     )
 
   # Update coordinatePrecision
-  package$coordinatePrecision <- 1/10^digits
+  package$coordinatePrecision <- 1 / 10^digits
 
   package
 }

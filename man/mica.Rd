@@ -18,7 +18,8 @@ A sample \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} as
 read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
 This sample is an extract from a larger Camera Trap Data Package saved as raw
 data in \code{inst/extdata/mica_zenodo_5590881}.
-To save memory, the \code{media.csv} resource is not present.
+To save memory, the \code{media.csv} resource of the latter Data Package is not
+present.
 The entire dataset can be downloaded from \href{https://zenodo.org/record/5590881}{Zenodo}.
 }
 \examples{

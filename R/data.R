@@ -4,7 +4,8 @@
 #' read by [read_camtrap_dp()].
 #' This sample is an extract from a larger Camera Trap Data Package saved as raw
 #' data in `inst/extdata/mica_zenodo_5590881`.
-#' To save memory, the `media.csv` resource is not present.
+#' To save memory, the `media.csv` resource of the latter Data Package is not
+#' present.
 #' The entire dataset can be downloaded from [Zenodo](
 #' https://zenodo.org/record/5590881).
 #'

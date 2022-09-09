@@ -44,8 +44,8 @@ camtrapR jargon) or another column specified by the user.
 If multiple deployments are linked to same location, daily efforts higher
 than 1 occur.
 
-Partially active days, e.g. the first or the last day of a deployment result
-in decimal effort values, same behaviour as \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+Partially active days, e.g. the first or the last day of a deployment, result
+in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \examples{
 get_cam_op(mica)

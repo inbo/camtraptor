@@ -10,8 +10,8 @@
 #' If multiple deployments are linked to same location, daily efforts higher
 #' than 1 occur.
 #'
-#' Partially active days, e.g. the first or the last day of a deployment result
-#' in decimal effort values, same behaviour as [camtrapR::cameraOperation()](
+#' Partially active days, e.g. the first or the last day of a deployment, result
+#' in decimal effort values as in [camtrapR::cameraOperation()](
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' @param package Camera trap data package object, as returned by

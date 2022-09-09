@@ -66,9 +66,8 @@ One of:
 \item \code{day}
 \item \code{month}
 \item \code{year}
-}
-
-If  \code{NULL} (default), the effort is returned in hours.}
+If  \code{NULL} (default), the effort is returned in hours.
+}}
 
 \item{cluster}{Logical value indicating whether using the cluster option
 while visualizing maps.
@@ -238,7 +237,6 @@ map_dep(
   mica,
   "effort"
 )
-
 # Show effort (days)
 map_dep(
   mica,

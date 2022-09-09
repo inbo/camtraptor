@@ -2,12 +2,13 @@
 #'
 #' A sample [Camera Trap Data Package](https://tdwg.github.io/camtrap-dp) as
 #' read by [read_camtrap_dp()].
-#' This sample is an extract from a larger Camera Trap Data Package saved as raw
-#' data in `inst/extdata/mica_zenodo_5590881`.
-#' To save memory, the `media.csv` resource of the latter Data Package is not
-#' present.
-#' The entire dataset can be downloaded from [Zenodo](
-#' https://zenodo.org/record/5590881).
+#' The source data are derived from the [Camtrap DP example dataset](
+#' https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example)
+#' and are saved in `inst/extdata/mica`.
+#'
+#' A larger dataset is available in `inst/extdata/mica_zenodo_5590881`.
+#' It is derived from a dataset on [Zenodo](https://zenodo.org/record/5590881),
+#' but excludes `media.csv`.
 #'
 #' @family sample data
 #' @source

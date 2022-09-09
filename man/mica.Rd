@@ -16,11 +16,13 @@ mica
 \description{
 A sample \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} as
 read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
-This sample is an extract from a larger Camera Trap Data Package saved as raw
-data in \code{inst/extdata/mica_zenodo_5590881}.
-To save memory, the \code{media.csv} resource of the latter Data Package is not
-present.
-The entire dataset can be downloaded from \href{https://zenodo.org/record/5590881}{Zenodo}.
+The source data are derived from the \href{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}{Camtrap DP example dataset}
+and are saved in \code{inst/extdata/mica}.
+}
+\details{
+A larger dataset is available in \code{inst/extdata/mica_zenodo_5590881}.
+It is derived from a dataset on \href{https://zenodo.org/record/5590881}{Zenodo},
+but excludes \code{media.csv}.
 }
 \examples{
 \dontrun{

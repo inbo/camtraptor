@@ -85,15 +85,25 @@ SELECT
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.start, 'unixepoch')) ||
   '/' ||
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.end, 'unixepoch')) AS samplingEffort, -- Duration of deployment
+  CASE
+    WHEN dep.baitUse IS 'none' THEN 'camera trap without bait'
+    WHEN dep.baitUse IS NOT NULL THEN 'camera trap with ' || dep.baitUse || ' bait'
+    ELSE 'camera trap'
+  END ||
+  CASE
+    WHEN dep.featureType IS 'none' THEN ''
+    WHEN dep.featureType IS 'other' THEN ' near other feature'
+    WHEN dep.featureType IS NOT NULL THEN ' near ' || dep.featureType
+    ELSE ''
+  END ||
   COALESCE(
-    dep.comments || ' | tags: ' || dep.tags,
-    'tags: ' || dep.tags,
-    dep.comments
+    ' | tags: ' || dep.tags || ' | ' || dep.comments,
+    ' | tags: ' || dep.tags,
+    ' | ' || dep.comments
   )                                     AS eventRemarks,
 -- LOCATION
   dep.locationID                        AS locationID,
   dep.locationName                      AS locality,
-  dep.featureType                       AS locationRemarks,
   dep.latitude                          AS decimalLatitude,
   dep.longitude                         AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,

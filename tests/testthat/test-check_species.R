@@ -16,7 +16,7 @@ test_that("Error is returned if one or more species are invalid", {
       )
     ), # wrong
     paste(
-      "Invalid value for species argument: ans streperi and bad",
+      "Invalid value for species parameter: ans streperi and bad",
       "name.\nValid inputs are: anas platyrhynchos, anas strepera, ardea,",
       "ardea cinerea, castor fiber, homo sapiens, martes foina, mustela",
       "putorius, vulpes vulpes, mallard, gadwall, great herons, grey",

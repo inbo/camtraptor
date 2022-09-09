@@ -30,12 +30,12 @@
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`.
 #'   If `NULL` (default) all observations of all sex classes are taken into
 #'   account.
-#'   Optional argument for `n_obs` and `n_individuals`.
+#'   Optional parameter for `n_obs` and `n_individuals`.
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#'   Optional argument for `n_obs` and `n_individuals`.
+#'   Optional parameter for `n_obs` and `n_individuals`.
 #' @param cluster Logical value indicating whether using the cluster option
 #'   while visualizing maps.
 #'   Default: `TRUE`.
@@ -64,7 +64,7 @@
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 #'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`.
-#'   For more options, see argument `palette` of [leaflet::colorNumeric()].
+#'   For more options, see parameter `palette` of [leaflet::colorNumeric()].
 #' @param zero_values_show Logical indicating whether to show deployments with
 #'   zero values.
 #'   Default: `TRUE`.

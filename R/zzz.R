@@ -56,14 +56,14 @@ check_package <- function(package = NULL,
 #'
 #' Will return error message if an input value cannot be found in list of
 #' provided values. NULL values can be allowed (default) or not by setting
-#' argument `null_allowed` equal to `TRUE` or `FALSE`.
+#' parameter `null_allowed` equal to `TRUE` or `FALSE`.
 #'
-#' @param arg character containing the input argument provided by the user
-#' @param options character vector of valid inputs for the argument
-#' @param arg_name character with the name of the argument used in the function
-#'   to test
-#' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values
-#'   allowed?
+#' @param arg Character containing the input parameter provided by the user.
+#' @param options Character vector of valid inputs for the parameter.
+#' @param arg_name Character with the name of the parameter used in the function
+#'   to test.
+#' @param null_allowed Logical (`TRUE`, the default, or `FALSE`).
+#'   Are NULL values allowed?
 #' @return If no error, `TRUE`.
 #' @noRd
 #' @examples
@@ -98,10 +98,10 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # compose error message
   if (null_allowed == TRUE) {
-    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
+    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
         Valid inputs are: NULL, {options_to_print*}."
   } else {
-    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
+    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
         Valid inputs are: {options_to_print*}."
   }
 
@@ -126,7 +126,7 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 #' Print list of options
 #'
 #' @param regex Character. A regular expression to parse.
-#' @param ... Additional arguments passed to the collapse.
+#' @param ... Additional parameters passed to the collapse.
 #' @noRd
 collapse_transformer <- function(regex = "[*]$", ...) {
   function(code, envir) {

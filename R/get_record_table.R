@@ -39,7 +39,7 @@
 #'   records.
 #'   Some more details about the columns returned:
 #'   - `Station`: Character, station names, as found in the deployment column
-#'   defined  in argument `stationCol`.
+#'   defined in parameter `stationCol`.
 #'   - `Species`: Character, the scientific name of the observed species.
 #'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
 #'   `observations`, in UTC format.

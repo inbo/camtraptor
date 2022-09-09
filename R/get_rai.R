@@ -39,7 +39,7 @@
 #' # Mixed scientific and vernacular names
 #' get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
 #'
-#' # Species argument is case insensitive
+#' # Species parameter is case insensitive
 #' get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # Specify sex
@@ -112,7 +112,7 @@ get_rai <- function(package = NULL,
 #' # Mixed scientific and vernacular names
 #' get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
 #'
-#' # Species argument is case insensitive
+#' # Species parameter is case insensitive
 #' get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # Specify sex

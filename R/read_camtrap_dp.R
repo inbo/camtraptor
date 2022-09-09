@@ -47,9 +47,9 @@ read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
                             path = lifecycle::deprecated()) {
   warning_detail <- paste(
-    "Use argument `file` containing the path or URL",
-    "to the `datapackage.json` file. The use of argument",
-    "`path` with path to the local directory is deprecated since version 0.6.0."
+    "Use parameter `file` containing the path or URL to the `datapackage.json`",
+    "file. The use of parameter `path` with path to the local directory is ",
+    "deprecated since version 0.6.0."
   )
   if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
     lifecycle::deprecate_warn(

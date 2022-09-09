@@ -42,7 +42,7 @@ get_scientific_name <- function(package = NULL,
   all_vn <-
     all_sn_vn %>%
     dplyr::select(dplyr::starts_with("vernacularName"))
-  # check validity vernacular_name argument
+  # check validity vernacular_name param
   check_value(
     arg = tolower(vernacular_name),
     options = unlist(all_vn) %>% tolower(),

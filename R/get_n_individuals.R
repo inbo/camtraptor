@@ -24,7 +24,7 @@
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.
-#'   This column is omitted if argument `species = NULL`.
+#'   This column is omitted if parameter `species = NULL`.
 #' - `n`: Number of individuals.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%

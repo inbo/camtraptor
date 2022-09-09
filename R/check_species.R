@@ -41,7 +41,7 @@ check_species <- function(package = NULL,
   package <- check_package(package, datapkg, "check_species")
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,
-    msg = "species argument must be specified"
+    msg = "`species` parameter must be specified"
   )
 
   all_species <-

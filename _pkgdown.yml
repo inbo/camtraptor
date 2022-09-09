@@ -14,3 +14,30 @@ authors:
   LifeWatch Belgium:
     href: https://lifewatch.be
     html: "<img src='https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png' width=72>"
+
+reference:
+- title: Read data
+  contents:
+  - has_concept("read functions")
+- title: Filter data
+  contents:
+  - has_concept("filter functions")
+- title: Explore data
+  contents:
+  - has_concept("exploration functions")
+- title: Visualize data
+  contents:
+  - has_concept("visualization functions")
+- title: Validate data
+  contents:
+  - has_concept("validation functions")
+- title: Publish data
+  contents:
+  - has_concept("publication functions")
+- title: Estimate density
+  contents:
+  - has_concept("density estimation functions")
+- title: Sample data
+  contents:
+  - has_concept("sample data")
+

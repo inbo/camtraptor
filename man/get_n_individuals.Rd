@@ -42,7 +42,7 @@ A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
 \item \code{scientificName}: Scientific name of the species.
-This column is omitted if argument \code{species = NULL}.
+This column is omitted if parameter \code{species = NULL}.
 \item \code{n}: Number of individuals.
 }
 }

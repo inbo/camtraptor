@@ -55,7 +55,7 @@ get_cam_op <- function(package = NULL,
   assertthat::assert_that(
     station_col %in% names(package$data$deployments),
     msg = glue::glue(
-      "station column name (station_col) not valid: ",
+      "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
     )
   )
@@ -88,7 +88,8 @@ get_cam_op <- function(package = NULL,
   # convert to datetime as it helps while operating with "+" and "-"
   days_operations <- lubridate::as_datetime(days_operations)
   # add aux variables, start_day and end_day for each deployment
-  deploys <- deploys %>%
+  deploys <-
+    deploys %>%
     dplyr::mutate(
       start_day = lubridate::date(.data$start),
       end_day = lubridate::date(.data$end)
@@ -98,16 +99,19 @@ get_cam_op <- function(package = NULL,
   deployment_operational <- purrr::map(
     deploys$deploymentID,
     function(x) {
-      start_day <- deploys %>%
+      start_day <-
+        deploys %>%
         dplyr::filter(.data$deploymentID == x) %>%
         dplyr::pull(start_day)
-      end_day <- deploys %>%
+      end_day <-
+        deploys %>%
         dplyr::filter(.data$deploymentID == x) %>%
         dplyr::pull(end_day)
       operational <- days_operations > start_day & days_operations < end_day
       operational[operational == TRUE] <- 1
       # edge cases start and end day
-      deploy_df <- deploys %>%
+      deploy_df <-
+        deploys %>%
         dplyr::filter(.data$deploymentID == x)
       daily_effort_start <- calc_daily_effort(deploy_df, calc_start = TRUE)
       daily_effort_end <- calc_daily_effort(deploy_df, calc_end = TRUE)

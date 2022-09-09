@@ -40,9 +40,9 @@ test_that("get_custom_effort returns warning if start set too early", {
   expect_equal(
     start_too_early$warnings,
     paste0(
-      "start argument set too early. Earliest deployment start date: 2019-10-09.",
-      " With the given group_by value the earliest start possible is: ",
-      "2019-10-09.\nstart argument set to start date of earliest deployment: ",
+      "`start` is set too early. Earliest deployment start date: 2019-10-09. ",
+      "With the given `group_by` value the earliest start possible is ",
+      "2019-10-09. `start` is set to start date of earliest deployment: ",
       "2019-10-09."
     )
   )
@@ -62,9 +62,9 @@ test_that("get_custom_effort returns warning if end set too late", {
   expect_equal(
     end_too_late$warnings,
     paste0(
-      "end argument set too late. Latest deployment end date: 2021-04-18.",
-      " With the given group_by value the latest end possible is: ",
-      "2021-04-18.\nend argument set to end date of latest deployment: ",
+      "`end` set too late. Latest deployment end date: 2021-04-18. ",
+      "With the given `group_by` value the latest end possible is ",
+      "2021-04-18. `end` is set to end date of latest deployment: ",
       "2021-04-18."
     )
   )

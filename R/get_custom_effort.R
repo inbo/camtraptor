@@ -136,15 +136,15 @@ get_custom_effort <- function(package = NULL,
   assertthat::assert_that(
     is.null(start) | all(class(start) == "Date"),
     msg = glue::glue(
-      "start must be NULL or an object of class Date. ",
-      "Did you maybe forget to convert a string to Date with as.Date()?"
+      "`start` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
     )
   )
   assertthat::assert_that(
     is.null(end) | all(class(end) == "Date"),
     msg = glue::glue(
-      "end must be NULL or an object of class Date. ",
-      "Did you maybe forget to convert a string to Date with as.Date()?"
+      "`end` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
     )
   )
 
@@ -163,13 +163,10 @@ get_custom_effort <- function(package = NULL,
       start <- sum_effort$date[1]
       warning(
         glue::glue(
-          "start argument set too early. ",
-          "Earliest deployment start date: {sum_effort$date[1]}. ",
-          "With the given group_by value ",
-          "the earliest start possible is: {earliest_start}.",
-          "
-                   start argument set to start date of earliest deployment: {start}.
-                   "
+          "`start` is set too early. Earliest deployment start date: ",
+          "{sum_effort$date[1]}. With the given `group_by` value the ",
+          "earliest start possible is {earliest_start}. ",
+          "`start` is set to start date of earliest deployment: {start}."
         )
       )
     }
@@ -190,13 +187,10 @@ get_custom_effort <- function(package = NULL,
       end <- sum_effort$date[nrow(sum_effort)]
       warning(
         glue::glue(
-          "end argument set too late. ",
-          "Latest deployment end date: {sum_effort$date[nrow(sum_effort)]}. ",
-          "With the given group_by value ",
-          "the latest end possible is: {latest_end}.",
-          "
-                   end argument set to end date of latest deployment: {end}.
-                   "
+          "`end` set too late. Latest deployment end date: ",
+          "{sum_effort$date[nrow(sum_effort)]}. With the given `group_by` ",
+          "value the latest end possible is {latest_end}. ",
+          "`end` is set to end date of latest deployment: {end}."
         )
       )
     }
@@ -209,18 +203,20 @@ get_custom_effort <- function(package = NULL,
 
   # check start earlier than end
   assertthat::assert_that(start < end,
-    msg = "start must be earlier than end."
+    msg = "`start` must be earlier than `end`."
   )
 
   # create df with all dates from start to end
   dates_df <- dplyr::tibble(date = seq(start, end, by = "days"))
 
   # join dates_df to sum_effort
-  sum_effort <- dates_df %>%
+  sum_effort <-
+    dates_df %>%
     dplyr::left_join(sum_effort, by = "date")
 
   # filter by start and end date
-  sum_effort <- sum_effort %>%
+  sum_effort <-
+    sum_effort %>%
     dplyr::filter(.data$date >= start & .data$date <= end)
 
   if (is.null(group_by)) {
@@ -246,7 +242,8 @@ get_custom_effort <- function(package = NULL,
       period <- 365 # ndays within a group by unit
     }
     # add period column and group by it
-    sum_effort <- sum_effort %>%
+    sum_effort <-
+      sum_effort %>%
       dplyr::mutate(period = as.numeric(.data$date - .data$date[1]) %/% period) %>%
       dplyr::group_by(.data$period)
 

@@ -74,8 +74,7 @@ test_that("round_coordinates() does not allow to round to higher precision", {
     round_coordinates(mica2, 3),
     paste(
       "Can't round from 2 to 3 digits.",
-      "`2` is derived from the `package$coordinatePrecision=0.01`.",
-      sep = "\n"
+      "`2` is derived from the `package$coordinatePrecision=0.01`."
     ),
     fixed = TRUE
   )
@@ -86,8 +85,7 @@ test_that("round_coordinates() does not allow to round to higher precision", {
     round_coordinates(mica2, 3),
     paste(
       "Can't round from 2 to 3 digits.",
-      "`2` is the maximum number of decimals for latitude in the data.",
-      sep = "\n"
+      "`2` is the maximum number of decimals for latitude in the data."
     ),
     fixed = TRUE
   )

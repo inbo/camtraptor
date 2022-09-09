@@ -13,7 +13,7 @@ testthat::test_that(
         ),
         list(a = "a")
       ),
-      "Columns sequenceID, x and y not found in animal_pos."
+      "Columns `sequenceID`, `x` and `y` not found in `animal_pos`."
     )
     # imageWidth, imageHeight and deploymentID columns missing
     testthat::expect_error(
@@ -26,7 +26,7 @@ testthat::test_that(
         ),
         list(a = "a")
       ),
-      "Columns deploymentID, imageWidth and imageHeight not found in animal_pos."
+      "Columns `deploymentID`, `imageWidth` and `imageHeight` not found in `animal_pos`."
     )
   }
 )
@@ -47,7 +47,7 @@ testthat::test_that(
     testthat::expect_error(calc_animal_pos(df, calib_models = 2))
     testthat::expect_error(
       calc_animal_pos(df, calib_models = list(2)),
-      "calib_models must be a named list."
+      "`calib_models` must be a named list."
     )
   }
 )
@@ -71,8 +71,8 @@ testthat::test_that("Deploys with multiple values for image width/height", {
   testthat::expect_warning(
     calc_animal_pos(multi_pixel_dim, dep_calib_models),
     paste(
-      "There is more than one unique value per deployment for imageWidth",
-      "and/or imageHeight in deployment(s): S01,S02"
+      "There is more than one unique value per deployment for `imageWidth`",
+      "and/or `imageHeight` in deployment(s): S01, S02"
     ),
     fixed = TRUE
   )

@@ -251,7 +251,7 @@
 #' )
 #'
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
-#' in green (2ECC71)
+#' # in green (2ECC71)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -331,12 +331,14 @@ map_dep <- function(package = NULL,
 
   # check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
-  assertthat::assert_that(length(feature) == 1,
-              msg = "feature must have length 1")
+  assertthat::assert_that(
+    length(feature) == 1,
+    msg = "`feature` must have length 1"
+  )
 
   # check effort_unit in combination with feature
   if (!is.null(effort_unit) & feature != "effort") {
-    warning(glue::glue("effort_unit argument ignored for feature = {feature}"))
+    warning(glue::glue("`effort_unit` ignored for `feature = {feature}`."))
     effort_unit <- NULL
   }
 
@@ -382,17 +384,23 @@ map_dep <- function(package = NULL,
   if (!is.null(zero_values_icon_url)) {
     assertthat::assert_that(
       is.character(zero_values_icon_url),
-      msg = "Argument zero_values_icon_url must be a character (URL)."
+      msg = "`zero_values_icon_url` must be a character (URL)."
     )
     # check zero_values_icon_url in combination with zero_values_show
     if (zero_values_show == FALSE) {
-      message(glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_url argument ignored."))
+      message(glue::glue(
+        "`zero_values_show` is {zero_values_show}: ",
+        "`zero_values_icon_url` ignored."
+      ))
       zero_values_icon_url <- NULL
     }
   } else {
     assertthat::assert_that(
       !is.null(zero_values_show),
-      msg = glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_url must not be NULL.")
+      msg = glue::glue(
+        "`zero_values_show` is {zero_values_show}: ",
+        "`zero_values_icon_url` must not be `NULL`."
+      )
     )
   }
 
@@ -400,17 +408,23 @@ map_dep <- function(package = NULL,
   if (!is.null(zero_values_icon_size)) {
     assertthat::assert_that(
       is.numeric(zero_values_icon_size),
-      msg = "Argument zero_values_icon_size must be a number."
+      msg = "`zero_values_icon_size` must be a number."
     )
     # check zero_values_icon_size in combination with zero_values_show
     if (zero_values_show == FALSE) {
-      message(glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_size argument ignored."))
+      message(glue::glue(
+        "`zero_values_show` is {zero_values_show}: ",
+        "`zero_values_icon_size` is ignored."
+      ))
       zero_values_icon_size <- NULL
     }
   } else {
     assertthat::assert_that(
       !is.null(zero_values_show),
-      msg = glue::glue("zero_values_show is {zero_values_show}: zero_values_icon_size must not be NULL.")
+      msg = glue::glue(
+        "`zero_values_show` is {zero_values_show}: ",
+        "`zero_values_icon_size` must not be `NULL`."
+      )
     )
   }
 
@@ -428,7 +442,7 @@ map_dep <- function(package = NULL,
     "effort"
   ))) {
     if (!is.null(species) & feature %in% c("n_species", "effort")) {
-      warning(glue::glue("species argument ignored for feature = {feature}"))
+      warning(glue::glue("`species` ignored for `feature = {feature}`"))
       species <- NULL
     }
     hover_columns <- hover_columns[hover_columns != "species"]
@@ -463,24 +477,25 @@ map_dep <- function(package = NULL,
       hover_columns != "scientificName"]
     n_not_found_cols <- length(not_found_cols)
     if (n_not_found_cols > 0) {
-      warning(glue::glue("There are {n_not_found_cols} columns defined in",
-                         " hover_columns not found in deployments: {not_found_cols*}",
-                         .transformer = collapse_transformer(
-                           sep = ", ",
-                           last = " and "
-                         )))
+      warning(glue::glue(
+        "Can't find {n_not_found_cols} columns defined in `hover_columns` in ",
+        "deployments: {not_found_cols*}",
+        .transformer = collapse_transformer(sep = ", ", last = " and ")
+      ))
     }
   }
 
   # check combination relative_scale and max_scale
   if (relative_scale == FALSE) {
-    assertthat::assert_that(!is.null(max_scale),
+    assertthat::assert_that(
+      !is.null(max_scale),
       msg = paste(
         "If you use an absolute scale,",
         "`max_scale` must be a number, not `NULL`."
       )
     )
-    assertthat::assert_that(is.numeric(max_scale),
+    assertthat::assert_that(
+      is.numeric(max_scale),
       msg = paste(
         "If you use an absolute scale,",
         "`max_scale` must be a number."
@@ -557,9 +572,9 @@ map_dep <- function(package = NULL,
   ))
   feat_df <-
     feat_df %>%
-    dplyr::left_join(deployments %>%
-                dplyr::select(dplyr::one_of(deploy_columns_to_add)),
-              by = "deploymentID"
+    dplyr::left_join(
+      deployments %>% dplyr::select(dplyr::one_of(deploy_columns_to_add)),
+      by = "deploymentID"
     )
 
   # add info while hovering
@@ -568,17 +583,15 @@ map_dep <- function(package = NULL,
     ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <-
-      dplyr::as_tibble(
-        purrr::map2(
-          hover_info_df$prefix, hover_info_df$info,
-          function(x, y) {
-            info <- feat_df[[y]]
-            if (lubridate::is.POSIXt(info)) {
-              info <- format(info)
-            }
-            paste0(x, as.character(feat_df[[y]]))
+    dplyr::as_tibble(
+      purrr::map2(hover_info_df$prefix, hover_info_df$info,
+        function(x, y) {
+          info <- feat_df[[y]]
+          if (lubridate::is.POSIXt(info)) {
+            info <- format(info)
           }
-        ),
+          paste0(x, as.character(feat_df[[y]]))
+        }),
         .name_repair = "minimal"
       ) %>%
       tidyr::unite(col = "hover_info", sep = "</p><p>")
@@ -637,7 +650,7 @@ map_dep <- function(package = NULL,
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
   # non_zero values deploys
-  non_zero_values <-feat_df %>% dplyr::filter(.data$n > 0)
+  non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
   # zero values
   zero_values <- feat_df %>% dplyr::filter(.data$n == 0 | is.na(.data$n))
 
@@ -682,16 +695,15 @@ map_dep <- function(package = NULL,
         label = ~hover_info,
         clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
       ) %>%
-      leaflet::addLegend("bottomright",
-                         pal = pal,
-                         values = legend_values,
-                         title = title,
-                         opacity = 1,
-                         bins = bins,
-                         na.label = "",
-                         labFormat = labelFormat_scale(
-                           max_scale = max_scale
-                         )
+      leaflet::addLegend(
+        "bottomright",
+        pal = pal,
+        values = legend_values,
+        title = title,
+        opacity = 1,
+        bins = bins,
+        na.label = "",
+        labFormat = labelFormat_scale(max_scale = max_scale)
       )
   }
   leaflet_map

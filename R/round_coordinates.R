@@ -61,13 +61,14 @@ round_coordinates <- function(package, digits = 3) {
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
       msg = glue::glue(
-        "Can't round from {original_digits} to {digits} digits.",
-        "`{original_digits}` is derived from the `package$coordinatePrecision={original_precision}`.",
-        .sep = "\n",
+        "Can't round from {original_digits} to {digits} digits. ",
+        "`{original_digits}` is derived from the ",
+        "`package$coordinatePrecision={original_precision}`.",
       )
     )
   } else {
-    original_digits <- deployments %>%
+    original_digits <-
+      deployments %>%
       dplyr::mutate(
         lat_digits = nchar(stringr::str_extract(.data$latitude, "\\d+$"))
       ) %>%
@@ -76,9 +77,9 @@ round_coordinates <- function(package, digits = 3) {
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
       msg = glue::glue(
-        "Can't round from {original_digits} to {digits} digits.",
-        "`{original_digits}` is the maximum number of decimals for latitude in the data.",
-        .sep = "\n",
+        "Can't round from {original_digits} to {digits} digits. ",
+        "`{original_digits}` is the maximum number of decimals for latitude ",
+        "in the data.",
       )
     )
   }

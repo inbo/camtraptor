@@ -37,12 +37,8 @@ check_package <- function(package = NULL,
   n_tables_absent <- length(tables_absent)
   assertthat::assert_that(n_tables_absent == 0,
     msg = glue::glue(
-      "There are {n_tables_absent} elements not found in",
-      " data package: {tables_absent*}",
-      .transformer = collapse_transformer(
-        sep = ", ",
-        last = " and "
-      )
+      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )
 
@@ -111,10 +107,7 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   msg_to_print <- glue::glue(
     string_to_print,
-    .transformer = collapse_transformer(
-      sep = ", ",
-      last = " and "
-    )
+    .transformer = collapse_transformer(sep = ", ", last = " and ")
   )
 
   # Provide user message
@@ -240,12 +233,10 @@ get_dep_no_obs <- function(package = NULL,
     } else {
       options_to_print <- dep_no_obs_ids
     }
-    message(glue::glue("There are {n_dep_no_obs} deployments",
-      " with no observations: {options_to_print*}",
-      .transformer = collapse_transformer(
-        sep = ", ",
-        last = " and "
-      )
+    message(glue::glue(
+      "There are {n_dep_no_obs} deployments without observations: ",
+      "{options_to_print*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and ")
     ))
   }
   return(dep_no_obs)
@@ -266,7 +257,8 @@ calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
       (!is.null(calc_start) & is.null(calc_end)),
     msg = "Either calc_start or calc_end must be defined."
   )
-  deploy_df <- deploy_df %>%
+  deploy_df <-
+    deploy_df %>%
     dplyr::mutate(
       edge = dplyr::if_else(!is.null(calc_start), .data$start, .data$end),
       edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)

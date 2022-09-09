@@ -31,7 +31,7 @@
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
 #'
 #' # If parsing issues while reading deployments, observations or media arise,
-#' use readr::problems()
+#' # use readr::problems()
 #' camtrap_dp_file_with_issues <- system.file(
 #'   "extdata",
 #'   "mica_parsing_issues",
@@ -80,17 +80,17 @@ read_camtrap_dp <- function(file = NULL,
   if (nrow(issues_deployments) > 0) {
     warning(glue::glue(
       "One or more parsing issues occurred while reading deployments. ",
-      "On how to use readr::problems() with datapackages, ",
-      "see examples in documentation of function read_camtrap_dp."
+      "See `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
     ))
   }
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)
   if (nrow(issues_observations) > 0) {
     warning(glue::glue(
-        "One or more parsing issues occurred while reading observations. ",
-        "On how to use readr::problems() with datapackages, ",
-        "see examples in documentation of function read_camtrap_dp."
+      "One or more parsing issues occurred while reading observations. ",
+      "See `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
     ))
   }
 
@@ -106,11 +106,12 @@ read_camtrap_dp <- function(file = NULL,
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
-    observations <- dplyr::left_join(
-      observations,
-      taxon_infos,
-      by  = c("taxonID", "scientificName")
-    )
+    observations <-
+      dplyr::left_join(
+        observations,
+        taxon_infos,
+        by  = c("taxonID", "scientificName")
+      )
     observations <-
       observations %>%
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
@@ -124,9 +125,9 @@ read_camtrap_dp <- function(file = NULL,
     if (nrow(issues_media) > 0) {
       warning(glue::glue(
         "One or more parsing issues occurred while reading media. ",
-        "On how to use readr::problems() with datapackages, ",
-        "see examples in documentation of function read_camtrap_dp.")
-      )
+        "See `?read_camtrap_dp()` for examples on how to use ",
+        "`readr::problems()`."
+      ))
     }
   }
 

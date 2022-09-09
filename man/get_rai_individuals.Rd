@@ -64,7 +64,7 @@ get_rai_individuals(mica, species = c("mallard", "steenmarter"))
 # Mixed scientific and vernacular names
 get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
 
-# Species argument is case insensitive
+# Species parameter is case insensitive
 get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 
 # Specify sex

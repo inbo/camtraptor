@@ -69,7 +69,7 @@ get_scientific_name <- function(package = NULL,
         )) %>%
         dplyr::pull(.data$scientificName)
       if (length(sc_n) == 0) {
-        message(glue::glue("{v} is not a valid vernacular name."))
+        message(glue::glue("`{v}` is not a valid vernacular name."))
         sc_n <- NA_character_
       }
       sc_n

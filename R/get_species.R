@@ -9,7 +9,6 @@
 #' @return A tibble data frame with all scientific names and vernacular names of
 #'   the identified species.
 #' @family exploration functions
-#' @importFrom dplyr %>%
 #' @export
 #' @examples
 #' get_species(mica)

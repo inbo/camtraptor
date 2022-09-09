@@ -105,10 +105,11 @@ get_record_table <- function(package = NULL,
   package <- check_package(package, datapkg, "get_record_table")
 
   # check stationCol is a valid column name
-  assertthat::assert_that(stationCol %in% names(package$data$deployments),
+  assertthat::assert_that(
+    stationCol %in% names(package$data$deployments),
     msg = glue::glue(
-      "station column name (stationCol) not valid: ",
-      "it must be one of the deployments column names."
+      "Station column name `stationCol` not valid: ",
+      "It must be one of the deployments column names."
     )
   )
 
@@ -119,12 +120,14 @@ get_record_table <- function(package = NULL,
 
   # check minDeltaTime
   assertthat::assert_that(is.numeric(minDeltaTime) & minDeltaTime >= 0,
-    msg = "minDeltaTime must be a number greater or equal to 0"
+    msg = "`minDeltaTime` must be a number greater or equal to 0."
   )
   # minDeltaTime is set to an integer
   if (minDeltaTime != as.integer(minDeltaTime)) {
     minDeltaTime <- as.integer(minDeltaTime)
-    message(glue::glue("minDeltaTime has to be an integer. Set to {minDeltaTime}"))
+    message(glue::glue(
+      "`minDeltaTime` has to be an integer. Set to `{minDeltaTime}`."
+    ))
   }
 
   # make a duration object out of minDeltaTime
@@ -197,7 +200,8 @@ get_record_table <- function(package = NULL,
     )
 
   # get record table
-  record_table <- obs %>%
+  record_table <-
+    obs %>%
     dplyr::mutate(
       Date = lubridate::date(.data$timestamp),
       Time = format(.data$timestamp, format = "%H:%M:%S")
@@ -206,8 +210,7 @@ get_record_table <- function(package = NULL,
     dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
-    record_table <- record_table %>%
-      dplyr::mutate(independent = TRUE)
+    record_table <- record_table %>% dplyr::mutate(independent = TRUE)
   } else {
     # assess independence
     record_independence <- record_table %>%
@@ -233,7 +236,9 @@ get_record_table <- function(package = NULL,
     dplyr::filter(.data$independent == FALSE) %>%
     nrow()
   if (n_dependent_obs > 0) {
-    message(glue::glue("Number of not independent observations to be removed: {n_dependent_obs}"))
+    message(glue::glue(
+      "Number of not independent observations to be removed: {n_dependent_obs}"
+    ))
     record_table <- record_table %>%
       dplyr::filter(.data$independent == TRUE)
   }
@@ -252,7 +257,7 @@ get_record_table <- function(package = NULL,
     dplyr::ungroup()
 
   record_table <- record_table %>%
-    dplyr::rename(.data$Station := !!stationCol,
+    dplyr::rename(Station := !!stationCol,
       Species = .data$scientificName,
       DateTimeOriginal = .data$timestamp,
       Directory = .data$filePath,

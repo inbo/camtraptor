@@ -48,13 +48,13 @@ Default: \code{NULL}.}
 \item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}.
 If \code{NULL} (default) all observations of all sex classes are taken into
 account.
-Optional argument for \code{n_obs} and \code{n_individuals}.}
+Optional parameter for \code{n_obs} and \code{n_individuals}.}
 
 \item{life_stage}{Character vector defining the life stage class to filter
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account.
-Optional argument for \code{n_obs} and \code{n_individuals}.}
+Optional parameter for \code{n_obs} and \code{n_individuals}.}
 
 \item{effort_unit}{Time unit to use while visualizing deployment effort
 (duration).
@@ -100,7 +100,7 @@ Typically one of the following:
 \item A character vector of RGB or named colours. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}.
-For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
+For more options, see parameter \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
 }}
 
 \item{zero_values_show}{Logical indicating whether to show deployments with
@@ -299,7 +299,7 @@ map_dep(
 )
 
 # Use another icon via a different URL, e.g. the character Fry from Futurama
-in green (2ECC71)
+# in green (2ECC71)
 map_dep(
   mica,
   "n_obs",

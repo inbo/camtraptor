@@ -14,11 +14,11 @@ test_that("input of get_record_table, exclude, is checked properly", {
 test_that("input of get_record_table, minDeltaTime, is checked properly", {
   testthat::expect_error(
     get_record_table(mica, minDeltaTime = "1"),
-    "minDeltaTime must be a number greater or equal to 0"
+    "`minDeltaTime` must be a number greater or equal to 0."
   )
   testthat::expect_error(
     get_record_table(mica, minDeltaTime = -10),
-    "minDeltaTime must be a number greater or equal to 0"
+    "`minDeltaTime` must be a number greater or equal to 0."
   )
 })
 
@@ -125,7 +125,7 @@ test_that("Directory and Filename columns are lists", {
 
 test_that(
   paste(
-    "Directory and Filename slot contain as many values as",
+    "Directory and Filename element contain as many values as",
     "media of independent obs"
   ),
   {

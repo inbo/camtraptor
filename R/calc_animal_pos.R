@@ -30,6 +30,7 @@
 #'   - `angle`: Angular distance from camera.
 #'   - `frame_count`: Indicator of the frame order within each sequence.
 #' @family density estimation functions
+#' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' # Use default values
@@ -50,9 +51,8 @@ calc_animal_pos <- function(animal_pos,
   assertthat::assert_that(
     length(not_found_cols) == 0,
     msg = glue::glue(
-      "Columns ",
-      glue::glue_collapse(not_found_cols, sep = ", ", last = " and "),
-      " not found in animal_pos."
+      "Columns `{not_found_cols}` not found in `animal_pos`.",
+      .transformer = collapse_transformer(sep = "`, `", last = "` and `")
     )
   )
 
@@ -61,7 +61,7 @@ calc_animal_pos <- function(animal_pos,
   # calib_models is a named list
   assertthat::assert_that(
     !is.null(names(calib_models)),
-    msg = "calib_models must be a named list."
+    msg = "`calib_models` must be a named list."
   )
 
   deps <- unique(animal_pos[[dep_tag]])
@@ -75,8 +75,8 @@ calc_animal_pos <- function(animal_pos,
   if (!all(got_model)) {
     warning(
       glue::glue(
-        "Some deployments have no matching calibration model ",
-        "and are stripped out: ",
+        "Some deployments have no matching calibration model and are stripped ",
+        "out: ",
         glue::glue_collapse(deps[!got_model], sep = ",")
       )
     )
@@ -87,22 +87,24 @@ calc_animal_pos <- function(animal_pos,
 
   # Check that image width and height are the same for all multimedia from the
   # same deployment
-  n_dims <- animal_pos %>%
+  n_dims <-
+    animal_pos %>%
     dplyr::group_by(.data[[dep_tag]]) %>%
     dplyr::summarise(
       heights = dplyr::n_distinct(.data[[image_width]]),
       widths = dplyr::n_distinct(.data[[image_height]])
     )
-  dep_multidim <- n_dims %>%
+  dep_multidim <-
+    n_dims %>%
     dplyr::filter(.data$heights > 1 | .data$widths > 1) %>%
     dplyr::distinct(.data[[dep_tag]]) %>%
     dplyr::pull(.data[[dep_tag]])
   if (length(dep_multidim) > 0) {
     warning(
       glue::glue(
-        "There is more than one unique value per deployment for imageWidth",
-        " and/or imageHeight in deployment(s): ",
-        glue::glue_collapse(dep_multidim, sep = ",")
+        "There is more than one unique value per deployment for `imageWidth` ",
+        "and/or `imageHeight` in deployment(s): ",
+        glue::glue_collapse(dep_multidim, sep = ", ")
       )
     )
   }

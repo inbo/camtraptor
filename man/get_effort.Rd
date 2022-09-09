@@ -35,9 +35,9 @@ Use \code{package} instead.}
 A tibble data frame with following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
-\item \code{effort}: Effort expressed in the unit passed by argument \code{unit}.
+\item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
 \item \code{unit}:Tthe unit used to express the effort.
-One of the values available for argument \code{unit}.
+One of the values available for parameter \code{unit}.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
 package).
 }

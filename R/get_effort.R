@@ -63,7 +63,7 @@ get_effort <- function(package = NULL,
     effort = effort_df$effort_duration,
     unit = unit
   )
-  effort_df$unit <- unit
+  effort_df$unit <-unit
   effort_df %>%
     dplyr::relocate(
       .data$deploymentID,

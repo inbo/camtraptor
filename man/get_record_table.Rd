@@ -55,7 +55,7 @@ records.
 Some more details about the columns returned:
 \itemize{
 \item \code{Station}: Character, station names, as found in the deployment column
-defined  in argument \code{stationCol}.
+defined in parameter \code{stationCol}.
 \item \code{Species}: Character, the scientific name of the observed species.
 \item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
 \code{observations}, in UTC format.

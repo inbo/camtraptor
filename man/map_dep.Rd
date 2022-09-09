@@ -32,11 +32,11 @@ map_dep(
 \item{feature}{Deployment feature to visualize.
 One of:
 \itemize{
-\item \code{n_species}: number of identified species
-\item \code{n_obs}: number of observations
-\item \code{n_individuals}: number of individuals
-\item \code{rai}: Relative Abundance Index
-\item \code{effort}: effort (duration) of the deployment
+\item \code{n_species}: Number of identified species.
+\item \code{n_obs}: Number of observations.
+\item \code{n_individuals}: Number of individuals.
+\item \code{rai}: Relative Abundance Index.
+\item \code{effort}: Effort (duration) of the deployment.
 }}
 
 \item{...}{Filter predicates for subsetting deployments.}
@@ -78,14 +78,14 @@ One or more from deployment columns.
 Use \code{NULL} to disable hovering.
 Default information:
 \itemize{
-\item \code{n}: number of species, number of observations, RAI or effort (column
-created internally by a \verb{get_*()} function)
-\item \code{species}: species name(s)
-\item \code{start}: start deployment
-\item \code{end}: end deployment -
-\item \code{deploymentID} deployment unique identifier
-\item \code{locationID} location unique identifier
-\item \code{locationName} location name
+\item \code{n}: Number of species, number of observations, RAI or effort (column
+created internally by a \verb{get_*()} function).
+\item \code{species}: Species name(s).
+\item \code{start}: Start deployment.
+\item \code{end}: End deployment.
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{locationID}: Location unique identifier.
+\item \code{locationName}: Location name.
 \item \code{latitude}
 \item \code{longitude}
 }

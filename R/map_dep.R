@@ -10,11 +10,11 @@
 #'   `read_camtrap_dp()`.
 #' @param feature Deployment feature to visualize.
 #'   One of:
-#'   - `n_species`: number of identified species
-#'   - `n_obs`: number of observations
-#'   - `n_individuals`: number of individuals
-#'   - `rai`: Relative Abundance Index
-#'   - `effort`: effort (duration) of the deployment
+#'   - `n_species`: Number of identified species.
+#'   - `n_obs`: Number of observations.
+#'   - `n_individuals`: Number of individuals.
+#'   - `rai`: Relative Abundance Index.
+#'   - `effort`: Effort (duration) of the deployment.
 #' @param species Character with a scientific name.
 #'   Required for `rai`, optional for `n_obs`.
 #'   Default: `NULL`.
@@ -44,14 +44,14 @@
 #'   One or more from deployment columns.
 #'   Use `NULL` to disable hovering.
 #'   Default information:
-#'   - `n`: number of species, number of observations, RAI or effort (column
-#'   created internally by a `get_*()` function)
-#'   - `species`: species name(s)
-#'   - `start`: start deployment
-#'   - `end`: end deployment -
-#'   - `deploymentID` deployment unique identifier
-#'   - `locationID` location unique identifier
-#'   - `locationName` location name
+#'   - `n`: Number of species, number of observations, RAI or effort (column
+#'   created internally by a `get_*()` function).
+#'   - `species`: Species name(s).
+#'   - `start`: Start deployment.
+#'   - `end`: End deployment.
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `locationID`: Location unique identifier.
+#'   - `locationName`: Location name.
 #'   - `latitude`
 #'   - `longitude`
 #'
@@ -303,10 +303,10 @@ map_dep <- function(package = NULL,
                     life_stage = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
-                    hover_columns = c("n", "species", "deploymentID",
-                                      "locationID", "locationName",
-                                      "latitude", "longitude",
-                                      "start", "end"),
+                    hover_columns = c(
+                      "n", "species", "deploymentID", "locationID",
+                      "locationName", "latitude", "longitude", "start", "end"
+                    ),
                     palette = "inferno",
                     zero_values_show = TRUE,
                     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
@@ -314,8 +314,7 @@ map_dep <- function(package = NULL,
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50),
-                    datapkg = lifecycle::deprecated()
-) {
+                    datapkg = lifecycle::deprecated()) {
 
   # check camera trap data package
   package <- check_package(package, datapkg, "map_dep")
@@ -545,7 +544,7 @@ map_dep <- function(package = NULL,
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <- dplyr::as_tibble(purrr::map2(hover_info_df$prefix,
                                   hover_info_df$info,
-                                  function(x,y) {
+                                  function(x, y) {
                                     info <- feat_df[[y]]
                                     if (lubridate::is.POSIXt(info)) {
                                       info <- format(info)

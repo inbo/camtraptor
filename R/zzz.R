@@ -1,10 +1,10 @@
 #' Check validity camera trap data package
 #'
-#' This function checks the validity of a camera trap data package.
-#' It checks whether the data package is a list containing a slot called `data`
-#' with the following resources as tibble dataframes:
-#' - `observations`,
-#' - `multimedia`,
+#' Checks the validity of a camera trap data package.
+#' It checks whether the data package is a list containing an element called
+#' `data` with the following resources as tibble data frames:
+#' - `observations`
+#' - `multimedia`
 #' - `deployments`
 #'
 #' @param package Camera trap data package
@@ -27,9 +27,9 @@ check_package <- function(package = NULL,
   # camera trap data package is a list
   assertthat::assert_that(is.list(package))
   assertthat::assert_that(!is.data.frame(package))
-  # check existence of a slot called data
+  # check existence of an element called data
   assertthat::assert_that("data" %in% names(package))
-  # check validity data slot of package: does it contain all 4 elements?
+  # check validity data element of package: does it contain all 4 elements?
   elements <- c("deployments", "media", "observations")
   tables_absent <- names(elements)[
     !names(elements) %in% names(package$data)
@@ -201,7 +201,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   `read_camtrap_dp()`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
-#' @return Tibble data.frame with deployments not linked to any observations.
+#' @return A tibble data frame with deployments not linked to any observations.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @noRd

@@ -28,8 +28,8 @@
 #' A tibble data frame with the following columns:
 #' - `deploymentID`
 #' - `sequenceID`
-#' - `x` and `y`: the coordinates
-#' - `imageWidth` and `imageHeight`: the image dimensions
+#' - `x` and `y`: The coordinates.
+#' - `imageWidth` and `imageHeight`: The image dimensions.
 #'
 #' @family sample data
 "animal_positions"

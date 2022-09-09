@@ -24,20 +24,22 @@
 #' @param image_height Column in `animal_pos` containing the pixel y dimension
 #'   of each image. Default: `"imageHeight"`. Notice that the pixel y dimension
 #'   must be consistent for each deployment.
-#' @return Original (tibble) data.frame as passed via `animal_pos` with
+#' @return Original tibble data frame as passed via `animal_pos` with
 #'   additional columns:
-#'   - `radius`: radial distance from camera
-#'   - `angle`: angular distance from camera
-#'   - `frame_count`: indicator of the frame order within each sequence
+#'   - `radius`: Radial distance from camera.
+#'   - `angle`: Angular distance from camera.
+#'   - `frame_count`: Indicator of the frame order within each sequence.
 #' @family density estimation functions
 #' @export
 #' @examples
 #' # Use default values
 #' calc_animal_pos(animal_positions, dep_calib_models)
-calc_animal_pos <- function(animal_pos, calib_models,
+calc_animal_pos <- function(animal_pos,
+                            calib_models,
                             dep_tag = "deploymentID",
                             sequence_id = "sequenceID",
-                            x = "x", y = "y",
+                            x = "x",
+                            y = "y",
                             image_width = "imageWidth",
                             image_height = "imageHeight") {
   # animal_pos is a data.frame

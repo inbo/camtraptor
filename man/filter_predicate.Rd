@@ -50,13 +50,13 @@ class \code{filter_predicate}, created by any other \verb{pred*} function.}
 }
 \value{
 A predicate object.
-An object of class predicate is a list with the following slots:
-\enumerate{
-\item \code{arg}: a (list of) character with all arguments in the predicate(s)
-\item \code{value}:  a (list of) character with all values in the predicate(s)
-\item \code{type}:  a (list of) character with all predicate types, see section
-"predicate methods" here below
-\item \code{expr}: a character: body of a filter expression
+An object of class predicate is a list with the following elements:
+\itemize{
+\item \code{arg}: A (list of) character with all arguments in the predicate(s).
+\item \code{value}: A (list of) character with all values in the predicate(s).
+\item \code{type}: A (list of) character with all predicate types, see section
+"predicate methods" here below.
+\item \code{expr}: A character: body of a filter expression.
 }
 }
 \description{
@@ -130,7 +130,7 @@ $expr
 (tags == "boven de stroom")
 }\if{html}{\out{</div>}}
 
-\code{pred_gt("latitude", 51.27)} gives, (only \code{expr} slot shown):
+\code{pred_gt("latitude", 51.27)} gives, (only \code{expr} element shown):
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{(latitude > 51.27)
 }\if{html}{\out{</div>}}

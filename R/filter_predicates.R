@@ -6,12 +6,12 @@
 #' @param ... For `pred_or()` or `pred_and()`: one or more objects of
 #'   class `filter_predicate`, created by any other `pred*` function.
 #' @return A predicate object.
-#'   An object of class predicate is a list with the following slots:
-#'   1. `arg`: a (list of) character with all arguments in the predicate(s)
-#'   2. `value`:  a (list of) character with all values in the predicate(s)
-#'   3. `type`:  a (list of) character with all predicate types, see section
-#'   "predicate methods" here below
-#'   4. `expr`: a character: body of a filter expression
+#'   An object of class predicate is a list with the following elements:
+#'   - `arg`: A (list of) character with all arguments in the predicate(s).
+#'   - `value`: A (list of) character with all values in the predicate(s).
+#'   - `type`: A (list of) character with all predicate types, see section
+#'   "predicate methods" here below.
+#'   - `expr`: A character: body of a filter expression.
 #' @family filter functions
 #' @rdname filter_predicate
 #' @export
@@ -72,7 +72,7 @@
 #' (tags == "boven de stroom")
 #' ```
 #'
-#' `pred_gt("latitude", 51.27)` gives, (only `expr` slot shown):
+#' `pred_gt("latitude", 51.27)` gives, (only `expr` element shown):
 #'
 #' ```
 #' (latitude > 51.27)

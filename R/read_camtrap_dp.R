@@ -43,7 +43,8 @@
 #' readr::problems(muskrat_coypu_with_issues$data$observations)
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
-read_camtrap_dp <- function(file = NULL, media = TRUE,
+read_camtrap_dp <- function(file = NULL,
+                            media = TRUE,
                             path = lifecycle::deprecated()) {
   warning_detail <- paste(
     "Use argument `file` containing the path or URL",
@@ -91,7 +92,7 @@ read_camtrap_dp <- function(file = NULL, media = TRUE,
     ))
   }
 
-  # create first version datapackage with resources in data slot
+  # create first version datapackage with resources in data element
   data <- list(
     "deployments" = deployments,
     "media" = NULL,

@@ -40,8 +40,10 @@
 #' @examples
 #' # Round coordinates of example package to 3 digits
 #' mica <- round_coordinates(mica, 3)
+#'
 #' # coordinatePrecision is set in metadata
 #' mica$coordinatePrecision
+#'
 #' # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 #' mica$data$deployments$coordinateUncertainty
 round_coordinates <- function(package, digits = 3) {

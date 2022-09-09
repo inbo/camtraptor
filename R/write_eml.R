@@ -64,8 +64,11 @@
 #' Not set: **sampling methods** and **citations**.
 #'
 #' Not applicable: **collection data**.
-write_eml <- function(package, directory = ".", title = package$title,
-                      description = package$description, creators = NULL,
+write_eml <- function(package,
+                      directory = ".",
+                      title = package$title,
+                      description = package$description,
+                      creators = NULL,
                       keywords = c("camera traps")) {
   # Check input
   assertthat::assert_that(

@@ -46,12 +46,12 @@ of each image. Default: \code{"imageHeight"}. Notice that the pixel y dimension
 must be consistent for each deployment.}
 }
 \value{
-Original (tibble) data.frame as passed via \code{animal_pos} with
+Original tibble data frame as passed via \code{animal_pos} with
 additional columns:
 \itemize{
-\item \code{radius}: radial distance from camera
-\item \code{angle}: angular distance from camera
-\item \code{frame_count}: indicator of the frame order within each sequence
+\item \code{radius}: Radial distance from camera.
+\item \code{angle}: Angular distance from camera.
+\item \code{frame_count}: Indicator of the frame order within each sequence.
 }
 }
 \description{

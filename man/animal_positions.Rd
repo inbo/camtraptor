@@ -15,8 +15,8 @@ A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}
 \item \code{sequenceID}
-\item \code{x} and \code{y}: the coordinates
-\item \code{imageWidth} and \code{imageHeight}: the image dimensions
+\item \code{x} and \code{y}: The coordinates.
+\item \code{imageWidth} and \code{imageHeight}: The image dimensions.
 }
 }
 \seealso{

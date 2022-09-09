@@ -93,11 +93,11 @@ created internally by a \verb{get_*()} function).
 See the \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{Deployment}
 section of Camtrap DP for the full list of columns you can use.}
 
-\item{palette}{The palette name or the color function that values will be
+\item{palette}{The palette name or the colour function that values will be
 mapped to.
 Typically one of the following:
 \itemize{
-\item A character vector of RGB or named colors. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
+\item A character vector of RGB or named colours. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}.
 For more options, see argument \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
@@ -116,11 +116,11 @@ Default: a cross (multiply symbol)
 deployments with zero values.
 Default: 10.}
 
-\item{relative_scale}{Logical indicating whether to use a relative color
+\item{relative_scale}{Logical indicating whether to use a relative colour
 and radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}).
 If absolute scale is used, specify a valid \code{max_scale}.}
 
-\item{max_scale}{Number indicating the max value used to map color
+\item{max_scale}{Number indicating the max value used to map colour
 and radius.}
 
 \item{radius_range}{Vector of length 2 containing the lower and upper limit
@@ -141,7 +141,7 @@ Leaflet map.
 \description{
 This function visualizes deployments features such as number of detected
 species, number of observations and RAI on a dynamic map.
-The circle size and color are proportional to the mapped feature.
+The circle size and colour are proportional to the mapped feature.
 Deployments without observations are shown as gray circles and a message is
 returned.
 }
@@ -153,8 +153,8 @@ map_dep(
   "n_species"
 )
 
-# Show number of observations  (observations of unidentified species included
-if any)
+# Show number of observations (observations of unidentified species included
+# if any)
 map_dep(
   mica,
   "n_obs"
@@ -252,21 +252,21 @@ map_dep(
   palette = "viridis"
 )
 
-# Use "BuPu" color palette (RColorBrewer palettes)
+# Use "BuPu" colour palette (RColorBrewer palettes)
 map_dep(
   mica,
   "n_obs",
   palette = "BuPu"
 )
 
-# Use a palette defined by color names
+# Use a palette defined by colour names
 map_dep(
   mica,
   "n_obs",
   palette = c("black", "blue", "white")
 )
 
-# Use a palette defined by hex colors
+# Use a palette defined by hex colours
 map_dep(
   mica,
   "n_obs",
@@ -281,7 +281,7 @@ map_dep(
   zero_values_show = FALSE
 )
 
-# Use same icon but but a non default color for zero values deployments,
+# Use same icon but but a non default colour for zero values deployments,
 # e.g. red (hex: E74C3C)
 map_dep(
   mica,
@@ -329,7 +329,7 @@ map_dep(
   hover_columns = c("locationName", "n")
 )
 
-# Use absolute scale for colors and radius
+# Use absolute scale for colours and radius
 map_dep(mica,
   "n_species",
   relative_scale = FALSE,

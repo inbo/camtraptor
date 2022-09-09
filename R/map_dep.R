@@ -2,7 +2,7 @@
 #'
 #' This function visualizes deployments features such as number of detected
 #' species, number of observations and RAI on a dynamic map.
-#' The circle size and color are proportional to the mapped feature.
+#' The circle size and colour are proportional to the mapped feature.
 #' Deployments without observations are shown as gray circles and a message is
 #' returned.
 #'
@@ -57,10 +57,10 @@
 #'
 #'   See the [Deployment](https://tdwg.github.io/camtrap-dp/data/#deployments)
 #'   section of Camtrap DP for the full list of columns you can use.
-#' @param palette The palette name or the color function that values will be
+#' @param palette The palette name or the colour function that values will be
 #'   mapped to.
 #'   Typically one of the following:
-#'   - A character vector of RGB or named colors. Examples: `c("#000000",
+#'   - A character vector of RGB or named colours. Examples: `c("#000000",
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 #'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`.
@@ -75,10 +75,10 @@
 #' @param zero_values_icon_size A number to set the size of the icon to show
 #'   deployments with zero values.
 #'   Default: 10.
-#' @param relative_scale Logical indicating whether to use a relative color
+#' @param relative_scale Logical indicating whether to use a relative colour
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
 #'   If absolute scale is used, specify a valid `max_scale`.
-#' @param max_scale Number indicating the max value used to map color
+#' @param max_scale Number indicating the max value used to map colour
 #'   and radius.
 #' @param radius_range Vector of length 2 containing the lower and upper limit
 #'   of the circle radius.
@@ -105,8 +105,8 @@
 #'   "n_species"
 #' )
 #'
-#' # Show number of observations  (observations of unidentified species included
-#' if any)
+#' # Show number of observations (observations of unidentified species included
+#' # if any)
 #' map_dep(
 #'   mica,
 #'   "n_obs"
@@ -204,21 +204,21 @@
 #'   palette = "viridis"
 #' )
 #'
-#' # Use "BuPu" color palette (RColorBrewer palettes)
+#' # Use "BuPu" colour palette (RColorBrewer palettes)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = "BuPu"
 #' )
 #'
-#' # Use a palette defined by color names
+#' # Use a palette defined by colour names
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   palette = c("black", "blue", "white")
 #' )
 #'
-#' # Use a palette defined by hex colors
+#' # Use a palette defined by hex colours
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -233,7 +233,7 @@
 #'   zero_values_show = FALSE
 #' )
 #'
-#' # Use same icon but but a non default color for zero values deployments,
+#' # Use same icon but but a non default colour for zero values deployments,
 #' # e.g. red (hex: E74C3C)
 #' map_dep(
 #'   mica,
@@ -281,7 +281,7 @@
 #'   hover_columns = c("locationName", "n")
 #' )
 #'
-#' # Use absolute scale for colors and radius
+#' # Use absolute scale for colours and radius
 #' map_dep(mica,
 #'   "n_species",
 #'   relative_scale = FALSE,
@@ -354,7 +354,7 @@ map_dep <- function(package = NULL,
     life_stage <- NULL
   }
 
-  # check palette/colors
+  # check palette/colours
   viridis_valid_palettes <- c(
     "magma",
     "inferno",
@@ -583,7 +583,7 @@ map_dep <- function(package = NULL,
                   max_scale
   )
 
-  # define color palette
+  # define colour palette
   pal <- leaflet::colorNumeric(
     palette = palette,
     domain = c(0, max_n)

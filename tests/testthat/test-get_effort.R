@@ -1,11 +1,11 @@
 testthat::test_that("get_effort returns error for invalid effort units", {
   testthat::expect_error(
     get_effort(mica, unit = "bad_unit"),
-    "Invalid value for unit argument: bad_unit.
+    "Invalid value for unit parameter: bad_unit.
 Valid inputs are: second, minute, hour, day, month and year.")
   testthat::expect_error(
     get_effort(mica, unit = NULL),
-    "Invalid value for unit argument: NULL.
+    "Invalid value for unit parameter: NULL.
 Valid inputs are: second, minute, hour, day, month and year.")
 })
 

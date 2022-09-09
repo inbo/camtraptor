@@ -21,60 +21,60 @@ get_rai(
 
 \item{species}{Character with scientific names or common names (case
 insensitive).
-If "all" (default), all scientific names are automatically selected.}
+If \code{"all"} (default) all scientific names are automatically selected.}
 
 \item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
 or \code{c("male", "unknown")}.
-If \code{NULL}, default, all observations of all sex classes are taken into
+If \code{NULL} (default) all observations of all sex classes are taken into
 account.}
 
 \item{life_stage}{Character vector defining the life stage class to filter
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL}, default, all observations of all life stage classes are taken
+If \code{NULL} (default) all observations of all life stage classes are taken
 into account.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-Tibble data.frame with the following columns:
+A tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID} deployment unique identifier
-\item \code{scientificName} scientific name
-\item \code{rai}: relative abundance index
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{scientificName}: Scientific name.
+\item \code{rai}: Relative abundance index.
 }
 }
 \description{
-Function to get the RAI (Relative Abundance Index) per deployment.
+Gets the RAI (Relative Abundance Index) per deployment.
 The RAI is normalized using 100 days deployment activity.
 }
 \examples{
-# calculate RAI for all species
+# Calculate RAI for all species
 get_rai(mica) # species = "all" by default, so equivalent of
 get_rai(mica, species = "all")
 
-# selected species
+# Selected species
 get_rai(mica, species = c("Anas platyrhynchos", "Martes foina"))
 
-# with vernacular names, even mixing languages
+# With vernacular names, even mixing languages
 get_rai(mica, species = c("mallard", "steenmarter"))
 
-# mixed scientific and vernacular names
+# Mixed scientific and vernacular names
 get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
 
-# species argument is case insensitive
+# Species argument is case insensitive
 get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 
-# specify sex
+# Specify sex
 get_rai(mica, sex = "female")
 get_rai(mica, sex = c("female", "unknown"))
 
-# specify life stage
+# Specify life stage
 get_rai(mica, life_stage = "adult")
 get_rai(mica, life_stage = c("adult", "subadult"))
 
-# apply filter(s): deployments with latitude >= 51.18
+# Apply filter(s): deployments with latitude >= 51.18
 get_rai(mica, pred_gte("latitude", 51.18))
-
 }
 \seealso{
 Other exploration functions: 

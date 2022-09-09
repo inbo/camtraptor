@@ -1,28 +1,27 @@
 #' Get number of identified species for each deployment
 #'
-#' Function to get the number of identified species per deployment.
+#' Gets the number of identified species per deployment.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param ... Filter predicates for filtering on deployments
-#' @param datapkg Deprecated. Use `package` instead.
-#' @return Tibble data.frame with the following columns:
-#'   - `deploymentID`: deployment unique identifier
-#'   - `n`: (integer) number of observed and identified species
+#' @param ... Filter predicates for filtering on deployments.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
+#' @return A tibble data frame with the following columns:
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `n`: Number of observed and identified species.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # get number of species
+#' # Get number of species
 #' get_n_species(mica)
 #'
-#' # get number of species for deployments with latitude >= 51.18
+#' # Get number of species for deployments with latitude >= 51.18
 #' get_n_species(mica, pred_gte("latitude", 51.18))
-#'
 get_n_species <- function(package = NULL,
                           ...,
                           datapkg = lifecycle::deprecated()) {
-
   # check input data package
   package <- check_package(package, datapkg, "get_n_species")
 

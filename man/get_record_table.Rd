@@ -25,7 +25,8 @@ get_record_table(
 Default: \code{"locationName"}.}
 
 \item{exclude}{Character vector of species names (scientific names or
-vernacular names) to be excluded from the record table. Default: \code{NULL}.}
+vernacular names) to be excluded from the record table.
+Default: \code{NULL}.}
 
 \item{minDeltaTime}{Time difference between records of the same
 species at the same station to be considered independent (in minutes).
@@ -35,76 +36,84 @@ Default: 0.}
 \code{"lastRecord"}.
 For two records to be considered independent, the second one must be at
 least \code{minDeltaTime} minutes after the last independent record of the same
-species (\code{deltaTimeComparedTo = "lastIndependentRecord"} ), or
-\code{minDeltaTime} minutes after the last record ( \code{deltaTimeComparedTo = "lastRecord"}).
-If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be NULL (deafult).}
+species (\code{deltaTimeComparedTo = "lastIndependentRecord"}), or
+\code{minDeltaTime} minutes after the last record (\code{deltaTimeComparedTo = "lastRecord"}).
+If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (deafult).}
 
-\item{removeDuplicateRecords}{(logical) If there are several records of the
-same species at the same station at exactly the same time, show only one?}
+\item{removeDuplicateRecords}{Logical.
+If there are several records of the same species at the same station at
+exactly the same time, show only one?}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-A (tibble) data frame containing species records and additional
+A tibble data frame containing species records and additional
 information about stations, date, time and further metadata, such as
 filenames and directories of the images (media) linked to the species
-records. Some more details about the columns returned:
-\enumerate{
-\item \code{Station}: character, station names, as found in the deployment column
-defined  in argument \code{stationCol}
-\item \code{Species}: character, the scientific name of the observed species
-\item \code{DateTimeOriginal}: datetime object, as found in column \code{timestamp} of
+records.
+Some more details about the columns returned:
+\itemize{
+\item \code{Station}: Character, station names, as found in the deployment column
+defined  in argument \code{stationCol}.
+\item \code{Species}: Character, the scientific name of the observed species.
+\item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
 \code{observations}, in UTC format.
-\item \code{Date}: date object, the date part of \code{DateTimeOriginal}, in UTC format.
-\item \code{Time}: character, the time part of \code{DateTimeOriginal} in UTC format.
-\item \code{delta.time.secs}: numeric, the duration in seconds from the previous
-independent record of a given species at a certain location
-\item \code{delta.time.mins}: numeric, the duration in minutes from the previous
-independent record of a given species at a certain location
-\item \code{delta.time.hours}: numeric, the duration in hours from the previous
-independent record of a given species at a certain location
-\item \code{delta.time.days}: numeric, the duration in days from the previous
-independent record of a given species at a certain location
-\item \code{Directory}: list, file paths of the images linked to the given record,
-as defined in column \code{filePath} of \code{media}
-\item \code{Filename}: list, file names of the images linked to the given record,
-as defined in column \code{fileName} of \code{media}
+\item \code{Date}: Date object, the date part of \code{DateTimeOriginal}, in UTC format.
+\item \code{Time}: Character, the time part of \code{DateTimeOriginal} in UTC format.
+\item \code{delta.time.secs}: Numeric, the duration in seconds from the previous
+independent record of a given species at a certain location.
+\item \code{delta.time.mins}: Numeric, the duration in minutes from the previous
+independent record of a given species at a certain location.
+\item \code{delta.time.hours}: Numeric, the duration in hours from the previous
+independent record of a given species at a certain location.
+\item \code{delta.time.days}: Numeric, the duration in days from the previous
+independent record of a given species at a certain location.
+\item \code{Directory}: List, file paths of the images linked to the given record,
+as defined in column \code{filePath} of \code{media}.
+\item \code{Filename}: List, file names of the images linked to the given record,
+as defined in column \code{fileName} of \code{media}.
 }
 }
 \description{
-This function calculate the record table from a camera trap data package
-and so tabulating species records. The record table is a concept developed
-within the camtrapR package: see article
-https://jniedballa.github.io/camtrapR/articles/camtrapr3.html. See also the
-camtrapR's function documentation
-\href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{recordTable}.
+Calculates the record table from a camera trap data package and so tabulating
+species records.
+The record table is a concept developed within the camtrapR package, see
+\href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}.
+See also the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtraptR::recordTable()}.
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
 get_record_table(mica)
 
-# set a minDeltaTime of 20 minutes from last independent record for filtering
+# Set a minDeltaTime of 20 minutes from last independent record for filtering
 # out not independent observations
-get_record_table(mica,
-    minDeltaTime = 20,
-    deltaTimeComparedTo = "lastIndependentRecord")
+get_record_table(
+  mica,
+  minDeltaTime = 20,
+  deltaTimeComparedTo = "lastIndependentRecord"
+)
 
-# set a minDeltaTime of 20 minutes from last record for filtering out not
+# Set a minDeltaTime of 20 minutes from last record for filtering out not
 # independent observations
-get_record_table(mica,
-    minDeltaTime = 20,
-    deltaTimeComparedTo = "lastRecord")
+get_record_table(
+  mica,
+  minDeltaTime = 20,
+  deltaTimeComparedTo = "lastRecord"
+)
 
-# exclude observations of brown rat
-# exclude is case insensitive and vernacular names are allowed
+# Exclude observations of brown rat
+# Exclude is case insensitive and vernacular names are allowed
 get_record_table(mica, exclude = "wilde eend")
 
-# specify column to pass station names
-get_record_table(mica,
-    stationCol = "locationID",
-    minDeltaTime = 20,
-    deltaTimeComparedTo = "lastRecord")
-# applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+# Specify column to pass station names
+get_record_table(
+  mica,
+  stationCol = "locationID",
+  minDeltaTime = 20,
+  deltaTimeComparedTo = "lastRecord"
+)
+# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 get_record_table(mica, pred_gte("latitude", 51.18))
 }
 \seealso{

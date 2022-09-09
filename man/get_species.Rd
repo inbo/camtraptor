@@ -10,14 +10,15 @@ get_species(package = NULL, datapkg = lifecycle::deprecated())
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-Tibble data.frame with all scientific names and vernacular names of
+A tibble data frame with all scientific names and vernacular names of
 the identified species.
 }
 \description{
-Function to get all identified species
+Gets all identified species.
 }
 \examples{
 get_species(mica)

@@ -10,27 +10,27 @@ get_n_species(package = NULL, ..., datapkg = lifecycle::deprecated())
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{...}{Filter predicates for filtering on deployments}
+\item{...}{Filter predicates for filtering on deployments.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-Tibble data.frame with the following columns:
+A tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID}: deployment unique identifier
-\item \code{n}: (integer) number of observed and identified species
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{n}: Number of observed and identified species.
 }
 }
 \description{
-Function to get the number of identified species per deployment.
+Gets the number of identified species per deployment.
 }
 \examples{
-# get number of species
+# Get number of species
 get_n_species(mica)
 
-# get number of species for deployments with latitude >= 51.18
+# Get number of species for deployments with latitude >= 51.18
 get_n_species(mica, pred_gte("latitude", 51.18))
-
 }
 \seealso{
 Other exploration functions: 

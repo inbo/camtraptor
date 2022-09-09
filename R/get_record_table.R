@@ -1,11 +1,12 @@
 #' Get record table
 #'
-#' This function calculate the record table from a camera trap data package
-#' and so tabulating species records. The record table is a concept developed
-#' within the camtrapR package: see article
-#' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html. See also the
-#' camtrapR's function documentation
-#' [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
+#' Calculates the record table from a camera trap data package and so tabulating
+#' species records.
+#' The record table is a concept developed within the camtrapR package, see
+#' [this article](
+#' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html).
+#' See also the function documentation for [camtraptR::recordTable()](
+#' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
 #' @param package Camera trap data package object, as returned by
@@ -13,7 +14,8 @@
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
 #' @param exclude Character vector of species names (scientific names or
-#'   vernacular names) to be excluded from the record table. Default: `NULL`.
+#'   vernacular names) to be excluded from the record table.
+#'   Default: `NULL`.
 #' @param minDeltaTime Time difference between records of the same
 #'   species at the same station to be considered independent (in minutes).
 #'   Default: 0.
@@ -21,37 +23,40 @@
 #'   `"lastRecord"`.
 #'   For two records to be considered independent, the second one must be at
 #'   least `minDeltaTime` minutes after the last independent record of the same
-#'   species (`deltaTimeComparedTo = "lastIndependentRecord"` ), or
-#'   `minDeltaTime` minutes after the last record ( `deltaTimeComparedTo =
+#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
+#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
 #'   "lastRecord"`).
-#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be NULL (deafult).
-#' @param removeDuplicateRecords (logical) If there are several records of the
-#'   same species at the same station at exactly the same time, show only one?
-#' @param datapkg Deprecated. Use `package` instead.
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be `NULL` (deafult).
+#' @param removeDuplicateRecords Logical.
+#'   If there are several records of the same species at the same station at
+#'   exactly the same time, show only one?
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
-#' @return A (tibble) data frame containing species records and additional
+#' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
-#'   records. Some more details about the columns returned:
-#'   1. `Station`: character, station names, as found in the deployment column
-#'   defined  in argument `stationCol`
-#'   2. `Species`: character, the scientific name of the observed species
-#'   3. `DateTimeOriginal`: datetime object, as found in column `timestamp` of
+#'   records.
+#'   Some more details about the columns returned:
+#'   - `Station`: Character, station names, as found in the deployment column
+#'   defined  in argument `stationCol`.
+#'   - `Species`: Character, the scientific name of the observed species.
+#'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
 #'   `observations`, in UTC format.
-#'   4. `Date`: date object, the date part of `DateTimeOriginal`, in UTC format.
-#'   5. `Time`: character, the time part of `DateTimeOriginal` in UTC format.
-#'   6. `delta.time.secs`: numeric, the duration in seconds from the previous
-#'   independent record of a given species at a certain location
-#'   7. `delta.time.mins`: numeric, the duration in minutes from the previous
-#'   independent record of a given species at a certain location
-#'   8. `delta.time.hours`: numeric, the duration in hours from the previous
-#'   independent record of a given species at a certain location
-#'   9.  `delta.time.days`: numeric, the duration in days from the previous
-#'   independent record of a given species at a certain location
-#'   10. `Directory`: list, file paths of the images linked to the given record,
-#'   as defined in column `filePath` of `media`
-#'   11. `Filename`: list, file names of the images linked to the given record,
-#'   as defined in column `fileName` of `media`
+#'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.
+#'   - `Time`: Character, the time part of `DateTimeOriginal` in UTC format.
+#'   - `delta.time.secs`: Numeric, the duration in seconds from the previous
+#'   independent record of a given species at a certain location.
+#'   - `delta.time.mins`: Numeric, the duration in minutes from the previous
+#'   independent record of a given species at a certain location.
+#'   - `delta.time.hours`: Numeric, the duration in hours from the previous
+#'   independent record of a given species at a certain location.
+#'   -  `delta.time.days`: Numeric, the duration in days from the previous
+#'   independent record of a given species at a certain location.
+#'   - `Directory`: List, file paths of the images linked to the given record,
+#'   as defined in column `filePath` of `media`.
+#'   - `Filename`: List, file names of the images linked to the given record,
+#'   as defined in column `fileName` of `media`.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
@@ -59,28 +64,34 @@
 #' @examples
 #' get_record_table(mica)
 #'
-#' # set a minDeltaTime of 20 minutes from last independent record for filtering
+#' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
-#' get_record_table(mica,
-#'     minDeltaTime = 20,
-#'     deltaTimeComparedTo = "lastIndependentRecord")
+#' get_record_table(
+#'   mica,
+#'   minDeltaTime = 20,
+#'   deltaTimeComparedTo = "lastIndependentRecord"
+#' )
 #'
-#' # set a minDeltaTime of 20 minutes from last record for filtering out not
+#' # Set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
-#' get_record_table(mica,
-#'     minDeltaTime = 20,
-#'     deltaTimeComparedTo = "lastRecord")
+#' get_record_table(
+#'   mica,
+#'   minDeltaTime = 20,
+#'   deltaTimeComparedTo = "lastRecord"
+#' )
 #'
-#' # exclude observations of brown rat
-#' # exclude is case insensitive and vernacular names are allowed
+#' # Exclude observations of brown rat
+#' # Exclude is case insensitive and vernacular names are allowed
 #' get_record_table(mica, exclude = "wilde eend")
 #'
-#' # specify column to pass station names
-#' get_record_table(mica,
-#'     stationCol = "locationID",
-#'     minDeltaTime = 20,
-#'     deltaTimeComparedTo = "lastRecord")
-#' # applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
+#' # Specify column to pass station names
+#' get_record_table(
+#'   mica,
+#'   stationCol = "locationID",
+#'   minDeltaTime = 20,
+#'   deltaTimeComparedTo = "lastRecord"
+#' )
+#' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
 get_record_table <- function(package = NULL,
                              ...,
@@ -256,19 +267,20 @@ get_record_table <- function(package = NULL,
 
 #' Assess temporal independence
 #'
-#' This function filters observations based on the temporal independence. It is
-#' a helper function for `get_record_table()`.
+#' Filters observations based on the temporal independence.
+#' It is a helper function for `get_record_table()`.
 #'
-#' @param df a data.frame
-#' @param minDeltaTime_dur: (duration) time difference between records of the same
-#'   species at the same station to be considered independent
-#' @param deltaTimeComparedTo: (character) `"lastIndependentRecord"` or
-#'   `"lastRecord"`. For two records to be considered independent, must the
-#'   second one be at least `minDeltaTime` minutes after the last independent
-#'   record of the same species (`deltaTimeComparedTo = "lastIndependentRecord"`
-#'   ), or `minDeltaTime` minutes after the last record (
-#'   `deltaTimeComparedTo = "lastRecord"`)? If `minDeltaTime` is 0,
-#'   `deltaTimeComparedTo` should be NULL
+#' @param df A data frame.
+#' @param minDeltaTime_dur: Duration, time difference between records of the same
+#'   species at the same station to be considered independent.
+#' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
+#'   `"lastRecord"`.
+#'   For two records to be considered independent, must the second one be at
+#'   least `minDeltaTime` minutes after the last independent record of the same
+#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
+#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
+#'   "lastRecord"`)?
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
 #' @noRd
 assess_temporal_independence <- function(df, minDeltaTime_dur, deltaTimeComparedTo){
 

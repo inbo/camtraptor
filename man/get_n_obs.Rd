@@ -21,64 +21,64 @@ get_n_obs(
 
 \item{species}{Character with scientific names or common names (case
 insensitive).
-If "all", default, all scientific names are automatically selected.
+If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
 
 \item{sex}{Character defining the sex class to filter on, e.g. \code{"female"} or
 \code{c("male", "unknown")}.
-If \code{NULL}, default, all observations of all sex classes are taken into
+If \code{NULL} (default) all observations of all sex classes are taken into
 account.}
 
 \item{life_stage}{Character vector defining the life stage class to filter
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL}, default, all observations of all life stage classes are taken
+If \code{NULL} (default) all observations of all life stage classes are taken
 into account.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-Tibble (data.frame) with the following columns:
+A tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID}:  deployment unique identifier
-\item \code{scientificName}: scientific name of the species. This column is omitted
-if argument \code{species} = NULL
-\item \code{n}: (integer) number of observations
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{scientificName}: Scientific name of the species.
+This column is omitted if argument \code{species = NULL}.
+\item \code{n}: Number of observations.
 }
 }
 \description{
-Function to get the number of observations (of a subset of species) per
-deployment. The number of observations is defined as the number of distinct
-sequences (\code{sequenceID}).
+Gets the number of observations (of a subset of species) per deployment.
+The number of observations is defined as the number of distinct sequences
+(\code{sequenceID}).
 }
 \examples{
-# get number of observations for each species
+# Get number of observations for each species
 get_n_obs(mica)
 
-# get number of obs of all species, not identified individuals as well
+# Get number of obs of all species, not identified individuals as well
 get_n_obs(mica, species = NULL)
 
-# get number of observations of Anas platyrhynchos (scientific name)
+# Get number of observations of Anas platyrhynchos (scientific name)
 get_n_obs(mica, species = "Anas platyrhynchos")
 
-# get number of observations of eurasian beaver (vernacular names)
+# Get number of observations of eurasian beaver (vernacular names)
 get_n_obs(mica, species = "eurasian beaver")
 
-# case insensitive
+# Case insensitive
 get_n_obs(mica, species = "Anas plaTYrhYnchoS")
 get_n_obs(mica, species = "EUrasian beavER")
 
-# specify life stage
+# Specify life stage
 get_n_obs(mica, life_stage = "subadult")
 
-# specify sex
+# Specify sex
 get_n_obs(mica, sex = "female")
 
-# specify both sex and life stage
+# Specify both sex and life stage
 get_n_obs(mica, sex = "unknown", life_stage = "adult")
 
-# applying filter(s), e.g. deployments with latitude >= 51.18
+# Applying filter(s), e.g. deployments with latitude >= 51.18
 get_n_obs(mica, pred_gte("latitude", 51.18))
-
 }
 \seealso{
 Other exploration functions: 

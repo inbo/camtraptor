@@ -1,39 +1,40 @@
-#' Get scientific name based on its input_vernacular name
+#' Get scientific name for vernacular name
 #'
-#' This function returns the scientific name(s) of a vector of input_vernacular
-#' names based on the taxonomic information in metadata slot `taxonomic` of the
-#' given  camera trap data package.
-#'
+#' Gets the scientific name for one or more vernacular names based on the
+#' taxonomic information found in the metadata (`package$taxonomic`).
 #' The match is performed case insensitively.
-#'
 #' If a vernacular name is not valid, an error is returned
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param vernacular_name Character vector with input vernacular name(s)
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param vernacular_name Character vector with input vernacular name(s).
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @family exploration functions
 #' @return Character vector of scientific name(s).
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # one or more vernacular names
+#' # One or more vernacular names
 #' get_scientific_name(mica, "beech marten")
 #' get_scientific_name(mica, c("beech marten", "mallard"))
-#' # vernacular names can be passed in different languages
+#'
+#' # Vernacular names can be passed in different languages
 #' get_scientific_name(mica, c("beech marten", "wilde eend"))
-#' # the search is performed case insensitively
+#'
+#' # Search is performed case insensitively
 #' get_scientific_name(mica, c("MaLLarD"))
-#' # error is returned if at least one invalid vernacular name is passed
+#'
 #' \dontrun{
+#' # An error is returned if at least one invalid vernacular name is passed
 #' get_scientfic_name(mica, "this is a bad vernacular name")
-#' # a scientific name is an invalid vernacular name of course
+#'
+#' # A scientific name is an invalid vernacular name of course
 #' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 #' }
 get_scientific_name <- function(package = NULL,
                                 vernacular_name,
                                 datapkg = lifecycle::deprecated()) {
-
   package <- check_package(package, datapkg, "get_scientific_name")
   all_sn_vn <- get_species(package)
 

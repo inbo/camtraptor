@@ -1,57 +1,57 @@
 #' Get Relative Abundance Index (RAI)
 #'
-#' Function to get the RAI (Relative Abundance Index) per deployment.
+#' Gets the RAI (Relative Abundance Index) per deployment.
 #' The RAI is normalized using 100 days deployment activity.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
-#'   If "all" (default), all scientific names are automatically selected.
+#'   If `"all"` (default) all scientific names are automatically selected.
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`
 #'   or `c("male", "unknown")`.
-#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   If `NULL` (default) all observations of all sex classes are taken into
 #'   account.
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL`, default, all observations of all life stage classes are taken
+#'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#' @return Tibble data.frame with the following columns:
-#' - `deploymentID` deployment unique identifier
-#' - `scientificName` scientific name
-#' - `rai`: relative abundance index
+#' @return A tibble data frame with the following columns:
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `scientificName`: Scientific name.
+#'   - `rai`: Relative abundance index.
 #' @family exploration functions
 #' @export
 #' @examples
-#' # calculate RAI for all species
+#' # Calculate RAI for all species
 #' get_rai(mica) # species = "all" by default, so equivalent of
 #' get_rai(mica, species = "all")
 #'
-#' # selected species
+#' # Selected species
 #' get_rai(mica, species = c("Anas platyrhynchos", "Martes foina"))
 #'
-#' # with vernacular names, even mixing languages
+#' # With vernacular names, even mixing languages
 #' get_rai(mica, species = c("mallard", "steenmarter"))
 #'
-#' # mixed scientific and vernacular names
+#' # Mixed scientific and vernacular names
 #' get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
 #'
-#' # species argument is case insensitive
+#' # Species argument is case insensitive
 #' get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 #'
-#' # specify sex
+#' # Specify sex
 #' get_rai(mica, sex = "female")
 #' get_rai(mica, sex = c("female", "unknown"))
 #'
-#' # specify life stage
+#' # Specify life stage
 #' get_rai(mica, life_stage = "adult")
 #' get_rai(mica, life_stage = c("adult", "subadult"))
 #'
-#' # apply filter(s): deployments with latitude >= 51.18
+#' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai(mica, pred_gte("latitude", 51.18))
-#'
 get_rai <- function(package = NULL,
                     ...,
                     species = "all",
@@ -78,60 +78,59 @@ get_rai <- function(package = NULL,
 #'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
-#'   If "all" (default), all scientific names are automatically selected.
+#'   If `"all"` (default) all scientific names are automatically selected.
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`
 #'   or `c("male", "unknown")`.
-#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   If `NULL` (default) all observations of all sex classes are taken into
 #'   account.
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL`, default, all observations of all life stage classes are taken
+#'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#' @return Tibble data.frame with the following columns:
-#' - `deploymentID` deployment unique identifier
-#' - `scientificName` scientific name
-#' - `rai`: relative abundance index
+#' @return A tibble data frame with the following columns:
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `scientificName`: Scientific name.
+#'   - `rai`: Relative abundance index.
 #' @family exploration functions
 #' @export
 #' @examples
-#' # calculate RAI based on number of individuals
+#' # Calculate RAI based on number of individuals
 #' get_rai_individuals(mica) # species = "all" by default, so equivalent of
 #' get_rai_individuals(mica, species = "all")
 #'
-#' # selected species
+#' # Selected species
 #' get_rai_individuals(mica,
 #'   species = c("Anas platyrhynchos", "Martes foina")
 #' )
 #'
-#' # with common names, also mixing up languages
+#' # With common names, also mixing up languages
 #' get_rai_individuals(mica, species = c("mallard", "steenmarter"))
 #'
-#' # mixed scientific and vernacular names
+#' # Mixed scientific and vernacular names
 #' get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
 #'
-#' # species argument is case insensitive
+#' # Species argument is case insensitive
 #' get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 #'
-#' # specify sex
+#' # Specify sex
 #' get_rai_individuals(mica, sex = "female")
 #' get_rai_individuals(mica, sex = c("female", "unknown"))
 #'
-#' # specify life stage
+#' # Specify life stage
 #' get_rai_individuals(mica, life_stage = "adult")
 #' get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 #'
-#' # apply filter(s): deployments with latitude >= 51.18
+#' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai_individuals(mica, pred_gte("latitude", 51.18))
-#'
 get_rai_individuals <- function(package = NULL,
                                 ...,
                                 species = "all",
                                 sex = NULL,
                                 life_stage = NULL,
-                                datapkg = lifecycle::deprecated()
-) {
+                                datapkg = lifecycle::deprecated()) {
   # check camera trap data package
   package <- check_package(package, datapkg, "get_rai_individuals")
   get_rai_primitive(package, ...,
@@ -146,17 +145,17 @@ get_rai_individuals <- function(package = NULL,
 #'
 #' This function is the primitive function behind `get_rai()` and
 #' `get_rai_individuals()` to calculate RAI based on number of observations or
-#' number of individuals respectivel
+#' number of individuals respectively.
+#'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param use Character, one of:
-#' - `"n_obs"`: calculate RAI based on number of observation (standard)
-#' - `"n_individuals"`: calculate RAI based on number of individuals
-#' @return Tibble data.frame.
+#'   - `"n_obs"`: Calculate RAI based on number of observation (standard).
+#'   - `"n_individuals"`: Calculate RAI based on number of individuals.
+#' @return A tibble data frame.
 #' @importFrom dplyr .data %>%
 #' @noRd
 get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
-
   # define possible feature values
   uses <- c("n_obs", "n_individuals")
 

@@ -2,8 +2,9 @@
 #'
 #' Store legend titles for deployment visualizations: RAI, effort, number of
 #' observations, etc.
-#' Returns a data.frame of all titles with the following columns: - `feature`:
-#' deployment feature to visualize - `legend_title`: legend title
+#' Returns a data frame of all titles with the following columns:
+#' - `feature`: Deployment feature to visualize.
+#' - `legend_title`: Legend title.
 #'
 #' @noRd
 #' @usage map_legend_title()
@@ -30,11 +31,11 @@ mapdep_legend_titles <- structure(list(
 
 #' Retrieve legend title for deployment visualizations
 #'
-#' @param feature character, one of:
-#' - `n_species`
-#' - `n_obs`
-#' - `rai`
-#' - `effort`
+#' @param feature Character, one of:
+#'   - `n_species`
+#'   - `n_obs`
+#'   - `rai`
+#'   - `effort`
 #' @importFrom dplyr .data %>%
 #' @noRd
 get_legend_title <- function(feat) {
@@ -50,17 +51,15 @@ get_legend_title <- function(feat) {
 #' Add unit to legend title
 #'
 #' This function is useful when a unit (e.g. temporal unit) should be added to
-#' legend title
+#' legend title.
 #'
-#' @param title a character with legend title
-#' @param unit character with unit to add to `title`
-#' @param use_brackets logical. If `TRUE` (default) `unit` is wrapped between
-#'   brackets, e.g. `(days)`.
+#' @param title A character with legend title.
+#' @param unit Character with unit to add to `title`.
+#' @param use_brackets Logical.
+#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
 #' @noRd
 #' @usage map_legend_title("My title", unit = "day", use_bracket = TRUE)
-add_unit_to_legend_title <- function(title,
-                                     unit = NULL,
-                                     use_brackets = TRUE) {
+add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
   if (is.null(unit)) {
     title
   } else {

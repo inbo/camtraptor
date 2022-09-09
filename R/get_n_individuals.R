@@ -1,65 +1,65 @@
 #' Get number of individuals for each deployment
 #'
-#' Function to get the number of individuals (of a subset of species) per
-#' deployment. The number of observed individuals is stored in field `count` of
+#' Gets the number of individuals (of a subset of species) per deployment.
+#' The number of observed individuals is stored in field `count` of
 #' `observations`.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
-#'   insensitive). If "all", default, all scientific names are automatically
-#'   selected.
-#'   If `NULL` all observations of all species are taken into account
+#'   insensitive).
+#'   If `"all"` (default) all scientific names are automatically selected.
+#'   If `NULL` all observations of all species are taken into account.
 #' @param sex Character defining the sex class to filter on, e.g. `"female"`
 #'   or `c("male", "unknown")`.
-#'   If `NULL`, default, all observations of all sex classes are taken into
+#'   If `NULL` (default) all observations of all sex classes are taken into
 #'   account.
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL`, default, all observations of all life stage classes are taken
+#'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... filter predicates for filtering on deployments
-#' @return Tibble data.frame with the following columns:
-#' - `deploymentID`:  deployment unique identifier
-#' - `scientificName`: scientific name of the species. This column is omitted
-#' if argument `species` = NULL
-#' - `n`: (integer) number of individuals
+#' @return A tibble data frame with the following columns:
+#' - `deploymentID`: Deployment unique identifier.
+#' - `scientificName`: Scientific name of the species.
+#'   This column is omitted if argument `species = NULL`.
+#' - `n`: Number of individuals.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # get number of observations for each species
+#' # Get number of observations for each species
 #' get_n_individuals(mica)
 #'
-#' # get number of obs of all species, not identified individuals as well
+#' # Get number of obs of all species, not identified individuals as well
 #' get_n_individuals(mica, species = NULL)
 #'
-#' # get number of observations of Anas platyrhynchos
+#' # Get number of observations of Anas platyrhynchos
 #' get_n_individuals(mica, species = "Anas platyrhynchos")
 #'
-#' # get number of observations of eurasian beaver (vernacular name)
+#' # Get number of observations of eurasian beaver (vernacular name)
 #' get_n_individuals(mica, species = "eurasian beaver")
 #'
-#' # mix scientific and vernacular names
+#' # Mix scientific and vernacular names
 #' get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
 #'
-#' # case insensitive
+#' # Case insensitive
 #' get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
 #' get_n_individuals(mica, species = "eurasian BEAVER")
 #'
-#' # specify life stage
+#' # Specify life stage
 #' get_n_individuals(mica, life_stage = "adult")
 #'
-#' # specify sex
+#' # Specify sex
 #' get_n_individuals(mica, sex = "female")
 #'
-#' # specify both sex and life stage
+#' # Specify both sex and life stage
 #' get_n_individuals(mica, sex = "unknown", life_stage = "adult")
 #'
-#' # applying filter(s), e.g. deployments with latitude >= 51.18
+#' # Apply filter(s), e.g. deployments with latitude >= 51.18
 #' get_n_individuals(mica, pred_gte("latitude", 51.18))
-#'
 get_n_individuals <- function(package = NULL,
                               ...,
                               species = "all",

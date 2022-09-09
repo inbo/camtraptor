@@ -18,22 +18,25 @@ get_cam_op(
 
 \item{...}{filter predicates for filtering on deployments.}
 
-\item{station_col}{Column name to use for identifying the stations. Default:
-\code{"locationName"}.}
+\item{station_col}{Column name to use for identifying the stations.
+Default: \code{"locationName"}.}
 
-\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
-names will start with prefix \code{"Station"} as returned by
-\code{camtrapR::cameraOperation()}. Default: \code{FALSE}.}
+\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}).
+If \code{TRUE} the returned row names will start with prefix \code{"Station"} as
+returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+Default: \code{FALSE}.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-a matrix. Row names always indicate the station ID. Column names are
-dates.
+A matrix.
+Row names always indicate the station ID.
+Column names are dates.
 }
 \description{
-This function returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix}
-as returned by camtrapR's function \code{cameraOperation()}.
+Returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
+returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \details{
 The deployment data are by default grouped by \code{locationName} (station ID in
@@ -42,15 +45,17 @@ If multiple deployments are linked to same location, daily efforts higher
 than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment result
-in decimal effort values, same behavior as camtrapR's function
-\code{cameraOperation()}.
+in decimal effort values, same behaviour as \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \examples{
 get_cam_op(mica)
+
 # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 get_cam_op(mica, pred_gte("latitude", 51.18))
+
 # Specify column with station names
 get_cam_op(mica, station_col = "locationID")
+
 # Use prefix Station as in camtrapR's camera operation matrix
 get_cam_op(mica, use_prefix = TRUE)
 }

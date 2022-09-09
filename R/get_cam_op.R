@@ -1,8 +1,9 @@
 #' Get camera operation matrix
 #'
-#' This function returns the [camera operation
-#' matrix](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
-#' as returned by camtrapR's function `cameraOperation()`.
+#' Returns the [camera operation matrix](
+#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) as
+#' returned by [camtrapR::cameraOperation()](
+#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' The deployment data are by default grouped by `locationName` (station ID in
 #' camtrapR jargon) or another column specified by the user.
@@ -10,29 +11,36 @@
 #' than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment result
-#' in decimal effort values, same behavior as camtrapR's function
-#' `cameraOperation()`.
+#' in decimal effort values, same behaviour as [camtrapR::cameraOperation()](
+#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param station_col Column name to use for identifying the stations. Default:
-#'   `"locationName"`.
-#' @param use_prefix Logical (`TRUE`or `FALSE`). If `TRUE` the returned row
-#'   names will start with prefix `"Station"` as returned by
-#'   `camtrapR::cameraOperation()`. Default: `FALSE`.
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param station_col Column name to use for identifying the stations.
+#'   Default: `"locationName"`.
+#' @param use_prefix Logical (`TRUE`or `FALSE`).
+#'   If `TRUE` the returned row names will start with prefix `"Station"` as
+#'   returned by [camtrapR::cameraOperation()](
+#'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#'   Default: `FALSE`.
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
-#' @return A matrix. Row names always indicate the station ID. Column names are
-#'   dates.
+#' @return A matrix.
+#'   Row names always indicate the station ID.
+#'   Column names are dates.
 #' @family exploration functions
 #' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' get_cam_op(mica)
+#'
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_cam_op(mica, pred_gte("latitude", 51.18))
+#'
 #' # Specify column with station names
 #' get_cam_op(mica, station_col = "locationID")
+#'
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
 get_cam_op <- function(package = NULL,

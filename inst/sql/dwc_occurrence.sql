@@ -76,12 +76,7 @@ SELECT
   obs.deploymentID                      AS parentEventID,
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.timestamp, 'unixepoch')) AS eventDate,
   dep.habitat                           AS habitat,
-  'camera trap' ||
-  CASE
-    WHEN dep.baitUse IS 'none' THEN ' without bait'
-    WHEN dep.baitUse IS NOT NULL THEN ' with bait'
-    ELSE ''
-  END                                   AS samplingProtocol,
+  'camera trap'                         AS samplingProtocol,
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.start, 'unixepoch')) ||
   '/' ||
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.end, 'unixepoch')) AS samplingEffort, -- Duration of deployment

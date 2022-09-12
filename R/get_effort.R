@@ -1,50 +1,42 @@
 #' Get effort
 #'
-#' Function to get the effort (deployment duration) per deployment.
+#' Gets the effort (deployment duration) per deployment.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param unit Time unit to use while returning deployment effort
-#'   (duration). One of:
-#'
-#' - `second`
-#' - `minute`
-#' - `hour`
-#' - `day`
-#' - `month`
-#' - `year`
-#' @param datapkg Deprecated. Use `package` instead.
+#' @param unit Time unit to use while returning deployment effort (duration).
+#'   One of:
+#'   - `second`
+#'   - `minute`
+#'   - `hour`
+#'   - `day`
+#'   - `month`
+#'   - `year`
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
 #' @param ... filter predicates
-#'
+#' @return A tibble data frame with following columns:
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `effort`: Effort expressed in the unit passed by parameter `unit`.
+#'   - `unit`:Tthe unit used to express the effort.
+#'   One of the values available for parameter `unit`.
+#'   - `effort_duration`: A duration object (duration is a class from lubridate
+#'   package).
+#' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @export
-
-#' @return a tibble (data.frame) with the following columns:
-#' - `deploymentID`: deployment unique identifier.
-#' - `effort`: effort expressed in the unit passed by argument `unit`.
-#' - `unit`: the unit used to express the effort. One of the values available
-#' for argument `unit`.
-##' - `effort_duration`: a duration object (duration is a class from lubridate package).
-#' @family get_functions
 #' @examples
-#' # efforts expressed in hours
+#' # Efforts expressed in hours
 #' get_effort(mica)
 #'
-#' # effort expressed as days
+#' # Effort expressed as days
 #' get_effort(mica, unit = "day")
-#'
 get_effort <- function(package = NULL,
                        ...,
                        unit = "hour",
                        datapkg = lifecycle::deprecated()) {
-
   # define possible unit values
-  units <- c("second",
-             "minute",
-             "hour",
-             "day",
-             "month",
-             "year")
+  units <- c("second", "minute", "hour", "day", "month", "year")
 
   # check unit
   check_value(unit, units, "unit", null_allowed = FALSE)
@@ -68,55 +60,59 @@ get_effort <- function(package = NULL,
     dplyr::select(.data$deploymentID, .data$effort_duration)
   # convert effort duration in specified effort time units (arg units)
   effort_df$effort <- transform_effort_to_common_units(
-      effort = effort_df$effort_duration,
-      unit = unit)
-    effort_df$unit <- unit
+    effort = effort_df$effort_duration,
+    unit = unit
+  )
+  effort_df$unit <-unit
   effort_df %>%
-    dplyr::relocate(.data$deploymentID,
-                    .data$effort,
-                    .data$unit,
-                    .data$effort_duration)
+    dplyr::relocate(
+      .data$deploymentID,
+      .data$effort,
+      .data$unit,
+      .data$effort_duration
+    )
 }
 
 #' Transform efforts to common units.
 #'
-#' This function is useful for visualization and communication purposes. Efforts
-#' are duration objects and so they are always expressed in seconds. Although
-#' they are also returned on screen in common units, e.g. "2594308s (~4.29
-#' weeks)", the values in seconds are used in color scales, not very handy to be
-#' interpreted. Converting them in the most suitable time unit is also useful
-#' for communication purposes (reports, research articles, ...). Obviously the
-#' conversion can be not always precise, e.g. a month is not always 30 days
-#' long.
+#' This function is useful for visualization and communication purposes.
+#' Efforts are duration objects and so they are always expressed in seconds.
+#' Although they are also returned on screen in common units, e.g. "2594308s
+#' (~4.29 weeks)", the values in seconds are used in colour scales, not very
+#' handy to be interpreted.
+#' Converting them in the most suitable time unit is also useful for
+#' communication purposes (reports, research articles, ...).
+#' Obviously the conversion can be not always precise, e.g. a month is not
+#' always 30 days long.
 #'
-#' @param effort a vector of duration objects
-#' @param unit common unit to express duration objects. One of:
-#'
-#' - `second`
-#' - `minute`
-#' - `hour`
-#' - `day`
-#' - `month`
-#' - `year`
-#'
-#' @export
-#'
-#' @keywords internal
-#' @return a numeric vector
-#'
+#' @param effort A vector of duration objects.
+#' @param unit Common unit to express duration objects.
+#'   One of:
+#'   - `second`
+#'   - `minute`
+#'   - `hour`
+#'   - `day`
+#'   - `month`
+#'   - `year`
+#' @return A numeric vector.
+#' @noRd
 #' @examples
-#' # create efforts (durations) to transform
-#' efforts <- c(lubridate::duration("2hours 2minutes 1second"),
-#'             lubridate::duration("3days 2hours"))
-#' # transform effort to hours
+#' # Create efforts (durations) to transform
+#' efforts <- c(
+#'   lubridate::duration("2hours 2minutes 1second"),
+#'   lubridate::duration("3days 2hours")
+#' )
+#'
+#' # Transform effort to hours
 #' transform_effort_to_common_units(efforts, "hour")
-#' # transform effort to days
+#'
+#' # Transform effort to days
 #' transform_effort_to_common_units(efforts, "day")
 transform_effort_to_common_units <- function(effort, unit) {
-
   # only one unit allowed
   assertthat::assert_that(length(unit) == 1,
-              msg = "unit must have length 1")
+    msg = "unit must have length 1"
+  )
 
   # define possible unit values
   units <- c("second", "minute", "hour", "day", "week", "month", "year")

@@ -1,18 +1,16 @@
 #' Check validity camera trap data package
 #'
-#' This function checks the validity of a camera trap data package.
-#' It checks whether the data package is a list containing a slot called `data`
-#' with the following resources as tibble dataframes:
-#' - `observations`,
-#' - `multimedia`,
+#' Checks the validity of a camera trap data package.
+#' It checks whether the data package is a list containing an element called
+#' `data` with the following resources as tibble data frames:
+#' - `observations`
+#' - `multimedia`
 #' - `deployments`
 #'
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
-#' @noRd
 #' @return A camera trap data package.
-#' @keywords internal
-#'
+#' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,
                           function_name) {
@@ -29,25 +27,20 @@ check_package <- function(package = NULL,
   # camera trap data package is a list
   assertthat::assert_that(is.list(package))
   assertthat::assert_that(!is.data.frame(package))
-  # check existence of a slot called data
+  # check existence of an element called data
   assertthat::assert_that("data" %in% names(package))
-  # check validity data slot of package: does it contain all 4 elements?
+  # check validity data element of package: does it contain all 4 elements?
   elements <- c("deployments", "media", "observations")
   tables_absent <- names(elements)[
     !names(elements) %in% names(package$data)
   ]
   n_tables_absent <- length(tables_absent)
   assertthat::assert_that(n_tables_absent == 0,
-              msg = glue::glue(
-                "There are {n_tables_absent} elements not found in",
-                " data package: {tables_absent*}",
-                .transformer = collapse_transformer(
-                  sep = ", ",
-                  last = " and "
-                  )
-              )
+    msg = glue::glue(
+      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and ")
+    )
   )
-
 
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))
@@ -63,32 +56,28 @@ check_package <- function(package = NULL,
 #'
 #' Will return error message if an input value cannot be found in list of
 #' provided values. NULL values can be allowed (default) or not by setting
-#' argument `null_allowed` equal to `TRUE` or `FALSE`.
+#' parameter `null_allowed` equal to `TRUE` or `FALSE`.
 #'
-#' @param arg character containing the input argument provided by the user
-#' @param options character vector of valid inputs for the argument
-#' @param arg_name character with the name of the argument used in the function
-#'   to test
-#' @param null_allowed logical (`TRUE`, the default, or `FALSE`) Are NULL values
-#'   allowed?
-#'
+#' @param arg Character containing the input parameter provided by the user.
+#' @param options Character vector of valid inputs for the parameter.
+#' @param arg_name Character with the name of the parameter used in the function
+#'   to test.
+#' @param null_allowed Logical (`TRUE`, the default, or `FALSE`).
+#'   Are NULL values allowed?
 #' @return If no error, `TRUE`.
-#'
 #' @noRd
-#'
-#' @keywords internal
-#'
 #' @examples
 #' \dontrun{
 #' # Valid inputs for species
 #' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")
 #'
 #' # Invalid inputs for species
-#' values <- c("Ans streperi", # wrong
+#' values <- c(
+#'   "Ans streperi", # wrong
 #'   "Anas strepera",
 #'   "wld end", # wrong
 #'   "wilde eend"
-#'  )
+#' )
 #' check_value(values, c("Anas strepera", "wilde eend"), "species")
 #' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
@@ -99,32 +88,29 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # Wrong values
   wrong_values <- arg[!(arg %in% options)]
-  
+
   # Suppress long messages with valid options
   if (length(options) > max_print) {
     options_to_print <- c(options[1:max_print], "others..")
   } else {
     options_to_print <- options
   }
-  
+
   # compose error message
   if (null_allowed == TRUE) {
-    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
+    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
         Valid inputs are: NULL, {options_to_print*}."
   } else {
     if (is.null(wrong_values)) {
       wrong_values <- "NULL"
     }
-    string_to_print <- "Invalid value for {arg_name} argument: {wrong_values}.
+    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
         Valid inputs are: {options_to_print*}."
   }
 
   msg_to_print <- glue::glue(
     string_to_print,
-    .transformer = collapse_transformer(
-      sep = ", ",
-      last = " and "
-    )
+    .transformer = collapse_transformer(sep = ", ", last = " and ")
   )
 
   # Provide user message
@@ -134,20 +120,17 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
       msg = msg_to_print
     )
   } else {
-      assertthat::assert_that(null_allowed == TRUE,
-                  msg = msg_to_print
-      )
-    }
+    assertthat::assert_that(null_allowed == TRUE,
+      msg = msg_to_print
+    )
+  }
 }
 
 #' Print list of options
 #'
 #' @param regex Character. A regular expression to parse.
-#' @param ... Additional arguments passed to the collapse.
-#'
+#' @param ... Additional parameters passed to the collapse.
 #' @noRd
-#'
-#' @keywords internal
 collapse_transformer <- function(regex = "[*]$", ...) {
   function(code, envir) {
     if (grepl(regex, code)) {
@@ -174,10 +157,7 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #' @param digits the number of digits of numeric values in labels
 #' @param big.mark the thousand separator
 #' @param transform a function to transform the label value
-#'
 #' @noRd
-#'
-#' @keywords internal
 labelFormat_scale <- function(max_scale = NULL,
                               prefix = "",
                               suffix = "",
@@ -200,8 +180,7 @@ labelFormat_scale <- function(max_scale = NULL,
   }
 
   function(type, ...) {
-    switch(
-      type,
+    switch(type,
       numeric = (function(cuts) {
         paste0(prefix, formatNum(cuts, max_scale), suffix)
       })(...)
@@ -209,7 +188,7 @@ labelFormat_scale <- function(max_scale = NULL,
   }
 }
 
-#' Get deployments with no observations
+#' Get deployments without observations
 #'
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
@@ -218,12 +197,10 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   `read_camtrap_dp()`.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
+#' @return A tibble data frame with deployments not linked to any observations.
+#' @family exploration functions
 #' @importFrom dplyr .data %>%
-#'
-#' @export
-#'
-#' @return Tibble data.frame with deployments not linked to any observations.
-#'
+#' @noRd
 #' @examples
 #' get_dep_no_obs(mica)
 get_dep_no_obs <- function(package = NULL,
@@ -244,8 +221,9 @@ get_dep_no_obs <- function(package = NULL,
   dep_no_obs <-
     deployments %>%
     dplyr::anti_join(observations %>%
-                dplyr::distinct(.data$deploymentID),
-              by = "deploymentID")
+      dplyr::distinct(.data$deploymentID),
+    by = "deploymentID"
+    )
 
   dep_no_obs_ids <- dep_no_obs$deploymentID
   n_dep_no_obs <- length(dep_no_obs_ids)
@@ -258,12 +236,10 @@ get_dep_no_obs <- function(package = NULL,
     } else {
       options_to_print <- dep_no_obs_ids
     }
-    message(glue::glue("There are {n_dep_no_obs} deployments",
-                 " with no observations: {options_to_print*}",
-                 .transformer = collapse_transformer(
-                   sep = ", ",
-                   last = " and "
-                 )
+    message(glue::glue(
+      "There are {n_dep_no_obs} deployments without observations: ",
+      "{options_to_print*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and ")
     ))
   }
   return(dep_no_obs)
@@ -276,35 +252,39 @@ get_dep_no_obs <- function(package = NULL,
 #' the fraction of the day the camera was on
 #'
 #' @importFrom dplyr %>%
-#'
 #' @noRd
-#'
-#' @keywords internal
-calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
+calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
   # check calc_start or calc_end are passed
   assertthat::assert_that(
     (is.null(calc_start) & !is.null(calc_end)) |
       (!is.null(calc_start) & is.null(calc_end)),
-    msg = "Either calc_start or calc_end must be defined.")
-  deploy_df <- deploy_df %>%
-    dplyr::mutate(edge = dplyr::if_else(!is.null(calc_start), .data$start, .data$end),
-           edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day))
+    msg = "Either calc_start or calc_end must be defined."
+  )
+  deploy_df <-
+    deploy_df %>%
+    dplyr::mutate(
+      edge = dplyr::if_else(!is.null(calc_start), .data$start, .data$end),
+      edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
+    )
   deploy_df %>%
-  # calculate the duration of the start/end day (edge day)
-  dplyr::mutate(edge_day_duration =
-           lubridate::as.duration(lubridate::as_datetime(.data$edge_day) +
-                         lubridate::ddays(1) -
-                         lubridate::as_datetime(.data$edge_day))) %>%
+    # calculate the duration of the start/end day (edge day)
+    dplyr::mutate(
+      edge_day_duration =
+        lubridate::as.duration(lubridate::as_datetime(.data$edge_day) +
+          lubridate::ddays(1) -
+          lubridate::as_datetime(.data$edge_day))
+    ) %>%
     # calculate the duration of the active part of the start/end day
-  dplyr::mutate(active_edge_day_duration = dplyr::if_else(
-    !is.null(calc_start),
-    # start day
-    .data$edge_day_duration - lubridate::as.duration(.data$edge - lubridate::as_datetime(.data$edge_day)),
-    # end day
-    .data$edge_day_duration - lubridate::as.duration(lubridate::as_datetime(.data$edge_day) + lubridate::ddays(1) - .data$edge))) %>%
+    dplyr::mutate(active_edge_day_duration = dplyr::if_else(
+      !is.null(calc_start),
+      # start day
+      .data$edge_day_duration - lubridate::as.duration(.data$edge - lubridate::as_datetime(.data$edge_day)),
+      # end day
+      .data$edge_day_duration - lubridate::as.duration(lubridate::as_datetime(.data$edge_day) + lubridate::ddays(1) - .data$edge)
+    )) %>%
     # calculate the fraction of the duration of the active part
-  dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
-  dplyr::pull(.data$daily_effort)
+    dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
+    dplyr::pull(.data$daily_effort)
 }
 
 #' Predict radial distance
@@ -315,18 +295,84 @@ calc_daily_effort <- function(deploy_df, calc_start=NULL, calc_end=NULL) {
 #'   `cal.site()`).
 #' @param relx x Pixel position relative to the centre line.
 #' @param rely y Pixel position relative to the top edge.
-#'
 #' @return Vector numeric radii.
-#'
+#' @noRd
 #' @note Units depend on the units of pole height above ground used to calibrate
 #'   the site model.
+predict_r <- function(mod, rel_x, rel_y) {
+  new_data <- data.frame(relx = rel_x, rely = rel_y)
+  res <- stats::predict(mod, newdata = new_data)
+  res[res < 0] <- Inf
+  return(res)
+}
+
+#' Map legend title table
+#'
+#' Store legend titles for deployment visualizations: RAI, effort, number of
+#' observations, etc.
+#' Returns a data frame of all titles with the following columns:
+#' - `feature`: Deployment feature to visualize.
+#' - `legend_title`: Legend title.
 #'
 #' @noRd
+#' @usage map_legend_title()
+map_legend_title <- function() dplyr::as_tibble(mapdep_legend_titles)
+
+mapdep_legend_titles <- structure(list(
+  feature = c(
+    "n_species",
+    "n_obs",
+    "n_individuals",
+    "rai",
+    "rai_individuals",
+    "effort"
+  ),
+  legend_title = c(
+    "Number of detected species",
+    "Number of observations",
+    "Number of individuals",
+    "RAI",
+    "RAI (individuals)",
+    "Effort"
+  )
+))
+
+#' Get legend title for deployment visualizations
 #'
-#' @keywords internal
-predict_r <- function(mod, rel_x, rel_y) {
-  new_data <- data.frame(relx = rel_x, rely = rel_y)  
-  res <- stats::predict(mod, newdata = new_data)
-  res[res<0] <- Inf
-  return(res)
+#' @param feature Character, one of:
+#'   - `n_species`
+#'   - `n_obs`
+#'   - `rai`
+#'   - `effort`
+#' @importFrom dplyr .data %>%
+#' @noRd
+get_legend_title <- function(feat) {
+  # get all legend titles
+  titles <- map_legend_title()
+  # return the legend title we need
+  titles %>%
+    dplyr::filter(.data$feature == feat) %>%
+    dplyr::pull(.data$legend_title)
+}
+
+#' Add unit to legend title
+#'
+#' This function is useful when a unit (e.g. temporal unit) should be added to
+#' legend title.
+#'
+#' @param title A character with legend title.
+#' @param unit Character with unit to add to `title`.
+#' @param use_brackets Logical.
+#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
+#' @noRd
+#' @usage map_legend_title("My title", unit = "day", use_bracket = TRUE)
+add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
+  if (is.null(unit)) {
+    title
+  } else {
+    if (use_brackets == TRUE) {
+      unit <- paste0("(", unit, ")")
+    }
+    paste(title, unit)
+  }
 }

@@ -1,18 +1,15 @@
 #' Get species
 #'
-#' Function to get all identified species
+#' Gets all identified species.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param datapkg Deprecated. Use `package` instead.
-#'
-#' @importFrom dplyr %>%
-#'
-#' @export
-#'
-#' @return Tibble data.frame with all scientific names and vernacular names of
+#' @param datapkg Deprecated.
+#'   Use `package` instead.
+#' @return A tibble data frame with all scientific names and vernacular names of
 #'   the identified species.
-#'
+#' @family exploration functions
+#' @export
 #' @examples
 #' get_species(mica)
 get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {

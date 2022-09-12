@@ -20,90 +20,106 @@ get_custom_effort(
 
 \item{...}{filter predicates}
 
-\item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date
-among all deployments is used. If  \code{group_by} unit is not \code{NULL}, the
-lowest start value allowed is one group by unit before the start date of
-the earliest deployment. If this condition doesn't hold true, a warning is
-returned and the earliest start date among all deployments is used. If
-\code{group_by} unit is \code{NULL} the start must be later than or equal to the
+\item{start}{Start date.
+Default: \code{NULL}.
+If \code{NULL} the earliest start date among all deployments is used.
+If \code{group_by} unit is not \code{NULL}, the lowest start value allowed is one
+group by unit before the start date of the earliest deployment.
+If this condition doesn't hold true, a warning is returned and the earliest
+start date among all deployments is used.
+If \code{group_by} unit is \code{NULL} the start must be later than or equal to the
 start date among all deployments.}
 
-\item{end}{End date. Default: \code{NULL}. If \code{NULL} the latest end date among all
-deployments is used.  If  \code{group_by} unit is not \code{NULL}, the
-latest end value allowed is one group by unit after the end date of
-the latest deployment. If this condition doesn't hold true, a warning is
-returned and the latest end date among all deployments is used. If
-\code{group_by} unit is \code{NULL} the end must be earlier than or equal to the
+\item{end}{End date.
+Default: \code{NULL}.
+If \code{NULL} the latest end date among all deployments is used.
+If \code{group_by} unit is not \code{NULL}, the latest end value allowed is one group
+by unit after the end date of the latest deployment.
+If this condition doesn't hold true, a warning is returned and the latest
+end date among all deployments is used.
+If \code{group_by} unit is \code{NULL} the end must be earlier than or equal to the
 end date among all deployments.}
 
-\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}. The
-effort is calculated at the interval rate defined in \code{group_by}. Default:
-\code{NULL}: no grouping, i.e. the entire interval from \code{start} to \code{end} is
-taken into account as a whole. A week is defined as a period of 7 days, a
-month as a period of 30 days, a year as a period of 365 days.}
+\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}.
+The effort is calculated at the interval rate defined in \code{group_by}.
+Default: \code{NULL}: no grouping, i.e. the entire interval from \code{start} to
+\code{end} is taken into account as a whole.
+A week is defined as a period of 7 days, a month as a period of 30 days, a
+year as a period of 365 days.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-A tibble (data.frame) with following columns:
+A tibble data frame with following columns:
 \itemize{
-\item \code{begin}: Date: begin of the interval the effort is calculated over.
+\item \code{begin}: Begin date of the interval the effort is calculated over.
 \item \code{effort}: The effort as number.
 \item \code{unit}: Character specifying the effort unit.
 }
 }
 \description{
-Function to get custom effort (deployment duration) for a custom time windows
-and a specific time interval such as day or month. The custom effort is also
-calculated over all deployments, although filtering predicates can be applied
-as well.
+Gets the custom effort (deployment duration) for a custom time window and a
+specific time interval such as day or month.
+The custom effort is also calculated over all deployments, although
+filtering predicates can be applied as well.
 }
 \examples{
-# a global effort over the entire duration of the project (datapackage)
+# A global effort over the entire duration of the project (datapackage)
 # measured in hours
 get_custom_effort(mica)
 
-# global effort expressed in days
+# Global effort expressed in days
 get_custom_effort(mica, unit = "day")
 
-# total effort from a specific start to a specific end
+# Total effort from a specific start to a specific end
 get_custom_effort(
   mica,
   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
   end = as.Date("2021-01-10")
 )
 
-# effort at daily interval
+# Effort at daily interval
 get_custom_effort(
   mica,
   group_by = "day"
 )
-# effort at weekly interval
+
+# Effort at weekly interval
 get_custom_effort(
   mica,
   group_by = "week"
 )
-# effort at monthly interval
+
+# Effort at monthly interval
 get_custom_effort(
   mica,
   group_by = "month"
 )
-# effort at yearly interval
+
+# Effort at yearly interval
 get_custom_effort(
   mica,
   group_by = "year"
 )
-# applying filter(s), e.g. deployments with latitude >= 51.18
+
+# Applying filter(s), e.g. deployments with latitude >= 51.18
 get_custom_effort(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
-Other get_functions: 
-\code{\link{filter_predicate}},
+Other exploration functions: 
 \code{\link{get_cam_op}()},
 \code{\link{get_effort}()},
-\code{\link{get_record_table}()}
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
 }
-\concept{get_functions}
+\concept{exploration functions}

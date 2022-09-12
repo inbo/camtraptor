@@ -1,11 +1,11 @@
 testthat::test_that("get_effort returns error for invalid effort units", {
   testthat::expect_error(
     get_effort(mica, unit = "bad_unit"),
-    "Invalid value for unit argument: bad_unit.
+    "Invalid value for unit parameter: bad_unit.
 Valid inputs are: second, minute, hour, day, month and year.")
   testthat::expect_error(
     get_effort(mica, unit = NULL),
-    "Invalid value for unit argument: NULL.
+    "Invalid value for unit parameter: NULL.
 Valid inputs are: second, minute, hour, day, month and year.")
 })
 
@@ -23,9 +23,10 @@ testthat::test_that("values in column unit are all the same", {
 testthat::test_that("column effort_duration is of class 'Duration'", {
   effort_df <- get_effort(mica)
   testthat::expect_equal(class(effort_df$effort_duration)[1], "Duration")
-  testthat::expect_equal(attr(class(effort_df$effort_duration),
-                   which = "package"),
-              "lubridate")
+  testthat::expect_equal(
+    attr(class(effort_df$effort_duration), which = "package"),
+    "lubridate"
+  )
 })
 
 testthat::test_that("column unit is always equal to argument unit", {

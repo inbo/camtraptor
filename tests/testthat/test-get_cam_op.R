@@ -42,8 +42,9 @@ test_that("output matrix has specified location column as rownames", {
 test_that("output matrix has all deployment days as colnames", {
   cam_op_matrix <- get_cam_op(mica)
   days_activity <- seq(as.Date(min(mica$data$deployments$start)),
-                        as.Date(max(mica$data$deployments$end)),
-                       by = "days")
+    as.Date(max(mica$data$deployments$end)),
+    by = "days"
+  )
   days_activity <- as.character(days_activity)
   n_days <- length(days_activity)
   expect_equal(ncol(cam_op_matrix), n_days)
@@ -60,13 +61,15 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
     dplyr::filter(locationName == location) %>%
     dplyr::pull(end)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
-                       as.Date(deployment_end) - lubridate::ddays(1),
-                       by = "days")
+    as.Date(deployment_end) - lubridate::ddays(1),
+    by = "days"
+  )
   cols_activity <- as.character(cols_activity)
 
-  cols_inactivity <- seq(as.Date(deployment_end+lubridate::ddays(1)),
-                           as.Date(max(mica$data$deployments$end)),
-                           by = "days")
+  cols_inactivity <- seq(as.Date(deployment_end + lubridate::ddays(1)),
+    as.Date(max(mica$data$deployments$end)),
+    by = "days"
+  )
   cols_inactivity <- as.character(cols_inactivity)
   expect_true(all(cam_op_matrix[4, cols_activity] > 0))
   expect_true(all(is.na(cam_op_matrix[4, cols_inactivity])))
@@ -78,35 +81,38 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   start <- as.character(as.Date(mica$data$deployments$start[4]))
   end <- as.character(as.Date(mica$data$deployments$end[4]))
   expect_true(cam_op_matrix[4, start] > 0)
-  expect_true(cam_op_matrix[4, start] <  1)
+  expect_true(cam_op_matrix[4, start] < 1)
   expect_true(cam_op_matrix[4, end] > 0)
   expect_true(cam_op_matrix[4, end] < 1)
 })
 
 test_that(
-  "effort is > 1 for locations with multiple deployments active at same time", {
-  mica1 <- mica
-  mica1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-  mica1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
-  mica1$data$deployments$locationName[2] <- mica1$data$deployments$locationName[1]
-  cam_op_matrix <- get_cam_op(mica1)
+  "effort is > 1 for locations with multiple deployments active at same time",
+  {
+    mica1 <- mica
+    mica1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
+    mica1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
+    mica1$data$deployments$locationName[2] <- mica1$data$deployments$locationName[1]
+    cam_op_matrix <- get_cam_op(mica1)
 
-  first_full_day_two_deps <- as.character(
-    as.Date(mica1$data$deployments$start[2]) + lubridate::ddays(1)
-  )
-  last_full_day_two_deps <- as.character(
-    as.Date(mica1$data$deployments$end[2]) - lubridate::ddays(1)
-  )
-  # as many rows as locations
-  expect_true(
-    nrow(cam_op_matrix) == length(unique(mica1$data$deployments$locationName))
-  )
-  expect_true(cam_op_matrix[1, first_full_day_two_deps] > 1)
-  expect_true(cam_op_matrix[1, last_full_day_two_deps] > 1)
-})
+    first_full_day_two_deps <- as.character(
+      as.Date(mica1$data$deployments$start[2]) + lubridate::ddays(1)
+    )
+    last_full_day_two_deps <- as.character(
+      as.Date(mica1$data$deployments$end[2]) - lubridate::ddays(1)
+    )
+    # as many rows as locations
+    expect_true(
+      nrow(cam_op_matrix) == length(unique(mica1$data$deployments$locationName))
+    )
+    expect_true(cam_op_matrix[1, first_full_day_two_deps] > 1)
+    expect_true(cam_op_matrix[1, last_full_day_two_deps] > 1)
+  }
+)
 
 test_that(
-  "0<effort<=1 for locations with multiple deployments not simultaneously active", {
+  "0<effort<=1 for locations with multiple deployments not simultaneously active",
+  {
     mica1 <- mica
     mica1$data$deployments$locationName[2] <- mica1$data$deployments$locationName[1]
     cam_op_matrix1 <- get_cam_op(mica1)
@@ -126,11 +132,12 @@ test_that(
 
     # the non NAs values are exactly the same as the ones in the matrix with two
     # deployments apart
-    expect_true(all(cam_op_matrix1[1, col_idx_start1: col_idx_end1] ==
-          cam_op_matrix[1, col_idx_start1: col_idx_end1]))
-    expect_true(all(cam_op_matrix1[1, col_idx_start2: col_idx_end2] ==
-                      cam_op_matrix[2, col_idx_start2: col_idx_end2]))
-  })
+    expect_true(all(cam_op_matrix1[1, col_idx_start1:col_idx_end1] ==
+      cam_op_matrix[1, col_idx_start1:col_idx_end1]))
+    expect_true(all(cam_op_matrix1[1, col_idx_start2:col_idx_end2] ==
+      cam_op_matrix[2, col_idx_start2:col_idx_end2]))
+  }
+)
 
 test_that("filtering predicates are allowed and work well", {
   filtered_cam_op_matrix <- get_cam_op(mica, pred_lt("longitude", 4.0))

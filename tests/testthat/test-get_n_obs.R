@@ -223,7 +223,7 @@ test_that("multiple age values allowed", {
     mica$data$observations %>%
     dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
     nrow()
-  expect_equal(tot_n_obs_subadult_adult,n_obs_subadult_adult_calculate )
+  expect_equal(tot_n_obs_subadult_adult, n_obs_subadult_adult_calculate)
   expect_equal(nrow(n_obs_subadult_adult), nrow(mica$data$deployments))
 })
 
@@ -232,10 +232,12 @@ test_that("error returned if life stage or sex is not present", {
   expect_error(get_n_obs(mica, sex = "bad"))
 })
 
-test_that(paste("scientific_name column contains all specified species,",
-                "even if all 0s are returned"), {
+test_that(paste(
+  "scientific_name column contains all specified species,",
+  "even if all 0s are returned"
+), {
   species_value <- "Anas platyrhynchos"
-  sex_value = "female"
+  sex_value <- "female"
   n_obs <- get_n_obs(mica, species = species_value, sex = sex_value)
   expect_true(all(n_obs$scientificName %in% species_value))
   expect_true(all(species_value %in% n_obs$scientificName))

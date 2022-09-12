@@ -32,16 +32,20 @@ read_wi <- function(directory = ".") {
 
   # Read data from files
   wi_projects <- readr::read_csv(
-    projects_file, show_col_types = FALSE, progress = FALSE
+    projects_file,
+    show_col_types = FALSE, progress = FALSE
   )
   wi_cameras <- readr::read_csv(
-    cameras_file, show_col_types = FALSE, progress = FALSE
+    cameras_file,
+    show_col_types = FALSE, progress = FALSE
   )
   wi_deployments <- readr::read_csv(
-    deployments_file, show_col_types = FALSE, progress = FALSE
+    deployments_file,
+    show_col_types = FALSE, progress = FALSE
   )
   wi_images <- readr::read_csv(
-    images_file, show_col_types = FALSE, progress = FALSE
+    images_file,
+    show_col_types = FALSE, progress = FALSE
   )
 
   # Create project as list
@@ -339,7 +343,7 @@ read_wi <- function(directory = ".") {
       scientificName = dplyr::case_when(
         !.data$class %in% animal_classes ~ NA_character_,
         !is.na(.data$species) & !is.na(.data$genus)
-          ~ paste(.data$genus, .data$species),
+        ~ paste(.data$genus, .data$species),
         !is.na(.data$genus) ~ .data$genus,
         !is.na(.data$family) ~ .data$family,
         !is.na(.data$order) ~ .data$order,
@@ -354,7 +358,7 @@ read_wi <- function(directory = ".") {
       classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
       classifiedBy = .data$identified_by,
       classificationTimestamp = NA,
-      classificationConfidence = .data$cv_confidence/100,
+      classificationConfidence = .data$cv_confidence / 100,
       comments = .data$individual_animal_notes,
       `_id` = NA_character_
     )

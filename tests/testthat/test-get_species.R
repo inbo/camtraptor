@@ -2,18 +2,18 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(mica),
     dplyr::tibble(
-      taxonID = purrr::map_chr(mica$taxonomic, ~.[["taxonID"]]),
+      taxonID = purrr::map_chr(mica$taxonomic, ~ .[["taxonID"]]),
       taxonIDReference = purrr::map_chr(
-        mica$taxonomic, ~.[["taxonIDReference"]]
+        mica$taxonomic, ~ .[["taxonIDReference"]]
       ),
       scientificName = purrr::map_chr(
-        mica$taxonomic, ~.[["scientificName"]]
+        mica$taxonomic, ~ .[["scientificName"]]
       ),
       vernacularNames.en = purrr::map_chr(
-        mica$taxonomic, ~.[["vernacularNames"]][["en"]]
+        mica$taxonomic, ~ .[["vernacularNames"]][["en"]]
       ),
       vernacularNames.nl = purrr::map_chr(
-        mica$taxonomic, ~.[["vernacularNames"]][["nl"]]
+        mica$taxonomic, ~ .[["vernacularNames"]][["nl"]]
       )
     )
   )
@@ -21,11 +21,15 @@ test_that("right (number of) species", {
 
 test_that("function works fine with missing vernacular name slots", {
   taxonomy <- list(
-    list(scientificName = "Martes foina",
-         vernacularNames = list(en = "aa", nl = "bb")),
+    list(
+      scientificName = "Martes foina",
+      vernacularNames = list(en = "aa", nl = "bb")
+    ),
     # missing Dutch vernacular name
-    list(scientificName = "Ardea cinerea",
-         vernacularNames = list(en = "cc")),
+    list(
+      scientificName = "Ardea cinerea",
+      vernacularNames = list(en = "cc")
+    ),
     # missing vernacular names
     list(scientificName = "Anas strepera", vernacularNames = list())
   )
@@ -42,28 +46,29 @@ test_that("function works fine with missing vernacular name slots", {
   # column names
   expect_equal(
     names(species_df),
-    c("scientificName",
-      paste("vernacularNames", names(taxonomy[[1]]$vernacularNames),sep = ".")
+    c(
+      "scientificName",
+      paste("vernacularNames", names(taxonomy[[1]]$vernacularNames), sep = ".")
     )
   )
   # empty slots are converted to NA
   # Dutch vernacular name of Ardea cinerea not present
   expect_true(
     is.na(species_df %>%
-            dplyr::filter(scientificName == "Ardea cinerea") %>%
-            dplyr::pull(vernacularNames.nl))
+      dplyr::filter(scientificName == "Ardea cinerea") %>%
+      dplyr::pull(vernacularNames.nl))
   )
   # English vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            dplyr::filter(scientificName == "Anas strepera") %>%
-            dplyr::pull(vernacularNames.en))
+      dplyr::filter(scientificName == "Anas strepera") %>%
+      dplyr::pull(vernacularNames.en))
   )
   # Dutch vernacular name of Anas strepera not present
   expect_true(
     is.na(species_df %>%
-            dplyr::filter(scientificName == "Anas strepera") %>%
-            dplyr::pull(vernacularNames.nl))
+      dplyr::filter(scientificName == "Anas strepera") %>%
+      dplyr::pull(vernacularNames.nl))
   )
 })
 

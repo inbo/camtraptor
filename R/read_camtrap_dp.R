@@ -2,10 +2,10 @@
 #'
 #' Reads files from a [Camera Trap Data Package](
 #' https://tdwg.github.io/camtrap-dp) into memory.
-#' All datetime information is automatically transformed to UTC (Coordinated
-#' Universal Time).
-#' Vernacular names found in the metadata (element `taxonomic`) are added to
-#' the `observations` data frame.
+#' All datetime information is automatically transformed to Coordinated
+#' Universal Time (UTC).
+#' Vernacular names found in the metadata (`package$taxonomic`) are added to the
+#' `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
 #' @param media If `TRUE`, read media records into memory. If `FALSE`, ignore
@@ -24,14 +24,14 @@
 #' @examples
 #' \dontrun{
 #' # Read Camtrap DP package
-#' camtrap_dp_file <-  system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+#' camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
 #' # Read Camtrap DP package and ignore media file
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
 #'
 #' # If parsing issues while reading deployments, observations or media arise,
-#' use readr::problems()
+#' # use readr::problems()
 #' camtrap_dp_file_with_issues <- system.file(
 #'   "extdata",
 #'   "mica_parsing_issues",
@@ -43,12 +43,13 @@
 #' readr::problems(muskrat_coypu_with_issues$data$observations)
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
-read_camtrap_dp <- function(file = NULL, media = TRUE,
+read_camtrap_dp <- function(file = NULL,
+                            media = TRUE,
                             path = lifecycle::deprecated()) {
   warning_detail <- paste(
-    "Use argument `file` containing the path or URL",
-    "to the `datapackage.json` file. The use of argument",
-    "`path` with path to the local directory is deprecated since version 0.6.0."
+    "Use parameter `file` containing the path or URL to the `datapackage.json`",
+    "file. The use of parameter `path` with path to the local directory is ",
+    "deprecated since version 0.6.0."
   )
   if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
     lifecycle::deprecate_warn(
@@ -68,8 +69,10 @@ read_camtrap_dp <- function(file = NULL, media = TRUE,
   }
 
   # check media
-  assertthat::assert_that(media %in% c(TRUE, FALSE),
-                          msg = "media must be a logical: TRUE or FALSE")
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
+  )
   # read files
   package <- frictionless::read_package(file)
   deployments <- frictionless::read_resource(package, "deployments")
@@ -77,21 +80,21 @@ read_camtrap_dp <- function(file = NULL, media = TRUE,
   if (nrow(issues_deployments) > 0) {
     warning(glue::glue(
       "One or more parsing issues occurred while reading deployments. ",
-      "On how to use readr::problems() with datapackages, ",
-      "see examples in documentation of function read_camtrap_dp."
+      "See `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
     ))
   }
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)
   if (nrow(issues_observations) > 0) {
     warning(glue::glue(
-        "One or more parsing issues occurred while reading observations. ",
-        "On how to use readr::problems() with datapackages, ",
-        "see examples in documentation of function read_camtrap_dp."
+      "One or more parsing issues occurred while reading observations. ",
+      "See `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
     ))
   }
 
-  # create first version datapackage with resources in data slot
+  # create first version datapackage with resources in data element
   data <- list(
     "deployments" = deployments,
     "media" = NULL,
@@ -103,10 +106,14 @@ read_camtrap_dp <- function(file = NULL, media = TRUE,
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
-    observations <- dplyr::left_join(observations,
-                                     taxon_infos,
-                                     by  = c("taxonID", "scientificName"))
-    observations <- observations %>%
+    observations <-
+      dplyr::left_join(
+        observations,
+        taxon_infos,
+        by  = c("taxonID", "scientificName")
+      )
+    observations <-
+      observations %>%
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = .data$cameraSetup)
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
@@ -118,9 +125,9 @@ read_camtrap_dp <- function(file = NULL, media = TRUE,
     if (nrow(issues_media) > 0) {
       warning(glue::glue(
         "One or more parsing issues occurred while reading media. ",
-        "On how to use readr::problems() with datapackages, ",
-        "see examples in documentation of function read_camtrap_dp.")
-      )
+        "See `?read_camtrap_dp()` for examples on how to use ",
+        "`readr::problems()`."
+      ))
     }
   }
 

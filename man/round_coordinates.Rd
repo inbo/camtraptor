@@ -52,14 +52,16 @@ Chapman & Wieczorek 2020).
 \examples{
 # Round coordinates of example package to 3 digits
 mica <- round_coordinates(mica, 3)
+
 # coordinatePrecision is set in metadata
 mica$coordinatePrecision
+
 # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 mica$data$deployments$coordinateUncertainty
 }
 \seealso{
-Other export functions: 
+Other publication functions: 
 \code{\link{write_dwc}()},
 \code{\link{write_eml}()}
 }
-\concept{export functions}
+\concept{publication functions}

@@ -9,7 +9,7 @@
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file to.
 #' @return CSV files written to disk.
-#' @family export functions
+#' @family publication functions
 #' @export
 #' @section Transformation details:
 #' Data are transformed following best practices (Reyserhove et al. in prep.)
@@ -31,6 +31,21 @@
 #' - **dwc:dataGeneralizations**: "coordinates rounded to
 #'   `package$coordinatePrecision` degrees".
 #' - **coordinatePrecision**: `package$coordinatePrecision` (e.g. `0.001`).
+#'
+#' Key features of the Darwin Core transformation:
+#' - Deployments (of camera traps) are parent events, with observations
+#'   (machine observations) as child events. No information about the parent
+#'   event is provided other than its ID, meaning that data can be expressed in
+#'   an Occurrence Core with one row per observation and `parentEventID` shared
+#'   by all occurrences in a deployment.
+#' - Sequence-based observations share an `eventID` per sequence, image-based
+#'   observations share an `eventID` per image.
+#' - The image(s) an observation is based on are provided in the [Audubon Media
+#'   Description extension](
+#'   https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml), with a foreign
+#'   key to the observation.
+#' - Excluded are records that document blank or unclassified media, vehicles
+#'   and observations of humans.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
   dataset_name <- package$title
@@ -69,9 +84,11 @@ write_dwc <- function(package, directory = ".") {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(
-    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"), na = ""
+    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"),
+    na = ""
   )
   readr::write_csv(
-    dwc_audubon, file.path(directory, "dwc_audubon.csv"), na = ""
+    dwc_audubon, file.path(directory, "dwc_audubon.csv"),
+    na = ""
   )
 }

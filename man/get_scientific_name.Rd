@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_scientific_name.R
 \name{get_scientific_name}
 \alias{get_scientific_name}
-\title{Get scientific name based on its input_vernacular name}
+\title{Get scientific name for vernacular name}
 \usage{
 get_scientific_name(
   package = NULL,
@@ -14,35 +14,50 @@ get_scientific_name(
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
-\item{vernacular_name}{Character vector with input vernacular name(s)}
+\item{vernacular_name}{Character vector with input vernacular name(s).}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-Character vector of scientific name(s)
+Character vector of scientific name(s).
 }
 \description{
-This function returns the scientific name(s) of a vector of input_vernacular
-names based on the taxonomic information in metadata slot \code{taxonomic} of the
-given  camera trap data package.
-}
-\details{
+Gets the scientific name for one or more vernacular names based on the
+taxonomic information found in the metadata (\code{package$taxonomic}).
 The match is performed case insensitively.
-
 If a vernacular name is not valid, an error is returned
 }
 \examples{
-# one or more vernacular names
+# One or more vernacular names
 get_scientific_name(mica, "beech marten")
 get_scientific_name(mica, c("beech marten", "mallard"))
-# vernacular names can be passed in different languages
+
+# Vernacular names can be passed in different languages
 get_scientific_name(mica, c("beech marten", "wilde eend"))
-# the search is performed case insensitively
+
+# Search is performed case insensitively
 get_scientific_name(mica, c("MaLLarD"))
-# error is returned if at least one invalid vernacular name is passed
+
 \dontrun{
+# An error is returned if at least one invalid vernacular name is passed
 get_scientfic_name(mica, "this is a bad vernacular name")
-# a scientific name is an invalid vernacular name of course
+
+# A scientific name is an invalid vernacular name of course
 get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 }
 }
+\seealso{
+Other exploration functions: 
+\code{\link{get_cam_op}()},
+\code{\link{get_custom_effort}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_species}()}
+}
+\concept{exploration functions}

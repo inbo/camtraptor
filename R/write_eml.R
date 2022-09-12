@@ -25,7 +25,7 @@
 #' @param keywords Dataset keywords.
 #' @return `eml.xml` file written to disk or `EML` object when
 #'   `directory = NULL`.
-#' @family export functions
+#' @family publication functions
 #' @export
 #' @importFrom dplyr %>% .data
 #' @section Transformation details:
@@ -64,8 +64,11 @@
 #' Not set: **sampling methods** and **citations**.
 #'
 #' Not applicable: **collection data**.
-write_eml <- function(package, directory = ".", title = package$title,
-                      description = package$description, creators = NULL,
+write_eml <- function(package,
+                      directory = ".",
+                      title = package$title,
+                      description = package$description,
+                      creators = NULL,
                       keywords = c("camera traps")) {
   # Check input
   assertthat::assert_that(
@@ -165,7 +168,8 @@ write_eml <- function(package, directory = ".", title = package$title,
     }
     # Sort contributors on order in creators
     contributors <- dplyr::slice(
-      contributors, order_by = order(factor(.data$title, levels = creators))
+      contributors,
+      order_by = order(factor(.data$title, levels = creators))
     )
   }
   creator_list <- purrr::transpose(contributors) # Create list
@@ -248,7 +252,7 @@ write_eml <- function(package, directory = ".", title = package$title,
 
   # Set external link = project URL (can be NULL)
   if (!is.null(package$project$path)) {
-    eml$dataset$distribution = list(
+    eml$dataset$distribution <- list(
       scope = "document", online = list(
         url = list("function" = "information", package$project$path)
       )

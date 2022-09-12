@@ -11,7 +11,7 @@
 #' @return `package` with rounded coordinates as well as updated
 #'   `coordinateUncertainty`.(in deployments) and `coordinatePrecision` (in
 #'   metadata).
-#' @family export functions
+#' @family publication functions
 #' @export
 #' @importFrom dplyr %>% .data
 #' @section Details:
@@ -40,8 +40,10 @@
 #' @examples
 #' # Round coordinates of example package to 3 digits
 #' mica <- round_coordinates(mica, 3)
+#'
 #' # coordinatePrecision is set in metadata
 #' mica$coordinatePrecision
+#'
 #' # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 #' mica$data$deployments$coordinateUncertainty
 round_coordinates <- function(package, digits = 3) {
@@ -59,13 +61,14 @@ round_coordinates <- function(package, digits = 3) {
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
       msg = glue::glue(
-        "Can't round from {original_digits} to {digits} digits.",
-        "`{original_digits}` is derived from the `package$coordinatePrecision={original_precision}`.",
-        .sep = "\n",
+        "Can't round from {original_digits} to {digits} digits. ",
+        "`{original_digits}` is derived from the ",
+        "`package$coordinatePrecision={original_precision}`.",
       )
     )
   } else {
-    original_digits <- deployments %>%
+    original_digits <-
+      deployments %>%
       dplyr::mutate(
         lat_digits = nchar(stringr::str_extract(.data$latitude, "\\d+$"))
       ) %>%
@@ -74,9 +77,9 @@ round_coordinates <- function(package, digits = 3) {
     assertthat::assert_that(
       digits <= original_digits, # 0.1 > 0.01
       msg = glue::glue(
-        "Can't round from {original_digits} to {digits} digits.",
-        "`{original_digits}` is the maximum number of decimals for latitude in the data.",
-        .sep = "\n",
+        "Can't round from {original_digits} to {digits} digits. ",
+        "`{original_digits}` is the maximum number of decimals for latitude ",
+        "in the data.",
       )
     )
   }
@@ -100,7 +103,7 @@ round_coordinates <- function(package, digits = 3) {
     )
 
   # Update coordinatePrecision
-  package$coordinatePrecision <- 1/10^digits
+  package$coordinatePrecision <- 1 / 10^digits
 
   package
 }

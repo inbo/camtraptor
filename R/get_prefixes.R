@@ -1,18 +1,16 @@
 #' Get prefix table
 #'
-#' Store prefixes for info shown while hovering over a deployment with the
-#' mouse. List fields in deployments as in
-#' https://tdwg.github.io/camtrap-dp/data/#deployments
+#' Stores prefixes for info shown while hovering over a deployment with the
+#' mouse.
+#' List fields in deployments as in
+#' <https://tdwg.github.io/camtrap-dp/data/#deployments>.
 #'
 #' Returns a data.frame of all prefixes with the following columns:
-#' - `info`: deployment info
-#' - `prefix`: prefix to use
+#' - `info`: Deployment info.
+#' - `prefix`: Prefix to use.
 #'
 #' @noRd
-#'
 #' @usage map_dep_prefixes()
-#'
-#' @keywords internal
 map_dep_prefixes <- function() dplyr::as_tibble(mapdep_prefixes)
 
 mapdep_prefixes <- structure(list(
@@ -62,21 +60,14 @@ mapdep_prefixes <- structure(list(
 #' deployment
 #'
 #' @param feature Character, one of:
-#'
-#' - `n_species`
-#' - `n_obs`
-#' - `rai`,
-#' - `effort`
-#'
-#' @param infos character vector with deployment fields
-#'
+#'   - `n_species`
+#'   - `n_obs`
+#'   - `rai`,
+#'   - `effort`
+#' @param infos Character vector with deployment fields.
 #' @importFrom dplyr .data %>%
-#'
 #' @noRd
-#'
-#' @keywords internal
-get_prefixes <- function(feature,
-                         infos) {
+get_prefixes <- function(feature, infos) {
   # n can represent #species, #observations, RAI, effort
   infos[infos == "n"] <- feature
   # get all prefixes

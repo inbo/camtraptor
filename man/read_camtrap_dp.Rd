@@ -27,22 +27,22 @@ as a property \code{data} containing the data as three data frames:
 }
 \description{
 Reads files from a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} into memory.
-All datetime information is automatically transformed to UTC (Coordinated
-Universal Time).
-Vernacular names found in the metadata (element \code{taxonomic}) are added to
-the \code{observations} data frame.
+All datetime information is automatically transformed to Coordinated
+Universal Time (UTC).
+Vernacular names found in the metadata (\code{package$taxonomic}) are added to the
+\code{observations} data frame.
 }
 \examples{
 \dontrun{
 # Read Camtrap DP package
-camtrap_dp_file <-  system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 
 # Read Camtrap DP package and ignore media file
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
 
 # If parsing issues while reading deployments, observations or media arise,
-use readr::problems()
+# use readr::problems()
 camtrap_dp_file_with_issues <- system.file(
   "extdata",
   "mica_parsing_issues",

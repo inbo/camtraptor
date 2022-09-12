@@ -17,8 +17,8 @@ get_effort(
 
 \item{...}{filter predicates}
 
-\item{unit}{Time unit to use while returning deployment effort
-(duration). One of:
+\item{unit}{Time unit to use while returning deployment effort (duration).
+One of:
 \itemize{
 \item \code{second}
 \item \code{minute}
@@ -28,34 +28,41 @@ get_effort(
 \item \code{year}
 }}
 
-\item{datapkg}{Deprecated. Use \code{package} instead.}
+\item{datapkg}{Deprecated.
+Use \code{package} instead.}
 }
 \value{
-a tibble (data.frame) with the following columns:
+A tibble data frame with following columns:
 \itemize{
-\item \code{deploymentID}: deployment unique identifier.
-\item \code{effort}: effort expressed in the unit passed by argument \code{unit}.
-\item \code{unit}: the unit used to express the effort. One of the values available
-for argument \code{unit}.
-\item \code{effort_duration}: a duration object (duration is a class from lubridate package).
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
+\item \code{unit}:Tthe unit used to express the effort.
+One of the values available for parameter \code{unit}.
+\item \code{effort_duration}: A duration object (duration is a class from lubridate
+package).
 }
 }
 \description{
-Function to get the effort (deployment duration) per deployment.
+Gets the effort (deployment duration) per deployment.
 }
 \examples{
-# efforts expressed in hours
+# Efforts expressed in hours
 get_effort(mica)
 
-# effort expressed as days
+# Effort expressed as days
 get_effort(mica, unit = "day")
-
 }
 \seealso{
-Other get_functions: 
-\code{\link{filter_predicate}},
+Other exploration functions: 
 \code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
-\code{\link{get_record_table}()}
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{get_rai}()},
+\code{\link{get_record_table}()},
+\code{\link{get_scientific_name}()},
+\code{\link{get_species}()}
 }
-\concept{get_functions}
+\concept{exploration functions}

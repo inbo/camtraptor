@@ -3,24 +3,44 @@
 \docType{data}
 \name{mica}
 \alias{mica}
-\title{Sample of camtrap-dp formatted data}
+\title{Sample of Camtrap DP formatted data}
 \format{
 An object of class \code{datapackage} (inherits from \code{list}) of length 16.
 }
 \source{
-https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example
+\url{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}
 }
 \usage{
 mica
 }
 \description{
-A sample camera trap data package, based on data from the MICA project. Also
-stored in \code{inst}.
+A sample \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} as
+read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
+The source data are derived from the \href{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}{Camtrap DP example dataset}
+and are saved in \code{inst/extdata/mica}.
 }
 \details{
-This sample is an extract from a bigger camera trap data package saved as raw
-data in \code{inst/extdata/mica_zenodo_5590881}. For memory reasons \code{media.csv}
-resource is not present. The entire data package can be downloaded from
-\href{https://zenodo.org/record/5590881}{zenodo}.
+A larger dataset is available in \code{inst/extdata/mica_zenodo_5590881}.
+It is derived from a dataset on \href{https://zenodo.org/record/5590881}{Zenodo},
+but excludes \code{media.csv}.
 }
+\examples{
+\dontrun{
+# mica.rda was created with the code below.
+mica <- read_camtrap_dp(
+  system.file(
+    "extdata/mica",
+    "datapackage.json",
+    package = "camtraptor"
+  )
+)
+save(mica, file = "data/mica.rda")
+}
+}
+\seealso{
+Other sample data: 
+\code{\link{animal_positions}},
+\code{\link{dep_calib_models}}
+}
+\concept{sample data}
 \keyword{datasets}

@@ -14,6 +14,7 @@
 #'   - `n_obs`: Number of observations.
 #'   - `n_individuals`: Number of individuals.
 #'   - `rai`: Relative Abundance Index.
+#'   - `rai_individuals`: Relative Abundance Index based on number of individuals.
 #'   - `effort`: Effort (duration) of the deployment.
 #' @param species Character with a scientific name.
 #'   Required for `rai`, optional for `n_obs`.

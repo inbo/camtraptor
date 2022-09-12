@@ -109,7 +109,7 @@ Chapman &amp; Wieczorek 2020).
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other export functions: 
+    <div class="dont-index"><p>Other publication functions: 
 <code><a href="write_dwc.html">write_dwc</a>()</code>,
 <code><a href="write_eml.html">write_eml</a>()</code></p></div>
     </div>
@@ -118,9 +118,11 @@ Chapman &amp; Wieczorek 2020).
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Round coordinates of example package to 3 digits</span></span></span>
 <span class="r-in"><span><span class="va">mica</span> <span class="op">&lt;-</span> <span class="fu">round_coordinates</span><span class="op">(</span><span class="va">mica</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># coordinatePrecision is set in metadata</span></span></span>
 <span class="r-in"><span><span class="va">mica</span><span class="op">$</span><span class="va">coordinatePrecision</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m</span></span></span>
 <span class="r-in"><span><span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">coordinateUncertainty</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 187 187 187 187</span>

@@ -43,27 +43,6 @@
     <loc>/reference/calc_animal_pos.html</loc>
   </url>
   <url>
-    <loc>/reference/check_filter_arg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_arg_value.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_symbol.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_type.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_value.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_value_length.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_filter_value_type.html</loc>
-  </url>
-  <url>
     <loc>/reference/check_species.html</loc>
   </url>
   <url>
@@ -77,9 +56,6 @@
   </url>
   <url>
     <loc>/reference/get_custom_effort.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_dep_no_obs.html</loc>
   </url>
   <url>
     <loc>/reference/get_effort.html</loc>
@@ -118,9 +94,6 @@
     <loc>/reference/mica.html</loc>
   </url>
   <url>
-    <loc>/reference/pred_primitive.html</loc>
-  </url>
-  <url>
     <loc>/reference/read_camtrap_dp.html</loc>
   </url>
   <url>
@@ -128,9 +101,6 @@
   </url>
   <url>
     <loc>/reference/round_coordinates.html</loc>
-  </url>
-  <url>
-    <loc>/reference/transform_effort_to_common_units.html</loc>
   </url>
   <url>
     <loc>/reference/write_dwc.html</loc>

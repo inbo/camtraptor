@@ -106,10 +106,21 @@ Can be a DOI.</p></li>
 <li><p><strong>dwc:dataGeneralizations</strong>: "coordinates rounded to
 <code>package$coordinatePrecision</code> degrees".</p></li>
 <li><p><strong>coordinatePrecision</strong>: <code>package$coordinatePrecision</code> (e.g. <code>0.001</code>).</p></li>
+</ul><p>Key features of the Darwin Core transformation:</p><ul><li><p>Deployments (of camera traps) are parent events, with observations
+(machine observations) as child events. No information about the parent
+event is provided other than its ID, meaning that data can be expressed in
+an Occurrence Core with one row per observation and <code>parentEventID</code> shared
+by all occurrences in a deployment.</p></li>
+<li><p>Sequence-based observations share an <code>eventID</code> per sequence, image-based
+observations share an <code>eventID</code> per image.</p></li>
+<li><p>The image(s) an observation is based on are provided in the <a href="https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml" class="external-link">Audubon Media Description extension</a>, with a foreign
+key to the observation.</p></li>
+<li><p>Excluded are records that document blank or unclassified media, vehicles
+and observations of humans.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other export functions: 
+    <div class="dont-index"><p>Other publication functions: 
 <code><a href="round_coordinates.html">round_coordinates</a>()</code>,
 <code><a href="write_eml.html">write_eml</a>()</code></p></div>
     </div>

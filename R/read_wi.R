@@ -305,7 +305,7 @@ read_wi <- function(directory = ".") {
     dplyr::transmute(
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
-      sequenceID = NA_character_,
+      sequenceID = ifelse(wi_project$project_type == "Image", .data$image_id, NA_character_), # TODO: Check ID for sequence type
       captureMethod = NA_character_,
       timestamp = .data$timestamp,
       filePath = .data$location,

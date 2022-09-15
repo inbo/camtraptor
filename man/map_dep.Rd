@@ -36,6 +36,7 @@ One of:
 \item \code{n_obs}: Number of observations.
 \item \code{n_individuals}: Number of individuals.
 \item \code{rai}: Relative Abundance Index.
+\item \code{rai_individuals}: Relative Abundance Index based on number of individuals.
 \item \code{effort}: Effort (duration) of the deployment.
 }}
 

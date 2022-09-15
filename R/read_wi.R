@@ -305,7 +305,7 @@ read_wi <- function(directory = ".") {
     dplyr::transmute(
       mediaID = .data$image_id,
       deploymentID = .data$deployment_id,
-      sequenceID = ifelse(wi_project$project_type == "Image", .data$image_id, NA_character_), # TODO: Check ID for sequence type
+      sequenceID = if (wi_project$project_type == "Image") .data$image_id else NA_character_, # TODO: Check ID for sequence type
       captureMethod = NA_character_,
       timestamp = .data$timestamp,
       filePath = .data$location,
@@ -323,7 +323,7 @@ read_wi <- function(directory = ".") {
     dplyr::transmute(
       observationID = paste(.data$image_id, .data$wi_taxon_id, sep = ":"), # TODO: not guaranteed unique
       deploymentID = .data$deployment_id,
-      sequenceID = NA_character_,
+      sequenceID = if (wi_project$project_type == "Image") .data$image_id else NA_character_, # TODO: Check ID for sequence type
       mediaID = .data$image_id,
       timestamp = .data$timestamp,
       observationType = dplyr::case_when(

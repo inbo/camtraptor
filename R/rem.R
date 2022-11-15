@@ -68,10 +68,11 @@ rem <- function(data, param, stratum_areas=NULL, reps=999){
   
   if(!("activity" %in% param$parameter)) 
     param <- rbind(param, data.frame(parameter="activity", estimate=1, se=0))
+  param <- param %>%
+    dplyr::select(parameter, estimate, se) %>%
+    dplyr::filter(parameter %in% c("radius", "angle", "speed", "activity"))
   add <- ifelse(param$parameter == "angle", 2, 0)
-  pwr <- ifelse(param$parameter %in% c("radius", "angle", "speed", "activity"), 
-                -1, 1)
-  multiplier <- pi * prod((param$estimate + add)^pwr)
+  multiplier <- pi / prod(param$estimate + add)
   
   tr_sample <- replicate(reps, sampled_traprate())
   tr <- data.frame(parameter="traprate", estimate=traprate(data), se=sd(tr_sample))

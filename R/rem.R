@@ -1,7 +1,7 @@
-#' Fit detection model
+#' Fit a random encounter model
 #'
-#' Fits a detection model to distance or angle data and adds predicted
-#' effective detection distance (EDD) to the model output.
+#' Estimates REM density given dataframes of trap rate and auxiliary 
+#' parameter data
 #'
 #' @param data A dataframe containing a row per sampling location and columns:
 #'  - observations: the number of animal contact events
@@ -10,7 +10,7 @@
 #'  - stratumID: key identifying which stratum each location sits in
 #' @param param A dataframe containing REM parameter estimates with columns
 #'  parameter (parameter name), estimate(parameter standard error) and se 
-#'  (parameter standard error); use one row parameter, with the following
+#'  (parameter standard error); use one row per parameter, with the following
 #'  names:
 #'  Mandatory
 #'  - radius: effective detection radius
@@ -19,7 +19,7 @@
 #'  Optionally
 #'  - activity: activity level (proportion of time spent active)
 #'  If activity is provided, speed is assumed to be average speed while active,
-#'  otherwise it is taken to be day range (distance travelled per day)
+#'  otherwise it is taken to be day range (distance traveled per day)
 #' @param stratum_areas A dataframe with one row per stratum and columns:
 #' - stratumID: stratum ID key, matched with the same key in data
 #' - area: stratum areas (or proportional coverage of the study area)

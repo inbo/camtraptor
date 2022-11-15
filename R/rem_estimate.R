@@ -60,13 +60,19 @@ rem_estimate <- function(package,
   param <- data.frame(parameter=c("radius", "angle", "speed", "activity"),
                       rbind(radius_model$edd, 
                             angle_model$edd * 2,
-                            speed_model, 
+                            speed_model$speed, 
                             activity_model@act[1:2]))
   rownames(param) <- NULL
   res <- rem(data, param) %>%
     dplyr::mutate(estimate = estimate * c(1, 180/pi, 1, 1, 86400, 1e6),
                   se = se * c(1, 180/pi, 1, 1, 86400, 1e6))
-  res$'%cv' <- 100 * res$se / res$estimate
+  res$CV <- 100 * res$se / res$estimate
+  res$n <- c(nrow(radius_model$data),
+             nrow(angle_model$data),
+             length(speed_model$data),
+             length(activity_model@data),
+             nrow(data),
+             NA)
   res$unit = c("m", "deg", "m/s", "none", "n/d", "n/km2")
   list(species=species, data=data, estimates=res,
        speed_model=speed_model, activity_model=activity_model, 

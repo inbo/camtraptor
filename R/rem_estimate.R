@@ -68,5 +68,7 @@ rem_estimate <- function(package,
                   se = se * c(1, 180/pi, 1, 1, 86400, 1e6))
   res$'%cv' <- 100 * res$se / res$estimate
   res$unit = c("m", "deg", "m/s", "none", "n/d", "n/km2")
-  res
+  list(species=species, data=data, estimates=res,
+       speed_model=speed_model, activity_model=activity_model, 
+       radius_model=radius_model, angle_model=angle_model)
 }

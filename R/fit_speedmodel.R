@@ -7,8 +7,10 @@
 #'   `read_camtrap_dp()`.
 #' @param species A character string indicating species subset to analyse; user
 #'   input required if NULL.
-#' @return A two-element numeric vector containing mean and standard error
-#'   speed while active.
+#' @return List with elements:
+#'  - speed: a one row dataframe containing mean (estimate) and standard error 
+#'    (se) speed while active
+#'  - data: a numeric vector of the data from which the estimate is derived
 #' @family density estimation functions
 #' @export
 fit_speedmodel <- function(package, species=NULL){
@@ -18,5 +20,5 @@ fit_speedmodel <- function(package, species=NULL){
   if("useDeployment" %in% names(obs)) obs <- subset(obs, useDeployment)
   mn <- 1/mean(1/obs$speed, na.rm=FALSE)
   se <- mn^2 * sqrt(var(1/obs$speed, na.rm=FALSE)/nrow(obs))
-  c(estimate=mn, se=se)
+  list(speed=data.frame(estimate=mn, se=se), data=obs$speed)
 }

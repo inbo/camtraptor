@@ -3,7 +3,7 @@
 #' Fits a detection function to a data package and estimates effective 
 #' detection distance (EDD).
 #' 
-#' @param formula A two sided formula relating distance or angle data 
+#' @param formula A two sided formula relating radius or angle data 
 #'   to covariates.
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.

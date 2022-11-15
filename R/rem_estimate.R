@@ -44,7 +44,7 @@ rem_estimate <- function(package,
     activity_model <- fit_actmodel(package, species, reps)
   
   if(is.null(radius_model)) 
-    radius_model <- fit_detmodel(distance~1, package, species,
+    radius_model <- fit_detmodel(radius~1, package, species,
                                  transect="point", order=0, truncation=10)
   
   if(is.null(angle_model))

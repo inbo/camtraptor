@@ -49,6 +49,8 @@ Imports:
     tools,
     utils,
     uuid
+Remotes:
+    frictionlessdata/frictionless-r
 Suggests:
     covr,
     knitr,

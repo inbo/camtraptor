@@ -1,3 +1,8 @@
+
+
+
+
+
 Package: camtraptor
 Title: Read, Explore and Visualize Camera Trap Data Packages
 Version: 0.19.3
@@ -49,8 +54,6 @@ Imports:
     tools,
     utils,
     uuid
-Remotes:
-    frictionlessdata/frictionless-r
 Suggests:
     covr,
     knitr,

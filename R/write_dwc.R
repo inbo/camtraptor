@@ -2,21 +2,22 @@
 #'
 #' Transforms the data of a [Camera Trap Data Package](
 #' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/)
-#' CSV files that can be uploaded to a [GBIF IPT](https://www.gbif.org/ipt) for
+#' CSV file(s) that can be uploaded to a [GBIF IPT](https://www.gbif.org/ipt) for
 #' publication.
 #' A `meta.xml` file is not created.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
-#' @param directory Path to local directory to write file to.
-#' @return CSV files written to disk.
+#' @param directory Path to local directory to write file(s) to.
+#' @return CSV file(s) written to disk.
 #' @family publication functions
 #' @export
 #' @section Transformation details:
-#' Data are transformed following best practices (Reyserhove et al. in prep.)
-#' into an
+#' Data are transformed into an
 #' [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml) and
 #' [Audubon Media Description extension](https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml).
-#' See the [SQL files](https://github.com/inbo/camtraptor/tree/main/inst/sql)
+#' This **follows recommendations** discussed and created by Peter Desmet,
+#' John Wieczorek, Lien Reyserhove, Ben Norton and others.
+#' See the [SQL file(s)](https://github.com/inbo/camtraptor/tree/main/inst/sql)
 #' used by this function for details.
 #'
 #' The following terms are set from the `package` metadata:

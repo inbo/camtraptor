@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,12 +68,14 @@
 
 
 
-<script src="record-table_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Record table</h1>
-                        <h4 data-toc-skip class="author">Damiano Oldoni</h4>
+                        <h4 data-toc-skip class="author">Damiano
+Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-09-15</h4>
+            <h4 data-toc-skip class="date">2022-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="d-none name"><code>record-table.Rmd</code></div>
@@ -81,7 +83,9 @@
 
     
     
-<p>This vignette shows how to get a <em>species record table</em> as returned by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/reference/recordTable.html" class="external-link">recordTable</a> starting from a camera trap data package.</p>
+<p>This vignette shows how to get a <em>species record table</em> as
+returned by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/reference/recordTable.html" class="external-link">recordTable</a>
+starting from a camera trap data package.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
@@ -89,6 +93,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">camtraptor</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: timechange</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
@@ -103,7 +108,10 @@
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<p>By loading package <code>camtraptor</code>, a camera trap data package called <code>camtraptor</code> is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.</p>
+<p>By loading package <code>camtraptor</code>, a camera trap data
+package called <code>camtraptor</code> is made available. This data
+package contains camera trap data of musk rats and coypus. We will use
+this variable from now on.</p>
 </div>
 <div class="section level2">
 <h2 id="species-record-table">Species record table<a class="anchor" aria-label="anchor" href="#species-record-table"></a>
@@ -112,8 +120,11 @@
 <blockquote>
 <p>a record table from camera trap images or videos</p>
 </blockquote>
-<p>At a certain extent the aggregation of <code>media</code> (e.g. images) into <code>observations</code> is already done in a camera trap data package.</p>
-<p>If we consider that all observations are independent, then, it will be sufficient to run the following:</p>
+<p>At a certain extent the aggregation of <code>media</code>
+(e.g. images) into <code>observations</code> is already done in a camera
+trap data package.</p>
+<p>If we consider that all observations are independent, then, it will
+be sufficient to run the following:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
@@ -139,7 +150,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
-<p>The function returns the same columns as the camtrapR’s function <code>recordTable()</code>. The following mapping is applied:</p>
+<p>The function returns the same columns as the camtrapR’s function
+<code>recordTable()</code>. The following mapping is applied:</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -152,13 +164,16 @@
 <tbody>
 <tr class="odd">
 <td><code>Station</code></td>
-<td>the station name as provided by argument <code>stationCol</code> (default: <code>locationName</code>). It has to be a column of <code>deployments</code>
+<td>the station name as provided by argument <code>stationCol</code>
+(default: <code>locationName</code>). It has to be a column of
+<code>deployments</code>
 </td>
 </tr>
 <tr class="even">
 <td><code>Species</code></td>
 <td>
-<code>scientific_name</code> column in <code>observations</code>
+<code>scientific_name</code> column in
+<code>observations</code>
 </td>
 </tr>
 <tr class="odd">
@@ -178,15 +193,18 @@
 </tr>
 <tr class="even">
 <td><code>delta.time.secs</code></td>
-<td>the elapsed time in seconds between two (independent) observations</td>
+<td>the elapsed time in seconds between two (independent)
+observations</td>
 </tr>
 <tr class="odd">
 <td><code>delta.time.mins</code></td>
-<td>the elapsed time in minutes between two (independent) observations</td>
+<td>the elapsed time in minutes between two (independent)
+observations</td>
 </tr>
 <tr class="even">
 <td><code>delta.time.hours</code></td>
-<td>the elapsed time in hours between two (independent) observations</td>
+<td>the elapsed time in hours between two (independent)
+observations</td>
 </tr>
 <tr class="odd">
 <td><code>delta.time.days</code></td>
@@ -194,22 +212,43 @@
 </tr>
 <tr class="even">
 <td><code>Directory</code></td>
-<td>a list with file paths as stored in column <code>file_path</code> of <code>media</code>
+<td>a list with file paths as stored in column <code>file_path</code> of
+<code>media</code>
 </td>
 </tr>
 <tr class="odd">
 <td><code>FileName</code></td>
-<td>a list with file paths as stored in column <code>file_path</code> of <code>media</code>
+<td>a list with file paths as stored in column <code>file_path</code> of
+<code>media</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The following remarks are both valid for camtrapR’s function <code>recordTable()</code> and the function <code><a href="../reference/get_record_table.html">get_record_table()</a></code> of this package: 1. observations are grouped by station and species 2. observations of unidentified animals are removed 2. the elapsed time of the first observation (record) of a species at a certain station is set to 0 by default</p>
+<p>The following remarks are both valid for camtrapR’s function
+<code>recordTable()</code> and the function
+<code><a href="../reference/get_record_table.html">get_record_table()</a></code> of this package: 1. observations are
+grouped by station and species 2. observations of unidentified animals
+are removed 2. the elapsed time of the first observation (record) of a
+species at a certain station is set to 0 by default</p>
 <div class="section level3">
 <h3 id="temporal-independence">Temporal independence<a class="anchor" aria-label="anchor" href="#temporal-independence"></a>
 </h3>
-<p>As described in <a href="https://jniedballa.github.io/camtrapR/articles/camtrapr3.html" class="external-link">Chapter 3</a> of camptrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for <code>recordTable()</code>, this is achieved via argument <code>minDeltaTime</code>, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.</p>
-<p>Again, as for <code>recordTable()</code>, we provide an argument, <code>deltaTimeComparedTo</code>, to further control how independence between records is assessed. Setting it to <code>“lastRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last recorded media file. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
+<p>As described in <a href="https://jniedballa.github.io/camtrapR/articles/camtrapr3.html" class="external-link">Chapter
+3</a> of camptrapR documentation, we could filter observations using an
+adjustable criterion for temporal independence between subsequent
+records of the same species in an attempt to remove non-independent
+records. As for <code>recordTable()</code>, this is achieved via
+argument <code>minDeltaTime</code>, defined as the minimum time
+difference (in minutes) between two records of the same species at the
+same station which are to be considered independent. As shown above, the
+default is 0, causing the function to return all records.</p>
+<p>Again, as for <code>recordTable()</code>, we provide an argument,
+<code>deltaTimeComparedTo</code>, to further control how independence
+between records is assessed. Setting it to <code>“lastRecord”</code>
+returns only records taken <code>minDeltaTime</code> minutes after the
+last record, i.e. <code>minDeltaTime</code> minutes after
+<code>timestamp</code> of the last recorded media file. Example with
+<code>minDeltaTime = 60</code> (1 hour):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, </span>
 <span>                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, </span>
@@ -237,7 +276,12 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FileName &lt;list&gt;, and abbreviated variable names ¹​delta.time.secs,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ²​delta.time.mins, ³​delta.time.hours</span></span></span></code></pre></div>
-<p>Setting <code>deltaTimeComparedTo</code> to <code>“lastIndependentRecord”</code> returns only records taken <code>minDeltaTime</code> minutes after the last independent record, i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of the last observation. Example with <code>minDeltaTime = 60</code> (1 hour):</p>
+<p>Setting <code>deltaTimeComparedTo</code> to
+<code>“lastIndependentRecord”</code> returns only records taken
+<code>minDeltaTime</code> minutes after the last independent record,
+i.e. <code>minDeltaTime</code> minutes after <code>timestamp</code> of
+the last observation. Example with <code>minDeltaTime = 60</code> (1
+hour):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, </span>
 <span>                 minDeltaTime <span class="op">=</span> <span class="fl">60</span>, </span>
@@ -269,7 +313,10 @@
 <div class="section level3">
 <h3 id="exclude-some-species">Exclude some species<a class="anchor" aria-label="anchor" href="#exclude-some-species"></a>
 </h3>
-<p>Similar to <code>recordTable()</code>, the function <code><a href="../reference/get_record_table.html">get_record_table()</a></code> allows you also to exclude some species. Both vernacular names and scientific names are allowed (case insensitive):</p>
+<p>Similar to <code>recordTable()</code>, the function
+<code><a href="../reference/get_record_table.html">get_record_table()</a></code> allows you also to exclude some species.
+Both vernacular names and scientific names are allowed (case
+insensitive):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grey heron"</span>, <span class="st">"Anas platyrhynchos"</span>, <span class="st">"mens"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Scientific name of grey heron: Ardea cinerea</span></span>
@@ -295,7 +342,10 @@
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
 </h3>
-<p>The column containing the station names can also be defined by the user if the default value, <code>"locationName"</code>, is not the correct one. It has to be a valid column of <code>deployments</code>. Here below, <code>locationID</code> is used:</p>
+<p>The column containing the station names can also be defined by the
+user if the default value, <code>"locationName"</code>, is not the
+correct one. It has to be a valid column of <code>deployments</code>.
+Here below, <code>locationID</code> is used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, stationCol <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 11</span></span></span>
@@ -325,8 +375,16 @@
 <div class="section level3">
 <h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
 </h3>
-<p>It can happen that “duplicates” occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different <code>lifeStage</code> or <code>sex</code>. You can decide what to do with these duplicates by using the argument <code>removeDuplicateRecords</code>: by default it is equalt to <code>TRUE</code>. The duplicates are therefore removed. To not remove them, set <code>removeDuplicateRecords</code> equal to <code>FALSE</code>.</p>
-<p>Let’s create an easy example with duplicates based on <code>mica</code> datapackage:</p>
+<p>It can happen that “duplicates” occur, e.g. when two distinct
+observations of the same species are made based on the same sequence of
+images, e.g. same species but different <code>lifeStage</code> or
+<code>sex</code>. You can decide what to do with these duplicates by
+using the argument <code>removeDuplicateRecords</code>: by default it is
+equalt to <code>TRUE</code>. The duplicates are therefore removed. To
+not remove them, set <code>removeDuplicateRecords</code> equal to
+<code>FALSE</code>.</p>
+<p>Let’s create an easy example with duplicates based on
+<code>mica</code> datapackage:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mica_dup</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
 <span>  <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span> <span class="op">&lt;-</span> <span class="va">mica_dup</span><span class="op">$</span><span class="va">observations</span><span class="op">$</span><span class="va">sequenceID</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -390,7 +448,10 @@
 <div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
 </h3>
-<p>As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:</p>
+<p>As for visualization and all other functions, you can select a subset
+of deployments by using filter predicates. E.g. to get the record table
+of observations for the deployments with latitude equal or higher than
+51.18:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df %&gt;% dplyr::filter((latitude &gt; 51.18))</span></span>
@@ -417,7 +478,9 @@
 <div class="section level3">
 <h3 id="other-arguments-needed">Other arguments needed?<a class="anchor" aria-label="anchor" href="#other-arguments-needed"></a>
 </h3>
-<p>Are there other arguments of camtrapR’s function <code>recordTable()</code> you think should be relevant to add to <code>get_camera_record()</code>, please let us know by posting an <a href="https://github.com/inbo/camtraptor/issues" class="external-link">issue</a>!</p>
+<p>Are there other arguments of camtrapR’s function
+<code>recordTable()</code> you think should be relevant to add to
+<code>get_camera_record()</code>, please let us know by posting an <a href="https://github.com/inbo/camtraptor/issues" class="external-link">issue</a>!</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

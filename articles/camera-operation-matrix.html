@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,12 +68,14 @@
 
 
 
-<script src="camera-operation-matrix_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Camera operation matrix</h1>
-                        <h4 data-toc-skip class="author">Damiano Oldoni</h4>
+                        <h4 data-toc-skip class="author">Damiano
+Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2022-09-15</h4>
+            <h4 data-toc-skip class="date">2022-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/camera-operation-matrix.Rmd" class="external-link"><code>vignettes/camera-operation-matrix.Rmd</code></a></small>
       <div class="d-none name"><code>camera-operation-matrix.Rmd</code></div>
@@ -81,7 +83,9 @@
 
     
     
-<p>This vignette shows how to get a <em>camera trap station operability matrix</em>, shortly called <em>camera operation matrix</em> as returned by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/reference/cameraOperation.html" class="external-link">cameraOperation</a>.</p>
+<p>This vignette shows how to get a <em>camera trap station operability
+matrix</em>, shortly called <em>camera operation matrix</em> as returned
+by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/reference/cameraOperation.html" class="external-link">cameraOperation</a>.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
@@ -89,6 +93,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">camtraptor</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: timechange</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
@@ -103,12 +108,16 @@
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<p>By loading package <code>camtraptor</code>, a camera trap data package called <code>mica</code> is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.</p>
+<p>By loading package <code>camtraptor</code>, a camera trap data
+package called <code>mica</code> is made available. This data package
+contains camera trap data of musk rats and coypus. We will use this
+variable from now on.</p>
 </div>
 <div class="section level2">
 <h2 id="camera-operation-matrix">Camera operation matrix<a class="anchor" aria-label="anchor" href="#camera-operation-matrix"></a>
 </h2>
-<p>You can create a camera operation matrix by passing a camera trap data package:</p>
+<p>You can create a camera operation matrix by passing a camera trap
+data package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                               2019-10-09 2019-10-10 2019-10-11 2019-10-12</span></span>
@@ -811,10 +820,19 @@
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                      1  0.8923611</span></span>
 <span><span class="co">#&gt; Mica Viane                            NA         NA</span></span></code></pre></div>
-<p>The function will read the <code>deployments</code> slot of the data package to create the matrix.</p>
-<p>The matrix rows are the location names, by default the values of field <code>locationName</code> of <code>deployments</code>. Column names are dates. The matrix values are: 0 if station is not active, an integer (1 or more) if one or more deployments linked to the same station are fully active during the whole day and a decimal value for partially active stations.</p>
-<p>In the example above there was a one-to-one relation between deployments and locations: the daily effort is between 0 and 1.</p>
-<p>In the example below we show what happens if all four deployments are set to the same location (<code>B_DL_val 5_beek kleine vijver</code>) and they are active during the same days:</p>
+<p>The function will read the <code>deployments</code> slot of the data
+package to create the matrix.</p>
+<p>The matrix rows are the location names, by default the values of
+field <code>locationName</code> of <code>deployments</code>. Column
+names are dates. The matrix values are: 0 if station is not active, an
+integer (1 or more) if one or more deployments linked to the same
+station are fully active during the whole day and a decimal value for
+partially active stations.</p>
+<p>In the example above there was a one-to-one relation between
+deployments and locations: the daily effort is between 0 and 1.</p>
+<p>In the example below we show what happens if all four deployments are
+set to the same location (<code>B_DL_val 5_beek kleine vijver</code>)
+and they are active during the same days:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mica1</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
 <span><span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span> <span class="op">&lt;-</span> <span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
@@ -828,7 +846,9 @@
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          4          4          4          4</span></span>
 <span><span class="co">#&gt;                               2020-08-06 2020-08-07 2020-08-08</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          4          4  0.7240741</span></span></code></pre></div>
-<p>In the example below we simulate a location (<code>B_DM_val 4_'t WAD</code>) linked to two deployments active in two different periods:</p>
+<p>In the example below we simulate a location
+(<code>B_DM_val 4_'t WAD</code>) linked to two deployments active in two
+different periods:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mica2</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
 <span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
@@ -862,7 +882,10 @@
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
 </h3>
-<p>You can specify the column containing the station names instead of using the default <code>locationName</code>. In the example below we use the column <code>locationID</code>. A small preview of the matrix is shown:</p>
+<p>You can specify the column containing the station names instead of
+using the default <code>locationName</code>. In the example below we use
+the column <code>locationID</code>. A small preview of the matrix is
+shown:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cam_op_with_locationID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span>, station_col <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
 <span><span class="va">cam_op_with_locationID</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
@@ -871,7 +894,10 @@
 <span><span class="co">#&gt; ff1535c0-6b5d-44be-b3ef-c4d4204dad74         NA         NA</span></span>
 <span><span class="co">#&gt; ce943ced-1bcf-4140-9a2e-e8ee5e8c10e6         NA         NA</span></span>
 <span><span class="co">#&gt; 3232bcfd-5dfa-496e-b7ab-14593bb1b7f1  0.5290856          1</span></span></code></pre></div>
-<p>You can also decide to use prefix <code>"Station"</code> in the station names as done by camtrapR’s <code>cameraOperation()</code> by setting <code>use_prefix = TRUE</code>. A small preview of the entire matrix is shown:</p>
+<p>You can also decide to use prefix <code>"Station"</code> in the
+station names as done by camtrapR’s <code>cameraOperation()</code> by
+setting <code>use_prefix = TRUE</code>. A small preview of the entire
+matrix is shown:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cam_op_with_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span>, use_prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">cam_op_with_prefix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>

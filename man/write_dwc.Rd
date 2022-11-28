@@ -9,24 +9,24 @@ write_dwc(package, directory = ".")
 \arguments{
 \item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
 
-\item{directory}{Path to local directory to write file to.}
+\item{directory}{Path to local directory to write file(s) to.}
 }
 \value{
-CSV files written to disk.
+CSV file(s) written to disk.
 }
 \description{
-Transforms the data of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to \href{https://dwc.tdwg.org/}{Darwin Core}
-CSV files that can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT} for
-publication.
-A \code{meta.xml} file is not created.
+Transforms data from a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to \href{https://dwc.tdwg.org/}{Darwin Core}.
+The resulting CSV file(s) can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF.
+A \code{meta.xml} file is not created (see \code{\link[=write_eml]{write_eml()}}).
 }
 \section{Transformation details}{
 
-Data are transformed following best practices (Reyserhove et al. in prep.)
-into an
+Data are transformed into an
 \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core} and
 \href{https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml}{Audubon Media Description extension}.
-See the \href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{SQL files}
+This \strong{follows recommendations} discussed and created by Peter Desmet,
+John Wieczorek, Lien Reyserhove, Ben Norton and others.
+See the \href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{SQL file(s)}
 used by this function for details.
 
 The following terms are set from the \code{package} metadata:

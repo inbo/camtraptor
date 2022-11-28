@@ -101,7 +101,7 @@ SELECT
   dep.locationName                      AS locality,
   dep.latitude                          AS decimalLatitude,
   dep.longitude                         AS decimalLongitude,
-  'WGS84'                               AS geodeticDatum,
+  'EPSG:4326'                           AS geodeticDatum,
   dep.coordinateUncertainty             AS coordinateUncertaintyInMeters,
   {coordinate_precision}                AS coordinatePrecision,
 -- IDENTIFICATION

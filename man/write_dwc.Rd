@@ -17,7 +17,8 @@ CSV file(s) written to disk.
 \description{
 Transforms data from a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to \href{https://dwc.tdwg.org/}{Darwin Core}.
 The resulting CSV file(s) can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF.
-A \code{meta.xml} file is not created (see \code{\link[=write_eml]{write_eml()}}).
+A \code{meta.xml} file is not created.
+See \code{write_eml()} to create an \code{eml.xml} file.
 }
 \section{Transformation details}{
 

@@ -4,7 +4,8 @@
 #' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/).
 #' The resulting CSV file(s) can be uploaded to an [IPT](
 #' https://www.gbif.org/ipt) for publication to GBIF.
-#' A `meta.xml` file is not created (see [write_eml()]).
+#' A `meta.xml` file is not created.
+#' See `write_eml()` to create an `eml.xml` file.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file(s) to.

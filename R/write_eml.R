@@ -269,9 +269,15 @@ write_eml <- function(package,
   if (is.null(directory)) {
     eml
   } else {
+    eml_path <- file.path(directory, "eml.xml")
+    message(glue::glue(
+      "Writing metadata to:",
+      eml_path,
+      .sep = "\n"
+    ))
     if (!dir.exists(directory)) {
       dir.create(directory, recursive = TRUE)
     }
-    EML::write_eml(eml, file.path(directory, "eml.xml"))
+    EML::write_eml(eml, eml_path)
   }
 }

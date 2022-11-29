@@ -59,6 +59,7 @@ write_dwc <- function(package, directory = ".") {
   coordinate_precision <- package$coordinatePrecision
 
   # Create database
+  message("Reading data and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "deployments", dplyr::tibble(package$data$deployments))
   DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
@@ -82,15 +83,17 @@ write_dwc <- function(package, directory = ".") {
   DBI::dbDisconnect(con)
 
   # Write files
+  dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+  dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
+  message(glue::glue(
+    "Writing data to:",
+    dwc_occurrence_path,
+    dwc_audubon_path,
+    .sep = "\n"
+  ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
-  readr::write_csv(
-    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"),
-    na = ""
-  )
-  readr::write_csv(
-    dwc_audubon, file.path(directory, "dwc_audubon.csv"),
-    na = ""
-  )
+  readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+  readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
 }

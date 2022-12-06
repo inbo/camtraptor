@@ -76,7 +76,10 @@ See <code><a href="write_eml.html">write_eml()</a></code> to create an <code>eml
 
 
 <dt>directory</dt>
-<dd><p>Path to local directory to write file(s) to.</p></dd>
+<dd><p>Path to local directory to write file(s) to.
+If <code>NULL</code>, then a list of data frames is returned instead, which can be
+useful for extending/adapting the Darwin Core mapping before writing with
+<code><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">readr::write_csv()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

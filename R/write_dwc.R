@@ -86,11 +86,10 @@ write_dwc <- function(package, directory = ".") {
   DBI::dbDisconnect(con)
 
   # Return object or write files
-
   if (is.null(directory)) {
     list(
-      dwc_occurrence = dwc_occurrence,
-      dwc_audubon = dwc_audubon
+      dwc_occurrence = dplyr::as_tibble(dwc_occurrence),
+      dwc_audubon = dplyr::as_tibble(dwc_audubon)
     )
   } else {
     dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")

@@ -10,13 +10,12 @@ test_that("write_dwc() can write csv files to a path", {
   )
 })
 
-test_that("write_dwc() can return data rather than files", {
+test_that("write_dwc() can return data as list of tibbles rather than files", {
   result <- suppressMessages(write_dwc(mica, directory = NULL))
 
-  expect_identical(
-    names(result),
-    c("dwc_occurrence", "dwc_audubon")
-  )
+  expect_identical(names(result), c("dwc_occurrence", "dwc_audubon"))
+  expect_s3_class(result$dwc_occurrence, "tbl")
+  expect_s3_class(result$dwc_audubon, "tbl")
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {

@@ -1,33 +1,29 @@
-
-test_that("can write csv files to a path", {
+test_that("write_dwc() can write csv files to a path", {
   out_dir <- file.path(tempdir(), "dwc")
   unlink(out_dir, recursive = TRUE)
   dir.create(out_dir)
+  suppressMessages(write_dwc(mica, directory = out_dir))
 
-  write_dwc(mica, directory = out_dir)
-
-  expect_equal(
+  expect_identical(
     list.files(out_dir, pattern = "*.csv"),
     c("dwc_audubon.csv", "dwc_occurrence.csv")
   )
 })
 
-test_that("if directory is NULL, a named list should be returned", {
-  expect_length(
-    write_dwc(mica, directory = NULL),
-    2
-  )
+test_that("write_dwc() can return data rather than files", {
+  result <- suppressMessages(write_dwc(mica, directory = NULL))
 
-  expect_equal(
-    names(write_dwc(mica, directory = NULL)),
+  expect_identical(
+    names(result),
     c("dwc_occurrence", "dwc_audubon")
   )
 })
 
-test_that("function returns the expected columns in the outputs", {
-  named_list <- write_dwc(mica, directory = NULL)
+test_that("write_dwc() returns the expected Darwin Core terms as columns", {
+  result <- suppressMessages(write_dwc(mica, directory = NULL))
 
-  expected_occ_columns <-
+  expect_identical(
+    colnames(result$dwc_occurrence),
     c(
       "type",
       "license",
@@ -66,8 +62,10 @@ test_that("function returns the expected columns in the outputs", {
       "scientificName",
       "kingdom"
     )
+  )
 
-  expected_audubon_columns <-
+  expect_equal(
+    colnames(result$dwc_audubon),
     c(
       "occurrenceID",
       "dcterm:rights",
@@ -81,14 +79,5 @@ test_that("function returns the expected columns in the outputs", {
       "format",
       "CreateDate"
     )
-
-  expect_equal(
-    colnames(named_list$dwc_occurrence),
-    expected_occ_columns
-  )
-
-  expect_equal(
-    colnames(named_list$dwc_audubon),
-    expected_audubon_columns
   )
 })

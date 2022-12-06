@@ -9,9 +9,9 @@
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file(s) to.
-#'   If `NULL`, then a named list object is returned instead, which can be useful
-#'   for extended/adapting the occurrence or auduboncore dataframes contained in
-#'   the list before writing with for example [readr::write_csv()].
+#'   If `NULL`, then a list of data frames is returned instead, which can be
+#'   useful for extending/adapting the Darwin Core mapping before writing with
+#'   [readr::write_csv()].
 #' @return CSV file(s) written to disk.
 #' @family publication functions
 #' @export

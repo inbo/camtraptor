@@ -9,6 +9,9 @@
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
 #' @param directory Path to local directory to write file(s) to.
+#'   If `NULL`, then a list of data frames is returned instead, which can be
+#'   useful for extending/adapting the Darwin Core mapping before writing with
+#'   [readr::write_csv()].
 #' @return CSV file(s) written to disk.
 #' @family publication functions
 #' @export
@@ -82,18 +85,25 @@ write_dwc <- function(package, directory = ".") {
   dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
   DBI::dbDisconnect(con)
 
-  # Write files
-  dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
-  dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
-  message(glue::glue(
-    "Writing data to:",
-    dwc_occurrence_path,
-    dwc_audubon_path,
-    .sep = "\n"
-  ))
-  if (!dir.exists(directory)) {
-    dir.create(directory, recursive = TRUE)
+  # Return object or write files
+  if (is.null(directory)) {
+    list(
+      dwc_occurrence = dplyr::as_tibble(dwc_occurrence),
+      dwc_audubon = dplyr::as_tibble(dwc_audubon)
+    )
+  } else {
+    dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+    dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
+    message(glue::glue(
+      "Writing data to:",
+      dwc_occurrence_path,
+      dwc_audubon_path,
+      .sep = "\n"
+    ))
+    if (!dir.exists(directory)) {
+      dir.create(directory, recursive = TRUE)
+    }
+    readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+    readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
   }
-  readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
-  readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
 }

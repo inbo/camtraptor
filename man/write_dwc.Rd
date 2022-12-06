@@ -9,7 +9,10 @@ write_dwc(package, directory = ".")
 \arguments{
 \item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
 
-\item{directory}{Path to local directory to write file(s) to.}
+\item{directory}{Path to local directory to write file(s) to.
+If \code{NULL}, then a list of data frames is returned instead, which can be
+useful for extending/adapting the Darwin Core mapping before writing with
+\code{\link[readr:write_delim]{readr::write_csv()}}.}
 }
 \value{
 CSV file(s) written to disk.

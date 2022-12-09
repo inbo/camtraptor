@@ -63,7 +63,7 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
     )
   )
 
-  expect_equal(
+  expect_identical(
     colnames(result$dwc_audubon),
     c(
       "occurrenceID",

@@ -12,7 +12,8 @@
 #'   If `NULL`, then a list of data frames is returned instead, which can be
 #'   useful for extending/adapting the Darwin Core mapping before writing with
 #'   [readr::write_csv()].
-#' @return CSV file(s) written to disk.
+#' @return CSV file(s) written to disk or list of data frames when
+#'   `directory = NULL`.
 #' @family publication functions
 #' @export
 #' @section Transformation details:

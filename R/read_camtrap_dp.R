@@ -96,17 +96,23 @@ read_camtrap_dp <- function(file = NULL,
   
   # patch for non-standard values speed, radius, angle
   # see https://github.com/inbo/camtraptor/issues/185
+  
+  obs_col_names <- names(observations)
+  
   if ("X22" %in% names(observations)) {
     observations <- observations %>%
       dplyr::rename(speed=X22)
+    message("Non standard field after _id found: renamed to speed.")
   }
   if ("X23" %in% names(observations)) {
     observations <- observations %>%
       dplyr::rename(radius=X23)
+    message("Non standard field after _id found: renamed to radius.")
   }
   if ("X24" %in% names(observations)) {
     observations <- observations %>%
       dplyr::rename(angle=X24)
+    message("Non standard field after _id found: renamed to angle.")
   }
   
   # create first version datapackage with resources in data element

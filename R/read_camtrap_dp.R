@@ -93,7 +93,22 @@ read_camtrap_dp <- function(file = NULL,
       "`readr::problems()`."
     ))
   }
-
+  
+  # patch for non-standard values speed, radius, angle
+  # see https://github.com/inbo/camtraptor/issues/185
+  if ("X22" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(speed=X22)
+  }
+  if ("X23" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(radius=X23)
+  }
+  if ("X24" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(angle=X24)
+  }
+  
   # create first version datapackage with resources in data element
   data <- list(
     "deployments" = deployments,

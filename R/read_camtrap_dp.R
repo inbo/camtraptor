@@ -99,13 +99,10 @@ read_camtrap_dp <- function(file = NULL,
   obs_col_names <- names(observations)
   if (all(c("X22", "X23", "X24") %in% names(observations))) {
     observations <- observations %>%
-      dplyr::rename(speed=X22,
-                    radius=X23,
-                    angle=X24
-    )
+      dplyr::rename(speed = X22, radius = X23, angle = X24)
     message(
-      paste0("Three extra fields in observations interpreted as speed,",
-             " radius and angle."
+      paste("Three extra fields in `observations` interpreted as `speed`,",
+            "`radius` and `angle`."
       )
     )
   }

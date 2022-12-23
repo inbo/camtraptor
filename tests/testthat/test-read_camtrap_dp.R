@@ -3,7 +3,7 @@ test_that("file is checked properly", {
   expect_error(read_camtrap_dp(1))
 })
 
-testthat::test_that("test warnings", {
+test_that("test warnings", {
   local_edition(2)
   camtrap_dp_file_with_issues <- system.file("extdata", "mica_parsing_issues", "datapackage_for_parsing_issues.json", package = "camtraptor")
   # deployments

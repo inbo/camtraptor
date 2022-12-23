@@ -89,7 +89,6 @@ SELECT
     WHEN dep.featureType IS 'none' THEN ''
     WHEN dep.featureType IS 'other' THEN ' near other feature'
     WHEN dep.featureType IS NOT NULL THEN ' near ' || dep.featureType
-    ELSE ''
   END ||
   COALESCE(
     ' | tags: ' || dep.tags || ' | ' || dep.comments,
@@ -101,7 +100,7 @@ SELECT
   dep.locationName                      AS locality,
   dep.latitude                          AS decimalLatitude,
   dep.longitude                         AS decimalLongitude,
-  'WGS84'                               AS geodeticDatum,
+  'EPSG:4326'                           AS geodeticDatum,
   dep.coordinateUncertainty             AS coordinateUncertaintyInMeters,
   {coordinate_precision}                AS coordinatePrecision,
 -- IDENTIFICATION

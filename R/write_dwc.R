@@ -1,22 +1,28 @@
 #' Transform Camtrap DP data to Darwin Core
 #'
-#' Transforms the data of a [Camera Trap Data Package](
-#' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/)
-#' CSV files that can be uploaded to a [GBIF IPT](https://www.gbif.org/ipt) for
-#' publication.
+#' Transforms data from a [Camera Trap Data Package](
+#' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/).
+#' The resulting CSV file(s) can be uploaded to an [IPT](
+#' https://www.gbif.org/ipt) for publication to GBIF.
 #' A `meta.xml` file is not created.
+#' See `write_eml()` to create an `eml.xml` file.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
-#' @param directory Path to local directory to write file to.
-#' @return CSV files written to disk.
+#' @param directory Path to local directory to write file(s) to.
+#'   If `NULL`, then a list of data frames is returned instead, which can be
+#'   useful for extending/adapting the Darwin Core mapping before writing with
+#'   [readr::write_csv()].
+#' @return CSV file(s) written to disk or list of data frames when
+#'   `directory = NULL`.
 #' @family publication functions
 #' @export
 #' @section Transformation details:
-#' Data are transformed following best practices (Reyserhove et al. in prep.)
-#' into an
+#' Data are transformed into an
 #' [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml) and
 #' [Audubon Media Description extension](https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml).
-#' See the [SQL files](https://github.com/inbo/camtraptor/tree/main/inst/sql)
+#' This **follows recommendations** discussed and created by Peter Desmet,
+#' John Wieczorek, Lien Reyserhove, Ben Norton and others.
+#' See the [SQL file(s)](https://github.com/inbo/camtraptor/tree/main/inst/sql)
 #' used by this function for details.
 #'
 #' The following terms are set from the `package` metadata:
@@ -57,6 +63,7 @@ write_dwc <- function(package, directory = ".") {
   coordinate_precision <- package$coordinatePrecision
 
   # Create database
+  message("Reading data and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "deployments", dplyr::tibble(package$data$deployments))
   DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
@@ -79,16 +86,25 @@ write_dwc <- function(package, directory = ".") {
   dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
   DBI::dbDisconnect(con)
 
-  # Write files
-  if (!dir.exists(directory)) {
-    dir.create(directory, recursive = TRUE)
+  # Return object or write files
+  if (is.null(directory)) {
+    list(
+      dwc_occurrence = dplyr::as_tibble(dwc_occurrence),
+      dwc_audubon = dplyr::as_tibble(dwc_audubon)
+    )
+  } else {
+    dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+    dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
+    message(glue::glue(
+      "Writing data to:",
+      dwc_occurrence_path,
+      dwc_audubon_path,
+      .sep = "\n"
+    ))
+    if (!dir.exists(directory)) {
+      dir.create(directory, recursive = TRUE)
+    }
+    readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+    readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
   }
-  readr::write_csv(
-    dwc_occurrence, file.path(directory, "dwc_occurrence.csv"),
-    na = ""
-  )
-  readr::write_csv(
-    dwc_audubon, file.path(directory, "dwc_audubon.csv"),
-    na = ""
-  )
 }

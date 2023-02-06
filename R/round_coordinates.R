@@ -36,7 +36,6 @@
 #' The added uncertainty is the largest possible value caused by rounding (see
 #' [Table 3](https://doi.org/10.15468/doc-gg7h-s853#table-uncertainty) in
 #' Chapman & Wieczorek 2020).
-#' )
 #' @examples
 #' # Round coordinates of example package to 3 digits
 #' mica <- round_coordinates(mica, 3)

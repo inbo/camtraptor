@@ -46,7 +46,6 @@ before adding uncertainty caused by rounding.
 The added uncertainty is the largest possible value caused by rounding (see
 \href{https://doi.org/10.15468/doc-gg7h-s853#table-uncertainty}{Table 3} in
 Chapman & Wieczorek 2020).
-)
 }
 
 \examples{

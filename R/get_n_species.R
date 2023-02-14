@@ -71,7 +71,7 @@ get_n_species <- function(package = NULL,
   # set up n = NA (number of species) for deployments without observations
   deployments_no_obs <-
     deployments_no_obs %>%
-    dplyr::select(.data$deploymentID) %>%
+    dplyr::select("deploymentID") %>%
     dplyr::mutate(n = NA_integer_)
 
   # add them to n_species and return

@@ -130,7 +130,7 @@ get_n_obs <- function(package = NULL,
   # get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
-    dplyr::group_by(.data$deploymentID, .data$scientificName) %>%
+    dplyr::group_by(deploymentID, scientificName) %>%
     dplyr::summarise(n = dplyr::n_distinct(.data$sequenceID)) %>%
     dplyr::ungroup()
 
@@ -140,7 +140,7 @@ get_n_obs <- function(package = NULL,
       deployments$deploymentID,
       unique(c(unique(observations$scientificName), species))
     ) %>%
-    dplyr::rename(deploymentID = .data$Var1, scientificName = .data$Var2) %>%
+    dplyr::rename(deploymentID = "Var1", scientificName = "Var2") %>%
     dplyr::as_tibble()
 
   # set 0 to combinations without observations (i.e. n = NA after join)
@@ -163,6 +163,6 @@ get_n_obs <- function(package = NULL,
 
   # order result by deployments and follow same order as in deployments df
   deployments %>%
-    dplyr::select(deploymentID) %>%
-    dplyr::left_join(n_obs, by = "deploymentID")
+    dplyr::select("deploymentID") %>%
+    dplyr::left_join(n_obs, by = "deploymentID", multiple = "all")
 }

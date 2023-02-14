@@ -93,7 +93,7 @@ testthat::test_that("Right output", {
   # output is exactly the same as animal_positions except for the new columns
   testthat::expect_equal(
     output %>%
-      dplyr::select(-c(.data$radius, .data$angle, .data$frame_count)),
+      dplyr::select(-c(radius, angle, frame_count)),
     animal_positions
   )
 })

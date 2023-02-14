@@ -268,8 +268,8 @@ get_custom_effort <- function(package = NULL,
   sum_effort %>%
     dplyr::mutate(unit = unit) %>%
     dplyr::select(
-      .data$begin,
-      .data$effort,
-      .data$unit
+      "begin",
+      "effort",
+      "unit"
     )
 }

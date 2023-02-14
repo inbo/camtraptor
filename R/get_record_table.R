@@ -173,7 +173,8 @@ get_record_table <- function(package = NULL,
 
   # add station column from deployments to observations
   obs <- obs %>%
-    dplyr::left_join(deployments %>% dplyr::select(.data$deploymentID, !!rlang::sym(stationCol)),
+    dplyr::left_join(deployments %>% 
+                       dplyr::select("deploymentID", !!rlang::sym(stationCol)),
       by = "deploymentID"
     )
   # extract needed info from media and set file names and file paths as
@@ -181,10 +182,10 @@ get_record_table <- function(package = NULL,
   grouped_media_info <-
     package$data$media %>%
     dplyr::select(
-      .data$sequenceID,
-      .data$filePath,
-      .data$fileName,
-      .data$timestamp
+      "sequenceID",
+      "filePath",
+      "fileName",
+      "timestamp"
     ) %>%
     dplyr::group_by(.data$sequenceID) %>%
     dplyr::summarise(
@@ -206,7 +207,7 @@ get_record_table <- function(package = NULL,
       Date = lubridate::date(.data$timestamp),
       Time = format(.data$timestamp, format = "%H:%M:%S")
     ) %>%
-    dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
+    dplyr::group_by(scientificName, !!rlang::sym(stationCol)) %>%
     dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
@@ -252,29 +253,29 @@ get_record_table <- function(package = NULL,
     dplyr::mutate(delta.time.days = .data$delta.time.hours / 24) %>%
     dplyr::mutate(dplyr::across(
       dplyr::starts_with("delta.time."),
-      tidyr::replace_na, 0
+      \(x) tidyr::replace_na(x, 0)
     )) %>%
     dplyr::ungroup()
 
   record_table <- record_table %>%
     dplyr::rename(Station := !!stationCol,
-      Species = .data$scientificName,
-      DateTimeOriginal = .data$timestamp,
-      Directory = .data$filePath,
-      FileName = .data$fileName
+      Species = "scientificName",
+      DateTimeOriginal = "timestamp",
+      Directory = "filePath",
+      FileName = "fileName"
     ) %>%
     dplyr::select(
-      .data$Station,
-      .data$Species,
-      .data$DateTimeOriginal,
-      .data$Date,
-      .data$Time,
-      .data$delta.time.secs,
-      .data$delta.time.mins,
-      .data$delta.time.hours,
-      .data$delta.time.days,
-      .data$Directory,
-      .data$FileName
+      "Station",
+      "Species",
+      "DateTimeOriginal",
+      "Date",
+      "Time",
+      "delta.time.secs",
+      "delta.time.mins",
+      "delta.time.hours",
+      "delta.time.days",
+      "Directory",
+      "FileName"
     )
   # remove duplicates if needed
   if (isTRUE(removeDuplicateRecords)) {
@@ -292,7 +293,7 @@ get_record_table <- function(package = NULL,
       dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs) &
         .data$row_number == max(.data$row_number)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-.data$row_number)
+      dplyr::select(-"row_number")
   }
   return(record_table)
 }

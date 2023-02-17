@@ -57,16 +57,22 @@ test_that("map_dep() can toggle showing deployments with zero values", {
   # expect an error when the toggle is not TRUE or FALSE
   # expect_error(map_dep(mica, feature = "n_obs" ,zero_values_show = "dax"))
   # expect a message when an url/size is provided but the toggle is off
-  expect_message(
+  suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
     regexp = "`zero_values_show` is FALSE: `zero_values_icon_url` ignored.",
     fixed = TRUE
-  )
-  expect_message(
+  ))
+  
+  suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
     regexp = "`zero_values_show` is FALSE: `zero_values_icon_size` is ignored.",
     fixed = TRUE
+  ))
+  
+  expect_no_message(
+    map_dep(mica,feature = "n_species", zero_values_show = TRUE)
   )
+  
 })
 
 test_that("map_dep() can calculate and get feature values", {
@@ -82,10 +88,22 @@ test_that("map_dep() can calculate and get feature values", {
       " and\\1",
       paste(no_obs_deployments, collapse = ", ")
     )
-  expect_message(
+  suppressMessages(expect_message(
     map_dep(mica, feature = "rai", species = "krakeend"),
     regexp =
       glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
+    fixed = TRUE
+  ))
+  
+  suppressMessages(expect_message(
+    map_dep(mica, feature = "rai_individuals", species = "krakeend"),
+    regexp =
+      glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
+    fixed = TRUE
+  ))
+  expect_warning(
+    map_dep(mica, feature = "n_species", species = "krakeend"),
+    regexp = "`species` ignored for `feature = n_species`",
     fixed = TRUE
   )
 })
@@ -115,14 +133,43 @@ test_that("map_dep() allows disabling of hover columns", {
       is.na(map_no_hover$x$calls[[3]]$args[[11]])
     )
   )
-  map_hover <- map_dep(mica, feature = "effort")
+  map_hover <-
+    map_dep(mica, feature = "n_individuals", hover_columns = "scientificName")
   expect_true(
     any(
       !is.na(map_hover$x$calls[[3]]$args[[11]])
     )
   )
+  
+  
+})
+
+test_that("map_dep() allows filtering by predicates", {
+  # expect_no_error(
+  #   map_dep(mica,
+  #           pred("scientificName", "Anas platyrhynchos"),
+  #           feature = "n_species")
+  #   )
+  
+  expect_message(
+    map_dep(mica, pred_gt("latitude", 51.18), feature = "n_species"),
+    regexp = "df %>% dplyr::filter((latitude > 51.18))",
+    fixed = TRUE)
+  
+  suppressMessages(expect_message(
+    map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
+    regexp = "No deployments left.",
+    fixed = TRUE))
+  
+  suppressMessages(expect_message(
+    map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
+    regexp = "df %>% dplyr::filter((latitude > 90))",
+    fixed = TRUE))
 })
 
 test_that("map_dep() returns a leaflet", {
   expect_s3_class(map_dep(mica, feature = "n_species"), c("leaflet", "htmlwidget"))
+  expect_no_warning(map_dep(mica, feature = "n_species"))
+  expect_no_error(map_dep(mica, feature = "n_species"))
+  expect_no_message(map_dep(mica, feature = "n_species"))
 })

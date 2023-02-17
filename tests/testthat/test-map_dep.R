@@ -1,7 +1,7 @@
 test_that("map_dep() returns error when feature is missing", {
   expect_error(map_dep(mica),
-               regexp = 'argument "feature" is missing, with no default',
-               fixed = TRUE
+    regexp = 'argument "feature" is missing, with no default',
+    fixed = TRUE
   )
 })
 
@@ -22,8 +22,8 @@ test_that("map_dep() returns error for invalid feature", {
   expect_error(
     map_dep(mica, feature = no_feature),
     regexp = glue::glue("Invalid value for feature parameter: {no_feature}.",
-                        "Valid inputs are: {valid_input_string}.",
-                        .sep = "\n"
+      "Valid inputs are: {valid_input_string}.",
+      .sep = "\n"
     ),
     fixed = TRUE
   )
@@ -33,10 +33,9 @@ test_that("map_dep() returns error for invalid feature", {
     regexp = "`feature` must have length 1",
     fixed = TRUE
   )
-  
 })
 
-test_that("map_dep() can handle combinations of arguments",{
+test_that("map_dep() can handle combinations of arguments", {
   expect_warning(
     map_dep(mica, feature = "n_species", effort_unit = "month"),
     regexp = "`effort_unit` ignored for `feature = n_species`.",
@@ -54,7 +53,7 @@ test_that("map_dep() can handle combinations of arguments",{
   )
 })
 
-test_that("map_dep() can toggle showing deployments with zero values",{
+test_that("map_dep() can toggle showing deployments with zero values", {
   # expect an error when the toggle is not TRUE or FALSE
   # expect_error(map_dep(mica, feature = "n_obs" ,zero_values_show = "dax"))
   # expect a message when an url/size is provided but the toggle is off
@@ -62,11 +61,68 @@ test_that("map_dep() can toggle showing deployments with zero values",{
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
     regexp = "`zero_values_show` is FALSE: `zero_values_icon_url` ignored.",
     fixed = TRUE
-    
   )
   expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
     regexp = "`zero_values_show` is FALSE: `zero_values_icon_size` is ignored.",
     fixed = TRUE
   )
+})
+
+test_that("map_dep() can calculate and get feature values", {
+  no_obs_deployments <-
+    c(
+      "577b543a-2cf1-4b23-b6d2-cda7e2eac372",
+      "62c200a9-0e03-4495-bcd8-032944f6f5a1",
+      "7ca633fa-64f8-4cfc-a628-6b0c419056d7"
+    )
+  no_obs_deployments_str <-
+    sub(
+      ",([^,]*)$",
+      " and\\1",
+      paste(no_obs_deployments, collapse = ", ")
+    )
+  expect_message(
+    map_dep(mica, feature = "rai", species = "krakeend"),
+    regexp =
+      glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
+    fixed = TRUE
+  )
+})
+
+test_that("map_dep() allows for scale modifications", {
+  expect_no_warning(map_dep(
+    mica,
+    feature = "n_species",
+    max_scale = 0,
+    relative_scale = FALSE
+  ))
+  expect_warning(map_dep(mica, feature = "effort", max_scale = 0),
+    regexp = "Relative scale used: max_scale value ignored.",
+    fixed = TRUE
+  )
+  expect_error(map_dep(mica, feature = "effort", relative_scale = FALSE),
+    regexp = "If you use an absolute scale, `max_scale` must be a number, not `NULL`.",
+    fixed = TRUE
+  )
+})
+
+test_that("map_dep() allows disabling of hover columns", {
+  map_no_hover <- map_dep(mica, feature = "effort", hover_columns = NULL)
+
+  expect_true(
+    all(
+      is.na(map_no_hover$x$calls[[3]]$args[[11]])
+    )
+  )
+  map_hover <- map_dep(mica, feature = "effort")
+  expect_true(
+    any(
+      !is.na(map_hover$x$calls[[3]]$args[[11]])
+    )
+  )
+})
+
+test_that("map_dep() returns a leaflet", {
+  expect_s3_class(map_dep(mica, feature = "n_species"), c("leaflet", "htmlwidget"))
 })

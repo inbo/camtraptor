@@ -108,7 +108,7 @@ get_record_table <- function(package = NULL,
   assertthat::assert_that(
     stationCol %in% names(package$data$deployments),
     msg = glue::glue(
-      "Station column name `stationCol` not valid: ",
+      "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
     )
   )

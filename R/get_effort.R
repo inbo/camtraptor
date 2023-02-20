@@ -66,10 +66,10 @@ get_effort <- function(package = NULL,
   effort_df$unit <-unit
   effort_df %>%
     dplyr::relocate(
-      deploymentID,
-      effort,
-      unit,
-      effort_duration
+      "deploymentID",
+      "effort",
+      "unit",
+      "effort_duration"
     )
 }
 

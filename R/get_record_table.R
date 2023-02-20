@@ -207,7 +207,7 @@ get_record_table <- function(package = NULL,
       Date = lubridate::date(.data$timestamp),
       Time = format(.data$timestamp, format = "%H:%M:%S")
     ) %>%
-    dplyr::group_by(scientificName, !!rlang::sym(stationCol)) %>%
+    dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
     dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent

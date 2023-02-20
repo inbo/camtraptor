@@ -224,7 +224,7 @@ get_record_table <- function(package = NULL,
         deltaTimeComparedTo
       ))
     record_independence <- record_independence %>%
-      tidyr::unnest(cols = c(data))
+      tidyr::unnest(cols = c("data"))
     # add independence information to record_table
     record_table <- record_table %>%
       dplyr::left_join(record_independence,

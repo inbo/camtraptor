@@ -17,3 +17,10 @@ test_that("write_eml() checks for keywords", {
                regexp = "`keywords` should be a character (vector).",
                fixed = TRUE)
 })
+
+test_that("write_eml() notifies to check metadata", {
+  expect_message(
+    write_eml(mica, title = "mica title"),
+    regexp = "Please review generated metadata carefully before publishing.",
+    fixed = TRUE)
+})

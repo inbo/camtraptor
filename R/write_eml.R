@@ -262,7 +262,7 @@ write_eml <- function(package,
   # Set publication date = created date
   eml$dataset$pubDate <- as.Date(package$created)
 
-  # Set altenative identifier = package id (can be DOI)
+  # Set alternative identifier = package id (can be DOI)
   eml$dataset$alternateIdentifier <- package$id
 
   # Return object or write file

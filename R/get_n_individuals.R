@@ -147,8 +147,8 @@ get_n_individuals <- function(package = NULL,
       unique(c(observations$scientificName, species))
     ) %>%
     dplyr::rename(
-      deploymentID = .data$Var1,
-      scientificName = .data$Var2
+      deploymentID = "Var1",
+      scientificName = "Var2"
     ) %>%
     dplyr::as_tibble()
 
@@ -172,6 +172,6 @@ get_n_individuals <- function(package = NULL,
 
   # order result by deployments and following same order as in deployments df
   deployments %>%
-    dplyr::select(deploymentID) %>%
-    dplyr::left_join(n_individuals, by = "deploymentID")
+    dplyr::select("deploymentID") %>%
+    dplyr::left_join(n_individuals, by = "deploymentID", multiple = "all")
 }

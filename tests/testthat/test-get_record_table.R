@@ -135,10 +135,10 @@ test_that(
       dplyr::mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
       dplyr::left_join(mica$data$observations %>%
         dplyr::select(
-          .data$observationID,
-          .data$timestamp,
-          .data$scientificName,
-          .data$sequenceID
+          observationID,
+          timestamp,
+          scientificName,
+          sequenceID
         ),
       by = c(
         "DateTimeOriginal" = "timestamp",
@@ -147,7 +147,7 @@ test_that(
       )
     n_media <-
       mica$data$media %>%
-      dplyr::group_by(sequenceID) %>%
+      dplyr::group_by(.data$sequenceID) %>%
       dplyr::count()
     output <- output %>%
       dplyr::left_join(n_media,

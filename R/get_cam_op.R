@@ -149,7 +149,7 @@ get_cam_op <- function(package = NULL,
       # that in the actual stadium of camera trap dp exchange format, 0s as
       # returned by camtrapR::cameraOperation()` meaning "camera(s) not
       # operational", will never occur.
-      dep_op <- dplyr::na_if(dep_op, y = 0)
+      dep_op[dep_op == 0] <- NA
       dep_op[[names(dep_op)]] <- as.numeric(dep_op[[names(dep_op)]])
       return(dep_op)
     }

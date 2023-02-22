@@ -253,7 +253,7 @@ get_record_table <- function(package = NULL,
     dplyr::mutate(delta.time.days = .data$delta.time.hours / 24) %>%
     dplyr::mutate(dplyr::across(
       dplyr::starts_with("delta.time."),
-      \(x) tidyr::replace_na(x, 0)
+      .fns = function(x) tidyr::replace_na(x, 0)
     )) %>%
     dplyr::ungroup()
 

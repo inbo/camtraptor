@@ -426,3 +426,192 @@
       
       
 
+---
+
+    Code
+      eml_from_file
+    Output
+      dataset:
+        alternateIdentifier: https://doi.org/10.5281/zenodo.4893244
+        title: mica title
+        metadataProvider:
+          individualName:
+            givenName: Tim
+            surName: Adriaens
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: tim.adriaens@inbo.be
+        associatedParty:
+          individualName:
+            givenName: []
+          organizationName: Research Institute for Nature and Forest (INBO)
+          onlineUrl: https://inbo.be
+        pubDate: '2021-07-07'
+        abstract:
+          para: <![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a>
+            project <em>MICA - Muskrat and Coypu</em>. Data have been standardized to Darwin
+            Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R
+            package and only include observations (and associated media) of animals. Excluded
+            are records that document blank or unclassified media, vehicles and observations
+            of humans. Geospatial coordinates are provided as is. The original dataset description
+            follows.]]>
+        keywordSet:
+          keyword: camera traps
+          keywordThesaurus: n/a
+        coverage:
+          geographicCoverage:
+            boundingCoordinates:
+              westBoundingCoordinate: '3.5176'
+              eastBoundingCoordinate: '7.0243'
+              northBoundingCoordinate: '53.2705'
+              southBoundingCoordinate: '50.699'
+          temporalCoverage:
+            rangeOfDates:
+              beginDate:
+                calendarDate: '2019-10-09'
+              endDate:
+                calendarDate: '2021-03-28'
+          taxonomicCoverage:
+            taxonomicClassification:
+            - taxonRankName: Species
+              taxonRankValue: Anas platyrhynchos
+            - taxonRankName: Species
+              taxonRankValue: Anas strepera
+            - taxonRankName: Species
+              taxonRankValue: Ardea
+            - taxonRankName: Species
+              taxonRankValue: Ardea cinerea
+            - taxonRankName: Species
+              taxonRankValue: Castor fiber
+            - taxonRankName: Species
+              taxonRankValue: Homo sapiens
+            - taxonRankName: Species
+              taxonRankValue: Martes foina
+            - taxonRankName: Species
+              taxonRankValue: Mustela putorius
+            - taxonRankName: Species
+              taxonRankValue: Vulpes vulpes
+        contact:
+          individualName:
+            givenName: Tim
+            surName: Adriaens
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: tim.adriaens@inbo.be
+        project:
+          title: MICA - Muskrat and Coypu
+          personnel:
+            individualName:
+              givenName: Tim
+              surName: Adriaens
+            organizationName: Research Institute for Nature and Forest (INBO)
+            electronicMailAddress: tim.adriaens@inbo.be
+          abstract:
+            para: This project is part of the LIFE project MICA, in which innovative techniques
+              are tested for a more efficient control of muskrat and coypu populations,
+              both invasive species. Camera traps were located in areas where the presence
+              of muskrat and/or coypu was suspected.
+          designDescription:
+            description:
+              para: This project uses a targeted sampling design. Animals are unmarked and
+                camera traps are triggered with motion detection and time lapse. Media are
+                classified at sequence level.
+        creator:
+        - individualName:
+            givenName: Tim
+            surName: Adriaens
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: tim.adriaens@inbo.be
+        - individualName:
+            givenName: Emma
+            surName: Cartuyvels
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: emma.cartuyvels@inbo.be
+        - individualName:
+            givenName: Jim
+            surName: Casaer
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: jim.casaer@inbo.be
+        - individualName:
+            givenName: Abel
+            surName: De Boer
+          electronicMailAddress: adeboer@wetterskipfryslan.nl
+        - individualName:
+            givenName: Peter
+            surName: Desmet
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: peter.desmet@inbo.be
+          userId:
+            directory: http://orcid.org/
+            userId: 0000-0002-8442-8025
+        - individualName:
+            givenName: Dennis
+            surName: Donckers
+          electronicMailAddress: dennis.donckers2@telenet.be
+        - individualName:
+            givenName: Heiko
+            surName: Fritz
+          electronicMailAddress: foersterheiko@gmx.de
+        - individualName:
+            givenName: Lilja
+            surName: Fromme
+          electronicMailAddress: lilja.fromme@tiho-hannover.de
+        - individualName:
+            givenName: Friederike
+            surName: Gethöffer
+          electronicMailAddress: friederike.gethoeffer@tiho-hannover.de
+        - individualName:
+            givenName: Frank
+            surName: Huysentruyt
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: frank.huysentruyt@inbo.be
+        - individualName:
+            givenName: Lydia
+            surName: Liebgott
+          electronicMailAddress: lydia.liebgott@tiho-hannover.de
+        - individualName:
+            givenName: Yorick
+            surName: Liefting
+          organizationName: Wageningen University
+          electronicMailAddress: yorick.liefting@wur.nl
+        - individualName:
+            givenName: Jan
+            surName: Lodewijkx
+          electronicMailAddress: j.lodewijkx@vmm.be
+        - individualName:
+            givenName: Claudia
+            surName: Maistrelli
+          electronicMailAddress: claudia.maistrelli@tiho-hannover.de
+        - individualName:
+            givenName: Björn
+            surName: Matthies
+          electronicMailAddress: bjoern.matthies@lwk-niedersachsen.de
+        - individualName:
+            givenName: Axel
+            surName: Neukermans
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: axel.neukermans@inbo.be
+        - individualName:
+            givenName: Brecht
+            surName: Neukermans
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: brecht.neukermans@inbo.be
+        - individualName:
+            givenName: Kurt
+            surName: Schamp
+          electronicMailAddress: kurt.schamp@inbo.be
+        - individualName:
+            givenName: Dan
+            surName: Slootmaekers
+          electronicMailAddress: d.slootmaekers@vmm.be
+        - individualName:
+            givenName: Danny
+            surName: Van der beeck
+          electronicMailAddress: daniel.vanderbeeck@gmail.com
+        - individualName:
+            givenName: Yasmine
+            surName: Verzelen
+          organizationName: Research Institute for Nature and Forest (INBO)
+          electronicMailAddress: yasmine.verzelen@inbo.be
+      packageId: ~
+      schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
+      system: uuid
+

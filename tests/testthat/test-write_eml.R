@@ -6,6 +6,15 @@
 # })
 # 
 
+test_that("write_eml() can write an eml", {
+  # check for any errors
+  expect_no_error(write_eml(mica, title = "The Mica EML", directory = NULL))
+  # compare against known good result
+  expect_snapshot(cat(write_eml(
+    mica, title = "a valid title", directory = NULL
+  )))
+})
+
 test_that("write_eml() checks for title", {
   expect_error(write_eml(mica),
                regexp = "The dataset must have a `title`.",
@@ -20,7 +29,7 @@ test_that("write_eml() checks for keywords", {
 
 test_that("write_eml() notifies to check metadata", {
   expect_message(
-    write_eml(mica, title = "mica title"),
+    write_eml(mica, title = "mica title", directory = NULL),
     regexp = "Please review generated metadata carefully before publishing.",
     fixed = TRUE)
 })

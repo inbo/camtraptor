@@ -39,7 +39,7 @@ their original location.
 }
 }
 \description{
-Using the dplyr::mutate(), add a new column, but only if it's missing
+Using dplyr::mutate(), add a new column, but only if it's missing
 }
 \section{Useful mutate functions}{
 
@@ -96,10 +96,12 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+\dontrun{
 # doesn't add a column when it already exists
 mutate_when_missing(cars, speed = "warp 9")
 # but does add a column when it doesn't exist yet
 mutate_when_missing(cars, space = "The final frontier")
+}
 }
 \seealso{
 Other single table verbs: 

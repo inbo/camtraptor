@@ -384,10 +384,12 @@ add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
 #' @inherit dplyr::mutate
 #'
 #' @examples 
+#' \dontrun{
 #' # doesn't add a column when it already exists
 #' mutate_when_missing(cars, speed = "warp 9")
 #' # but does add a column when it doesn't exist yet
 #' mutate_when_missing(cars, space = "The final frontier")
+#' }
 mutate_when_missing <- function(.data,...){
   dots <- substitute(list(...))[-1]
   cols_to_check <- names(sapply(dots, deparse))

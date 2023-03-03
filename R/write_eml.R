@@ -133,7 +133,7 @@ write_eml <- function(package,
   orcid_regex <- "(\\d{4}-){3}\\d{3}(\\d|X)"
   contributors <-
     purrr::map_dfr(package$contributors, ~ as.data.frame(.)) %>%
-    dplyr::union_all(dplyr::tibble(path = character())) %>% # Guarantee path col
+    mutate_when_missing(path = character()) %>% # Guarantee path col
     tidyr::separate(
       title,
       c("first_name", "last_name"),

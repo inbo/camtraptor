@@ -130,7 +130,7 @@ get_n_obs <- function(package = NULL,
   # get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
-    dplyr::group_by(deploymentID, scientificName) %>%
+    dplyr::group_by(.data$deploymentID, .data$scientificName) %>%
     dplyr::summarise(n = dplyr::n_distinct(.data$sequenceID)) %>%
     dplyr::ungroup()
 

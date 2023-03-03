@@ -108,7 +108,7 @@ get_record_table <- function(package = NULL,
   assertthat::assert_that(
     stationCol %in% names(package$data$deployments),
     msg = glue::glue(
-      "Station column name `stationCol` not valid: ",
+      "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
     )
   )
@@ -207,7 +207,7 @@ get_record_table <- function(package = NULL,
       Date = lubridate::date(.data$timestamp),
       Time = format(.data$timestamp, format = "%H:%M:%S")
     ) %>%
-    dplyr::group_by(scientificName, !!rlang::sym(stationCol)) %>%
+    dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
     dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
   if (minDeltaTime == 0) {
     # observations are by default independent
@@ -224,7 +224,7 @@ get_record_table <- function(package = NULL,
         deltaTimeComparedTo
       ))
     record_independence <- record_independence %>%
-      tidyr::unnest(cols = c(data))
+      tidyr::unnest(cols = c("data"))
     # add independence information to record_table
     record_table <- record_table %>%
       dplyr::left_join(record_independence,
@@ -253,7 +253,7 @@ get_record_table <- function(package = NULL,
     dplyr::mutate(delta.time.days = .data$delta.time.hours / 24) %>%
     dplyr::mutate(dplyr::across(
       dplyr::starts_with("delta.time."),
-      \(x) tidyr::replace_na(x, 0)
+      .fns = function(x) tidyr::replace_na(x, 0)
     )) %>%
     dplyr::ungroup()
 

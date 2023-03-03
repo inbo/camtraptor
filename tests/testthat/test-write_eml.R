@@ -8,11 +8,16 @@
 
 test_that("write_eml() can write an eml", {
   # check for any errors
-  expect_no_error(write_eml(mica, title = "The Mica EML", directory = NULL))
-  # compare against known good result
-  expect_snapshot(cat(write_eml(
-    mica, title = "a valid title", directory = NULL
+  expect_no_error(suppressMessages(write_eml(
+    mica,
+    title = "The Mica EML", directory = NULL
   )))
+  # compare against known good result
+  eml <-
+    suppressMessages(write_eml(mica, title = "a valid title", directory = NULL))
+  ## don't compare the packageId because it's a random guid
+  purrr::pluck(eml, "packageId") <- NULL
+  expect_snapshot(eml)
 })
 
 test_that("write_eml() checks for title", {

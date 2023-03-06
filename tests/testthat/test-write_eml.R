@@ -22,12 +22,12 @@ test_that("write_eml() can write an eml", {
   # write to temp dir
   expect_no_error(write_eml(mica, title = "mica title", directory = tempdir()))
   ## read from file, and remove packageID because it's a random guid
-  eml_from_file <- EML::read_eml(file.path(tempdir(),"eml.xml"))
-  purrr::pluck(eml_from_file,"packageId") <- NULL
+  eml_from_file <- EML::read_eml(file.path(tempdir(), "eml.xml"))
+  purrr::pluck(eml_from_file, "packageId") <- NULL
   ## compare to known output
   expect_snapshot(eml_from_file)
   ## remove temp file
-  unlink(file.path(tempdir(),"eml.xml"))
+  unlink(file.path(tempdir(), "eml.xml"))
 })
 
 test_that("write_eml() checks for title", {

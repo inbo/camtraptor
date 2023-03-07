@@ -44,10 +44,10 @@ test_that("output is a list", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- read_camtrap_dp(
+  dp_without_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   expect_true(is.list(dp_without_media))
   expect_equal(class(dp_without_media), "list")
 })
@@ -56,10 +56,10 @@ test_that("output data slot is a list of length 3", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- read_camtrap_dp(
+  dp_without_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   expect_true("data" %in% names(dp_without_media))
   expect_equal(length(dp_without_media$data), 3)
 })
@@ -68,14 +68,14 @@ test_that("media arg influences only slot media", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_with_media <- read_camtrap_dp(
+  dp_with_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = TRUE
-  )
-  dp_without_media <- read_camtrap_dp(
+  ))
+  dp_without_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   # media is NULL only for dp_without_media
   expect_null(dp_without_media$data$media)
   expect_false(is.null(dp_with_media$data$media))
@@ -113,10 +113,10 @@ test_that("Datapackage resources are named as in resource_names", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- read_camtrap_dp(
+  dp_without_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   resource_names <- dp_without_media$resource_names
   expect_true(all(resource_names %in% names(dp_without_media$data)))
 })
@@ -125,10 +125,10 @@ test_that("Datapackage resources are tibble dataframes", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- read_camtrap_dp(
+  dp_without_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
     class(dp_without_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
@@ -139,10 +139,10 @@ test_that("sc. names and vernacular names in obs match the info in taxonomic slo
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp <- read_camtrap_dp(
+  dp <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   taxon_infos <- purrr::map_dfr(
     dp$taxonomic,
     function(x) x %>% as.data.frame()
@@ -176,10 +176,10 @@ test_that("file can be an URL", {
   # dp_path <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
   dp_path <-
     "https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json"
-  dp <- read_camtrap_dp(
+  dp <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
-  )
+  ))
   expect_true(is.list(dp))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
     class(dp$data$deployments)))
@@ -191,16 +191,16 @@ test_that("path is deprecated", {
   dp_path_warning <- system.file("extdata", "mica", package = "camtraptor")
   rlang::with_options(
     lifecycle_verbosity = "warning",
-    expect_warning(read_camtrap_dp(
+    suppressMessages(expect_warning(read_camtrap_dp(
       file = dp_path_warning,
       media = FALSE
-    ))
+    )))
   )
   rlang::with_options(
     lifecycle_verbosity = "warning",
-    expect_warning(read_camtrap_dp(
+    suppressMessages(expect_warning(read_camtrap_dp(
       path = dp_path_warning,
       media = FALSE
-    ))
+    )))
   )
 })

@@ -382,7 +382,7 @@ add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
 #' Using dplyr::mutate(), add a new column, but only if it's missing
 #'
 #' @inherit dplyr::mutate
-#'
+#' @noRd
 #' @examples 
 #' \dontrun{
 #' # doesn't add a column when it already exists

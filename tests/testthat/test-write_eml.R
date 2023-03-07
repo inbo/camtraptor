@@ -20,7 +20,9 @@ test_that("write_eml() can write an eml", {
   expect_snapshot(eml)
   
   # write to temp dir
-  expect_no_error(write_eml(mica, title = "mica title", directory = tempdir()))
+  suppressMessages(expect_no_error(write_eml(
+    mica, title = "mica title", directory = tempdir()
+  )))
   ## read from file, and remove packageID because it's a random guid
   eml_from_file <- EML::read_eml(file.path(tempdir(), "eml.xml"))
   purrr::pluck(eml_from_file, "packageId") <- NULL
@@ -43,8 +45,8 @@ test_that("write_eml() checks for keywords", {
 })
 
 test_that("write_eml() notifies to check metadata", {
-  expect_message(
+  suppressMessages(expect_message(
     write_eml(mica, title = "mica title", directory = NULL),
     regexp = "Please review generated metadata carefully before publishing.",
-    fixed = TRUE)
+    fixed = TRUE))
 })

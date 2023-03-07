@@ -171,18 +171,21 @@ test_that("sc. names and vernacular names in obs match the info in taxonomic slo
   expect_true(all(nl_names %in% taxon_infos$vernacularNames.nl))
 })
 
-# test_that("file can be an URL", {
-#   dp_path <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
-#   dp <- read_camtrap_dp(
-#     file = dp_path,
-#     media = FALSE
-#   )
-#   expect_true(is.list(dp))
-#   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-#     class(dp$data$deployments)))
-#   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-#     class(dp$data$observations)))
-# })
+test_that("file can be an URL", {
+  # camtraptor is trailing camtrap-dp, refer to specific commit to keep using old version
+  # dp_path <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
+  dp_path <-
+    "https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json"
+  dp <- read_camtrap_dp(
+    file = dp_path,
+    media = FALSE
+  )
+  expect_true(is.list(dp))
+  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
+    class(dp$data$deployments)))
+  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
+    class(dp$data$observations)))
+})
 
 test_that("path is deprecated", {
   dp_path_warning <- system.file("extdata", "mica", package = "camtraptor")

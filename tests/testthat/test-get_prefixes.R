@@ -3,7 +3,7 @@ test_that("get_prefixes() returns a tibble", {
                   c("tbl_df", "tbl", "data.frame"))
 })
 
-test_that("get_prefixes() returns prefix for every ", {
+test_that("get_prefixes() returns prefix for every info we want to show", {
   hover_columns <- c(
     "n",
     "scientificName",

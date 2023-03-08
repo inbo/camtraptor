@@ -251,7 +251,7 @@ get_dep_no_obs <- function(package = NULL,
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
 #' the fraction of the day the camera was on
 #'
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .data
 #' @noRd
 calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
   # check calc_start or calc_end are passed

@@ -3,6 +3,12 @@ test_that("get_prefixes() returns a tibble", {
                   c("tbl_df", "tbl", "data.frame"))
 })
 
+test_that("get_prefixes() returns an error if the info we want is not valid", {
+  # species is a prefix, not an info. It should be scientificName
+  hover_columns <- c("species", "deploymentID")
+  expect_error(get_prefixes("rai", hover_columns))
+  })
+  
 test_that("get_prefixes() returns prefix for every info we want to show", {
   hover_columns <- c(
     "n",

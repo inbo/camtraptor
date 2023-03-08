@@ -6,7 +6,7 @@ test_that("get_prefixes() returns a tibble", {
 test_that("get_prefixes() returns prefix for every ", {
   hover_columns <- c(
     "n",
-    "species",
+    "scientificName",
     "deploymentID",
     "locationID",
     "locationName",
@@ -18,6 +18,6 @@ test_that("get_prefixes() returns prefix for every ", {
   
   expect_identical(
     nrow(get_prefixes("rai",hover_columns)),
-    as.integer(length(hover_columns) - 1))
+    as.integer(length(hover_columns)))
   
 })

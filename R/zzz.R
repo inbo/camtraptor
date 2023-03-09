@@ -251,7 +251,7 @@ get_dep_no_obs <- function(package = NULL,
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
 #' the fraction of the day the camera was on
 #'
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% .data
 #' @noRd
 calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
   # check calc_start or calc_end are passed
@@ -375,4 +375,25 @@ add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
     }
     paste(title, unit)
   }
+}
+
+#' Create columns, but only if they don't exist yet!
+#'
+#' Using dplyr::mutate(), add a new column, but only if it's missing
+#'
+#' @inherit dplyr::mutate
+#' @noRd
+#' @examples 
+#' \dontrun{
+#' # doesn't add a column when it already exists
+#' mutate_when_missing(cars, speed = "warp 9")
+#' # but does add a column when it doesn't exist yet
+#' mutate_when_missing(cars, space = "The final frontier")
+#' }
+mutate_when_missing <- function(.data,...){
+  dots <- substitute(list(...))[-1]
+  cols_to_check <- names(sapply(dots, deparse))
+  columns_to_add <- cols_to_check[!cols_to_check %in% colnames(.data)]
+  if(!rlang::is_empty(columns_to_add)){.data <- dplyr::mutate(.data,...)}
+  return(.data)
 }

@@ -7,7 +7,7 @@ Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
            role = "aut", comment =  c(ORCID = "0000-0002-8442-8025")),
     person("Pieter", "Huybrechts", email = "pieter.huybrechts@inbo.be",
-           role = "ctb", comment = c(ORCID = "0000-0002-6658-6062")),
+           role = "aut", comment = c(ORCID = "0000-0002-6658-6062")),
     person("Raphaël", "Nussbaumer", email = "rafnuss@gmail.com",
            role = "ctb", comment =  c(ORCID = "0000-0002-8185-10205")),
     person("Thierry", "Onkelinx", email = "thierry.onkelinx@inbo.be",

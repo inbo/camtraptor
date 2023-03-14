@@ -133,7 +133,7 @@ write_eml <- function(package,
   orcid_regex <- "(\\d{4}-){3}\\d{3}(\\d|X)"
   contributors <-
     purrr::map_dfr(package$contributors, ~ as.data.frame(.)) %>%
-    dplyr::union_all(dplyr::tibble(path = character())) %>% # Guarantee path col
+    mutate_when_missing(path = character()) %>% # Guarantee path col
     tidyr::separate(
       title,
       c("first_name", "last_name"),
@@ -209,8 +209,8 @@ write_eml <- function(package,
     taxonomy <- dplyr::filter(taxonomy, .data$taxonRank == "species")
   }
   sci_names <-
-    dplyr::rename(taxonomy, Species = .data$scientificName) %>%
-    dplyr::select(.data$Species)
+    dplyr::rename(taxonomy, Species = scientificName) %>%
+    dplyr::select(Species)
 
   eml$dataset$coverage <- EML::set_coverage(
     begin = package$temporal$start,
@@ -262,7 +262,7 @@ write_eml <- function(package,
   # Set publication date = created date
   eml$dataset$pubDate <- as.Date(package$created)
 
-  # Set altenative identifier = package id (can be DOI)
+  # Set alternative identifier = package id (can be DOI)
   eml$dataset$alternateIdentifier <- package$id
 
   # Return object or write file

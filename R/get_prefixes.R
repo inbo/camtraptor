@@ -72,6 +72,8 @@ get_prefixes <- function(feature, infos) {
   infos[infos == "n"] <- feature
   # get all prefixes
   prefixes <- map_dep_prefixes()
+  # check all required infos are in prefixes$info
+  check_value(infos, prefixes$info, "prefix", null_allowed = FALSE)
   # return the prefixes we need
   prefixes %>% dplyr::filter(.data$info %in% infos)
 }

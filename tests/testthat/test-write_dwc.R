@@ -95,6 +95,6 @@ write_dwc_media <- function(package, directory = ".") {
 }
 
 test_that("write_dwc() generates the right files from a known package", {
-  expect_snapshot(write_dwc_occ(mica,"data"))
-  expect_snapshot(write_dwc_media(mica,"data"))
+  expect_snapshot_file(write_dwc_occ(mica,"data"))
+  expect_snapshot_file(write_dwc_media(mica,"data"))
 })

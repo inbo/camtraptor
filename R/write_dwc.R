@@ -144,7 +144,20 @@ write_dwc <- function(package, directory = ".") {
       locationID,
       locality = locationName,
       decimalLatitude = latitude,
-      decimalLongitude = longitude
+      decimalLongitude = longitude,
+      geodeticDatum = "EPSG:4326",
+      coordinateUncertaintyInMeters = coordinateUncertainty,
+      coordinatePrecision = coordinate_precision,
+      identifiedBy = classifiedBy,
+      dateIdentified = format(classificationTimestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+      identificationRemarks = dplyr::coalesce(
+        glue::glue(
+          "classified by {classificationMethod} with",
+          " {classificationConfidence} confidence",
+          .na = NULL),
+        glue::glue("classified by {classificationMethod}",
+                   .na = NULL)
+      )
     ) %>%
     #fix the order after generating, columns that are kept in place are placed
     #at the start of the output df by default

@@ -54,10 +54,11 @@
 #'   and observations of humans.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
+  ## use purrr::pluck() to force NA when metadata field is missing
   dataset_name <- purrr::pluck(package,"title", .default = NA)
-  dataset_id <- package$id
+  dataset_id <- purrr::pluck(package,"id", .default = NA)
   rights_holder <- purrr::pluck(package,"rightsHolder", .default = NA)
-  collection_code <- package$platform$title
+  collection_code <- purrr::pluck(package,"platform","title", .default = NA)
   license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
     "")
@@ -78,9 +79,13 @@ write_dwc <- function(package, directory = ".") {
 
   # first we join observations on deployments 
   ## NOTE we can get rid of a number of fields here already, see dwc_occurrence.sql
-  dplyr::filter(observations, observationType == "animal") %>% 
-  dplyr::left_join(deployments, by = dplyr::join_by(deploymentID),
-                   suffix = c(".obs",".depl")) %>%
+  dwc_occurrence <-
+    dplyr::filter(observations, observationType == "animal") %>%
+    dplyr::left_join(
+      deployments,
+      by = dplyr::join_by(deploymentID),
+      suffix = c(".obs", ".depl")
+    ) %>%
     dplyr::mutate(
       .keep = "none",
       type = "Image",
@@ -111,16 +116,17 @@ write_dwc <- function(package, directory = ".") {
       habitat = habitat,
       samplingProtocol = "camera trap",
       samplingEffort = glue::glue(
-        "{start} / {end}",
+        "{start}/{end}",
         start = format(start, format = "%Y-%m-%dT%H:%M:%SZ"),
         end = format(end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
       eventRemarks = glue::glue(
         "{bait_use} {dep_feature_type} {depl_comments}",
         bait_use = case_when(
-        baitUse == "none" ~ "camera trap without bait",
-        !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
-        TRUE ~ "camera trap"),
+          baitUse == "none" ~ "camera trap without bait",
+          !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
+          TRUE ~ "camera trap"
+        ),
         dep_feature_type = case_when(
           featureType == "none" ~ "",
           featureType == "other" ~ " near other feature",
@@ -132,16 +138,16 @@ write_dwc <- function(package, directory = ".") {
             "| tags: {tags} | {comments}",
             tags = tags,
             comments = comments.depl,
-            .na = NULL),
-          glue::glue(
-            "| tags: {tags}",
-            tags = tags,
-            .na = NULL),
-          glue::glue(
-            "| {comments}",
-            comments = comments.depl,
-            .na = NULL),
-          "")
+            .na = NULL
+          ),
+          glue::glue("| tags: {tags}",
+                     tags = tags,
+                     .na = NULL),
+          glue::glue("| {comments}",
+                     comments = comments.depl,
+                     .na = NULL),
+          ""
+        )
       ),
       locationID,
       locality = locationName,
@@ -156,7 +162,8 @@ write_dwc <- function(package, directory = ".") {
         glue::glue(
           "classified by {classificationMethod} with",
           " {classificationConfidence} confidence",
-          .na = NULL),
+          .na = NULL
+        ),
         glue::glue("classified by {classificationMethod}",
                    .na = NULL)
       ),
@@ -164,11 +171,13 @@ write_dwc <- function(package, directory = ".") {
       scientificName,
       kingdom = "Animalia"
     ) %>%
-    #fix the order after generating, columns that are kept in place are placed
+    #fix/clean up the order after generating, columns that are kept in place are placed
     #at the start of the output df by default
-    dplyr::relocate(sex,lifeStage, .after = "individualCount") %>%
-    dplyr::relocate(habitat, .after = "eventDate") %>% 
-    arrange(eventDate) %>% 
+    dplyr::relocate(sex, lifeStage, .after = "individualCount") %>%
+    dplyr::relocate(habitat, .after = "eventDate") %>%
+    dplyr::relocate(taxonID, scientificName, .after = "identificationRemarks") %>%
+    dplyr::relocate(locationID, .before = "locality") %>%
+    arrange(eventDate) %>%
     glimpse()
   
   # Query database

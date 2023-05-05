@@ -89,11 +89,13 @@ SELECT
     WHEN dep.featureType IS 'none' THEN ''
     WHEN dep.featureType IS 'other' THEN ' near other feature'
     WHEN dep.featureType IS NOT NULL THEN ' near ' || dep.featureType
+    ELSE ''
   END ||
   COALESCE(
     ' | tags: ' || dep.tags || ' | ' || dep.comments,
     ' | tags: ' || dep.tags,
-    ' | ' || dep.comments
+    ' | ' || dep.comments,
+    ''
   )                                     AS eventRemarks,
 -- LOCATION
   dep.locationID                        AS locationID,

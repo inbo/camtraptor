@@ -60,10 +60,13 @@ write_dwc <- function(package, directory = ".") {
   collection_code <- package$platform$title
   license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
   media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
-  coordinate_precision <- package$coordinatePrecision
   coordinate_precision <-
     purrr::pluck(package, "coordinatePrecision", .default = NA)
 
+  # read package data
+  deployments <- dplyr::tibble(package$data$deployments)
+  media <- dplyr::tibble(package$data$media)
+  observations <- dplyr::tibble(package$data$observations)
   # Create database
   message("Reading data and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
@@ -71,6 +74,54 @@ write_dwc <- function(package, directory = ".") {
   DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
   DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
 
+  # first we join observations on deployments 
+  ## NOTE we can get rid of a number of fields here already, see dwc_occurrence.sql
+  dplyr::left_join(observations, deployments, by = dplyr::join_by(deploymentID),
+                   suffix = c(".obs",".depl")) %>%
+    dplyr::mutate(
+      .keep = "none",
+      type = "Image",
+      license = license,
+      #missing test coverage
+      rightsHolder = rights_holder,
+      datasetID = dataset_id,
+      collectionCode = collection_code,
+      datasetName = dataset_name,
+      basisOfRecord = "MachineObservation",
+      dataGeneralizations = glue::glue(
+        "coordinates rounded",
+        " to {coordinate_precision}",
+        " degrees",
+        .na = NULL
+      ),
+      occurrenceID = observationID,
+      individualCount = count,
+      sex,
+      lifeStage,
+      behavior = behaviour,
+      occurrenceStatus = "present",
+      occurrenceRemarks = comments.obs,
+      organismID = individualID,
+      eventID = sequenceID,
+      parentEventID = deploymentID,
+      eventDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+      habitat = habitat,
+      samplingProtocol = "camera trap",
+      samplingEffort = glue::glue(
+        "{start} / {end}",
+        start = format(start, format = "%Y-%m-%dT%H:%M:%SZ"),
+        end = format(end, format = "%Y-%m-%dT%H:%M:%SZ")
+      ),
+      eventRemarks = glue::glue(
+        "{bait_use} {feature_type} | tags: {dep_tags} | {dep_comments}"
+        bait_use = case_when(
+        baitUse == "none" ~ "camera trap without bait",
+        !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
+        TRUE ~ "camera trap")
+    ) %>%
+    dplyr::relocate(sex,lifeStage, .after = "individualCount") %>% 
+    glimpse()
+  
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(

@@ -54,11 +54,13 @@
 #'   and observations of humans.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
-  dataset_name <- package$title
+  dataset_name <- purrr::pluck(package,"title", .default = NA)
   dataset_id <- package$id
   rights_holder <- purrr::pluck(package,"rightsHolder", .default = NA)
   collection_code <- package$platform$title
-  license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
+  license <- dplyr::coalesce(
+    purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
+    "")
   media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
   coordinate_precision <-
     purrr::pluck(package, "coordinatePrecision", .default = NA)

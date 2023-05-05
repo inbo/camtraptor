@@ -61,6 +61,8 @@ write_dwc <- function(package, directory = ".") {
   license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
   media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
   coordinate_precision <- package$coordinatePrecision
+  coordinate_precision <-
+    purrr::pluck(package, "coordinatePrecision", .default = NA)
 
   # Create database
   message("Reading data and transforming to Darwin Core.")

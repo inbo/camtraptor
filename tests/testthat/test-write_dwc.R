@@ -80,3 +80,21 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
     )
   )
 })
+
+# Use snapshots to compare output files
+## helpers to output file paths
+
+write_dwc_occ <- function(package) {
+  write_dwc(package)
+  return("dwc_occurrence.csv")
+}
+
+write_dwc_media <- function(package) {
+  write_dwc(package)
+  return("dwc_audubon.csv")
+}
+
+test_that("write_dwc() generates the right files from a known package", {
+  expect_snapshot(write_dwc_occ(mica))
+  expect_snapshot(write_dwc_media(mica))
+})

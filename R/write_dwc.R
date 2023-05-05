@@ -124,12 +124,12 @@ write_dwc <- function(package, directory = ".") {
       # trap" that I can't find the source for
       eventRemarks = stringr::str_squish(glue::glue(
         "{bait_use} {dep_feature_type} {depl_comments}",
-        bait_use = case_when(
+        bait_use = dplyr::case_when(
           baitUse == "none" ~ "camera trap without bait",
           !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
           TRUE ~ "camera trap"
         ),
-        dep_feature_type = case_when(
+        dep_feature_type = dplyr::case_when(
           featureType == "none" ~ "",
           featureType == "other" ~ " near other feature",
           !is.na(featureType) ~ sprintf(" near %s", featureType),
@@ -150,7 +150,7 @@ write_dwc <- function(package, directory = ".") {
                      .na = NULL),
           ""
         )
-      ),
+      )),
       locationID,
       locality = locationName,
       decimalLatitude = latitude,
@@ -179,8 +179,7 @@ write_dwc <- function(package, directory = ".") {
     dplyr::relocate(habitat, .after = "eventDate") %>%
     dplyr::relocate(taxonID, scientificName, .after = "identificationRemarks") %>%
     dplyr::relocate(locationID, .before = "locality") %>%
-    arrange(eventDate) %>%
-    glimpse()
+    dplyr::arrange(eventDate)
   
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
@@ -195,7 +194,7 @@ write_dwc <- function(package, directory = ".") {
     ),
     .con = con
   )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
   dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
   DBI::dbDisconnect(con)
 

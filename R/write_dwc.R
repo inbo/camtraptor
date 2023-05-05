@@ -76,7 +76,8 @@ write_dwc <- function(package, directory = ".") {
 
   # first we join observations on deployments 
   ## NOTE we can get rid of a number of fields here already, see dwc_occurrence.sql
-  dplyr::left_join(observations, deployments, by = dplyr::join_by(deploymentID),
+  dplyr::filter(observations, observationType == "animal") %>% 
+  dplyr::left_join(deployments, by = dplyr::join_by(deploymentID),
                    suffix = c(".obs",".depl")) %>%
     dplyr::mutate(
       .keep = "none",
@@ -113,13 +114,42 @@ write_dwc <- function(package, directory = ".") {
         end = format(end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
       eventRemarks = glue::glue(
-        "{bait_use} {feature_type} | tags: {dep_tags} | {dep_comments}"
+        "{bait_use} {dep_feature_type} {depl_comments}",
         bait_use = case_when(
         baitUse == "none" ~ "camera trap without bait",
         !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
-        TRUE ~ "camera trap")
+        TRUE ~ "camera trap"),
+        dep_feature_type = case_when(
+          featureType == "none" ~ "",
+          featureType == "other" ~ " near other feature",
+          !is.na(featureType) ~ sprintf(" near %s", featureType),
+          TRUE ~ ""
+        ),
+        depl_comments = dplyr::coalesce(
+          glue::glue(
+            "| tags: {tags} | {comments}",
+            tags = tags,
+            comments = comments.depl,
+            .na = NULL),
+          glue::glue(
+            "| tags: {tags}",
+            tags = tags,
+            .na = NULL),
+          glue::glue(
+            "| {comments}",
+            comments = comments.depl,
+            .na = NULL),
+          "")
+      ),
+      locationID,
+      locality = locationName,
+      decimalLatitude = latitude,
+      decimalLongitude = longitude
     ) %>%
-    dplyr::relocate(sex,lifeStage, .after = "individualCount") %>% 
+    #fix the order after generating, columns that are kept in place are placed
+    #at the start of the output df by default
+    dplyr::relocate(sex,lifeStage, .after = "individualCount") %>%
+    dplyr::relocate(habitat, .after = "eventDate") %>% 
     glimpse()
   
   # Query database

@@ -120,7 +120,9 @@ write_dwc <- function(package, directory = ".") {
         start = format(start, format = "%Y-%m-%dT%H:%M:%SZ"),
         end = format(end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
-      eventRemarks = glue::glue(
+      # using stringr::sr_squish() to get rid of an extra space after "camera
+      # trap" that I can't find the source for
+      eventRemarks = stringr::str_squish(glue::glue(
         "{bait_use} {dep_feature_type} {depl_comments}",
         bait_use = case_when(
           baitUse == "none" ~ "camera trap without bait",

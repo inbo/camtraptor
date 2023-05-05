@@ -56,7 +56,7 @@ write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
   dataset_name <- package$title
   dataset_id <- package$id
-  rights_holder <- package$rightsHolder
+  rights_holder <- purrr::pluck(package,"rightsHolder", .default = NA)
   collection_code <- package$platform$title
   license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
   media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
@@ -157,12 +157,16 @@ write_dwc <- function(package, directory = ".") {
           .na = NULL),
         glue::glue("classified by {classificationMethod}",
                    .na = NULL)
-      )
+      ),
+      taxonID,
+      scientificName,
+      kingdom = "Animalia"
     ) %>%
     #fix the order after generating, columns that are kept in place are placed
     #at the start of the output df by default
     dplyr::relocate(sex,lifeStage, .after = "individualCount") %>%
     dplyr::relocate(habitat, .after = "eventDate") %>% 
+    arrange(eventDate) %>% 
     glimpse()
   
   # Query database

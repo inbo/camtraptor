@@ -116,13 +116,6 @@ read_camtrap_dp <- function(file = NULL,
     )
   }
   
-  # create first version datapackage with resources in data element
-  data <- list(
-    "deployments" = deployments,
-    "media" = NULL,
-    "observations" = observations
-  )
-  package$data <- data
   # get taxonomic info
   taxon_infos <- get_species(package)
   # add vernacular names to observations
@@ -139,7 +132,6 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = "cameraSetup")
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
-    package$data$observations <- observations
   }
   
   media <- frictionless::read_resource(package, "media")

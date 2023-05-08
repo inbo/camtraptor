@@ -210,7 +210,7 @@ write_dwc <- function(package, directory = ".") {
   # mapping: merge the joined tables by mediaID and by sequenceID via a union,
   # then map to auduboncore
   
-  # dwc_audubon <-
+  dwc_audubon <-
   dplyr::union(on_seq, on_med) %>%
     dplyr::left_join(deployments,
                      by = dplyr::join_by("deploymentID"),
@@ -237,7 +237,7 @@ write_dwc <- function(package, directory = ".") {
       format = fileMediatype,
       CreateDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
     ) %>%
-    glimpse()
+    dplyr::arrange(CreateDate) 
   
   # NOTE columns need to be reordered. 
   

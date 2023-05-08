@@ -212,6 +212,9 @@ write_dwc <- function(package, directory = ".") {
   
   # dwc_audubon <-
   dplyr::union(on_seq, on_med) %>%
+    dplyr::left_join(deployments,
+                     by = dplyr::join_by("deploymentID"),
+                     suffix = c(".obs_med",".dep")) %>% 
     dplyr::mutate(
       .keep = "none",
       occurrenceID = observationID,
@@ -221,12 +224,12 @@ write_dwc <- function(package, directory = ".") {
         grepl("video", fileMediatype) ~ "MovingImage",
         TRUE ~ "StillImage"
       ),
-      providerManagedID = `_id`,
+      providerManagedID = `_id.obs_med`,
       comments = dplyr::case_when(
         !is.na(favourite) &
-          !is.na(comments), ~ paste("media marked as favourite", comments, sep = " | "),
+          !is.na(comments.obs_med) ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
         !is.na(favourite) ~ "media marked as favourite",
-        TRUE ~ comments
+        TRUE ~ comments.obs_med
       ),
       captureDevice = cameraModel,
       resourceCreationTechnique = captureMethod,

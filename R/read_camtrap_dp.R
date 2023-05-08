@@ -150,6 +150,10 @@ read_camtrap_dp <- function(file = NULL,
         )
       }
     }
+    if ("deploymentTags" %in% names(deployments)) {
+      deployments <- deployments %>%
+        dplyr::rename(tags = deploymentTags)
+    }
   }
   
   # read observations

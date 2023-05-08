@@ -207,18 +207,35 @@ write_dwc <- function(package, directory = ".") {
              by = dplyr::join_by("mediaID"),
              suffix = c(".obs","")) %>% 
     dplyr::select(observationID,timestamp,colnames(media))
-  # mapping
+  # mapping: merge the joined tables by mediaID and by sequenceID via a union,
+  # then map to auduboncore
+  
   # dwc_audubon <-
-    dplyr::union(on_seq, on_med) %>%
-    dplyr::mutate(.keep = "none",
-                  occurrenceID = observationID,
-                  `dcterm:rights` = media_license,
-                  identifier = mediaID,
-                  `dc:type` = dplyr::case_when(
-                    grepl("video",fileMediatype) ~ "MovingImage",
-                    TRUE ~ "StillImage"),
-                  providerManagedID = `_id`)%>% 
-      glimpse()
+  dplyr::union(on_seq, on_med) %>%
+    dplyr::mutate(
+      .keep = "none",
+      occurrenceID = observationID,
+      `dcterm:rights` = media_license,
+      identifier = mediaID,
+      `dc:type` = dplyr::case_when(
+        grepl("video", fileMediatype) ~ "MovingImage",
+        TRUE ~ "StillImage"
+      ),
+      providerManagedID = `_id`,
+      comments = dplyr::case_when(
+        !is.na(favourite) &
+          !is.na(comments), ~ paste("media marked as favourite", comments, sep = " | "),
+        !is.na(favourite) ~ "media marked as favourite",
+        TRUE ~ comments
+      ),
+      captureDevice = cameraModel,
+      resourceCreationTechnique = captureMethod,
+      accessURI = filePath,
+      format = fileMediatype
+    ) %>%
+    glimpse()
+  
+  # NOTE columns need to be reordered. 
   
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(

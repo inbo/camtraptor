@@ -88,6 +88,11 @@ read_camtrap_dp <- function(file = NULL,
   # get package version
   version <- package$profile
   
+  # transform package metadata formatted using Camtrap DP 0.6 standard to avoid
+  # breaking changes
+  if (version == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.6/camtrap-dp-profile.json") {
+    names(package)[names(package) == "eventInterval"] <- "sequenceInterval"
+  }
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")

@@ -114,6 +114,42 @@ read_camtrap_dp <- function(file = NULL,
       deployments <- deployments %>%
         dplyr::rename(cameraInterval = cameraDelay)
     }
+    if ("baitUse" %in% names(deployments)) {
+      # transform Boolean to character and set FALSE to "none", TRUE to "other"
+      deployments <- deployments %>%
+        dplyr::mutate(baitUse = as.character(.data$baitUse)) %>%
+        dplyr::mutate(baitUse = dplyr::if_else(.data$baitUse == "FALSE", 
+                                               true = "none", 
+                                               false = "other"
+                                               )
+        )
+      # retrieve specific bait use info from tags if present
+      if ("deploymentTags" %in% names(deployments)) {
+        deployments <- deployments %>%
+          mutate(baitUse = stringr::str_extract(
+            string = .data$deploymentTags, 
+            pattern = "(?<=bait:).[a-zA-Z]+"
+            )
+          )
+      } else {
+        # retrieve specific bait use info from comments if present (only if tags
+        # don't contain bait use info)
+        deployments <- deployments %>%
+          mutate(baitUse = stringr::str_extract(
+            string = .data$deploymentComments, 
+            pattern = "(?<=bait:).[a-zA-Z]+"
+          )
+        )
+      }
+      # transform to factor where possible
+      bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")
+      if (all(deployments$baitUse %in% bait_uses_old | 
+              is.na(deployments$baitUse))) {
+        deployments$baitUse <- factor(
+          deployments$baitUse, levels = bait_uses_old
+        )
+      }
+    }
   }
   
   # read observations

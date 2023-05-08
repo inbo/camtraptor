@@ -44,10 +44,11 @@
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
 read_camtrap_dp <- function(file = NULL,
-                            media = TRUE,
+                            media = lifecycle::deprecated(),
                             path = lifecycle::deprecated()) {
+  # check path (deprecated)
   warning_detail <- paste(
-    "Use parameter `file` containing the path or URL to the `datapackage.json`",
+    "Use argument `file` containing the path or URL to the `datapackage.json`",
     "file. The use of parameter `path` with path to the local directory is ",
     "deprecated since version 0.6.0."
   )
@@ -68,11 +69,19 @@ read_camtrap_dp <- function(file = NULL,
     file <- file.path(file, "datapackage.json")
   }
 
-  # check media
-  assertthat::assert_that(
-    media %in% c(TRUE, FALSE),
-    msg = "`media` must be a logical: TRUE or FALSE"
+  # check media (deprecated)
+  warning_detail <- paste(
+    "The use of argument `media` is deprecated since version 0.20.0", 
+    "and will be ignored."
   )
+  if (lifecycle::is_present(media)) {
+    lifecycle::deprecate_warn(
+      when = "0.20.0",
+      what = "read_camtrap_dp(file, media)",
+      details = warning_detail
+    )
+  }
+  
   # read files
   package <- frictionless::read_package(file)
   deployments <- frictionless::read_resource(package, "deployments")
@@ -132,26 +141,23 @@ read_camtrap_dp <- function(file = NULL,
     attr(observations, which = "problems") <- issues_observations
     package$data$observations <- observations
   }
-  if (media == TRUE) {
-    media <- frictionless::read_resource(package, "media")
-    issues_media <- readr::problems(media)
-    if (nrow(issues_media) > 0) {
-      warning(glue::glue(
-        "One or more parsing issues occurred while reading media. ",
-        "See `?read_camtrap_dp()` for examples on how to use ",
-        "`readr::problems()`."
-      ))
-    }
+  
+  media <- frictionless::read_resource(package, "media")
+  issues_media <- readr::problems(media)
+  if (nrow(issues_media) > 0) {
+    warning(glue::glue(
+      "One or more parsing issues occurred while reading media. ",
+      "See `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
+    ))
   }
 
   # return list resources
-  if (is.data.frame(media)) {
-    data <- list(
-      "deployments" = deployments,
-      "media" = media,
-      "observations" = observations
-    )
-    package$data <- data
-  }
+  data <- list(
+    "deployments" = deployments,
+    "media" = media,
+    "observations" = observations
+  )
+  package$data <- data
   package
 }

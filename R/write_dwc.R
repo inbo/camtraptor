@@ -77,7 +77,7 @@ write_dwc <- function(package, directory = ".") {
   DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
   DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
 
-  # first we join observations on deployments 
+  # create dwc_occurrence by joining observations on deployments
   ## NOTE we can get rid of a number of fields here already, see dwc_occurrence.sql
   dwc_occurrence <-
     dplyr::filter(observations, observationType == "animal") %>%
@@ -180,6 +180,54 @@ write_dwc <- function(package, directory = ".") {
     dplyr::relocate(taxonID, scientificName, .after = "identificationRemarks") %>%
     dplyr::relocate(locationID, .before = "locality") %>%
     dplyr::arrange(eventDate)
+  
+  # create dwc_audubon
+  
+  observations_animals <- observations %>% 
+    filter(observationType == 'animal') %>% 
+    dplyr::select(observationID,
+                  timestamp,
+                  sequenceID,
+                  dplyr::starts_with("med"))
+  on_seq <-observations_animals %>% 
+    filter(is.na(mediaID)) %>% 
+    left_join(media,
+              by = dplyr::join_by("sequenceID"),
+              suffix = c(".obs",".med"))
+  
+  # observations %>% 
+  #   filter(observationType == 'animal',
+  #          is.na(mediaID)) %>% 
+  # dplyr::select(observationID,
+  #               timestamp,
+  #               sequenceID,
+  #               dplyr::starts_with("med")) %>% 
+  #   left_join(media,
+  #             by = dplyr::join_by("sequenceID"),
+  #             suffix = c(".obs",".med")) %>% 
+  #   glimpse()
+  
+  #almost same start df as above, (difference is mediaID == NA) but merge on
+  #different key
+  # observations %>% 
+  #   filter(observationType == 'animal',
+  #          !is.na(mediaID)) %>% 
+  #   dplyr::select(observationID,
+  #                 timestamp,
+  #                 sequenceID,
+  #                 dplyr::starts_with("med")) %>% 
+  #   left_join(media,
+  #             by = dplyr::join_by("mediaID"),
+  #             suffix = c(".obs",".med")) %>% 
+  #   glimpse()
+  
+  on_med <- observations_animals %>% 
+    filter(!is.na(mediaID)) %>% 
+    left_join(media,
+             by = dplyr::join_by("mediaID"),
+             suffix = c(".obs",".med"))
+  
+  dplyr::union(on_seq,on_med)
   
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(

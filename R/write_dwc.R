@@ -211,6 +211,7 @@ write_dwc <- function(package, directory = ".") {
   # then map to auduboncore
   
   dwc_audubon <-
+    # dplyr::bind_rows() is faster but doesn't offer deduplication
   dplyr::union(on_seq, on_med) %>%
     dplyr::left_join(deployments,
                      by = dplyr::join_by("deploymentID"),

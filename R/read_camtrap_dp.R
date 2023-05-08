@@ -156,7 +156,7 @@ read_camtrap_dp <- function(file = NULL,
     }
     if ("deploymentComments" %in% names(deployments)) {
       deployments <- deployments %>%
-        dplyr::rename(tags = deploymentComments)
+        dplyr::rename(comments = deploymentComments)
     }
   }
   

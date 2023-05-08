@@ -82,8 +82,11 @@ read_camtrap_dp <- function(file = NULL,
     )
   }
   
-  # read files
+  # read package (metadata)
   package <- frictionless::read_package(file)
+  
+  
+  # read deployments
   deployments <- frictionless::read_resource(package, "deployments")
   issues_deployments <- readr::problems(deployments)
   if (nrow(issues_deployments) > 0) {
@@ -93,6 +96,8 @@ read_camtrap_dp <- function(file = NULL,
       "`readr::problems()`."
     ))
   }
+  
+  # read observations
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)
   if (nrow(issues_observations) > 0) {

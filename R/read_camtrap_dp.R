@@ -85,6 +85,9 @@ read_camtrap_dp <- function(file = NULL,
   # read package (metadata)
   package <- frictionless::read_package(file)
   
+  # get package version
+  version <- package$profile
+  
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")

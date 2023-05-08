@@ -105,6 +105,13 @@ read_camtrap_dp <- function(file = NULL,
     ))
   }
   
+  # transform deployments formatted using Camtrap DP 0.6 standard to avoid
+  # breaking changes
+  if (version == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.6/camtrap-dp-profile.json") {
+    deployments <- deployments %>%
+      dplyr::relocate(latitude, .after = longitude)
+  }
+  
   # read observations
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- readr::problems(observations)

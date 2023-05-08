@@ -234,7 +234,8 @@ write_dwc <- function(package, directory = ".") {
       captureDevice = cameraModel,
       resourceCreationTechnique = captureMethod,
       accessURI = filePath,
-      format = fileMediatype
+      format = fileMediatype,
+      CreateDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
     ) %>%
     glimpse()
   

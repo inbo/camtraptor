@@ -61,10 +61,10 @@ write_dwc <- function(package, directory = ".") {
   collection_code <- purrr::pluck(package,"platform","title", .default = NA)
   license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
-    "")
+    NA)
   media_license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path,
-    "")
+    NA)
   coordinate_precision <-
     purrr::pluck(package, "coordinatePrecision", .default = NA)
 

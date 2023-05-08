@@ -110,6 +110,10 @@ read_camtrap_dp <- function(file = NULL,
   if (version == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.6/camtrap-dp-profile.json") {
     deployments <- deployments %>%
       dplyr::relocate(latitude, .after = longitude)
+    if ("cameraDelay" %in% names(deployments)) {
+      deployments <- deployments %>%
+        dplyr::rename(cameraInterval = cameraDelay)
+    }
   }
   
   # read observations

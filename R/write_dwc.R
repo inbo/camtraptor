@@ -186,50 +186,39 @@ write_dwc <- function(package, directory = ".") {
   # create dwc_audubon
   
   observations_animals <- observations %>% 
-    filter(observationType == 'animal') %>% 
+    dplyr::filter(observationType == 'animal') %>% 
     dplyr::select(observationID,
                   timestamp,
                   sequenceID,
-                  dplyr::starts_with("med"))
-  on_seq <-observations_animals %>% 
-    filter(is.na(mediaID)) %>% 
-    left_join(media,
-              by = dplyr::join_by("sequenceID"),
-              suffix = c(".obs",".med"))
+                  dplyr::starts_with("med")) # NOTE do we need to keep Media fields here?
   
-  # observations %>% 
-  #   filter(observationType == 'animal',
-  #          is.na(mediaID)) %>% 
-  # dplyr::select(observationID,
-  #               timestamp,
-  #               sequenceID,
-  #               dplyr::starts_with("med")) %>% 
-  #   left_join(media,
-  #             by = dplyr::join_by("sequenceID"),
-  #             suffix = c(".obs",".med")) %>% 
-  #   glimpse()
-  
-  #almost same start df as above, (difference is mediaID == NA) but merge on
-  #different key
-  # observations %>% 
-  #   filter(observationType == 'animal',
-  #          !is.na(mediaID)) %>% 
-  #   dplyr::select(observationID,
-  #                 timestamp,
-  #                 sequenceID,
-  #                 dplyr::starts_with("med")) %>% 
-  #   left_join(media,
-  #             by = dplyr::join_by("mediaID"),
-  #             suffix = c(".obs",".med")) %>% 
-  #   glimpse()
+  # only keep observationID, timestamp and media columns, use suffix for
+  # observation fields
+  on_seq <- observations_animals %>%
+    dplyr::filter(is.na(mediaID)) %>%
+    dplyr::left_join(media,
+                     by = dplyr::join_by("sequenceID"),
+                     suffix = c(".obs", "")) %>%
+    dplyr::select(observationID,timestamp,colnames(media))
   
   on_med <- observations_animals %>% 
-    filter(!is.na(mediaID)) %>% 
-    left_join(media,
+    dplyr::filter(!is.na(mediaID)) %>% 
+    dplyr::left_join(media,
              by = dplyr::join_by("mediaID"),
-             suffix = c(".obs",".med"))
-  
-  dplyr::union(on_seq,on_med)
+             suffix = c(".obs","")) %>% 
+    dplyr::select(observationID,timestamp,colnames(media))
+  # mapping
+  # dwc_audubon <-
+    dplyr::union(on_seq, on_med) %>%
+    dplyr::mutate(.keep = "none",
+                  occurrenceID = observationID,
+                  `dcterm:rights` = media_license,
+                  identifier = mediaID,
+                  `dc:type` = dplyr::case_when(
+                    grepl("video",fileMediatype) ~ "MovingImage",
+                    TRUE ~ "StillImage"),
+                  providerManagedID = `_id`)%>% 
+      glimpse()
   
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(

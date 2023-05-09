@@ -176,36 +176,48 @@ write_dwc <- function(package, directory = ".") {
     dplyr::relocate("habitat", .after = "eventDate") %>%
     dplyr::relocate("taxonID", "scientificName", .after = "identificationRemarks") %>%
     dplyr::relocate("locationID", .before = "locality") %>%
-    dplyr::arrange(.data$parentEventID, .data$eventDate)
+    dplyr::arrange(parentEventID, .data$eventDate)
   
   # Create dwc_audubon
   ## Create a number of intermediary dataframes to improve readability
-  observations_animals <- observations %>% 
-    dplyr::filter(.data$observationType == 'animal') %>% 
-    dplyr::select(.data$observationID,
-                  .data$timestamp,
-                  .data$sequenceID,
-                  dplyr::starts_with("med")) # NOTE do we need to keep Media fields here?
+  observations_animals <- observations %>%
+  dplyr::filter(.data$observationType == "animal") %>%
+  dplyr::select(
+    dplyr::all_of(c("observationID", "timestamp", "sequenceID", "mediaID"))
+  )
+  # Observations can be based on sequences (sequenceID) or individual files
+  # (mediaID)
   
-  # only keep observationID, timestamp and media columns, use suffix for
-  # observation fields
+  # Make two joins and union to capture both cases without overlap
   on_seq <- observations_animals %>%
     dplyr::filter(is.na(.data$mediaID)) %>%
     dplyr::left_join(media,
-                     by = dplyr::join_by("sequenceID"),
-                     suffix = c(".obs", "")) %>%
-    dplyr::select(.data$observationID,
-                  .data$timestamp,
-                  dplyr::all_of(colnames(media)))
-  
+      by = dplyr::join_by("sequenceID"),
+      suffix = c(".obs", "")
+    ) %>%
+    dplyr::select(
+      dplyr::all_of(
+        c(
+          "observationID",
+          "timestamp",
+          colnames(media)
+        )
+      )
+    )
   on_med <- observations_animals %>% 
     dplyr::filter(!is.na(.data$mediaID)) %>% 
     dplyr::left_join(media,
              by = dplyr::join_by("mediaID"),
              suffix = c(".obs","")) %>% 
-    dplyr::select(.data$observationID,
-                  .data$timestamp,
-                  dplyr::all_of(colnames(media)))
+    dplyr::select(
+      dplyr::all_of(
+        c(
+          "observationID",
+          "timestamp",
+          colnames(media)
+        )
+      )
+    )
   
   # Merge, then map to auduboncore
   dwc_audubon <-

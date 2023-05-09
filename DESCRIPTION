@@ -32,7 +32,6 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
-    DBI,
     dplyr (>= 1.1.0),
     EML,
     frictionless,
@@ -45,7 +44,6 @@ Imports:
     RColorBrewer,
     readr,
     rlang,
-    RSQLite,
     stringr,
     tidyr,
     tools,

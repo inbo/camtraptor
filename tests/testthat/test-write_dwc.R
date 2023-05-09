@@ -81,22 +81,20 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   )
 })
 
-# Use snapshots to compare output files
-## helpers to output file paths
+#Use snapshots to compare output files # helpers to output file paths:
+#expect_snapshot_file() needs a function to output the path of the file it needs
+#to snapshot
 
-write_dwc_occ <- function(package, directory = ".") {
+write_dwc_snapshot <- function(package, directory, which){
   suppressMessages(write_dwc(package, directory))
-  return(file.path(directory, "dwc_occurrence.csv"))
-}
-
-write_dwc_media <- function(package, directory = ".") {
-  suppressMessages(write_dwc(package, directory))
-  return(file.path(directory, "dwc_audubon.csv"))
+  switch(which,
+         occurrence = file.path(directory, "dwc_occurrence.csv"),
+         audubon = file.path(directory, "dwc_audubon.csv"))
 }
 
 test_that("write_dwc() generates the right files from a known package", {
   out_dir <- file.path(tempdir(), "dwc")
-  expect_snapshot_file(write_dwc_occ(mica,out_dir))
-  expect_snapshot_file(write_dwc_media(mica,out_dir))
+  expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "occurrence"))
+  expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "audubon"))
   unlink(out_dir, recursive = TRUE)
 })

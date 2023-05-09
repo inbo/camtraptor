@@ -238,8 +238,6 @@ write_dwc <- function(package, directory = ".") {
       format = .data$fileMediatype,
       CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
     )
-  
-  # NOTE columns need to be reordered. 
 
   # Return object or write files
   if (is.null(directory)) {

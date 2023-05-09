@@ -181,7 +181,7 @@ write_dwc <- function(package, directory = ".") {
     dplyr::relocate(habitat, .after = "eventDate") %>%
     dplyr::relocate(taxonID, scientificName, .after = "identificationRemarks") %>%
     dplyr::relocate(locationID, .before = "locality") %>%
-    dplyr::arrange(eventDate)
+    dplyr::arrange(parentEventID, eventDate)
   
   # create dwc_audubon
   
@@ -216,6 +216,7 @@ write_dwc <- function(package, directory = ".") {
     dplyr::left_join(deployments,
                      by = dplyr::join_by("deploymentID"),
                      suffix = c(".obs_med",".dep")) %>% 
+    dplyr::arrange(deploymentID, timestamp, fileName) %>%
     dplyr::mutate(
       .keep = "none",
       occurrenceID = observationID,
@@ -237,8 +238,7 @@ write_dwc <- function(package, directory = ".") {
       accessURI = filePath,
       format = fileMediatype,
       CreateDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
-    ) %>%
-    dplyr::arrange(CreateDate) 
+    )
   
   # NOTE columns need to be reordered. 
   

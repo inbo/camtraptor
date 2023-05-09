@@ -117,8 +117,8 @@ write_dwc <- function(package, directory = ".") {
         start = format(.data$start, format = "%Y-%m-%dT%H:%M:%SZ"),
         end = format(.data$end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
-      # using stringr::sr_squish() to get rid of an extra space after "camera
-      # trap" that I can't find the source for
+      # using stringr::sr_squish() to remove any extra whitespace due to missing
+      # elements, eg. when featureType is 'none'
       eventRemarks = stringr::str_squish(glue::glue(
         "{bait_use} {dep_feature_type} {depl_comments}",
         bait_use = dplyr::case_when(

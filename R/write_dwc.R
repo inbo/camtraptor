@@ -55,10 +55,10 @@
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
   ## use purrr::pluck() to force NA when metadata field is missing
-  dataset_name <- purrr::pluck(package,"title", .default = NA)
-  dataset_id <- purrr::pluck(package,"id", .default = NA)
-  rights_holder <- purrr::pluck(package,"rightsHolder", .default = NA)
-  collection_code <- purrr::pluck(package,"platform","title", .default = NA)
+  dataset_name <- purrr::pluck(package, "title", .default = NA)
+  dataset_id <- purrr::pluck(package, "id", .default = NA)
+  rights_holder <- purrr::pluck(package, "rightsHolder", .default = NA)
+  collection_code <- purrr::pluck(package, "platform", "title", .default = NA)
   license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
     NA)
@@ -157,7 +157,7 @@ write_dwc <- function(package, directory = ".") {
       coordinatePrecision = coordinate_precision,
       identifiedBy = .data$classifiedBy,
       dateIdentified = format(.data$classificationTimestamp,
-                              format = "%Y-%m-%dT%H:%M:%SZ"), 
+                              format = "%Y-%m-%dT%H:%M:%SZ"),
       identificationRemarks = dplyr::coalesce(
         glue::glue(
           "classified by {classificationMethod} with",
@@ -174,20 +174,23 @@ write_dwc <- function(package, directory = ".") {
     # Reorder the columns and sort
     dplyr::relocate("sex", "lifeStage", .after = "individualCount") %>%
     dplyr::relocate("habitat", .after = "eventDate") %>%
-    dplyr::relocate("taxonID", "scientificName", .after = "identificationRemarks") %>%
+    dplyr::relocate("taxonID",
+                    "scientificName",
+                    .after = "identificationRemarks") %>%
     dplyr::relocate("locationID", .before = "locality") %>%
-    dplyr::arrange(parentEventID, .data$eventDate)
-  
+    dplyr::arrange(.data$parentEventID, .data$eventDate)
+
   # Create dwc_audubon
   ## Create a number of intermediary dataframes to improve readability
   observations_animals <- observations %>%
-  dplyr::filter(.data$observationType == "animal") %>%
-  dplyr::select(
-    dplyr::all_of(c("observationID", "timestamp", "sequenceID", "mediaID"))
-  )
+    dplyr::filter(.data$observationType == "animal") %>%
+    dplyr::select(
+      dplyr::all_of(c("observationID", "timestamp", "sequenceID", "mediaID"))
+    )
+
   # Observations can be based on sequences (sequenceID) or individual files
   # (mediaID)
-  
+
   # Make two joins and union to capture both cases without overlap
   on_seq <- observations_animals %>%
     dplyr::filter(is.na(.data$mediaID)) %>%
@@ -204,11 +207,12 @@ write_dwc <- function(package, directory = ".") {
         )
       )
     )
-  on_med <- observations_animals %>% 
-    dplyr::filter(!is.na(.data$mediaID)) %>% 
+  on_med <- observations_animals %>%
+    dplyr::filter(!is.na(.data$mediaID)) %>%
     dplyr::left_join(media,
-             by = dplyr::join_by("mediaID"),
-             suffix = c(".obs","")) %>% 
+      by = dplyr::join_by("mediaID"),
+      suffix = c(".obs", "")
+    ) %>%
     dplyr::select(
       dplyr::all_of(
         c(
@@ -218,14 +222,15 @@ write_dwc <- function(package, directory = ".") {
         )
       )
     )
-  
+
   # Merge, then map to auduboncore
   dwc_audubon <-
     # dplyr::bind_rows() is faster but doesn't offer deduplication
-  dplyr::union(on_seq, on_med) %>%
+    dplyr::union(on_seq, on_med) %>%
     dplyr::left_join(deployments,
-                     by = dplyr::join_by("deploymentID"),
-                     suffix = c(".obs_med",".dep")) %>% 
+      by = dplyr::join_by("deploymentID"),
+      suffix = c(".obs_med", ".dep")
+    ) %>%
     dplyr::arrange(.data$deploymentID, .data$timestamp, .data$fileName) %>%
     dplyr::mutate(
       .keep = "none",
@@ -240,7 +245,9 @@ write_dwc <- function(package, directory = ".") {
       comments = dplyr::case_when(
         !is.na(favourite) &
           !is.na(comments.obs_med) ~ paste("media marked as favourite",
-                                           comments.obs_med, sep = " | "),
+          comments.obs_med,
+          sep = " | "
+        ),
         !is.na(favourite) ~ "media marked as favourite",
         TRUE ~ comments.obs_med
       ),

@@ -79,13 +79,12 @@ write_dwc <- function(package, directory = ".") {
   # DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
   # DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
 
-  # create dwc_occurrence by joining observations on deployments
-  ## NOTE we can get rid of a number of fields here already, see dwc_occurrence.sql
+  # Create mapped df by joining observations on deployments and mutating
   dwc_occurrence <-
-    dplyr::filter(observations, observationType == "animal") %>%
+    dplyr::filter(observations, .data$observationType == "animal") %>%
     dplyr::left_join(
       deployments,
-      by = dplyr::join_by(deploymentID),
+      by = dplyr::join_by("deploymentID"),
       suffix = c(".obs", ".depl")
     ) %>%
     dplyr::mutate(
@@ -104,23 +103,23 @@ write_dwc <- function(package, directory = ".") {
         " degrees",
         .na = NULL
       ),
-      occurrenceID = observationID,
-      individualCount = count,
-      sex,
-      lifeStage,
-      behavior = behaviour,
+      occurrenceID = .data$observationID,
+      individualCount = .data$count,
+      .data$sex,
+      .data$lifeStage,
+      behavior = .data$behaviour,
       occurrenceStatus = "present",
-      occurrenceRemarks = comments.obs,
-      organismID = individualID,
-      eventID = sequenceID,
-      parentEventID = deploymentID,
-      eventDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
-      habitat = habitat,
+      occurrenceRemarks = .data$comments.obs,
+      organismID = .data$individualID,
+      eventID = .data$sequenceID,
+      parentEventID = .data$deploymentID,
+      eventDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+      habitat = .data$habitat,
       samplingProtocol = "camera trap",
       samplingEffort = glue::glue(
         "{start}/{end}",
-        start = format(start, format = "%Y-%m-%dT%H:%M:%SZ"),
-        end = format(end, format = "%Y-%m-%dT%H:%M:%SZ")
+        start = format(.data$start, format = "%Y-%m-%dT%H:%M:%SZ"),
+        end = format(.data$end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
       # using stringr::sr_squish() to get rid of an extra space after "camera
       # trap" that I can't find the source for
@@ -140,28 +139,29 @@ write_dwc <- function(package, directory = ".") {
         depl_comments = dplyr::coalesce(
           glue::glue(
             "| tags: {tags} | {comments}",
-            tags = tags,
-            comments = comments.depl,
+            tags = .data$tags,
+            comments = .data$comments.depl,
             .na = NULL
           ),
           glue::glue("| tags: {tags}",
-                     tags = tags,
+                     tags = .data$tags,
                      .na = NULL),
           glue::glue("| {comments}",
-                     comments = comments.depl,
+                     comments = .data$comments.depl,
                      .na = NULL),
           ""
         )
       )),
-      locationID,
-      locality = locationName,
-      decimalLatitude = latitude,
-      decimalLongitude = longitude,
+      .data$locationID,
+      locality = .data$locationName,
+      decimalLatitude = .data$latitude,
+      decimalLongitude = .data$longitude,
       geodeticDatum = "EPSG:4326",
-      coordinateUncertaintyInMeters = coordinateUncertainty,
+      coordinateUncertaintyInMeters = .data$coordinateUncertainty,
       coordinatePrecision = coordinate_precision,
-      identifiedBy = classifiedBy,
-      dateIdentified = format(classificationTimestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+      identifiedBy = .data$classifiedBy,
+      dateIdentified = format(.data$classificationTimestamp,
+                              format = "%Y-%m-%dT%H:%M:%SZ"), 
       identificationRemarks = dplyr::coalesce(
         glue::glue(
           "classified by {classificationMethod} with",
@@ -171,73 +171,76 @@ write_dwc <- function(package, directory = ".") {
         glue::glue("classified by {classificationMethod}",
                    .na = NULL)
       ),
-      taxonID,
-      scientificName,
+      .data$taxonID,
+      .data$scientificName,
       kingdom = "Animalia"
     ) %>%
-    #fix/clean up the order after generating, columns that are kept in place are placed
-    #at the start of the output df by default
-    dplyr::relocate(sex, lifeStage, .after = "individualCount") %>%
-    dplyr::relocate(habitat, .after = "eventDate") %>%
-    dplyr::relocate(taxonID, scientificName, .after = "identificationRemarks") %>%
-    dplyr::relocate(locationID, .before = "locality") %>%
-    dplyr::arrange(parentEventID, eventDate)
+    # Reorder the columns and sort
+    dplyr::relocate("sex", "lifeStage", .after = "individualCount") %>%
+    dplyr::relocate("habitat", .after = "eventDate") %>%
+    dplyr::relocate("taxonID", "scientificName", .after = "identificationRemarks") %>%
+    dplyr::relocate("locationID", .before = "locality") %>%
+    dplyr::arrange(.data$parentEventID, .data$eventDate)
   
-  # create dwc_audubon
-  
+  # Create dwc_audubon
+  ## Create a number of intermediary dataframes to improve readability
   observations_animals <- observations %>% 
-    dplyr::filter(observationType == 'animal') %>% 
-    dplyr::select(observationID,
-                  timestamp,
-                  sequenceID,
+    dplyr::filter(.data$observationType == 'animal') %>% 
+    dplyr::select(.data$observationID,
+                  .data$timestamp,
+                  .data$sequenceID,
                   dplyr::starts_with("med")) # NOTE do we need to keep Media fields here?
   
   # only keep observationID, timestamp and media columns, use suffix for
   # observation fields
   on_seq <- observations_animals %>%
-    dplyr::filter(is.na(mediaID)) %>%
+    dplyr::filter(is.na(.data$mediaID)) %>%
     dplyr::left_join(media,
                      by = dplyr::join_by("sequenceID"),
                      suffix = c(".obs", "")) %>%
-    dplyr::select(observationID,timestamp,colnames(media))
+    dplyr::select(.data$observationID,
+                  .data$timestamp,
+                  dplyr::all_of(colnames(media)))
   
   on_med <- observations_animals %>% 
-    dplyr::filter(!is.na(mediaID)) %>% 
+    dplyr::filter(!is.na(.data$mediaID)) %>% 
     dplyr::left_join(media,
              by = dplyr::join_by("mediaID"),
              suffix = c(".obs","")) %>% 
-    dplyr::select(observationID,timestamp,colnames(media))
-  # mapping: merge the joined tables by mediaID and by sequenceID via a union,
-  # then map to auduboncore
+    dplyr::select(.data$observationID,
+                  .data$timestamp,
+                  dplyr::all_of(colnames(media)))
   
+  # Merge, then map to auduboncore
   dwc_audubon <-
     # dplyr::bind_rows() is faster but doesn't offer deduplication
   dplyr::union(on_seq, on_med) %>%
     dplyr::left_join(deployments,
                      by = dplyr::join_by("deploymentID"),
                      suffix = c(".obs_med",".dep")) %>% 
-    dplyr::arrange(deploymentID, timestamp, fileName) %>%
+    dplyr::arrange(.data$deploymentID, .data$timestamp, .data$fileName) %>%
     dplyr::mutate(
       .keep = "none",
-      occurrenceID = observationID,
+      occurrenceID = .data$observationID,
       `dcterm:rights` = media_license,
-      identifier = mediaID,
+      identifier = .data$mediaID,
       `dc:type` = dplyr::case_when(
         grepl("video", fileMediatype) ~ "MovingImage",
         TRUE ~ "StillImage"
       ),
-      providerManagedID = `_id.obs_med`,
+      providerManagedID = .data$`_id.obs_med`,
       comments = dplyr::case_when(
         !is.na(favourite) &
-          !is.na(comments.obs_med) ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
+          !is.na(comments.obs_med) ~ paste("media marked as favourite",
+                                           comments.obs_med, sep = " | "),
         !is.na(favourite) ~ "media marked as favourite",
         TRUE ~ comments.obs_med
       ),
-      captureDevice = cameraModel,
-      resourceCreationTechnique = captureMethod,
-      accessURI = filePath,
-      format = fileMediatype,
-      CreateDate = format(timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
+      captureDevice = .data$cameraModel,
+      resourceCreationTechnique = .data$captureMethod,
+      accessURI = .data$filePath,
+      format = .data$fileMediatype,
+      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
     )
   
   # NOTE columns need to be reordered. 

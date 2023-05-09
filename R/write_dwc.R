@@ -74,10 +74,6 @@ write_dwc <- function(package, directory = ".") {
   observations <- dplyr::tibble(package$data$observations)
   # Create database
   message("Reading data and transforming to Darwin Core.")
-  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  # DBI::dbWriteTable(con, "deployments", dplyr::tibble(package$data$deployments))
-  # DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
-  # DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
 
   # Create mapped df by joining observations on deployments and mutating
   dwc_occurrence <-
@@ -244,23 +240,6 @@ write_dwc <- function(package, directory = ".") {
     )
   
   # NOTE columns need to be reordered. 
-  
-  # Query database
-  # dwc_occurrence_sql <- glue::glue_sql(
-  #   readr::read_file(
-  #     system.file("sql/dwc_occurrence.sql", package = "camtraptor")
-  #   ),
-  #   .con = con
-  # )
-  # dwc_audubon_sql <- glue::glue_sql(
-  #   readr::read_file(
-  #     system.file("sql/dwc_audubon.sql", package = "camtraptor")
-  #   ),
-  #   .con = con
-  # )
-  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  # dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
-  # DBI::dbDisconnect(con)
 
   # Return object or write files
   if (is.null(directory)) {

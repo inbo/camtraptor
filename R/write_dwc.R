@@ -74,10 +74,10 @@ write_dwc <- function(package, directory = ".") {
   deployments <- dplyr::tibble(package$data$deployments)
   media <- dplyr::tibble(package$data$media)
   observations <- dplyr::tibble(package$data$observations)
-  
+
   # Filter observations on animal observations (excluding humans, blanks, etc.)
   observations <- dplyr::filter(observations, .data$observationType == "animal")
-  
+
   # Create dwc_occurrence
   dwc_occurrence <-
     deployments %>%
@@ -122,7 +122,8 @@ write_dwc <- function(package, directory = ".") {
         "{bait_use} {dep_feature} {dep_tags} {dep_comments}",
         bait_use = dplyr::case_when(
           .data$baitUse == "none" ~ "camera trap without bait",
-          !is.na(.data$baitUse) ~ glue::glue("camera trap with {.data$baitUse} bait"),
+          !is.na(.data$baitUse) ~
+            glue::glue("camera trap with {.data$baitUse} bait"),
           .default = "camera trap",
         ),
         dep_feature = dplyr::case_when(
@@ -253,7 +254,7 @@ write_dwc <- function(package, directory = ".") {
       accessURI = .data$filePath,
       format = .data$fileMediatype,
       CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
-    ) %>% 
+    ) %>%
     # Set column order
     dplyr::select(
       "occurrenceID",

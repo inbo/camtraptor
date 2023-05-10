@@ -80,8 +80,8 @@ write_dwc <- function(package, directory = ".") {
     dplyr::filter(observations, .data$observationType == "animal") %>%
     dplyr::left_join(
       deployments,
-      by = dplyr::join_by("deploymentID"),
-      suffix = c(".obs", ".depl")
+      by = "deploymentID",
+      suffix = c(".obs", ".dep")
     ) %>%
     dplyr::mutate(
       .keep = "none",
@@ -114,35 +114,27 @@ write_dwc <- function(package, directory = ".") {
         start = format(.data$start, format = "%Y-%m-%dT%H:%M:%SZ"),
         end = format(.data$end, format = "%Y-%m-%dT%H:%M:%SZ")
       ),
-      # using stringr::sr_squish() to remove any extra whitespace due to missing
-      # elements, eg. when featureType is 'none'
       eventRemarks = stringr::str_squish(glue::glue(
-        "{bait_use} {dep_feature_type} {depl_comments}",
+        # E.g. "camera trap with bait near burrow | tags: <t1, t2> | <comment>"
+        "{bait_use} {dep_feature} {dep_tags} {dep_comments}",
         bait_use = dplyr::case_when(
-          baitUse == "none" ~ "camera trap without bait",
-          !is.na(baitUse) ~ glue::glue("camera trap with {baitUse} bait"),
-          TRUE ~ "camera trap"
+          .data$baitUse == "none" ~ "camera trap without bait",
+          !is.na(.data$baitUse) ~ glue::glue("camera trap with {.data$baitUse} bait"),
+          .default = "camera trap",
         ),
-        dep_feature_type = dplyr::case_when(
-          featureType == "none" ~ "",
-          featureType == "other" ~ " near other feature",
-          !is.na(featureType) ~ sprintf(" near %s", featureType),
-          TRUE ~ ""
+        dep_feature = dplyr::case_when(
+          .data$featureType == "none" ~ "",
+          .data$featureType == "other" ~ " near other feature",
+          !is.na(.data$featureType) ~ glue::glue(" near {.data$featureType}"),
+          .default = ""
         ),
-        depl_comments = dplyr::coalesce(
-          glue::glue(
-            "| tags: {tags} | {comments}",
-            tags = .data$tags,
-            comments = .data$comments.depl,
-            .na = NULL
-          ),
-          glue::glue("| tags: {tags}",
-                     tags = .data$tags,
-                     .na = NULL),
-          glue::glue("| {comments}",
-                     comments = .data$comments.depl,
-                     .na = NULL),
-          ""
+        dep_tags = dplyr::case_when(
+          !is.na(.data$tags) ~ glue::glue(" | tags: {.data$tags}"),
+          .default = ""
+        ),
+        dep_comments = dplyr::case_when(
+          !is.na(.data$comments.dep) ~ glue::glue(" | {.data$comments.dep}"),
+          .default = ""
         )
       )),
       locationID = .data$locationID,
@@ -153,18 +145,26 @@ write_dwc <- function(package, directory = ".") {
       coordinateUncertaintyInMeters = .data$coordinateUncertainty,
       coordinatePrecision = coordinate_precision,
       identifiedBy = .data$classifiedBy,
-      identificationRemarks = dplyr::coalesce(
-        glue::glue(
-          "classified by {classificationMethod} with",
-          " {classificationConfidence} confidence",
-          .na = NULL
-        ),
-        glue::glue("classified by {classificationMethod}",
-                   .na = NULL)
       dateIdentified = format(
         .data$classificationTimestamp,
         format = "%Y-%m-%dT%H:%M:%SZ"
       ),
+      identificationRemarks = stringr::str_squish(glue::glue(
+        # E.g. "classified by machine with 0.89 confidence"
+        "{classification_method} {classification_probability}",
+        classification_method = dplyr::case_when(
+          !is.na(.data$classificationMethod) ~ glue::glue(
+            "classified by {.data$classificationMethod}"
+          ),
+          .default = ""
+        ),
+        classification_probability = dplyr::case_when(
+          !is.na(.data$classificationConfidence) ~ glue::glue(
+            "with {.data$classificationConfidence} confidence"
+          ),
+          .default = ""
+        )
+      )),
       taxonID = .data$taxonID,
       scientificName = .data$scientificName,
       kingdom = "Animalia"

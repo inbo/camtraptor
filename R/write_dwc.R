@@ -288,9 +288,7 @@ write_dwc <- function(package, directory = ".") {
     if (!dir.exists(directory)) {
       dir.create(directory, recursive = TRUE)
     }
-    # Set end of line character to Unix style newlines, this way the function
-    # will always output the same files, regardless of OS
-    readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "", eol = "\n")
-    readr::write_csv(dwc_audubon, dwc_audubon_path, na = "", eol = "\n")
+    readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+    readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
   }
 }

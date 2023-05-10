@@ -151,7 +151,7 @@ This column is omitted if parameter <code>species = NULL</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 26 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get number of obs of all species, not identified individuals as well</span></span></span>
 <span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, species <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
@@ -239,7 +239,7 @@ This column is omitted if parameter <code>species = NULL</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 26 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Specify sex</span></span></span>
 <span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"female"</span><span class="op">)</span></span></span>
@@ -257,7 +257,7 @@ This column is omitted if parameter <code>species = NULL</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 26 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Specify both sex and life stage</span></span></span>
 <span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, sex <span class="op">=</span> <span class="st">"unknown"</span>, life_stage <span class="op">=</span> <span class="st">"adult"</span><span class="op">)</span></span></span>
@@ -275,7 +275,7 @@ This column is omitted if parameter <code>species = NULL</code>.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 26 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 26 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Apply filter(s), e.g. deployments with latitude &gt;= 51.18</span></span></span>
 <span class="r-in"><span><span class="fu">get_n_individuals</span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="filter_predicate.html">pred_gte</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span></span>

@@ -101,13 +101,13 @@ expression.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;, locationName &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;, coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   end &lt;dttm&gt;, setupBy &lt;chr&gt;, cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraInterval &lt;dbl&gt;, cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeading &lt;dbl&gt;, timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   array &lt;chr&gt;, featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   _id &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="co"># Equivalent of</span></span></span>
 <span class="r-in"><span><span class="fu">apply_filter_predicate</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">mica</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span>,</span></span>
@@ -119,13 +119,13 @@ expression.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) &amp; (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;, locationName &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;, coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   end &lt;dttm&gt;, setupBy &lt;chr&gt;, cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraInterval &lt;dbl&gt;, cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeading &lt;dbl&gt;, timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   array &lt;chr&gt;, featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   _id &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># or</span></span></span>
@@ -139,13 +139,13 @@ expression.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> df %&gt;% dplyr::filter(((latitude &gt;= 51.28) | (longitude &lt; 3.56)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 24</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   locationName &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;, end &lt;dttm&gt;, setupBy &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;, cameraInterval &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;, cameraHeading &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;, array &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;, _id &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 variables: deploymentID &lt;chr&gt;, locationID &lt;chr&gt;, locationName &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   longitude &lt;dbl&gt;, latitude &lt;dbl&gt;, coordinateUncertainty &lt;dbl&gt;, start &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   end &lt;dttm&gt;, setupBy &lt;chr&gt;, cameraID &lt;chr&gt;, cameraModel &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraInterval &lt;dbl&gt;, cameraHeight &lt;dbl&gt;, cameraTilt &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cameraHeading &lt;dbl&gt;, timestampIssues &lt;lgl&gt;, baitUse &lt;fct&gt;, session &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   array &lt;chr&gt;, featureType &lt;fct&gt;, habitat &lt;chr&gt;, tags &lt;chr&gt;, comments &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   _id &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

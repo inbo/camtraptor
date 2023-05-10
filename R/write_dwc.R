@@ -253,6 +253,20 @@ write_dwc <- function(package, directory = ".") {
       accessURI = .data$filePath,
       format = .data$fileMediatype,
       CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
+    ) %>% 
+    # Set column order
+    dplyr::select(
+      "occurrenceID",
+      "dcterm:rights",
+      "identifier",
+      "dc:type",
+      "providerManagedID",
+      "comments",
+      "captureDevice",
+      "resourceCreationTechnique",
+      "accessURI",
+      "format",
+      "CreateDate"
     )
 
   # Return object or write files

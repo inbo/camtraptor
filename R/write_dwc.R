@@ -247,7 +247,7 @@ write_dwc <- function(package, directory = ".") {
           sep = " | "
         ),
         !is.na(favourite) ~ "media marked as favourite",
-        .default = comments.obs_med
+        .default = .data$comments.obs_med
       ),
       captureDevice = .data$cameraModel,
       resourceCreationTechnique = .data$captureMethod,

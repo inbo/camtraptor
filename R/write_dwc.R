@@ -75,11 +75,14 @@ write_dwc <- function(package, directory = ".") {
   media <- dplyr::tibble(package$data$media)
   observations <- dplyr::tibble(package$data$observations)
   
+  # Filter observations on animal observations (excluding humans, blanks, etc.)
+  observations <- dplyr::filter(observations, .data$observationType == "animal")
+  
   # Create dwc_occurrence
   dwc_occurrence <-
-    dplyr::filter(observations, .data$observationType == "animal") %>%
+    deployments %>%
     dplyr::left_join(
-      deployments,
+      observations,
       by = "deploymentID",
       suffix = c(".obs", ".dep")
     ) %>%
@@ -189,8 +192,9 @@ write_dwc <- function(package, directory = ".") {
   # Observations can be based on sequences (sequenceID) or individual files
   # (mediaID)
 
-  # Make two joins and union to capture both cases without overlap
-  on_seq <- observations_animals %>%
+  # Observations can be linked to sequences or media.
+  # Create mutually exclusive data frames for both cases and union
+  on_seq <- observations %>%
     dplyr::filter(is.na(.data$mediaID)) %>%
     dplyr::left_join(media,
       by = dplyr::join_by("sequenceID"),
@@ -205,7 +209,7 @@ write_dwc <- function(package, directory = ".") {
         )
       )
     )
-  on_med <- observations_animals %>%
+  on_med <- observations %>%
     dplyr::filter(!is.na(.data$mediaID)) %>%
     dplyr::left_join(media,
       by = dplyr::join_by("mediaID"),

@@ -172,25 +172,20 @@ write_dwc <- function(package, directory = ".") {
       scientificName = .data$scientificName,
       kingdom = "Animalia"
     ) %>%
-    # Reorder the columns and sort
-    dplyr::relocate("sex", "lifeStage", .after = "individualCount") %>%
-    dplyr::relocate("habitat", .after = "eventDate") %>%
-    dplyr::relocate("taxonID",
-                    "scientificName",
-                    .after = "identificationRemarks") %>%
-    dplyr::relocate("locationID", .before = "locality") %>%
-    dplyr::arrange(.data$parentEventID, .data$eventDate)
-
-  # Create dwc_audubon
-  ## Create a number of intermediary dataframes to improve readability
-  observations_animals <- observations %>%
-    dplyr::filter(.data$observationType == "animal") %>%
+    # Sort
+    dplyr::arrange(.data$parentEventID, .data$eventDate) %>%
+    # Set column order
     dplyr::select(
-      dplyr::all_of(c("observationID", "timestamp", "sequenceID", "mediaID"))
+      "type", "license", "rightsHolder", "datasetID", "collectionCode",
+      "datasetName", "basisOfRecord", "dataGeneralizations", "occurrenceID",
+      "individualCount", "sex", "lifeStage", "behavior", "occurrenceStatus",
+      "occurrenceRemarks", "organismID", "eventID", "parentEventID",
+      "eventDate", "habitat", "samplingProtocol", "samplingEffort",
+      "eventRemarks", "locationID", "locality", "decimalLatitude",
+      "decimalLongitude", "geodeticDatum", "coordinateUncertaintyInMeters",
+      "coordinatePrecision", "identifiedBy", "dateIdentified",
+      "identificationRemarks", "taxonID", "scientificName", "kingdom"
     )
-
-  # Observations can be based on sequences (sequenceID) or individual files
-  # (mediaID)
 
   # Observations can be linked to sequences or media.
   # Create mutually exclusive data frames for both cases and union

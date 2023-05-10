@@ -94,6 +94,10 @@ write_dwc_snapshot <- function(package, directory, which){
 
 test_that("write_dwc() generates the right files from a known package", {
   out_dir <- file.path(tempdir(), "dwc")
+  unlink(out_dir, recursive = TRUE)
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir)
+  }
   expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "occurrence"))
   expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "audubon"))
   unlink(out_dir, recursive = TRUE)

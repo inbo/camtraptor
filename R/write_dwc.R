@@ -54,28 +54,28 @@
 #'   and observations of humans.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
-  ## use purrr::pluck() to force NA when metadata field is missing
+  # Use purrr::pluck() to force NA when metadata field is missing
   dataset_name <- purrr::pluck(package, "title", .default = NA)
   dataset_id <- purrr::pluck(package, "id", .default = NA)
   rights_holder <- purrr::pluck(package, "rightsHolder", .default = NA)
   collection_code <- purrr::pluck(package, "platform", "title", .default = NA)
   license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
-    NA)
+    NA
+  )
   media_license <- dplyr::coalesce(
     purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path,
-    NA)
+    NA
+  )
   coordinate_precision <-
     purrr::pluck(package, "coordinatePrecision", .default = NA)
 
-  # read package data
+  # Read package data
   deployments <- dplyr::tibble(package$data$deployments)
   media <- dplyr::tibble(package$data$media)
   observations <- dplyr::tibble(package$data$observations)
-  # Create database
-  message("Reading data and transforming to Darwin Core.")
-
-  # Create mapped df by joining observations on deployments and mutating
+  
+  # Create dwc_occurrence
   dwc_occurrence <-
     dplyr::filter(observations, .data$observationType == "animal") %>%
     dplyr::left_join(
@@ -87,22 +87,19 @@ write_dwc <- function(package, directory = ".") {
       .keep = "none",
       type = "Image",
       license = license,
-      #missing test coverage
       rightsHolder = rights_holder,
       datasetID = dataset_id,
       collectionCode = collection_code,
       datasetName = dataset_name,
       basisOfRecord = "MachineObservation",
       dataGeneralizations = glue::glue(
-        "coordinates rounded",
-        " to {coordinate_precision}",
-        " degrees",
+        "coordinates rounded to {coordinate_precision} degrees",
         .na = NULL
       ),
       occurrenceID = .data$observationID,
       individualCount = .data$count,
-      .data$sex,
-      .data$lifeStage,
+      sex = .data$sex,
+      lifeStage = .data$lifeStage,
       behavior = .data$behaviour,
       occurrenceStatus = "present",
       occurrenceRemarks = .data$comments.obs,
@@ -148,16 +145,14 @@ write_dwc <- function(package, directory = ".") {
           ""
         )
       )),
-      .data$locationID,
+      locationID = .data$locationID,
       locality = .data$locationName,
       decimalLatitude = .data$latitude,
       decimalLongitude = .data$longitude,
-      geodeticDatum = "EPSG:4326",
+      geodeticDatum = "EPSG:4326", # WGS84
       coordinateUncertaintyInMeters = .data$coordinateUncertainty,
       coordinatePrecision = coordinate_precision,
       identifiedBy = .data$classifiedBy,
-      dateIdentified = format(.data$classificationTimestamp,
-                              format = "%Y-%m-%dT%H:%M:%SZ"),
       identificationRemarks = dplyr::coalesce(
         glue::glue(
           "classified by {classificationMethod} with",
@@ -166,9 +161,12 @@ write_dwc <- function(package, directory = ".") {
         ),
         glue::glue("classified by {classificationMethod}",
                    .na = NULL)
+      dateIdentified = format(
+        .data$classificationTimestamp,
+        format = "%Y-%m-%dT%H:%M:%SZ"
       ),
-      .data$taxonID,
-      .data$scientificName,
+      taxonID = .data$taxonID,
+      scientificName = .data$scientificName,
       kingdom = "Animalia"
     ) %>%
     # Reorder the columns and sort

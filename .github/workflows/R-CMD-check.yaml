@@ -27,7 +27,7 @@ jobs:
           - {os: ubuntu-latest,   r: '3.6.3'}
           - {os: macos-latest,   r: '3.5.0'}
           - {os: macos-latest,   r: '3.6.3'}
-          - {os: windows-latest, r: '3.5.3'}
+          - {os: windows-latest, r: '3.5.0'}
           - {os: windows-latest, r: '3.6.3'}
 
     env:

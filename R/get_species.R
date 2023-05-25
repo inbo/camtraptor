@@ -40,8 +40,7 @@ get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {
         x
       })
     }
-    purrr::map_dfr(taxonomy, function(x) {
-      dplyr::tibble(as.data.frame(x, stringsAsFactors = FALSE))
-    })
+    purrr::map_dfr(taxonomy,
+                   ~ purrr::list_flatten(.x, name_spec = "{outer}.{inner}"))
   }
 }

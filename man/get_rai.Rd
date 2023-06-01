@@ -20,33 +20,30 @@ get_rai(
 \item{...}{Filter predicates for filtering on deployments.}
 
 \item{species}{Character with scientific names or common names (case
-insensitive).
-If \code{"all"} (default) all scientific names are automatically selected.}
+insensitive). If \code{"all"} (default) all scientific names are automatically
+selected.}
 
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "unknown")}.
-If \code{NULL} (default) all observations of all sex classes are taken into
-account.}
+\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"} or
+\code{c("male", "unknown")}. If \code{NULL} (default) all observations of all sex
+classes are taken into account.}
 
 \item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL} (default) all observations of all life stage classes are taken
-into account.}
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}. If \code{NULL} (default) all
+observations of all life stage classes are taken into account.}
 
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-A tibble data frame with the following columns:
-\itemize{
-\item \code{deploymentID}: Deployment unique identifier.
-\item \code{scientificName}: Scientific name.
-\item \code{rai}: Relative abundance index.
-}
+A tibble data frame with the following columns: - \code{deploymentID}:
+Deployment unique identifier. - \code{scientificName}: Scientific name. - \code{rai}:
+Relative abundance index.
 }
 \description{
-Gets the RAI (Relative Abundance Index) per deployment.
-The RAI is normalized using 100 days deployment activity.
+Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
+using 100 days deployment activity. In other words:
+\code{RAI = 100 * (n/effort)} where \code{n} is the number of observations as
+calculated via \code{get_n_obs()} and \code{effort} is the effort in days as calculated
+via \code{get_effort()}.
 }
 \examples{
 # Calculate RAI for all species

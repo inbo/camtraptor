@@ -46,7 +46,11 @@ A tibble data frame with the following columns:
 }
 \description{
 Function to get the RAI (Relative Abundance Index) per deployment based on
-number of detected individuals instead of the number of observations.
+number of detected individuals instead of the number of observations. The RAI
+is normalized using 100 days deployment activity. In other words:
+\code{RAI = 100 * (n/effort)} where \code{n} is the number of individuals as calculated
+via \code{get_n_individuals()} and \code{effort} is the effort in days as calculated
+via \code{get_effort()}.
 }
 \examples{
 # Calculate RAI based on number of individuals

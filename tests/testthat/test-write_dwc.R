@@ -70,7 +70,6 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "dcterm:rights",
       "identifier",
       "dc:type",
-      "providerManagedID",
       "comments",
       "captureDevice",
       "resourceCreationTechnique",

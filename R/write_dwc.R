@@ -221,7 +221,6 @@ write_dwc <- function(package, directory = ".") {
         grepl("video", fileMediatype) ~ "MovingImage",
         .default = "StillImage"
       ),
-      providerManagedID = .data$`_id.obs_med`,
       comments = dplyr::case_when(
         !is.na(favourite) & !is.na(comments.obs_med)
           ~ paste("media marked as favourite", comments.obs_med, sep = " | "),

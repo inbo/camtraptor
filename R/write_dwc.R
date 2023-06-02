@@ -22,8 +22,6 @@
 #' [Audubon Media Description extension](https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' John Wieczorek, Lien Reyserhove, Ben Norton and others.
-#' See the [SQL file(s)](https://github.com/inbo/camtraptor/tree/main/inst/sql)
-#' used by this function for details.
 #'
 #' The following terms are set from the `package` metadata:
 #' - **datasetName**: Title as provided in `package$title`.

@@ -31,8 +31,6 @@ Data are transformed into an
 \href{https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml}{Audubon Media Description extension}.
 This \strong{follows recommendations} discussed and created by Peter Desmet,
 John Wieczorek, Lien Reyserhove, Ben Norton and others.
-See the \href{https://github.com/inbo/camtraptor/tree/main/inst/sql}{SQL file(s)}
-used by this function for details.
 
 The following terms are set from the \code{package} metadata:
 \itemize{

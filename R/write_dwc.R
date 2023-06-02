@@ -163,7 +163,7 @@ write_dwc <- function(package, directory = ".") {
         ),
         classification_probability = dplyr::case_when(
           !is.na(.data$classificationConfidence) ~ glue::glue(
-            "with {.data$classificationConfidence} confidence"
+            "with {.data$classificationConfidence} probability"
           ),
           .default = ""
         )

@@ -87,9 +87,11 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
 
 write_dwc_snapshot <- function(package, directory, which){
   suppressMessages(write_dwc(package, directory))
-  switch(which,
-         occurrence = file.path(directory, "dwc_occurrence.csv"),
-         audubon = file.path(directory, "dwc_audubon.csv"))
+  switch(
+    which,
+    occurrence = file.path(directory, "dwc_occurrence.csv"),
+    audubon = file.path(directory, "dwc_audubon.csv")
+  )
 }
 
 test_that("write_dwc() generates the right files from a known package", {

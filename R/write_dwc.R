@@ -86,6 +86,7 @@ write_dwc <- function(package, directory = ".") {
       by = "deploymentID",
       suffix = c(".obs", ".dep")
     ) %>%
+    dplyr::arrange(.data$deploymentID, .data$timestamp) %>%
     dplyr::mutate(
       .keep = "none",
       type = "Image",
@@ -173,8 +174,6 @@ write_dwc <- function(package, directory = ".") {
       scientificName = .data$scientificName,
       kingdom = "Animalia"
     ) %>%
-    # Sort
-    dplyr::arrange(.data$parentEventID, .data$eventDate) %>%
     # Set column order
     dplyr::select(
       "type", "license", "rightsHolder", "datasetID", "collectionCode",
@@ -188,45 +187,28 @@ write_dwc <- function(package, directory = ".") {
       "identificationRemarks", "taxonID", "scientificName", "kingdom"
     )
 
-  # Observations can be linked to sequences or media.
-  # Create mutually exclusive data frames for both cases and union
-  on_seq <- observations %>%
+  # Create auduboncore
+  # Media can be linked to observations via sequenceID or mediaID
+  # Create mutually exclusive data frames for both cases and union (next step)
+  on_seq <-
+    observations %>%
     dplyr::filter(is.na(.data$mediaID)) %>%
-    dplyr::left_join(media,
-      by = dplyr::join_by("sequenceID"),
-      suffix = c(".obs", "")
-    ) %>%
-    dplyr::select(
-      dplyr::all_of(
-        c(
-          "observationID",
-          "timestamp",
-          colnames(media)
-        )
-      )
-    )
-  on_med <- observations %>%
+    dplyr::left_join(media, by = "sequenceID", suffix = c(".obs", "")) %>%
+    dplyr::select(dplyr::all_of(
+      c("observationID", "timestamp", colnames(media)
+    )))
+  on_med <-
+    observations %>%
     dplyr::filter(!is.na(.data$mediaID)) %>%
-    dplyr::left_join(media,
-      by = dplyr::join_by("mediaID"),
-      suffix = c(".obs", "")
-    ) %>%
-    dplyr::select(
-      dplyr::all_of(
-        c(
-          "observationID",
-          "timestamp",
-          colnames(media)
-        )
-      )
-    )
-
-  # Merge, then map to auduboncore
+    dplyr::left_join(media, by = "mediaID", suffix = c(".obs", "")) %>%
+    dplyr::select(dplyr::all_of(
+      c("observationID", "timestamp", colnames(media)
+    )))
   dwc_audubon <-
-    # dplyr::bind_rows() is faster but doesn't offer deduplication
-    dplyr::union(on_seq, on_med) %>%
-    dplyr::left_join(deployments,
-      by = dplyr::join_by("deploymentID"),
+    dplyr::bind_rows(on_seq, on_med) %>%
+    dplyr::left_join(
+      deployments,
+      by = "deploymentID",
       suffix = c(".obs_med", ".dep")
     ) %>%
     dplyr::arrange(.data$deploymentID, .data$timestamp, .data$fileName) %>%
@@ -241,11 +223,8 @@ write_dwc <- function(package, directory = ".") {
       ),
       providerManagedID = .data$`_id.obs_med`,
       comments = dplyr::case_when(
-        !is.na(favourite) &
-          !is.na(comments.obs_med) ~ paste("media marked as favourite",
-          comments.obs_med,
-          sep = " | "
-        ),
+        !is.na(favourite) & !is.na(comments.obs_med)
+          ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
         !is.na(favourite) ~ "media marked as favourite",
         .default = .data$comments.obs_med
       ),
@@ -257,16 +236,8 @@ write_dwc <- function(package, directory = ".") {
     ) %>%
     # Set column order
     dplyr::select(
-      "occurrenceID",
-      "dcterm:rights",
-      "identifier",
-      "dc:type",
-      "providerManagedID",
-      "comments",
-      "captureDevice",
-      "resourceCreationTechnique",
-      "accessURI",
-      "format",
+      "occurrenceID", "dcterm:rights", "identifier", "dc:type", "comments",
+      "captureDevice", "resourceCreationTechnique", "accessURI", "format",
       "CreateDate"
     )
 

@@ -1,28 +1,27 @@
 #' Get Relative Abundance Index (RAI)
 #'
-#' Gets the RAI (Relative Abundance Index) per deployment.
-#' The RAI is normalized using 100 days deployment activity.
+#' Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
+#' using 100 days deployment activity. In other words: 
+#' `RAI = 100 * (n/effort)` where `n` is the number of observations as
+#' calculated via `get_n_obs()` and `effort` is the effort in days as calculated
+#' via `get_effort()`.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
-#'   insensitive).
-#'   If `"all"` (default) all scientific names are automatically selected.
-#' @param sex Character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "unknown")`.
-#'   If `NULL` (default) all observations of all sex classes are taken into
-#'   account.
+#'   insensitive). If `"all"` (default) all scientific names are automatically
+#'   selected.
+#' @param sex Character defining the sex class to filter on, e.g. `"female"` or
+#'   `c("male", "unknown")`. If `NULL` (default) all observations of all sex
+#'   classes are taken into account.
 #' @param life_stage Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL` (default) all observations of all life stage classes are taken
-#'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
+#'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
+#'   observations of all life stage classes are taken into account.
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#' @return A tibble data frame with the following columns:
-#'   - `deploymentID`: Deployment unique identifier.
-#'   - `scientificName`: Scientific name.
-#'   - `rai`: Relative abundance index.
+#' @return A tibble data frame with the following columns: - `deploymentID`:
+#'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
+#'   Relative abundance index.
 #' @family exploration functions
 #' @export
 #' @examples
@@ -72,7 +71,11 @@ get_rai <- function(package = NULL,
 #' Get Relative Abundance Index (RAI) based on number of individuals
 #'
 #' Function to get the RAI (Relative Abundance Index) per deployment based on
-#' number of detected individuals instead of the number of observations.
+#' number of detected individuals instead of the number of observations. The RAI
+#' is normalized using 100 days deployment activity. In other words: 
+#' `RAI = 100 * (n/effort)` where `n` is the number of individuals as calculated
+#' via `get_n_individuals()` and `effort` is the effort in days as calculated
+#' via `get_effort()`.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.

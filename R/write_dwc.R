@@ -219,7 +219,7 @@ write_dwc <- function(package, directory = ".") {
       identifier = .data$mediaID,
       `dc:type` = dplyr::case_when(
         grepl("video", fileMediatype) ~ "MovingImage",
-        TRUE ~ "StillImage"
+        .default = "StillImage"
       ),
       providerManagedID = .data$`_id.obs_med`,
       comments = dplyr::case_when(

@@ -78,9 +78,9 @@ write_dwc <- function(package, directory = ".") {
 
   # Create dwc_occurrence
   dwc_occurrence <-
-    observations %>%
-    dplyr::left_join(
-      deployments,
+    deployments %>%
+    dplyr::right_join(
+      observations,
       by = "deploymentID",
       suffix = c(".obs", ".dep")
     ) %>%

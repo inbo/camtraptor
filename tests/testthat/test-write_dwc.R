@@ -93,7 +93,7 @@ write_dwc_snapshot <- function(package, directory, which){
   )
 }
 
-test_that("write_dwc() generates the right files from a known package", {
+test_that("write_dwc() returns the expected Darwin Core mapping for a known dataset", {
   out_dir <- file.path(tempdir(), "dwc")
   unlink(out_dir, recursive = TRUE)
   if (!dir.exists(out_dir)) {

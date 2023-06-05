@@ -82,7 +82,7 @@ write_dwc <- function(package, directory = ".") {
     dplyr::right_join(
       observations,
       by = "deploymentID",
-      suffix = c(".obs", ".dep")
+      suffix = c(".dep", ".obs")
     ) %>%
     dplyr::arrange(.data$deploymentID, .data$timestamp) %>%
     dplyr::mutate(

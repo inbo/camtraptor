@@ -1,3 +1,4 @@
+# Test write_dwc() outputs ------------------------------------------------
 test_that("write_dwc() can write csv files to a path", {
   out_dir <- file.path(tempdir(), "dwc")
   unlink(out_dir, recursive = TRUE)
@@ -62,7 +63,6 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "kingdom"
     )
   )
-
   expect_identical(
     colnames(result$dwc_audubon),
     c(
@@ -80,10 +80,21 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   )
 })
 
-#Use snapshots to compare output files # helpers to output file paths:
-#expect_snapshot_file() needs a function to output the path of the file it needs
-#to snapshot
+# Use snapshots to compare output files  ----------------------------------
 
+#' Helpers to output file paths
+#'
+#' expect_snapshot_file() needs a function to output the path of the file it
+#' needs to snapshot
+#'
+#' @param package A Camtrap DP, as read by `read_camtrap_dp()`.
+#' @param directory Character. The directory `write_dwc()` will write to.
+#' @param which Character. On of either `occurrence` or `audubon` to select
+#'   which of the paths of the two output files of `write_dwc()` to return
+#'   
+#' @noRd
+#' @return the path of either `dwc_occurrence.csv` or `dwc_audubon.csv`
+#' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
 write_dwc_snapshot <- function(package, directory, which){
   suppressMessages(write_dwc(package, directory))
   switch(
@@ -99,6 +110,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for a known data
   if (!dir.exists(out_dir)) {
     dir.create(out_dir)
   }
+  
   expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "occurrence"))
   expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "audubon"))
   unlink(out_dir, recursive = TRUE)

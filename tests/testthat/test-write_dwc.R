@@ -1,3 +1,4 @@
+# Test write_dwc() outputs ------------------------------------------------
 test_that("write_dwc() can write csv files to a path", {
   out_dir <- file.path(tempdir(), "dwc")
   unlink(out_dir, recursive = TRUE)
@@ -62,7 +63,6 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "kingdom"
     )
   )
-
   expect_identical(
     colnames(result$dwc_audubon),
     c(
@@ -70,7 +70,6 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "dcterm:rights",
       "identifier",
       "dc:type",
-      "providerManagedID",
       "comments",
       "captureDevice",
       "resourceCreationTechnique",
@@ -79,4 +78,18 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "CreateDate"
     )
   )
+})
+
+# Use snapshots to compare output files  ----------------------------------
+
+test_that("write_dwc() returns the expected Darwin Core mapping for a known dataset", {
+  out_dir <- file.path(tempdir(), "dwc")
+  unlink(out_dir, recursive = TRUE)
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir)
+  }
+  # use helper function that outputs path write_dwc() wrote to.  
+  expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "occurrence"))
+  expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "audubon"))
+  unlink(out_dir, recursive = TRUE)
 })

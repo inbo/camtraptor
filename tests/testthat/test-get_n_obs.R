@@ -251,3 +251,23 @@ test_that("Argument datapkg is deprecated: warning returned", {
     )
   )
 })
+
+test_that("Filter by date of deployments via predicates works correctly", {
+  end_date <- as.Date("2021-01-01", format = "%Y-%m-%d")
+  mica_with_obs_filtered_manually <- mica
+  mica_with_obs_filtered_manually$data$deployments <-
+    mica_with_obs_filtered_manually$data$deployments %>%
+    dplyr::filter(end < end_date)
+  deploys_filtered <- unique(
+    mica_with_obs_filtered_manually$data$deployments$deploymentID
+  )
+  mica_with_obs_filtered_manually$data$observations <-
+    mica_with_obs_filtered_manually$data$observations %>%
+    dplyr::filter(.data$deploymentID %in% deploys_filtered)
+  obs_filtered_man <- get_n_obs(mica_with_obs_filtered_manually, 
+                                pred_lt(arg = "end", value = end_date)) %>%
+    dplyr::arrange(deploymentID, scientificName)
+  obs_filtered <- get_n_obs(mica, pred_lt(arg = "end", value = end_date)) %>%
+    dplyr::arrange(deploymentID, scientificName)
+  expect_equal(obs_filtered, obs_filtered_man)
+})

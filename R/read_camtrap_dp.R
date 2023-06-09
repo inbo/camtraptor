@@ -160,17 +160,15 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
   
-  # read observations
-  observations <- frictionless::read_resource(package, "observations")
-  issues_observations <- readr::problems(observations)
-  if (nrow(issues_observations) > 0) {
-    warning(glue::glue(
-      "One or more parsing issues occurred while reading observations. ",
-      "See `?read_camtrap_dp()` for examples on how to use ",
-      "`readr::problems()`."
-    ))
+  if (isTRUE(media)) {
+    # read media
+    media <- frictionless::read_resource(package, "media")
+    check_reading_issues(media, "media")
+    }
   }
   
+  observations <- frictionless::read_resource(package, "observations")
+  check_reading_issues(deployments, "observations")
   # patch for non-standard values speed, radius, angle
   # see https://github.com/inbo/camtraptor/issues/185
   obs_col_names <- names(observations)
@@ -200,16 +198,6 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = "cameraSetup")
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
-  }
-  
-  media <- frictionless::read_resource(package, "media")
-  issues_media <- readr::problems(media)
-  if (nrow(issues_media) > 0) {
-    warning(glue::glue(
-      "One or more parsing issues occurred while reading media. ",
-      "See `?read_camtrap_dp()` for examples on how to use ",
-      "`readr::problems()`."
-    ))
   }
 
   # return list resources

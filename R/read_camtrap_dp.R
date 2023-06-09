@@ -44,7 +44,7 @@
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
 read_camtrap_dp <- function(file = NULL,
-                            media = lifecycle::deprecated(),
+                            media = TRUE,
                             path = lifecycle::deprecated()) {
   # check path (deprecated)
   warning_detail <- paste(
@@ -68,19 +68,12 @@ read_camtrap_dp <- function(file = NULL,
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
-
-  # check media (deprecated)
-  warning_detail <- paste(
-    "The use of argument `media` is deprecated since version 0.20.0", 
-    "and will be ignored."
+  
+  # check media
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
   )
-  if (lifecycle::is_present(media)) {
-    lifecycle::deprecate_warn(
-      when = "0.20.0",
-      what = "read_camtrap_dp(file, media)",
-      details = warning_detail
-    )
-  }
   
   # read package (metadata)
   package <- frictionless::read_package(file)
@@ -182,6 +175,14 @@ read_camtrap_dp <- function(file = NULL,
     )
   }
   
+  # create first version datapackage with resources in data element
+  data <- list(
+    "deployments" = deployments,
+    "media" = NULL,
+    "observations" = observations
+  )
+  package$data <- data
+  
   # get taxonomic info
   taxon_infos <- get_species(package)
   # add vernacular names to observations
@@ -201,11 +202,9 @@ read_camtrap_dp <- function(file = NULL,
   }
 
   # return list resources
-  data <- list(
-    "deployments" = deployments,
-    "media" = media,
-    "observations" = observations
-  )
-  package$data <- data
+  if (is.data.frame(media)) {
+    data$media <- media
+    package$data <- data
+  }
   package
 }

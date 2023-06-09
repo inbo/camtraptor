@@ -141,6 +141,27 @@ collapse_transformer <- function(regex = "[*]$", ...) {
   }
 }
 
+#' Check reading issues
+#' 
+#' This helper function throws a warning if issues while reading datapackage
+#' resources (data.frames) are detected.
+#' 
+#' @param df Data.frame.
+#' @param df_name Character with name of the data.frame passed to `df`.
+#' @noRd
+#' @return No return.
+check_reading_issues <- function(df, df_name) {
+  # get name of the passed data.frame 
+  issues_df <- readr::problems(df)
+  if (nrow(issues_df) > 0) {
+    warning(glue::glue(
+      "One or more parsing issues occurred while reading `{df_name}` ",
+      "Check `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
+    ))
+  }
+}
+
 #' Custom label format function
 #'
 #' Add "+" to last label of legend while using absolute scale. At the moment

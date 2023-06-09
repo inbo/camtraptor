@@ -22,8 +22,6 @@
 #' [Audubon Media Description extension](https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' John Wieczorek, Lien Reyserhove, Ben Norton and others.
-#' See the [SQL file(s)](https://github.com/inbo/camtraptor/tree/main/inst/sql)
-#' used by this function for details.
 #'
 #' The following terms are set from the `package` metadata:
 #' - **datasetName**: Title as provided in `package$title`.
@@ -54,37 +52,191 @@
 #'   and observations of humans.
 write_dwc <- function(package, directory = ".") {
   # Set properties from metadata
-  dataset_name <- package$title
-  dataset_id <- package$id
-  rights_holder <- package$rightsHolder
-  collection_code <- package$platform$title
-  license <- purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path
-  media_license <- purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path
-  coordinate_precision <- package$coordinatePrecision
-
-  # Create database
-  message("Reading data and transforming to Darwin Core.")
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "deployments", dplyr::tibble(package$data$deployments))
-  DBI::dbWriteTable(con, "media", dplyr::tibble(package$data$media))
-  DBI::dbWriteTable(con, "observations", dplyr::tibble(package$data$observations))
-
-  # Query database
-  dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_occurrence.sql", package = "camtraptor")
-    ),
-    .con = con
+  # Use purrr::pluck() to force NA when metadata field is missing
+  dataset_name <- purrr::pluck(package, "title", .default = NA)
+  dataset_id <- purrr::pluck(package, "id", .default = NA)
+  rights_holder <- purrr::pluck(package, "rightsHolder", .default = NA)
+  collection_code <- purrr::pluck(package, "platform", "title", .default = NA)
+  license <- dplyr::coalesce(
+    purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
+    NA
   )
-  dwc_audubon_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_audubon.sql", package = "camtraptor")
-    ),
-    .con = con
+  media_license <- dplyr::coalesce(
+    purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path,
+    NA
   )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  dwc_audubon <- DBI::dbGetQuery(con, dwc_audubon_sql)
-  DBI::dbDisconnect(con)
+  coordinate_precision <-
+    purrr::pluck(package, "coordinatePrecision", .default = NA)
+
+  # Read package data
+  deployments <- dplyr::tibble(package$data$deployments)
+  media <- dplyr::tibble(package$data$media)
+  observations <- dplyr::tibble(package$data$observations)
+
+  # Filter observations on animal observations (excluding humans, blanks, etc.)
+  observations <- dplyr::filter(observations, .data$observationType == "animal")
+
+  # Create dwc_occurrence
+  dwc_occurrence <-
+    deployments %>%
+    dplyr::right_join(
+      observations,
+      by = "deploymentID",
+      suffix = c(".dep", ".obs")
+    ) %>%
+    dplyr::arrange(.data$deploymentID, .data$timestamp) %>%
+    dplyr::mutate(
+      .keep = "none",
+      type = "Image",
+      license = license,
+      rightsHolder = rights_holder,
+      datasetID = dataset_id,
+      collectionCode = collection_code,
+      datasetName = dataset_name,
+      basisOfRecord = "MachineObservation",
+      dataGeneralizations = glue::glue(
+        "coordinates rounded to {coordinate_precision} degrees",
+        .na = NULL
+      ),
+      occurrenceID = .data$observationID,
+      individualCount = .data$count,
+      sex = .data$sex,
+      lifeStage = .data$lifeStage,
+      behavior = .data$behaviour,
+      occurrenceStatus = "present",
+      occurrenceRemarks = .data$comments.obs,
+      organismID = .data$individualID,
+      eventID = .data$sequenceID,
+      parentEventID = .data$deploymentID,
+      eventDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+      habitat = .data$habitat,
+      samplingProtocol = "camera trap",
+      samplingEffort = glue::glue(
+        "{start}/{end}",
+        start = format(.data$start, format = "%Y-%m-%dT%H:%M:%SZ"),
+        end = format(.data$end, format = "%Y-%m-%dT%H:%M:%SZ")
+      ),
+      eventRemarks = stringr::str_squish(glue::glue(
+        # E.g. "camera trap with bait near burrow | tags: <t1, t2> | <comment>"
+        "{bait_use} {dep_feature} {dep_tags} {dep_comments}",
+        bait_use = dplyr::case_when(
+          .data$baitUse == "none" ~ "camera trap without bait",
+          !is.na(.data$baitUse) ~
+            glue::glue("camera trap with {.data$baitUse} bait"),
+          .default = "camera trap",
+        ),
+        dep_feature = dplyr::case_when(
+          .data$featureType == "none" ~ "",
+          .data$featureType == "other" ~ " near other feature",
+          !is.na(.data$featureType) ~ glue::glue(" near {.data$featureType}"),
+          .default = ""
+        ),
+        dep_tags = dplyr::case_when(
+          !is.na(.data$tags) ~ glue::glue(" | tags: {.data$tags}"),
+          .default = ""
+        ),
+        dep_comments = dplyr::case_when(
+          !is.na(.data$comments.dep) ~ glue::glue(" | {.data$comments.dep}"),
+          .default = ""
+        )
+      )),
+      locationID = .data$locationID,
+      locality = .data$locationName,
+      decimalLatitude = .data$latitude,
+      decimalLongitude = .data$longitude,
+      geodeticDatum = "EPSG:4326", # WGS84
+      coordinateUncertaintyInMeters = .data$coordinateUncertainty,
+      coordinatePrecision = coordinate_precision,
+      identifiedBy = .data$classifiedBy,
+      dateIdentified = format(
+        .data$classificationTimestamp,
+        format = "%Y-%m-%dT%H:%M:%SZ"
+      ),
+      identificationRemarks = stringr::str_squish(glue::glue(
+        # E.g. "classified by machine with 0.89 confidence"
+        "{classification_method} {classification_probability}",
+        classification_method = dplyr::case_when(
+          !is.na(.data$classificationMethod) ~ glue::glue(
+            "classified by {.data$classificationMethod}"
+          ),
+          .default = ""
+        ),
+        classification_probability = dplyr::case_when(
+          !is.na(.data$classificationConfidence) ~ glue::glue(
+            "with {.data$classificationConfidence} probability"
+          ),
+          .default = ""
+        )
+      )),
+      taxonID = .data$taxonID,
+      scientificName = .data$scientificName,
+      kingdom = "Animalia"
+    ) %>%
+    # Set column order
+    dplyr::select(
+      "type", "license", "rightsHolder", "datasetID", "collectionCode",
+      "datasetName", "basisOfRecord", "dataGeneralizations", "occurrenceID",
+      "individualCount", "sex", "lifeStage", "behavior", "occurrenceStatus",
+      "occurrenceRemarks", "organismID", "eventID", "parentEventID",
+      "eventDate", "habitat", "samplingProtocol", "samplingEffort",
+      "eventRemarks", "locationID", "locality", "decimalLatitude",
+      "decimalLongitude", "geodeticDatum", "coordinateUncertaintyInMeters",
+      "coordinatePrecision", "identifiedBy", "dateIdentified",
+      "identificationRemarks", "taxonID", "scientificName", "kingdom"
+    )
+
+  # Create auduboncore
+  # Media can be linked to observations via sequenceID or mediaID
+  # Create mutually exclusive data frames for both cases and union (next step)
+  on_seq <-
+    observations %>%
+    dplyr::filter(is.na(.data$mediaID)) %>%
+    dplyr::left_join(media, by = "sequenceID", suffix = c(".obs", "")) %>%
+    dplyr::select(dplyr::all_of(
+      c("observationID", "timestamp", colnames(media)
+    )))
+  on_med <-
+    observations %>%
+    dplyr::filter(!is.na(.data$mediaID)) %>%
+    dplyr::left_join(media, by = "mediaID", suffix = c(".obs", "")) %>%
+    dplyr::select(dplyr::all_of(
+      c("observationID", "timestamp", colnames(media)
+    )))
+  dwc_audubon <-
+    dplyr::bind_rows(on_seq, on_med) %>%
+    dplyr::left_join(
+      deployments,
+      by = "deploymentID",
+      suffix = c(".obs_med", ".dep")
+    ) %>%
+    dplyr::arrange(.data$deploymentID, .data$timestamp, .data$fileName) %>%
+    dplyr::mutate(
+      .keep = "none",
+      occurrenceID = .data$observationID,
+      `dcterm:rights` = media_license,
+      identifier = .data$mediaID,
+      `dc:type` = dplyr::case_when(
+        grepl("video", fileMediatype) ~ "MovingImage",
+        .default = "StillImage"
+      ),
+      comments = dplyr::case_when(
+        !is.na(favourite) & !is.na(comments.obs_med)
+          ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
+        !is.na(favourite) ~ "media marked as favourite",
+        .default = .data$comments.obs_med
+      ),
+      captureDevice = .data$cameraModel,
+      resourceCreationTechnique = .data$captureMethod,
+      accessURI = .data$filePath,
+      format = .data$fileMediatype,
+      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
+    ) %>%
+    # Set column order
+    dplyr::select(
+      "occurrenceID", "dcterm:rights", "identifier", "dc:type", "comments",
+      "captureDevice", "resourceCreationTechnique", "accessURI", "format",
+      "CreateDate"
+    )
 
   # Return object or write files
   if (is.null(directory)) {

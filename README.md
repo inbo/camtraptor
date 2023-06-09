@@ -24,11 +24,11 @@ effort, and plot these data on a map.
 
 To get started, see:
 
--   [Vignettes](https://inbo.github.io/camtraptor/articles/): tutorials
-    showcasing functionality.
--   [Function
-    reference](https://inbo.github.io/camtraptor/reference/index.html):
-    overview of all functions.
+- [Vignettes](https://inbo.github.io/camtraptor/articles/): tutorials
+  showcasing functionality.
+- [Function
+  reference](https://inbo.github.io/camtraptor/reference/index.html):
+  overview of all functions.
 
 ## Installation
 
@@ -40,6 +40,9 @@ You can install the development version of camtraptor from
 devtools::install_github("inbo/camtraptor")
 ```
 
+While we support older versions of R up to 3.5, we recommend using R
+4.0.0 or higher.
+
 ## Example
 
 Get the taxonomic coverage for an example Camera Trap Data Package
@@ -49,17 +52,17 @@ Get the taxonomic coverage for an example Camera Trap Data Package
 library(camtraptor)
 get_species(mica)
 #> # A tibble: 9 × 5
-#>   taxonID taxonIDReference      scientificName vernacularNames… vernacularNames…
-#>   <chr>   <chr>                 <chr>          <chr>            <chr>           
-#> 1 DGP6    https://www.catalogu… Anas platyrhy… mallard          wilde eend      
-#> 2 DGPL    https://www.catalogu… Anas strepera  gadwall          krakeend        
-#> 3 32FH    https://www.catalogu… Ardea          great herons     reigers         
-#> 4 GCHS    https://www.catalogu… Ardea cinerea  grey heron       blauwe reiger   
-#> 5 RQPW    https://www.catalogu… Castor fiber   Eurasian beaver  bever           
-#> 6 6MB3T   https://www.catalogu… Homo sapiens   human            mens            
-#> 7 3Y9VW   https://www.catalogu… Martes foina   beech marten     steenmarter     
-#> 8 44QYC   https://www.catalogu… Mustela putor… European polecat bunzing         
-#> 9 5BSG3   https://www.catalogu… Vulpes vulpes  red fox          vos
+#>   taxonID taxonIDReference  scientificName vernacularNames.en vernacularNames.nl
+#>   <chr>   <chr>             <chr>          <chr>              <chr>             
+#> 1 DGP6    https://www.cata… Anas platyrhy… mallard            wilde eend        
+#> 2 DGPL    https://www.cata… Anas strepera  gadwall            krakeend          
+#> 3 32FH    https://www.cata… Ardea          great herons       reigers           
+#> 4 GCHS    https://www.cata… Ardea cinerea  grey heron         blauwe reiger     
+#> 5 RQPW    https://www.cata… Castor fiber   Eurasian beaver    bever             
+#> 6 6MB3T   https://www.cata… Homo sapiens   human              mens              
+#> 7 3Y9VW   https://www.cata… Martes foina   beech marten       steenmarter       
+#> 8 44QYC   https://www.cata… Mustela putor… European polecat   bunzing           
+#> 9 5BSG3   https://www.cata… Vulpes vulpes  red fox            vos
 ```
 
 Filter observations in `mica` on female mallards and map the number of
@@ -72,7 +75,7 @@ map_dep(
   species = "Anas platyrhynchos",
   sex = "female"
 )
-#> There are 4 deployments with no observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
+#> There are 4 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
@@ -87,11 +90,11 @@ as [camtrapR](https://cran.r-project.org/package=camtrapR) and
 
 ## Meta
 
--   We welcome [contributions](.github/CONTRIBUTING.md) including bug
-    reports.
--   License: MIT
--   Get citation information for camtraptor in R doing
-    `citation("camtraptor")`.
--   Please note that this project is released with a [Contributor Code
-    of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this
-    project you agree to abide by its terms.
+- We welcome [contributions](.github/CONTRIBUTING.md) including bug
+  reports.
+- License: MIT
+- Get citation information for camtraptor in R doing
+  `citation("camtraptor")`.
+- Please note that this project is released with a [Contributor Code of
+  Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+  you agree to abide by its terms.

@@ -190,7 +190,9 @@ pred_primitive <- function(arg, value, symbol, type) {
   # build expr
   if (any(lubridate::is.POSIXct(value), class(value) == "Date")) {
     value <- glue::double_quote(value)
-    predicate$expr <- glue::glue("({arg} {symbol} as_datetime({value}))")
+    predicate$expr <- glue::glue(
+      "({arg} {symbol} lubridate::as_datetime({value}))"
+    )
   } else {
     if (is.character(value)) {
       value <- glue::double_quote(value)

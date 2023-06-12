@@ -132,12 +132,15 @@ read_camtrap_dp <- function(file = NULL,
         dplyr::rename(cameraInterval = cameraDelay)
     }
     if ("baitUse" %in% names(deployments)) {
-      # transform Boolean to character and set FALSE to "none", TRUE to "other"
+      # baitUse values in version 0.1.6
+      bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")
+      # transform Boolean to character and set FALSE to "none", TRUE to "other".
+      # Do not change NAs
       deployments <- deployments %>%
         dplyr::mutate(baitUse = as.character(.data$baitUse)) %>%
         dplyr::mutate(baitUse = dplyr::if_else(.data$baitUse == "FALSE", 
-                                               true = "none", 
-                                               false = "other"
+                                               "none", 
+                                               "other"
                                                )
         )
       # retrieve specific bait use info from tags if present

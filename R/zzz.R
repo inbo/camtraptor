@@ -4,7 +4,7 @@
 #' It checks whether the data package is a list containing an element called
 #' `data` with the following resources as tibble data frames:
 #' - `observations`
-#' - `multimedia`
+#' - `media`
 #' - `deployments`
 #'
 #' @param package Camera trap data package
@@ -45,9 +45,9 @@ check_package <- function(package = NULL,
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))
   assertthat::assert_that(is.data.frame(package$data$deployments))
-  # check multimedia is a data.frame (if imported, i.e. if not NULL)
+  # check media is a data.frame (if imported, i.e. if not NULL)
   if (!is.null(package$data$multimedia)) {
-    assertthat::assert_that(is.data.frame(package$data$multimedia))
+    assertthat::assert_that(is.data.frame(package$data$media))
   }
   package
 }

@@ -148,29 +148,20 @@ read_camtrap_dp <- function(file = NULL,
       # retrieve specific bait use info from tags if present
       if ("deploymentTags" %in% names(deployments)) {
         deployments <- deployments %>%
-          mutate(baitUse = stringr::str_extract(
+          dplyr::mutate(bait_use = stringr::str_extract(
             string = .data$deploymentTags, 
             pattern = "(?<=bait:).[a-zA-Z]+"
             )
           )
-      } else {
-        # retrieve specific bait use info from comments if present (only if tags
-        # don't contain bait use info)
-        deployments <- deployments %>%
-          mutate(baitUse = stringr::str_extract(
-            string = .data$deploymentComments, 
-            pattern = "(?<=bait:).[a-zA-Z]+"
-          )
-        )
       }
-      # transform to factor where possible
-      bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")
-      if (all(deployments$baitUse %in% bait_uses_old | 
-              is.na(deployments$baitUse))) {
-        deployments$baitUse <- factor(
-          deployments$baitUse, levels = bait_uses_old
-        )
-      }
+      # set baitUse based on found tags
+      deployments <- deployments %>%
+        dplyr::mutate(baitUse = if_else(is.na(.data$baitUse) & 
+                                          bait_use %in% bait_uses_old,
+                                        deployments$bait_use)) %>%
+      # set baitUse to factor
+        dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
+    }
     }
     if ("deploymentTags" %in% names(deployments)) {
       deployments <- deployments %>%

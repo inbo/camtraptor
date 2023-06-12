@@ -79,7 +79,31 @@ read_camtrap_dp <- function(file = NULL,
   package <- frictionless::read_package(file)
   
   # get package version
-  version <- package$profile
+  profile <- package$profile
+  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/deployments-table-schema.json") {
+    version <- "1.0-rc.1"
+  } else {
+    if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {
+      version <- "0.1.6"
+    } else {
+      version <- profile
+    }
+  }
+  
+  # check that the version of the camtrap-dp is supported by camtraptor. At the
+  # moment we support only camtra-dp versions 0.1.6 and 1.0-rc.1
+  supported_versions <- c("1.0-rc.1", "0.1.6")
+  assertthat::assert_that(
+    version %in% supported_versions,
+    msg = glue::glue(
+      "Version {version} not supported. ",
+      "camtraptor supports camtrap-dp versions: ",
+      glue::glue_collapse(glue::glue("{supported_versions}"), last = " and "),
+      ".",
+      .sep = ""
+    )
+  )
+  
   
   # transform package metadata formatted using Camtrap DP 0.6 standard to avoid
   # breaking changes

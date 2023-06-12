@@ -122,11 +122,15 @@ read_camtrap_dp <- function(file = NULL,
     ))
   }
   
-  # transform deployments formatted using Camtrap DP 0.6 standard to avoid
+  # transform deployments formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
-  if (version == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.6/camtrap-dp-profile.json") {
+  if (version == "1.0-rc.1") {
+    # rename required fields where needed
     deployments <- deployments %>%
       dplyr::relocate(latitude, .after = longitude)
+    deployments <- deployments %>%
+      dplyr::rename(start = eventStart,
+                    end = eventEnd)
     if ("cameraDelay" %in% names(deployments)) {
       deployments <- deployments %>%
         dplyr::rename(cameraInterval = cameraDelay)

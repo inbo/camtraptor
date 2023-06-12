@@ -197,6 +197,19 @@ read_camtrap_dp <- function(file = NULL,
     # read media
     media <- frictionless::read_resource(package, "media")
     check_reading_issues(media, "media")
+    # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
+    # breaking changes
+    if (version == "1.0-rc.1") {
+      media <- media %>%
+        dplyr::rename(sequenceID = eventID)
+      if ("favorite" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(favourite = favorite)
+      }
+      if ("mediaComments" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(comments = mediaComments)
+      }
     }
   }
   

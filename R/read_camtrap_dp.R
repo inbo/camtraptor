@@ -230,5 +230,5 @@ read_camtrap_dp <- function(file = NULL,
     data$media <- media
     package$data <- data
   }
-  package
+  check_package(package)
 }

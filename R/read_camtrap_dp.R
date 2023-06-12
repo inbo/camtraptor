@@ -186,6 +186,24 @@ read_camtrap_dp <- function(file = NULL,
   
   observations <- frictionless::read_resource(package, "observations")
   check_reading_issues(deployments, "observations")
+  
+  # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
+  # breaking changes
+  if (version == "1.0-rc.1") {
+    # only event-type obs are supported
+    n_media_obs <- observations %>%
+      dplyr::filter(.data$observationLevel == "media")
+    if (n_media_obs > 0) {
+      msg <- glue::glue(
+        "camtraptor has been developed to work with event-based observations. ",
+        "{n_media_obs} media-based observations removed."
+      )
+      message(msg)
+    }
+    observations <- observations %>%
+      dplyr::filter(.data$observationLevel == "event")
+  }
+  
   # patch for non-standard values speed, radius, angle
   # see https://github.com/inbo/camtraptor/issues/185
   obs_col_names <- names(observations)

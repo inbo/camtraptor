@@ -131,6 +131,8 @@ read_camtrap_dp <- function(file = NULL,
       deployments <- deployments %>%
         dplyr::rename(cameraInterval = cameraDelay)
     }
+    # ignore detectionDistance
+    deployments$detectionDistance <- NULL
     if ("baitUse" %in% names(deployments)) {
       # baitUse values in version 0.1.6
       bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")

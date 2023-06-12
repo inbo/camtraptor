@@ -59,6 +59,18 @@ get_cam_op <- function(package = NULL,
       "it must be one of the deployments column names."
     )
   )
+  
+  # Check that station_col doesn't contain empty values (NA)
+  n_na <- package$data$deployments %>%
+    dplyr::filter(is.na(.data[[station_col]])) %>%
+    nrow()
+  assertthat::assert_that(
+    n_na == 0,
+    msg = glue::glue(
+      "Column `{station_col}` must be non-empty: ",
+      "{n_na} NAs found."
+    )
+  )
 
   assertthat::assert_that(
     use_prefix %in% c(TRUE, FALSE),

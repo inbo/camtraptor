@@ -162,6 +162,26 @@ read_camtrap_dp <- function(file = NULL,
       # set baitUse to factor
         dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
     }
+    if ("session" %in% names(deployments)) {
+      warning(glue::glue("The field `session` of deployments is deprecated in",
+                         "version {version} and is left empty.")
+      )
+      deployments <- deployments %>%
+        dplyr::mutate(session = NA)
+    }
+    if ("array" %in% names(deployments)) {
+      warning(glue::glue("The field `_id` of deployments is deprecated in",
+                         "version {version} and is left empty.")
+      )
+      deployments <- deployments %>%
+        dplyr::mutate(array = NA)
+    }
+    if ("_id" %in% names(deployments)) {
+      warning(glue::glue("The field `array` of deployments is deprecated in",
+                         "version {version} and is left empty.")
+      )
+      deployments <- deployments %>%
+        dplyr::mutate("_id" = NA)
     }
     if ("deploymentTags" %in% names(deployments)) {
       deployments <- deployments %>%

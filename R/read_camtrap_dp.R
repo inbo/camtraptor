@@ -181,14 +181,14 @@ read_camtrap_dp <- function(file = NULL,
         dplyr::mutate(session = NA)
     }
     if ("array" %in% names(deployments)) {
-      warning(glue::glue("The field `_id` of deployments is deprecated in",
+      warning(glue::glue("The field `array` of deployments is deprecated in",
                          "version {version} and is left empty.")
       )
       deployments <- deployments %>%
         dplyr::mutate(array = NA)
     }
     if ("_id" %in% names(deployments)) {
-      warning(glue::glue("The field `array` of deployments is deprecated in",
+      warning(glue::glue("The field `_id` of deployments is deprecated in",
                          "version {version} and is left empty.")
       )
       deployments <- deployments %>%

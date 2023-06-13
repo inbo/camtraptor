@@ -107,10 +107,10 @@ read_camtrap_dp <- function(file = NULL,
   # get resource names
   resource_names <- purrr::map_chr(package$resource, ~.$name)
   
-  # transform package metadata formatted using Camtrap DP 0.6 standard to avoid
+  # transform package metadata formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
-  if (version == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.6/camtrap-dp-profile.json") {
     names(package)[names(package) == "eventInterval"] <- "sequenceInterval"
+  if (version == "1.0-rc.1") {
   }
   
   # read deployments

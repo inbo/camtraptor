@@ -104,6 +104,8 @@ read_camtrap_dp <- function(file = NULL,
     )
   )
   
+  # get resource names
+  resource_names <- purrr::map_chr(package$resource, ~.$name)
   
   # transform package metadata formatted using Camtrap DP 0.6 standard to avoid
   # breaking changes
@@ -113,14 +115,7 @@ read_camtrap_dp <- function(file = NULL,
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")
-  issues_deployments <- readr::problems(deployments)
-  if (nrow(issues_deployments) > 0) {
-    warning(glue::glue(
-      "One or more parsing issues occurred while reading deployments. ",
-      "See `?read_camtrap_dp()` for examples on how to use ",
-      "`readr::problems()`."
-    ))
-  }
+  check_reading_issues(deployments, "deployments")
   
   # transform deployments formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes

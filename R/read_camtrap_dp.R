@@ -221,6 +221,13 @@ read_camtrap_dp <- function(file = NULL,
         media <- media %>%
           dplyr::rename(comments = mediaComments)
       }
+      if ("_id" %in% names(media)) {
+        warning(glue::glue("The field `_id` of media is deprecated in",
+                           "version {version} and is left empty.")
+        )
+        media <- media %>%
+          dplyr::mutate("_id" = NA)
+      }
     }
   }
   

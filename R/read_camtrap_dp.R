@@ -111,6 +111,12 @@ read_camtrap_dp <- function(file = NULL,
   # breaking changes
   if (version == "1.0-rc.1") {
     names(package)[names(package) == "observationLevel"] <- "classificationLevel"
+    if ("sequenceInterval" %in% names(package)) {
+      warning(glue::glue("sequenceInterval is deprecated in version ", 
+                         "{version}: removed from package.")
+      )
+      package$sequenceInterval <- NULL
+    }
     package$platform <- package$sources[[1]]$title
     # `title` value of the first contributor with role `rightsHolder`
     package$rightsHolder <- purrr::map_df(contributors, unlist) %>%

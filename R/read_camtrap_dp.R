@@ -111,6 +111,8 @@ read_camtrap_dp <- function(file = NULL,
   # breaking changes
     names(package)[names(package) == "eventInterval"] <- "sequenceInterval"
   if (version == "1.0-rc.1") {
+    package$platform <- package$sources[[1]]$title
+    # `title` value of the first contributor with role `rightsHolder`
     package$rightsHolder <- purrr::map_df(contributors, unlist) %>%
       dplyr::filter(role == "rightsHolder") %>%
       dplyr::slice(1) %>%

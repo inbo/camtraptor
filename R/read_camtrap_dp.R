@@ -109,7 +109,6 @@ read_camtrap_dp <- function(file = NULL,
   
   # transform package metadata formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
-    names(package)[names(package) == "eventInterval"] <- "sequenceInterval"
   if (version == "1.0-rc.1") {
     names(package)[names(package) == "observationLevel"] <- "classificationLevel"
     package$platform <- package$sources[[1]]$title

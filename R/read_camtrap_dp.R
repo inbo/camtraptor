@@ -213,6 +213,12 @@ read_camtrap_dp <- function(file = NULL,
     if (version == "1.0-rc.1") {
       media <- media %>%
         dplyr::rename(sequenceID = eventID)
+      if ("filePublic" %in% names(media))  {
+        message(
+          "filePublic is a new term in version {version} and will be ignored."
+        )
+        media$filePublic <- NULL
+      }
       if ("favorite" %in% names(media)) {
         media <- media %>%
           dplyr::rename(favourite = favorite)

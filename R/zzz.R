@@ -9,11 +9,14 @@
 #'
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
+#' @param media Has the `media` resource been loaded while reading the data
+#'   package? Default: `TRUE`.
 #' @return A camera trap data package.
 #' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,
-                          function_name) {
+                          function_name,
+                          media = TRUE) {
   if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
     lifecycle::deprecate_warn(
       when = "0.16.0",
@@ -29,15 +32,16 @@ check_package <- function(package = NULL,
   assertthat::assert_that(!is.data.frame(package))
   # check existence of an element called data
   assertthat::assert_that("data" %in% names(package))
-  # check validity data element of package: does it contain all 3 elements?
-  elements <- c("deployments", "media", "observations")
-  tables_absent <- names(elements)[
-    !names(elements) %in% names(package$data)
+  # check validity data element of package: does it contain deployments and
+  # observations?
+  elements <- c("deployments", "observations") # media is typically not needed
+  if (isTRUE(media)) elements <- c(elements, "media")
+  tables_absent <- elements[
+    !elements %in% names(package$data)
   ]
-  n_tables_absent <- length(tables_absent)
-  assertthat::assert_that(n_tables_absent == 0,
+  assertthat::assert_that(length(tables_absent) == 0,
     msg = glue::glue(
-      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
+      "Can't find {tables_absent} elements in data package: {tables_absent*}",
       .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )
@@ -46,7 +50,7 @@ check_package <- function(package = NULL,
   assertthat::assert_that(is.data.frame(package$data$observations))
   assertthat::assert_that(is.data.frame(package$data$deployments))
   # check media is a data.frame (if imported, i.e. if not NULL)
-  if (!is.null(package$data$multimedia)) {
+  if (!is.null(package$data$media)) {
     assertthat::assert_that(is.data.frame(package$data$media))
   }
   package

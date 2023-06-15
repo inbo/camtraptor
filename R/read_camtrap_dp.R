@@ -204,39 +204,6 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
   
-  if (isTRUE(media)) {
-    # read media
-    media <- frictionless::read_resource(package, "media")
-    check_reading_issues(media, "media")
-    # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
-    # breaking changes
-    if (version == "1.0-rc.1") {
-      media <- media %>%
-        dplyr::rename(sequenceID = eventID)
-      if ("filePublic" %in% names(media))  {
-        message(
-          "filePublic is a new term in version {version} and will be ignored."
-        )
-        media$filePublic <- NULL
-      }
-      if ("favorite" %in% names(media)) {
-        media <- media %>%
-          dplyr::rename(favourite = favorite)
-      }
-      if ("mediaComments" %in% names(media)) {
-        media <- media %>%
-          dplyr::rename(comments = mediaComments)
-      }
-      if ("_id" %in% names(media)) {
-        warning(glue::glue("The field `_id` of media is deprecated in",
-                           "version {version} and is left empty.")
-        )
-        media <- media %>%
-          dplyr::mutate("_id" = NA)
-      }
-    }
-  }
-  
   observations <- frictionless::read_resource(package, "observations")
   check_reading_issues(deployments, "observations")
   
@@ -294,6 +261,51 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = "cameraSetup")
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
+  }
+  
+  
+  if (isTRUE(media)) {
+    # read media
+    media <- frictionless::read_resource(package, "media")
+    check_reading_issues(media, "media")
+    # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
+    # breaking changes
+    if (version == "1.0-rc.1") {
+      # create sequenceID for media used by event-based observations, 
+      # sequenceID is used by `get_record_table()`
+      media <- media %>%
+        dplyr::full_join(
+          # Join with observations without mediaID
+          observations %>% 
+            dplyr::filter(is.na(.data$mediaID)) %>%
+            dplyr::select(observationID, deploymentID, start, end),
+          # Join on deploymentID and timestamp between start and end
+          join_by(deploymentID, dplyr::between(timestamp, start, end))) %>%
+        # generate a sequenceID
+        dplyr::rename(sequenceID = observationID)
+      
+      if ("filePublic" %in% names(media))  {
+        message(
+          "filePublic is a new term in version {version} and will be ignored."
+        )
+        media$filePublic <- NULL
+      }
+      if ("favorite" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(favourite = favorite)
+      }
+      if ("mediaComments" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(comments = mediaComments)
+      }
+      if ("_id" %in% names(media)) {
+        warning(glue::glue("The field `_id` of media is deprecated in",
+                           "version {version} and is left empty.")
+        )
+        media <- media %>%
+          dplyr::mutate("_id" = NA)
+      }
+    }
   }
 
   # return list resources

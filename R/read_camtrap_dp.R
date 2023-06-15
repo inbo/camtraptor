@@ -245,7 +245,7 @@ read_camtrap_dp <- function(file = NULL,
   )
   package$data <- data
   
-  # get taxonomic info
+  # get taxonomic info from metadata
   taxon_infos <- get_species(package)
   # add vernacular names to observations
   if (!is.null(taxon_infos)) {

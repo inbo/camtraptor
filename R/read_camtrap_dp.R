@@ -240,6 +240,14 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::rename(cameraSetup = cameraSetupType)
     }
+    
+    if ("countNew" %in% names(observations)) {
+      warning(glue::glue("The field `countNew` of observations is deprecated in",
+                         "version {version} and is left empty.")
+      )
+      observations <- observations %>%
+        dplyr::mutate("countNew" = NA)
+    }
   }
   
   # patch for non-standard values speed, radius, angle

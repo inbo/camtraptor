@@ -253,6 +253,11 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::rename(behaviour = behavior)
     }
+    
+    if ("classificationProbability" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(classificationConfidence = classificationProbability)
+    }
   }
   
   # patch for non-standard values speed, radius, angle

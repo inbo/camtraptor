@@ -235,6 +235,11 @@ read_camtrap_dp <- function(file = NULL,
     
     observations$eventEnd <- NULL
     observations$observationLevel <- NULL
+    
+    if ("cameraSetupType" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(cameraSetup = cameraSetupType)
+    }
   }
   
   # patch for non-standard values speed, radius, angle

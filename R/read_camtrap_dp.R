@@ -59,7 +59,6 @@ read_camtrap_dp <- function(file = NULL,
       details = warning_detail
     )
   }
-
   # define the right file value
   if (lifecycle::is_present(path)) {
     file <- file.path(path, "datapackage.json")
@@ -240,7 +239,6 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::rename(cameraSetup = cameraSetupType)
     }
-    
     if ("countNew" %in% names(observations)) {
       warning(glue::glue("The field `countNew` of observations is deprecated in",
                          "version {version} and is left empty.")
@@ -248,15 +246,17 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::mutate("countNew" = NA)
     }
-    
     if ("behavior" %in% names(observations)) {
       observations <- observations %>%
         dplyr::rename(behaviour = behavior)
     }
-    
     if ("classificationProbability" %in% names(observations)) {
       observations <- observations %>%
         dplyr::rename(classificationConfidence = classificationProbability)
+    }
+    if ("observationComments" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(comments = observationComments)
     }
   }
   

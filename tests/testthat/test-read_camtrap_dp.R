@@ -241,3 +241,9 @@ test_that("classificationProbability", {
   expect_false("classificationProbability" %in% names(v1_rc1$data$observations))
   expect_true("classificationConfidence" %in% names(v1_rc1$data$observations))
 })
+
+test_that("observationComments is renamed as comments", {
+  expect_false("observationComments" %in% names(v1_rc1$data$observations))
+  expect_true("comments" %in% names(v1_rc1$data$observations))
+})
+

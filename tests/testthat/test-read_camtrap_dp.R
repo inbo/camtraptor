@@ -231,3 +231,8 @@ test_that("baitUse from 1.0-rc.1 is mapped back properly", {
                factor(x = c(NA, "food", "other", "none"), 
                       levels = bait_uses_levels))
 })
+
+test_that("behavior is renamed as behavior", {
+  expect_false("behavior" %in% names(v1_rc1$data$observations))
+  expect_true("behaviour" %in% names(v1_rc1$data$observations))
+})

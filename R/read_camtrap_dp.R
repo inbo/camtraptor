@@ -151,19 +151,24 @@ read_camtrap_dp <- function(file = NULL,
       # Do not change NAs
       deployments <- deployments %>%
         dplyr::mutate(baitUse = as.character(.data$baitUse)) %>%
-        dplyr::mutate(baitUse = dplyr::if_else(.data$baitUse == "FALSE", 
-                                               "none", 
-                                               "other"
-                                               )
+        dplyr::mutate(baitUse = dplyr::case_when(
+          .data$baitUse == "FALSE" ~ "none", 
+          is.na(.data$baitUse) ~ NA_character_,
+          .default = "other")
         )
       # retrieve specific bait use info from tags if present
       if ("deploymentTags" %in% names(deployments)) {
         deployments <- deployments %>%
           dplyr::mutate(bait_use = stringr::str_extract(
             string = .data$deploymentTags, 
-            pattern = "(?<=bait:).[a-zA-Z]+"
-            )
-          )
+            pattern = "(?<=bait:).[a-zA-Z]+")) %>%
+          #remove whitespaces at the begin and end of the string (there shouldn't be)
+          dplyr::mutate(bait_use = stringr::str_trim(.data$bait_use)) %>%
+          # set baitUse based on found tags
+          dplyr::mutate(baitUse = dplyr::if_else(
+            .data$bait_use %in% bait_uses_old,
+            .data$bait_use,
+            .data$baitUse))
       }
       # set baitUse based on found tags
       deployments <- deployments %>%

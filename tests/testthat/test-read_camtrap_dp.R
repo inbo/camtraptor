@@ -204,3 +204,14 @@ test_that("path is deprecated", {
     )))
   )
 })
+test_that("baitUse from 1.0-rc.1 is mapped back properly", {
+  bait_uses_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
+  # originally baitUse is all NA
+  v1_rc1$data$deployments$baitUse[2:3] <- TRUE 
+  v1_rc1$data$deployments$baitUse[4] <- FALSE
+  deployments$deploymentTags[2] <- paste0(deployments$deploymentTags[2], 
+                                          " | bait:food")
+  expect_equal(deployments$baitUse,
+               factor(x = c(NA, "food", "other", "none"), 
+                      levels = bait_uses_levels))
+})

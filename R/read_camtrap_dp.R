@@ -217,7 +217,8 @@ read_camtrap_dp <- function(file = NULL,
   if (version == "1.0-rc.1") {
     # only event-type obs are supported
     n_media_obs <- observations %>%
-      dplyr::filter(.data$observationLevel == "media")
+      dplyr::filter(.data$observationLevel == "media") %>%
+      nrow()
     if (n_media_obs > 0) {
       msg <- glue::glue(
         "camtraptor has been developed to work with event-based observations. ",

@@ -220,30 +220,140 @@ test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
 ## read camera trap data package from v1.0-rc1
 v1_rc1 <- read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json")
 
-test_that("baitUse from 1.0-rc.1 is mapped back properly", {
-  bait_uses_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
-  # originally baitUse is all NA
-  v1_rc1$data$deployments$baitUse[2:3] <- TRUE 
-  v1_rc1$data$deployments$baitUse[4] <- FALSE
-  deployments$deploymentTags[2] <- paste0(deployments$deploymentTags[2], 
-                                          " | bait:food")
-  expect_equal(deployments$baitUse,
-               factor(x = c(NA, "food", "other", "none"), 
-                      levels = bait_uses_levels))
+test_that(
+  "read deployments v1.0-rc1: latitude follows longitude and both present", {
+  expect_true("latitude" %in% names(v1_rc1$data$deployments))
+  expect_true("longitude" %in% names(v1_rc1$data$deployments))
+  which(names(v1_rc1$data$deployments) == "latitude") ==
+    which(names(v1_rc1$data$deployments) == "longitude") + 1
 })
 
-test_that("behavior is renamed as behavior", {
+test_that("read deployments v1.0-rc1: eventStart is renamed as start", {
+  expect_false("eventStart" %in% names(v1_rc1$data$deployments))
+  expect_true("start" %in% names(v1_rc1$data$deployments))
+})
+
+test_that("read deployments v1.0-rc1: eventEnd is renamed as end", {
+  expect_false("eventEnd" %in% names(v1_rc1$data$deployments))
+  expect_true("end" %in% names(v1_rc1$data$deployments))
+})
+
+test_that(
+  "read deployments v1.0-rc1: cameraDelay is renamed as cameraInterval", {
+    expect_false("cameraDelay" %in% names(v1_rc1$data$deployments))
+    expect_true("cameraInterval" %in% names(v1_rc1$data$deployments))
+})
+
+test_that(
+  "read deployments v1.0-rc1: detectionDistance is a new term and is ignored", {
+    expect_false("detectionDistance" %in% names(v1_rc1$data$deployments))
+})
+
+test_that(
+  "read deployments v1.0-rc1: baitUse is a factor, not a boolean", {
+    expect_s3_class(v1_rc1$data$deployments$baitUse, "factor")
+    baitUse_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
+    expect_equal(levels(v1_rc1$data$deployments$baitUse), baitUse_levels)
+    # boolean NA becomes a factor NA
+    expect_true(all(is.na(v1_rc1$data$deployments$baitUse)))
+  }
+)
+
+test_that("read deployemnts v1.0-rc1: session is left empty", {
+  expect_true(all(is.na(v1_rc1$data$deployments$session)))
+})
+
+test_that("read deployemnts v1.0-rc1: array is left empty", {
+  expect_true(all(is.na(v1_rc1$data$deployments$array)))
+})
+
+test_that("read deployemnts v1.0-rc1: deploymentTags is renamed as tags", {
+  expect_false("deploymentTags" %in% names(v1_rc1$data$deployments))
+  expect_true("tags" %in% names(v1_rc1$data$deployments))
+})
+
+test_that("read deployemnts v1.0-rc1: deploymentComments is renamed as comments", {
+  expect_false("deploymentComments" %in% names(v1_rc1$data$deployments))
+  expect_true("comments" %in% names(v1_rc1$data$deployments))
+})
+
+test_that("read deployments v1.0-rc1: _id is left empty", {
+  expect_true(all(is.na(v1_rc1$data$deployments$`_id`)))
+})
+
+test_that("read observations v1.0-rc1: media-based observations are removed", {
+  expect_true(all(is.na(v1_rc1$data$observations$mediaID)))
+})
+
+test_that("read observations v1.0-rc1: eventID is renamed as sequenceID", {
+  expect_false("eventID" %in% names(v1_rc1$data$observations))
+  expect_true("sequenceID" %in% names(v1_rc1$data$observations))
+})
+
+test_that("read observations v1.0-rc1: eventStart is renamed as timestamp", {
+  expect_false("eventStart" %in% names(v1_rc1$data$observations))
+  expect_true("timestamp" %in% names(v1_rc1$data$observations))
+})
+
+test_that(
+  "read observations v1.0-rc1: eventEnd is a new term and is ignored", {
+  expect_false("eventEnd" %in% names(v1_rc1$data$observations))
+})
+
+test_that(
+  "read observations v1.0-rc1: observationLevel is a new term and is ignored", {
+    expect_false("observationLevel" %in% names(v1_rc1$data$observations))
+})
+
+test_that(
+  "read observations v1.0-rc1: cameraSetupType is renamed as cameraSetup", {
+  expect_false("cameraSetupType" %in% names(v1_rc1$data$observations))
+  expect_true("cameraSetup" %in% names(v1_rc1$data$observations))
+})
+
+test_that("read observations v1.0-rc1: countNew is left empty", {
+  expect_true(all(is.na(v1_rc1$data$observations$countNew)))
+})
+
+test_that(
+  "read observations v1.0-rc1: behavior is renamed as behavior", {
   expect_false("behavior" %in% names(v1_rc1$data$observations))
   expect_true("behaviour" %in% names(v1_rc1$data$observations))
 })
 
-test_that("classificationProbability", {
-  expect_false("classificationProbability" %in% names(v1_rc1$data$observations))
-  expect_true("classificationConfidence" %in% names(v1_rc1$data$observations))
-})
+test_that(
+  "read observations v1.0-rc1: classificationProbability renamed as classificationConfidence", 
+  {
+    expect_false("classificationProbability" %in% names(v1_rc1$data$observations))
+    expect_true("classificationConfidence" %in% names(v1_rc1$data$observations))
+  }
+)
 
-test_that("observationComments is renamed as comments", {
+test_that(
+  "read observations v1.0-rc1: observationComments is renamed as comments", {
   expect_false("observationComments" %in% names(v1_rc1$data$observations))
   expect_true("comments" %in% names(v1_rc1$data$observations))
 })
 
+test_that("read media v1.0-rc1: sequenceID is added", {
+  expect_true("sequenceID" %in% names(v1_rc1$data$media))
+})
+
+test_that(
+  "read media v1.0-rc1: filePublic is a new term in v1.0-rc1 and is ignored", {
+  expect_false("filePublic" %in% names(v1_rc1$data$media))
+})
+
+test_that("read media v1.0-rc1: favorite is renamed as favourite", {
+  expect_false("favorite" %in% names(v1_rc1$data$media))
+  expect_true("favourite" %in% names(v1_rc1$data$media))
+})
+
+test_that("read media v1.0-rc1: mediaComments is renamed as comments", {
+  expect_false("mediaComments" %in% names(v1_rc1$data$media))
+  expect_true("comments" %in% names(v1_rc1$data$media))
+})
+
+test_that("read media v1.0-rc1: _id is left empty", {
+  expect_true(all(is.na(v1_rc1$data$media$`_id`)))
+})

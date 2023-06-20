@@ -204,6 +204,19 @@ test_that("path is deprecated", {
     )))
   )
 })
+
+test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
+  expect_error(
+    read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json"),
+    "Version https://raw.githubusercontent.com/tdwg/camtrap-dp/0.5/camtrap-dp-profile.json not supported. camtraptor supports camtrap-dp versions: 1.0-rc.1 and 0.1.6."
+  )
+  
+  expect_error(
+    read_camtrap_dp("https://raw.githubusercontent.com/tdwg/dwc-for-biologging/403f57db105982dc05b70f3cf66fd2b5591798db/derived/camtrap-dp/data/raw/datapackage.json"),
+    "Version tabular-data-package not supported. camtraptor supports camtrap-dp versions: 1.0-rc.1 and 0.1.6."
+  )
+})
+
 ## read camera trap data package from v1.0-rc1
 v1_rc1 <- read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json")
 

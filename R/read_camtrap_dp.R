@@ -136,8 +136,8 @@ read_camtrap_dp <- function(file = NULL,
     deployments <- deployments %>%
       dplyr::relocate(latitude, .after = longitude)
     deployments <- deployments %>%
-      dplyr::rename(start = eventStart,
-                    end = eventEnd)
+      dplyr::rename(start = deploymentStart,
+                    end = deploymentEnd)
     if ("cameraDelay" %in% names(deployments)) {
       deployments <- deployments %>%
         dplyr::rename(cameraInterval = cameraDelay)

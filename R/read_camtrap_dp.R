@@ -234,7 +234,7 @@ read_camtrap_dp <- function(file = NULL,
       dplyr::rename(timestamp = eventStart)
     
     observations$eventEnd <- NULL
-    
+    observations$observationLevel <- NULL
   }
   
   # patch for non-standard values speed, radius, angle

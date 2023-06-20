@@ -80,7 +80,7 @@ read_camtrap_dp <- function(file = NULL,
   
   # get package version
   profile <- package$profile
-  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/deployments-table-schema.json") {
+  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/camtrap-dp-profile.json") {
     version <- "1.0-rc.1"
   } else {
     if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {

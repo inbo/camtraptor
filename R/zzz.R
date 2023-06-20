@@ -148,14 +148,15 @@ collapse_transformer <- function(regex = "[*]$", ...) {
 #' Check reading issues
 #' 
 #' This helper function throws a warning if issues while reading datapackage
-#' resources (data.frames) are detected.
+#' resources (data.frames) are detected. The issues are also returned as
+#' data.frame.
 #' 
 #' @param df Data.frame.
 #' @param df_name Character with name of the data.frame passed to `df`.
 #' @noRd
-#' @return No return.
+#' @return Data.frame containing the issues as returned by `readr::problems()`.
 check_reading_issues <- function(df, df_name) {
-  # get name of the passed data.frame 
+  # get problems
   issues_df <- readr::problems(df)
   if (nrow(issues_df) > 0) {
     warning(glue::glue(
@@ -164,6 +165,7 @@ check_reading_issues <- function(df, df_name) {
       "`readr::problems()`."
     ))
   }
+  return(issues_df)
 }
 
 #' Custom label format function

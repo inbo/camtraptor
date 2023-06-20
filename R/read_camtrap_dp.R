@@ -170,12 +170,8 @@ read_camtrap_dp <- function(file = NULL,
             .data$bait_use,
             .data$baitUse))
       }
-      # set baitUse based on found tags
-      deployments <- deployments %>%
-        dplyr::mutate(baitUse = if_else(is.na(.data$baitUse) & 
-                                          bait_use %in% bait_uses_old,
-                                        deployments$bait_use)) %>%
       # set baitUse to factor
+      deployments <- deployments %>%
         dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
     }
     if ("session" %in% names(deployments)) {

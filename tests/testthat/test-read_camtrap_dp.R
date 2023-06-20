@@ -204,6 +204,9 @@ test_that("path is deprecated", {
     )))
   )
 })
+## read camera trap data package from v1.0-rc1
+v1_rc1 <- read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json")
+
 test_that("baitUse from 1.0-rc.1 is mapped back properly", {
   bait_uses_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
   # originally baitUse is all NA

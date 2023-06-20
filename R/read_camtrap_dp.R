@@ -228,6 +228,12 @@ read_camtrap_dp <- function(file = NULL,
     }
     observations <- observations %>%
       dplyr::filter(.data$observationLevel == "event")
+    
+    if ("eventID" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(sequenceID = eventID)
+    }
+    
   }
   
   # patch for non-standard values speed, radius, angle

@@ -206,7 +206,7 @@ read_camtrap_dp <- function(file = NULL,
   }
   
   observations <- frictionless::read_resource(package, "observations")
-  check_reading_issues(deployments, "observations")
+  check_reading_issues(observations, "observations")
   
   # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes

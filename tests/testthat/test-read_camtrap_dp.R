@@ -236,3 +236,8 @@ test_that("behavior is renamed as behavior", {
   expect_false("behavior" %in% names(v1_rc1$data$observations))
   expect_true("behaviour" %in% names(v1_rc1$data$observations))
 })
+
+test_that("classificationProbability", {
+  expect_false("classificationProbability" %in% names(v1_rc1$data$observations))
+  expect_true("classificationConfidence" %in% names(v1_rc1$data$observations))
+})

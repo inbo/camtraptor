@@ -248,6 +248,11 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::mutate("countNew" = NA)
     }
+    
+    if ("behavior" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(behaviour = behavior)
+    }
   }
   
   # patch for non-standard values speed, radius, angle

@@ -119,7 +119,7 @@ read_camtrap_dp <- function(file = NULL,
     }
     package$platform <- package$sources[[1]]$title
     # `title` value of the first contributor with role `rightsHolder`
-    package$rightsHolder <- purrr::map_df(contributors, unlist) %>%
+    package$rightsHolder <- purrr::map_df(package$contributors, unlist) %>%
       dplyr::filter(role == "rightsHolder") %>%
       dplyr::slice(1) %>%
       dplyr::pull(title)

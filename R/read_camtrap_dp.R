@@ -126,20 +126,20 @@ read_camtrap_dp <- function(file = NULL,
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")
-  check_reading_issues(deployments, "deployments")
+  issues_deployments <- check_reading_issues(deployments, "deployments")
   
   # transform deployments formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
   if (version == "1.0-rc.1") {
     # rename required fields where needed
     deployments <- deployments %>%
-      dplyr::relocate(latitude, .after = longitude)
+      dplyr::relocate("latitude", .after = "longitude")
     deployments <- deployments %>%
-      dplyr::rename(start = deploymentStart,
-                    end = deploymentEnd)
+      dplyr::rename(start = "deploymentStart",
+                    end = "deploymentEnd")
     if ("cameraDelay" %in% names(deployments)) {
       deployments <- deployments %>%
-        dplyr::rename(cameraInterval = cameraDelay)
+        dplyr::rename(cameraInterval = "cameraDelay")
     }
     # ignore detectionDistance
     deployments$detectionDistance <- NULL
@@ -175,37 +175,90 @@ read_camtrap_dp <- function(file = NULL,
     }
     if ("session" %in% names(deployments)) {
       warning(glue::glue("The field `session` of deployments is deprecated in",
-                         "version {version} and is left empty.")
+                         "version {version}.")
       )
+    } else {
       deployments <- deployments %>%
         dplyr::mutate(session = NA)
     }
     if ("array" %in% names(deployments)) {
       warning(glue::glue("The field `array` of deployments is deprecated in",
-                         "version {version} and is left empty.")
+                         "version {version}.")
       )
+    } else {
       deployments <- deployments %>%
         dplyr::mutate(array = NA)
     }
     if ("_id" %in% names(deployments)) {
       warning(glue::glue("The field `_id` of deployments is deprecated in",
-                         "version {version} and is left empty.")
+                         "version {version}.")
       )
+    } else {
       deployments <- deployments %>%
         dplyr::mutate("_id" = NA)
     }
     if ("deploymentTags" %in% names(deployments)) {
       deployments <- deployments %>%
-        dplyr::rename(tags = deploymentTags)
+        dplyr::rename(tags = "deploymentTags")
     }
     if ("deploymentComments" %in% names(deployments)) {
       deployments <- deployments %>%
-        dplyr::rename(comments = deploymentComments)
+        dplyr::rename(comments = "deploymentComments")
     }
   }
   
+  # read observations (needed to create sequenceID in media)
   observations <- frictionless::read_resource(package, "observations")
-  check_reading_issues(observations, "observations")
+  issues_observations <- check_reading_issues(observations, "observations")
+  
+  if (isTRUE(media)) {
+    # read media
+    media <- frictionless::read_resource(package, "media")
+    issues_media <- check_reading_issues(media, "media")
+    # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
+    # breaking changes
+    if (version == "1.0-rc.1") {
+      # create sequenceID for media linked to event-based observations as 
+      # sequenceID is used by `get_record_table()`
+      event_obs <- observations %>% 
+        dplyr::filter(is.na(.data$mediaID)) %>%
+        dplyr::select("eventID", "deploymentID", "eventStart", "eventEnd") %>%
+        # eventID is not anymore required in v1.0-rc1, remove where not present
+        dplyr::filter(!is.na(.data$eventID))
+      # Join on deploymentID and timestamp between eventStart and eventEnd
+      by <- dplyr::join_by(deploymentID, 
+                           between(x$timestamp, y$eventStart, y$eventEnd))
+      # Join media with event-based observations (obs without mediaID)
+      media <- media %>%
+        dplyr::full_join(event_obs, by) %>%
+        dplyr::rename(sequenceID = "eventID")
+      
+      if ("filePublic" %in% names(media))  {
+        message(
+          glue::glue(
+            "filePublic is a new term in version {version} and will be ignored."
+          )
+        )
+        media$filePublic <- NULL
+      }
+      if ("favorite" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(favourite = "favorite")
+      }
+      if ("mediaComments" %in% names(media)) {
+        media <- media %>%
+          dplyr::rename(comments = "mediaComments")
+      }
+      if ("_id" %in% names(media)) {
+        warning(glue::glue("The field `_id` of media is deprecated in",
+                           "version {version}.")
+        )
+      } else {
+        media <- media %>%
+          dplyr::mutate("_id" = NA)
+      }
+    }
+  }
   
   # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
@@ -226,40 +279,56 @@ read_camtrap_dp <- function(file = NULL,
     
     if ("eventID" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(sequenceID = eventID)
+        dplyr::rename(sequenceID = "eventID")
     }
     
     observations <- observations %>%
-      dplyr::rename(timestamp = eventStart)
+      dplyr::rename(timestamp = "eventStart")
     
     observations$eventEnd <- NULL
     observations$observationLevel <- NULL
     
     if ("cameraSetupType" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(cameraSetup = cameraSetupType)
+        dplyr::rename(cameraSetup = "cameraSetupType")
+    } else {
+      observations <- observations %>%
+        dplyr::mutate("cameraSetupType" = NA)
     }
     if ("countNew" %in% names(observations)) {
-      warning(glue::glue("The field `countNew` of observations is deprecated in",
-                         "version {version} and is left empty.")
+      warning(glue::glue(
+        "The field `countNew` of observations is deprecated in",
+        "version {version}."
+        )
       )
+    } else {
       observations <- observations %>%
         dplyr::mutate("countNew" = NA)
     }
+    
     if ("behavior" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(behaviour = behavior)
+        dplyr::rename(behaviour = "behavior")
     }
     if ("classificationProbability" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(classificationConfidence = classificationProbability)
+        dplyr::rename(classificationConfidence = "classificationProbability")
     }
     if ("observationComments" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(comments = observationComments)
+        dplyr::rename(comments = "observationComments")
+    }
+    if ("_id" %in% names(observations)) {
+      warning(glue::glue("The field `_id` of observations is deprecated in",
+                         "version {version}.")
+      )
+    } else {
+      observations <- observations %>%
+        dplyr::mutate("_id" = NA)
     }
   }
   
+  ## IS THIS STILL NEEDED????
   # patch for non-standard values speed, radius, angle
   # see https://github.com/inbo/camtraptor/issues/185
   obs_col_names <- names(observations)
@@ -299,51 +368,6 @@ read_camtrap_dp <- function(file = NULL,
     attr(observations, which = "problems") <- issues_observations
   }
   
-  
-  if (isTRUE(media)) {
-    # read media
-    media <- frictionless::read_resource(package, "media")
-    check_reading_issues(media, "media")
-    # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
-    # breaking changes
-    if (version == "1.0-rc.1") {
-      # create sequenceID for media used by event-based observations, 
-      # sequenceID is used by `get_record_table()`
-      media <- media %>%
-        dplyr::full_join(
-          # Join with observations without mediaID
-          observations %>% 
-            dplyr::filter(is.na(.data$mediaID)) %>%
-            dplyr::select(observationID, deploymentID, start, end),
-          # Join on deploymentID and timestamp between start and end
-          join_by(deploymentID, dplyr::between(timestamp, start, end))) %>%
-        # generate a sequenceID
-        dplyr::rename(sequenceID = observationID)
-      
-      if ("filePublic" %in% names(media))  {
-        message(
-          "filePublic is a new term in version {version} and will be ignored."
-        )
-        media$filePublic <- NULL
-      }
-      if ("favorite" %in% names(media)) {
-        media <- media %>%
-          dplyr::rename(favourite = favorite)
-      }
-      if ("mediaComments" %in% names(media)) {
-        media <- media %>%
-          dplyr::rename(comments = mediaComments)
-      }
-      if ("_id" %in% names(media)) {
-        warning(glue::glue("The field `_id` of media is deprecated in",
-                           "version {version} and is left empty.")
-        )
-        media <- media %>%
-          dplyr::mutate("_id" = NA)
-      }
-    }
-  }
-
   # return list resources
   if (is.data.frame(media)) {
     data$media <- media

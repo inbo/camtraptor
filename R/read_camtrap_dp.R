@@ -326,6 +326,10 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::mutate("_id" = NA)
     }
+    if ("individualSpeed" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(speed = "individualSpeed")
+    }
   }
   
   if (version == "0.1.6"){

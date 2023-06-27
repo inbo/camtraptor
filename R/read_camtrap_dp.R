@@ -328,18 +328,19 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
   
-  ## IS THIS STILL NEEDED????
-  # patch for non-standard values speed, radius, angle
-  # see https://github.com/inbo/camtraptor/issues/185
-  obs_col_names <- names(observations)
-  if (all(c("X22", "X23", "X24") %in% names(observations))) {
-    observations <- observations %>%
-      dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
-    message(
-      paste("Three extra fields in `observations` interpreted as `speed`,",
-            "`radius` and `angle`."
+  if (version == "0.1.6"){
+    # patch for non-standard values speed, radius, angle
+    # see https://github.com/inbo/camtraptor/issues/185
+    obs_col_names <- names(observations)
+    if (all(c("X22", "X23", "X24") %in% names(observations))) {
+      observations <- observations %>%
+        dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
+      message(
+        paste("Three extra fields in `observations` interpreted as `speed`,",
+              "`radius` and `angle`."
+        )
       )
-    )
+    }
   }
   
   # create first version datapackage with resources in data element

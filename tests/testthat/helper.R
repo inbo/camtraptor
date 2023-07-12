@@ -61,8 +61,4 @@ expect_fields <- function(file, ...) {
     file_fields,
     ...
   )
-  waldo::compare(
-    xml_fields,
-    file_fields
-  )
 }

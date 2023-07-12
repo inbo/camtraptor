@@ -48,7 +48,8 @@ Imports:
     tidyr,
     tools,
     utils,
-    uuid
+    uuid,
+    xml2
 Suggests:
     covr,
     knitr,

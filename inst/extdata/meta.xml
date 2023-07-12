@@ -48,12 +48,11 @@
     <field index="1" term="http://purl.org/dc/terms/rights"/>
     <field index="2" term="http://purl.org/dc/terms/identifier"/>
     <field index="3" term="http://purl.org/dc/elements/1.1/type"/>
-    <field index="4" term="http://rs.tdwg.org/ac/terms/providerManagedID"/>
-    <field index="5" term="http://rs.tdwg.org/ac/terms/comments"/>
-    <field index="6" term="http://rs.tdwg.org/ac/terms/captureDevice"/>
-    <field index="7" term="http://rs.tdwg.org/ac/terms/resourceCreationTechnique"/>
-    <field index="8" term="http://rs.tdwg.org/ac/terms/accessURI"/>
-    <field index="9" term="http://purl.org/dc/terms/format"/>
-    <field index="10" term="http://ns.adobe.com/xap/1.0/CreateDate"/>
+    <field index="4" term="http://rs.tdwg.org/ac/terms/comments"/>
+    <field index="5" term="http://rs.tdwg.org/ac/terms/captureDevice"/>
+    <field index="6" term="http://rs.tdwg.org/ac/terms/resourceCreationTechnique"/>
+    <field index="7" term="http://rs.tdwg.org/ac/terms/accessURI"/>
+    <field index="8" term="http://purl.org/dc/terms/format"/>
+    <field index="9" term="http://ns.adobe.com/xap/1.0/CreateDate" />
   </extension>
 </archive>

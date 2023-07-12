@@ -23,6 +23,15 @@ test_that("write_dwc() copies over meta.xml", {
   unlink(out_dir, recursive = TRUE)
 })
 
+test_that("meta.xml has not changed", {
+  out_dir <- file.path(tempdir(), "dwc")
+  unlink(out_dir, recursive = TRUE)
+  dir.create(out_dir)
+  suppressMessages(write_dwc(mica, directory = out_dir))
+  expect_snapshot_file(file.path(out_dir, "meta.xml"))
+  unlink(out_dir, recursive = TRUE)
+})
+
 test_that("write_dwc() can return data as list of tibbles rather than files", {
   result <- suppressMessages(write_dwc(mica, directory = NULL))
 

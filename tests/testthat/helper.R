@@ -22,40 +22,47 @@ write_dwc_snapshot <- function(package, directory, file){
 #'
 #' @param file Character.
 #'     Filepath from of file from DwC-A file to compare against \code{meta.xml} included in the package.
-#'     Can either be \code{dwc_occurrence.csv} or \code{dwc_audubon.csv}
+#'     The basename can either be \code{dwc_occurrence.csv} or \code{dwc_audubon.csv}
 #' @inheritDotParams expect_identical info label
 #' @noRd
 #' @examples
 #' expect_fields("tests/testthat/_snaps/write_dwc/dwc_audubon.csv")
-expect_fields <- function(file,...) {
-  xml_list <- xml2::read_xml("inst/extdata/meta.xml") %>% xml2::as_list()
-  
+expect_fields <- function(file, ...) {
+  xml_list <- xml2::read_xml(system.file("extdata",
+                                         "meta.xml",
+                                         package = "camtraptor")) %>%
+    xml2::as_list()
+
   file_is_core <- basename(file) == "dwc_occurrence.csv"
-  
-  xml_fields <- 
+
+  xml_fields <-
     xml_list %>%
-    purrr::pluck("archive", ifelse(file_is_core,"core","extension")) %>% 
-    purrr::map_dfr( ~ dplyr::tibble(
-      index = as.numeric(attr(.x, which = "index")) ,
+    purrr::pluck("archive", ifelse(file_is_core, "core", "extension")) %>%
+    purrr::map_dfr(~ dplyr::tibble(
+      index = as.numeric(attr(.x, which = "index")),
       term = attr(.x, which = "term")
-    )) %>% 
-    dplyr::filter(!is.na(term)) %>% 
+    )) %>%
+    dplyr::filter(!is.na(term)) %>%
     dplyr::mutate(field = basename(term), .keep = "unused")
-  
+
   file_cols <-
-    readr::read_csv(file, show_col_types = FALSE) %>% 
-    readr::spec() %>% 
-    purrr::chuck(1) %>% 
+    readr::read_csv(file, show_col_types = FALSE) %>%
+    readr::spec() %>%
+    purrr::chuck(1) %>%
     names()
-  
+
   file_fields <-
     # remove the namespace from the csv header, if present
-    dplyr::tibble(field = stringr::str_extract(file_cols,"[a-zA-Z]+$")) %>% 
-    dplyr::mutate(index = as.integer(rownames(.)) -1, .before = field)
-  
-  testthat::expect_identical(xml_fields,
-                             file_fields,
-                             ...)
-  waldo::compare(xml_fields,
-                 file_fields)
+    dplyr::tibble(field = stringr::str_extract(file_cols, "[a-zA-Z]+$")) %>%
+    dplyr::mutate(index = as.integer(rownames(.)) - 1, .before = field)
+
+  testthat::expect_identical(
+    xml_fields,
+    file_fields,
+    ...
+  )
+  waldo::compare(
+    xml_fields,
+    file_fields
+  )
 }

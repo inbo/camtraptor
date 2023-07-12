@@ -24,7 +24,9 @@ write_dwc_snapshot <- function(package, directory, file){
 #'     Filepath from of file from DwC-A file to compare against \code{meta.xml} included in the package.
 #'     Can either be \code{dwc_occurrence.csv} or \code{dwc_audubon.csv}
 #' @inheritDotParams expect_identical info label
-#'
+#' @noRd
+#' @examples
+#' expect_fields("tests/testthat/_snaps/write_dwc/dwc_audubon.csv")
 expect_fields <- function(file,...) {
   xml_list <- xml2::read_xml("inst/extdata/meta.xml") %>% xml2::as_list()
   

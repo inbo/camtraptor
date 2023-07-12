@@ -93,3 +93,12 @@ test_that("write_dwc() returns the expected Darwin Core mapping for a known data
   expect_snapshot_file(write_dwc_snapshot(mica, out_dir, "audubon"))
   unlink(out_dir, recursive = TRUE)
 })
+
+test_that("write_dwc() returns files that comply with the info in meta.xml", {
+  out_dir <- file.path(tempdir(), "dwc")
+  unlink(out_dir, recursive = TRUE)
+  suppressMessages(write_dwc(mica, out_dir))
+  expect_fields(file.path(out_dir,"dwc_occurrence.csv"))
+  expect_fields(file.path(out_dir,"dwc_audubon.csv"))
+  unlink(out_dir, recursive = TRUE)
+})

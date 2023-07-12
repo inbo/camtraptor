@@ -247,10 +247,12 @@ write_dwc <- function(package, directory = ".") {
   } else {
     dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
     dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
+    meta_xml_path <- file.path(directory, "meta.xml")
     message(glue::glue(
       "Writing data to:",
       dwc_occurrence_path,
       dwc_audubon_path,
+      meta_xml_path,
       .sep = "\n"
     ))
     if (!dir.exists(directory)) {
@@ -258,5 +260,8 @@ write_dwc <- function(package, directory = ".") {
     }
     readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
     readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
+    # meta.xml is static and included in the package
+    file.copy(from = system.file("extdata", "meta.xml"),
+              to = meta_xml_path)
   }
 }

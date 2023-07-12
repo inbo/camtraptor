@@ -261,7 +261,7 @@ write_dwc <- function(package, directory = ".") {
     readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
     readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
     # meta.xml is static and included in the package
-    file.copy(from = system.file("extdata", "meta.xml"),
+    file.copy(from = system.file("extdata", "meta.xml", package = "camtraptor"),
               to = meta_xml_path)
   }
 }

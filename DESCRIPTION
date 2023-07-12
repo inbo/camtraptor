@@ -48,13 +48,13 @@ Imports:
     tidyr,
     tools,
     utils,
-    uuid,
-    xml2
+    uuid
 Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    xml2
 VignetteBuilder:
     knitr
 Encoding: UTF-8

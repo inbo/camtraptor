@@ -9,6 +9,7 @@ test_that("write_dwc() can write csv files to a path", {
     list.files(out_dir, pattern = "*.csv"),
     c("dwc_audubon.csv", "dwc_occurrence.csv")
   )
+  unlink(out_dir, recursive = TRUE)
 })
 
 test_that("write_dwc() can return data as list of tibbles rather than files", {

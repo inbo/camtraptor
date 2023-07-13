@@ -332,24 +332,17 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::rename(speed = "individualSpeed")
     }
-  }
-  
-  if (version == "0.1.6"){
-    # patch for non-standard values speed, radius, angle
-    # see https://github.com/inbo/camtraptor/issues/185
-    obs_col_names <- names(observations)
-    if (all(c("X22", "X23", "X24") %in% names(observations))) {
+    if ("individualPositionRadius" %in% names(observations)) {
       observations <- observations %>%
-        dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
-      message(
-        paste("Three extra fields in `observations` interpreted as `speed`,",
-              "`radius` and `angle`."
-        )
-      )
+        dplyr::rename(radius = "individualPositionRadius")
+    }
+    if ("individualPositionAngle" %in% names(observations)) {
+      observations <- observations %>%
+        dplyr::rename(angle = "individualPositionAngle")
     }
   }
-  
-  # create first version datapackage with resources in data element
+
+  # create first version datapackage with resources in data slot
   data <- list(
     "deployments" = deployments,
     "media" = NULL,
@@ -373,6 +366,22 @@ read_camtrap_dp <- function(file = NULL,
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
   }
+  
+  if (version == "0.1.6"){
+    # patch for non-standard values speed, radius, angle
+    # see https://github.com/inbo/camtraptor/issues/185
+    obs_col_names <- names(observations)
+    if (all(c("X22", "X23", "X24") %in% names(observations))) {
+      observations <- observations %>%
+        dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
+      message(
+        paste("Three extra fields in `observations` interpreted as `speed`,",
+              "`radius` and `angle`."
+        )
+      )
+    }
+  }
+
   
   # return list resources
   if (is.data.frame(media)) {

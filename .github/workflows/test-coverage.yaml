@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [main, master]
     types: [review_requested, ready_for_review]
+  workflow_dispatch:
+    branches: [main]
 
 name: test-coverage
 

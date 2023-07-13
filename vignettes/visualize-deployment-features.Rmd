@@ -289,7 +289,7 @@ map_dep(
 
 ### Use a specific icon and color for zero values
 
-You can pass to `zero_value_icon_url` argument the URL to an icon and to  `zero_values_icon_size` the size in pixels of such icon. There are several icon libraries you can choose from. A library with many free icons is [icons8](https://icons8.com/). Here, an example with the icon of Fry from Futurama animation series, color style, and size 50: 
+You can pass to `zero_value_icon_url` argument the URL to an icon and to `zero_values_icon_size` the size in pixels of such icon. There are several icon libraries you can choose from. A library with many free icons is [icons8](https://icons8.com/). Here, an example with the icon of Fry from Futurama animation series, colour style, and size 50:
 
 ```{r fry_futurama}
 map_dep(

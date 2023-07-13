@@ -73,7 +73,7 @@ map_dep(mica,
         species = "Anas platyrhynchos")
 ```
 
-Notice how zero values are also visualized by a specific circle marker for ease detection. Color: red by default.
+Notice how zero values are also visualized by a specific icon for ease detection. By default a black multiplication symbol `×`.
 
 You can filter by sex:
 

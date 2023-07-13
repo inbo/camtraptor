@@ -24,7 +24,10 @@
 #' @examples
 #' \dontrun{
 #' # Read Camtrap DP package
-#' camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+#' camtrap_dp_file <- system.file(
+#'   "extdata", "mica", "datapackage.json", 
+#'   package = "camtraptor"
+#' )
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
 #' # Read Camtrap DP package and ignore media file
@@ -106,8 +109,8 @@ read_camtrap_dp <- function(file = NULL,
   # get resource names
   resource_names <- purrr::map_chr(package$resource, ~.$name)
   
-  # transform package metadata formatted using Camtrap DP 1.0-rc.1 standard to avoid
-  # breaking changes
+  # transform package metadata formatted using Camtrap DP 1.0-rc.1 standard to
+  # avoid breaking changes
   if (version == "1.0-rc.1") {
     names(package)[names(package) == "observationLevel"] <- "classificationLevel"
     if ("sequenceInterval" %in% names(package)) {
@@ -260,7 +263,7 @@ read_camtrap_dp <- function(file = NULL,
     }
   }
   
-  # transform media formatted using Camtrap DP 1.0-rc.1 standard to avoid
+  # transform observations formatted using Camtrap DP 1.0-rc.1 standard to avoid
   # breaking changes
   if (version == "1.0-rc.1") {
     # only event-type obs are supported
@@ -305,7 +308,6 @@ read_camtrap_dp <- function(file = NULL,
       observations <- observations %>%
         dplyr::mutate("countNew" = NA)
     }
-    
     if ("behavior" %in% names(observations)) {
       observations <- observations %>%
         dplyr::rename(behaviour = "behavior")
@@ -354,7 +356,6 @@ read_camtrap_dp <- function(file = NULL,
     "observations" = observations
   )
   package$data <- data
-  
   # get taxonomic info from metadata
   taxon_infos <- get_species(package)
   # add vernacular names to observations

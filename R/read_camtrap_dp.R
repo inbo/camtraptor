@@ -70,8 +70,7 @@ read_camtrap_dp <- function(file = NULL,
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
-  
-  # check media
+  # check media arg
   assertthat::assert_that(
     media %in% c(TRUE, FALSE),
     msg = "`media` must be a logical: TRUE or FALSE"
@@ -91,20 +90,6 @@ read_camtrap_dp <- function(file = NULL,
       version <- profile
     }
   }
-  
-  # check that the version of the camtrap-dp is supported by camtraptor. At the
-  # moment we support only camtra-dp versions 0.1.6 and 1.0-rc.1
-  supported_versions <- c("1.0-rc.1", "0.1.6")
-  assertthat::assert_that(
-    version %in% supported_versions,
-    msg = glue::glue(
-      "Version {version} not supported. ",
-      "camtraptor supports camtrap-dp versions: ",
-      glue::glue_collapse(glue::glue("{supported_versions}"), last = " and "),
-      ".",
-      .sep = ""
-    )
-  )
   
   # get resource names
   resource_names <- purrr::map_chr(package$resource, ~.$name)
@@ -351,7 +336,7 @@ read_camtrap_dp <- function(file = NULL,
   package$data <- data
   # get taxonomic info from metadata
   taxon_infos <- get_species(package)
-  # add vernacular names to observations
+  # add vernacular names and higher rank to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
     observations <-

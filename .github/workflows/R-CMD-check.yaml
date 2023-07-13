@@ -5,7 +5,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-
+    types: [review_requested, ready_for_review]
 name: R-CMD-check
 
 jobs:

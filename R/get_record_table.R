@@ -5,7 +5,7 @@
 #' The record table is a concept developed within the camtrapR package, see
 #' [this article](
 #' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html).
-#' See also the function documentation for [camtraptR::recordTable()](
+#' See also the function documentation for [camtrapR::recordTable()](
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
@@ -26,7 +26,7 @@
 #'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
 #'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
 #'   "lastRecord"`).
-#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be `NULL` (deafult).
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be `NULL` (default).
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?

@@ -18,7 +18,7 @@
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `effort`: Effort expressed in the unit passed by parameter `unit`.
-#'   - `unit`:Tthe unit used to express the effort.
+#'   - `unit`: The unit used to express the effort.
 #'   One of the values available for parameter `unit`.
 #'   - `effort_duration`: A duration object (duration is a class from lubridate
 #'   package).

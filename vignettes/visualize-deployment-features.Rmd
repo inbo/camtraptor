@@ -301,7 +301,7 @@ map_dep(
 )
 ```
 
-Tipically the color is part of the URL. Here below two examples where we change the color of the default icon to green (2ECC71):
+Typically the colour is part of the URL. Here below two examples where we change the color of the default icon to green (2ECC71):
 
 ```{r specify_zero_colors_value_example_1}
 map_dep(

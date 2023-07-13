@@ -67,7 +67,7 @@ The following remarks are both valid for camtrapR's function  `recordTable()` an
 
 ### Temporal independence
 
-As described in [Chapter 3](https://jniedballa.github.io/camtrapR/articles/camtrapr3.html) of camptrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for `recordTable()`, this is achieved via argument `minDeltaTime`, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.
+As described in [Chapter 3](https://jniedballa.github.io/camtrapR/articles/camtrapr3.html) of camtrapR documentation, we could filter observations using an adjustable criterion for temporal independence between subsequent records of the same species in an attempt to remove non-independent records. As for `recordTable()`, this is achieved via argument `minDeltaTime`, defined as the minimum time difference (in minutes) between two records of the same species at the same station which are to be considered independent. As shown above, the default is 0, causing the function to return all records.
 
 Again, as for `recordTable()`, we provide an argument, `deltaTimeComparedTo`, to further control how independence between records is assessed. Setting it to `“lastRecord”` returns only records taken `minDeltaTime` minutes after the last record, i.e. `minDeltaTime` minutes after `timestamp` of the last recorded media file. Example with  `minDeltaTime = 60` (1 hour):
 
@@ -104,7 +104,7 @@ get_record_table(mica, stationCol = "locationID")
 
 ### Remove duplicates
 
-It can happen that "duplicates" occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different `lifeStage` or `sex`. You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equalt to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
+It can happen that "duplicates" occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different `lifeStage` or `sex`. You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equal to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
 
 Let's create an easy example with duplicates based on `mica` datapackage:
 

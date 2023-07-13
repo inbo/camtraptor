@@ -146,7 +146,7 @@ get_n_species(mica,
 
 ### Multiple predicates
 
-As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names _B_ML_val 06_Oostpolderkreek_ and _B_ML_val 07_Sint-Anna_, or deployments souther than 50.7 degrees:
+As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names _B_ML_val 06_Oostpolderkreek_ and _B_ML_val 07_Sint-Anna_, or deployments further south than 50.7 degrees:
 
 ```{r pred_or_get_n_species}
 get_n_species(mica,
@@ -183,7 +183,7 @@ get_n_species(mica,
               pred_gt("longitude", 4))
 ```
 
-This is similar to the behvaior of dplyr's  `filter()` function, where this:
+This is similar to the behaviour of dplyr's  `filter()` function, where this:
 
 ```{r example_dplyr_filter_and}
 mica$data$deployments %>%

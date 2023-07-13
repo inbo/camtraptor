@@ -5,7 +5,10 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-
+    types: [ready_for_review]
+  workflow_dispatch:
+    branches: [main]
+    
 name: R-CMD-check
 
 jobs:

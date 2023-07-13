@@ -5,7 +5,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-    types: [ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review]
   release:
     types: [published]
   workflow_dispatch:
@@ -15,6 +15,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:

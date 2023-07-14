@@ -35,16 +35,15 @@ check_package <- function(package = NULL,
                           msg = "data element is missing from package")
   # check validity data element of package: does it contain all 3 elements?
   elements <- c("deployments", "media", "observations")
-  tables_absent <- names(elements)[
-    !names(elements) %in% names(package$data)
-  ]
-  n_tables_absent <- length(tables_absent)
-  assertthat::assert_that(n_tables_absent == 0,
-                          msg = glue::glue(
-                            "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
-                            .transformer = collapse_transformer(sep = ", ", last = " and ")
-                          )
-  )
+  tables_absent <- dplyr::setdiff(elements, names(package$data))
+  assertthat::assert_that(
+    assertthat::are_equal(elements,
+                          names(package$data)),
+    msg = glue::glue(
+      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and "),
+      n_tables_absent = length(tables_absent)
+    ))
   
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))

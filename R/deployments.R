@@ -2,10 +2,10 @@
 #'
 #' @param package 
 #'
-#' @return
+#' @return A tibble with the deployments of the `package`
 #' @export
 #'
-#' @examples
+#' @examples deployments(mica)
 deployments <- function(package) {
   purrr::chuck(package,"data","deployments")
 }

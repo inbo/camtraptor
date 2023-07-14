@@ -23,7 +23,7 @@ get_n_species <- function(package = NULL,
                           ...,
                           datapkg = lifecycle::deprecated()) {
   # check input data package
-  package <- check_package(package, datapkg, "get_n_species")
+  check_package(package, datapkg, "get_n_species")
 
   # extract observations and deployments
   observations <- package$data$observations

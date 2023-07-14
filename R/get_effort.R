@@ -42,7 +42,7 @@ get_effort <- function(package = NULL,
   check_value(unit, units, "unit", null_allowed = FALSE)
 
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_effort")
+  check_package(package, datapkg, "get_effort")
 
   # apply filtering
   package$data$deployments <- apply_filter_predicate(

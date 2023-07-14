@@ -49,7 +49,7 @@ get_cam_op <- function(package = NULL,
                        use_prefix = FALSE,
                        datapkg = NULL) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_cam_op")
+  check_package(package, datapkg, "get_cam_op")
 
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(

@@ -154,7 +154,7 @@ get_dep_no_obs <- function(package = NULL,
                            datapkg = lifecycle::deprecated()) {
 
   # check input camera trap data package
-  package <- check_package(package, datapkg, "get_dep_no_obs")
+  check_package(package, datapkg, "get_dep_no_obs")
 
   # extract observations and deployments
   observations <- package$data$observations

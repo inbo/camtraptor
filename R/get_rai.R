@@ -58,7 +58,7 @@ get_rai <- function(package = NULL,
                     life_stage = NULL,
                     datapkg = lifecycle::deprecated()) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_rai")
+  check_package(package, datapkg, "get_rai")
 
   get_rai_primitive(package, ...,
     use = "n_obs",
@@ -135,7 +135,7 @@ get_rai_individuals <- function(package = NULL,
                                 life_stage = NULL,
                                 datapkg = lifecycle::deprecated()) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_rai_individuals")
+  check_package(package, datapkg, "get_rai_individuals")
   get_rai_primitive(package, ...,
     use = "n_individuals",
     species = species,

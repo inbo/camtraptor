@@ -72,6 +72,16 @@ test_that("check_package() doesn't return an error on a NULL media object", {
   expect_true(check_package(mica_null_media))
 })
 
+test_that("check_package() returns error if media is not a data.frame", {
+  mica_listed <- mica
+  mica_listed$data$media <- as.list(mica_listed$data$media)
+  expect_error(
+    check_package(mica_listed),
+    regexp = "package$data$media is not a data frame",
+    fixed = TRUE
+  )
+})
+
 test_that("check_package() returns TRUE on valid package", {
   expect_true(check_package(mica))
 })

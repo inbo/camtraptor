@@ -6,5 +6,5 @@ test_that("read_wi() returns error when files are not found", {
 })
 
 test_that("read_wi() returns a valid package", {
-  expect_type(camtraptor:::check_package(read_wi("data")), "list")
+  expect_true(camtraptor:::check_package(read_wi("data")))
 })

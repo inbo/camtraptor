@@ -13,7 +13,7 @@ test_that("check_package() returns error when package is not a list", {
     fixed = TRUE
   )
   expect_error(
-    check_package(data.frame(letters = c("a","b","c"), numbers = c(pi,2*pi,3*pi))),
+    check_package(data.frame(letters = c("a", "b", "c"), numbers = c(pi, 2 * pi, 3 * pi))),
     regexp = "package is not a list",
     fixed = TRUE
   )
@@ -21,7 +21,7 @@ test_that("check_package() returns error when package is not a list", {
 
 test_that("check_package() returns error on missing data", {
   expect_error(
-    check_package(purrr::discard_at(mica,at = "data")),
+    check_package(purrr::discard_at(mica, at = "data")),
     regexp = "data element is missing from package",
     fixed = TRUE
   )
@@ -47,7 +47,7 @@ test_that("check_package() returns error if not all elements are present", {
 test_that("check_package() returns error if observations is not a data.frame", {
   mica_listed <- mica
   mica_listed$data$observations <- as.list(mica_listed$data$observations)
-  
+
   expect_error(
     check_package(mica_listed),
     regexp = "package$data$observations is not a data frame",

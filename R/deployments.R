@@ -7,5 +7,5 @@
 #'
 #' @examples
 deployments <- function(package) {
-  
+  purrr::chuck(package,"data","deployments")
 }

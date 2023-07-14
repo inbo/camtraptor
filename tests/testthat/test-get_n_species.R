@@ -19,12 +19,3 @@ test_that("get_n_species returns the right dataframe", {
     )
   )
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_species(datapkg = mica)
-    )
-  )
-})

@@ -244,12 +244,3 @@ test_that("error returned if life stage or sex is not present", {
   expect_error(get_n_individuals(mica, life_stage = "bad"))
   expect_error(get_n_individuals(mica, sex = "bad"))
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_individuals(datapkg = mica)
-    )
-  )
-})

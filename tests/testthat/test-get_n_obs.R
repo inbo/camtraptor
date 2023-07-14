@@ -243,15 +243,6 @@ test_that(paste(
   expect_true(all(species_value %in% n_obs$scientificName))
 })
 
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_obs(datapkg = mica)
-    )
-  )
-})
-
 test_that("Filter by date of deployments via predicates works correctly", {
   end_date <- as.Date("2021-01-01", format = "%Y-%m-%d")
   mica_with_obs_filtered_manually <- mica

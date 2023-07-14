@@ -73,12 +73,3 @@ test_that("Functions works case insensitively", {
   species <- check_species(mica, vn_name)
   testthat::expect_equal(species, "Anas platyrhynchos")
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  testthat::expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      check_species(datapkg = mica, species = "Anas strepera")
-    )
-  )
-})

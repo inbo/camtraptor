@@ -65,6 +65,12 @@ test_that("check_package() returns error if deployments is not a data.frame", {
   )
 })
 
+test_that("check_package() doesn't return an error on a NULL media object", {
+  # the case when media is not imported
+  mica_null_media <- mica
+  mica_null_media$data["media"] <- list(NULL)
+  expect_true(check_package(mica_null_media))
+})
 
 test_that("check_package() returns TRUE on valid package", {
   expect_true(check_package(mica))

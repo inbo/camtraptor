@@ -28,10 +28,12 @@ check_package <- function(package = NULL,
   }
   # camera trap data package is a list
   assertthat::assert_that(is.list(package))
-  assertthat::assert_that(!is.data.frame(package))
+  assertthat::assert_that(!is.data.frame(package),
+                          msg = "package is not a list")
   # check existence of an element called data
-  assertthat::assert_that("data" %in% names(package))
-  # check validity data element of package: does it contain all 4 elements?
+  assertthat::assert_that("data" %in% names(package),
+                          msg = "data element is missing from package")
+  # check validity data element of package: does it contain all 3 elements?
   elements <- c("deployments", "media", "observations")
   tables_absent <- names(elements)[
     !names(elements) %in% names(package$data)

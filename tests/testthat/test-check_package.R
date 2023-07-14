@@ -44,6 +44,27 @@ test_that("check_package() returns error if not all elements are present", {
   )
 })
 
+test_that("check_package() returns error if observations is not a data.frame", {
+  mica_listed <- mica
+  mica_listed$data$observations <- as.list(mica_listed$data$observations)
+  
+  expect_error(
+    check_package(mica_listed),
+    regexp = "package$data$observations is not a data frame",
+    fixed = TRUE
+  )
+})
+
+test_that("check_package() returns error if deployments is not a data.frame", {
+  mica_listed <- mica
+  mica_listed$data$deployments <- as.list(mica_listed$data$deployments)
+  expect_error(
+    check_package(mica_listed),
+    regexp = "package$data$deployments is not a data frame",
+    fixed = TRUE
+  )
+})
+
 
 test_that("check_package() returns TRUE on valid package", {
   expect_true(check_package(mica))

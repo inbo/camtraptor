@@ -3,6 +3,7 @@
 export(apply_filter_predicate)
 export(calc_animal_pos)
 export(check_species)
+export(deployments)
 export(get_cam_op)
 export(get_custom_effort)
 export(get_effort)

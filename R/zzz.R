@@ -160,7 +160,7 @@ check_reading_issues <- function(df, df_name) {
   issues_df <- readr::problems(df)
   if (nrow(issues_df) > 0) {
     warning(glue::glue(
-      "One or more parsing issues occurred while reading `{df_name}` ",
+      "One or more parsing issues occurred while reading `{df_name}`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",
       "`readr::problems()`."
     ))

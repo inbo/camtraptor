@@ -163,9 +163,11 @@ test_that("right columns, cols types, right relative number of rows", {
 test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
   # filtering deployments reduces effort value
-  filter_deploys <- get_custom_effort(mica,
-    pred_gte("latitude", 51.18),
-    group_by = "year"
+  filter_deploys <- suppressMessages(
+    get_custom_effort(mica,
+      pred_gte("latitude", 51.18),
+      group_by = "year"
+    )
   )
   expect_lt(filter_deploys$effort, tot_effort$effort)
 

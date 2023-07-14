@@ -1,9 +1,8 @@
 test_that("get_n_individuals returns the right structure of dataframe", {
-
   # species arg specified
-  output_anas_platyrhyncos <- get_n_individuals(mica,
+  output_anas_platyrhyncos <- suppressMessages(get_n_individuals(mica,
     species = "Anas platyrhynchos"
-  )
+  ))
 
   # type list
   expect_type(output_anas_platyrhyncos, "list")
@@ -64,9 +63,9 @@ test_that(paste(
   n_deployments <- length(deployments)
 
   # calculate get_n_individuals for a species undetected in one deployment
-  output_martes_foina <- get_n_individuals(mica,
+  output_martes_foina <- suppressMessages(get_n_individuals(mica,
     species = "Martes foina"
-  )
+  ))
 
   # number of rows should be equal to number of deployments
   expect_equal(nrow(output_martes_foina), n_deployments)
@@ -104,8 +103,8 @@ test_that("species = 'all' returns the same of using a vector with all species",
 
 test_that("species is case insensitive", {
   expect_equal(
-    get_n_individuals(mica, species = "Anas platyrhynchos"),
-    get_n_individuals(mica, species = toupper("Anas platyrhynchos"))
+    suppressMessages(get_n_individuals(mica, species = "Anas platyrhynchos")),
+    suppressMessages(get_n_individuals(mica, species = toupper("Anas platyrhynchos")))
   )
 })
 
@@ -113,15 +112,14 @@ test_that(paste(
   "species accepts use of common names and return",
   "the same as using scientic name"
 ), {
-
   # define scientific name
   scn <- "Anas platyrhynchos"
   # define correspondent vernacular name
   vn <- "Mallard"
 
   # get number of individuals for both cases
-  output_anas_platyrhyncos <- get_n_individuals(mica, species = scn)
-  output_mallard <- get_n_individuals(mica, species = vn)
+  output_anas_platyrhyncos <- suppressMessages(get_n_individuals(mica, species = scn))
+  output_mallard <- suppressMessages(get_n_individuals(mica, species = vn))
 
   # same outputs
   expect_equal(output_anas_platyrhyncos, output_mallard)
@@ -129,9 +127,9 @@ test_that(paste(
 
 test_that("if subset of species is specified, less individuals are returned", {
   output_all_species <- get_n_individuals(mica)
-  output_anas_platyrhyncos <- get_n_individuals(mica,
+  output_anas_platyrhyncos <- suppressMessages(get_n_individuals(mica,
     species = "Anas platyrhynchos"
-  )
+  ))
 
   expect_true(sum(output_all_species$n) >= sum(output_anas_platyrhyncos$n))
 })
@@ -166,10 +164,10 @@ test_that("number of individuals is equal to sum of counts", {
     dplyr::filter(scientificName == species) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals <- get_n_individuals(mica,
+  n_individuals <- suppressMessages(get_n_individuals(mica,
     species = "Mallard",
     pred("deploymentID", deploy_id)
-  )
+  ))
   expect_equal(n_individuals$n, n_individuals_via_count)
 })
 
@@ -180,7 +178,8 @@ test_that("sex filters data correctly", {
     dplyr::filter(sex == sex_value) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals_females <- get_n_individuals(mica, species = NULL, sex = sex_value)
+  n_individuals_females <-
+    suppressMessages(get_n_individuals(mica, species = NULL, sex = sex_value))
   tot_n_individuals_females <- sum(n_individuals_females$n)
   expect_equal(tot_n_individuals_females, n_individuals_via_count)
   expect_equal(nrow(n_individuals_females), nrow(mica$data$deployments))
@@ -193,10 +192,10 @@ test_that("multiple sex values allowed", {
     dplyr::filter(sex %in% sex_value) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals_females_undefined <- get_n_individuals(mica,
+  n_individuals_females_undefined <- suppressMessages(get_n_individuals(mica,
     species = NULL,
     sex = sex_value
-  )
+  ))
   tot_n_individuals_females_undefined <- sum(n_individuals_females_undefined$n)
   expect_equal(
     tot_n_individuals_females_undefined,
@@ -215,7 +214,9 @@ test_that("life stage filters data correctly", {
     dplyr::filter(lifeStage == life_stage_value) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals_juvenile <- get_n_individuals(mica, species = NULL, life_stage = life_stage_value)
+  n_individuals_juvenile <- suppressMessages(
+    get_n_individuals(mica, species = NULL, life_stage = life_stage_value)
+  )
   tot_n_individuals_juvenile <- sum(n_individuals_juvenile$n)
   expect_equal(tot_n_individuals_juvenile, n_individuals_juvenile_via_count)
   expect_equal(nrow(n_individuals_juvenile), nrow(mica$data$deployments))
@@ -228,9 +229,11 @@ test_that("multiple age values allowed", {
     dplyr::filter(lifeStage %in% life_stage_value) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals_juvenile_adult <- get_n_individuals(mica,
-    species = NULL,
-    life_stage = life_stage_value
+  n_individuals_juvenile_adult <- suppressMessages(
+    get_n_individuals(mica,
+      species = NULL,
+      life_stage = life_stage_value
+    )
   )
   tot_n_individuals_juvenile_adult <- sum(n_individuals_juvenile_adult$n)
   expect_equal(

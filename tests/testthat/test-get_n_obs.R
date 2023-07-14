@@ -1,8 +1,9 @@
 test_that("get_n_obs returns the right structure of dataframe", {
-
   # species arg specified
-  output_anas_platyrhyncos <- get_n_obs(mica,
-    species = "Anas platyrhynchos"
+  output_anas_platyrhyncos <- suppressMessages(
+    get_n_obs(mica,
+      species = "Anas platyrhynchos"
+    )
   )
 
   # type list
@@ -64,8 +65,10 @@ test_that(paste(
   n_deployments <- length(deployments)
 
   # calculate get_n_obs for a species undetected in one deployment
-  output_ondatra_zibethicus <- get_n_obs(mica,
-    species = "Anas strepera"
+  output_ondatra_zibethicus <- suppressMessages(
+    get_n_obs(mica,
+      species = "Anas strepera"
+    )
   )
 
   # number of rows should be equal to number of deployments
@@ -104,8 +107,10 @@ test_that("species = 'all' returns the same of using a vector with all species",
 
 test_that("species is case insensitive", {
   expect_equal(
-    get_n_obs(mica, species = "Anas platyrhynchos"),
-    get_n_obs(mica, species = toupper("ANAS platYrhyncHOS"))
+    suppressMessages(
+      get_n_obs(mica, species = "Anas platyrhynchos")
+    ),
+    suppressMessages(get_n_obs(mica, species = toupper("ANAS platYrhyncHOS")))
   )
 })
 
@@ -113,15 +118,14 @@ test_that(paste(
   "species accepts use of common names and return",
   "the same as using scientic name"
 ), {
-
   # define scientific name
   scn <- "Anas platyrhynchos"
   # define correspondent vernacular name
   vn <- "Mallard"
 
   # get number of observations for both cases
-  output_anas_platyrhyncos <- get_n_obs(mica, species = scn)
-  output_mallard <- get_n_obs(mica, species = vn)
+  output_anas_platyrhyncos <- suppressMessages(get_n_obs(mica, species = scn))
+  output_mallard <- suppressMessages(get_n_obs(mica, species = vn))
 
   # same outputs
   expect_equal(output_anas_platyrhyncos, output_mallard)
@@ -129,8 +133,10 @@ test_that(paste(
 
 test_that("if subset of species is specified, less observations are returned", {
   output_all_species <- get_n_obs(mica)
-  output_anas_platyrhyncos <- get_n_obs(mica,
-    species = "Anas platyrhynchos"
+  output_anas_platyrhyncos <- suppressMessages(
+    get_n_obs(mica,
+      species = "Anas platyrhynchos"
+    )
   )
 
   expect_true(sum(output_all_species$n) >= sum(output_anas_platyrhyncos$n))
@@ -170,16 +176,18 @@ test_that(paste(
     dplyr::pull(.data$sequenceID) %>%
     dplyr::n_distinct()
   # one sequenceID  linked to two observations (different age, sex and count)
-  n_obs <- get_n_obs(mica,
+  n_obs <- suppressMessages(get_n_obs(mica,
     species = "Mallard",
     pred("deploymentID", deploy_id)
-  )
+  ))
   expect_equal(n_obs$n, n_obs_via_sequence_id)
 })
 
 test_that("sex filters data correctly", {
   sex_value <- "female"
-  n_obs_females <- get_n_obs(mica, species = NULL, sex = sex_value)
+  n_obs_females <- suppressMessages(
+    get_n_obs(mica, species = NULL, sex = sex_value)
+  )
   tot_n_obs_females <- sum(n_obs_females$n)
   expect_equal(tot_n_obs_females, 1)
   expect_equal(nrow(n_obs_females), nrow(mica$data$deployments))
@@ -187,10 +195,10 @@ test_that("sex filters data correctly", {
 
 test_that("multiple sex values allowed", {
   sex_value <- c("female", "unknown")
-  n_obs_females_unknown <- get_n_obs(mica,
+  n_obs_females_unknown <- suppressMessages(get_n_obs(mica,
     species = NULL,
     sex = sex_value
-  )
+  ))
   tot_n_obs_females_unknown <- sum(n_obs_females_unknown$n)
   expect_equal(
     tot_n_obs_females_unknown,
@@ -209,7 +217,9 @@ test_that("life_stage filters data correctly", {
     dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
     dplyr::distinct(.data$sequenceID) %>%
     nrow()
-  n_obs_subadult <- get_n_obs(mica, species = NULL, life_stage = life_stage_value)
+  n_obs_subadult <- suppressMessages(
+    get_n_obs(mica, species = NULL, life_stage = life_stage_value)
+  )
   tot_n_obs_subadult <- sum(n_obs_subadult$n)
   expect_equal(tot_n_obs_subadult, n_obs_subadult_via_distinct)
   expect_equal(nrow(n_obs_subadult), nrow(mica$data$deployments))
@@ -217,7 +227,9 @@ test_that("life_stage filters data correctly", {
 
 test_that("multiple age values allowed", {
   life_stage_value <- c("subadult", "adult")
-  n_obs_subadult_adult <- get_n_obs(mica, species = NULL, life_stage = life_stage_value)
+  n_obs_subadult_adult <- suppressMessages(
+    get_n_obs(mica, species = NULL, life_stage = life_stage_value)
+  )
   tot_n_obs_subadult_adult <- sum(n_obs_subadult_adult$n)
   n_obs_subadult_adult_calculate <-
     mica$data$observations %>%
@@ -238,7 +250,9 @@ test_that(paste(
 ), {
   species_value <- "Anas platyrhynchos"
   sex_value <- "female"
-  n_obs <- get_n_obs(mica, species = species_value, sex = sex_value)
+  n_obs <- suppressMessages(
+    get_n_obs(mica, species = species_value, sex = sex_value)
+  )
   expect_true(all(n_obs$scientificName %in% species_value))
   expect_true(all(species_value %in% n_obs$scientificName))
 })
@@ -255,10 +269,14 @@ test_that("Filter by date of deployments via predicates works correctly", {
   mica_with_obs_filtered_manually$data$observations <-
     mica_with_obs_filtered_manually$data$observations %>%
     dplyr::filter(.data$deploymentID %in% deploys_filtered)
-  obs_filtered_man <- get_n_obs(mica_with_obs_filtered_manually, 
-                                pred_lt(arg = "end", value = end_date)) %>%
+  obs_filtered_man <- suppressMessages(get_n_obs(
+    mica_with_obs_filtered_manually,
+    pred_lt(arg = "end", value = end_date)
+  )) %>%
     dplyr::arrange(deploymentID, scientificName)
-  obs_filtered <- get_n_obs(mica, pred_lt(arg = "end", value = end_date)) %>%
+  obs_filtered <- suppressMessages(
+    get_n_obs(mica, pred_lt(arg = "end", value = end_date))
+  ) %>%
     dplyr::arrange(deploymentID, scientificName)
   expect_equal(obs_filtered, obs_filtered_man)
 })

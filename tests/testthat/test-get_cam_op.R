@@ -140,6 +140,8 @@ test_that(
 )
 
 test_that("filtering predicates are allowed and work well", {
-  filtered_cam_op_matrix <- get_cam_op(mica, pred_lt("longitude", 4.0))
+  filtered_cam_op_matrix <- suppressMessages(
+    get_cam_op(mica, pred_lt("longitude", 4.0))
+  )
   expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
 })

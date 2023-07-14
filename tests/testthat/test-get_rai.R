@@ -4,8 +4,10 @@ test_that("get_rai returns error if no species is specified", {
 })
 
 test_that("get_rai returns the right dataframe", {
-  output_anas_platyrhyncos <- get_rai(mica,
-    species = "Anas platyrhynchos"
+  output_anas_platyrhyncos <- suppressMessages(
+    get_rai(mica,
+      species = "Anas platyrhynchos"
+    )
   )
 
   # type list
@@ -66,15 +68,19 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
 
 test_that("species is case insensitive", {
   expect_equal(
-    get_rai(mica, species = "Anas platyrhynchos"),
-    get_rai(mica, species = toupper("Anas platyrhynchos"))
+    suppressMessages(get_rai(mica, species = "Anas platyrhynchos")),
+    suppressMessages(get_rai(mica, species = toupper("Anas platyrhynchos")))
   )
 })
 
 test_that("sex filters data correctly", {
   sex_value <- "female"
-  n_obs_females <- get_n_obs(mica, species = "Mallard", sex = sex_value)
-  rai_females <- get_rai(mica, species = "Mallard", sex = sex_value)
+  n_obs_females <- suppressMessages(
+    get_n_obs(mica, species = "Mallard", sex = sex_value)
+  )
+  rai_females <- suppressMessages(
+    get_rai(mica, species = "Mallard", sex = sex_value)
+  )
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
   expect_equal(nrow(n_obs_females), nrow(rai_females))
@@ -85,8 +91,12 @@ test_that("sex filters data correctly", {
 
 test_that("life_stage filters data correctly", {
   life_stage_value <- "subadult"
-  n_obs_subadult <- get_n_obs(mica, species = "Mallard", life_stage = life_stage_value)
-  rai_subadult <- get_rai(mica, species = "Mallard", life_stage = life_stage_value)
+  n_obs_subadult <- suppressMessages(
+    get_n_obs(mica, species = "Mallard", life_stage = life_stage_value)
+  )
+  rai_subadult <- suppressMessages(
+    get_rai(mica, species = "Mallard", life_stage = life_stage_value)
+  )
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
   expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))

@@ -38,9 +38,11 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
     minDeltaTime = 1000,
     deltaTimeComparedTo = "lastRecord"
   )
-  record_table_dec <- get_record_table(mica,
-    minDeltaTime = 1000.7,
-    deltaTimeComparedTo = "lastRecord"
+  record_table_dec <- suppressMessages(
+    get_record_table(mica,
+      minDeltaTime = 1000.7,
+      deltaTimeComparedTo = "lastRecord"
+    )
   )
   testthat::expect_equal(record_table_int, record_table_dec)
 })
@@ -91,10 +93,10 @@ test_that("Higher minDeltaTime means less rows returned", {
     deltaTimeComparedTo = "lastRecord"
   ) %>%
     nrow()
-  nrow_delta_10000 <- get_record_table(mica,
+  nrow_delta_10000 <- suppressMessages(get_record_table(mica,
     minDeltaTime = 10000,
     deltaTimeComparedTo = "lastRecord"
-  ) %>%
+  )) %>%
     nrow()
   testthat::expect_true(nrow_delta_1000 <= nrow_delta_0)
   testthat::expect_true(nrow_delta_10000 <= nrow_delta_1000)
@@ -133,17 +135,18 @@ test_that(
     # add n media, observationID and sequenceID to record table
     output <- output %>%
       dplyr::mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
-      dplyr::left_join(mica$data$observations %>%
-        dplyr::select(
-          observationID,
-          timestamp,
-          scientificName,
-          sequenceID
-        ),
-      by = c(
-        "DateTimeOriginal" = "timestamp",
-        "Species" = "scientificName"
-      )
+      dplyr::left_join(
+        mica$data$observations %>%
+          dplyr::select(
+            observationID,
+            timestamp,
+            scientificName,
+            sequenceID
+          ),
+        by = c(
+          "DateTimeOriginal" = "timestamp",
+          "Species" = "scientificName"
+        )
       )
     n_media <-
       mica$data$media %>%
@@ -184,7 +187,7 @@ test_that(paste(
 
 test_that("filtering predicates are allowed and work well", {
   stations <- unique(
-    get_record_table(mica, pred_lt("longitude", 4.0))$Station
+    suppressMessages(get_record_table(mica, pred_lt("longitude", 4.0)))$Station
   )
   stations_calculate <- mica$data$deployments %>%
     dplyr::filter(longitude < 4.0) %>%

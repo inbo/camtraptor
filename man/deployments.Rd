@@ -7,7 +7,8 @@
 deployments(package)
 }
 \arguments{
-\item{package}{}
+\item{package}{Camera trap data package object, as returned by
+\code{read_camtrap_dp()}.}
 }
 \value{
 A tibble with the deployments of the \code{package}

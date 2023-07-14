@@ -40,19 +40,19 @@ test_that("Multiput scientific names are allowed", {
 
 test_that("Function works with vernacular names", {
   vn_names <- c("beech marten", "mallard")
-  species <- check_species(mica, vn_names)
+  species <- suppressMessages(check_species(mica, vn_names))
   testthat::expect_equal(species, c("Martes foina", "Anas platyrhynchos"))
 })
 
 test_that("Functions works well with vernacular names of different languages", {
   vn_names <- c("beech marten", "wilde eend")
-  species <- check_species(mica, vn_names)
+  species <- suppressMessages(check_species(mica, vn_names))
   testthat::expect_equal(species, c("Martes foina", "Anas platyrhynchos"))
 })
 
 test_that("Functions works with a mix of scientific and vernacular names", {
   mixed_names <- c("mallard", "steenmarter", "Castor fiber")
-  species <- check_species(mica, mixed_names)
+  species <- suppressMessages(check_species(mica, mixed_names))
   testthat::expect_equal(
     species,
     c(
@@ -69,7 +69,7 @@ test_that("Taxon IDs are not allowed", {
 })
 
 test_that("Functions works case insensitively", {
-  vn_name <- check_species(mica, c("MallARD"))
+  vn_name <- suppressMessages(check_species(mica, c("MallARD")))
   species <- check_species(mica, vn_name)
   testthat::expect_equal(species, "Anas platyrhynchos")
 })

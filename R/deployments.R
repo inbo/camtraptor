@@ -4,9 +4,11 @@
 #'   `read_camtrap_dp()`.
 #'
 #' @return A tibble with the deployments of the `package`
+#' @importFrom dplyr %>%
 #' @export
 #'
 #' @examples deployments(mica)
 deployments <- function(package) {
-  purrr::chuck(package,"data","deployments")
+  check_package(package) %>% 
+    purrr::chuck("data","deployments")
 }

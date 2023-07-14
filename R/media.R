@@ -4,9 +4,11 @@
 #'   `read_camtrap_dp()`.
 #'
 #' @return A tibble with the deployments of the `package`
+#' @importFrom dplyr %>%
 #' @export
 #'
 #' @examples media(mica)
 media <- function(package) {
-  purrr::chuck(package,"data","media")
+  check_package(package) %>% 
+    purrr::chuck("data","media")
 }

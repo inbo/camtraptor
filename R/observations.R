@@ -4,9 +4,11 @@
 #'   `read_camtrap_dp()`.
 #'   
 #' @return A tibble with the observations of the `package`
+#' @importFrom dplyr %>%
 #' @export
 #'
 #' @examples observations(mica)
 observations <- function(package) {
-  purrr::chuck(package,"data","observations")
+  check_package(package) %>% 
+    purrr::chuck("data","observations")
 }

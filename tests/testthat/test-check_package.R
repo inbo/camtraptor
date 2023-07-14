@@ -19,6 +19,14 @@ test_that("check_package() returns error when package is not a list", {
   )
 })
 
+test_that("check_package() returns error on missing data", {
+  expect_error(
+    check_package(purrr::discard_at(mica,at = "data")),
+    regexp = "data element is missing from package",
+    fixed = TRUE
+  )
+})
+
 
 test_that("check_package() returns TRUE on valid package", {
   expect_true(check_package(mica))

@@ -1,4 +1,4 @@
-#' Retreive deployment data from a Camera Trap Data Package
+#' Retrieve deployment data from a Camera Trap Data Package
 #'
 #' @param package 
 #'

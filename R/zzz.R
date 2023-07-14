@@ -424,3 +424,27 @@ mutate_when_missing <- function(.data,...){
   if(!rlang::is_empty(columns_to_add)){.data <- dplyr::mutate(.data,...)}
   return(.data)
 }
+
+#' Add speed, radius, angle to a Camtrap DP version 0.1.6
+#' 
+#' This help function is a patch for adding non-standard columns `speed`,
+#' `radius` and `angle` in `observations`. See
+#' https://github.com/inbo/camtraptor/issues/185
+#' 
+#' @param obs Data.frame with `observations` from a Camtrap DP package, version
+#'   0.1.6.
+#' @return Data.frame with `observations`.
+#' @noRd
+add_speed_radius_angle <- function(obs){
+  obs_col_names <- names(obs)
+  if (all(c("X22", "X23", "X24") %in% names(obs))) {
+    obs <- obs %>%
+      dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
+    message(
+      paste("Three extra fields in `observations` interpreted as `speed`,",
+            "`radius` and `angle`."
+      )
+    )
+  }
+  return(obs)
+}

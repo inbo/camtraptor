@@ -14,6 +14,8 @@
 check_package <- function(package = NULL,
                           datapkg = NULL,
                           function_name) {
+  # Warn for usage of datapkg argument, mention (parent-) function name in error
+  # message
   if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
     lifecycle::deprecate_warn(
       when = "0.16.0",

@@ -523,7 +523,7 @@ map_dep <- function(package = NULL,
     )
   } else if (feature == "rai") {
     feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage, ...)
-    feat_df <- feat_df %>% dplyr::rename(n = rai)
+    feat_df <- feat_df %>% dplyr::rename(n = "rai")
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(
       package,
@@ -537,7 +537,7 @@ map_dep <- function(package = NULL,
       effort_unit <- "hour" # default value of get_effort()
     }
     feat_df <- get_effort(package, unit = effort_unit, ...)
-    feat_df <- feat_df %>% dplyr::rename(n = effort)
+    feat_df <- feat_df %>% dplyr::rename(n = "effort")
   }
 
   # define title legend

@@ -62,6 +62,7 @@ expect_fields <- function(file, ...) {
     ...
   )
 }
+
 #' testthat wrapper to compare DwC-A files against meta.xml file for file location
 #'
 #' @param file Filepath from of file from DwC-A file to compare against

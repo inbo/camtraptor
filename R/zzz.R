@@ -808,7 +808,10 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     observations <- observations %>%
       dplyr::mutate(sequenceID = NA)
   }
-  
+  observations <- dplyr::relocate(observations, 
+                                  "sequenceID", 
+                                  .after = "deploymentID"
+  )
   observations <- observations %>%
     dplyr::rename(timestamp = "eventStart")
   

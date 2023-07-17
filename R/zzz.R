@@ -735,7 +735,9 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   # Join media with event-based observations (obs without mediaID)
   media <- media %>%
     dplyr::full_join(event_obs, by) %>%
-    dplyr::rename(sequenceID = "eventID")
+    dplyr::rename(sequenceID = "eventID") %>%
+    dplyr::select(-c("eventStart", "eventEnd")) %>%
+    dplyr::relocate("sequenceID", .after = "deploymentID")
   
   if ("filePublic" %in% names(media))  {
     message(

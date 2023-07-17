@@ -34,8 +34,7 @@ check_package <- function(package = NULL,
   assertthat::assert_that("data" %in% names(package))
   # check validity data element of package: does it contain deployments and
   # observations?
-  elements <- c("deployments", "observations") # media is typically not needed
-  if (isTRUE(media)) elements <- c(elements, "media")
+  elements <- c("deployments", "observations", "media")
   tables_absent <- elements[
     !elements %in% names(package$data)
   ]
@@ -45,6 +44,13 @@ check_package <- function(package = NULL,
       .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )
+  
+  if (media == TRUE) {
+    assertthat::assert_that(
+      !is.null(package$data$media),
+      msg = glue::glue("Can't find media in .$data.")
+    )
+  }
 
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))

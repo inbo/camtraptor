@@ -822,8 +822,8 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   if ("countNew" %in% names(observations)) {
     warning(glue::glue(
       "The field `countNew` of observations is deprecated in",
-      "version {version}."
-    )
+      "version {from}."
+      )
     )
   } else {
     observations <- observations %>%
@@ -843,7 +843,7 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   }
   if ("_id" %in% names(observations)) {
     warning(glue::glue("The field `_id` of observations is deprecated in",
-                       "version {version}.")
+                       "version {from}.")
     )
   } else {
     observations <- observations %>%

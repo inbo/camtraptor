@@ -73,4 +73,19 @@ expect_fields <- function(file, ...) {
 #' @examples
 #' expect_location("tests/testthat/_snaps/write_dwc/dwc_audubon.csv")
 expect_location <- function(file, ...) {
+  xml_list <-
+    xml2::read_xml(
+      system.file("extdata", "meta.xml", package = "camtraptor")
+    ) %>%
+    xml2::as_list()
+  file_is_core <- basename(file) == "dwc_occurrence.csv"
+  file_locations <-
+    purrr::chuck(
+      xml_list,
+      "archive",
+      ifelse(file_is_core, "core", "extension"),
+      "files",
+      "location"
+    )
+  testthat::expect_identical(unlist(file_locations), basename(file))
 }

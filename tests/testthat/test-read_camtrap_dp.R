@@ -196,18 +196,18 @@ test_that("datapackage resources are tibble dataframes", {
     file = dp_path,
     media = FALSE
   ))
-  # check for v0.1.6
+  # check for v0.1.6 (only one of the two: chosen for the one without media)
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
     class(dp_without_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
     class(dp_without_media$data$observations)))
-  # check for v1.0-rc1
+  # check for v1.0-rc1 (only one of the two: chosen for the one with media)
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_with_media$data$deployments)))
+                    class(dp_v1_rc1_with_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_with_media$data$observations)))
+                    class(dp_v1_rc1_with_media$data$observations)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_with_media$data$media)))
+                    class(dp_v1_rc1_with_media$data$media)))
 })
 
 test_that(
@@ -372,6 +372,13 @@ test_that("read deployments v1.0-rc1: _id is left empty", {
 
 test_that(
   "all cols `v0.1.6:deployments` are present in `v1.0-rc1:deployments`", {
+    dp_path <- system.file("extdata", "mica", "datapackage.json",
+                           package = "camtraptor"
+    )
+    dp_without_media <- suppressMessages(read_camtrap_dp(
+      file = dp_path,
+      media = FALSE
+    ))
     cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
@@ -481,14 +488,19 @@ test_that(
 test_that(
   "all cols `v0.1.6:observations` are present in `v1.0-rc1:observations`", {
     # notice that cols with vernacular names are different due to use of ISO
-    # 693-3 in v1.0-rc1 vs ISO 693-2 in v0.1.6. Also, countNew in v0.1.6 is not
-    # present in v1.0-rc1.
+    # 693-3 in v1.0-rc1 vs ISO 693-2 in v0.1.6.
+    dp_path <- system.file("extdata", "mica", "datapackage.json",
+                           package = "camtraptor"
+    )
+    dp_without_media <- suppressMessages(read_camtrap_dp(
+      file = dp_path,
+      media = FALSE
+    ))
     cols_obs_dp_v1_rc1 <- dp_v1_rc1_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
     cols_obs_dp_v0_1_6 <- dp_without_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
-      dplyr::select(-countNew) %>%
       names()
     expect_true(
       all(cols_obs_dp_v0_1_6 %in% cols_obs_dp_v1_rc1)
@@ -521,6 +533,13 @@ test_that("read media v1.0-rc1: _id is left empty", {
 
 test_that(
   "all cols `v0.1.6:media` are present in `v1.0-rc1:media`", {
+    dp_path <- system.file("extdata", "mica", "datapackage.json",
+                           package = "camtraptor"
+    )
+    dp_with_media <- suppressMessages(read_camtrap_dp(
+      file = dp_path,
+      media = TRUE
+    ))
     cols_media_dp_v1_rc1 <- dp_v1_rc1_with_media$data$media %>%
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%

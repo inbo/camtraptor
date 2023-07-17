@@ -62,3 +62,14 @@ expect_fields <- function(file, ...) {
     ...
   )
 }
+#' testthat wrapper to compare DwC-A files against meta.xml file for file location
+#'
+#' @param file Filepath from of file from DwC-A file to compare against
+#'   `meta.xml` included in the package.
+#'   The basename can either be `dwc_occurrence.csv` or `dwc_audubon.csv`
+#' @inheritDotParams expect_identical info label
+#' @noRd
+#' @examples
+#' expect_location("tests/testthat/_snaps/write_dwc/dwc_audubon.csv")
+expect_location <- function(file, ...) {
+}

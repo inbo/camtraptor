@@ -18,7 +18,7 @@ write_dwc_snapshot <- function(package, directory, file){
   )
 }
 
-#' testthat wrapper to compare DwC-A files against meta.xml file
+#' testthat wrapper to compare DwC-A files against meta.xml file for fieldsnames
 #'
 #' @param file Filepath from of file from DwC-A file to compare against 
 #'   `meta.xml` included in the package.
@@ -37,7 +37,6 @@ expect_fields <- function(file, ...) {
 
   xml_fields <-
     xml_list %>%
-    purrr::pluck("archive", ifelse(file_is_core, "core", "extension")) %>%
     purrr::chuck("archive", ifelse(file_is_core, "core", "extension")) %>%
     purrr::map_dfr(~ dplyr::tibble(
       index = as.numeric(attr(.x, which = "index")),

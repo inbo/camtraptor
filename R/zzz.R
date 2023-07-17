@@ -835,6 +835,10 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     observations <- observations %>%
       dplyr::mutate("countNew" = NA)
   }
+  observations <- dplyr::relocate(observations, 
+                                  "countNew", 
+                                  .after = dplyr::any_of("count")
+  )
   if ("behavior" %in% names(observations)) {
     observations <- observations %>%
       dplyr::rename(behaviour = "behavior")

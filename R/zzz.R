@@ -656,6 +656,36 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(comments = "deploymentComments")
   }
   
+  # Set right order of columns
+  deployments <- deployments %>%
+    dplyr::relocate(
+      dplyr::any_of(c("deploymentID",
+                      "locationID",
+                      "locationName",
+                      "longitude",
+                      "latitude",
+                      "coordinateUncertainty",
+                      "start",
+                      "end",
+                      "setupBy",
+                      "cameraID", 
+                      "cameraModel",
+                      "cameraInterval",
+                      "cameraHeight",
+                      "cameraTilt", 
+                      "cameraHeading",
+                      "timestampIssues",
+                      "baitUse",
+                      "session",
+                      "array",
+                      "featureType",
+                      "habitat", 
+                      "tags",
+                      "comments", 
+                      "_id")
+                    )
+    )
+  
   package$data$deployments <- deployments
   return(package)
 }

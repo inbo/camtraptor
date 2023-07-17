@@ -693,7 +693,8 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 #' Convert media to Camtrap DP version 0.1.6
 #' 
 #' Convert media of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
-#' breaking changes
+#' breaking changes. Notice that this function `MUST` be run before
+#' `convert_observations_to_0.1.6()`.
 #' 
 #' @param package Camera trap data package object.
 #' @param from Character identifying the version of `package`.

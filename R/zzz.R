@@ -27,6 +27,11 @@ check_package <- function(package = NULL,
       package <- datapkg
     }
   }
+  # check media arg
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
+  )
   # camera trap data package is a list
   assertthat::assert_that(is.list(package))
   assertthat::assert_that(!is.data.frame(package))
@@ -44,14 +49,12 @@ check_package <- function(package = NULL,
       .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )
-  
-  if (media == TRUE) {
+  if (isTRUE(media)) {
     assertthat::assert_that(
       !is.null(package$data$media),
       msg = glue::glue("Can't find media in .$data.")
     )
   }
-
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))
   assertthat::assert_that(is.data.frame(package$data$deployments))

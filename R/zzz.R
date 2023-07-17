@@ -454,9 +454,9 @@ add_speed_radius_angle <- function(obs){
 #' 
 #' This conversion function takes as input a Camtrap DP and returns 
 #' 
-#' @noRd
 #' @param package Camera trap data package object.
 #' @param from Character identifying the version of `package`.
+#' @noRd
 convert_to_0.1.6 <- function(package, from = "1.0-rc.1"){
   if (from == "0.1.6") {
     message(glue::glue("package's version: {from}. No conversion needed."))

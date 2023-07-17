@@ -1,8 +1,9 @@
 <archive xmlns="http://rs.tdwg.org/dwc/text/">
-  <core encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">
+  <core encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">
     <files>
+      <location>dwc_occurrence.csv</location>
     </files>
-    <id index="8" />
+    <id index="8"/>
     <field index="0" term="http://purl.org/dc/terms/type"/>
     <field index="1" term="http://purl.org/dc/terms/license"/>
     <field index="2" term="http://purl.org/dc/terms/rightsHolder"/>
@@ -40,10 +41,11 @@
     <field index="34" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
     <field index="35" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
   </core>
-  <extension encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="0" rowType="http://rs.tdwg.org/ac/terms/Multimedia">
+  <extension encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/ac/terms/Multimedia">
     <files>
+      <location>dwc_audubon.csv</location>
     </files>
-    <coreid index="0" />
+    <coreid index="0"/>
     <field index="0" term="http://rs.tdwg.org/dwc/terms/occurrenceID"/>
     <field index="1" term="http://purl.org/dc/terms/rights"/>
     <field index="2" term="http://purl.org/dc/terms/identifier"/>
@@ -53,6 +55,6 @@
     <field index="6" term="http://rs.tdwg.org/ac/terms/resourceCreationTechnique"/>
     <field index="7" term="http://rs.tdwg.org/ac/terms/accessURI"/>
     <field index="8" term="http://purl.org/dc/terms/format"/>
-    <field index="9" term="http://ns.adobe.com/xap/1.0/CreateDate" />
+    <field index="9" term="http://ns.adobe.com/xap/1.0/CreateDate"/>
   </extension>
 </archive>

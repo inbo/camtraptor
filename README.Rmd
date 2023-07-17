@@ -25,6 +25,8 @@ knitr::opts_chunk$set(
 
 Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). [Camtrap DP](https://tdwg.github.io/camtrap-dp/) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
 
+**NOTE**: camtraptor v0.20 is able to support both the older Camtrap DP 0.1.6 and the newer Camtrap DP 1.0-rc.1. To do so, we are applying a **back-conversion** to the data packages written using Camtrap DP version 1.0-rc.1. In the meantime we are also working on [camtraptor v1.0]((https://github.com/inbo/camtraptor/milestone/3) which will introduce breaking changes and will fully support only the newer Camtrap DP 1.0-rc.1.
+
 To get started, see:
 
 - [Vignettes](https://inbo.github.io/camtraptor/articles/): tutorials showcasing functionality.

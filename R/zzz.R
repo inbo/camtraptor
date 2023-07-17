@@ -619,6 +619,18 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     deployments <- deployments %>%
       dplyr::mutate(session = NA)
   }
+  if ("deploymentGroups" %in% names(deployments)) {
+    # map to session and then remove
+    deployments <- deployments %>%
+      dplyr::mutate(session = dplyr::case_when(
+        is.na(.data$session) ~.data$deploymentGroups,
+        is.na(.data$deploymentGroups) ~ .data$session,
+        !is.na(.data$deploymentGroups) & !is.na(.data$session) ~ 
+          stringr::str_c(.data$session, 
+                         .data$deploymentGroups, 
+                         sep = " | "))) %>%
+      dplyr::select(-"deploymentGroups")
+  }
   if ("array" %in% names(deployments)) {
     warning(glue::glue("The field `array` of deployments is deprecated in",
                        "version {from}.")

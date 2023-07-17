@@ -137,12 +137,12 @@ read_camtrap_dp <- function(file = NULL,
   }
  
   package$data <- data
-  package <- check_package(package)
+  package <- check_package(package, media = media)
   
   # convert to 0.1.6
   if (version == "1.0-rc.1") {
-    package <- convert_to_0.1.6(package, version)
-    package <- check_package(package)
+    package <- convert_to_0.1.6(package, version, media = media)
+    package <- check_package(package, media = media)
   }
   
   # get taxonomic info from metadata

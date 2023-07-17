@@ -462,12 +462,15 @@ add_speed_radius_angle <- function(obs){
 #' 
 #' @param package Camera trap data package object.
 #' @param from Character identifying the version of `package`.
+#' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
+#'   ignore media file to speed up reading larger Camtrap DP packages.
 #' @noRd
-convert_to_0.1.6 <- function(package, from = "1.0-rc.1"){
+convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
   if (from == "0.1.6") {
     message(glue::glue("package's version: {from}. No conversion needed."))
     return(package)
   }
+  # check version
   supported_versions <- c("1.0-rc.1")
   assertthat::assert_that(
     from %in% supported_versions,
@@ -478,6 +481,11 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1"){
                           last = " and "),
       " to 0.1.6 is supported."
     )
+  )
+  # check media arg
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
   )
   
   # check data slot is present in package
@@ -491,10 +499,13 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1"){
   # convert deployments
   package <- convert_deployments_to_0.1.6(package, from)  
   # convert media
-  package <- convert_media_to_0.1.6(package, from)
+  if (isTRUE(media)) {
+    package <- convert_media_to_0.1.6(package, from)
+  }
   # convert observations
   package <- convert_observations_to_0.1.6(package, from)  
   
+  return(package)
 }
 
 #' Convert metadata to Camtrap DP version 0.1.6

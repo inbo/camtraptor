@@ -604,7 +604,8 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
         dplyr::mutate(baitUse = dplyr::if_else(
           .data$bait_use %in% bait_uses_old,
           .data$bait_use,
-          .data$baitUse))
+          .data$baitUse)) %>%
+        dplyr::select(-"bait_use")
     }
     # set baitUse to factor
     deployments <- deployments %>%

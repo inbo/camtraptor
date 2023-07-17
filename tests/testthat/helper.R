@@ -38,6 +38,7 @@ expect_fields <- function(file, ...) {
   xml_fields <-
     xml_list %>%
     purrr::pluck("archive", ifelse(file_is_core, "core", "extension")) %>%
+    purrr::chuck("archive", ifelse(file_is_core, "core", "extension")) %>%
     purrr::map_dfr(~ dplyr::tibble(
       index = as.numeric(attr(.x, which = "index")),
       term = attr(.x, which = "term")

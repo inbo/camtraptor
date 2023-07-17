@@ -35,7 +35,10 @@ Vernacular names found in the metadata (\code{package$taxonomic}) are added to t
 \examples{
 \dontrun{
 # Read Camtrap DP package
-camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+camtrap_dp_file <- system.file(
+  "extdata", "mica", "datapackage.json", 
+  package = "camtraptor"
+)
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 
 # Read Camtrap DP package and ignore media file

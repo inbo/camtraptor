@@ -38,7 +38,7 @@ For two records to be considered independent, the second one must be at
 least \code{minDeltaTime} minutes after the last independent record of the same
 species (\code{deltaTimeComparedTo = "lastIndependentRecord"}), or
 \code{minDeltaTime} minutes after the last record (\code{deltaTimeComparedTo = "lastRecord"}).
-If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (deafult).}
+If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (default).}
 
 \item{removeDuplicateRecords}{Logical.
 If there are several records of the same species at the same station at
@@ -80,7 +80,7 @@ Calculates the record table from a camera trap data package and so tabulating
 species records.
 The record table is a concept developed within the camtrapR package, see
 \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}.
-See also the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtraptR::recordTable()}.
+See also the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{

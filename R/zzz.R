@@ -502,12 +502,42 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1"){
 #' @noRd
 #' @importFrom dplyr %>% .data
 convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
-  names(package)[names(package) == "observationLevel"] <- "classificationLevel"
-  if ("sequenceInterval" %in% names(package)) {
-    warning(glue::glue("sequenceInterval is deprecated in version ", 
-                       "{from}: removed from package.")
+  authors <- purrr::map_df(package$contributors, unlist)
+  if ("role" %in% names(authors)) {
+    deprecated_roles <- c("author", "maintainer")
+    if (any(deprecated_roles %in% authors$role)) {
+      warning(paste0(
+        "Roles ",
+        glue::glue_collapse(glue::glue("{deprecated_roles}"), 
+                            sep = " ",
+                            last = " and "),
+        " are deprecated in ",
+        "version {from}."
+        )
+      )
+    }
+  }
+  if ("organizations" %in% names(package)) {
+    warning(glue::glue(
+      "The field `organizations` is deprecated in ",
+      "version {from}."
+      )
     )
-    package$sequenceInterval <- NULL
+  }
+  if ("animalTypes" %in% names(package)) {
+    warning(glue::glue(
+      "The field `animalTypes` is deprecated in",
+      "version {from}."
+      )
+    )
+  }
+  names(package)[names(package) == "observationLevel"] <- "classificationLevel"
+  if ("sequenceInterval" %in% names(package$project)) {
+    warning(glue::glue(
+      "The field `sequenceInterval` is deprecated in",
+      "version {from}."
+      )
+    )
   }
   package$platform <- package$sources[[1]]$title
   # `title` value of the first contributor with role `rightsHolder`

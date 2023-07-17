@@ -20,19 +20,19 @@ write_dwc_snapshot <- function(package, directory, file){
 
 #' testthat wrapper to compare DwC-A files against meta.xml file
 #'
-#' @param file Character.
-#'     Filepath from of file from DwC-A file to compare against \code{meta.xml} included in the package.
-#'     The basename can either be \code{dwc_occurrence.csv} or \code{dwc_audubon.csv}
+#' @param file Filepath from of file from DwC-A file to compare against 
+#'   `meta.xml` included in the package.
+#'   The basename can either be `dwc_occurrence.csv` or `dwc_audubon.csv`
 #' @inheritDotParams expect_identical info label
 #' @noRd
 #' @examples
 #' expect_fields("tests/testthat/_snaps/write_dwc/dwc_audubon.csv")
 expect_fields <- function(file, ...) {
-  xml_list <- xml2::read_xml(system.file("extdata",
-                                         "meta.xml",
-                                         package = "camtraptor")) %>%
+  xml_list <-
+    xml2::read_xml(
+      system.file("extdata", "meta.xml", package = "camtraptor")
+    ) %>%
     xml2::as_list()
-
   file_is_core <- basename(file) == "dwc_occurrence.csv"
 
   xml_fields <-

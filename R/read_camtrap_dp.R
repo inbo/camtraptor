@@ -158,7 +158,7 @@ read_camtrap_dp <- function(file = NULL,
       )
     observations <-
       observations %>%
-      dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = "cameraSetup")
+      dplyr::relocate(dplyr::any_of(cols_taxon_infos), .after = "cameraSetup")
     # Inherit parsing issues from reading
     attr(observations, which = "problems") <- issues_observations
     package$data$observations <- observations

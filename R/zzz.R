@@ -712,36 +712,6 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(comments = "deploymentComments")
   }
   
-  # Set right order of columns
-  deployments <- deployments %>%
-    dplyr::relocate(
-      dplyr::any_of(c("deploymentID",
-                      "locationID",
-                      "locationName",
-                      "longitude",
-                      "latitude",
-                      "coordinateUncertainty",
-                      "start",
-                      "end",
-                      "setupBy",
-                      "cameraID", 
-                      "cameraModel",
-                      "cameraInterval",
-                      "cameraHeight",
-                      "cameraTilt", 
-                      "cameraHeading",
-                      "timestampIssues",
-                      "baitUse",
-                      "session",
-                      "array",
-                      "featureType",
-                      "habitat", 
-                      "tags",
-                      "comments", 
-                      "_id")
-                    )
-    )
-  
   package$data$deployments <- deployments
   return(package)
 }
@@ -933,4 +903,106 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   
   package$data$observations <- observations
   return(package)
+}
+
+#' Order the columns of deployments
+#' 
+#' @param df A data.frame with `deployments`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_deployments <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("deploymentID",
+                      "locationID",
+                      "locationName",
+                      "longitude",
+                      "latitude",
+                      "coordinateUncertainty",
+                      "start",
+                      "end",
+                      "setupBy",
+                      "cameraID", 
+                      "cameraModel",
+                      "cameraInterval",
+                      "cameraHeight",
+                      "cameraTilt", 
+                      "cameraHeading",
+                      "timestampIssues",
+                      "baitUse",
+                      "session",
+                      "array",
+                      "featureType",
+                      "habitat", 
+                      "tags",
+                      "comments", 
+                      "_id")
+      )
+    )
+}
+
+#' Order the columns of media
+#' 
+#' @param df A data.frame with `media`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_media <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("mediaID",
+                      "deploymentID",
+                      "sequenceID",
+                      "captureMethod",
+                      "timestamp",
+                      "filePath",
+                      "fileName",
+                      "fileMediatype", 
+                      "exifData",
+                      "favourite",
+                      "comments",
+                      "_id")
+      )
+    )
+}
+
+#' Order the columns of observations
+#' 
+#' @param df A data.frame with `observations`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_observations <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("observationID",
+                      "deploymentID",
+                      "sequenceID",
+                      "mediaID",
+                      "timestamp",
+                      "observationType",
+                      "cameraSetup",
+                      "taxonID",
+                      "taxonIDReference",
+                      "scientificName",
+                      "taxonRank",
+                      dplyr::starts_with("vernacularNames"),
+                      "count",
+                      "countNew",
+                      "lifeStage",
+                      "sex",
+                      "behaviour",
+                      "individualID",
+                      "speed",
+                      "radius",
+                      "angle",
+                      "classificationMethod",
+                      "classifiedBy",
+                      "classificationTimestamp",
+                      "classificationConfidence",
+                      "comments",
+                      "_id")
+      )
+    )
 }

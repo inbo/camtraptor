@@ -147,13 +147,17 @@ read_camtrap_dp <- function(file = NULL,
     package <- check_package(package, media = media)
   }
   
-    observations <-
-      observations %>%
-      dplyr::relocate(dplyr::any_of(cols_taxon_infos), .after = "cameraSetup")
-    # Inherit parsing issues from reading
-    attr(observations, which = "problems") <- issues_observations
-    package$data$observations <- observations
+  # order columns
+  package$data$deployments <- order_cols_deployments(package$data$deployments)
+  package$data$observations <- order_cols_observations(
+    package$data$observations
+  )
+  if (!is.null(package$data$media)) {
+    package$data$media <- order_cols_media(package$data$media)
   }
+  
+  # Inherit parsing issues from reading
+  attr(package$data$observations, which = "problems") <- issues_observations
 
   return(package)
 }

@@ -892,6 +892,8 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     observations <- observations %>%
       dplyr::rename(angle = "individualPositionAngle")
   }
+  # remove bounding box related cols if present
+  observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
   
   package$data$observations <- observations
   return(package)

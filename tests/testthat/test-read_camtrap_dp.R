@@ -486,6 +486,27 @@ test_that(
 )
 
 test_that(
+  "read observations v1.0-rc1: bounding box related columns are not present", {
+    expect_false(
+      "bboxX" %in% 
+        names(dp_v1_rc1_with_media$data$observations)
+    )
+    expect_false(
+      "bboxY" %in% 
+        names(dp_v1_rc1_with_media$data$observations)
+    )
+    expect_false(
+      "bboxWidth" %in% 
+        names(dp_v1_rc1_with_media$data$observations)
+    )
+    expect_false(
+      " bboxHeight" %in% 
+        names(dp_v1_rc1_with_media$data$observations)
+    )
+  }
+)
+
+test_that(
   "all cols `v0.1.6:observations` are present in `v1.0-rc1:observations`", {
     # notice that cols with vernacular names are different due to use of ISO
     # 693-3 in v1.0-rc1 vs ISO 693-2 in v0.1.6.

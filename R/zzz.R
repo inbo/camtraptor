@@ -791,7 +791,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::mutate("_id" = NA)
   }
   
-  package$data$media <- media
+ package$data$media <- media
   return(package)
 }
 
@@ -873,6 +873,9 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   if ("classificationProbability" %in% names(observations)) {
     observations <- observations %>%
       dplyr::rename(classificationConfidence = "classificationProbability")
+  }
+  if ("observationTags" %in% names(observations)) {
+    observations$observationTags <- NULL
   }
   if ("observationComments" %in% names(observations)) {
     observations <- observations %>%

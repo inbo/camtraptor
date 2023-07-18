@@ -144,7 +144,6 @@ read_camtrap_dp <- function(file = NULL,
   # convert to 0.1.6
   if (version == "1.0-rc.1") {
     package <- convert_to_0.1.6(package, version, media = media)
-    package <- check_package(package, media = media)
   }
   
   # order columns
@@ -155,6 +154,8 @@ read_camtrap_dp <- function(file = NULL,
   if (!is.null(package$data$media)) {
     package$data$media <- order_cols_media(package$data$media)
   }
+  
+  package <- check_package(package, media = media)
   
   # Inherit parsing issues from reading
   attr(package$data$observations, which = "problems") <- issues_observations

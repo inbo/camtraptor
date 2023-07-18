@@ -1,4 +1,4 @@
-test_that("write_dwc() write csv files to a path", {
+test_that("write_dwc() writes csv files to a path", {
   out_dir <- file.path(tempdir(), "dwc")
   unlink(out_dir, recursive = TRUE)
   dir.create(out_dir)

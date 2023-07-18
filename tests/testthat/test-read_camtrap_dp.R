@@ -425,6 +425,14 @@ test_that("read observations v1.0-rc1: countNew is left empty", {
   expect_true(all(is.na(dp_v1_rc1_with_media$data$observations$countNew)))
 })
 
+test_that("read observations v1.0-rc1: higher taxonomic ranks ignored", {
+  expect_false(
+    any(c("kingdom", "phylum", "class", "order", "family", "genus") %in% 
+          names(dp_v1_rc1_with_media$data$observations)
+      )
+  )
+})
+
 test_that(
   "read observations v1.0-rc1: behavior is renamed as behavior", {
   expect_false("behavior" %in% names(dp_v1_rc1_with_media$data$observations))

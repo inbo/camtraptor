@@ -139,23 +139,14 @@ read_camtrap_dp <- function(file = NULL,
   package$data <- data
   package <- check_package(package, media = media)
   
+  package <- add_taxonomic_info(package)
+  
   # convert to 0.1.6
   if (version == "1.0-rc.1") {
     package <- convert_to_0.1.6(package, version, media = media)
     package <- check_package(package, media = media)
   }
   
-  # get taxonomic info from metadata
-  taxon_infos <- get_species(package)
-  # add vernacular names to observations
-  if (!is.null(taxon_infos)) {
-    cols_taxon_infos <- names(taxon_infos)
-    observations <-
-      dplyr::left_join(
-        package$data$observations,
-        taxon_infos,
-        by  = c("taxonID", "scientificName")
-      )
     observations <-
       observations %>%
       dplyr::relocate(dplyr::any_of(cols_taxon_infos), .after = "cameraSetup")

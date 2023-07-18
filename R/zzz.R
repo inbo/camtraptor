@@ -434,6 +434,42 @@ mutate_when_missing <- function(.data,...){
   return(.data)
 }
 
+#' Add taxonomic information to observations
+#' 
+#' This help function adds taxonomic information in `taxonomic` element of
+#' metadata to `observations`. Notice that higher classification, i.e. new
+#' fields in v1.0-rc.1, are removed.
+#' 
+#' @param package Camera trap data package.
+#' @return Camera trap data package with taxonomic related cols added to
+#'   `.$data$observations`.
+#' @noRd
+add_taxonomic_info <- function(package) {
+  # get taxonomic info from metadata
+  taxon_infos <- get_species(package)
+  # select only basic taxonomic info as in v0.1.6 (no higher
+  # classification)
+  taxon_infos <- dplyr::select(
+    taxon_infos,
+    dplyr::any_of(c("taxonID",
+                    "taxonIDReference",
+                    "scientificName",
+                    "taxonRank")),
+    dplyr::starts_with("vernacularNames")
+  )
+  # add taxon infos to observations
+  if (!is.null(taxon_infos)) {
+    cols_taxon_infos <- names(taxon_infos)
+    observations <-
+      dplyr::left_join(
+        package$data$observations,
+        taxon_infos,
+        by  = c("taxonID", "scientificName")
+      )
+    package$data$observations <- observations
+  }
+  return(package)
+}
 
 #' Add speed, radius, angle to a Camtrap DP version 0.1.6
 #' 

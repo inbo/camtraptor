@@ -140,7 +140,7 @@ read_camtrap_dp <- function(file = NULL,
   package$data <- data
   
   # read media if needed
-  if (isTRUE(media)) {
+  if (media) {
     media_df <- frictionless::read_resource(package, "media")
     issues_media <- check_reading_issues(media_df, "media")
     data$media <- media_df

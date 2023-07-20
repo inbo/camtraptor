@@ -52,7 +52,7 @@ check_package <- function(package = NULL,
       .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )
-  if (isTRUE(media)) {
+  if (media) {
     assertthat::assert_that(
       !is.null(package$data$media),
       msg = glue::glue("Can't find media in .$data.")
@@ -541,7 +541,7 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
   # convert deployments
   package <- convert_deployments_to_0.1.6(package, from)  
   # convert media
-  if (isTRUE(media)) {
+  if (media) {
     package <- convert_media_to_0.1.6(package, from)
   }
   # convert observations

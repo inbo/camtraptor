@@ -19,6 +19,9 @@ map_dep(
   zero_values_show = TRUE,
   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
   zero_values_icon_size = 10,
+  na_values_show = TRUE,
+  na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png",
+  na_values_icon_size = 10,
   relative_scale = TRUE,
   max_scale = NULL,
   radius_range = c(10, 50),
@@ -116,6 +119,22 @@ Default: a cross (multiply symbol)
 
 \item{zero_values_icon_size}{A number to set the size of the icon to show
 deployments with zero values.
+Default: 10.}
+
+\item{na_values_show}{Logical indicating whether to show deployments with
+zero values. Notice that only feature \code{"n_species"}
+generates NA values.
+Default: \code{TRUE}.}
+
+\item{na_values_icon_url}{Character with URL to icon for showing
+deployments with \code{NA} values. Notice that only feature \code{"n_species"}
+generates NA values.
+Default: a red cross (multiply symbol)
+\code{"https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png"}.}
+
+\item{na_values_icon_size}{A number to set the size of the icon to show
+deployments with \code{NA} values. Notice that only feature \code{"n_species"}
+generates NA values.
 Default: 10.}
 
 \item{relative_scale}{Logical indicating whether to use a relative colour

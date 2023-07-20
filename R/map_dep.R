@@ -77,6 +77,19 @@
 #' @param zero_values_icon_size A number to set the size of the icon to show
 #'   deployments with zero values.
 #'   Default: 10.
+#' @param na_values_show Logical indicating whether to show deployments with
+#'   zero values. Notice that only feature `"n_species"`
+#'   generates NA values. 
+#'   Default: `TRUE`.
+#' @param na_values_icon_url Character with URL to icon for showing
+#'   deployments with `NA` values. Notice that only feature `"n_species"`
+#'   generates NA values.
+#'   Default: a red cross (multiply symbol)
+#'   `"https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png"`.
+#' @param na_values_icon_size A number to set the size of the icon to show
+#'   deployments with `NA` values. Notice that only feature `"n_species"`
+#'   generates NA values.
+#'   Default: 10.
 #' @param relative_scale Logical indicating whether to use a relative colour
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
 #'   If absolute scale is used, specify a valid `max_scale`.
@@ -311,6 +324,9 @@ map_dep <- function(package = NULL,
                     zero_values_show = TRUE,
                     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
                     zero_values_icon_size = 10,
+                    na_values_show = TRUE,
+                    na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png",
+                    na_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50),
@@ -649,11 +665,12 @@ map_dep <- function(package = NULL,
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
-  # non_zero values deploys
+  # non_zero values deploys (n > 0 and is not NA)
   non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
   # zero values
-  zero_values <- feat_df %>% dplyr::filter(.data$n == 0 | is.na(.data$n))
-
+  zero_values <- feat_df %>% dplyr::filter(.data$n == 0)
+  # NA values (only returned by get_n_species)
+  na_values <- feat_df %>% dplyr::filter(is.na(.data$n))
   # make basic start map
   leaflet_map <-
     leaflet::leaflet() %>%
@@ -681,6 +698,26 @@ map_dep <- function(package = NULL,
       )
   }
 
+  # add markers for deployments with NA values if needed
+  if (na_values_show & nrow(na_values) > 0) {
+    # create icon
+    icons <- leaflet::icons(
+      iconUrl = na_values_icon_url,
+      iconWidth = na_values_icon_size,
+      iconHeight = na_values_icon_size
+    )
+    
+    leaflet_map <-
+      leaflet_map %>%
+      leaflet::addMarkers(
+        icon = icons,
+        data = na_values,
+        lng = ~longitude,
+        lat = ~latitude,
+        label = ~hover_info,
+        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
+      )
+  }
   if (nrow(non_zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%

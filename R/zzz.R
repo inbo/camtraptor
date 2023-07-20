@@ -10,13 +10,13 @@
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param media Has the `media` resource been loaded while reading the data
-#'   package? Default: `TRUE`.
+#'   package? Default: `FALSE`.
 #' @return A camera trap data package.
 #' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,
                           function_name,
-                          media = TRUE) {
+                          media = FALSE) {
   if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
     lifecycle::deprecate_warn(
       when = "0.16.0",

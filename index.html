@@ -80,6 +80,15 @@
 <!-- badges: start -->
 
 <p>Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). <a href="https://tdwg.github.io/camtrap-dp/" class="external-link">Camtrap DP</a> is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.</p>
+<div class="section level2">
+<h2 id="camtrap-dp">Camtrap DP<a class="anchor" aria-label="anchor" href="#camtrap-dp"></a>
+</h2>
+<p>Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal data model. <code><a href="reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> will automatically down-convert Camtrap DP 1.0-rc.1 datasets to that legacy model to avoid introducing breaking changes. The downside is that some newer properties like <code>media.filePublic</code> and <code>observations.eventEnd</code> are ignored when reading data.</p>
+<p>The upcoming <a href="https://github.com/inbo/camtraptor/milestone/3" class="external-link">camtraptor v1.0</a> will update the internal data model to Camtrap DP 1.0 and drop support for Camtrap DP 0.1.6. This is a breaking change that will be accompanied by a number of other major changes. Future versions of camtraptor will always use the latest version of Camtrap DP and up-convert legacy datasets to that model.</p>
+</div>
+<div class="section level2">
+<h2 id="get-started">Get Started<a class="anchor" aria-label="anchor" href="#get-started"></a>
+</h2>
 <p>To get started, see:</p>
 <ul>
 <li>
@@ -87,6 +96,7 @@
 <li>
 <a href="https://inbo.github.io/camtraptor/reference/index.html" class="external-link">Function reference</a>: overview of all functions.</li>
 </ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>

@@ -107,7 +107,7 @@ read_camtrap_dp <- function(file = NULL,
   )
     
   # get resource names
-  resource_names <- purrr::map_chr(package$resource, ~.$name)
+  resource_names <- frictionless::resources(package)
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")

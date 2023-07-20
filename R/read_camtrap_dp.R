@@ -108,6 +108,9 @@ read_camtrap_dp <- function(file = NULL,
     
   # get resource names
   resource_names <- frictionless::resources(package)
+  #check needed resources are present
+  resources_to_read <- c("deployments", "media", "observations")
+  assertthat::assert_that(all(resources_to_read %in% resource_names))
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")

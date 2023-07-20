@@ -753,8 +753,8 @@ map_dep <- function(package = NULL,
     leaflet::addTiles() %>%
     leaflet::addScaleBar()
 
-  # add markers for deployments with zero values if needed
-  if ((zero_values_show == TRUE) & (nrow(zero_values) > 0)) {
+  # add markers for deployments with zero valuesif needed
+  if (zero_values_show & nrow(zero_values) > 0) {
     # create icon
     icons <- leaflet::icons(
       iconUrl = zero_values_icon_url,

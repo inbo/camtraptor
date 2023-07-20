@@ -185,7 +185,7 @@ write_eml <- function(package,
     organizationName = .$organization, # Discouraged by EML, but used by IPT
     email = .$email,
     userId = if (!is.na(.$orcid)) {
-      list(directory = "http://orcid.org/", .$orcid)
+      list(directory = "https://orcid.org/", .$orcid)
     } else {
       NULL
     },

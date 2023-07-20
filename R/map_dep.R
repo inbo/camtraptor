@@ -495,6 +495,30 @@ map_dep <- function(package = NULL,
       )
     )
   }
+  
+  # check na_values_icon_size
+  if (!is.null(na_values_icon_size)) {
+    assertthat::assert_that(
+      is.numeric(na_values_icon_size),
+      msg = "`na_values_icon_size` must be a number."
+    )
+    # check na_values_icon_size in combination with na_values_show
+    if (na_values_show == FALSE) {
+      message(glue::glue(
+        "`na_values_show` is {na_values_show}: ",
+        "`na_values_icon_size` is ignored."
+      ))
+      na_values_icon_size <- NULL
+    }
+  } else {
+    assertthat::assert_that(
+      !is.null(na_values_show),
+      msg = glue::glue(
+        "`na_values_show` is {na_values_show}: ",
+        "`na_values_icon_size` must not be `NULL`."
+      )
+    )
+  }
 
   # extract observations and deployments
   observations <- package$data$observations

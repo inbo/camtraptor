@@ -110,7 +110,14 @@ read_camtrap_dp <- function(file = NULL,
   resource_names <- frictionless::resources(package)
   #check needed resources are present
   resources_to_read <- c("deployments", "media", "observations")
-  assertthat::assert_that(all(resources_to_read %in% resource_names))
+  assertthat::assert_that(
+    all(resources_to_read %in% resource_names),
+    msg = glue::glue(
+      "One or more resources among ", 
+      glue::glue_collapse(resources_to_read, sep = ", ", last = " and "),
+      " is missing."
+    )
+  )
   
   # read deployments
   deployments <- frictionless::read_resource(package, "deployments")

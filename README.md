@@ -22,6 +22,25 @@ exchange format for this type of data. With camtraptor you can read and
 filter data, create overviews of observed species, relative abundance or
 effort, and plot these data on a map.
 
+## Camtrap DP
+
+Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal
+data model. `read_camtrap_dp()` will automatically down-convert Camtrap
+DP 1.0-rc.1 datasets to that legacy model to avoid introducing breaking
+changes. The downside is that some newer properties like
+`media.filePublic` and `observations.eventEnd` are ignored when reading
+data.
+
+The upcoming [camtraptor
+v1.0](https://github.com/inbo/camtraptor/milestone/3) will update the
+internal data model to Camtrap DP 1.0 and drop support for Camtrap DP
+0.1.6. This is a breaking change that will be accompanied by a number of
+other major changes. Future versions of camtraptor will always use the
+latest version of Camtrap DP and up-convert legacy datasets to that
+model.
+
+## Get Started
+
 To get started, see:
 
 - [Vignettes](https://inbo.github.io/camtraptor/articles/): tutorials

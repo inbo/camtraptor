@@ -1,9 +1,9 @@
 #' Get custom effort
 #'
 #' Gets the custom effort (deployment duration) for a custom time window and a
-#' specific time interval such as day or month.
-#' The custom effort is also calculated over all deployments, although
-#' filtering predicates can be applied as well.
+#' specific time interval such as day or month. The custom effort is also
+#' calculated over all deployments, although filtering predicates can be applied
+#' as well. This function calls `get_cam_op()` internally.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
@@ -122,7 +122,7 @@ get_custom_effort <- function(package = NULL,
   deployments <- package$data$deployments
 
   # camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(package, ...)
+  cam_op <- get_cam_op(package, ..., station_col = "deploymentID")
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

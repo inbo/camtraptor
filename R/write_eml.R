@@ -209,8 +209,8 @@ write_eml <- function(package,
     taxonomy <- dplyr::filter(taxonomy, .data$taxonRank == "species")
   }
   sci_names <-
-    dplyr::rename(taxonomy, Species = scientificName) %>%
-    dplyr::select(Species)
+    dplyr::rename(taxonomy, Species = "scientificName") %>%
+    dplyr::select("Species")
 
   eml$dataset$coverage <- EML::set_coverage(
     begin = package$temporal$start,

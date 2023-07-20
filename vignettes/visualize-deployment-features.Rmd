@@ -235,25 +235,29 @@ map_dep(mica,
         hover_columns = NULL)
 ```
 
-### Visualize deployments without detected animals
+### Visualize deployments without detected animals 
 
-It can happen that some deployments didn't observe any animal. While visualizing the number of species, they are shown in the map as multiplication symbols `×` as deployments with zero values and a message is returned to the R console:
+It can happen that some deployments didn't detected any recognizable animal
+(`scientificName` = `NA`) or didn't observe anything at all (deployments with no
+observations). While visualizing the number of species, these two situations are
+shown by default as red and black multiplication symbols `×` respectively.
+A message about deployment with zero observations is also returned to the R console:
 
-```{r show_deployments_without_observations}
-# create data package with less observations
-mica_less_obs <- mica
-mica_less_obs$data$observations <- 
-  mica$data$observations %>% 
-  filter(timestamp > lubridate::as_datetime("2020-06-30"))
-
+```{r show_deployments_without_observations_or_without_known_species}
+# create data package with one deployment with 0 obs and one delpoyment with
+# obsevations of unknown species
+unknown_species_vs_no_obs <- mica
+unknown_species_vs_no_obs$data$observations <- 
+  unknown_species_vs_no_obs$data$observations %>% 
+  # a deployment has detected only unknown species
+  filter(is.na(.data$scientificName) | 
+           .data$scientificName != "Homo sapiens") %>%
+  # a deployment has no observations
+  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
 # create new map
-map_dep(mica_less_obs,
+map_dep(unknown_species_vs_no_obs,
         feature = "n_species")
 ```
-
-Notice that this allows you to visually distinguish
-- deployments without observations: grey circle as the number of species, the feature value, is NA
-- deployments with only observations of unknown species: red circle as the number of species, the feature value, is zero
 
 ### Use a color palette
 

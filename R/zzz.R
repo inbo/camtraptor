@@ -817,8 +817,7 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     nrow()
   if (n_media_obs > 0) {
     msg <- glue::glue(
-      "camtraptor has been developed to work with event-based observations. ",
-      "{n_media_obs} media-based observations removed."
+      "- {n_media_obs} media-based observations have been removed."
     )
     message(msg)
   }

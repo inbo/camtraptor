@@ -39,7 +39,10 @@ check_package <- function(package = NULL,
   assertthat::assert_that("data" %in% names(package))
   # check validity data element of package: does it contain deployments and
   # observations?
-  elements <- c("deployments", "observations", "media")
+  elements <- c("deployments", "observations")
+  if (media) {
+    elements <- c(elements, "media")
+  }
   tables_absent <- elements[
     !elements %in% names(package$data)
   ]

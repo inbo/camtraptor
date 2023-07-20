@@ -3,6 +3,16 @@ test_that("input camtrap dp is checked properly", {
   expect_error(get_cam_op("aaa"))
   # numeric instead of datapackage
   expect_error(get_cam_op(1))
+  # station_col is not NA
+  expect_error(
+    get_cam_op(mica, station_col = NA),
+    regexp = "station_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # station_col is length 1
+  expect_error(
+    get_cam_op(mica, station_col = c("locationID","locationName")),
+    regexp = "station_col is not a string (a length one character vector).",
+    fixed = TRUE)
   # station_col value is not a column of deployments
   expect_error(get_cam_op(mica, station_col = "bla"))
   # column specified by station_col contains empty values

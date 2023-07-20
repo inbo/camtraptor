@@ -1,6 +1,5 @@
 test_that("write_dwc() writes csv files to a path", {
   out_dir <- file.path(tempdir(), "dwc")
-  dir.create(out_dir)
   on.exit(unlink(out_dir, recursive = TRUE))
   suppressMessages(write_dwc(mica, directory = out_dir))
   expect_identical(
@@ -20,7 +19,6 @@ test_that("write_dwc() can return data as list of tibbles rather than files", {
 
 test_that("write_dwc() writes the expected meta.xml", {
   out_dir <- file.path(tempdir(), "dwc_meta")
-  dir.create(out_dir)
   on.exit(unlink(out_dir, recursive = TRUE))
   suppressMessages(write_dwc(mica, directory = out_dir))
   

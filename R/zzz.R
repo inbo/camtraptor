@@ -773,7 +773,6 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     dplyr::relocate("sequenceID", .after = "deploymentID")
   
   if ("filePublic" %in% names(media))  {
-    message("- media.filePublic has been ignored.")
     media$filePublic <- NULL
   }
   if ("favorite" %in% names(media)) {
@@ -817,15 +816,6 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   
   observations <- package$data$observations
   # only event-type obs are supported
-  n_media_obs <- observations %>%
-    dplyr::filter(.data$observationLevel == "media") %>%
-    nrow()
-  if (n_media_obs > 0) {
-    msg <- glue::glue(
-      "- {n_media_obs} media-based observations have been removed."
-    )
-    message(msg)
-  }
   observations <- observations %>%
     dplyr::filter(.data$observationLevel == "event")
   
@@ -876,7 +866,6 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(classificationConfidence = "classificationProbability")
   }
   if ("observationTags" %in% names(observations)) {
-    message("- observations.observationTags has been ignored.")
     observations$observationTags <- NULL
   }
   if ("observationComments" %in% names(observations)) {
@@ -904,11 +893,6 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(angle = "individualPositionAngle")
   }
   # remove bounding box related cols if present
-  if (
-    any(c("bboxX", "bboxY", "bboxWidth", "bboxHeight") %in% names(observations))
-  ) {
-    message("- observations.bbox* have been ignored.")
-  }
   observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
   
   package$data$observations <- observations

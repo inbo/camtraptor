@@ -867,6 +867,7 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(classificationConfidence = "classificationProbability")
   }
   if ("observationTags" %in% names(observations)) {
+    message("- observations.observationTags has been ignored.")
     observations$observationTags <- NULL
   }
   if ("observationComments" %in% names(observations)) {

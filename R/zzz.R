@@ -524,12 +524,6 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
       " to 0.1.6 is supported."
     )
   )
-  # check media arg
-  assertthat::assert_that(
-    media %in% c(TRUE, FALSE),
-    msg = "`media` must be a logical: TRUE or FALSE"
-  )
-  
   # check data slot is present in package
   assertthat::assert_that(
     "data" %in% names(package),

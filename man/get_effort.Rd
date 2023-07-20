@@ -36,7 +36,7 @@ A tibble data frame with following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
 \item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
-\item \code{unit}:Tthe unit used to express the effort.
+\item \code{unit}: The unit used to express the effort.
 One of the values available for parameter \code{unit}.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
 package).

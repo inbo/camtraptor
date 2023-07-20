@@ -755,17 +755,17 @@ map_dep <- function(package = NULL,
 
   # add markers for deployments with zero valuesif needed
   if (zero_values_show & nrow(zero_values) > 0) {
-    # create icon
-    icons <- leaflet::icons(
+    # create icon for zero values
+    zero_icons <- leaflet::icons(
       iconUrl = zero_values_icon_url,
       iconWidth = zero_values_icon_size,
       iconHeight = zero_values_icon_size
     )
-
+    # add icons for zero values to the map
     leaflet_map <-
       leaflet_map %>%
       leaflet::addMarkers(
-        icon = icons,
+        icon = zero_icons,
         data = zero_values,
         lng = ~longitude,
         lat = ~latitude,
@@ -776,17 +776,17 @@ map_dep <- function(package = NULL,
 
   # add markers for deployments with NA values if needed
   if (na_values_show & nrow(na_values) > 0) {
-    # create icon
-    icons <- leaflet::icons(
+    # create icons for NA values
+    na_icons <- leaflet::icons(
       iconUrl = na_values_icon_url,
       iconWidth = na_values_icon_size,
       iconHeight = na_values_icon_size
     )
-    
+    # add icons with NAs to the map
     leaflet_map <-
       leaflet_map %>%
       leaflet::addMarkers(
-        icon = icons,
+        icon = na_icons,
         data = na_values,
         lng = ~longitude,
         lat = ~latitude,

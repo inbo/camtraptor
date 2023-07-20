@@ -764,11 +764,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     dplyr::relocate("sequenceID", .after = "deploymentID")
   
   if ("filePublic" %in% names(media))  {
-    message(
-      glue::glue(
-        "filePublic is a new term in version {from} and will be ignored."
-      )
-    )
+    message("- media.filePublic has been ignored.")
     media$filePublic <- NULL
   }
   if ("favorite" %in% names(media)) {

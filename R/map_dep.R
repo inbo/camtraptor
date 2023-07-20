@@ -447,6 +447,30 @@ map_dep <- function(package = NULL,
       )
     )
   }
+  
+  # check na_values_icon_url
+  if (!is.null(na_values_icon_url)) {
+    assertthat::assert_that(
+      is.character(na_values_icon_url),
+      msg = "`na_values_icon_url` must be a character (URL)."
+    )
+    # check na_values_icon_url in combination with na_values_show
+    if (na_values_show == FALSE) {
+      message(glue::glue(
+        "`na_values_show` is {na_values_show}: ",
+        "`na_values_icon_url` ignored."
+      ))
+      na_values_icon_url <- NULL
+    }
+  } else {
+    assertthat::assert_that(
+      !is.null(na_values_show),
+      msg = glue::glue(
+        "`na_values_show` is {na_values_show}: ",
+        "`na_values_icon_url` must not be `NULL`."
+      )
+    )
+  }
 
   # check zero_values_icon_size
   if (!is.null(zero_values_icon_size)) {

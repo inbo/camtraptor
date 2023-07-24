@@ -326,6 +326,25 @@ map_dep(
   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
 )
 
+# Same behavior for the icon visualizing NA values (`"n_species"` feature)
+unknown_species_vs_no_obs <- mica
+unknown_species_vs_no_obs$data$observations <- 
+  unknown_species_vs_no_obs$data$observations \%>\% 
+  # a deployment has detected only unknown species
+  filter(is.na(.data$scientificName) | 
+           .data$scientificName != "Homo sapiens") \%>\%
+  # a deployment has no observations
+  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
+# create new map
+map_dep(
+  unknown_species_vs_no_obs,
+  feature = "n_species",
+  zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png",
+  zero_values_icon_size = 60,
+  na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/futurama-fry.png",
+  na_values_icon_size = 60
+)
+
 # Set size of the icon for zero values deployments
 map_dep(
   mica,

@@ -410,7 +410,7 @@ map_dep <- function(package = NULL,
   
   # check zero_values_icon_url
   assertthat::assert_that(
-    is.string(zero_values_icon_url),
+    assertthat::is.string(zero_values_icon_url),
     msg = "`zero_values_icon_url` must be a character (URL)."
   )
   # check zero_values_icon_url in combination with zero_values_show
@@ -424,7 +424,7 @@ map_dep <- function(package = NULL,
 
   # check na_values_icon_url
   assertthat::assert_that(
-    is.string(na_values_icon_url),
+    assertthat::is.string(na_values_icon_url),
     msg = "`na_values_icon_url` must be a character (URL)."
   )
   # check na_values_icon_url in combination with na_values_show

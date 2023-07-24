@@ -11,7 +11,7 @@
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param media Has the `media` resource been loaded while reading the data
 #'   package? Default: `FALSE`.
-#' @return A camera trap data package.
+#' @return `TRUE` or error.
 #' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,

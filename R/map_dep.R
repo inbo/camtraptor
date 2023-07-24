@@ -418,13 +418,13 @@ map_dep <- function(package = NULL,
   # check zero_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
       assertthat::is.flag(zero_values_show),
-      msg = "zero_values_show must be a single logical: TRUE or FALSE."
+      msg = "zero_values_show must be a logical: TRUE or FALSE."
   )
   
   # check na_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
     assertthat::is.flag(na_values_show),
-    msg = "zero_values_show must be a single logical: TRUE or FALSE."
+    msg = "zero_values_show must be a logical: TRUE or FALSE."
   )
   
   # check zero_values_icon_url
@@ -482,7 +482,7 @@ map_dep <- function(package = NULL,
     ))
     na_values_icon_size <- NULL
   }
-
+  
   # extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments

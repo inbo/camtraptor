@@ -84,6 +84,9 @@ returned.</p>
 <span>  zero_values_show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  zero_values_icon_url <span class="op">=</span> <span class="st">"https://img.icons8.com/ios-glyphs/30/000000/multiply.png"</span>,</span>
 <span>  zero_values_icon_size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  na_values_show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  na_values_icon_url <span class="op">=</span> <span class="st">"https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png"</span>,</span>
+<span>  na_values_icon_size <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  relative_scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  max_scale <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  radius_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,</span>
@@ -198,6 +201,28 @@ Default: a cross (multiply symbol)
 <dt>zero_values_icon_size</dt>
 <dd><p>A number to set the size of the icon to show
 deployments with zero values.
+Default: 10.</p></dd>
+
+
+<dt>na_values_show</dt>
+<dd><p>Logical indicating whether to show deployments with
+zero values. Notice that only feature <code>"n_species"</code>
+generates NA values.
+Default: <code>TRUE</code>.</p></dd>
+
+
+<dt>na_values_icon_url</dt>
+<dd><p>Character with URL to icon for showing
+deployments with <code>NA</code> values. Notice that only feature <code>"n_species"</code>
+generates NA values.
+Default: a red cross (multiply symbol)
+<code>"https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png"</code>.</p></dd>
+
+
+<dt>na_values_icon_size</dt>
+<dd><p>A number to set the size of the icon to show
+deployments with <code>NA</code> values. Notice that only feature <code>"n_species"</code>
+generates NA values.
 Default: 10.</p></dd>
 
 

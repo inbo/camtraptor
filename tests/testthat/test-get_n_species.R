@@ -10,7 +10,7 @@ test_that("get_n_species returns the right dataframe", {
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deploymentID and rai only
+  # columns deploymentID and n only
   expect_equal(
     names(output_get_n_species),
     c(

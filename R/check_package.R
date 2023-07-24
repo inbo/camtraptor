@@ -52,7 +52,7 @@ check_package <- function(package = NULL,
   assertthat::assert_that(
     length(tables_absent) == 0,
     msg = glue::glue(
-      "Can't find {tables_absent} elements in data package: {tables_absent*}",
+      "Can't find {length(tables_absent)} elements in data package: {tables_absent*}",
       .transformer = collapse_transformer(sep = ", ", last = " and ")
     )
   )

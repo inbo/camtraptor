@@ -69,5 +69,6 @@ check_package <- function(package = NULL,
   if (!is.null(package$data$media)) {
     assertthat::assert_that(is.data.frame(package$data$media))
   }
-  # When all is good, nothing
+  # If no errors are encountered, TRUE is returned
+  return(TRUE)
 }

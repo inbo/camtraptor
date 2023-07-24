@@ -398,16 +398,8 @@ map_dep <- function(package = NULL,
 
   # check zero_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
-    length(zero_values_show) == 1,
-    msg = "zero_values_show must have length 1."
-  )
-  assertthat::assert_that(
-    is.logical(zero_values_show) & !is.na(zero_values_show),
-    msg = "zero_values_show must be a logical: TRUE or FALSE."
-  )
-  assertthat::assert_that(
-    zero_values_show %in% c(TRUE, FALSE),
-    msg = "zero_values_show must be a logical: TRUE or FALSE."
+      assertthat::is.flag(zero_values_show),
+      msg = "zero_values_show must be a single logical: TRUE or FALSE."
   )
   
   # check na_values_show is a toggle (TRUE or FALSE)

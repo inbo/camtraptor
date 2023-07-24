@@ -409,99 +409,59 @@ map_dep <- function(package = NULL,
   )
   
   # check zero_values_icon_url
-  if (!is.null(zero_values_icon_url)) {
-    assertthat::assert_that(
-      is.character(zero_values_icon_url),
-      msg = "`zero_values_icon_url` must be a character (URL)."
-    )
-    # check zero_values_icon_url in combination with zero_values_show
-    if (zero_values_show == FALSE) {
-      message(glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_url` ignored."
-      ))
-      zero_values_icon_url <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(zero_values_show),
-      msg = glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_url` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    is.string(zero_values_icon_url),
+    msg = "`zero_values_icon_url` must be a character (URL)."
+  )
+  # check zero_values_icon_url in combination with zero_values_show
+  if (!zero_values_show) {
+    message(glue::glue(
+      "`zero_values_show` is {zero_values_show}: ",
+      "`zero_values_icon_url` ignored."
+    ))
+    zero_values_icon_url <- NULL
   }
-  
+
   # check na_values_icon_url
-  if (!is.null(na_values_icon_url)) {
-    assertthat::assert_that(
-      is.character(na_values_icon_url),
-      msg = "`na_values_icon_url` must be a character (URL)."
-    )
-    # check na_values_icon_url in combination with na_values_show
-    if (na_values_show == FALSE) {
-      message(glue::glue(
-        "`na_values_show` is {na_values_show}: ",
-        "`na_values_icon_url` ignored."
-      ))
-      na_values_icon_url <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(na_values_show),
-      msg = glue::glue(
-        "`na_values_show` is {na_values_show}: ",
-        "`na_values_icon_url` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    is.string(na_values_icon_url),
+    msg = "`na_values_icon_url` must be a character (URL)."
+  )
+  # check na_values_icon_url in combination with na_values_show
+  if (!na_values_show) {
+    message(glue::glue(
+      "`na_values_show` is {na_values_show}: ",
+      "`na_values_icon_url` ignored."
+    ))
+    na_values_icon_url <- NULL
   }
 
   # check zero_values_icon_size
-  if (!is.null(zero_values_icon_size)) {
-    assertthat::assert_that(
-      is.numeric(zero_values_icon_size),
-      msg = "`zero_values_icon_size` must be a number."
-    )
-    # check zero_values_icon_size in combination with zero_values_show
-    if (zero_values_show == FALSE) {
-      message(glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_size` is ignored."
-      ))
-      zero_values_icon_size <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(zero_values_show),
-      msg = glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_size` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    is.numeric(zero_values_icon_size),
+    msg = "`zero_values_icon_size` must be a number."
+  )
+  # check zero_values_icon_size in combination with zero_values_show
+  if (!zero_values_show) {
+    message(glue::glue(
+      "`zero_values_show` is {zero_values_show}: ",
+      "`zero_values_icon_size` is ignored."
+    ))
+    zero_values_icon_size <- NULL
   }
   
   # check na_values_icon_size
-  if (!is.null(na_values_icon_size)) {
-    assertthat::assert_that(
-      is.numeric(na_values_icon_size),
-      msg = "`na_values_icon_size` must be a number."
-    )
-    # check na_values_icon_size in combination with na_values_show
-    if (na_values_show == FALSE) {
-      message(glue::glue(
-        "`na_values_show` is {na_values_show}: ",
-        "`na_values_icon_size` is ignored."
-      ))
-      na_values_icon_size <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(na_values_show),
-      msg = glue::glue(
-        "`na_values_show` is {na_values_show}: ",
-        "`na_values_icon_size` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    is.numeric(na_values_icon_size),
+    msg = "`na_values_icon_size` must be a number."
+  )
+  # check na_values_icon_size in combination with na_values_show
+  if (!na_values_show) {
+    message(glue::glue(
+      "`na_values_show` is {na_values_show}: ",
+      "`na_values_icon_size` is ignored."
+    ))
+    na_values_icon_size <- NULL
   }
 
   # extract observations and deployments

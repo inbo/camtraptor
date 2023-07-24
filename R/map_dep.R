@@ -424,7 +424,7 @@ map_dep <- function(package = NULL,
   # check na_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
     assertthat::is.flag(na_values_show),
-    msg = "zero_values_show must be a logical: TRUE or FALSE."
+    msg = "na_values_show must be a logical: TRUE or FALSE."
   )
   
   # check zero_values_icon_url

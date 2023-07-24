@@ -36,6 +36,10 @@ get_scientific_name <- function(package = NULL,
                                 vernacular_name,
                                 datapkg = lifecycle::deprecated()) {
   check_package(package, datapkg, "get_scientific_name")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   all_sn_vn <- get_species(package)
 
   # get vernacular names for check

@@ -68,6 +68,10 @@ test_that("map_dep() can toggle showing deployments with zero values", {
                        zero_values_show = NA),
                regexp = "zero_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       zero_values_show = NULL),
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
   # expect a message when an url/size is provided but the toggle is off
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
@@ -99,6 +103,10 @@ test_that("map_dep() can toggle showing deployments with NA values", {
                fixed = TRUE)
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = NA),
+               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       na_values_show = NULL),
                regexp = "na_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   # expect a message when an url/size is provided but the toggle is off

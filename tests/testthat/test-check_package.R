@@ -29,18 +29,18 @@ test_that("check_package() returns error on missing data", {
 })
 
 test_that("check_package() returns error if not all elements are present", {
-  mica_no_media <- mica
-  mica_no_media$data$media <- NULL
+  mica_no_dep <- mica
+  mica_no_dep$data$deployments <- NULL
   expect_error(
-    check_package(mica_no_media),
-    regexp = "Can't find 1 elements in data package: media",
+    check_package(mica_no_dep, media = TRUE),
+    regexp = "Can't find 1 elements in data package: deployments",
     fixed = TRUE
   )
-  mica_no_media_no_obs <- mica_no_media
-  mica_no_media_no_obs$data$observations <- NULL
+  mica_no_dep_no_obs <- mica_no_dep
+  mica_no_dep_no_obs$data$observations <- NULL
   expect_error(
-    check_package(mica_no_media_no_obs),
-    regexp = "Can't find 2 elements in data package: media and observations",
+    check_package(mica_no_dep_no_obs),
+    regexp = "Can't find 2 elements in data package: deployments and observations",
     fixed = TRUE
   )
 })

@@ -57,7 +57,7 @@ test_that("map_dep() can toggle showing deployments with zero values", {
   # expect an error when the toggle has length > 1
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = c(TRUE, TRUE)),
-               regexp = "zero_values_show must have length 1.")
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.")
   # expect an error when the toggle is not TRUE or FALSE
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = "dax"),
@@ -87,7 +87,7 @@ test_that("map_dep() can toggle showing deployments with NA values", {
   # expect an error when the toggle has length > 1
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = c(TRUE, TRUE)),
-               regexp = "na_values_show must have length 1.")
+               regexp = "na_values_show must be a logical: TRUE or FALSE.")
   # expect an error when the toggle is not TRUE or FALSE
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = "dax"),

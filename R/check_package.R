@@ -46,11 +46,12 @@ check_package <- function(package = NULL,
   tables_absent <- elements[
     !elements %in% names(package$data)
   ]
-  assertthat::assert_that(length(tables_absent) == 0,
-                          msg = glue::glue(
-                            "Can't find {tables_absent} elements in data package: {tables_absent*}",
-                            .transformer = collapse_transformer(sep = ", ", last = " and ")
-                          )
+  assertthat::assert_that(
+    length(tables_absent) == 0,
+    msg = glue::glue(
+      "Can't find {tables_absent} elements in data package: {tables_absent*}",
+      .transformer = collapse_transformer(sep = ", ", last = " and ")
+    )
   )
   if (media) {
     assertthat::assert_that(
@@ -65,6 +66,5 @@ check_package <- function(package = NULL,
   if (!is.null(package$data$media)) {
     assertthat::assert_that(is.data.frame(package$data$media))
   }
-  # When all is good, return TRUE
-  return(TRUE)
+  # When all is good, nothing
 }

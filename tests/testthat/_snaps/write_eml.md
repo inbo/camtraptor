@@ -83,7 +83,7 @@
       phone: ~
       positionName: ~
       userId:
-        directory: http://orcid.org/
+        directory: https://orcid.org/
         '': 0000-0002-8442-8025
       
       $dataset$creator[[6]]
@@ -540,7 +540,7 @@
           organizationName: Research Institute for Nature and Forest (INBO)
           electronicMailAddress: peter.desmet@inbo.be
           userId:
-            directory: http://orcid.org/
+            directory: https://orcid.org/
             userId: 0000-0002-8442-8025
         - individualName:
             givenName: Dennis

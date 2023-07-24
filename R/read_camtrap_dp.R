@@ -8,8 +8,8 @@
 #' `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param media If `TRUE`, read media records into memory. If `FALSE`, ignore
-#'   media file to speed up reading larger Camtrap DP packages.
+#' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
+#'   ignore media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
 #' @return List describing a Data Package (as returned by
@@ -24,7 +24,10 @@
 #' @examples
 #' \dontrun{
 #' # Read Camtrap DP package
-#' camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+#' camtrap_dp_file <- system.file(
+#'   "extdata", "mica", "datapackage.json", 
+#'   package = "camtraptor"
+#' )
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
 #' # Read Camtrap DP package and ignore media file
@@ -46,8 +49,9 @@
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
                             path = lifecycle::deprecated()) {
+  # check path (deprecated)
   warning_detail <- paste(
-    "Use parameter `file` containing the path or URL to the `datapackage.json`",
+    "Use argument `file` containing the path or URL to the `datapackage.json`",
     "file. The use of parameter `path` with path to the local directory is ",
     "deprecated since version 0.6.0."
   )
@@ -58,7 +62,6 @@ read_camtrap_dp <- function(file = NULL,
       details = warning_detail
     )
   }
-
   # define the right file value
   if (lifecycle::is_present(path)) {
     file <- file.path(path, "datapackage.json")
@@ -67,91 +70,105 @@ read_camtrap_dp <- function(file = NULL,
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
-
-  # check media
+  # check media arg
   assertthat::assert_that(
     media %in% c(TRUE, FALSE),
     msg = "`media` must be a logical: TRUE or FALSE"
   )
-  # read files
+  
+  # read package (metadata)
   package <- frictionless::read_package(file)
-  deployments <- frictionless::read_resource(package, "deployments")
-  issues_deployments <- readr::problems(deployments)
-  if (nrow(issues_deployments) > 0) {
-    warning(glue::glue(
-      "One or more parsing issues occurred while reading deployments. ",
-      "See `?read_camtrap_dp()` for examples on how to use ",
-      "`readr::problems()`."
-    ))
-  }
-  observations <- frictionless::read_resource(package, "observations")
-  issues_observations <- readr::problems(observations)
-  if (nrow(issues_observations) > 0) {
-    warning(glue::glue(
-      "One or more parsing issues occurred while reading observations. ",
-      "See `?read_camtrap_dp()` for examples on how to use ",
-      "`readr::problems()`."
-    ))
+  
+  # supported versions
+  supported_versions <- c("0.1.6", "1.0-rc.1")
+  
+  # get package version
+  profile <- package$profile
+  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/camtrap-dp-profile.json") {
+    version <- "1.0-rc.1"
+  } else {
+    if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {
+      version <- "0.1.6"
+    } else {
+      version <- profile
+    }
   }
   
-  # patch for non-standard values speed, radius, angle
-  # see https://github.com/inbo/camtraptor/issues/185
-  obs_col_names <- names(observations)
-  if (all(c("X22", "X23", "X24") %in% names(observations))) {
-    observations <- observations %>%
-      dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
-    message(
-      paste("Three extra fields in `observations` interpreted as `speed`,",
-            "`radius` and `angle`."
-      )
+  # check version is supported
+  assertthat::assert_that(
+    version %in% supported_versions,
+    msg = paste0(
+      glue::glue("Version {version} "), 
+      "is not supported. Supported versions: ",
+      glue::glue_collapse(glue::glue("{supported_versions}"), 
+                              sep = " ", 
+                              last = " and "),
+      ".")
+  )
+    
+  # get resource names
+  resource_names <- frictionless::resources(package)
+  #check needed resources are present
+  resources_to_read <- c("deployments", "media", "observations")
+  assertthat::assert_that(
+    all(resources_to_read %in% resource_names),
+    msg = glue::glue(
+      "One or more resources among ", 
+      glue::glue_collapse(resources_to_read, sep = ", ", last = " and "),
+      " is missing."
     )
+  )
+  
+  # read deployments
+  deployments <- frictionless::read_resource(package, "deployments")
+  issues_deployments <- check_reading_issues(deployments, "deployments")
+  # read observations (needed to create sequenceID in media)
+  observations <- frictionless::read_resource(package, "observations")
+  issues_observations <- check_reading_issues(observations, "observations")
+  
+  if (version == "0.1.6"){
+    observations <- add_speed_radius_angle(observations)
   }
   
-  # create first version datapackage with resources in data element
+  # create first version datapackage with resources in data slot
   data <- list(
     "deployments" = deployments,
     "media" = NULL,
     "observations" = observations
   )
+  
   package$data <- data
-  # get taxonomic info
-  taxon_infos <- get_species(package)
-  # add vernacular names to observations
-  if (!is.null(taxon_infos)) {
-    cols_taxon_infos <- names(taxon_infos)
-    observations <-
-      dplyr::left_join(
-        observations,
-        taxon_infos,
-        by  = c("taxonID", "scientificName")
-      )
-    observations <-
-      observations %>%
-      dplyr::relocate(dplyr::one_of(cols_taxon_infos), .after = "cameraSetup")
-    # Inherit parsing issues from reading
-    attr(observations, which = "problems") <- issues_observations
-    package$data$observations <- observations
+  
+  # read media if needed
+  if (media) {
+    media_df <- frictionless::read_resource(package, "media")
+    issues_media <- check_reading_issues(media_df, "media")
+    data$media <- media_df
   }
-  if (media == TRUE) {
-    media <- frictionless::read_resource(package, "media")
-    issues_media <- readr::problems(media)
-    if (nrow(issues_media) > 0) {
-      warning(glue::glue(
-        "One or more parsing issues occurred while reading media. ",
-        "See `?read_camtrap_dp()` for examples on how to use ",
-        "`readr::problems()`."
-      ))
-    }
+ 
+  package$data <- data
+  package <- check_package(package, media = media)
+  
+  package <- add_taxonomic_info(package)
+  
+  # convert to 0.1.6
+  if (version == "1.0-rc.1") {
+    package <- convert_to_0.1.6(package, version, media = media)
   }
+  
+  # order columns
+  package$data$deployments <- order_cols_deployments(package$data$deployments)
+  package$data$observations <- order_cols_observations(
+    package$data$observations
+  )
+  if (!is.null(package$data$media)) {
+    package$data$media <- order_cols_media(package$data$media)
+  }
+  
+  package <- check_package(package, media = media)
+  
+  # Inherit parsing issues from reading
+  attr(package$data$observations, which = "problems") <- issues_observations
 
-  # return list resources
-  if (is.data.frame(media)) {
-    data <- list(
-      "deployments" = deployments,
-      "media" = media,
-      "observations" = observations
-    )
-    package$data <- data
-  }
-  package
+  return(package)
 }

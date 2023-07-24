@@ -14,7 +14,7 @@
 #' get_species(mica)
 get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {
   # Check camera trap data package
-  check_package(package, datapkg, "get_species")
+  check_package(package, datapkg, "get_species", media = FALSE)
 
   # Get taxonomic information from package metadata
   if (!"taxonomic" %in% names(package)) {

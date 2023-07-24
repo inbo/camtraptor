@@ -9,13 +9,14 @@
 #'
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
+#' @param media Has the `media` resource been loaded while reading the data
+#'   package? Default: `FALSE`.
 #' @return A camera trap data package.
 #' @noRd
 check_package <- function(package = NULL,
                           datapkg = NULL,
-                          function_name) {
-  # Warn for usage of datapkg argument, mention (parent-) function name in error
-  # message
+                          function_name,
+                          media = FALSE) {
   if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
     lifecycle::deprecate_warn(
       when = "0.16.0",
@@ -26,25 +27,37 @@ check_package <- function(package = NULL,
       package <- datapkg
     }
   }
+  # check media arg
+  assertthat::assert_that(
+    media %in% c(TRUE, FALSE),
+    msg = "`media` must be a logical: TRUE or FALSE"
+  )
   # camera trap data package is a list
   assertthat::assert_that(is.list(package))
-  assertthat::assert_that(!is.data.frame(package),
-                          msg = "package is not a list")
+  assertthat::assert_that(!is.data.frame(package))
   # check existence of an element called data
-  assertthat::assert_that("data" %in% names(package),
-                          msg = "data element is missing from package")
-  # check validity data element of package: does it contain all 3 elements?
-  elements <- c("deployments", "media", "observations")
-  tables_absent <- dplyr::setdiff(elements, names(package$data))
-  assertthat::assert_that(
-    assertthat::are_equal(elements,
-                          names(package$data)),
-    msg = glue::glue(
-      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
-      .transformer = collapse_transformer(sep = ", ", last = " and "),
-      n_tables_absent = length(tables_absent)
-    ))
-  
+  assertthat::assert_that("data" %in% names(package))
+  # check validity data element of package: does it contain deployments and
+  # observations?
+  elements <- c("deployments", "observations")
+  if (media) {
+    elements <- c(elements, "media")
+  }
+  tables_absent <- elements[
+    !elements %in% names(package$data)
+  ]
+  assertthat::assert_that(length(tables_absent) == 0,
+                          msg = glue::glue(
+                            "Can't find {tables_absent} elements in data package: {tables_absent*}",
+                            .transformer = collapse_transformer(sep = ", ", last = " and ")
+                          )
+  )
+  if (media) {
+    assertthat::assert_that(
+      !is.null(package$data$media),
+      msg = glue::glue("Can't find media in .$data.")
+    )
+  }
   # check observations and deployments are data.frames
   assertthat::assert_that(is.data.frame(package$data$observations))
   assertthat::assert_that(is.data.frame(package$data$deployments))

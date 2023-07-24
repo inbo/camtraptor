@@ -166,3 +166,12 @@ test_that("filtering predicates are allowed and work well", {
   )
   expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_cam_op(datapkg = mica)
+    )
+  )
+})

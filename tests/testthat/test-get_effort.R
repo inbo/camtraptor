@@ -75,3 +75,12 @@ testthat::test_that("get_effort returns the right number of rows", {
     n_all_deployments
   )
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      get_effort(datapkg = mica)
+    )
+  )
+})

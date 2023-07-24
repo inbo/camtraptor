@@ -226,3 +226,12 @@ test_that("map_dep() returns a leaflet", {
   expect_no_error(map_dep(mica, feature = "n_species"))
   expect_no_message(map_dep(mica, feature = "n_species"))
 })
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      map_dep(datapkg = mica, feature = "n_obs")
+    )
+  )
+})

@@ -9,12 +9,13 @@ test_that("check_package() returns depreciation warning on datapkg argument", {
 test_that("check_package() returns error when package is not a list", {
   expect_error(
     check_package("not a list!"),
-    regexp = "package is not a list",
+    regexp = "package is not a list.",
     fixed = TRUE
   )
   expect_error(
-    check_package(data.frame(letters = c("a", "b", "c"), numbers = c(pi, 2 * pi, 3 * pi))),
-    regexp = "package is not a list",
+    check_package(data.frame(letters = c("a", "b", "c"), 
+                             numbers = c(pi, 2 * pi, 3 * pi))),
+    regexp = "package is not a list.",
     fixed = TRUE
   )
 })

@@ -33,10 +33,13 @@ check_package <- function(package = NULL,
     msg = "`media` must be a logical: TRUE or FALSE"
   )
   # camera trap data package is a list
-  assertthat::assert_that(is.list(package))
-  assertthat::assert_that(!is.data.frame(package))
+  assertthat::assert_that(is.list(package),
+                          msg = "package is not a list.")
+  assertthat::assert_that(!is.data.frame(package),
+                          msg = "package is not a list.")
   # check existence of an element called data
-  assertthat::assert_that("data" %in% names(package))
+  assertthat::assert_that("data" %in% names(package),
+                          msg = "data element is missing from package")
   # check validity data element of package: does it contain deployments and
   # observations?
   elements <- c("deployments", "observations")

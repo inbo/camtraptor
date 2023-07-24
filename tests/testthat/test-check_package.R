@@ -45,10 +45,21 @@ test_that("check_package() returns error if not all elements are present", {
   )
 })
 
+test_that(
+  "check_package() returns an error when media element is NULL only if media flag is TRUE", {
+    mica_no_media <- mica
+    mica_no_media$data$media <- NULL
+    expect_error(
+      check_package(mica_no_media, media = TRUE),
+      regexp = "Can't find 1 elements in data package: media",
+      fixed = TRUE
+    )
+    expect_true(check_package(mica_no_media))
+})
+
 test_that("check_package() returns error if observations is not a data.frame", {
   mica_listed <- mica
   mica_listed$data$observations <- as.list(mica_listed$data$observations)
-
   expect_error(
     check_package(mica_listed),
     regexp = "package$data$observations is not a data frame",

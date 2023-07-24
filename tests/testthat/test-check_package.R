@@ -94,6 +94,6 @@ test_that("check_package() returns error if media is not a data.frame", {
   )
 })
 
-test_that("check_package() returns TRUE on valid package", {
+test_that("check_package() returns nothing on valid package", {
   expect_true(check_package(mica))
 })

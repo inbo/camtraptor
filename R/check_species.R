@@ -38,7 +38,8 @@ check_species <- function(package = NULL,
                           arg_name = "species",
                           datapkg = lifecycle::deprecated()) {
   # Check camera trap data package
-  package <- check_package(package, datapkg, "check_species")
+  check_package(package, datapkg, "check_species")
+  
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,
     msg = "`species` parameter must be specified"

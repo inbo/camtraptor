@@ -21,12 +21,12 @@ test_that("file can be an URL", {
 
 test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
   expect_error(
-    read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json"),
+    suppressMessages(read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json")),
     "Version https://raw.githubusercontent.com/tdwg/camtrap-dp/0.5/camtrap-dp-profile.json is not supported. Supported versions: 0.1.6 and 1.0-rc.1."
   )
   
   expect_error(
-    read_camtrap_dp("https://raw.githubusercontent.com/tdwg/dwc-for-biologging/403f57db105982dc05b70f3cf66fd2b5591798db/derived/camtrap-dp/data/raw/datapackage.json"),
+    suppressMessages(read_camtrap_dp("https://raw.githubusercontent.com/tdwg/dwc-for-biologging/403f57db105982dc05b70f3cf66fd2b5591798db/derived/camtrap-dp/data/raw/datapackage.json")),
     "Version tabular-data-package is not supported. Supported versions: 0.1.6 and 1.0-rc.1."
   )
 })

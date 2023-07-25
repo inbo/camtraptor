@@ -91,7 +91,7 @@ get_custom_effort <- function(package = NULL,
                               end = NULL,
                               group_by = NULL,
                               unit = "hour",
-                              datapkg = NULL) {
+                              datapkg = lifecycle::deprecated()) {
   # define possible unit values
   units <- c("hour", "day")
 
@@ -116,8 +116,11 @@ get_custom_effort <- function(package = NULL,
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_custom_effort")
-
+  check_package(package, datapkg, "get_custom_effort")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # get deployments
   deployments <- package$data$deployments
 

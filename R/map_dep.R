@@ -352,8 +352,11 @@ map_dep <- function(package = NULL,
                     datapkg = lifecycle::deprecated()) {
 
   # check camera trap data package
-  package <- check_package(package, datapkg, "map_dep")
-
+  check_package(package, datapkg, "map_dep")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # define possible feature values
   features <- c(
     "n_species",

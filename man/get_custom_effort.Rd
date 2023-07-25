@@ -11,7 +11,7 @@ get_custom_effort(
   end = NULL,
   group_by = NULL,
   unit = "hour",
-  datapkg = NULL
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{

@@ -147,7 +147,7 @@ read_camtrap_dp <- function(file = NULL,
   }
  
   package$data <- data
-  package <- check_package(package, media = media)
+  check_package(package, media = media)
   
   package <- add_taxonomic_info(package)
   
@@ -165,7 +165,7 @@ read_camtrap_dp <- function(file = NULL,
     package$data$media <- order_cols_media(package$data$media)
   }
   
-  package <- check_package(package, media = media)
+  check_package(package, media = media)
   
   # Inherit parsing issues from reading
   attr(package$data$observations, which = "problems") <- issues_observations

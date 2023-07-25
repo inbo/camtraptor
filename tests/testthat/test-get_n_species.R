@@ -27,7 +27,7 @@ test_that("get_n_species returns 0 for obs without recognized species", {
   unknown_species$data$observations <- 
     unknown_species$data$observations %>% 
     # a deployment has detected only unknown species
-    filter(is.na(.data$scientificName) | 
+    dplyr::filter(is.na(.data$scientificName) | 
              .data$scientificName != "Homo sapiens")
   n_species <- get_n_species(package = unknown_species)
   expect_equal(n_species[n_species$n == 0,]$n, 0)
@@ -41,7 +41,7 @@ test_that("get_n_species returns NA for deployments without observations", {
   dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   obs <- obs[obs$deploymentID != dep_no_obs,]
   no_obs$data$observations <- obs
-  n_species <- get_n_species(package = no_obs)
+  n_species <- suppressMessages(get_n_species(package = no_obs))
   expect_true(is.na(n_species[n_species$deploymentID == dep_no_obs,]$n))
 })
 
@@ -50,6 +50,8 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       get_n_species(datapkg = mica)
-    )
+    ),
+    regexp = "The `datapkg` argument of `get_n_species()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
   )
 })

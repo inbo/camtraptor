@@ -426,6 +426,25 @@ Use <code>package</code> instead.</p></dd>
 <span class="r-in"><span>  zero_values_icon_url <span class="op">=</span> <span class="st">"https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Same behavior for the icon visualizing NA values (`"n_species"` feature)</span></span></span>
+<span class="r-in"><span><span class="va">unknown_species_vs_no_obs</span> <span class="op">&lt;-</span> <span class="va">mica</span></span></span>
+<span class="r-in"><span><span class="va">unknown_species_vs_no_obs</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">observations</span> <span class="op">&lt;-</span> </span></span>
+<span class="r-in"><span>  <span class="va">unknown_species_vs_no_obs</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">observations</span> <span class="op">%&gt;%</span> </span></span>
+<span class="r-in"><span>  <span class="co"># a deployment has detected only unknown species</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">scientificName</span><span class="op">)</span> <span class="op">|</span> </span></span>
+<span class="r-in"><span>           <span class="va">.data</span><span class="op">$</span><span class="va">scientificName</span> <span class="op">!=</span> <span class="st">"Homo sapiens"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="co"># a deployment has no observations</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">deploymentID</span> <span class="op">!=</span> <span class="st">"62c200a9-0e03-4495-bcd8-032944f6f5a1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># create new map</span></span></span>
+<span class="r-in"><span><span class="fu">map_dep</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">unknown_species_vs_no_obs</span>,</span></span>
+<span class="r-in"><span>  feature <span class="op">=</span> <span class="st">"n_species"</span>,</span></span>
+<span class="r-in"><span>  zero_values_icon_url <span class="op">=</span> <span class="st">"https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"</span>,</span></span>
+<span class="r-in"><span>  zero_values_icon_size <span class="op">=</span> <span class="fl">60</span>,</span></span>
+<span class="r-in"><span>  na_values_icon_url <span class="op">=</span> <span class="st">"https://img.icons8.com/ios-glyphs/30/E74C3C/futurama-fry.png"</span>,</span></span>
+<span class="r-in"><span>  na_values_icon_size <span class="op">=</span> <span class="fl">60</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set size of the icon for zero values deployments</span></span></span>
 <span class="r-in"><span><span class="fu">map_dep</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">mica</span>,</span></span>

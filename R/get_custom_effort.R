@@ -91,7 +91,7 @@ get_custom_effort <- function(package = NULL,
                               end = NULL,
                               group_by = NULL,
                               unit = "hour",
-                              datapkg = NULL) {
+                              datapkg = lifecycle::deprecated()) {
   # define possible unit values
   units <- c("hour", "day")
 

@@ -47,7 +47,7 @@ get_cam_op <- function(package = NULL,
                        ...,
                        station_col = "locationName",
                        use_prefix = FALSE,
-                       datapkg = NULL) {
+                       datapkg = lifecycle::deprecated()) {
   # check camera trap data package
   check_package(package, datapkg, "get_cam_op")
   if (is.null(package) & !is.name(datapkg)) {

@@ -41,7 +41,7 @@ test_that("get_n_species returns NA for deployments without observations", {
   dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   obs <- obs[obs$deploymentID != dep_no_obs,]
   no_obs$data$observations <- obs
-  n_species <- get_n_species(package = no_obs)
+  n_species <- suppressMessages(get_n_species(package = no_obs))
   expect_true(is.na(n_species[n_species$deploymentID == dep_no_obs,]$n))
 })
 

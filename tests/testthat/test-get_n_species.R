@@ -27,7 +27,7 @@ test_that("get_n_species returns 0 for obs without recognized species", {
   unknown_species$data$observations <- 
     unknown_species$data$observations %>% 
     # a deployment has detected only unknown species
-    filter(is.na(.data$scientificName) | 
+    dplyr::filter(is.na(.data$scientificName) | 
              .data$scientificName != "Homo sapiens")
   n_species <- get_n_species(package = unknown_species)
   expect_equal(n_species[n_species$n == 0,]$n, 0)

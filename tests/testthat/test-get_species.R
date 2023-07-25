@@ -77,6 +77,20 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       get_species(datapkg = mica)
-    )
+    ),
+    paste0("\033[38;5;232mThe `datapkg` argument of `get_species()` is ",
+           "deprecated as of camtraptor 0.16.0.\n\033[36mℹ\033[38;5;232m Please",
+           " use the `package` argument instead.\n\033[36mℹ\033[38;5;232m The",
+           " deprecated feature was likely used in the ",
+           "\033[34mcamtraptor\033[38;5;232m package.\n  ",
+           "Please report the issue at \033[3m\033[34m<\033]8;;",
+           "https://github.com/inbo/camtraptor/issues\a",
+           "https://github.com/inbo/camtraptor/issues\033]8;;",
+           "\a>\033[38;5;232m\033[23m.\n\033[90mThis warning is displayed ",
+           "once every 8 hours.\033[38;5;232m\n\033[90mCall ",
+           "`lifecycle::last_lifecycle_warnings()` to see where this warning ",
+           "was generated.\033[38;5;232m\033[39m"
+    ),
+    fixed = TRUE
   )
 })

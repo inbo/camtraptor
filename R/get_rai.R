@@ -139,6 +139,10 @@ get_rai_individuals <- function(package = NULL,
                                 datapkg = lifecycle::deprecated()) {
   # check camera trap data package
   check_package(package, datapkg, "get_rai_individuals")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   get_rai_primitive(package, ...,
     use = "n_individuals",
     species = species,

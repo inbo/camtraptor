@@ -232,6 +232,8 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       map_dep(datapkg = mica, feature = "n_obs")
-    )
+    ),
+    regexp = "The `datapkg` argument of `map_dep()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
   )
 })

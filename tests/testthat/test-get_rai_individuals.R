@@ -114,6 +114,8 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       get_rai_individuals(datapkg = mica)
-    )
+    ),
+    regexp = "The `datapkg` argument of `get_rai_individuals()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
   )
 })

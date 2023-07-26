@@ -102,8 +102,11 @@ get_record_table <- function(package = NULL,
                              removeDuplicateRecords = TRUE,
                              datapkg = lifecycle::deprecated()) {
   # check data package
-  package <- check_package(package, datapkg, "get_record_table")
-
+  check_package(package, datapkg, "get_record_table", media = TRUE)
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # check stationCol is a valid column name
   assertthat::assert_that(
     stationCol %in% names(package$data$deployments),

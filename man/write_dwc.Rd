@@ -15,13 +15,13 @@ useful for extending/adapting the Darwin Core mapping before writing with
 \code{\link[readr:write_delim]{readr::write_csv()}}.}
 }
 \value{
-CSV file(s) written to disk or list of data frames when
-\code{directory = NULL}.
+CSV and \code{meta.xml} files written to disk or a list of data
+frames when \code{directory = NULL}.
 }
 \description{
 Transforms data from a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to \href{https://dwc.tdwg.org/}{Darwin Core}.
-The resulting CSV file(s) can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF.
-A \code{meta.xml} file is not created.
+The resulting CSV files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF.
+A \code{meta.xml} file is included as well.
 See \code{write_eml()} to create an \code{eml.xml} file.
 }
 \section{Transformation details}{

@@ -3,8 +3,29 @@ test_that("input camtrap dp is checked properly", {
   expect_error(get_cam_op("aaa"))
   # numeric instead of datapackage
   expect_error(get_cam_op(1))
+  # station_col is not NA
+  expect_error(
+    get_cam_op(mica, station_col = NA),
+    regexp = "station_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # station_col is length 1
+  expect_error(
+    get_cam_op(mica, station_col = c("locationID","locationName")),
+    regexp = "station_col is not a string (a length one character vector).",
+    fixed = TRUE)
   # station_col value is not a column of deployments
-  expect_error(get_cam_op(mica, station_col = "bla"))
+  expect_error(
+    get_cam_op(mica, station_col = "bla"),
+    regexp = paste("Station column name (`bla`) is not valid:", 
+          "it must be one of the deployments column names."),
+    fixed = TRUE
+  )
+  # column specified by station_col contains empty values
+  mica_empty_location_name <- mica
+  mica_empty_location_name$data$deployments$locationName[2:3] <- NA
+  expect_error(get_cam_op(mica_empty_location_name),
+               "Column `locationName` must be non-empty: 2 NAs found."
+  )
   # use_prefix must be TRUE or FALSE
   expect_error(get_cam_op(mica, use_prefix = "bla"))
   expect_error(get_cam_op(mica, use_prefix = NA))
@@ -140,7 +161,9 @@ test_that(
 )
 
 test_that("filtering predicates are allowed and work well", {
-  filtered_cam_op_matrix <- get_cam_op(mica, pred_lt("longitude", 4.0))
+  filtered_cam_op_matrix <- suppressMessages(
+    get_cam_op(mica, pred_lt("longitude", 4.0))
+  )
   expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
 })
 
@@ -149,6 +172,8 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       get_cam_op(datapkg = mica)
-    )
+    ),
+    regexp = "The `datapkg` argument of `get_cam_op()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
   )
 })

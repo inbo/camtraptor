@@ -47,16 +47,33 @@ get_cam_op <- function(package = NULL,
                        ...,
                        station_col = "locationName",
                        use_prefix = FALSE,
-                       datapkg = NULL) {
+                       datapkg = lifecycle::deprecated()) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_cam_op")
-
+  check_package(package, datapkg, "get_cam_op")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
+  # Check that station_col is a single string
+  assertthat::assert_that(assertthat::is.string(station_col))
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
     station_col %in% names(package$data$deployments),
     msg = glue::glue(
       "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
+    )
+  )
+  
+  # Check that station_col doesn't contain empty values (NA)
+  n_na <- package$data$deployments %>%
+    dplyr::filter(is.na(.data[[station_col]])) %>%
+    nrow()
+  assertthat::assert_that(
+    n_na == 0,
+    msg = glue::glue(
+      "Column `{station_col}` must be non-empty: ",
+      "{n_na} NAs found."
     )
   )
 

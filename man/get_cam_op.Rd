@@ -9,7 +9,7 @@ get_cam_op(
   ...,
   station_col = "locationName",
   use_prefix = FALSE,
-  datapkg = NULL
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{

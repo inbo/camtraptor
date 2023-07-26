@@ -77,6 +77,19 @@
 #' @param zero_values_icon_size A number to set the size of the icon to show
 #'   deployments with zero values.
 #'   Default: 10.
+#' @param na_values_show Logical indicating whether to show deployments with
+#'   zero values. Notice that only feature `"n_species"`
+#'   generates NA values. 
+#'   Default: `TRUE`.
+#' @param na_values_icon_url Character with URL to icon for showing
+#'   deployments with `NA` values. Notice that only feature `"n_species"`
+#'   generates NA values.
+#'   Default: a red cross (multiply symbol)
+#'   `"https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png"`.
+#' @param na_values_icon_size A number to set the size of the icon to show
+#'   deployments with `NA` values. Notice that only feature `"n_species"`
+#'   generates NA values.
+#'   Default: 10.
 #' @param relative_scale Logical indicating whether to use a relative colour
 #'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
 #'   If absolute scale is used, specify a valid `max_scale`.
@@ -258,6 +271,25 @@
 #'   life_stage = "subadult",
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
 #' )
+#' 
+#' # Same behavior for the icon visualizing NA values (`"n_species"` feature)
+#' unknown_species_vs_no_obs <- mica
+#' unknown_species_vs_no_obs$data$observations <- 
+#'   unknown_species_vs_no_obs$data$observations %>% 
+#'   # a deployment has detected only unknown species
+#'   filter(is.na(.data$scientificName) | 
+#'            .data$scientificName != "Homo sapiens") %>%
+#'   # a deployment has no observations
+#'   filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
+#' # create new map
+#' map_dep(
+#'   unknown_species_vs_no_obs,
+#'   feature = "n_species",
+#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png",
+#'   zero_values_icon_size = 60,
+#'   na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/futurama-fry.png",
+#'   na_values_icon_size = 60
+#' )
 #'
 #' # Set size of the icon for zero values deployments
 #' map_dep(
@@ -311,14 +343,20 @@ map_dep <- function(package = NULL,
                     zero_values_show = TRUE,
                     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
                     zero_values_icon_size = 10,
+                    na_values_show = TRUE,
+                    na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/FA5252/multiply.png",
+                    na_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
                     radius_range = c(10, 50),
                     datapkg = lifecycle::deprecated()) {
 
   # check camera trap data package
-  package <- check_package(package, datapkg, "map_dep")
-
+  check_package(package, datapkg, "map_dep")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # define possible feature values
   features <- c(
     "n_species",
@@ -380,59 +418,87 @@ map_dep <- function(package = NULL,
     )
   }
 
+  # check zero_values_show is a toggle (TRUE or FALSE)
+  assertthat::assert_that(
+      assertthat::is.flag(zero_values_show),
+      msg = "zero_values_show must be a logical: TRUE or FALSE."
+  )
+  assertthat::assert_that(
+    !is.na(zero_values_show),
+    msg = "zero_values_show must be a logical: TRUE or FALSE."
+  )
+  
+  # check na_values_show is a toggle (TRUE or FALSE)
+  assertthat::assert_that(
+    assertthat::is.flag(na_values_show),
+    msg = "na_values_show must be a logical: TRUE or FALSE."
+  )
+  assertthat::assert_that(
+    !is.na(na_values_show),
+    msg = "na_values_show must be a logical: TRUE or FALSE."
+  )
+  
   # check zero_values_icon_url
-  if (!is.null(zero_values_icon_url)) {
-    assertthat::assert_that(
-      is.character(zero_values_icon_url),
-      msg = "`zero_values_icon_url` must be a character (URL)."
-    )
-    # check zero_values_icon_url in combination with zero_values_show
-    if (zero_values_show == FALSE) {
-      message(glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_url` ignored."
-      ))
-      zero_values_icon_url <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(zero_values_show),
-      msg = glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_url` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    assertthat::is.string(zero_values_icon_url),
+    msg = "`zero_values_icon_url` must be a character (URL)."
+  )
+  # check zero_values_icon_url in combination with zero_values_show
+  if (!zero_values_show) {
+    message(glue::glue(
+      "`zero_values_show` is {zero_values_show}: ",
+      "`zero_values_icon_url` ignored."
+    ))
+    zero_values_icon_url <- NULL
+  }
+
+  # check na_values_icon_url
+  assertthat::assert_that(
+    assertthat::is.string(na_values_icon_url),
+    msg = "`na_values_icon_url` must be a character (URL)."
+  )
+  # check na_values_icon_url in combination with na_values_show
+  if (!na_values_show) {
+    message(glue::glue(
+      "`na_values_show` is {na_values_show}: ",
+      "`na_values_icon_url` ignored."
+    ))
+    na_values_icon_url <- NULL
   }
 
   # check zero_values_icon_size
-  if (!is.null(zero_values_icon_size)) {
-    assertthat::assert_that(
-      is.numeric(zero_values_icon_size),
-      msg = "`zero_values_icon_size` must be a number."
-    )
-    # check zero_values_icon_size in combination with zero_values_show
-    if (zero_values_show == FALSE) {
-      message(glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_size` is ignored."
-      ))
-      zero_values_icon_size <- NULL
-    }
-  } else {
-    assertthat::assert_that(
-      !is.null(zero_values_show),
-      msg = glue::glue(
-        "`zero_values_show` is {zero_values_show}: ",
-        "`zero_values_icon_size` must not be `NULL`."
-      )
-    )
+  assertthat::assert_that(
+    is.numeric(zero_values_icon_size),
+    msg = "`zero_values_icon_size` must be a number."
+  )
+  # check zero_values_icon_size in combination with zero_values_show
+  if (!zero_values_show) {
+    message(glue::glue(
+      "`zero_values_show` is {zero_values_show}: ",
+      "`zero_values_icon_size` is ignored."
+    ))
+    zero_values_icon_size <- NULL
   }
-
+  
+  # check na_values_icon_size
+  assertthat::assert_that(
+    is.numeric(na_values_icon_size),
+    msg = "`na_values_icon_size` must be a number."
+  )
+  # check na_values_icon_size in combination with na_values_show
+  if (!na_values_show) {
+    message(glue::glue(
+      "`na_values_show` is {na_values_show}: ",
+      "`na_values_icon_size` is ignored."
+    ))
+    na_values_icon_size <- NULL
+  }
+  
   # extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # get average lat lon for empyt map without deployments (after filtering)
+  # get average lat lon for empty map without deployments (after filtering)
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
@@ -523,7 +589,7 @@ map_dep <- function(package = NULL,
     )
   } else if (feature == "rai") {
     feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage, ...)
-    feat_df <- feat_df %>% dplyr::rename(n = rai)
+    feat_df <- feat_df %>% dplyr::rename(n = "rai")
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(
       package,
@@ -537,7 +603,7 @@ map_dep <- function(package = NULL,
       effort_unit <- "hour" # default value of get_effort()
     }
     feat_df <- get_effort(package, unit = effort_unit, ...)
-    feat_df <- feat_df %>% dplyr::rename(n = effort)
+    feat_df <- feat_df %>% dplyr::rename(n = "effort")
   }
 
   # define title legend
@@ -649,30 +715,31 @@ map_dep <- function(package = NULL,
   # define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
-  # non_zero values deploys
+  # non_zero values deploys (n > 0 and is not NA)
   non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
   # zero values
-  zero_values <- feat_df %>% dplyr::filter(.data$n == 0 | is.na(.data$n))
-
+  zero_values <- feat_df %>% dplyr::filter(.data$n == 0)
+  # NA values (only returned by get_n_species)
+  na_values <- feat_df %>% dplyr::filter(is.na(.data$n))
   # make basic start map
   leaflet_map <-
     leaflet::leaflet() %>%
     leaflet::addTiles() %>%
     leaflet::addScaleBar()
 
-  # add markers for deployments with zero values if needed
-  if ((zero_values_show == TRUE) & (nrow(zero_values) > 0)) {
-    # create icon
-    icons <- leaflet::icons(
+  # add markers for deployments with zero valuesif needed
+  if (zero_values_show & nrow(zero_values) > 0) {
+    # create icon for zero values
+    zero_icons <- leaflet::icons(
       iconUrl = zero_values_icon_url,
       iconWidth = zero_values_icon_size,
       iconHeight = zero_values_icon_size
     )
-
+    # add icons for zero values to the map
     leaflet_map <-
       leaflet_map %>%
       leaflet::addMarkers(
-        icon = icons,
+        icon = zero_icons,
         data = zero_values,
         lng = ~longitude,
         lat = ~latitude,
@@ -681,6 +748,26 @@ map_dep <- function(package = NULL,
       )
   }
 
+  # add markers for deployments with NA values if needed
+  if (na_values_show & nrow(na_values) > 0) {
+    # create icons for NA values
+    na_icons <- leaflet::icons(
+      iconUrl = na_values_icon_url,
+      iconWidth = na_values_icon_size,
+      iconHeight = na_values_icon_size
+    )
+    # add icons with NAs to the map
+    leaflet_map <-
+      leaflet_map %>%
+      leaflet::addMarkers(
+        icon = na_icons,
+        data = na_values,
+        lng = ~longitude,
+        lat = ~latitude,
+        label = ~hover_info,
+        clusterOptions = if (cluster == TRUE) leaflet::markerClusterOptions() else NULL
+      )
+  }
   if (nrow(non_zero_values) > 0) {
     leaflet_map <-
       leaflet_map %>%

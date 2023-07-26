@@ -163,9 +163,11 @@ test_that("right columns, cols types, right relative number of rows", {
 test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
   # filtering deployments reduces effort value
-  filter_deploys <- get_custom_effort(mica,
-    pred_gte("latitude", 51.18),
-    group_by = "year"
+  filter_deploys <- suppressMessages(
+    get_custom_effort(mica,
+      pred_gte("latitude", 51.18),
+      group_by = "year"
+    )
   )
   expect_lt(filter_deploys$effort, tot_effort$effort)
 
@@ -184,6 +186,8 @@ test_that("Argument datapkg is deprecated: warning returned", {
     rlang::with_options(
       lifecycle_verbosity = "warning",
       get_custom_effort(datapkg = mica)
-    )
+    ),
+    regexp = "The `datapkg` argument of `get_custom_effort()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
   )
 })

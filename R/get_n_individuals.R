@@ -67,8 +67,11 @@ get_n_individuals <- function(package = NULL,
                               life_stage = NULL,
                               datapkg = lifecycle::deprecated()) {
   # check input data package
-  package <- check_package(package, datapkg, "get_n_individuals")
-
+  check_package(package, datapkg, "get_n_individuals")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 

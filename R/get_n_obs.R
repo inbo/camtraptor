@@ -64,8 +64,11 @@ get_n_obs <- function(package = NULL,
                       life_stage = NULL,
                       datapkg = lifecycle::deprecated()) {
   # check input data package
-  package <- check_package(package, datapkg, "get_n_obs")
-
+  check_package(package, datapkg, "get_n_obs")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 

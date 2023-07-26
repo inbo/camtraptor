@@ -54,8 +54,24 @@ test_that("map_dep() can handle combinations of arguments", {
 })
 
 test_that("map_dep() can toggle showing deployments with zero values", {
+  # expect an error when the toggle has length > 1
+  expect_error(map_dep(mica, feature = "n_obs",
+                       zero_values_show = c(TRUE, TRUE)),
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
   # expect an error when the toggle is not TRUE or FALSE
-  # expect_error(map_dep(mica, feature = "n_obs" ,zero_values_show = "dax"))
+  expect_error(map_dep(mica, feature = "n_obs",
+                       zero_values_show = "dax"),
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       zero_values_show = NA),
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       zero_values_show = NULL),
+               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
   # expect a message when an url/size is provided but the toggle is off
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
@@ -71,6 +87,43 @@ test_that("map_dep() can toggle showing deployments with zero values", {
   
   expect_no_message(
     map_dep(mica,feature = "n_species", zero_values_show = TRUE)
+  )
+})
+
+test_that("map_dep() can toggle showing deployments with NA values", {
+  # expect an error when the toggle has length > 1
+  expect_error(map_dep(mica, feature = "n_obs",
+                       na_values_show = c(TRUE, TRUE)),
+               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  # expect an error when the toggle is not TRUE or FALSE
+  expect_error(map_dep(mica, feature = "n_obs",
+                       na_values_show = "dax"),
+               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       na_values_show = NA),
+               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  expect_error(map_dep(mica, feature = "n_obs",
+                       na_values_show = NULL),
+               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               fixed = TRUE)
+  # expect a message when an url/size is provided but the toggle is off
+  suppressMessages(expect_message(
+    map_dep(mica, feature = "n_obs", na_values_show = FALSE),
+    regexp = "`na_values_show` is FALSE: `na_values_icon_url` ignored.",
+    fixed = TRUE
+  ))
+  
+  suppressMessages(expect_message(
+    map_dep(mica, feature = "n_obs", na_values_show = FALSE),
+    regexp = "`na_values_show` is FALSE: `na_values_icon_size` is ignored.",
+    fixed = TRUE
+  ))
+  
+  expect_no_message(
+    map_dep(mica,feature = "n_species", na_values_show = TRUE)
   )
   
 })
@@ -172,4 +225,15 @@ test_that("map_dep() returns a leaflet", {
   expect_no_warning(map_dep(mica, feature = "n_species"))
   expect_no_error(map_dep(mica, feature = "n_species"))
   expect_no_message(map_dep(mica, feature = "n_species"))
+})
+
+test_that("Argument datapkg is deprecated: warning returned", {
+  expect_warning(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      map_dep(datapkg = mica, feature = "n_obs")
+    ),
+    regexp = "The `datapkg` argument of `map_dep()` is deprecated as of camtraptor 0.16.0.",
+    fixed = TRUE
+  )
 })

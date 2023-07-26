@@ -11,7 +11,7 @@ get_custom_effort(
   end = NULL,
   group_by = NULL,
   unit = "hour",
-  datapkg = NULL
+  datapkg = lifecycle::deprecated()
 )
 }
 \arguments{
@@ -63,9 +63,9 @@ A tibble data frame with following columns:
 }
 \description{
 Gets the custom effort (deployment duration) for a custom time window and a
-specific time interval such as day or month.
-The custom effort is also calculated over all deployments, although
-filtering predicates can be applied as well.
+specific time interval such as day or month. The custom effort is also
+calculated over all deployments, although filtering predicates can be applied
+as well. This function calls \code{get_cam_op()} internally.
 }
 \examples{
 # A global effort over the entire duration of the project (datapackage)

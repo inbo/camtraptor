@@ -69,9 +69,9 @@ write_dwc <- function(package, directory = ".") {
     purrr::pluck(package, "coordinatePrecision", .default = NA)
 
   # Read package data
-  deployments <- dplyr::tibble(package$data$deployments)
-  media <- dplyr::tibble(package$data$media)
-  observations <- dplyr::tibble(package$data$observations)
+  deployments <- deployments(package)
+  media <- media(package)
+  observations <- observations(package)
 
   # Filter observations on animal observations (excluding humans, blanks, etc.)
   observations <- dplyr::filter(observations, .data$observationType == "animal")

@@ -58,7 +58,7 @@ get_cam_op <- function(package = NULL,
   assertthat::assert_that(assertthat::is.string(station_col))
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
-    station_col %in% names(package$data$deployments),
+    station_col %in% names(deployments(package)),
     msg = glue::glue(
       "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
@@ -66,7 +66,7 @@ get_cam_op <- function(package = NULL,
   )
   
   # Check that station_col doesn't contain empty values (NA)
-  n_na <- package$data$deployments %>%
+  n_na <- deployments(package) %>%
     dplyr::filter(is.na(.data[[station_col]])) %>%
     nrow()
   assertthat::assert_that(
@@ -84,7 +84,7 @@ get_cam_op <- function(package = NULL,
 
   # extract and apply filtering on deployments
   deploys <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE,
     ...
   )

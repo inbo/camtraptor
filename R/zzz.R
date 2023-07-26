@@ -180,8 +180,8 @@ get_dep_no_obs <- function(package = NULL,
   check_package(package, datapkg, "get_dep_no_obs")
 
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
@@ -395,7 +395,7 @@ add_taxonomic_info <- function(package) {
     cols_taxon_infos <- names(taxon_infos)
     observations <-
       dplyr::left_join(
-        package$data$observations,
+        observations(package),
         taxon_infos,
         by  = c("taxonID", "scientificName")
       )
@@ -558,7 +558,7 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     msg = "Can't find `deployments` element in `package$data`."
   )
   
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
   
   # rename required fields where needed
   deployments <- deployments %>%
@@ -671,7 +671,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     msg = "Can't find `deployments` element in `package$data`."
   )
   
-  if (is.null(package$data$media)) {
+  if (is.null(media(package))) {
     return(package)
   }
   
@@ -681,8 +681,8 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     msg = "Can't find `observations` element in `package$data`."
   )
   
-  media <- package$data$media
-  observations <- package$data$observations
+  media <- media(package)
+  observations <- observations(package)
   
   # create sequenceID for media linked to event-based observations as 
   # sequenceID is used by `get_record_table()`
@@ -744,7 +744,7 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     msg = "Can't find `observations` element in `package$data`."
   )
   
-  observations <- package$data$observations
+  observations <- observations(package)
   # only event-type obs are supported
   observations <- observations %>%
     dplyr::filter(.data$observationLevel == "event")

@@ -49,12 +49,12 @@ get_effort <- function(package = NULL,
   
   # apply filtering
   package$data$deployments <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE, ...
   )
 
   # get deployments
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # calculate effort of deployments
   effort_df <-

@@ -28,8 +28,8 @@ get_n_species <- function(package = NULL,
     package <- datapkg
   }
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering
   deployments <- apply_filter_predicate(

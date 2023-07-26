@@ -109,7 +109,7 @@ get_record_table <- function(package = NULL,
   
   # check stationCol is a valid column name
   assertthat::assert_that(
-    stationCol %in% names(package$data$deployments),
+    stationCol %in% names(deployments(package)),
     msg = glue::glue(
       "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
@@ -157,7 +157,7 @@ get_record_table <- function(package = NULL,
   )
 
   # remove observations of unidentified individuals
-  obs <- package$data$observations %>%
+  obs <- observations(package) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
@@ -166,7 +166,7 @@ get_record_table <- function(package = NULL,
 
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE,
     ...
   )
@@ -183,7 +183,7 @@ get_record_table <- function(package = NULL,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    package$data$media %>%
+    media(package) %>%
     dplyr::select(
       "sequenceID",
       "filePath",

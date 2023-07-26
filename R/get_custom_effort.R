@@ -122,7 +122,7 @@ get_custom_effort <- function(package = NULL,
   }
   
   # get deployments
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(package, ..., station_col = "deploymentID")

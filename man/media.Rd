@@ -11,7 +11,7 @@ media(package)
 \code{read_camtrap_dp()}.}
 }
 \value{
-A tibble with the deployments of the \code{package}
+A tibble data frame with the deployments of the \code{package}.
 }
 \description{
 Retrieve media data from a Camera Trap Data Package

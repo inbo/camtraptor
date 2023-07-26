@@ -11,7 +11,7 @@ observations(package)
 \code{read_camtrap_dp()}.}
 }
 \value{
-A tibble with the observations of the \code{package}
+A tibble data frame with the observations of the \code{package}.
 }
 \description{
 Retrieve observations data from a Camera Trap Data Package

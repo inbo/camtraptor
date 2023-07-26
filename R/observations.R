@@ -3,7 +3,7 @@
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #'   
-#' @return A tibble with the observations of the `package`
+#' @return A tibble data frame with the observations of the `package`.
 #' @export
 #'
 #' @examples observations(mica)

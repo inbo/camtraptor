@@ -48,7 +48,7 @@ In the example below we show what happens if all four deployments are set to the
 
 ```{r four_deploys_same_start_end_for_one_location}
 mica1 <- mica
-mica1$data$deployments$locationName <- deploymentst(mica1)$locationName[1]
+mica1$data$deployments$locationName <- deployments(mica1)$locationName[1]
 mica1$data$deployments$start <- deploymentst(mica1)$start[1]
 mica1$data$deployments$end <- deploymentst(mica1)$end[1]
 multiple_deploys_matrix <- get_cam_op(mica1)

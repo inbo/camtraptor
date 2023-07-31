@@ -23,11 +23,13 @@ get_n_species <- function(package = NULL,
                           ...,
                           datapkg = lifecycle::deprecated()) {
   # check input data package
-  package <- check_package(package, datapkg, "get_n_species")
-
+  check_package(package, datapkg, "get_n_species")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering
   deployments <- apply_filter_predicate(

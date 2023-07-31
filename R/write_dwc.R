@@ -2,9 +2,9 @@
 #'
 #' Transforms data from a [Camera Trap Data Package](
 #' https://tdwg.github.io/camtrap-dp/) to [Darwin Core](https://dwc.tdwg.org/).
-#' The resulting CSV file(s) can be uploaded to an [IPT](
+#' The resulting CSV files can be uploaded to an [IPT](
 #' https://www.gbif.org/ipt) for publication to GBIF.
-#' A `meta.xml` file is not created.
+#' A `meta.xml` file is included as well.
 #' See `write_eml()` to create an `eml.xml` file.
 #'
 #' @param package A Camtrap DP, as read by [read_camtrap_dp()].
@@ -12,8 +12,8 @@
 #'   If `NULL`, then a list of data frames is returned instead, which can be
 #'   useful for extending/adapting the Darwin Core mapping before writing with
 #'   [readr::write_csv()].
-#' @return CSV file(s) written to disk or list of data frames when
-#'   `directory = NULL`.
+#' @return CSV and `meta.xml` files written to disk or a list of data 
+#'   frames when `directory = NULL`.
 #' @family publication functions
 #' @export
 #' @section Transformation details:
@@ -69,9 +69,9 @@ write_dwc <- function(package, directory = ".") {
     purrr::pluck(package, "coordinatePrecision", .default = NA)
 
   # Read package data
-  deployments <- dplyr::tibble(package$data$deployments)
-  media <- dplyr::tibble(package$data$media)
-  observations <- dplyr::tibble(package$data$observations)
+  deployments <- deployments(package)
+  media <- media(package)
+  observations <- observations(package)
 
   # Filter observations on animal observations (excluding humans, blanks, etc.)
   observations <- dplyr::filter(observations, .data$observationType == "animal")
@@ -247,10 +247,12 @@ write_dwc <- function(package, directory = ".") {
   } else {
     dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
     dwc_audubon_path <- file.path(directory, "dwc_audubon.csv")
+    meta_xml_path <- file.path(directory, "meta.xml")
     message(glue::glue(
       "Writing data to:",
       dwc_occurrence_path,
       dwc_audubon_path,
+      meta_xml_path,
       .sep = "\n"
     ))
     if (!dir.exists(directory)) {
@@ -258,5 +260,10 @@ write_dwc <- function(package, directory = ".") {
     }
     readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
     readr::write_csv(dwc_audubon, dwc_audubon_path, na = "")
+    # Get static meta.xml file from package extdata
+    file.copy(
+      from = system.file("extdata", "meta.xml", package = "camtraptor"),
+      to = meta_xml_path
+    )
   }
 }

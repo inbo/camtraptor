@@ -9,8 +9,8 @@ read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
 
-\item{media}{If \code{TRUE}, read media records into memory. If \code{FALSE}, ignore
-media file to speed up reading larger Camtrap DP packages.}
+\item{media}{If \code{TRUE} (default), read media records into memory. If \code{FALSE},
+ignore media file to speed up reading larger Camtrap DP packages.}
 
 \item{path}{Path to the directory containing the datapackage. Use  \code{file}
 with path or URL to a \code{datapackage.json} file instead.}
@@ -35,7 +35,10 @@ Vernacular names found in the metadata (\code{package$taxonomic}) are added to t
 \examples{
 \dontrun{
 # Read Camtrap DP package
-camtrap_dp_file <- system.file("extdata", "mica", "datapackage.json", package = "camtraptor")
+camtrap_dp_file <- system.file(
+  "extdata", "mica", "datapackage.json", 
+  package = "camtraptor"
+)
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 
 # Read Camtrap DP package and ignore media file

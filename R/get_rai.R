@@ -58,8 +58,11 @@ get_rai <- function(package = NULL,
                     life_stage = NULL,
                     datapkg = lifecycle::deprecated()) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_rai")
-
+  check_package(package, datapkg, "get_rai")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   get_rai_primitive(package, ...,
     use = "n_obs",
     species = species,
@@ -135,7 +138,11 @@ get_rai_individuals <- function(package = NULL,
                                 life_stage = NULL,
                                 datapkg = lifecycle::deprecated()) {
   # check camera trap data package
-  package <- check_package(package, datapkg, "get_rai_individuals")
+  check_package(package, datapkg, "get_rai_individuals")
+  if (is.null(package) & !is.name(datapkg)) {
+    package <- datapkg
+  }
+  
   get_rai_primitive(package, ...,
     use = "n_individuals",
     species = species,
@@ -191,7 +198,7 @@ get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
   }
 
   # extract deployments
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # get deployment duration (effort) in days
   dep_effort <- get_effort(package, unit = "day", ...)

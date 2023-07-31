@@ -1,57 +1,3 @@
-#' Check validity camera trap data package
-#'
-#' Checks the validity of a camera trap data package.
-#' It checks whether the data package is a list containing an element called
-#' `data` with the following resources as tibble data frames:
-#' - `observations`
-#' - `multimedia`
-#' - `deployments`
-#'
-#' @param package Camera trap data package
-#' @param datapkg Deprecated. Use `package` instead.
-#' @return A camera trap data package.
-#' @noRd
-check_package <- function(package = NULL,
-                          datapkg = NULL,
-                          function_name) {
-  if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
-    lifecycle::deprecate_warn(
-      when = "0.16.0",
-      what = paste0(function_name, "(datapkg = )"),
-      with = paste0(function_name, "(package = )")
-    )
-    if (is.null(package)) {
-      package <- datapkg
-    }
-  }
-  # camera trap data package is a list
-  assertthat::assert_that(is.list(package))
-  assertthat::assert_that(!is.data.frame(package))
-  # check existence of an element called data
-  assertthat::assert_that("data" %in% names(package))
-  # check validity data element of package: does it contain all 4 elements?
-  elements <- c("deployments", "media", "observations")
-  tables_absent <- names(elements)[
-    !names(elements) %in% names(package$data)
-  ]
-  n_tables_absent <- length(tables_absent)
-  assertthat::assert_that(n_tables_absent == 0,
-    msg = glue::glue(
-      "Can't find {n_tables_absent} elements in data package: {tables_absent*}",
-      .transformer = collapse_transformer(sep = ", ", last = " and ")
-    )
-  )
-
-  # check observations and deployments are data.frames
-  assertthat::assert_that(is.data.frame(package$data$observations))
-  assertthat::assert_that(is.data.frame(package$data$deployments))
-  # check multimedia is a data.frame (if imported, i.e. if not NULL)
-  if (!is.null(package$data$multimedia)) {
-    assertthat::assert_that(is.data.frame(package$data$multimedia))
-  }
-  package
-}
-
 #' Check input value against list of provided values
 #'
 #' Will return error message if an input value cannot be found in list of
@@ -141,6 +87,29 @@ collapse_transformer <- function(regex = "[*]$", ...) {
   }
 }
 
+#' Check reading issues
+#' 
+#' This helper function throws a warning if issues while reading datapackage
+#' resources (data.frames) are detected. The issues are also returned as
+#' data.frame.
+#' 
+#' @param df Data.frame.
+#' @param df_name Character with name of the data.frame passed to `df`.
+#' @noRd
+#' @return Data.frame containing the issues as returned by `readr::problems()`.
+check_reading_issues <- function(df, df_name) {
+  # get problems
+  issues_df <- readr::problems(df)
+  if (nrow(issues_df) > 0) {
+    warning(glue::glue(
+      "One or more parsing issues occurred while reading `{df_name}`. ",
+      "Check `?read_camtrap_dp()` for examples on how to use ",
+      "`readr::problems()`."
+    ))
+  }
+  return(issues_df)
+}
+
 #' Custom label format function
 #'
 #' Add "+" to last label of legend while using absolute scale. At the moment
@@ -208,11 +177,11 @@ get_dep_no_obs <- function(package = NULL,
                            datapkg = lifecycle::deprecated()) {
 
   # check input camera trap data package
-  package <- check_package(package, datapkg, "get_dep_no_obs")
+  check_package(package, datapkg, "get_dep_no_obs")
 
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
@@ -396,4 +365,568 @@ mutate_when_missing <- function(.data,...){
   columns_to_add <- cols_to_check[!cols_to_check %in% colnames(.data)]
   if(!rlang::is_empty(columns_to_add)){.data <- dplyr::mutate(.data,...)}
   return(.data)
+}
+
+#' Add taxonomic information to observations
+#' 
+#' This help function adds taxonomic information in `taxonomic` element of
+#' metadata to `observations`. Notice that higher classification, i.e. new
+#' fields in v1.0-rc.1, are removed.
+#' 
+#' @param package Camera trap data package.
+#' @return Camera trap data package with taxonomic related cols added to
+#'   `.$data$observations`.
+#' @noRd
+add_taxonomic_info <- function(package) {
+  # get taxonomic info from metadata
+  taxon_infos <- get_species(package)
+  # select only basic taxonomic info as in v0.1.6 (no higher
+  # classification)
+  taxon_infos <- dplyr::select(
+    taxon_infos,
+    dplyr::any_of(c("taxonID",
+                    "taxonIDReference",
+                    "scientificName",
+                    "taxonRank")),
+    dplyr::starts_with("vernacularNames")
+  )
+  # add taxon infos to observations
+  if (!is.null(taxon_infos)) {
+    cols_taxon_infos <- names(taxon_infos)
+    observations <-
+      dplyr::left_join(
+        observations(package),
+        taxon_infos,
+        by  = c("taxonID", "scientificName")
+      )
+    package$data$observations <- observations
+  }
+  return(package)
+}
+
+#' Add speed, radius, angle to a Camtrap DP version 0.1.6
+#' 
+#' This help function is a patch for adding non-standard columns `speed`,
+#' `radius` and `angle` in `observations`. See
+#' https://github.com/inbo/camtraptor/issues/185
+#' 
+#' @param obs Data.frame with `observations` from a Camtrap DP package, version
+#'   0.1.6.
+#' @return Data.frame with `observations`.
+#' @noRd
+add_speed_radius_angle <- function(obs){
+  obs_col_names <- names(obs)
+  if (all(c("X22", "X23", "X24") %in% names(obs))) {
+    obs <- obs %>%
+      dplyr::rename(speed = "X22", radius = "X23", angle = "X24")
+    message(
+      paste("Three extra fields in `observations` interpreted as `speed`,",
+            "`radius` and `angle`."
+      )
+    )
+  }
+  return(obs)
+}
+
+#' Convert a Camtrap DP to version 0.1.6
+#' 
+#' This conversion function takes as input a Camtrap DP and returns 
+#' 
+#' @param package Camera trap data package object.
+#' @param from Character identifying the version of `package`.
+#' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
+#'   ignore media file to speed up reading larger Camtrap DP packages.
+#' @noRd
+convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
+  if (from == "0.1.6") {
+    message(glue::glue("package's version: {from}. No conversion needed."))
+    return(package)
+  }
+  # check version
+  supported_versions <- c("1.0-rc.1")
+  assertthat::assert_that(
+    from %in% supported_versions,
+    msg = paste0(
+      "Only conversion from ", 
+      glue::glue_collapse(glue::glue("{supported_versions}"), 
+                          sep = " ", 
+                          last = " and "),
+      " to 0.1.6 is supported."
+    )
+  )
+  # check data slot is present in package
+  assertthat::assert_that(
+    "data" %in% names(package),
+    msg = "Can't find `data` element in `package`."
+  )
+  
+  # notify about conversion
+  message(
+    writeLines(
+      c(
+        "The dataset uses Camtrap DP version 1.0-rc.1, it has been converted to 0.1.6.",
+        "See https://inbo.github.io/camtraptor/#camtrap-dp for details."
+      )
+    )
+  )
+  # convert metadata
+  package <- convert_metadata_to_0.1.6(package, from)  
+  # convert deployments
+  package <- convert_deployments_to_0.1.6(package, from)  
+  # convert media
+  if (media) {
+    package <- convert_media_to_0.1.6(package, from)
+  }
+  # convert observations
+  package <- convert_observations_to_0.1.6(package, from)  
+  
+  return(package)
+}
+
+#' Convert metadata to Camtrap DP version 0.1.6
+#' 
+#' Convert metadata of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' breaking changes
+#' 
+#' @param package Camera trap data package object.
+#' @param from Character identifying the version of `package`.
+#' @return Camera trap data package object with converted `metadata`.
+#' @noRd
+#' @importFrom dplyr %>% .data
+convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
+  authors <- purrr::map_df(package$contributors, unlist)
+  if ("role" %in% names(authors)) {
+    deprecated_roles <- c("author", "maintainer")
+    if (any(deprecated_roles %in% authors$role)) {
+      warning(paste0(
+        "Roles ",
+        glue::glue_collapse(glue::glue("{deprecated_roles}"), 
+                            sep = " ",
+                            last = " and "),
+        " are deprecated in ",
+        "version {from}."
+        )
+      )
+    }
+  }
+  if ("organizations" %in% names(package)) {
+    warning(glue::glue(
+      "The field `organizations` is deprecated in ",
+      "version {from}."
+      )
+    )
+  }
+  if ("animalTypes" %in% names(package)) {
+    warning(glue::glue(
+      "The field `animalTypes` is deprecated in",
+      "version {from}."
+      )
+    )
+  }
+  names(package)[names(package) == "observationLevel"] <- "classificationLevel"
+  if ("sequenceInterval" %in% names(package$project)) {
+    warning(glue::glue(
+      "The field `sequenceInterval` is deprecated in",
+      "version {from}."
+      )
+    )
+  }
+  package$platform <- package$sources[[1]]$title
+  # `title` value of the first contributor with role `rightsHolder`
+  package$rightsHolder <- purrr::map_df(package$contributors, unlist) %>%
+    dplyr::filter(.data$role == "rightsHolder") %>%
+    dplyr::slice(1) %>%
+    dplyr::pull(.data$title)
+  return(package)
+}
+
+#' Convert deployments to Camtrap DP version 0.1.6
+#' 
+#' Convert deployments of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' breaking changes
+#' 
+#' @param package Camera trap data package object.
+#' @param from Character identifying the version of `package`.
+#' @return Camera trap data package object with converted `deployments`.
+#' @noRd
+#' @importFrom dplyr %>% .data
+convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+  
+  # check deployments slot is present
+  assertthat::assert_that(
+    "deployments" %in% names(package$data),
+    msg = "Can't find `deployments` element in `package$data`."
+  )
+  
+  deployments <- deployments(package)
+  
+  # rename required fields where needed
+  deployments <- deployments %>%
+    dplyr::relocate("latitude", .after = "longitude")
+  deployments <- deployments %>%
+    dplyr::rename(start = "deploymentStart",
+                  end = "deploymentEnd")
+  if ("cameraDelay" %in% names(deployments)) {
+    deployments <- deployments %>%
+      dplyr::rename(cameraInterval = "cameraDelay")
+  }
+  # ignore detectionDistance
+  deployments$detectionDistance <- NULL
+  if ("baitUse" %in% names(deployments)) {
+    # baitUse values in version 0.1.6
+    bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")
+    # transform Boolean to character and set FALSE to "none", TRUE to "other".
+    # Do not change NAs
+    deployments <- deployments %>%
+      dplyr::mutate(baitUse = as.character(.data$baitUse)) %>%
+      dplyr::mutate(baitUse = dplyr::case_when(
+        .data$baitUse == "FALSE" ~ "none", 
+        is.na(.data$baitUse) ~ NA_character_,
+        .default = "other")
+      )
+    # retrieve specific bait use info from tags if present
+    if ("deploymentTags" %in% names(deployments)) {
+      deployments <- deployments %>%
+        dplyr::mutate(bait_use = stringr::str_extract(
+          string = .data$deploymentTags, 
+          pattern = "(?<=bait:).[a-zA-Z]+")) %>%
+        #remove whitespaces at the begin and end of the string (there shouldn't be)
+        dplyr::mutate(bait_use = stringr::str_trim(.data$bait_use)) %>%
+        # set baitUse based on found tags
+        dplyr::mutate(baitUse = dplyr::if_else(
+          .data$bait_use %in% bait_uses_old,
+          .data$bait_use,
+          .data$baitUse)) %>%
+        dplyr::select(-"bait_use")
+    }
+    # set baitUse to factor
+    deployments <- deployments %>%
+      dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
+  }
+  if ("session" %in% names(deployments)) {
+    warning(glue::glue("The field `session` of deployments is deprecated in",
+                       "version {from}.")
+    )
+  } else {
+    deployments <- deployments %>%
+      dplyr::mutate(session = NA)
+  }
+  if ("deploymentGroups" %in% names(deployments)) {
+    # map to session and then remove
+    deployments <- deployments %>%
+      dplyr::mutate(session = dplyr::case_when(
+        is.na(.data$session) ~.data$deploymentGroups,
+        is.na(.data$deploymentGroups) ~ .data$session,
+        !is.na(.data$deploymentGroups) & !is.na(.data$session) ~ 
+          stringr::str_c(.data$session, 
+                         .data$deploymentGroups, 
+                         sep = " | "))) %>%
+      dplyr::select(-"deploymentGroups")
+  }
+  if ("array" %in% names(deployments)) {
+    warning(glue::glue("The field `array` of deployments is deprecated in",
+                       "version {from}.")
+    )
+  } else {
+    deployments <- deployments %>%
+      dplyr::mutate(array = NA)
+  }
+  if ("_id" %in% names(deployments)) {
+    warning(glue::glue("The field `_id` of deployments is deprecated in",
+                       "version {from}.")
+    )
+  } else {
+    deployments <- deployments %>%
+      dplyr::mutate("_id" = NA)
+  }
+  if ("deploymentTags" %in% names(deployments)) {
+    deployments <- deployments %>%
+      dplyr::rename(tags = "deploymentTags")
+  }
+  if ("deploymentComments" %in% names(deployments)) {
+    deployments <- deployments %>%
+      dplyr::rename(comments = "deploymentComments")
+  }
+  
+  package$data$deployments <- deployments
+  return(package)
+}
+
+#' Convert media to Camtrap DP version 0.1.6
+#' 
+#' Convert media of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' breaking changes. Notice that this function `MUST` be run before
+#' `convert_observations_to_0.1.6()`.
+#' 
+#' @param package Camera trap data package object.
+#' @param from Character identifying the version of `package`.
+#' @return Camera trap data package object with converted `media`.
+#' @noRd
+#' @importFrom dplyr %>% .data
+convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+  
+  # check media slot is present
+  assertthat::assert_that(
+    "media" %in% names(package$data),
+    msg = "Can't find `deployments` element in `package$data`."
+  )
+  
+  if (is.null(media(package))) {
+    return(package)
+  }
+  
+  # check observations slot is present
+  assertthat::assert_that(
+    "observations" %in% names(package$data),
+    msg = "Can't find `observations` element in `package$data`."
+  )
+  
+  media <- media(package)
+  observations <- observations(package)
+  
+  # create sequenceID for media linked to event-based observations as 
+  # sequenceID is used by `get_record_table()`
+  event_obs <- observations %>% 
+    dplyr::filter(is.na(.data$mediaID)) %>%
+    dplyr::select("eventID", "deploymentID", "eventStart", "eventEnd") %>%
+    # eventID is not anymore required in v1.0-rc1, remove where not present
+    dplyr::filter(!is.na(.data$eventID))
+  
+  # Join on deploymentID and timestamp between eventStart and eventEnd
+  by <- dplyr::join_by(deploymentID, 
+                       between(x$timestamp, y$eventStart, y$eventEnd))
+  # Join media with event-based observations (obs without mediaID)
+  media <- media %>%
+    dplyr::full_join(event_obs, by) %>%
+    dplyr::rename(sequenceID = "eventID") %>%
+    dplyr::select(-c("eventStart", "eventEnd")) %>%
+    dplyr::relocate("sequenceID", .after = "deploymentID")
+  
+  if ("filePublic" %in% names(media))  {
+    media$filePublic <- NULL
+  }
+  if ("favorite" %in% names(media)) {
+    media <- media %>%
+      dplyr::rename(favourite = "favorite")
+  }
+  if ("mediaComments" %in% names(media)) {
+    media <- media %>%
+      dplyr::rename(comments = "mediaComments")
+  }
+  if ("_id" %in% names(media)) {
+    warning(glue::glue("The field `_id` of media is deprecated in",
+                       "version {from}.")
+    )
+  } else {
+    media <- media %>%
+      dplyr::mutate("_id" = NA)
+  }
+  
+ package$data$media <- media
+  return(package)
+}
+
+#' Convert observations to Camtrap DP version 0.1.6
+#' 
+#' Convert observations of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' breaking changes
+#' 
+#' @param package Camera trap data package object.
+#' @param from Character identifying the version of `package`.
+#' @return Camera trap data package object with converted `observations`.
+#' @noRd
+#' @importFrom dplyr %>% .data
+convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+  
+  # check observations slot is present
+  assertthat::assert_that(
+    "observations" %in% names(package$data),
+    msg = "Can't find `observations` element in `package$data`."
+  )
+  
+  observations <- observations(package)
+  # only event-type obs are supported
+  observations <- observations %>%
+    dplyr::filter(.data$observationLevel == "event")
+  
+  if ("eventID" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(sequenceID = "eventID")
+  } else {
+    observations <- observations %>%
+      dplyr::mutate(sequenceID = NA)
+  }
+  observations <- dplyr::relocate(observations, 
+                                  "sequenceID", 
+                                  .after = "deploymentID"
+  )
+  observations <- observations %>%
+    dplyr::rename(timestamp = "eventStart")
+  
+  observations$eventEnd <- NULL
+  observations$observationLevel <- NULL
+  
+  if ("cameraSetupType" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(cameraSetup = "cameraSetupType")
+  } else {
+    observations <- observations %>%
+      dplyr::mutate("cameraSetup" = NA)
+  }
+  if ("countNew" %in% names(observations)) {
+    warning(glue::glue(
+      "The field `countNew` of observations is deprecated in",
+      "version {from}."
+      )
+    )
+  } else {
+    observations <- observations %>%
+      dplyr::mutate("countNew" = NA)
+  }
+  observations <- dplyr::relocate(observations, 
+                                  "countNew", 
+                                  .after = dplyr::any_of("count")
+  )
+  if ("behavior" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(behaviour = "behavior")
+  }
+  if ("classificationProbability" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(classificationConfidence = "classificationProbability")
+  }
+  if ("observationTags" %in% names(observations)) {
+    observations$observationTags <- NULL
+  }
+  if ("observationComments" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(comments = "observationComments")
+  }
+  if ("_id" %in% names(observations)) {
+    warning(glue::glue("The field `_id` of observations is deprecated in",
+                       "version {from}.")
+    )
+  } else {
+    observations <- observations %>%
+      dplyr::mutate("_id" = NA)
+  }
+  if ("individualSpeed" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(speed = "individualSpeed")
+  }
+  if ("individualPositionRadius" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(radius = "individualPositionRadius")
+  }
+  if ("individualPositionAngle" %in% names(observations)) {
+    observations <- observations %>%
+      dplyr::rename(angle = "individualPositionAngle")
+  }
+  # remove bounding box related cols if present
+  observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
+  
+  package$data$observations <- observations
+  return(package)
+}
+
+#' Order the columns of deployments
+#' 
+#' @param df A data.frame with `deployments`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_deployments <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("deploymentID",
+                      "locationID",
+                      "locationName",
+                      "longitude",
+                      "latitude",
+                      "coordinateUncertainty",
+                      "start",
+                      "end",
+                      "setupBy",
+                      "cameraID", 
+                      "cameraModel",
+                      "cameraInterval",
+                      "cameraHeight",
+                      "cameraTilt", 
+                      "cameraHeading",
+                      "timestampIssues",
+                      "baitUse",
+                      "session",
+                      "array",
+                      "featureType",
+                      "habitat", 
+                      "tags",
+                      "comments", 
+                      "_id")
+      )
+    )
+}
+
+#' Order the columns of media
+#' 
+#' @param df A data.frame with `media`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_media <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("mediaID",
+                      "deploymentID",
+                      "sequenceID",
+                      "captureMethod",
+                      "timestamp",
+                      "filePath",
+                      "fileName",
+                      "fileMediatype", 
+                      "exifData",
+                      "favourite",
+                      "comments",
+                      "_id")
+      )
+    )
+}
+
+#' Order the columns of observations
+#' 
+#' @param df A data.frame with `observations`
+#' @return Same data.frame as `df` with the right order of columns
+#' @noRd
+order_cols_observations <- function(df) {
+  # Set right order of columns
+  df %>%
+    dplyr::relocate(
+      dplyr::any_of(c("observationID",
+                      "deploymentID",
+                      "sequenceID",
+                      "mediaID",
+                      "timestamp",
+                      "observationType",
+                      "cameraSetup",
+                      "taxonID",
+                      "taxonIDReference",
+                      "scientificName",
+                      "taxonRank",
+                      dplyr::starts_with("vernacularNames"),
+                      "count",
+                      "countNew",
+                      "lifeStage",
+                      "sex",
+                      "behaviour",
+                      "individualID",
+                      "speed",
+                      "radius",
+                      "angle",
+                      "classificationMethod",
+                      "classifiedBy",
+                      "classificationTimestamp",
+                      "classificationConfidence",
+                      "comments",
+                      "_id")
+      )
+    )
 }

@@ -50,6 +50,7 @@ get_cam_op <- function(package = NULL,
   
   # Check that station_col is a single string
   assertthat::assert_that(assertthat::is.string(station_col))
+  
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
     station_col %in% names(deployments(package)),

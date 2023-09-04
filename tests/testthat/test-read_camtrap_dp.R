@@ -75,24 +75,11 @@ test_that("test warnings while reading files with parsing issues", {
   )
 })
 
-test_that("media is checked properly", {
-  dp_path <- system.file("extdata", "mica", "datapackage.json",
-    package = "camtraptor"
-  )
-  expect_error(read_camtrap_dp(
-    file = dp_path,
-    media = "must_be_a_logical!"
-  ))
-})
-
 test_that("output is a list", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_with_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
+  dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
   expect_true(is.list(dp_with_media))
   expect_equal(class(dp_with_media), "list")
   expect_true(is.list(dp_v1_rc1_with_media))
@@ -103,10 +90,7 @@ test_that("output data slot is a list of length 3", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_with_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
+  dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
   expect_true("data" %in% names(dp_with_media))
   expect_equal(length(dp_with_media$data), 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
@@ -152,10 +136,7 @@ test_that(
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
+  dp <- suppressMessages(read_camtrap_dp(file = dp_path))
   taxon_infos <- purrr::map_dfr(
     dp$taxonomic,
     function(x) x %>% as.data.frame()
@@ -222,17 +203,11 @@ test_that("path is deprecated", {
   dp_path_warning <- system.file("extdata", "mica", package = "camtraptor")
   rlang::with_options(
     lifecycle_verbosity = "warning",
-    suppressMessages(expect_warning(read_camtrap_dp(
-      file = dp_path_warning,
-      media = FALSE
-    )))
+    suppressMessages(expect_warning(read_camtrap_dp(file = dp_path_warning)))
   )
   rlang::with_options(
     lifecycle_verbosity = "warning",
-    suppressMessages(expect_warning(read_camtrap_dp(
-      path = dp_path_warning,
-      media = FALSE
-    )))
+    suppressMessages(expect_warning(read_camtrap_dp(path = dp_path_warning)))
   )
 })
 
@@ -456,8 +431,7 @@ test_that(
                            package = "camtraptor"
     )
     dp_with_media <- suppressMessages(read_camtrap_dp(
-      file = dp_path,
-      media = FALSE
+      file = dp_path
     ))
     cols_obs_dp_v1_rc1 <- dp_v1_rc1_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
@@ -499,10 +473,7 @@ test_that(
     dp_path <- system.file("extdata", "mica", "datapackage.json",
                            package = "camtraptor"
     )
-    dp_with_media <- suppressMessages(read_camtrap_dp(
-      file = dp_path,
-      media = TRUE
-    ))
+    dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
     cols_media_dp_v1_rc1 <- dp_v1_rc1_with_media$data$media %>%
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%

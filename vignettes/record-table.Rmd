@@ -36,7 +36,7 @@ The camtrapR's function `recordTable()` generates:
 
 > a record table from camera trap images or videos
 
-At a certain extent the aggregation of `media` (e.g. images) into `observations` is already done in a camera trap data package.
+At a certain extent the aggregation of `media` (e.g. images) into `observations` is already done in a camera trap data package (event-based observations).
 
 If we consider that all observations are independent, then, it will be sufficient to run the following:
 

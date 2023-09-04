@@ -23,8 +23,6 @@
 #'   returned by [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
 #' @return A matrix.
 #'   Row names always indicate the station ID.
@@ -46,8 +44,7 @@
 get_cam_op <- function(package = NULL,
                        ...,
                        station_col = "locationName",
-                       use_prefix = FALSE,
-                       datapkg = lifecycle::deprecated()) {
+                       use_prefix = FALSE) {
   # check camera trap data package
   check_package(package, datapkg, "get_cam_op")
   if (is.null(package) & !is.name(datapkg)) {

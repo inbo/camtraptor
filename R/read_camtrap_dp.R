@@ -8,8 +8,6 @@
 #' `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
-#'   ignore media file to speed up reading larger Camtrap DP packages.
 #' @param path Path to the directory containing the datapackage. Use  `file`
 #'   with path or URL to a `datapackage.json` file instead.
 #' @return List describing a Data Package (as returned by

@@ -113,7 +113,7 @@ get_custom_effort <- function(package = NULL,
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
   # check camera trap data package
-  check_package(package, datapkg, "get_custom_effort")
+  check_package(package)
   
   # get deployments
   deployments <- deployments(package)

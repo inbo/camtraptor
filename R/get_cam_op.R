@@ -46,9 +46,6 @@ get_cam_op <- function(package = NULL,
                        station_col = "locationName",
                        use_prefix = FALSE) {
   # check camera trap data package
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
   check_package(package)
   
   # Check that station_col is a single string

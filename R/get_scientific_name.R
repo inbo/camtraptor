@@ -8,8 +8,6 @@
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
 #' @param vernacular_name Character vector with input vernacular name(s).
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @family exploration functions
 #' @return Character vector of scientific name(s).
 #' @importFrom dplyr .data %>%
@@ -33,12 +31,8 @@
 #' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 #' }
 get_scientific_name <- function(package = NULL,
-                                vernacular_name,
-                                datapkg = lifecycle::deprecated()) {
-  check_package(package, datapkg, "get_scientific_name")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                                vernacular_name) {
+  # Check camera trap data package
   
   all_sn_vn <- get_species(package)
 

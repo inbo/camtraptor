@@ -33,6 +33,7 @@
 get_scientific_name <- function(package = NULL,
                                 vernacular_name) {
   # Check camera trap data package
+  check_package(package)
   
   all_sn_vn <- get_species(package)
 

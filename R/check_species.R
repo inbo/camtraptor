@@ -36,7 +36,7 @@ check_species <- function(package = NULL,
                           species,
                           arg_name = "species") {
   # Check camera trap data package
-  check_package(package, datapkg, "check_species")
+  check_package(package)
   
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,

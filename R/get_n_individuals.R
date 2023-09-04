@@ -64,7 +64,7 @@ get_n_individuals <- function(package = NULL,
                               sex = NULL,
                               life_stage = NULL) {
   # check input data package
-  check_package(package, datapkg, "get_n_individuals")
+  check_package(package)
   
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex

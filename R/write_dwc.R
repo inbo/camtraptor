@@ -213,7 +213,6 @@ write_dwc <- function(package, directory = ".") {
     dplyr::mutate(
       .keep = "none",
       occurrenceID = .data$observationID,
-      `dcterm:rights` = media_license,
       identifier = .data$mediaID,
       `dc:type` = dplyr::case_when(
         grepl("video", fileMediatype) ~ "MovingImage",
@@ -225,17 +224,23 @@ write_dwc <- function(package, directory = ".") {
         !is.na(favourite) ~ "media marked as favourite",
         .default = .data$comments.obs_med
       ),
+      `dcterms:rights` = media_license,
+      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
       captureDevice = .data$cameraModel,
       resourceCreationTechnique = .data$captureMethod,
       accessURI = .data$filePath,
-      format = .data$fileMediatype,
-      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
+      # serviceExpectation = dplyr::if_else(
+      #   .data$filePublic,
+      #   "online",
+      #   "authenticate"
+      # ),
+      `dc:format` = .data$fileMediatype
     ) %>%
     # Set column order
     dplyr::select(
-      "occurrenceID", "dcterm:rights", "identifier", "dc:type", "comments",
-      "captureDevice", "resourceCreationTechnique", "accessURI", "format",
-      "CreateDate"
+      "occurrenceID", "identifier", "dc:type", "comments", "dcterms:rights",
+      "CreateDate", "captureDevice", "resourceCreationTechnique", "accessURI",
+      "dc:format"
     )
 
   # Return object or write files

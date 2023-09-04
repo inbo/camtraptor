@@ -33,7 +33,7 @@
 #' - **rights** for media files: License with scope `media` as provided in
 #'   `package$licenses`.
 #' - **dwc:dataGeneralizations**: "coordinates rounded to
-#'   `package$coordinatePrecision` degrees".
+#'   `package$coordinatePrecision` degree".
 #' - **coordinatePrecision**: `package$coordinatePrecision` (e.g. `0.001`).
 #'
 #' Key features of the Darwin Core transformation:
@@ -95,7 +95,7 @@ write_dwc <- function(package, directory = ".") {
       datasetName = dataset_name,
       basisOfRecord = "MachineObservation",
       dataGeneralizations = glue::glue(
-        "coordinates rounded to {coordinate_precision} degrees",
+        "coordinates rounded to {coordinate_precision} degree",
         .na = NULL
       ),
       occurrenceID = .data$observationID,

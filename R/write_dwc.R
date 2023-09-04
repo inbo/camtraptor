@@ -169,17 +169,18 @@ write_dwc <- function(package, directory = ".") {
         format = "%Y-%m-%dT%H:%M:%SZ"
       ),
       identificationRemarks = stringr::str_squish(glue::glue(
-        # E.g. "classified by machine with 0.89 confidence"
-        "{classification_method} {classification_probability}",
+        # E.g. "classified by a machine with a degree of certainty of 89%"
+        "{classification_method} {classification_certainty}",
         classification_method = dplyr::case_when(
           !is.na(.data$classificationMethod) ~ glue::glue(
-            "classified by {.data$classificationMethod}"
+            "classified by a {.data$classificationMethod}"
           ),
           .default = ""
         ),
-        classification_probability = dplyr::case_when(
-          !is.na(.data$classificationConfidence) ~ glue::glue(
-            "with {.data$classificationConfidence} probability"
+        degree_of_certainty = .data$classificationConfidence * 100,
+        classification_certainty = dplyr::case_when(
+          !is.na(degree_of_certainty) ~ glue::glue(
+            "with a degree of certainty of {degree_of_certainty}%"
           ),
           .default = ""
         )

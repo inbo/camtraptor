@@ -56,7 +56,7 @@ get_rai <- function(package = NULL,
                     sex = NULL,
                     life_stage = NULL) {
   # check camera trap data package
-  check_package(package, datapkg, "get_rai")
+  check_package(package)
   
   get_rai_primitive(package, ...,
     use = "n_obs",
@@ -88,8 +88,6 @@ get_rai <- function(package = NULL,
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -130,13 +128,9 @@ get_rai_individuals <- function(package = NULL,
                                 ...,
                                 species = "all",
                                 sex = NULL,
-                                life_stage = NULL,
-                                datapkg = lifecycle::deprecated()) {
+                                life_stage = NULL) {
   # check camera trap data package
-  check_package(package, datapkg, "get_rai_individuals")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  check_package(package)
   
   get_rai_primitive(package, ...,
     use = "n_individuals",

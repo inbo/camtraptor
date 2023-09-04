@@ -99,7 +99,7 @@ get_record_table <- function(package = NULL,
                              deltaTimeComparedTo = NULL,
                              removeDuplicateRecords = TRUE) {
   # check data package
-  check_package(package, datapkg, "get_record_table", media = TRUE)
+  check_package(package, media = TRUE)
   
   # check stationCol is a valid column name
   assertthat::assert_that(

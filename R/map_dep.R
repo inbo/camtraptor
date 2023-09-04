@@ -349,7 +349,7 @@ map_dep <- function(package = NULL,
                     radius_range = c(10, 50)) {
 
   # check camera trap data package
-  check_package(package, datapkg, "map_dep")
+  check_package(package)
   
   # define possible feature values
   features <- c(

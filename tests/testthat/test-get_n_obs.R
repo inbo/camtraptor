@@ -280,14 +280,3 @@ test_that("Filter by date of deployments via predicates works correctly", {
     dplyr::arrange(deploymentID, scientificName)
   expect_equal(obs_filtered, obs_filtered_man)
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_obs(datapkg = mica)
-    ),
-    regexp = "The `datapkg` argument of `get_n_obs()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

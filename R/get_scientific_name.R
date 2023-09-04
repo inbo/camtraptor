@@ -35,13 +35,14 @@ get_scientific_name <- function(package = NULL,
   # Check camera trap data package
   check_package(package)
   
+  # Get scientific names for check
   all_sn_vn <- get_species(package)
 
-  # get vernacular names for check
+  # Get vernacular names for check
   all_vn <-
     all_sn_vn %>%
     dplyr::select(dplyr::starts_with("vernacularName"))
-  # check validity vernacular_name param
+  # Check validity vernacular_name param
   check_value(
     arg = tolower(vernacular_name),
     options = unlist(all_vn) %>% tolower(),

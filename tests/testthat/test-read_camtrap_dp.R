@@ -8,15 +8,14 @@ test_that("file can be an URL", {
   # dp_path <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
   dp_path <-
     "https://raw.githubusercontent.com/tdwg/camtrap-dp/81379eadfafee3398a4b498c1141e617c5982f4a/example/datapackage.json"
-  dp <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
+  dp <- suppressMessages(read_camtrap_dp(file = dp_path))
   expect_true(is.list(dp))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
                     class(dp$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
                     class(dp$data$observations)))
+  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
+                    class(dp$data$media)))
 })
 
 test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
@@ -35,9 +34,6 @@ test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
 path_to_json_v1rc1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json"
 dp_v1_rc1_with_media <- suppressMessages(
   read_camtrap_dp(path_to_json_v1rc1)
-)
-dp_v1_rc1_without_media <- suppressMessages(
-  read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
 )
 
 test_that("test warnings while reading files with parsing issues", {
@@ -93,81 +89,28 @@ test_that("output is a list", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- suppressMessages(read_camtrap_dp(
+  dp_with_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE
   ))
-  expect_true(is.list(dp_without_media))
-  expect_equal(class(dp_without_media), "list")
+  expect_true(is.list(dp_with_media))
+  expect_equal(class(dp_with_media), "list")
   expect_true(is.list(dp_v1_rc1_with_media))
   expect_equal(class(dp_v1_rc1_with_media), "list")
-  expect_true(is.list(dp_v1_rc1_without_media))
-  expect_equal(class(dp_v1_rc1_without_media), "list")
 })
 
 test_that("output data slot is a list of length 3", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
-  expect_true("data" %in% names(dp_without_media))
-  expect_equal(length(dp_without_media$data), 3)
-  expect_true("data" %in% names(dp_v1_rc1_with_media))
-  expect_equal(length(dp_v1_rc1_with_media$data), 3)
-  expect_true("data" %in% names(dp_v1_rc1_without_media))
-  expect_equal(length(dp_v1_rc1_without_media$data), 3)
-})
-
-test_that("media arg influences only slot media", {
-  dp_path <- system.file("extdata", "mica", "datapackage.json",
-    package = "camtraptor"
-  )
   dp_with_media <- suppressMessages(read_camtrap_dp(
     file = dp_path,
-    media = TRUE
-  ))
-  dp_without_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
     media = FALSE
   ))
-  # media is NULL only for data packages imported using `media` = `FALSE`
-  expect_null(dp_without_media$data$media)
-  expect_false(is.null(dp_with_media$data$media))
-  expect_null(dp_v1_rc1_without_media$data$media)
-  expect_false(is.null(dp_v1_rc1_with_media$data$media))
-  # metadata are the same
-  metadata_with_media <- dp_with_media
-  metadata_with_media$data <- NULL
-  metadata_without_media <- dp_without_media
-  metadata_without_media$data <- NULL
-  expect_identical(metadata_with_media, metadata_without_media)
-  metadata_with_media_dp_v1_rc1 <- dp_v1_rc1_with_media
-  metadata_with_media_dp_v1_rc1$data <- NULL
-  metadata_without_media_dp_v1_rc1 <- dp_v1_rc1_without_media
-  metadata_without_media_dp_v1_rc1$data <- NULL
-  expect_identical(metadata_with_media_dp_v1_rc1, 
-                   metadata_without_media_dp_v1_rc1)
-  # observations are the same
-  expect_identical(
-    dp_with_media$data$observations, 
-    dp_without_media$data$observations
-  )
-  expect_identical(
-    dp_v1_rc1_with_media$data$observations, 
-    dp_v1_rc1_without_media$data$observations
-  )
-  # deployments are the same
-  expect_identical(
-    dp_with_media$data$deployments, 
-    dp_without_media$data$deployments
-  )
-  expect_identical(
-    dp_v1_rc1_with_media$data$deployments, 
-    dp_v1_rc1_without_media$data$deployments
-  )
+  expect_true("data" %in% names(dp_with_media))
+  expect_equal(length(dp_with_media$data), 3)
+  expect_true("data" %in% names(dp_v1_rc1_with_media))
+  expect_equal(length(dp_v1_rc1_with_media$data), 3)
 })
 
 test_that("datapackage data elements are named as in resource names", {
@@ -175,32 +118,26 @@ test_that("datapackage data elements are named as in resource names", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
-  resource_names <- frictionless::resources(dp_without_media)
-  expect_true(all(names(dp_without_media$data) %in% resource_names))
+  dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
+  resource_names <- frictionless::resources(dp_with_media)
+  expect_true(all(names(dp_with_media$data) %in% resource_names))
   # check for v1.0-rc1
   resource_names <- frictionless::resources(dp_v1_rc1_with_media)
   expect_true(all(names(dp_v1_rc1_with_media$data) %in% resource_names))
-  resource_names <- frictionless::resources(dp_v1_rc1_without_media)
-  expect_true(all(names(dp_v1_rc1_without_media$data %in% resource_names)))
+  resource_names <- frictionless::resources(dp_v1_rc1_with_media)
+  expect_true(all(names(dp_v1_rc1_with_media$data %in% resource_names)))
 })
 
 test_that("datapackage resources are tibble dataframes", {
   dp_path <- system.file("extdata", "mica", "datapackage.json",
     package = "camtraptor"
   )
-  dp_without_media <- suppressMessages(read_camtrap_dp(
-    file = dp_path,
-    media = FALSE
-  ))
-  # check for v0.1.6 (only one of the two: chosen for the one without media)
+  dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
+  # check for v0.1.6
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-    class(dp_without_media$data$deployments)))
+    class(dp_with_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-    class(dp_without_media$data$observations)))
+    class(dp_with_media$data$observations)))
   # check for v1.0-rc1 (only one of the two: chosen for the one with media)
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
                     class(dp_v1_rc1_with_media$data$deployments)))
@@ -375,13 +312,10 @@ test_that(
     dp_path <- system.file("extdata", "mica", "datapackage.json",
                            package = "camtraptor"
     )
-    dp_without_media <- suppressMessages(read_camtrap_dp(
-      file = dp_path,
-      media = FALSE
-    ))
-    cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
+    dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
+    cols_deployments_dp_v1_rc1 <- dp_v1_rc1_with_media$data$deployments %>%
       names()
-    cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
+    cols_deployments_dp_v0_1_6 <- dp_with_media$data$deployments %>%
       names()
     expect_equal(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
   }
@@ -521,14 +455,14 @@ test_that(
     dp_path <- system.file("extdata", "mica", "datapackage.json",
                            package = "camtraptor"
     )
-    dp_without_media <- suppressMessages(read_camtrap_dp(
+    dp_with_media <- suppressMessages(read_camtrap_dp(
       file = dp_path,
       media = FALSE
     ))
     cols_obs_dp_v1_rc1 <- dp_v1_rc1_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
-    cols_obs_dp_v0_1_6 <- dp_without_media$data$observations %>%
+    cols_obs_dp_v0_1_6 <- dp_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
     expect_true(

@@ -18,8 +18,6 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates for filtering on deployments
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
@@ -64,13 +62,9 @@ get_n_individuals <- function(package = NULL,
                               ...,
                               species = "all",
                               sex = NULL,
-                              life_stage = NULL,
-                              datapkg = lifecycle::deprecated()) {
+                              life_stage = NULL) {
   # check input data package
   check_package(package, datapkg, "get_n_individuals")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
   
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex

@@ -30,9 +30,6 @@
 #' )
 #' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 #'
-#' # Read Camtrap DP package and ignore media file
-#' muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-#'
 #' # If parsing issues while reading deployments, observations or media arise,
 #' # use readr::problems()
 #' camtrap_dp_file_with_issues <- system.file(
@@ -41,13 +38,12 @@
 #'   "datapackage_for_parsing_issues.json",
 #'   package = "camtraptor"
 #' )
-#' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
+#' muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues)
 #' readr::problems(muskrat_coypu_with_issues$data$deployments)
 #' readr::problems(muskrat_coypu_with_issues$data$observations)
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
 read_camtrap_dp <- function(file = NULL,
-                            media = TRUE,
                             path = lifecycle::deprecated()) {
   # check path (deprecated)
   warning_detail <- paste(
@@ -70,11 +66,6 @@ read_camtrap_dp <- function(file = NULL,
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
-  # check media arg
-  assertthat::assert_that(
-    media %in% c(TRUE, FALSE),
-    msg = "`media` must be a logical: TRUE or FALSE"
-  )
   
   # read package (metadata)
   package <- frictionless::read_package(file)
@@ -130,30 +121,27 @@ read_camtrap_dp <- function(file = NULL,
     observations <- add_speed_radius_angle(observations)
   }
   
-  # create first version datapackage with resources in data slot
+  
+  media <- frictionless::read_resource(package, "media")
+  issues_media <- check_reading_issues(media, "media")
+  data$media <- media
+ 
+  # add resources in data slot
   data <- list(
     "deployments" = deployments,
-    "media" = NULL,
+    "media" = media,
     "observations" = observations
   )
   
   package$data <- data
   
-  # read media if needed
-  if (media) {
-    media_df <- frictionless::read_resource(package, "media")
-    issues_media <- check_reading_issues(media_df, "media")
-    data$media <- media_df
-  }
- 
-  package$data <- data
-  check_package(package, media = media)
+  check_package(package)
   
   package <- add_taxonomic_info(package)
   
   # convert to 0.1.6
   if (version == "1.0-rc.1") {
-    package <- convert_to_0.1.6(package, version, media = media)
+    package <- convert_to_0.1.6(package, version)
   }
   
   # order columns
@@ -161,11 +149,9 @@ read_camtrap_dp <- function(file = NULL,
   package$data$observations <- order_cols_observations(
     package$data$observations
   )
-  if (!is.null(package$data$media)) {
-    package$data$media <- order_cols_media(package$data$media)
-  }
+  package$data$media <- order_cols_media(package$data$media)
   
-  check_package(package, media = media)
+  check_package(package)
   
   # Inherit parsing issues from reading
   attr(package$data$observations, which = "problems") <- issues_observations

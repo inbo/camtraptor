@@ -47,7 +47,7 @@ test_that("check_package() returns error if not all elements are present", {
   mica_no_dep_no_obs_no_media$data$media <- NULL
   expect_error(
     check_package(mica_no_dep_no_obs_no_media),
-    regexp = "Can't find 3 elements in data package: deployments, observations and media",
+    regexp = "Can't find 3 elements in data package: deployments, media and observations",
     fixed = TRUE
   )
 })

@@ -220,14 +220,18 @@ write_dwc <- function(package, directory = ".") {
       ),
       comments = dplyr::case_when(
         !is.na(favourite) & !is.na(comments.obs_med)
-          ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
-        !is.na(favourite) ~ "media marked as favourite",
+          ~ paste("marked as favourite", comments.obs_med, sep = " | "),
+        !is.na(favourite) ~ "marked as favourite",
         .default = .data$comments.obs_med
       ),
       `dcterms:rights` = media_license,
       CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
       captureDevice = .data$cameraModel,
-      resourceCreationTechnique = .data$captureMethod,
+      resourceCreationTechnique = dplyr::recode(
+        .data$captureMethod,
+        "motionDetection" = "motion detection",
+        "timeLapse" = "time lapse"
+      ),
       accessURI = .data$filePath,
       # serviceExpectation = dplyr::if_else(
       #   .data$filePublic,

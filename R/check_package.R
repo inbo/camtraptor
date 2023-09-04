@@ -3,10 +3,10 @@
 #' Checks the validity of a camera trap data package.
 #' It checks whether the data package is a list containing an element called
 #' `data` with the following resources as tibble data frames:
-#' - `observations`
-#' - `media`
 #' - `deployments`
-#'
+#' - `media`
+#' - `observations`
+#' 
 #' @param package Camera trap data package
 #' @param datapkg Deprecated. Use `package` instead.
 #' @return `TRUE` or error.

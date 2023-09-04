@@ -108,14 +108,3 @@ test_that("life_stage filters data correctly", {
     ignore_attr = TRUE
   )
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_rai_individuals(datapkg = mica)
-    ),
-    regexp = "The `datapkg` argument of `get_rai_individuals()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

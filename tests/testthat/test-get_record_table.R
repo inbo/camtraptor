@@ -194,14 +194,3 @@ test_that("filtering predicates are allowed and work well", {
     dplyr::pull(locationName)
   testthat::expect_identical(stations, stations_calculate)
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_record_table(datapkg = mica)
-    ),
-    regexp = "The `datapkg` argument of `get_record_table()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

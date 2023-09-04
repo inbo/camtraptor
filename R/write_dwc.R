@@ -125,10 +125,26 @@ write_dwc <- function(package, directory = ".") {
             glue::glue("camera trap with {.data$baitUse} bait"),
           .default = "camera trap",
         ),
+        dep_feature_value = dplyr::recode(
+          .data$featureType,
+          "roadPaved" = "paved road",
+          "roadDirt" = "dirt road",
+          "trailHiking" = "hiking trail",
+          "trailGame" = "game trail",
+          "roadUnderpass" = "road underpass",
+          "roadOverpass" = "road overpass",
+          "roadBridge" = "road bridge",
+          "culvert" = "culvert",
+          "burrow" = "burrow",
+          "nestSite" = "nest site",
+          "carcass" = "carcass",
+          "waterSource" = "water source",
+          "fruitingTree" = "fruiting tree",
+          "other" = "other feature",
+          "none" = NA_character_
+        ),
         dep_feature = dplyr::case_when(
-          .data$featureType == "none" ~ "",
-          .data$featureType == "other" ~ " near other feature",
-          !is.na(.data$featureType) ~ glue::glue(" near {.data$featureType}"),
+          !is.na(dep_feature_value) ~ glue::glue("near {dep_feature_value}"),
           .default = ""
         ),
         dep_tags = dplyr::case_when(

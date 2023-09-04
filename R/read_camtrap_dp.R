@@ -122,8 +122,7 @@ read_camtrap_dp <- function(file = NULL,
   
   media <- frictionless::read_resource(package, "media")
   issues_media <- check_reading_issues(media, "media")
-  data$media <- media
- 
+  
   # add resources in data slot
   data <- list(
     "deployments" = deployments,

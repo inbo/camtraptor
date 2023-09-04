@@ -34,8 +34,6 @@
 #'   year as a period of 365 days.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
 #'   - `begin`: Begin date of the interval the effort is calculated over.
@@ -90,8 +88,7 @@ get_custom_effort <- function(package = NULL,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
-                              unit = "hour",
-                              datapkg = lifecycle::deprecated()) {
+                              unit = "hour") {
   # define possible unit values
   units <- c("hour", "day")
 
@@ -117,9 +114,6 @@ get_custom_effort <- function(package = NULL,
 
   # check camera trap data package
   check_package(package, datapkg, "get_custom_effort")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
   
   # get deployments
   deployments <- deployments(package)

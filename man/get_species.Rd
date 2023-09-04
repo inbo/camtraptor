@@ -4,14 +4,11 @@
 \alias{get_species}
 \title{Get species}
 \usage{
-get_species(package = NULL, datapkg = lifecycle::deprecated())
+get_species(package = NULL)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with all scientific names and vernacular names of

@@ -71,14 +71,3 @@ test_that("function works fine with missing vernacular name slots", {
       dplyr::pull(vernacularNames.nl))
   )
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_species(datapkg = mica)
-    ),
-    regexp = "The `datapkg` argument of `get_species()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

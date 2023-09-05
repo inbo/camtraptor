@@ -10,8 +10,7 @@ get_custom_effort(
   start = NULL,
   end = NULL,
   group_by = NULL,
-  unit = "hour",
-  datapkg = lifecycle::deprecated()
+  unit = "hour"
 )
 }
 \arguments{
@@ -49,9 +48,6 @@ year as a period of 365 days.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with following columns:

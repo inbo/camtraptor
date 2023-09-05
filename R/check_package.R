@@ -8,22 +8,9 @@
 #' - `observations`
 #' 
 #' @param package Camera trap data package
-#' @param datapkg Deprecated. Use `package` instead.
 #' @return `TRUE` or error.
 #' @noRd
-check_package <- function(package = NULL,
-                          datapkg = NULL,
-                          function_name) {
-  if (lifecycle::is_present(datapkg) & !is.null(datapkg)) {
-    lifecycle::deprecate_warn(
-      when = "0.16.0",
-      what = paste0(function_name, "(datapkg = )"),
-      with = paste0(function_name, "(package = )")
-    )
-    if (is.null(package)) {
-      package <- datapkg
-    }
-  }
+check_package <- function(package = NULL) {
   # camera trap data package is a list
   assertthat::assert_that(is.list(package),
                           msg = "package is not a list.")

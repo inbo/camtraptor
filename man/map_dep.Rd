@@ -24,8 +24,7 @@ map_dep(
   na_values_icon_size = 10,
   relative_scale = TRUE,
   max_scale = NULL,
-  radius_range = c(10, 50),
-  datapkg = lifecycle::deprecated()
+  radius_range = c(10, 50)
 )
 }
 \arguments{
@@ -152,9 +151,6 @@ The upper value is used for the deployment(s) with the highest feature
 value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
 = \code{FALSE}).
 Default: \code{c(10, 50)}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 Leaflet map.

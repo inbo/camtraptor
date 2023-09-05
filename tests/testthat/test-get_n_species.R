@@ -44,14 +44,3 @@ test_that("get_n_species returns NA for deployments without observations", {
   n_species <- suppressMessages(get_n_species(package = no_obs))
   expect_true(is.na(n_species[n_species$deploymentID == dep_no_obs,]$n))
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_species(datapkg = mica)
-    ),
-    regexp = "The `datapkg` argument of `get_n_species()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

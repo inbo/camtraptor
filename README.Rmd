@@ -47,7 +47,7 @@ You can install the development version of camtraptor from [GitHub](https://gith
 devtools::install_github("inbo/camtraptor")
 ```
 
-While we support older versions of R up to 3.5, we recommend using R 4.0.0 or higher.
+While we support older versions of R up to 3.6.3, we recommend using R 4.0.0 or higher.
 
 ## Example
 

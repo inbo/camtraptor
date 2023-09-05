@@ -24,14 +24,14 @@ deployments.
 \examples{
 # and
 apply_filter_predicate(
-  mica$data$deployments,
+  deployments(mica),
   verbose = TRUE,
   pred_gte("latitude", 51.28),
   pred_lt("longitude", 3.56)
 )
 # Equivalent of
 apply_filter_predicate(
-  mica$data$deployments,
+  deployments(mica),
   verbose = TRUE,
   pred_and(
     pred_gte("latitude", 51.28),
@@ -42,7 +42,7 @@ apply_filter_predicate(
 
 # or
 apply_filter_predicate(
-  mica$data$deployments,
+  deployments(mica),
   verbose = TRUE,
   pred_or(
     pred_gte("latitude", 51.28),

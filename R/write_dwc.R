@@ -33,7 +33,7 @@
 #' - **rights** for media files: License with scope `media` as provided in
 #'   `package$licenses`.
 #' - **dwc:dataGeneralizations**: "coordinates rounded to
-#'   `package$coordinatePrecision` degrees".
+#'   `package$coordinatePrecision` degree".
 #' - **coordinatePrecision**: `package$coordinatePrecision` (e.g. `0.001`).
 #'
 #' Key features of the Darwin Core transformation:
@@ -95,7 +95,7 @@ write_dwc <- function(package, directory = ".") {
       datasetName = dataset_name,
       basisOfRecord = "MachineObservation",
       dataGeneralizations = glue::glue(
-        "coordinates rounded to {coordinate_precision} degrees",
+        "coordinates rounded to {coordinate_precision} degree",
         .na = NULL
       ),
       occurrenceID = .data$observationID,
@@ -125,10 +125,26 @@ write_dwc <- function(package, directory = ".") {
             glue::glue("camera trap with {.data$baitUse} bait"),
           .default = "camera trap",
         ),
+        dep_feature_value = dplyr::recode(
+          .data$featureType,
+          "roadPaved" = "paved road",
+          "roadDirt" = "dirt road",
+          "trailHiking" = "hiking trail",
+          "trailGame" = "game trail",
+          "roadUnderpass" = "road underpass",
+          "roadOverpass" = "road overpass",
+          "roadBridge" = "road bridge",
+          "culvert" = "culvert",
+          "burrow" = "burrow",
+          "nestSite" = "nest site",
+          "carcass" = "carcass",
+          "waterSource" = "water source",
+          "fruitingTree" = "fruiting tree",
+          "other" = "other feature",
+          "none" = NA_character_
+        ),
         dep_feature = dplyr::case_when(
-          .data$featureType == "none" ~ "",
-          .data$featureType == "other" ~ " near other feature",
-          !is.na(.data$featureType) ~ glue::glue(" near {.data$featureType}"),
+          !is.na(dep_feature_value) ~ glue::glue("near {dep_feature_value}"),
           .default = ""
         ),
         dep_tags = dplyr::case_when(
@@ -153,17 +169,18 @@ write_dwc <- function(package, directory = ".") {
         format = "%Y-%m-%dT%H:%M:%SZ"
       ),
       identificationRemarks = stringr::str_squish(glue::glue(
-        # E.g. "classified by machine with 0.89 confidence"
-        "{classification_method} {classification_probability}",
+        # E.g. "classified by a machine with a degree of certainty of 89%"
+        "{classification_method} {classification_certainty}",
         classification_method = dplyr::case_when(
           !is.na(.data$classificationMethod) ~ glue::glue(
-            "classified by {.data$classificationMethod}"
+            "classified by a {.data$classificationMethod}"
           ),
           .default = ""
         ),
-        classification_probability = dplyr::case_when(
-          !is.na(.data$classificationConfidence) ~ glue::glue(
-            "with {.data$classificationConfidence} probability"
+        degree_of_certainty = .data$classificationConfidence * 100,
+        classification_certainty = dplyr::case_when(
+          !is.na(degree_of_certainty) ~ glue::glue(
+            "with a degree of certainty of {degree_of_certainty}%"
           ),
           .default = ""
         )
@@ -213,7 +230,6 @@ write_dwc <- function(package, directory = ".") {
     dplyr::mutate(
       .keep = "none",
       occurrenceID = .data$observationID,
-      `dcterm:rights` = media_license,
       identifier = .data$mediaID,
       `dc:type` = dplyr::case_when(
         grepl("video", fileMediatype) ~ "MovingImage",
@@ -221,21 +237,31 @@ write_dwc <- function(package, directory = ".") {
       ),
       comments = dplyr::case_when(
         !is.na(favourite) & !is.na(comments.obs_med)
-          ~ paste("media marked as favourite", comments.obs_med, sep = " | "),
-        !is.na(favourite) ~ "media marked as favourite",
+          ~ paste("marked as favourite", comments.obs_med, sep = " | "),
+        !is.na(favourite) ~ "marked as favourite",
         .default = .data$comments.obs_med
       ),
+      `dcterms:rights` = media_license,
+      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
       captureDevice = .data$cameraModel,
-      resourceCreationTechnique = .data$captureMethod,
+      resourceCreationTechnique = dplyr::recode(
+        .data$captureMethod,
+        "motionDetection" = "motion detection",
+        "timeLapse" = "time lapse"
+      ),
       accessURI = .data$filePath,
-      format = .data$fileMediatype,
-      CreateDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ")
+      # serviceExpectation = dplyr::if_else(
+      #   .data$filePublic,
+      #   "online",
+      #   "authenticate"
+      # ),
+      `dc:format` = .data$fileMediatype
     ) %>%
     # Set column order
     dplyr::select(
-      "occurrenceID", "dcterm:rights", "identifier", "dc:type", "comments",
-      "captureDevice", "resourceCreationTechnique", "accessURI", "format",
-      "CreateDate"
+      "occurrenceID", "identifier", "dc:type", "comments", "dcterms:rights",
+      "CreateDate", "captureDevice", "resourceCreationTechnique", "accessURI",
+      "dc:format"
     )
 
   # Return object or write files

@@ -9,8 +9,7 @@ get_n_individuals(
   ...,
   species = "all",
   sex = NULL,
-  life_stage = NULL,
-  datapkg = lifecycle::deprecated()
+  life_stage = NULL
 )
 }
 \arguments{
@@ -33,9 +32,6 @@ account.}
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with the following columns:

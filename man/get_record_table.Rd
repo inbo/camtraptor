@@ -11,8 +11,7 @@ get_record_table(
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL,
-  removeDuplicateRecords = TRUE,
-  datapkg = lifecycle::deprecated()
+  removeDuplicateRecords = TRUE
 )
 }
 \arguments{
@@ -43,9 +42,6 @@ If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (def
 \item{removeDuplicateRecords}{Logical.
 If there are several records of the same species at the same station at
 exactly the same time, show only one?}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame containing species records and additional

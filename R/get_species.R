@@ -4,21 +4,16 @@
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @return A tibble data frame with all scientific names and vernacular names of
 #'   the identified species.
 #' @family exploration functions
 #' @export
 #' @examples
 #' get_species(mica)
-get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {
+get_species <- function(package = NULL) {
   # Check camera trap data package
-  check_package(package, datapkg, "get_species", media = FALSE)
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
-  
+  check_package(package, media = FALSE)
+
   # Get taxonomic information from package metadata
   if (!"taxonomic" %in% names(package)) {
     return(NULL)

@@ -8,8 +8,7 @@ get_cam_op(
   package = NULL,
   ...,
   station_col = "locationName",
-  use_prefix = FALSE,
-  datapkg = lifecycle::deprecated()
+  use_prefix = FALSE
 )
 }
 \arguments{
@@ -25,9 +24,6 @@ Default: \code{"locationName"}.}
 If \code{TRUE} the returned row names will start with prefix \code{"Station"} as
 returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 Default: \code{FALSE}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A matrix.

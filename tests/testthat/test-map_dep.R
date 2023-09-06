@@ -129,11 +129,12 @@ test_that("map_dep() can toggle showing deployments with NA values", {
 })
 
 test_that("map_dep() can calculate and get feature values", {
+  # Deployments without observations of krakeend (Anas strepera)
   no_obs_deployments <-
     c(
-      "577b543a-2cf1-4b23-b6d2-cda7e2eac372",
-      "62c200a9-0e03-4495-bcd8-032944f6f5a1",
-      "7ca633fa-64f8-4cfc-a628-6b0c419056d7"
+      "00a2c20d",
+      "577b543a",
+      "62c200a9"
     )
   no_obs_deployments_str <-
     sub(

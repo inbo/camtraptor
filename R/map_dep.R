@@ -140,12 +140,12 @@
 #'   life_stage = "subadult"
 #' )
 #'
-#' # Show number of observations of female or unknown individuals of gadwall
+#' # Show number of observations of female or undefined xes individuals of gadwall
 #' map_dep(
 #'   mica,
 #'   "n_obs",
 #'   species = "gadwall",
-#'   sex = c("female", "unknown")
+#'   sex = c("female", NULL)
 #' )
 #'
 #' # Show number of individuals (individuals of unidentified species included if

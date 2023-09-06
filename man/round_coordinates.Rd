@@ -49,13 +49,13 @@ Chapman & Wieczorek 2020).
 }
 
 \examples{
-# Round coordinates of example package to 3 digits
-mica <- round_coordinates(mica, 3)
+# Round coordinates of example package to 2 digits
+mica <- round_coordinates(mica, 2)
 
 # coordinatePrecision is set in metadata
 mica$coordinatePrecision
 
-# coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
+# coordinateUncertainty is set in data: original uncertainty (or 30) + 1570 m
 mica$data$deployments$coordinateUncertainty
 }
 \seealso{

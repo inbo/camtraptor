@@ -128,10 +128,10 @@ test_that("get_custom_effort returns warning if end set too late", {
 test_that("right columns, cols types, right relative number of rows", {
   # right cols and col types: no groups
   tot_effort <- get_custom_effort(mica)
-  expect_true(all(colnames(tot_effort) == c("begin", "effort", "unit")))
-  expect_equal(class(tot_effort$begin), "Date")
-  expect_equal(class(tot_effort$effort), "numeric")
-  expect_equal(class(tot_effort$unit), "character")
+  expect_named(tot_effort, expected = c("begin", "effort", "unit"))
+  expect_s3_class(tot_effort$begin, "Date")
+  expect_type(tot_effort$effort, "double")
+  expect_type(tot_effort$unit, "character")
 
   # right cols and col types: group by year
   effort_by_year <- get_custom_effort(mica, group_by = "year")

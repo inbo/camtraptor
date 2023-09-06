@@ -132,6 +132,8 @@ test_that("datapackage data elements are named as in resource names", {
   resource_names <- frictionless::resources(dp)
   expect_named(dp$data, expected = resource_names)
   resource_names <- frictionless::resources(dp_v1_rc1)
+  # remove "individuals"
+  resource_names <- resource_names[resource_names != "individuals"]
   expect_named(dp_v1_rc1$data, expected = resource_names)
 })
 

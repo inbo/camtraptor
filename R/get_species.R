@@ -12,8 +12,7 @@
 #' get_species(mica)
 get_species <- function(package = NULL) {
   # Check camera trap data package
-  check_package(package, media = FALSE)
-
+  check_package(package)
   # Get taxonomic information from package metadata
   if (!"taxonomic" %in% names(package)) {
     return(NULL)

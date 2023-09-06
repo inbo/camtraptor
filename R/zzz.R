@@ -460,13 +460,14 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
   
   # notify about conversion
   message(
-    writeLines(
-      c(
-        "The dataset uses Camtrap DP version 1.0-rc.1, it has been converted to 0.1.6.",
-        "See https://inbo.github.io/camtraptor/#camtrap-dp for details."
-      )
+    glue::glue(
+      "The dataset uses Camtrap DP version 1.0-rc.1, it has been converted to 0.1.6.",
+      "See https://inbo.github.io/camtraptor/#camtrap-dp for details.",
+      .sep = "\n"
+
     )
   )
+  
   # convert metadata
   package <- convert_metadata_to_0.1.6(package, from)  
   # convert deployments

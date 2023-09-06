@@ -4,13 +4,10 @@
 \alias{read_camtrap_dp}
 \title{Read a Camtrap DP}
 \usage{
-read_camtrap_dp(file = NULL, path = lifecycle::deprecated())
+read_camtrap_dp(file = NULL)
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
-
-\item{path}{Path to the directory containing the datapackage. Use  \code{file}
-with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
 List describing a Data Package (as returned by

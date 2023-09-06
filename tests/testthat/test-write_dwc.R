@@ -74,15 +74,15 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
     colnames(result$dwc_audubon),
     c(
       "occurrenceID",
-      "dcterm:rights",
       "identifier",
       "dc:type",
       "comments",
+      "dcterms:rights",
+      "CreateDate",
       "captureDevice",
       "resourceCreationTechnique",
       "accessURI",
-      "format",
-      "CreateDate"
+      "dc:format"
     )
   )
 })

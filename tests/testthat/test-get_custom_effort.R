@@ -90,7 +90,7 @@ test_that("get_custom_effort returns warning if start set too early", {
       group_by = "day"
     )
   )
-  expect_equal(
+  expect_identical(
     start_too_early$warnings,
     paste0(
       "`start` value is set too early. ",
@@ -98,7 +98,7 @@ test_that("get_custom_effort returns warning if start set too early", {
       "deployment: 2019-10-09."
     )
   )
-  expect_equal(
+  expect_identical(
     start_too_early$result$begin[1],
     lubridate::as_date(min(mica$data$deployments$start))
   )
@@ -111,14 +111,14 @@ test_that("get_custom_effort returns warning if end set too late", {
       group_by = "day"
     )
   )
-  expect_equal(
+  expect_identical(
     end_too_late$warnings,
     paste0(
       "`end` value is set too late. ",
       "`end` authomatically set to end date of latest deployment: 2021-04-18."
     )
   )
-  expect_equal(
+  expect_identical(
     end_too_late$result$begin[nrow(end_too_late$result)],
     lubridate::as_date(max(mica$data$deployments$end))
   )
@@ -152,7 +152,7 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_named(effort_by_day, expected = c("begin", "effort", "unit"))
 
   # number of rows is equal to 1 if group_by is NULL
-  expect_equal(nrow(tot_effort), 1)
+  expect_identical(nrow(tot_effort), 1L)
 
   # number of rows with grouping by year is equal to number of calendar years
   first_day <- min(mica$data$deployments$start)
@@ -162,7 +162,7 @@ test_that("right columns, cols types, right relative number of rows", {
     lubridate::floor_date(last_day, unit = "years"),
     by = "years")
   )
-  expect_equal(nrow(effort_by_year), n_years)
+  expect_identical(nrow(effort_by_year), n_years)
 
   # number of rows with grouping by month is equal to number of calendar months
   n_months <- length(seq(
@@ -170,7 +170,7 @@ test_that("right columns, cols types, right relative number of rows", {
     lubridate::floor_date(last_day, unit = "months"),
     by = "months")
   )
-  expect_equal(nrow(effort_by_month), n_months)
+  expect_identical(nrow(effort_by_month), n_months)
 
   # number of rows with grouping by week is equal to number of calendar weeks
   n_weeks <- length(seq(
@@ -178,7 +178,7 @@ test_that("right columns, cols types, right relative number of rows", {
     lubridate::floor_date(last_day, unit = "weeks"),
     by = "weeks")
   )
-  expect_equal(nrow(effort_by_week), n_weeks)
+  expect_identical(nrow(effort_by_week), n_weeks)
 
   # number of rows for daily groups is higher than for weekly groups
   expect_gte(nrow(effort_by_day), nrow(effort_by_week))
@@ -229,9 +229,9 @@ test_that("check effort and unit values", {
   expect_gt(tot_effort$effort, tot_effort_days$effort)
 
   # unit value is equal to hour if default unit value is used
-  expect_equal(unique(tot_effort$unit), "hour")
+  expect_identical(unique(tot_effort$unit), "hour")
   # unit value is equal to day if unit value is set to "day"
-  expect_equal(unique(tot_effort_days$unit), "day")
+  expect_identical(unique(tot_effort_days$unit), "day")
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {

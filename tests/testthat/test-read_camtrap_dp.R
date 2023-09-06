@@ -96,8 +96,27 @@ test_that("output data slot is a list of length 3", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
-  expect_true("data" %in% names(dp_with_media))
-  expect_equal(length(dp_with_media$data), 3)
+expect_named(
+  dp_with_media,
+  expected = c(
+    "name",
+    "id",
+    "profile",
+    "created",
+    "sources",
+    "contributors",
+    "organizations",
+    "project",
+    "spatial",
+    "temporal",
+    "taxonomic",
+    "platform",
+    "resources",
+    "directory",
+    "data"
+  )
+)
+  expect_length(dp_with_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
   expect_equal(length(dp_v1_rc1_with_media$data), 3)
 })

@@ -6,7 +6,8 @@
 #' @return A tibble data frame with the observations of the `package`.
 #' @export
 #'
-#' @examples observations(mica)
+#' @examples
+#' observations(mica)
 observations <- function(package) {
   # Trigger any errors for a bad package
   check_package(package)

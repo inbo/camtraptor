@@ -6,7 +6,8 @@
 #' @return A tibble data frame with the deployments of the `package`.
 #' @export
 #'
-#' @examples media(mica)
+#' @examples
+#' media(mica)
 media <- function(package) {
   # Trigger any errors for a bad package
   check_package(package)

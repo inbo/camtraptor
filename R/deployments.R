@@ -6,7 +6,8 @@
 #' @return A tibble data frame with the deployments of the `package`.
 #' @export
 #'
-#' @examples deployments(mica)
+#' @examples
+#' deployments(mica)
 deployments <- function(package) {
   # Trigger any errors for a bad package
   check_package(package)

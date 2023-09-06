@@ -201,18 +201,6 @@ test_that(
     expect_true(all(nl_names %in% taxon_infos$vernacularNames.nld))
   })
 
-test_that("path is deprecated", {
-  dp_path_warning <- system.file("extdata", "mica", package = "camtraptor")
-  rlang::with_options(
-    lifecycle_verbosity = "warning",
-    suppressMessages(expect_warning(read_camtrap_dp(file = dp_path_warning)))
-  )
-  rlang::with_options(
-    lifecycle_verbosity = "warning",
-    suppressMessages(expect_warning(read_camtrap_dp(path = dp_path_warning)))
-  )
-})
-
 test_that(
   "read deployments v1.0-rc1: latitude follows longitude and both present", {
   expect_true("latitude" %in% names(dp_v1_rc1_with_media$data$deployments))

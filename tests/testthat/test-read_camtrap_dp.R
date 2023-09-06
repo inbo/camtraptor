@@ -89,6 +89,26 @@ test_that("output is a list", {
   expect_true(rlang::is_bare_list(dp_with_media))
   expect_true(is.list(dp_v1_rc1_with_media))
   expect_true(rlang::is_bare_list(dp_v1_rc1_with_media))
+  expect_named(
+    dp_with_media,
+    expected = c(
+      "name",
+      "id",
+      "profile",
+      "created",
+      "sources",
+      "contributors",
+      "organizations",
+      "project",
+      "spatial",
+      "temporal",
+      "taxonomic",
+      "platform",
+      "resources",
+      "directory",
+      "data"
+    )
+  )
 })
 
 test_that("output data slot is a list of length 3", {
@@ -96,26 +116,6 @@ test_that("output data slot is a list of length 3", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
-expect_named(
-  dp_with_media,
-  expected = c(
-    "name",
-    "id",
-    "profile",
-    "created",
-    "sources",
-    "contributors",
-    "organizations",
-    "project",
-    "spatial",
-    "temporal",
-    "taxonomic",
-    "platform",
-    "resources",
-    "directory",
-    "data"
-  )
-)
   expect_length(dp_with_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
   expect_identical(length(dp_v1_rc1_with_media$data), 3)

@@ -15,24 +15,12 @@
       
       $dataset$abstract
       $dataset$abstract$para
-      [1] "<![CDATA[<span></span>This camera trap dataset is derived from the <a href=\"https://agouti.eu\">Agouti</a> project <em>MICA - Muskrat and Coypu</em>. Data have been standardized to Darwin Core using the <a href=\"https://inbo.github.io/camtraptor/\">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are provided as is. The original dataset description follows.]]>"
+      [1] "<![CDATA[<span></span>This camera trap dataset is derived from the <a href=\"https://www.agouti.eu\">Agouti</a> project <a href=\"https://lifemica.eu\">Management of Invasive Coypu and muskrAt in Europe</a>. Data have been standardized to Darwin Core using the <a href=\"https://inbo.github.io/camtraptor/\">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]>"
+      [2] "MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. This dataset is a sample of the original dataset and serves as an example of a Camera Trap Data Package (Camtrap DP)."                                                                                                                                      
       
       
       $dataset$creator
       $dataset$creator[[1]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: tim.adriaens@inbo.be
-      individualName:
-        givenName: Tim
-        surName: Adriaens
-      onlineUrl: .na.character
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[2]]
       '@id': ~
       address: ~
       electronicMailAddress: emma.cartuyvels@inbo.be
@@ -45,33 +33,7 @@
       positionName: ~
       userId: ~
       
-      $dataset$creator[[3]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: jim.casaer@inbo.be
-      individualName:
-        givenName: Jim
-        surName: Casaer
-      onlineUrl: .na.character
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[4]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: adeboer@wetterskipfryslan.nl
-      individualName:
-        givenName: Abel
-        surName: De Boer
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[5]]
+      $dataset$creator[[2]]
       '@id': ~
       address: ~
       electronicMailAddress: peter.desmet@inbo.be
@@ -86,137 +48,33 @@
         directory: https://orcid.org/
         '': 0000-0002-8442-8025
       
-      $dataset$creator[[6]]
+      $dataset$creator[[3]]
       '@id': ~
       address: ~
-      electronicMailAddress: dennis.donckers2@telenet.be
+      electronicMailAddress: .na.character
       individualName:
-        givenName: Dennis
-        surName: Donckers
-      onlineUrl: .na.character
+        givenName: Research
+        surName: Institute for Nature and Forest (INBO)
+      onlineUrl: https://inbo.be
       organizationName: .na.character
       phone: ~
       positionName: ~
       userId: ~
       
-      $dataset$creator[[7]]
+      $dataset$creator[[4]]
       '@id': ~
       address: ~
-      electronicMailAddress: foersterheiko@gmx.de
+      electronicMailAddress: .na.character
       individualName:
-        givenName: Heiko
-        surName: Fritz
-      onlineUrl: .na.character
+        givenName: Research
+        surName: Institute for Nature and Forest (INBO)
+      onlineUrl: https://inbo.be
       organizationName: .na.character
       phone: ~
       positionName: ~
       userId: ~
       
-      $dataset$creator[[8]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: lilja.fromme@tiho-hannover.de
-      individualName:
-        givenName: Lilja
-        surName: Fromme
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[9]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: friederike.gethoeffer@tiho-hannover.de
-      individualName:
-        givenName: Friederike
-        surName: Gethöffer
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[10]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: frank.huysentruyt@inbo.be
-      individualName:
-        givenName: Frank
-        surName: Huysentruyt
-      onlineUrl: .na.character
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[11]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: lydia.liebgott@tiho-hannover.de
-      individualName:
-        givenName: Lydia
-        surName: Liebgott
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[12]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: yorick.liefting@wur.nl
-      individualName:
-        givenName: Yorick
-        surName: Liefting
-      onlineUrl: .na.character
-      organizationName: Wageningen University
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[13]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: j.lodewijkx@vmm.be
-      individualName:
-        givenName: Jan
-        surName: Lodewijkx
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[14]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: claudia.maistrelli@tiho-hannover.de
-      individualName:
-        givenName: Claudia
-        surName: Maistrelli
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[15]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: bjoern.matthies@lwk-niedersachsen.de
-      individualName:
-        givenName: Björn
-        surName: Matthies
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[16]]
+      $dataset$creator[[5]]
       '@id': ~
       address: ~
       electronicMailAddress: axel.neukermans@inbo.be
@@ -227,48 +85,11 @@
       organizationName: Research Institute for Nature and Forest (INBO)
       phone: ~
       positionName: ~
-      userId: ~
+      userId:
+        directory: https://orcid.org/
+        '': 0000-0003-0272-9180
       
-      $dataset$creator[[17]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: brecht.neukermans@inbo.be
-      individualName:
-        givenName: Brecht
-        surName: Neukermans
-      onlineUrl: .na.character
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[18]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: kurt.schamp@inbo.be
-      individualName:
-        givenName: Kurt
-        surName: Schamp
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[19]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: d.slootmaekers@vmm.be
-      individualName:
-        givenName: Dan
-        surName: Slootmaekers
-      onlineUrl: .na.character
-      organizationName: .na.character
-      phone: ~
-      positionName: ~
-      userId: ~
-      
-      $dataset$creator[[20]]
+      $dataset$creator[[6]]
       '@id': ~
       address: ~
       electronicMailAddress: daniel.vanderbeeck@gmail.com
@@ -281,27 +102,14 @@
       positionName: ~
       userId: ~
       
-      $dataset$creator[[21]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: yasmine.verzelen@inbo.be
-      individualName:
-        givenName: Yasmine
-        surName: Verzelen
-      onlineUrl: .na.character
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
       
       $dataset$contact
       '@id': ~
       address: ~
-      electronicMailAddress: tim.adriaens@inbo.be
+      electronicMailAddress: emma.cartuyvels@inbo.be
       individualName:
-        givenName: Tim
-        surName: Adriaens
+        givenName: Emma
+        surName: Cartuyvels
       onlineUrl: .na.character
       organizationName: Research Institute for Nature and Forest (INBO)
       phone: ~
@@ -311,10 +119,10 @@
       $dataset$metadataProvider
       '@id': ~
       address: ~
-      electronicMailAddress: tim.adriaens@inbo.be
+      electronicMailAddress: emma.cartuyvels@inbo.be
       individualName:
-        givenName: Tim
-        surName: Adriaens
+        givenName: Emma
+        surName: Cartuyvels
       onlineUrl: .na.character
       organizationName: Research Institute for Nature and Forest (INBO)
       phone: ~
@@ -331,14 +139,19 @@
       
       
       
+      $dataset$intellectualRights
+      $dataset$intellectualRights$para
+      [1] "CC0-1.0"
+      
+      
       $dataset$coverage
       geographicCoverage:
         geographicDescription: []
         boundingCoordinates:
-          westBoundingCoordinate: 3.51755
-          eastBoundingCoordinate: 7.0243
-          northBoundingCoordinate: 53.27052
-          southBoundingCoordinate: 50.69905
+          westBoundingCoordinate: 4.013
+          eastBoundingCoordinate: 5.659
+          northBoundingCoordinate: 51.496
+          southBoundingCoordinate: 50.699
           boundingAltitudes:
             altitudeMinimum: []
             altitudeMaximum: []
@@ -350,11 +163,7 @@
         - taxonRankName: Species
           taxonRankValue: Anas strepera
         - taxonRankName: Species
-          taxonRankValue: Ardea
-        - taxonRankName: Species
           taxonRankValue: Ardea cinerea
-        - taxonRankName: Species
-          taxonRankValue: Castor fiber
         - taxonRankName: Species
           taxonRankValue: Homo sapiens
         - taxonRankName: Species
@@ -362,55 +171,44 @@
         - taxonRankName: Species
           taxonRankValue: Mustela putorius
         - taxonRankName: Species
+          taxonRankValue: Rattus norvegicus
+        - taxonRankName: Species
           taxonRankValue: Vulpes vulpes
       temporalCoverage:
         rangeOfDates:
           beginDate:
-            calendarDate: '2019-10-09'
+            calendarDate: '2020-05-30'
           endDate:
-            calendarDate: '2021-03-28'
+            calendarDate: '2021-04-18'
       
       $dataset$associatedParty
-      $dataset$associatedParty[[1]]
-      '@id': ~
-      address: ~
-      electronicMailAddress: ~
-      individualName:
-        givenName: ''
-        surName: ~
-      onlineUrl: https://inbo.be
-      organizationName: Research Institute for Nature and Forest (INBO)
-      phone: ~
-      positionName: ~
-      userId: ~
-      
+      list()
       
       $dataset$project
       $dataset$project$id
-      NULL
+      [1] "MICA"
       
       $dataset$project$title
-      [1] "MICA - Muskrat and Coypu"
+      [1] "Management of Invasive Coypu and muskrAt in Europe"
       
       $dataset$project$abstract
       $dataset$project$abstract$para
-      [1] "This project is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. Camera traps were located in areas where the presence of muskrat and/or coypu was suspected."
+      [1] "Invasive alien species such as the coypu and muskrat pose a major threat to biodiversity and cost millions of euros annually. By feeding on rushes and reeds, these animals cause serious damage to the environment in which they live and endangered species suffer from habitat loss. The disappearance of reeds and digging in dikes represents a safety risk for humans in the lowland areas. With the LIFE project MICA (<https://lifemica.eu>), the partners from the participating countries want to develop a transnational plan for the management of coypu and muskrat populations in Europe and aim to reduce their population. The objective of an effective population control of coypu and muskrat is to protect lowlands from flooding, to prevent crop damage and loss of biodiversity. The objective of the project is to serve as a pilot and demonstration project in which ‘best practices’ are tested and new techniques are developed for a more efficient control of muskrat and coypu populations. By involving organisations from Belgium, Germany and the Netherlands, the project also promotes international cooperation and knowledge exchange in the field of muskrat and coypu management."
       
       
       $dataset$project$designDescription
       $dataset$project$designDescription$description
       $dataset$project$designDescription$description$para
-      This project uses a targeted sampling design. Animals are unmarked and camera traps are triggered with motion detection and time lapse. Media are classified at sequence level.
       
       
       
       $dataset$project$personnel
       '@id': ~
       address: ~
-      electronicMailAddress: tim.adriaens@inbo.be
+      electronicMailAddress: emma.cartuyvels@inbo.be
       individualName:
-        givenName: Tim
-        surName: Adriaens
+        givenName: Emma
+        surName: Cartuyvels
       onlineUrl: .na.character
       organizationName: Research Institute for Nature and Forest (INBO)
       phone: ~
@@ -418,11 +216,37 @@
       userId: ~
       
       
+      $dataset$distribution
+      $dataset$distribution$scope
+      [1] "document"
+      
+      $dataset$distribution$online
+      $dataset$distribution$online$url
+      $dataset$distribution$online$url$`function`
+      [1] "information"
+      
+      $dataset$distribution$online$url[[2]]
+      [1] "https://lifemica.eu"
+      
+      
+      
+      
       $dataset$pubDate
-      [1] "2021-07-07"
+      [1] "2023-02-06"
       
       $dataset$alternateIdentifier
-      [1] "https://doi.org/10.5281/zenodo.4893244"
+      [1] "7cca70f5-ef8c-4f86-85fb-8f070937d7ab"
+      
+      
+      $additionalMetadata
+      $additionalMetadata$metadata
+      $additionalMetadata$metadata$gbif
+      $additionalMetadata$metadata$gbif$bibliography
+      $additionalMetadata$metadata$gbif$bibliography$citation
+      [1] "Desmet P, Neukermans A, Van der beeck D, Cartuyvels E (2022). Sample from: MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany. Version 1.0. Research Institute for Nature and Forest (INBO). Dataset. https://camtrap-dp.tdwg.org/example/"
+      
+      
+      
       
       
 
@@ -431,45 +255,63 @@
     Code
       eml_from_file
     Output
+      additionalMetadata:
+        metadata:
+          gbif:
+            bibliography:
+              citation: 'Desmet P, Neukermans A, Van der beeck D, Cartuyvels E (2022). Sample
+                from: MICA - Muskrat and coypu camera trap observations in Belgium, the
+                Netherlands and Germany. Version 1.0. Research Institute for Nature and
+                Forest (INBO). Dataset. https://camtrap-dp.tdwg.org/example/'
       dataset:
-        alternateIdentifier: https://doi.org/10.5281/zenodo.4893244
+        alternateIdentifier: 7cca70f5-ef8c-4f86-85fb-8f070937d7ab
         title: mica title
         metadataProvider:
           individualName:
-            givenName: Tim
-            surName: Adriaens
+            givenName: Emma
+            surName: Cartuyvels
           organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: tim.adriaens@inbo.be
-        associatedParty:
-          individualName:
-            givenName: []
-          organizationName: Research Institute for Nature and Forest (INBO)
-          onlineUrl: https://inbo.be
-        pubDate: '2021-07-07'
+          electronicMailAddress: emma.cartuyvels@inbo.be
+        pubDate: '2023-02-06'
         abstract:
-          para: <![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a>
-            project <em>MICA - Muskrat and Coypu</em>. Data have been standardized to Darwin
-            Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R
-            package and only include observations (and associated media) of animals. Excluded
+          para:
+          - <![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://www.agouti.eu">Agouti</a>
+            project <a href="https://lifemica.eu">Management of Invasive Coypu and muskrAt
+            in Europe</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a>
+            R package and only include observations (and associated media) of animals. Excluded
             are records that document blank or unclassified media, vehicles and observations
-            of humans. Geospatial coordinates are provided as is. The original dataset description
-            follows.]]>
+            of humans. Geospatial coordinates are rounded to 0.001 degrees. The original
+            dataset description follows.]]>
+          - MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands
+            and Germany is an occurrence dataset published by the Research Institute of
+            Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative
+            techniques are tested for a more efficient control of muskrat and coypu populations,
+            both invasive species. This dataset is a sample of the original dataset and
+            serves as an example of a Camera Trap Data Package (Camtrap DP).
         keywordSet:
           keyword: camera traps
           keywordThesaurus: n/a
+        intellectualRights:
+          para: CC0-1.0
+        distribution:
+          scope: document
+          online:
+            url:
+              function: information
+              url: https://lifemica.eu
         coverage:
           geographicCoverage:
             boundingCoordinates:
-              westBoundingCoordinate: '3.5176'
-              eastBoundingCoordinate: '7.0243'
-              northBoundingCoordinate: '53.2705'
+              westBoundingCoordinate: '4.013'
+              eastBoundingCoordinate: '5.659'
+              northBoundingCoordinate: '51.496'
               southBoundingCoordinate: '50.699'
           temporalCoverage:
             rangeOfDates:
               beginDate:
-                calendarDate: '2019-10-09'
+                calendarDate: '2020-05-30'
               endDate:
-                calendarDate: '2021-03-28'
+                calendarDate: '2021-04-18'
           taxonomicCoverage:
             taxonomicClassification:
             - taxonRankName: Species
@@ -477,11 +319,7 @@
             - taxonRankName: Species
               taxonRankValue: Anas strepera
             - taxonRankName: Species
-              taxonRankValue: Ardea
-            - taxonRankName: Species
               taxonRankValue: Ardea cinerea
-            - taxonRankName: Species
-              taxonRankValue: Castor fiber
             - taxonRankName: Species
               taxonRankValue: Homo sapiens
             - taxonRankName: Species
@@ -489,51 +327,48 @@
             - taxonRankName: Species
               taxonRankValue: Mustela putorius
             - taxonRankName: Species
+              taxonRankValue: Rattus norvegicus
+            - taxonRankName: Species
               taxonRankValue: Vulpes vulpes
         contact:
           individualName:
-            givenName: Tim
-            surName: Adriaens
+            givenName: Emma
+            surName: Cartuyvels
           organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: tim.adriaens@inbo.be
+          electronicMailAddress: emma.cartuyvels@inbo.be
         project:
-          title: MICA - Muskrat and Coypu
+          id: MICA
+          title: Management of Invasive Coypu and muskrAt in Europe
           personnel:
             individualName:
-              givenName: Tim
-              surName: Adriaens
+              givenName: Emma
+              surName: Cartuyvels
             organizationName: Research Institute for Nature and Forest (INBO)
-            electronicMailAddress: tim.adriaens@inbo.be
+            electronicMailAddress: emma.cartuyvels@inbo.be
           abstract:
-            para: This project is part of the LIFE project MICA, in which innovative techniques
-              are tested for a more efficient control of muskrat and coypu populations,
-              both invasive species. Camera traps were located in areas where the presence
-              of muskrat and/or coypu was suspected.
-          designDescription:
-            description:
-              para: This project uses a targeted sampling design. Animals are unmarked and
-                camera traps are triggered with motion detection and time lapse. Media are
-                classified at sequence level.
+            para: Invasive alien species such as the coypu and muskrat pose a major threat
+              to biodiversity and cost millions of euros annually. By feeding on rushes
+              and reeds, these animals cause serious damage to the environment in which
+              they live and endangered species suffer from habitat loss. The disappearance
+              of reeds and digging in dikes represents a safety risk for humans in the lowland
+              areas. With the LIFE project MICA (&lt;https://lifemica.eu&gt;), the partners
+              from the participating countries want to develop a transnational plan for
+              the management of coypu and muskrat populations in Europe and aim to reduce
+              their population. The objective of an effective population control of coypu
+              and muskrat is to protect lowlands from flooding, to prevent crop damage and
+              loss of biodiversity. The objective of the project is to serve as a pilot
+              and demonstration project in which ‘best practices’ are tested and new techniques
+              are developed for a more efficient control of muskrat and coypu populations.
+              By involving organisations from Belgium, Germany and the Netherlands, the
+              project also promotes international cooperation and knowledge exchange in
+              the field of muskrat and coypu management.
+          designDescription: []
         creator:
-        - individualName:
-            givenName: Tim
-            surName: Adriaens
-          organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: tim.adriaens@inbo.be
         - individualName:
             givenName: Emma
             surName: Cartuyvels
           organizationName: Research Institute for Nature and Forest (INBO)
           electronicMailAddress: emma.cartuyvels@inbo.be
-        - individualName:
-            givenName: Jim
-            surName: Casaer
-          organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: jim.casaer@inbo.be
-        - individualName:
-            givenName: Abel
-            surName: De Boer
-          electronicMailAddress: adeboer@wetterskipfryslan.nl
         - individualName:
             givenName: Peter
             surName: Desmet
@@ -543,74 +378,25 @@
             directory: https://orcid.org/
             userId: 0000-0002-8442-8025
         - individualName:
-            givenName: Dennis
-            surName: Donckers
-          electronicMailAddress: dennis.donckers2@telenet.be
+            givenName: Research
+            surName: Institute for Nature and Forest (INBO)
+          onlineUrl: https://inbo.be
         - individualName:
-            givenName: Heiko
-            surName: Fritz
-          electronicMailAddress: foersterheiko@gmx.de
-        - individualName:
-            givenName: Lilja
-            surName: Fromme
-          electronicMailAddress: lilja.fromme@tiho-hannover.de
-        - individualName:
-            givenName: Friederike
-            surName: Gethöffer
-          electronicMailAddress: friederike.gethoeffer@tiho-hannover.de
-        - individualName:
-            givenName: Frank
-            surName: Huysentruyt
-          organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: frank.huysentruyt@inbo.be
-        - individualName:
-            givenName: Lydia
-            surName: Liebgott
-          electronicMailAddress: lydia.liebgott@tiho-hannover.de
-        - individualName:
-            givenName: Yorick
-            surName: Liefting
-          organizationName: Wageningen University
-          electronicMailAddress: yorick.liefting@wur.nl
-        - individualName:
-            givenName: Jan
-            surName: Lodewijkx
-          electronicMailAddress: j.lodewijkx@vmm.be
-        - individualName:
-            givenName: Claudia
-            surName: Maistrelli
-          electronicMailAddress: claudia.maistrelli@tiho-hannover.de
-        - individualName:
-            givenName: Björn
-            surName: Matthies
-          electronicMailAddress: bjoern.matthies@lwk-niedersachsen.de
+            givenName: Research
+            surName: Institute for Nature and Forest (INBO)
+          onlineUrl: https://inbo.be
         - individualName:
             givenName: Axel
             surName: Neukermans
           organizationName: Research Institute for Nature and Forest (INBO)
           electronicMailAddress: axel.neukermans@inbo.be
-        - individualName:
-            givenName: Brecht
-            surName: Neukermans
-          organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: brecht.neukermans@inbo.be
-        - individualName:
-            givenName: Kurt
-            surName: Schamp
-          electronicMailAddress: kurt.schamp@inbo.be
-        - individualName:
-            givenName: Dan
-            surName: Slootmaekers
-          electronicMailAddress: d.slootmaekers@vmm.be
+          userId:
+            directory: https://orcid.org/
+            userId: 0000-0003-0272-9180
         - individualName:
             givenName: Danny
             surName: Van der beeck
           electronicMailAddress: daniel.vanderbeeck@gmail.com
-        - individualName:
-            givenName: Yasmine
-            surName: Verzelen
-          organizationName: Research Institute for Nature and Forest (INBO)
-          electronicMailAddress: yasmine.verzelen@inbo.be
       packageId: ~
       schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
       system: uuid

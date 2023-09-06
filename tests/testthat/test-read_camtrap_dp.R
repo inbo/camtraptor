@@ -141,17 +141,22 @@ test_that("datapackage resources are tibble dataframes", {
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
   # check for v0.1.6
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-    class(dp_with_media$data$deployments)))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-    class(dp_with_media$data$observations)))
-  # check for v1.0-rc1 (only one of the two: chosen for the one with media)
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$deployments)))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$observations)))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$media)))
+  expect_s3_class(dp_with_media$data$deployments, "tbl_df")
+  expect_s3_class(dp_with_media$data$deployments, "tbl")
+  expect_s3_class(dp_with_media$data$deployments, "data.frame")
+  expect_s3_class(dp_with_media$data$observations, "tbl_df")
+  expect_s3_class(dp_with_media$data$observations, "tbl")
+  expect_s3_class(dp_with_media$data$observations, "data.frame")
+  # check for v1.0-rc1
+  expect_s3_class(dp_v1_rc1_with_media$data$deployments, "tbl_df")
+  expect_s3_class(dp_v1_rc1_with_media$data$deployments, "tbl")
+  expect_s3_class(dp_v1_rc1_with_media$data$deployments, "data.frame")
+  expect_s3_class(dp_v1_rc1_with_media$data$observations, "tbl_df")
+  expect_s3_class(dp_v1_rc1_with_media$data$observations, "tbl")
+  expect_s3_class(dp_v1_rc1_with_media$data$observations, "data.frame")
+  expect_s3_class(dp_v1_rc1_with_media$data$media, "tbl_df")
+  expect_s3_class(dp_v1_rc1_with_media$data$media, "tbl")
+  expect_s3_class(dp_v1_rc1_with_media$data$media, "data.frame")
 })
 
 test_that(

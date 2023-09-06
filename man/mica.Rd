@@ -5,34 +5,25 @@
 \alias{mica}
 \title{Sample of Camtrap DP formatted data}
 \format{
-An object of class \code{datapackage} (inherits from \code{list}) of length 16.
+An object of class \code{list} of length 26.
 }
 \source{
-\url{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}
+\url{https://camtrap-dp.tdwg.org/example/}
 }
 \usage{
 mica
 }
 \description{
-A sample \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} as
-read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
-The source data are derived from the \href{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}{Camtrap DP example dataset}
-and are saved in \code{inst/extdata/mica}.
-}
-\details{
-A larger dataset is available in \code{inst/extdata/mica_zenodo_5590881}.
-It is derived from a dataset on \href{https://zenodo.org/record/5590881}{Zenodo},
-but excludes \code{media.csv}.
+A \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} as read by
+\code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
+The source data are derived from the
+\href{https://camtrap-dp.tdwg.org/example/}{Camtrap DP example dataset}.
 }
 \examples{
 \dontrun{
-# mica.rda was created with the code below.
+# mica.rda was created with:
 mica <- read_camtrap_dp(
-  system.file(
-    "extdata/mica",
-    "datapackage.json",
-    package = "camtraptor"
-  )
+  "https://raw.githubusercontent.com/tdwg/camtrap-dp/b5c32179a9f072781386ca02e255e442a70902fa/example/datapackage.json"
 )
 save(mica, file = "data/mica.rda")
 }

@@ -1,27 +1,18 @@
 #' Sample of Camtrap DP formatted data
 #'
-#' A sample [Camera Trap Data Package](https://tdwg.github.io/camtrap-dp) as
-#' read by [read_camtrap_dp()].
-#' The source data are derived from the [Camtrap DP example dataset](
-#' https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example)
-#' and are saved in `inst/extdata/mica`.
-#'
-#' A larger dataset is available in `inst/extdata/mica_zenodo_5590881`.
-#' It is derived from a dataset on [Zenodo](https://zenodo.org/record/5590881),
-#' but excludes `media.csv`.
+#' A [Camera Trap Data Package](https://camtrap-dp.tdwg.org) as read by 
+#' [read_camtrap_dp()].
+#' The source data are derived from the 
+#' [Camtrap DP example dataset](https://camtrap-dp.tdwg.org/example/).
 #'
 #' @family sample data
 #' @source
-#' <https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example>
+#' <https://camtrap-dp.tdwg.org/example/>
 #' @examples
 #' \dontrun{
-#' # mica.rda was created with the code below.
+#' # mica.rda was created with:
 #' mica <- read_camtrap_dp(
-#'   system.file(
-#'     "extdata/mica",
-#'     "datapackage.json",
-#'     package = "camtraptor"
-#'   )
+#'   "https://raw.githubusercontent.com/tdwg/camtrap-dp/b5c32179a9f072781386ca02e255e442a70902fa/example/datapackage.json"
 #' )
 #' save(mica, file = "data/mica.rda")
 #' }

@@ -42,7 +42,7 @@
 #'
 #' # Specify sex
 #' get_rai(mica, sex = "female")
-#' get_rai(mica, sex = c("female", "unknown"))
+#' get_rai(mica, sex = c("female", NULL))
 #'
 #' # Specify life stage
 #' get_rai(mica, life_stage = "adult")
@@ -101,9 +101,7 @@ get_rai <- function(package = NULL,
 #' get_rai_individuals(mica, species = "all")
 #'
 #' # Selected species
-#' get_rai_individuals(mica,
-#'   species = c("Anas platyrhynchos", "Martes foina")
-#' )
+#' get_rai_individuals(mica, species = c("Anas platyrhynchos", "Martes foina"))
 #'
 #' # With common names, also mixing up languages
 #' get_rai_individuals(mica, species = c("mallard", "steenmarter"))
@@ -116,7 +114,7 @@ get_rai <- function(package = NULL,
 #'
 #' # Specify sex
 #' get_rai_individuals(mica, sex = "female")
-#' get_rai_individuals(mica, sex = c("female", "unknown"))
+#' get_rai_individuals(mica, sex = c("female", NULL))
 #'
 #' # Specify life stage
 #' get_rai_individuals(mica, life_stage = "adult")

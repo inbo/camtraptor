@@ -55,7 +55,7 @@ get_rai(mica, species = c("ANAS plAtyRhynChOS"))
 
 # Specify sex
 get_rai(mica, sex = "female")
-get_rai(mica, sex = c("female", "unknown"))
+get_rai(mica, sex = c("female", NULL))
 
 # Specify life stage
 get_rai(mica, life_stage = "adult")

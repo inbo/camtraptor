@@ -184,7 +184,7 @@ map_dep(
   species = "Anas platyrhynchos"
 )
 
-# Show number of observations of subadult individuals of Anas strepera
+# Show number of observations of Anas strepera (subadult)
 map_dep(
   mica,
   "n_obs",
@@ -192,12 +192,12 @@ map_dep(
   life_stage = "subadult"
 )
 
-# Show number of observations of female or unknown individuals of gadwall
+# Show number of observations of gadwall (female or undefined sex)
 map_dep(
   mica,
   "n_obs",
   species = "gadwall",
-  sex = c("female", "unknown")
+  sex = c("female", NULL)
 )
 
 # Show number of individuals (individuals of unidentified species included if
@@ -223,7 +223,7 @@ map_dep(
   species = "Anas strepera"
 )
 
-# Same filters by life_stage and sex as for number of observations apply
+# Same filters by life stage and sex as for number of observations apply
 map_dep(
   mica,
   "rai",
@@ -330,7 +330,7 @@ unknown_species_vs_no_obs$data$observations <-
   filter(is.na(.data$scientificName) | 
            .data$scientificName != "Homo sapiens") \%>\%
   # a deployment has no observations
-  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
+  filter(deploymentID != "62c200a9")
 # create new map
 map_dep(
   unknown_species_vs_no_obs,

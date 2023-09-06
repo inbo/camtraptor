@@ -74,8 +74,8 @@ get_custom_effort(mica, unit = "day")
 # Total effort from a specific start to a specific end
 get_custom_effort(
   mica,
-  start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
-  end = as.Date("2021-01-10")
+  start = as.Date("2020-07-01"), # or lubridate::as_date("2020-07-01")
+  end = as.Date("2020-08-31")
 )
 
 # Effort at daily interval

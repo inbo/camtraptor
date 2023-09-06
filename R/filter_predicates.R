@@ -105,8 +105,8 @@
 #' pred_not("locationName", "B_DL_val 3_dikke boom")
 #'
 #' # and/or predicates
-#' pred_and(pred_lt("longitude", 3.59), pred_gt("latitude", 51.28))
-#' pred_or(pred_gte("count", 2), pred("vernacular_name", "Norway Rat"))
+#' pred_and(pred_lt("longitude", 4.78), pred_gt("latitude", 51.28))
+#' pred_or(pred_gte("count", 2), pred("vernacular_name", "mallard"))
 #'
 #' # Use dates as argument
 #' start_date <- as.Date("2020-06-03", format = "%Y-%m-%d")
@@ -119,7 +119,7 @@
 #' pred_or(pred_gte("start", start_date), pred_lte("end", end_date))
 #'
 #' # One arg multiple values predicates
-#' locations <- c("B_ML_val 03_De Val", "B_ML_val 05_molenkreek")
+#' locations <- c("B_HS_val 2_processiepark", "B_DL_val 3_dikke boom")
 #' pred_in("location_name", locations)
 #' pred_notin("location_name", locations)
 #' start_dates <- lubridate::as_datetime(c("2020-06-03 20:10:18", "2020-06-03 20:04:33"))

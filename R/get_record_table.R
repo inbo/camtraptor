@@ -78,7 +78,7 @@
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
 #'
-#' # Exclude observations of brown rat
+#' # Exclude observations of mallard
 #' # Exclude is case insensitive and vernacular names are allowed
 #' get_record_table(mica, exclude = "wilde eend")
 #'

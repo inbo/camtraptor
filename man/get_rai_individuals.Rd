@@ -54,9 +54,7 @@ get_rai_individuals(mica) # species = "all" by default, so equivalent of
 get_rai_individuals(mica, species = "all")
 
 # Selected species
-get_rai_individuals(mica,
-  species = c("Anas platyrhynchos", "Martes foina")
-)
+get_rai_individuals(mica, species = c("Anas platyrhynchos", "Martes foina"))
 
 # With common names, also mixing up languages
 get_rai_individuals(mica, species = c("mallard", "steenmarter"))
@@ -69,7 +67,7 @@ get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
 
 # Specify sex
 get_rai_individuals(mica, sex = "female")
-get_rai_individuals(mica, sex = c("female", "unknown"))
+get_rai_individuals(mica, sex = c("female", NULL))
 
 # Specify life stage
 get_rai_individuals(mica, life_stage = "adult")

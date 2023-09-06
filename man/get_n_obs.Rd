@@ -51,12 +51,11 @@ get_n_obs(mica, species = NULL)
 # Get number of observations of Anas platyrhynchos (scientific name)
 get_n_obs(mica, species = "Anas platyrhynchos")
 
-# Get number of observations of eurasian beaver (vernacular names)
-get_n_obs(mica, species = "eurasian beaver")
+# Get number of observations of mallard (vernacular names)
+get_n_obs(mica, species = "mallard")
 
 # Case insensitive
 get_n_obs(mica, species = "Anas plaTYrhYnchoS")
-get_n_obs(mica, species = "EUrasian beavER")
 
 # Specify life stage
 get_n_obs(mica, life_stage = "subadult")
@@ -65,7 +64,7 @@ get_n_obs(mica, life_stage = "subadult")
 get_n_obs(mica, sex = "female")
 
 # Specify both sex and life stage
-get_n_obs(mica, sex = "unknown", life_stage = "adult")
+get_n_obs(mica, sex = NULL, life_stage = "adult")
 
 # Applying filter(s), e.g. deployments with latitude >= 51.18
 get_n_obs(mica, pred_gte("latitude", 51.18))

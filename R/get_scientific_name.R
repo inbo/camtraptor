@@ -25,10 +25,10 @@
 #'
 #' \dontrun{
 #' # An error is returned if at least one invalid vernacular name is passed
-#' get_scientfic_name(mica, "this is a bad vernacular name")
+#' get_scientific_name(mica, "this is a bad vernacular name")
 #'
 #' # A scientific name is an invalid vernacular name of course
-#' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
+#' get_scientific_name(mica, c("Vulpes vulpes", "wilde eend"))
 #' }
 get_scientific_name <- function(package = NULL,
                                 vernacular_name) {

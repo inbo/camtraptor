@@ -37,15 +37,14 @@
 #' # Get number of observations of Anas platyrhynchos
 #' get_n_individuals(mica, species = "Anas platyrhynchos")
 #'
-#' # Get number of observations of eurasian beaver (vernacular name)
-#' get_n_individuals(mica, species = "eurasian beaver")
+#' # Get number of observations of mallard (vernacular name)
+#' get_n_individuals(mica, species = "mallard")
 #'
 #' # Mix scientific and vernacular names
-#' get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
+#' get_n_individuals(mica, species = c("Anas platyrhynchos", "krakeend"))
 #'
 #' # Case insensitive
 #' get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
-#' get_n_individuals(mica, species = "eurasian BEAVER")
 #'
 #' # Specify life stage
 #' get_n_individuals(mica, life_stage = "adult")
@@ -54,7 +53,7 @@
 #' get_n_individuals(mica, sex = "female")
 #'
 #' # Specify both sex and life stage
-#' get_n_individuals(mica, sex = "unknown", life_stage = "adult")
+#' get_n_individuals(mica, sex = NULL, life_stage = "adult")
 #'
 #' # Apply filter(s), e.g. deployments with latitude >= 51.18
 #' get_n_individuals(mica, pred_gte("latitude", 51.18))

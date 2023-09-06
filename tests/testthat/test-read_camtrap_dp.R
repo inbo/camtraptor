@@ -85,10 +85,10 @@ test_that("output is a list", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
-    expect_type(dp_with_media, "list")
-  expect_equal(class(dp_with_media), "list")
+  expect_type(dp_with_media, "list")
+  expect_true(rlang::is_bare_list(dp_with_media))
   expect_true(is.list(dp_v1_rc1_with_media))
-  expect_equal(class(dp_v1_rc1_with_media), "list")
+  expect_true(rlang::is_bare_list(dp_v1_rc1_with_media))
 })
 
 test_that("output data slot is a list of length 3", {

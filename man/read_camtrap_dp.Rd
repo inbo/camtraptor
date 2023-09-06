@@ -4,13 +4,10 @@
 \alias{read_camtrap_dp}
 \title{Read a Camtrap DP}
 \usage{
-read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
+read_camtrap_dp(file = NULL, path = lifecycle::deprecated())
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
-
-\item{media}{If \code{TRUE} (default), read media records into memory. If \code{FALSE},
-ignore media file to speed up reading larger Camtrap DP packages.}
 
 \item{path}{Path to the directory containing the datapackage. Use  \code{file}
 with path or URL to a \code{datapackage.json} file instead.}
@@ -41,9 +38,6 @@ camtrap_dp_file <- system.file(
 )
 muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
 
-# Read Camtrap DP package and ignore media file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-
 # If parsing issues while reading deployments, observations or media arise,
 # use readr::problems()
 camtrap_dp_file_with_issues <- system.file(
@@ -52,7 +46,7 @@ camtrap_dp_file_with_issues <- system.file(
   "datapackage_for_parsing_issues.json",
   package = "camtraptor"
 )
-muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
+muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues)
 readr::problems(muskrat_coypu_with_issues$data$deployments)
 readr::problems(muskrat_coypu_with_issues$data$observations)
 readr::problems(muskrat_coypu_with_issues$data$media)

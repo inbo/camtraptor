@@ -85,7 +85,7 @@ test_that("output is a list", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
-  expect_true(is.list(dp_with_media))
+    expect_type(dp_with_media, "list")
   expect_equal(class(dp_with_media), "list")
   expect_true(is.list(dp_v1_rc1_with_media))
   expect_equal(class(dp_v1_rc1_with_media), "list")

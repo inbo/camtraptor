@@ -9,13 +9,16 @@ test_that("file can be an URL", {
   dp_path <-
     "https://raw.githubusercontent.com/tdwg/camtrap-dp/81379eadfafee3398a4b498c1141e617c5982f4a/example/datapackage.json"
   dp <- suppressMessages(read_camtrap_dp(file = dp_path))
-  expect_true(is.list(dp))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp$data$deployments)))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp$data$observations)))
-  expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp$data$media)))
+ expect_type(dp, "list")
+  expect_s3_class(dp$data$deployments, "tbl")
+  expect_s3_class(dp$data$deployments, "tbl_df")
+  expect_s3_class(dp$data$deployments, "data.frame")
+  expect_s3_class(dp$data$observations, "tbl")
+  expect_s3_class(dp$data$observations, "tbl_df")
+  expect_s3_class(dp$data$observations, "data.frame")
+  expect_s3_class(dp$data$media, "tbl")
+  expect_s3_class(dp$data$media, "tbl_df")
+  expect_s3_class(dp$data$media, "data.frame")
 })
 
 test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {

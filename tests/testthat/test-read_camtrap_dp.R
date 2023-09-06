@@ -129,10 +129,10 @@ test_that("datapackage data elements are named as in resource names", {
   resource_names <- frictionless::resources(dp)
     expect_named(dp$data, expected = resource_names)
   # check for v1.0-rc1
+  resource_names <- frictionless::resources(dp)
+  expect_named(dp$data, expected = resource_names))
   resource_names <- frictionless::resources(dp_v1_rc1)
-  expect_true(all(names(dp_v1_rc1$data) %in% resource_names))
-  resource_names <- frictionless::resources(dp_v1_rc1)
-    expect_named(dp_v1_rc1, expected = resource_names)
+  expect_named(dp_v1_rc1$data, expected = resource_names)
 })
 
 test_that("datapackage resources are tibble dataframes", {

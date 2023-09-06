@@ -127,12 +127,12 @@ test_that("datapackage data elements are named as in resource names", {
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
   resource_names <- frictionless::resources(dp_with_media)
-  expect_true(all(names(dp_with_media$data) %in% resource_names))
+    expect_named(dp_with_media$data, expected = resource_names)
   # check for v1.0-rc1
   resource_names <- frictionless::resources(dp_v1_rc1_with_media)
   expect_true(all(names(dp_v1_rc1_with_media$data) %in% resource_names))
   resource_names <- frictionless::resources(dp_v1_rc1_with_media)
-  expect_true(all(names(dp_v1_rc1_with_media$data %in% resource_names)))
+    expect_named(dp_v1_rc1_with_media, expected = resource_names)
 })
 
 test_that("datapackage resources are tibble dataframes", {

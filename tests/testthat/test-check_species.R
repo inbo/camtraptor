@@ -51,14 +51,14 @@ test_that("Functions works well with vernacular names of different languages", {
 })
 
 test_that("Functions works with a mix of scientific and vernacular names", {
-  mixed_names <- c("mallard", "steenmarter", "Castor fiber")
+  mixed_names <- c("mallard", "steenmarter", "Vulpes vulpes")
   species <- suppressMessages(check_species(mica, mixed_names))
   testthat::expect_equal(
     species,
     c(
       "Anas platyrhynchos",
       "Martes foina",
-      "Castor fiber"
+      "Vulpes vulpes"
     )
   )
 })

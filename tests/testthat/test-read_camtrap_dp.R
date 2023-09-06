@@ -85,9 +85,7 @@ test_that("output is a list", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
-  expect_type(dp_with_media, "list")
   expect_true(rlang::is_bare_list(dp_with_media))
-  expect_true(is.list(dp_v1_rc1_with_media))
   expect_true(rlang::is_bare_list(dp_v1_rc1_with_media))
   expect_named(
     dp_with_media,
@@ -116,9 +114,10 @@ test_that("output data slot is a list of length 3", {
     package = "camtraptor"
   )
   dp_with_media <- suppressMessages(read_camtrap_dp(file = dp_path))
+  rlang::is_bare_list(dp_v1_rc1_with_media$data)
+  expect_length(dp_v1_rc1_with_media$data, 3)
+  rlang::is_bare_list(dp_with_media$data)
   expect_length(dp_with_media$data, 3)
-  expect_true("data" %in% names(dp_v1_rc1_with_media))
-  expect_identical(length(dp_v1_rc1_with_media$data), 3)
 })
 
 test_that("datapackage data elements are named as in resource names", {

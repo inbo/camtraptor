@@ -8,8 +8,6 @@
 #' `observations` data frame.
 #'
 #' @param file Path or URL to a `datapackage.json` file.
-#' @param path Path to the directory containing the datapackage. Use  `file`
-#'   with path or URL to a `datapackage.json` file instead.
 #' @return List describing a Data Package (as returned by
 #'   [frictionless::read_package()]) containing the original metadata, as well
 #'   as a property `data` containing the data as three data frames:
@@ -41,25 +39,7 @@
 #' readr::problems(muskrat_coypu_with_issues$data$observations)
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
-read_camtrap_dp <- function(file = NULL,
-                            path = lifecycle::deprecated()) {
-  # check path (deprecated)
-  warning_detail <- paste(
-    "Use argument `file` containing the path or URL to the `datapackage.json`",
-    "file. The use of parameter `path` with path to the local directory is ",
-    "deprecated since version 0.6.0."
-  )
-  if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
-    lifecycle::deprecate_warn(
-      when = "0.6.0",
-      what = "read_camtrap_dp(path)",
-      details = warning_detail
-    )
-  }
-  # define the right file value
-  if (lifecycle::is_present(path)) {
-    file <- file.path(path, "datapackage.json")
-  }
+read_camtrap_dp <- function(file = NULL) {
   # file value is a valid path
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")

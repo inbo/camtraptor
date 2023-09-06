@@ -52,7 +52,7 @@ test_that("test warnings while reading files with parsing issues", {
     camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
-  expect_equal(
+  expect_identical(
     w[2], # w[1] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `deployments`. ",
@@ -61,7 +61,7 @@ test_that("test warnings while reading files with parsing issues", {
     )
   )
   # warning on observations
-  expect_equal(
+  expect_identical(
     w[4], # w[3] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `observations`. ",
@@ -70,7 +70,7 @@ test_that("test warnings while reading files with parsing issues", {
     )
   )
   # warning on media
-  expect_equal(
+  expect_identical(
     w[6], # w[5] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `media`. ",
@@ -118,7 +118,7 @@ expect_named(
 )
   expect_length(dp_with_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
-  expect_equal(length(dp_v1_rc1_with_media$data), 3)
+  expect_identical(length(dp_v1_rc1_with_media$data), 3)
 })
 
 test_that("datapackage data elements are named as in resource names", {
@@ -270,7 +270,7 @@ test_that(
   "read deployments v1.0-rc1: baitUse is a factor, not a boolean", {
     expect_s3_class(dp_v1_rc1_with_media$data$deployments$baitUse, "factor")
     baitUse_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
-    expect_equal(
+    expect_identical(
       levels(dp_v1_rc1_with_media$data$deployments$baitUse), baitUse_levels
     )
     # boolean NA becomes a factor NA
@@ -502,6 +502,6 @@ test_that(
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%
       names()
-    expect_equal(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
+    expect_identical(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
   }
 )

@@ -9,11 +9,14 @@ test_that("right (number of) species", {
       scientificName = purrr::map_chr(
         mica$taxonomic, ~ .[["scientificName"]]
       ),
-      vernacularNames.en = purrr::map_chr(
-        mica$taxonomic, ~ .[["vernacularNames"]][["en"]]
+      taxonRank = purrr::map_chr(
+        mica$taxonomic, ~ .[["taxonRank"]]
       ),
-      vernacularNames.nl = purrr::map_chr(
-        mica$taxonomic, ~ .[["vernacularNames"]][["nl"]]
+      vernacularNames.eng = purrr::map_chr(
+        mica$taxonomic, ~ .[["vernacularNames"]][["eng"]]
+      ),
+      vernacularNames.nld = purrr::map_chr(
+        mica$taxonomic, ~ .[["vernacularNames"]][["nld"]]
       )
     )
   )

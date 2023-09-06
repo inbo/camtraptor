@@ -8,6 +8,7 @@ test_that("round_coordinates() returns error on invalid digits", {
 test_that("round_coordinates() sets lat, long, uncertainty and precision", {
   # Set coordinates and uncertainty of deployments along latitude gradients
   mica_gradients <- mica
+  mica_gradients$coordinatePrecision <- NULL # No initial precision
   mica_gradients$data$deployments$longitude[[1]] <- 5.65555
   mica_gradients$data$deployments$latitude[[1]] <- 15.18155 # 0 latitude
   mica_gradients$data$deployments$coordinateUncertainty[[1]] <- 10

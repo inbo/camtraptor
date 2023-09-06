@@ -12,19 +12,19 @@ test_that("Error is returned if one or more species are invalid", {
         "Ans streperi", # wrong
         "blauwe reiger",
         "Anas strepera",
-        "bad name"
+        "bad name" # wrong
       )
-    ), # wrong
-    paste(
-      "Invalid value for species parameter: ans streperi and bad",
-      "name.\nValid inputs are: anas platyrhynchos, anas strepera, ardea,",
-      "ardea cinerea, castor fiber, homo sapiens, martes foina, mustela",
-      "putorius, vulpes vulpes, mallard, gadwall, great herons, grey",
-      "heron, eurasian beaver, human, beech marten, european polecat, red",
-      "fox, wilde eend, krakeend and others..."
+    ),
+    regexp =   paste0(
+      "Invalid value for species parameter: ans streperi and bad name.\n",
+      "Valid inputs are: anas platyrhynchos, anas strepera, ardea, ardea cinerea, ",
+      "aves, homo sapiens, martes foina, mustela putorius, rattus norvegicus, ",
+      "vulpes vulpes, mallard, gadwall, great herons, grey heron, bird sp., ",
+      "human, beech marten, european polecat, brown rat, red fox and others..."
     ),
   )
-})
+  
+    })
 
 test_that("If input is a scientific name, the result is equal to input", {
   sc_name <- "Anas strepera"

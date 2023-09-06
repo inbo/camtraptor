@@ -21,7 +21,7 @@ test_that("get_n_species returns the right dataframe", {
 })
 
 test_that("get_n_species returns 0 for obs without recognized species", {
-  # create data package with one deployment with 0 obs and one delpoyment with
+  # create data package with one deployment with 0 obs and one deployment with
   # observations of unknown species
   unknown_species <- mica
   unknown_species$data$observations <- 
@@ -34,11 +34,11 @@ test_that("get_n_species returns 0 for obs without recognized species", {
 })
 
 test_that("get_n_species returns NA for deployments without observations", {
-  # create data package with one deployment with 0 obs and one delpoyment with
+  # create data package with one deployment with 0 obs and one deployment with
   # observations of unknown species
   no_obs <- mica
   obs <- no_obs$data$observations
-  dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
+  dep_no_obs <- "29b7d356"
   obs <- obs[obs$deploymentID != dep_no_obs,]
   no_obs$data$observations <- obs
   n_species <- suppressMessages(get_n_species(package = no_obs))

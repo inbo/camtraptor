@@ -13,7 +13,6 @@ testthat::test_that("get_effort returns error for invalid datapackage", {
   testthat::expect_error(get_effort(mica$data$deployments))
 })
 
-
 testthat::test_that("values in column unit are all the same", {
   effort_df <- get_effort(mica)
   distinct_efffort_unit_values <- unique(effort_df$unit)
@@ -38,7 +37,6 @@ testthat::test_that("column unit is always equal to argument unit", {
   }
 })
 
-
 testthat::test_that("get_effort returns the right dataframe", {
   effort_df <- get_effort(mica)
 
@@ -62,7 +60,6 @@ testthat::test_that("get_effort returns the right dataframe", {
     )
   )
 })
-
 
 testthat::test_that("get_effort returns the right number of rows", {
   effort_df <- get_effort(mica)

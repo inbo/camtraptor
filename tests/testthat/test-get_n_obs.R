@@ -167,7 +167,7 @@ test_that(paste(
   "number of observations is equal to number of",
   "distinct sequenceID  values"
 ), {
-  deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
+  deploy_id <- "29b7d356"
   species <- "Anas platyrhynchos"
   n_obs_via_sequence_id <-
     mica$data$observations %>%
@@ -189,12 +189,12 @@ test_that("sex filters data correctly", {
     get_n_obs(mica, species = NULL, sex = sex_value)
   )
   tot_n_obs_females <- sum(n_obs_females$n)
-  expect_equal(tot_n_obs_females, 1)
+  expect_equal(tot_n_obs_females, 7)
   expect_equal(nrow(n_obs_females), nrow(mica$data$deployments))
 })
 
 test_that("multiple sex values allowed", {
-  sex_value <- c("female", "unknown")
+  sex_value <- c("female", NULL)
   n_obs_females_unknown <- suppressMessages(get_n_obs(mica,
     species = NULL,
     sex = sex_value

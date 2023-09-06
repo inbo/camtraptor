@@ -156,7 +156,7 @@ test_that("get_n_individuals returns a warning if 'all' is used with other value
 })
 
 test_that("number of individuals is equal to sum of counts", {
-  deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
+  deploy_id <- "29b7d356"
   species <- "Anas platyrhynchos"
   n_individuals_via_count <-
     mica$data$observations %>%
@@ -172,7 +172,7 @@ test_that("number of individuals is equal to sum of counts", {
 })
 
 test_that("sex filters data correctly", {
-  sex_value <- "unknown"
+  sex_value <- NULL
   n_individuals_via_count <-
     mica$data$observations %>%
     dplyr::filter(sex == sex_value) %>%
@@ -186,7 +186,7 @@ test_that("sex filters data correctly", {
 })
 
 test_that("multiple sex values allowed", {
-  sex_value <- c("female", "unknown")
+  sex_value <- c("female", NULL)
   n_individuals_females_undefined_via_count <-
     mica$data$observations %>%
     dplyr::filter(sex %in% sex_value) %>%

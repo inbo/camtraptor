@@ -40,10 +40,10 @@ test_that("get_custom_effort returns warning if start set too early", {
   expect_equal(
     start_too_early$warnings,
     paste0(
-      "`start` is set too early. Earliest deployment start date: 2019-10-09. ",
+      "`start` is set too early. Earliest deployment start date: 2020-05-30. ",
       "With the given `group_by` value the earliest start possible is ",
-      "2019-10-09. `start` is set to start date of earliest deployment: ",
-      "2019-10-09."
+      "2020-05-30. `start` is set to start date of earliest deployment: ",
+      "2020-05-30."
     )
   )
   expect_equal(

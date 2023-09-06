@@ -106,29 +106,15 @@ test_that("right columns, cols types, right relative number of rows", {
 
   # right cols and col types: group by month
   effort_by_month <- get_custom_effort(mica, group_by = "month")
-  expect_true(
-    all(colnames(effort_by_month) == c("begin", "effort", "unit"))
-  )
+  expect_named(effort_by_month, expected = c("begin", "effort", "unit"))
 
   # right cols and col types: group by week
   effort_by_week <- get_custom_effort(mica, group_by = "week")
-  expect_true(
-    all(
-      colnames(effort_by_week) == c("begin", "effort", "unit")
-    )
-  )
+  expect_named(effort_by_week, expected = c("begin", "effort", "unit"))
 
   # right cols and col types: group by day
   effort_by_day <- get_custom_effort(mica, group_by = "day")
-  expect_true(
-    all(
-      colnames(effort_by_day) == c(
-        "begin",
-        "effort",
-        "unit"
-      )
-    )
-  )
+  expect_named(effort_by_day, expected = c("begin", "effort", "unit"))
 
   # number of rows is equal to 1 if group_by is NULL
   expect_equal(nrow(tot_effort), 1)

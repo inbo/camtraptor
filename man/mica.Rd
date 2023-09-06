@@ -16,8 +16,7 @@ mica
 \description{
 A \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} as read by
 \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
-The source data are derived from the
-\href{https://camtrap-dp.tdwg.org/example/}{Camtrap DP example dataset}.
+The source data are derived from the \href{https://camtrap-dp.tdwg.org/example/}{Camtrap DP example dataset }.
 }
 \examples{
 \dontrun{

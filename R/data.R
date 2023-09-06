@@ -2,8 +2,8 @@
 #'
 #' A [Camera Trap Data Package](https://camtrap-dp.tdwg.org) as read by 
 #' [read_camtrap_dp()].
-#' The source data are derived from the 
-#' [Camtrap DP example dataset](https://camtrap-dp.tdwg.org/example/).
+#' The source data are derived from the [Camtrap DP example dataset
+#' ](https://camtrap-dp.tdwg.org/example/).
 #'
 #' @family sample data
 #' @source

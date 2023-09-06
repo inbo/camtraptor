@@ -529,8 +529,8 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
       )
     )
   }
-  package$platform[[1]]$title <- package$sources[[1]]$title
-  package$platform[[1]]$path <- package$sources[[1]]$path
+  package$platform$title <- package$sources[[1]]$title
+  package$platform$path <- package$sources[[1]]$path
   # `title` value of the first contributor with role `rightsHolder`
   package$rightsHolder <- purrr::map_df(package$contributors, unlist) %>%
     dplyr::filter(.data$role == "rightsHolder") %>%

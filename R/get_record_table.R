@@ -30,8 +30,6 @@
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
@@ -99,17 +97,13 @@ get_record_table <- function(package = NULL,
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
-                             removeDuplicateRecords = TRUE,
-                             datapkg = lifecycle::deprecated()) {
+                             removeDuplicateRecords = TRUE) {
   # check data package
-  check_package(package, datapkg, "get_record_table", media = TRUE)
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  check_package(package, media = TRUE)
   
   # check stationCol is a valid column name
   assertthat::assert_that(
-    stationCol %in% names(package$data$deployments),
+    stationCol %in% names(deployments(package)),
     msg = glue::glue(
       "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
@@ -157,7 +151,7 @@ get_record_table <- function(package = NULL,
   )
 
   # remove observations of unidentified individuals
-  obs <- package$data$observations %>%
+  obs <- observations(package) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
@@ -166,7 +160,7 @@ get_record_table <- function(package = NULL,
 
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE,
     ...
   )
@@ -183,7 +177,7 @@ get_record_table <- function(package = NULL,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    package$data$media %>%
+    media(package) %>%
     dplyr::select(
       "sequenceID",
       "filePath",

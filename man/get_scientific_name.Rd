@@ -4,20 +4,13 @@
 \alias{get_scientific_name}
 \title{Get scientific name for vernacular name}
 \usage{
-get_scientific_name(
-  package = NULL,
-  vernacular_name,
-  datapkg = lifecycle::deprecated()
-)
+get_scientific_name(package = NULL, vernacular_name)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{read_camtrap_dp()}.}
 
 \item{vernacular_name}{Character vector with input vernacular name(s).}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 Character vector of scientific name(s).

@@ -18,8 +18,6 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
@@ -61,20 +59,16 @@ get_n_obs <- function(package = NULL,
                       ...,
                       species = "all",
                       sex = NULL,
-                      life_stage = NULL,
-                      datapkg = lifecycle::deprecated()) {
+                      life_stage = NULL) {
   # check input data package
-  check_package(package, datapkg, "get_n_obs")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  check_package(package)
   
   # avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 
   # check sex and lifeStage values
-  check_value(sex_value, unique(package$data$observation$sex), "sex")
-  check_value(life_stage, unique(package$data$observation$lifeStage), "lifeStage")
+  check_value(sex_value, unique(observations(package)$sex), "sex")
+  check_value(life_stage, unique(observations(package)$lifeStage), "lifeStage")
 
   # get observations of the selected species
   if (!is.null(species)) {
@@ -94,27 +88,27 @@ get_n_obs <- function(package = NULL,
     # check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # get observations of the specified sex
   if (!is.null(sex)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(sex %in% sex_value)
   }
 
   # get observations of the specified life stage
   if (!is.null(life_stage)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering
   deployments <- apply_filter_predicate(

@@ -12,8 +12,6 @@
 #'   - `day`
 #'   - `month`
 #'   - `year`
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -33,8 +31,7 @@
 #' get_effort(mica, unit = "day")
 get_effort <- function(package = NULL,
                        ...,
-                       unit = "hour",
-                       datapkg = lifecycle::deprecated()) {
+                       unit = "hour") {
   # define possible unit values
   units <- c("second", "minute", "hour", "day", "month", "year")
 
@@ -42,19 +39,16 @@ get_effort <- function(package = NULL,
   check_value(unit, units, "unit", null_allowed = FALSE)
 
   # check camera trap data package
-  check_package(package, datapkg, "get_effort")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
-  
+  check_package(package)
+
   # apply filtering
   package$data$deployments <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE, ...
   )
 
   # get deployments
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # calculate effort of deployments
   effort_df <-

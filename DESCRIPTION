@@ -1,6 +1,6 @@
 Package: camtraptor
 Title: Read, Explore and Visualize Camera Trap Data Packages
-Version: 0.20.0
+Version: 1.0.0
 Authors@R: c(
     person("Damiano", "Oldoni", email = "damiano.oldoni@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3445-7562")),
@@ -29,7 +29,7 @@ Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
 License: MIT + file LICENSE
 BugReports: https://github.com/inbo/camtraptor/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.6.0)
 Imports:
     assertthat,
     dplyr (>= 1.1.0),

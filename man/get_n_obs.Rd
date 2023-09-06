@@ -4,14 +4,7 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(
-  package = NULL,
-  ...,
-  species = "all",
-  sex = NULL,
-  life_stage = NULL,
-  datapkg = lifecycle::deprecated()
-)
+get_n_obs(package = NULL, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
@@ -33,9 +26,6 @@ account.}
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with the following columns:

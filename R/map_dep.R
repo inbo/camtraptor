@@ -103,8 +103,6 @@
 #'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`).
 #'   Default: `c(10, 50)`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for subsetting deployments.
 #' @return Leaflet map.
 #' @family visualization functions
@@ -348,14 +346,10 @@ map_dep <- function(package = NULL,
                     na_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
-                    radius_range = c(10, 50),
-                    datapkg = lifecycle::deprecated()) {
+                    radius_range = c(10, 50)) {
 
   # check camera trap data package
-  check_package(package, datapkg, "map_dep")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  check_package(package)
   
   # define possible feature values
   features <- c(
@@ -495,8 +489,8 @@ map_dep <- function(package = NULL,
   }
   
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # get average lat lon for empty map without deployments (after filtering)
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)

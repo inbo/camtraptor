@@ -248,7 +248,7 @@ A message about deployment with zero observations is also returned to the R cons
 # observations of unknown species
 unknown_species_vs_no_obs <- mica
 unknown_species_vs_no_obs$data$observations <- 
-  unknown_species_vs_no_obs$data$observations %>% 
+  observations(unknown_species_vs_no_obs) %>% 
   # a deployment has detected only unknown species
   filter(is.na(.data$scientificName) | 
            .data$scientificName != "Homo sapiens") %>%

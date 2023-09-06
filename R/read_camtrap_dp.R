@@ -40,18 +40,18 @@
 #' readr::problems(muskrat_coypu_with_issues$data$media)
 #' }
 read_camtrap_dp <- function(file = NULL) {
-  # file value is a valid path
+  # File value is a valid path
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
   
-  # read package (metadata)
+  # Read package (metadata)
   package <- frictionless::read_package(file)
   
-  # supported versions
+  # Supported versions
   supported_versions <- c("0.1.6", "1.0-rc.1")
   
-  # get package version
+  # Get package version
   profile <- package$profile
   if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/camtrap-dp-profile.json") {
     version <- "1.0-rc.1"
@@ -63,7 +63,7 @@ read_camtrap_dp <- function(file = NULL) {
     }
   }
   
-  # check version is supported
+  # Check version is supported
   assertthat::assert_that(
     version %in% supported_versions,
     msg = paste0(
@@ -75,7 +75,7 @@ read_camtrap_dp <- function(file = NULL) {
       ".")
   )
     
-  # get resource names
+  # Get resource names
   resource_names <- frictionless::resources(package)
   #check needed resources are present
   resources_to_read <- c("deployments", "media", "observations")
@@ -88,10 +88,10 @@ read_camtrap_dp <- function(file = NULL) {
     )
   )
   
-  # read deployments
+  # Read deployments
   deployments <- frictionless::read_resource(package, "deployments")
   issues_deployments <- check_reading_issues(deployments, "deployments")
-  # read observations (needed to create sequenceID in media)
+  # Read observations (needed to create sequenceID in media)
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- check_reading_issues(observations, "observations")
   
@@ -103,7 +103,7 @@ read_camtrap_dp <- function(file = NULL) {
   media <- frictionless::read_resource(package, "media")
   issues_media <- check_reading_issues(media, "media")
   
-  # add resources in data slot
+  # Add resources in data slot
   data <- list(
     "deployments" = deployments,
     "media" = media,
@@ -116,12 +116,12 @@ read_camtrap_dp <- function(file = NULL) {
   
   package <- add_taxonomic_info(package)
   
-  # convert to 0.1.6
+  # Convert to 0.1.6
   if (version == "1.0-rc.1") {
     package <- convert_to_0.1.6(package, version)
   }
   
-  # order columns
+  # Order columns
   package$data$deployments <- order_cols_deployments(package$data$deployments)
   package$data$observations <- order_cols_observations(
     package$data$observations

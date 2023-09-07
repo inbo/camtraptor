@@ -1,8 +1,8 @@
 test_that("get_custom_effort returns error for invalid group_by value", {
   expect_error(get_custom_effort(mica, group_by = "bad_value"),
-               regexp = paste0("Invalid value for group_by parameter: ", 
+               regexp = paste0("Invalid value for group_by parameter: ",
                                "bad_value.\n",
-                               "Valid inputs are: NULL, day, week, month ", 
+                               "Valid inputs are: NULL, day, week, month ",
                                "and year."),
                fixed = TRUE
   )

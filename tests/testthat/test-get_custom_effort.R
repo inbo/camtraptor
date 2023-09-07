@@ -10,7 +10,7 @@ test_that("get_custom_effort returns error for invalid group_by value", {
 
 test_that("get_custom_effort returns error for start not a Date", {
   expect_error(get_custom_effort(mica, start = "2021-01-01"))
-  # no datetime allowed
+  # No datetime allowed
   expect_error(
     get_custom_effort(
       mica, 
@@ -24,7 +24,7 @@ test_that("get_custom_effort returns error for start not a Date", {
 
 test_that("get_custom_effort returns error for end not a Date", {
   expect_error(get_custom_effort(mica, end = "2021-01-01"))
-  # no datetime allowed
+  # No datetime allowed
   expect_error(
     get_custom_effort(mica,
                       end = lubridate::as_datetime("2021-12-05 22:25:01 CET")),
@@ -126,35 +126,35 @@ test_that("get_custom_effort returns warning if end set too late", {
 
 
 test_that("right columns, cols types, right relative number of rows", {
-  # right cols and col types: no groups
+  # Right cols and col types: no groups
   tot_effort <- get_custom_effort(mica)
   expect_named(tot_effort, expected = c("begin", "effort", "unit"))
   expect_s3_class(tot_effort$begin, "Date")
   expect_type(tot_effort$effort, "double")
   expect_type(tot_effort$unit, "character")
 
-  # right cols and col types: group by year
+  # Right cols and col types: group by year
   effort_by_year <- get_custom_effort(mica, group_by = "year")
   expect_true(
     all(colnames(effort_by_year) == c("begin", "effort", "unit"))
   )
 
-  # right cols and col types: group by month
+  # Right cols and col types: group by month
   effort_by_month <- get_custom_effort(mica, group_by = "month")
   expect_named(effort_by_month, expected = c("begin", "effort", "unit"))
 
-  # right cols and col types: group by week
+  # Right cols and col types: group by week
   effort_by_week <- get_custom_effort(mica, group_by = "week")
   expect_named(effort_by_week, expected = c("begin", "effort", "unit"))
 
-  # right cols and col types: group by day
+  # Right cols and col types: group by day
   effort_by_day <- get_custom_effort(mica, group_by = "day")
   expect_named(effort_by_day, expected = c("begin", "effort", "unit"))
 
-  # number of rows is equal to 1 if group_by is NULL
+  # Number of rows is equal to 1 if group_by is NULL
   expect_identical(nrow(tot_effort), 1L)
 
-  # number of rows with grouping by year is equal to number of calendar years
+  # Number of rows with grouping by year is equal to number of calendar years
   first_day <- min(mica$data$deployments$start)
   last_day <- max(mica$data$deployments$end)
   n_years <- length(seq(
@@ -164,7 +164,7 @@ test_that("right columns, cols types, right relative number of rows", {
   )
   expect_identical(nrow(effort_by_year), n_years)
 
-  # number of rows with grouping by month is equal to number of calendar months
+  # Number of rows with grouping by month is equal to number of calendar months
   n_months <- length(seq(
     lubridate::floor_date(first_day, unit = "months"),
     lubridate::floor_date(last_day, unit = "months"),
@@ -172,7 +172,7 @@ test_that("right columns, cols types, right relative number of rows", {
   )
   expect_identical(nrow(effort_by_month), n_months)
 
-  # number of rows with grouping by week is equal to number of calendar weeks
+  # Number of rows with grouping by week is equal to number of calendar weeks
   n_weeks <- length(seq(
     lubridate::floor_date(first_day, unit = "weeks"),
     lubridate::floor_date(last_day, unit = "weeks"),
@@ -180,28 +180,28 @@ test_that("right columns, cols types, right relative number of rows", {
   )
   expect_identical(nrow(effort_by_week), n_weeks)
 
-  # number of rows for daily groups is higher than for weekly groups
+  # Number of rows for daily groups is higher than for weekly groups
   expect_gte(nrow(effort_by_day), nrow(effort_by_week))
-  # number of rows for weekly groups is higher than for monthly groups
+  # Number of rows for weekly groups is higher than for monthly groups
   expect_gte(nrow(effort_by_week), nrow(effort_by_month))
-  # number of rows for monthly groups is higher than for yearly groups
+  # Number of rows for monthly groups is higher than for yearly groups
   expect_gte(nrow(effort_by_month), nrow(effort_by_year))
 
-  # number of rows with start not NULL is lower than with start = NULL
+  # Number of rows with start not NULL is lower than with start = NULL
   set_start <- get_custom_effort(mica,
     start = as.Date("2020-08-01"),
     group_by = "month"
   )
   expect_lt(nrow(set_start), nrow(effort_by_month))
 
-  # number of rows with end not NULL is lower than with end = NULL
+  # Number of rows with end not NULL is lower than with end = NULL
   set_end <- get_custom_effort(mica,
     end = as.Date("2021-01-01"),
     group_by = "month"
   )
   expect_lt(nrow(set_end), nrow(effort_by_month))
 
-  # number of rows with both specific start and end is the lowest
+  # Number of rows with both specific start and end is the lowest
   set_start_end <- get_custom_effort(mica,
     start = as.Date("2020-08-01"),
     end = as.Date("2021-01-01"),
@@ -213,7 +213,7 @@ test_that("right columns, cols types, right relative number of rows", {
 
 test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
-  # filtering deployments reduces effort value
+  # Filtering deployments reduces effort value
   filter_deploys <- suppressMessages(
     get_custom_effort(mica,
       pred_gte("latitude", 51.18),
@@ -222,13 +222,13 @@ test_that("check effort and unit values", {
   )
   expect_lt(filter_deploys$effort, tot_effort$effort)
 
-  # effort in hours is higher than effort in days
+  # Effort in hours is higher than effort in days
   tot_effort_days <- get_custom_effort(mica, unit = "day")
   expect_gt(tot_effort$effort, tot_effort_days$effort)
 
-  # unit value is equal to hour if default unit value is used
+  # Unit value is equal to hour if default unit value is used
   expect_identical(unique(tot_effort$unit), "hour")
-  # unit value is equal to day if unit value is set to "day"
+  # Unit value is equal to day if unit value is set to "day"
   expect_identical(unique(tot_effort_days$unit), "day")
 })
 

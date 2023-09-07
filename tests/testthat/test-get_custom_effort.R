@@ -158,7 +158,7 @@ test_that("right columns, cols types, right relative number of rows", {
   first_day <- min(mica$data$deployments$start)
   last_day <- max(mica$data$deployments$end)
   n_years <- length(seq(
-    lubridate::floor_date(first_day, unit = "years"), 
+    lubridate::floor_date(first_day, unit = "years"),
     lubridate::floor_date(last_day, unit = "years"),
     by = "years")
   )

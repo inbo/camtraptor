@@ -37,11 +37,11 @@ test_that("get_custom_effort returns error for end not a Date", {
 
 test_that("get_custom_effort returns error if end earlier than start", {
   expect_error(
-    get_custom_effort(mica, 
-                      start = as.Date("2021-01-01"), 
+    get_custom_effort(mica,
+                      start = as.Date("2021-01-01"),
                       end = as.Date("1990-01-01")),
-    regexp = paste0("`end` value is set too early. `end` value must be not ", 
-                    "earlier than the start of the earliest deployment: ", 
+    regexp = paste0("`end` value is set too early. `end` value must be not ",
+                    "earlier than the start of the earliest deployment: ",
                     "2019-10-09."),
     fixed = TRUE
   )

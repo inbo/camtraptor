@@ -43,9 +43,9 @@ end date among all deployments.}
 \item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}.
 The effort is calculated at the interval rate defined in \code{group_by}.
 Default: \code{NULL}: no grouping, i.e. the entire interval from \code{start} to
-\code{end} is taken into account as a whole.
-A week is defined as a period of 7 days, a month as a period of 30 days, a
-year as a period of 365 days.}
+\code{end} is taken into account as a whole. Calendar values are used, i.e.
+grouping by year will calculate the effort from Jan 1st up to Dec 31st for
+each year.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
@@ -63,7 +63,7 @@ A tibble data frame with following columns:
 }
 \description{
 Gets the custom effort (deployment duration) for a custom time window and a
-specific time interval such as day or month. The custom effort is also
+specific time interval such as day, week, month or year. The custom effort is also
 calculated over all deployments, although filtering predicates can be applied
 as well. This function calls \code{get_cam_op()} internally.
 }

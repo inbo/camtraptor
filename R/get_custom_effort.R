@@ -241,7 +241,7 @@ get_custom_effort <- function(package = NULL,
       sum_effort %>%
       dplyr::mutate(
         begin = lubridate::floor_date(.data$date, unit = group_by)) %>%
-      dplyr::group_by(begin) %>%
+      dplyr::group_by(.data$begin) %>%
       dplyr::summarise(effort = sum(.data$sum_effort, na.rm = TRUE))
   }
 

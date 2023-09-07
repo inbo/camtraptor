@@ -185,7 +185,6 @@ test_that("right columns, cols types, right relative number of rows", {
   
   # number of rows for weekly groups is higher than for monthly groups
   expect_gte(nrow(effort_by_week), nrow(effort_by_month))
-  
   # number of rows for monthly groups is higher than for yearly groups
   expect_gte(nrow(effort_by_month), nrow(effort_by_year))
 

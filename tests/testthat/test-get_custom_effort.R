@@ -64,7 +64,7 @@ test_that(
     expect_error(get_custom_effort(mica, end = as.Date("1900-04-05")),
                  regexp = paste0(
                    "`end` value is set too early. ",
-                   "`end` value must be not earlier than the start of the ", 
+                   "`end` value must be not earlier than the start of the ",
                    "earliest deployment: 2019-10-09."),
                  fixed = TRUE
     )

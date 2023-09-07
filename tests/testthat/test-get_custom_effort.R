@@ -174,7 +174,7 @@ test_that("right columns, cols types, right relative number of rows", {
 
   # number of rows with grouping by week is equal to number of calendar weeks
   n_weeks <- length(seq(
-    lubridate::floor_date(first_day, unit = "weeks"), 
+    lubridate::floor_date(first_day, unit = "weeks"),
     lubridate::floor_date(last_day, unit = "weeks"),
     by = "weeks")
   )

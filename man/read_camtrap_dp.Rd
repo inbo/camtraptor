@@ -34,28 +34,17 @@ Vernacular names found in the metadata (\code{package$taxonomic}) are added to t
 }
 \examples{
 \dontrun{
-# Read Camtrap DP package
-camtrap_dp_file <- system.file(
-  "extdata", "mica", "datapackage.json", 
-  package = "camtraptor"
-)
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
+# Provide path to a dataset descriptor file (i.e. a datapackage.json)
+descriptor_file <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
 
-# Read Camtrap DP package and ignore media file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
+# Read Camtrap DP package into memory
+dataset <- read_camtrap_dp(descriptor_file)
 
-# If parsing issues while reading deployments, observations or media arise,
-# use readr::problems()
-camtrap_dp_file_with_issues <- system.file(
-  "extdata",
-  "mica_parsing_issues",
-  "datapackage_for_parsing_issues.json",
-  package = "camtraptor"
-)
-muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-readr::problems(muskrat_coypu_with_issues$data$deployments)
-readr::problems(muskrat_coypu_with_issues$data$observations)
-readr::problems(muskrat_coypu_with_issues$data$media)
+# The function will warn if it encounters parsing issues reading the data
+# Those can be expected with readr::problems()
+readr::problems(dataset$data$deployments)
+readr::problems(dataset$data$media)
+readr::problems(dataset$data$observations)
 }
 }
 \seealso{

@@ -166,7 +166,7 @@ test_that("right columns, cols types, right relative number of rows", {
 
   # number of rows with grouping by month is equal to number of calendar months
   n_months <- length(seq(
-    lubridate::floor_date(first_day, unit = "months"), 
+    lubridate::floor_date(first_day, unit = "months"),
     lubridate::floor_date(last_day, unit = "months"),
     by = "months")
   )

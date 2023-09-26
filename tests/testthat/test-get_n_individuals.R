@@ -172,8 +172,8 @@ test_that("number of individuals is equal to sum of counts", {
 })
 
 test_that("sex filters data correctly", {
-  sex_value <- NULL
-  n_individuals_via_count <-
+  sex_value <- "female"
+  n_individuals_female_via_count <-
     mica$data$observations %>%
     dplyr::filter(sex == sex_value) %>%
     dplyr::pull(count) %>%
@@ -181,7 +181,7 @@ test_that("sex filters data correctly", {
   n_individuals_females <-
     suppressMessages(get_n_individuals(mica, species = NULL, sex = sex_value))
   tot_n_individuals_females <- sum(n_individuals_females$n)
-  expect_equal(tot_n_individuals_females, n_individuals_via_count)
+  expect_equal(tot_n_individuals_females, n_individuals_female_via_count)
   expect_equal(nrow(n_individuals_females), nrow(mica$data$deployments))
 })
 

@@ -25,12 +25,15 @@ test_that("get_n_species returns 0 for obs without recognized species", {
   # observations of unknown species
   unknown_species <- mica
   unknown_species$data$observations <- 
+    # deployments have detected only unknown species
     unknown_species$data$observations %>% 
-    # a deployment has detected only unknown species
-    dplyr::filter(is.na(.data$scientificName) | 
-             .data$scientificName != "Homo sapiens")
+    dplyr::filter(is.na(.data$scientificName))
   n_species <- get_n_species(package = unknown_species)
-  expect_equal(n_species[n_species$n == 0,]$n, 0)
+  n_deploys_in_obs <- length(unique(unknown_species$data$observations$deploymentID))
+  expect_equal(
+    n_species$n, 
+    rep(0, n_deploys_in_obs)
+  )
 })
 
 test_that("get_n_species returns NA for deployments without observations", {

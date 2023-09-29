@@ -48,6 +48,7 @@ test_that("test warnings while reading files with parsing issues", {
     package = "camtraptor"
   )
   w <- capture_warnings(
+    dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
   expect_equal(

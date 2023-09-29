@@ -168,7 +168,11 @@ read_camtrap_dp <- function(file = NULL,
   check_package(package, media = media)
   
   # Inherit parsing issues from reading
+  attr(package$data$deployments, which = "problems") <- issues_deployments
   attr(package$data$observations, which = "problems") <- issues_observations
+  if (media) {
+    attr(package$data$media, which = "problems") <- issues_media
+  }
 
   return(package)
 }

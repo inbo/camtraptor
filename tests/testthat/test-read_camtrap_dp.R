@@ -48,7 +48,6 @@ test_that("test warnings while reading files with parsing issues", {
     package = "camtraptor"
   )
   w <- capture_warnings(
-    camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
   expect_equal(
@@ -59,6 +58,12 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_deploys <- readr::problems(dp_issues$data$deployments)
+  expect_equal(nrow(problems_deploys), 2)
+  expect_equal(problems_deploys$row, c(1,2))
+  expect_equal(problems_deploys$col, c(7,7))
+  expect_equal(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  
   # warning on observations
   expect_equal(
     w[4], # w[3] is returned by readr via frictionless
@@ -68,6 +73,12 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_obs <- readr::problems(dp_issues$data$observations)
+  expect_equal(nrow(problems_obs), 2)
+  expect_equal(problems_obs$row, c(1,2))
+  expect_equal(problems_obs$col, c(5,5))
+  expect_equal(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  
   # warning on media
   expect_equal(
     w[6], # w[5] is returned by readr via frictionless
@@ -77,6 +88,11 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_media <- readr::problems(dp_issues$data$media)
+  expect_equal(nrow(problems_media), 1)
+  expect_equal(problems_media$row, 2)
+  expect_equal(problems_media$col, 5)
+  expect_equal(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
 })
 
 test_that("media is checked properly", {

@@ -114,6 +114,12 @@ test_that("output is a list", {
     file = dp_path,
     media = FALSE
   ))
+  dp_v1_rc1_with_media <- suppressMessages(
+    read_camtrap_dp(path_to_json_v1rc1)
+  )
+  dp_v1_rc1_without_media <- suppressMessages(
+    read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
+  )
   expect_true(is.list(dp_without_media))
   expect_equal(class(dp_without_media), "list")
   expect_true(is.list(dp_v1_rc1_with_media))

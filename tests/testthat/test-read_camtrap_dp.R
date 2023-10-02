@@ -405,6 +405,9 @@ test_that(
       file = dp_path,
       media = FALSE
     ))
+    dp_v1_rc1_without_media <- suppressMessages(
+      read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
+    )
     cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%

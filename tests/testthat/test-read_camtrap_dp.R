@@ -136,6 +136,9 @@ test_that("output data slot is a list of length 3", {
     file = dp_path,
     media = FALSE
   ))
+  dp_v1_rc1_without_media <- suppressMessages(
+    read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
+  )
   expect_true("data" %in% names(dp_without_media))
   expect_equal(length(dp_without_media$data), 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))

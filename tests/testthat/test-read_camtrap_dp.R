@@ -121,11 +121,11 @@ test_that("output is a list", {
     read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
   )
   expect_true(is.list(dp_without_media))
-  expect_equal(class(dp_without_media), "list")
+  expect_type(dp_without_media, "list")
   expect_true(is.list(dp_v1_rc1_with_media))
-  expect_equal(class(dp_v1_rc1_with_media), "list")
+  expect_type(dp_v1_rc1_with_media, "list")
   expect_true(is.list(dp_v1_rc1_without_media))
-  expect_equal(class(dp_v1_rc1_without_media), "list")
+  expect_type(dp_v1_rc1_without_media, "list")
 })
 
 test_that("output data slot is a list of length 3", {

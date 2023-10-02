@@ -1,3 +1,12 @@
+## read camera trap data package from v1.0-rc1
+path_to_json_v1rc1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json"
+dp_v1_rc1_with_media <- suppressMessages(
+  read_camtrap_dp(path_to_json_v1rc1)
+)
+dp_v1_rc1_without_media <- suppressMessages(
+  read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
+)
+
 test_that("file argument is checked properly", {
   expect_error(read_camtrap_dp("aaa"))
   expect_error(read_camtrap_dp(1))
@@ -30,15 +39,6 @@ test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
     "Version tabular-data-package is not supported. Supported versions: 0.1.6 and 1.0-rc.1."
   )
 })
-
-## read camera trap data package from v1.0-rc1
-path_to_json_v1rc1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json"
-dp_v1_rc1_with_media <- suppressMessages(
-  read_camtrap_dp(path_to_json_v1rc1)
-)
-dp_v1_rc1_without_media <- suppressMessages(
-  read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
-)
 
 test_that("test warnings while reading files with parsing issues", {
   local_edition(2)
@@ -114,12 +114,7 @@ test_that("output is a list", {
     file = dp_path,
     media = FALSE
   ))
-  dp_v1_rc1_with_media <- suppressMessages(
-    read_camtrap_dp(path_to_json_v1rc1)
-  )
-  dp_v1_rc1_without_media <- suppressMessages(
-    read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
-  )
+  
   expect_true(is.list(dp_without_media))
   expect_type(dp_without_media, "list")
   expect_true(is.list(dp_v1_rc1_with_media))
@@ -136,9 +131,7 @@ test_that("output data slot is a list of length 3", {
     file = dp_path,
     media = FALSE
   ))
-  dp_v1_rc1_without_media <- suppressMessages(
-    read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
-  )
+
   expect_true("data" %in% names(dp_without_media))
   expect_length(dp_without_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
@@ -405,9 +398,7 @@ test_that(
       file = dp_path,
       media = FALSE
     ))
-    dp_v1_rc1_without_media <- suppressMessages(
-      read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
-    )
+
     cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%

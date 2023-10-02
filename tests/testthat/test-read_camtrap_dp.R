@@ -51,7 +51,7 @@ test_that("test warnings while reading files with parsing issues", {
     dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
-  expect_equal(
+  expect_identical(
     w[2], # w[1] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `deployments`. ",
@@ -60,13 +60,13 @@ test_that("test warnings while reading files with parsing issues", {
     )
   )
   problems_deploys <- readr::problems(dp_issues$data$deployments)
-  expect_equal(nrow(problems_deploys), 2)
-  expect_equal(problems_deploys$row, c(1,2))
-  expect_equal(problems_deploys$col, c(7,7))
-  expect_equal(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  expect_identical(nrow(problems_deploys), 2L)
+  expect_identical(problems_deploys$row, c(1L,2L))
+  expect_identical(problems_deploys$col, c(7L,7L))
+  expect_identical(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on observations
-  expect_equal(
+  expect_identical(
     w[4], # w[3] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `observations`. ",
@@ -75,13 +75,13 @@ test_that("test warnings while reading files with parsing issues", {
     )
   )
   problems_obs <- readr::problems(dp_issues$data$observations)
-  expect_equal(nrow(problems_obs), 2)
-  expect_equal(problems_obs$row, c(1,2))
-  expect_equal(problems_obs$col, c(5,5))
-  expect_equal(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  expect_identical(nrow(problems_obs), 2L)
+  expect_identical(problems_obs$row, c(1L,2L))
+  expect_identical(problems_obs$col, c(5L,5L))
+  expect_identical(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on media
-  expect_equal(
+  expect_identical(
     w[6], # w[5] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `media`. ",
@@ -90,10 +90,10 @@ test_that("test warnings while reading files with parsing issues", {
     )
   )
   problems_media <- readr::problems(dp_issues$data$media)
-  expect_equal(nrow(problems_media), 1)
-  expect_equal(problems_media$row, 2)
-  expect_equal(problems_media$col, 5)
-  expect_equal(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
+  expect_identical(nrow(problems_media), 1L)
+  expect_identical(problems_media$row, 2L)
+  expect_identical(problems_media$col, 5L)
+  expect_identical(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
 })
 
 test_that("media is checked properly", {
@@ -360,7 +360,7 @@ test_that(
   "read deployments v1.0-rc1: baitUse is a factor, not a boolean", {
     expect_s3_class(dp_v1_rc1_with_media$data$deployments$baitUse, "factor")
     baitUse_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
-    expect_equal(
+    expect_identical(
       levels(dp_v1_rc1_with_media$data$deployments$baitUse), baitUse_levels
     )
     # boolean NA becomes a factor NA
@@ -412,7 +412,7 @@ test_that(
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
       names()
-    expect_equal(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
+    expect_identical(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
   }
 )
 
@@ -602,6 +602,6 @@ test_that(
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%
       names()
-    expect_equal(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
+    expect_identical(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
   }
 )

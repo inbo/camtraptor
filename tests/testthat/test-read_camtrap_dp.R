@@ -1,3 +1,12 @@
+## read camera trap data package from v1.0-rc1
+path_to_json_v1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/02ce57229209dd65249113a193dbad7c84b8d5da/example/datapackage.json"
+dp_v1_rc1_with_media <- suppressMessages(
+  read_camtrap_dp(path_to_json_v1)
+)
+dp_v1_rc1_without_media <- suppressMessages(
+  read_camtrap_dp(path_to_json_v1, media = FALSE)
+)
+
 test_that("file argument is checked properly", {
   expect_error(read_camtrap_dp("aaa"))
   expect_error(read_camtrap_dp(1))
@@ -31,15 +40,6 @@ test_that("only DP versions 1.0-rc.1 and dp 0.1.6 are supported", {
   )
 })
 
-## read camera trap data package from v1.0-rc1
-path_to_json_v1rc1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/example/datapackage.json"
-dp_v1_rc1_with_media <- suppressMessages(
-  read_camtrap_dp(path_to_json_v1rc1)
-)
-dp_v1_rc1_without_media <- suppressMessages(
-  read_camtrap_dp(path_to_json_v1rc1, media = FALSE)
-)
-
 test_that("test warnings while reading files with parsing issues", {
   local_edition(2)
   camtrap_dp_file_with_issues <- system.file(
@@ -48,10 +48,10 @@ test_that("test warnings while reading files with parsing issues", {
     package = "camtraptor"
   )
   w <- capture_warnings(
-    camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
+    dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
-  expect_equal(
+  expect_identical(
     w[2], # w[1] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `deployments`. ",
@@ -59,8 +59,14 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_deploys <- readr::problems(dp_issues$data$deployments)
+  expect_identical(nrow(problems_deploys), 2L)
+  expect_identical(problems_deploys$row, c(1L,2L))
+  expect_identical(problems_deploys$col, c(7L,7L))
+  expect_identical(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  
   # warning on observations
-  expect_equal(
+  expect_identical(
     w[4], # w[3] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `observations`. ",
@@ -68,8 +74,14 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_obs <- readr::problems(dp_issues$data$observations)
+  expect_identical(nrow(problems_obs), 2L)
+  expect_identical(problems_obs$row, c(1L,2L))
+  expect_identical(problems_obs$col, c(5L,5L))
+  expect_identical(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
+  
   # warning on media
-  expect_equal(
+  expect_identical(
     w[6], # w[5] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `media`. ",
@@ -77,6 +89,11 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
+  problems_media <- readr::problems(dp_issues$data$media)
+  expect_identical(nrow(problems_media), 1L)
+  expect_identical(problems_media$row, 2L)
+  expect_identical(problems_media$col, 5L)
+  expect_identical(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
 })
 
 test_that("media is checked properly", {
@@ -97,12 +114,13 @@ test_that("output is a list", {
     file = dp_path,
     media = FALSE
   ))
+  
   expect_true(is.list(dp_without_media))
-  expect_equal(class(dp_without_media), "list")
+  expect_type(dp_without_media, "list")
   expect_true(is.list(dp_v1_rc1_with_media))
-  expect_equal(class(dp_v1_rc1_with_media), "list")
+  expect_type(dp_v1_rc1_with_media, "list")
   expect_true(is.list(dp_v1_rc1_without_media))
-  expect_equal(class(dp_v1_rc1_without_media), "list")
+  expect_type(dp_v1_rc1_without_media, "list")
 })
 
 test_that("output data slot is a list of length 3", {
@@ -113,12 +131,13 @@ test_that("output data slot is a list of length 3", {
     file = dp_path,
     media = FALSE
   ))
+
   expect_true("data" %in% names(dp_without_media))
-  expect_equal(length(dp_without_media$data), 3)
+  expect_length(dp_without_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_with_media))
-  expect_equal(length(dp_v1_rc1_with_media$data), 3)
+  expect_length(dp_v1_rc1_with_media$data, 3)
   expect_true("data" %in% names(dp_v1_rc1_without_media))
-  expect_equal(length(dp_v1_rc1_without_media$data), 3)
+  expect_length(dp_v1_rc1_without_media$data, 3)
 })
 
 test_that("media arg influences only slot media", {
@@ -334,7 +353,7 @@ test_that(
   "read deployments v1.0-rc1: baitUse is a factor, not a boolean", {
     expect_s3_class(dp_v1_rc1_with_media$data$deployments$baitUse, "factor")
     baitUse_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
-    expect_equal(
+    expect_identical(
       levels(dp_v1_rc1_with_media$data$deployments$baitUse), baitUse_levels
     )
     # boolean NA becomes a factor NA
@@ -379,11 +398,12 @@ test_that(
       file = dp_path,
       media = FALSE
     ))
+
     cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
       names()
-    expect_equal(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
+    expect_identical(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
   }
 )
 
@@ -573,6 +593,6 @@ test_that(
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%
       names()
-    expect_equal(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
+    expect_identical(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
   }
 )

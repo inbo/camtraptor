@@ -690,7 +690,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
   event_obs <- observations %>% 
     dplyr::filter(is.na(.data$mediaID)) %>%
     dplyr::select("eventID", "deploymentID", "eventStart", "eventEnd") %>%
-    # eventID is not anymore required in v1.0-rc1, remove where not present
+    # eventID is not anymore required in v1.0, remove where not present
     dplyr::filter(!is.na(.data$eventID))
   
   # Join on deploymentID and timestamp between eventStart and eventEnd

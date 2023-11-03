@@ -384,9 +384,8 @@ add_taxonomic_info <- function(package) {
   # classification)
   taxon_infos <- dplyr::select(
     taxon_infos,
-    dplyr::any_of(c("taxonID",
-                    "taxonIDReference",
-                    "scientificName",
+    dplyr::all_of("scientificName"),
+    dplyr::any_of(c("taxonIDReference",
                     "taxonRank")),
     dplyr::starts_with("vernacularNames")
   )

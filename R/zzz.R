@@ -371,7 +371,7 @@ mutate_when_missing <- function(.data,...){
 #' 
 #' This help function adds taxonomic information in `taxonomic` element of
 #' metadata to `observations`. Notice that higher classification, i.e. new
-#' fields in v1.0-rc.1, are removed.
+#' fields in v1.0, are removed.
 #' 
 #' @param package Camera trap data package.
 #' @return Camera trap data package with taxonomic related cols added to
@@ -437,13 +437,13 @@ add_speed_radius_angle <- function(obs){
 #' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
 #'   ignore media file to speed up reading larger Camtrap DP packages.
 #' @noRd
-convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
+convert_to_0.1.6 <- function(package, from = "1.0", media = TRUE){
   if (from == "0.1.6") {
     message(glue::glue("package's version: {from}. No conversion needed."))
     return(package)
   }
   # check version
-  supported_versions <- c("1.0-rc.1")
+  supported_versions <- c("1.0")
   assertthat::assert_that(
     from %in% supported_versions,
     msg = paste0(
@@ -464,7 +464,7 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
   message(
     writeLines(
       c(
-        "The dataset uses Camtrap DP version 1.0-rc.1, it has been converted to 0.1.6.",
+        "The dataset uses Camtrap DP version 1.0, it has been converted to 0.1.6.",
         "See https://inbo.github.io/camtraptor/#camtrap-dp for details."
       )
     )
@@ -485,7 +485,7 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
 
 #' Convert metadata to Camtrap DP version 0.1.6
 #' 
-#' Convert metadata of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert metadata of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -493,7 +493,7 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
 #' @return Camera trap data package object with converted `metadata`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
+convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
   authors <- purrr::map_df(package$contributors, unlist)
   if ("role" %in% names(authors)) {
     deprecated_roles <- c("author", "maintainer")
@@ -542,7 +542,7 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
 
 #' Convert deployments to Camtrap DP version 0.1.6
 #' 
-#' Convert deployments of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert deployments of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -550,7 +550,7 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
 #' @return Camera trap data package object with converted `deployments`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
   
   # check deployments slot is present
   assertthat::assert_that(
@@ -654,7 +654,7 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 
 #' Convert media to Camtrap DP version 0.1.6
 #' 
-#' Convert media of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert media of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes. Notice that this function `MUST` be run before
 #' `convert_observations_to_0.1.6()`.
 #' 
@@ -663,7 +663,7 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 #' @return Camera trap data package object with converted `media`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_media_to_0.1.6 <- function(package, from = "1.0") {
   
   # check media slot is present
   assertthat::assert_that(
@@ -728,7 +728,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 
 #' Convert observations to Camtrap DP version 0.1.6
 #' 
-#' Convert observations of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert observations of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -736,7 +736,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 #' @return Camera trap data package object with converted `observations`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   
   # check observations slot is present
   assertthat::assert_that(

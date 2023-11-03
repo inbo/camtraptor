@@ -405,7 +405,7 @@ test_that(
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
       names()
-    expect_identical(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1_rc1)
+    expect_identical(cols_deployments_dp_v0_1_6, cols_deployments_dp_v1)
   }
 )
 

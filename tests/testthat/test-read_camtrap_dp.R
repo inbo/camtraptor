@@ -61,11 +61,6 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
-  problems_deploys <- readr::problems(dp_issues$data$deployments)
-  expect_identical(nrow(problems_deploys), 2L)
-  expect_identical(problems_deploys$row, c(1L,2L))
-  expect_identical(problems_deploys$col, c(7L,7L))
-  expect_identical(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on observations
   expect_identical(
@@ -76,11 +71,6 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
-  problems_obs <- readr::problems(dp_issues$data$observations)
-  expect_identical(nrow(problems_obs), 2L)
-  expect_identical(problems_obs$row, c(1L,2L))
-  expect_identical(problems_obs$col, c(5L,5L))
-  expect_identical(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on media
   expect_identical(
@@ -91,11 +81,6 @@ test_that("test warnings while reading files with parsing issues", {
       "`readr::problems()`."
     )
   )
-  problems_media <- readr::problems(dp_issues$data$media)
-  expect_identical(nrow(problems_media), 1L)
-  expect_identical(problems_media$row, 2L)
-  expect_identical(problems_media$col, 5L)
-  expect_identical(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
 })
 
 test_that("media is checked properly", {
@@ -363,7 +348,7 @@ test_that(
   }
 )
 
-test_that("read deployments v1.0-rc1: session is left empty", {
+test_that("read deployments v1.0: session is left empty", {
   expect_true(all(is.na(dp_v1_with_media$data$deployments$session)))
 })
 

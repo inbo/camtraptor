@@ -823,6 +823,10 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   }
   # remove bounding box related cols if present
   observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
+  # add taxonID if missing
+  if(!"taxonID" %in% colnames(observations)){
+    observations <- observations %>% dplyr::mutate(taxonID = NA_integer_)
+  }
   
   package$data$observations <- observations
   return(package)

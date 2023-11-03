@@ -724,12 +724,14 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
   }
   
   # convert captureMethod value to v1.6.0 terms
-  media <- media %>%
+  media <- media %>% 
     dplyr::mutate(
-      captureMethod =
-        forcats::fct_recode(captureMethod,
-                            motionDetection = "activityDetection")
+      captureMethod = factor(
+        ifelse(captureMethod == "activityDetection",
+                                "motionDetection",
+                                as.character(captureMethod))
       )
+    )
   
  package$data$media <- media
   return(package)

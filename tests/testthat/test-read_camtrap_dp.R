@@ -537,9 +537,9 @@ test_that(
 )
 
 test_that(
-  "all cols `v0.1.6:observations` are present in `v1.0-rc1:observations`", {
+  "all cols `v0.1.6:observations` are present in `v1.0`", {
     # notice that cols with vernacular names are different due to use of ISO
-    # 693-3 in v1.0-rc1 vs ISO 693-2 in v0.1.6.
+    # 693-3 in v1.0 vs ISO 693-2 in v0.1.6.
     dp_path <- system.file("extdata", "mica", "datapackage.json",
                            package = "camtraptor"
     )
@@ -547,14 +547,14 @@ test_that(
       file = dp_path,
       media = FALSE
     ))
-    cols_obs_dp_v1_rc1 <- dp_v1_with_media$data$observations %>%
+    cols_obs_dp_v1 <- dp_v1_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
     cols_obs_dp_v0_1_6 <- dp_without_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
     expect_true(
-      all(cols_obs_dp_v0_1_6 %in% cols_obs_dp_v1_rc1)
+      all(cols_obs_dp_v0_1_6 %in% cols_obs_dp_v1)
     )
   }
 )

@@ -80,12 +80,12 @@ read_camtrap_dp <- function(file = NULL,
   package <- frictionless::read_package(file)
   
   # supported versions
-  supported_versions <- c("0.1.6", "1.0-rc.1")
+  supported_versions <- c("0.1.6", "1.0")
   
   # get package version
   profile <- package$profile
-  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/camtrap-dp-profile.json") {
-    version <- "1.0-rc.1"
+  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json") {
+    version <- "1.0"
   } else {
     if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {
       version <- "0.1.6"
@@ -152,7 +152,7 @@ read_camtrap_dp <- function(file = NULL,
   package <- add_taxonomic_info(package)
   
   # convert to 0.1.6
-  if (version == "1.0-rc.1") {
+  if (version == "1.0") {
     package <- convert_to_0.1.6(package, version, media = media)
   }
   

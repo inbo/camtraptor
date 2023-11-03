@@ -593,3 +593,13 @@ test_that("v1.0:media$captureMethod values are replaced with v0.1.6 values",{
     c("motionDetection", "timeLapse")
   )
 })
+
+test_that("v1.0:project$captureMethod values are replaced with v0.1.6 values", {
+  expect_false(
+    "activityDetection" %in% dp_v1_with_media$project$captureMethod
+  )
+  expect_identical(
+    dp_v1_with_media$project$captureMethod,
+    c("motionDetection", "timeLapse")
+  )
+})

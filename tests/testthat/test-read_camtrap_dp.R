@@ -16,7 +16,7 @@ test_that("file can be an URL", {
   # camtraptor is trailing camtrap-dp, refer to specific commit to keep using old version
   # dp_path <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/main/example/datapackage.json"
   dp_path <-
-    "https://raw.githubusercontent.com/tdwg/camtrap-dp/81379eadfafee3398a4b498c1141e617c5982f4a/example/datapackage.json"
+    "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/example/datapackage.json"
   dp <- suppressMessages(read_camtrap_dp(
     file = dp_path,
     media = FALSE

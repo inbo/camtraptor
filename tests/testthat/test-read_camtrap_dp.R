@@ -392,7 +392,7 @@ test_that("read deployments v1.0-rc1: _id is left empty", {
 })
 
 test_that(
-  "all cols `v0.1.6:deployments` are present in `v1.0-rc1:deployments`", {
+  "all cols `v0.1.6:deployments` are present in `v1.0`", {
     dp_path <- system.file("extdata", "mica", "datapackage.json",
                            package = "camtraptor"
     )

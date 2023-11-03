@@ -571,6 +571,8 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
   }
   # ignore detectionDistance
   deployments$detectionDistance <- NULL
+  # ignore cameraDepth
+  deployments$cameraDepth <- NULL
   if ("baitUse" %in% names(deployments)) {
     # baitUse values in version 0.1.6
     bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")

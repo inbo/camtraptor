@@ -1,9 +1,9 @@
 ## read camera trap data package from v1.0-rc1
 path_to_json_v1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/example/datapackage.json"
-dp_v1_rc1_with_media <- suppressMessages(
+dp_v1_with_media <- suppressMessages(
   read_camtrap_dp(path_to_json_v1)
 )
-dp_v1_rc1_without_media <- suppressMessages(
+dp_v1_without_media <- suppressMessages(
   read_camtrap_dp(path_to_json_v1, media = FALSE)
 )
 
@@ -119,10 +119,10 @@ test_that("output is a list", {
   
   expect_true(is.list(dp_without_media))
   expect_type(dp_without_media, "list")
-  expect_true(is.list(dp_v1_rc1_with_media))
-  expect_type(dp_v1_rc1_with_media, "list")
-  expect_true(is.list(dp_v1_rc1_without_media))
-  expect_type(dp_v1_rc1_without_media, "list")
+  expect_true(is.list(dp_v1_with_media))
+  expect_type(dp_v1_with_media, "list")
+  expect_true(is.list(dp_v1_without_media))
+  expect_type(dp_v1_without_media, "list")
 })
 
 test_that("output data slot is a list of length 3", {
@@ -136,10 +136,10 @@ test_that("output data slot is a list of length 3", {
 
   expect_true("data" %in% names(dp_without_media))
   expect_length(dp_without_media$data, 3)
-  expect_true("data" %in% names(dp_v1_rc1_with_media))
-  expect_length(dp_v1_rc1_with_media$data, 3)
-  expect_true("data" %in% names(dp_v1_rc1_without_media))
-  expect_length(dp_v1_rc1_without_media$data, 3)
+  expect_true("data" %in% names(dp_v1_with_media))
+  expect_length(dp_v1_with_media$data, 3)
+  expect_true("data" %in% names(dp_v1_without_media))
+  expect_length(dp_v1_without_media$data, 3)
 })
 
 test_that("media arg influences only slot media", {
@@ -157,17 +157,17 @@ test_that("media arg influences only slot media", {
   # media is NULL only for data packages imported using `media` = `FALSE`
   expect_null(dp_without_media$data$media)
   expect_false(is.null(dp_with_media$data$media))
-  expect_null(dp_v1_rc1_without_media$data$media)
-  expect_false(is.null(dp_v1_rc1_with_media$data$media))
+  expect_null(dp_v1_without_media$data$media)
+  expect_false(is.null(dp_v1_with_media$data$media))
   # metadata are the same
   metadata_with_media <- dp_with_media
   metadata_with_media$data <- NULL
   metadata_without_media <- dp_without_media
   metadata_without_media$data <- NULL
   expect_identical(metadata_with_media, metadata_without_media)
-  metadata_with_media_dp_v1_rc1 <- dp_v1_rc1_with_media
+  metadata_with_media_dp_v1_rc1 <- dp_v1_with_media
   metadata_with_media_dp_v1_rc1$data <- NULL
-  metadata_without_media_dp_v1_rc1 <- dp_v1_rc1_without_media
+  metadata_without_media_dp_v1_rc1 <- dp_v1_without_media
   metadata_without_media_dp_v1_rc1$data <- NULL
   expect_identical(metadata_with_media_dp_v1_rc1, 
                    metadata_without_media_dp_v1_rc1)
@@ -177,8 +177,8 @@ test_that("media arg influences only slot media", {
     dp_without_media$data$observations
   )
   expect_identical(
-    dp_v1_rc1_with_media$data$observations, 
-    dp_v1_rc1_without_media$data$observations
+    dp_v1_with_media$data$observations, 
+    dp_v1_without_media$data$observations
   )
   # deployments are the same
   expect_identical(
@@ -186,8 +186,8 @@ test_that("media arg influences only slot media", {
     dp_without_media$data$deployments
   )
   expect_identical(
-    dp_v1_rc1_with_media$data$deployments, 
-    dp_v1_rc1_without_media$data$deployments
+    dp_v1_with_media$data$deployments, 
+    dp_v1_without_media$data$deployments
   )
 })
 
@@ -203,10 +203,10 @@ test_that("datapackage data elements are named as in resource names", {
   resource_names <- frictionless::resources(dp_without_media)
   expect_true(all(names(dp_without_media$data) %in% resource_names))
   # check for v1.0-rc1
-  resource_names <- frictionless::resources(dp_v1_rc1_with_media)
-  expect_true(all(names(dp_v1_rc1_with_media$data) %in% resource_names))
-  resource_names <- frictionless::resources(dp_v1_rc1_without_media)
-  expect_true(all(names(dp_v1_rc1_without_media$data %in% resource_names)))
+  resource_names <- frictionless::resources(dp_v1_with_media)
+  expect_true(all(names(dp_v1_with_media$data) %in% resource_names))
+  resource_names <- frictionless::resources(dp_v1_without_media)
+  expect_true(all(names(dp_v1_without_media$data %in% resource_names)))
 })
 
 test_that("datapackage resources are tibble dataframes", {
@@ -224,11 +224,11 @@ test_that("datapackage resources are tibble dataframes", {
     class(dp_without_media$data$observations)))
   # check for v1.0-rc1 (only one of the two: chosen for the one with media)
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$deployments)))
+                    class(dp_v1_with_media$data$deployments)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$observations)))
+                    class(dp_v1_with_media$data$observations)))
   expect_true(all(c("tbl_df", "tbl", "data.frame") %in%
-                    class(dp_v1_rc1_with_media$data$media)))
+                    class(dp_v1_with_media$data$media)))
 })
 
 test_that(
@@ -269,34 +269,34 @@ test_that(
 })
 
 test_that(
-  "v1.0-rc.1: sc. names and vernacular names in obs match info in metadata", {
+  "v1.0: sc. names and vernacular names in obs match info in metadata", {
     taxon_infos <- purrr::map_dfr(
-      dp_v1_rc1_with_media$taxonomic,
+      dp_v1_with_media$taxonomic,
       function(x) x %>% as.data.frame()
     ) %>%
       dplyr::tibble()
     expect_true(
-      all(names(taxon_infos) %in% names(dp_v1_rc1_with_media$data$observations))
+      all(names(taxon_infos) %in% names(dp_v1_with_media$data$observations))
     )
     # get scientific names from observations and check that they match with
     # taxonomic info
-    sc_names <- dp_v1_rc1_with_media$data$observations$scientificName[!is.na(
-      dp_v1_rc1_with_media$data$observations$scientificName
+    sc_names <- dp_v1_with_media$data$observations$scientificName[!is.na(
+      dp_v1_with_media$data$observations$scientificName
     )]
     expect_true(all(sc_names %in% taxon_infos$scientificName))
     
     # get vernacular names in English from observations and check that they match
     # with taxonomic info
-    en_names <- dp_v1_rc1_with_media$data$observations$vernacularNames.eng[
-      !is.na(dp_v1_rc1_with_media$data$observations$vernacularNames.eng)
+    en_names <- dp_v1_with_media$data$observations$vernacularNames.eng[
+      !is.na(dp_v1_with_media$data$observations$vernacularNames.eng)
     ]
     expect_true(all(en_names %in% taxon_infos$vernacularNames.eng))
     
     # get vernacular names in Dutch from observations and check that they match
     # with taxonomic info
-    nl_names <- dp_v1_rc1_with_media$data$observations$vernacularNames.nld[
+    nl_names <- dp_v1_with_media$data$observations$vernacularNames.nld[
       !is.na(
-        dp_v1_rc1_with_media$data$observations$vernacularNames.nld
+        dp_v1_with_media$data$observations$vernacularNames.nld
       )
     ]
     expect_true(all(nl_names %in% taxon_infos$vernacularNames.nld))
@@ -322,73 +322,73 @@ test_that("path is deprecated", {
 
 test_that(
   "read deployments v1.0-rc1: latitude follows longitude and both present", {
-  expect_true("latitude" %in% names(dp_v1_rc1_with_media$data$deployments))
-  expect_true("longitude" %in% names(dp_v1_rc1_with_media$data$deployments))
-  which(names(dp_v1_rc1_with_media$data$deployments) == "latitude") ==
-    which(names(dp_v1_rc1_with_media$data$deployments) == "longitude") + 1
+  expect_true("latitude" %in% names(dp_v1_with_media$data$deployments))
+  expect_true("longitude" %in% names(dp_v1_with_media$data$deployments))
+  which(names(dp_v1_with_media$data$deployments) == "latitude") ==
+    which(names(dp_v1_with_media$data$deployments) == "longitude") + 1
 })
 
 test_that("read deployments v1.0-rc1: eventStart is renamed as start", {
-  expect_false("eventStart" %in% names(dp_v1_rc1_with_media$data$deployments))
-  expect_true("start" %in% names(dp_v1_rc1_with_media$data$deployments))
+  expect_false("eventStart" %in% names(dp_v1_with_media$data$deployments))
+  expect_true("start" %in% names(dp_v1_with_media$data$deployments))
 })
 
 test_that("read deployments v1.0-rc1: eventEnd is renamed as end", {
-  expect_false("eventEnd" %in% names(dp_v1_rc1_with_media$data$deployments))
-  expect_true("end" %in% names(dp_v1_rc1_with_media$data$deployments))
+  expect_false("eventEnd" %in% names(dp_v1_with_media$data$deployments))
+  expect_true("end" %in% names(dp_v1_with_media$data$deployments))
 })
 
 test_that(
   "read deployments v1.0-rc1: cameraDelay is renamed as cameraInterval", {
-    expect_false("cameraDelay" %in% names(dp_v1_rc1_with_media$data$deployments))
-    expect_true("cameraInterval" %in% names(dp_v1_rc1_with_media$data$deployments))
+    expect_false("cameraDelay" %in% names(dp_v1_with_media$data$deployments))
+    expect_true("cameraInterval" %in% names(dp_v1_with_media$data$deployments))
 })
 
 test_that(
   "read deployments v1.0-rc1: detectionDistance is a new term and is ignored", {
     expect_false(
-      "detectionDistance" %in% names(dp_v1_rc1_with_media$data$deployments)
+      "detectionDistance" %in% names(dp_v1_with_media$data$deployments)
     )
 })
 
 test_that(
   "read deployments v1.0-rc1: baitUse is a factor, not a boolean", {
-    expect_s3_class(dp_v1_rc1_with_media$data$deployments$baitUse, "factor")
+    expect_s3_class(dp_v1_with_media$data$deployments$baitUse, "factor")
     baitUse_levels <- c("none", "scent", "food", "visual", "acoustic", "other")
     expect_identical(
-      levels(dp_v1_rc1_with_media$data$deployments$baitUse), baitUse_levels
+      levels(dp_v1_with_media$data$deployments$baitUse), baitUse_levels
     )
     # boolean NA becomes a factor NA
-    expect_true(all(is.na(dp_v1_rc1_with_media$data$deployments$baitUse)))
+    expect_true(all(is.na(dp_v1_with_media$data$deployments$baitUse)))
   }
 )
 
 test_that("read deployments v1.0-rc1: session is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$deployments$session)))
+  expect_true(all(is.na(dp_v1_with_media$data$deployments$session)))
 })
 
 test_that("read deployments v1.0-rc1: array is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$deployments$array)))
+  expect_true(all(is.na(dp_v1_with_media$data$deployments$array)))
 })
 
 test_that("read deployments v1.0-rc1: deploymentTags is renamed as tags", {
   expect_false(
-    "deploymentTags" %in% names(dp_v1_rc1_with_media$data$deployments)
+    "deploymentTags" %in% names(dp_v1_with_media$data$deployments)
   )
-  expect_true("tags" %in% names(dp_v1_rc1_with_media$data$deployments))
+  expect_true("tags" %in% names(dp_v1_with_media$data$deployments))
 })
 
 test_that(
   "read deployments v1.0-rc1: deploymentComments is renamed as comments", {
     expect_false(
-      "deploymentComments" %in% names(dp_v1_rc1_with_media$data$deployments)
+      "deploymentComments" %in% names(dp_v1_with_media$data$deployments)
     )
-    expect_true("comments" %in% names(dp_v1_rc1_with_media$data$deployments))
+    expect_true("comments" %in% names(dp_v1_with_media$data$deployments))
   }
 )
 
 test_that("read deployments v1.0-rc1: _id is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$deployments$`_id`)))
+  expect_true(all(is.na(dp_v1_with_media$data$deployments$`_id`)))
 })
 
 test_that(
@@ -401,7 +401,7 @@ test_that(
       media = FALSE
     ))
 
-    cols_deployments_dp_v1_rc1 <- dp_v1_rc1_without_media$data$deployments %>%
+    cols_deployments_dp_v1 <- dp_v1_without_media$data$deployments %>%
       names()
     cols_deployments_dp_v0_1_6 <- dp_without_media$data$deployments %>%
       names()
@@ -410,55 +410,55 @@ test_that(
 )
 
 test_that("read observations v1.0-rc1: media-based observations are removed", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$observations$mediaID)))
+  expect_true(all(is.na(dp_v1_with_media$data$observations$mediaID)))
 })
 
 test_that("read observations v1.0-rc1: eventID is renamed as sequenceID", {
-  expect_false("eventID" %in% names(dp_v1_rc1_with_media$data$observations))
-  expect_true("sequenceID" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_false("eventID" %in% names(dp_v1_with_media$data$observations))
+  expect_true("sequenceID" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that("read observations v1.0-rc1: eventStart is renamed as timestamp", {
-  expect_false("eventStart" %in% names(dp_v1_rc1_with_media$data$observations))
-  expect_true("timestamp" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_false("eventStart" %in% names(dp_v1_with_media$data$observations))
+  expect_true("timestamp" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that(
   "read observations v1.0-rc1: eventEnd is a new term and is ignored", {
-  expect_false("eventEnd" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_false("eventEnd" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that(
   "read observations v1.0-rc1: observationLevel is a new term and is ignored", {
     expect_false(
-      "observationLevel" %in% names(dp_v1_rc1_with_media$data$observations)
+      "observationLevel" %in% names(dp_v1_with_media$data$observations)
     )
 })
 
 test_that(
   "read observations v1.0-rc1: cameraSetupType is renamed as cameraSetup", {
   expect_false(
-    "cameraSetupType" %in% names(dp_v1_rc1_with_media$data$observations)
+    "cameraSetupType" %in% names(dp_v1_with_media$data$observations)
   )
-  expect_true("cameraSetup" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_true("cameraSetup" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that("read observations v1.0-rc1: countNew is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$observations$countNew)))
+  expect_true(all(is.na(dp_v1_with_media$data$observations$countNew)))
 })
 
 test_that("read observations v1.0-rc1: higher taxonomic ranks ignored", {
   expect_false(
     any(c("kingdom", "phylum", "class", "order", "family", "genus") %in% 
-          names(dp_v1_rc1_with_media$data$observations)
+          names(dp_v1_with_media$data$observations)
       )
   )
 })
 
 test_that(
   "read observations v1.0-rc1: behavior is renamed as behavior", {
-  expect_false("behavior" %in% names(dp_v1_rc1_with_media$data$observations))
-  expect_true("behaviour" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_false("behavior" %in% names(dp_v1_with_media$data$observations))
+  expect_true("behaviour" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that(
@@ -466,11 +466,11 @@ test_that(
   {
     expect_false(
       "classificationProbability" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
     expect_true(
       "classificationConfidence" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
   }
 )
@@ -478,30 +478,30 @@ test_that(
 test_that(
   "read observations v1.0-rc1: observationComments is renamed as comments", {
   expect_false(
-    "observationComments" %in% names(dp_v1_rc1_with_media$data$observations)
+    "observationComments" %in% names(dp_v1_with_media$data$observations)
   )
-  expect_true("comments" %in% names(dp_v1_rc1_with_media$data$observations))
+  expect_true("comments" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that("read observations v1.0-rc1: _id is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$observations$`_id`)))
+  expect_true(all(is.na(dp_v1_with_media$data$observations$`_id`)))
 })
 
 test_that(
   "read observations v1.0-rc1: individualSpeed is renamed as speed", {
     expect_false(
-      "individualSpeed" %in% names(dp_v1_rc1_with_media$data$observations)
+      "individualSpeed" %in% names(dp_v1_with_media$data$observations)
     )
-    expect_true("speed" %in% names(dp_v1_rc1_with_media$data$observations))
+    expect_true("speed" %in% names(dp_v1_with_media$data$observations))
 })
 
 test_that(
   "read observations v1.0-rc1: individualPositionRadius is renamed as radius", {
     expect_false(
       "individualPositionRadius" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
-    expect_true("radius" %in% names(dp_v1_rc1_with_media$data$observations))
+    expect_true("radius" %in% names(dp_v1_with_media$data$observations))
   }
 )
 
@@ -509,9 +509,9 @@ test_that(
   "read observations v1.0-rc1: individualPositionAngle is renamed as angle", {
     expect_false(
       "individualPositionAngle" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
-    expect_true("angle" %in% names(dp_v1_rc1_with_media$data$observations))
+    expect_true("angle" %in% names(dp_v1_with_media$data$observations))
   }
 )
 
@@ -519,19 +519,19 @@ test_that(
   "read observations v1.0-rc1: bounding box related columns are not present", {
     expect_false(
       "bboxX" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
     expect_false(
       "bboxY" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
     expect_false(
       "bboxWidth" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
     expect_false(
       " bboxHeight" %in% 
-        names(dp_v1_rc1_with_media$data$observations)
+        names(dp_v1_with_media$data$observations)
     )
   }
 )
@@ -547,7 +547,7 @@ test_that(
       file = dp_path,
       media = FALSE
     ))
-    cols_obs_dp_v1_rc1 <- dp_v1_rc1_with_media$data$observations %>%
+    cols_obs_dp_v1_rc1 <- dp_v1_with_media$data$observations %>%
       dplyr::select(-dplyr::starts_with("vernacularNames")) %>%
       names()
     cols_obs_dp_v0_1_6 <- dp_without_media$data$observations %>%
@@ -560,26 +560,26 @@ test_that(
 )
 
 test_that("read media v1.0-rc1: sequenceID is added", {
-  expect_true("sequenceID" %in% names(dp_v1_rc1_with_media$data$media))
+  expect_true("sequenceID" %in% names(dp_v1_with_media$data$media))
 })
 
 test_that(
   "read media v1.0-rc1: filePublic is a new term in v1.0-rc1 and is ignored", {
-  expect_false("filePublic" %in% names(dp_v1_rc1_with_media$data$media))
+  expect_false("filePublic" %in% names(dp_v1_with_media$data$media))
 })
 
 test_that("read media v1.0-rc1: favorite is renamed as favourite", {
-  expect_false("favorite" %in% names(dp_v1_rc1_with_media$data$media))
-  expect_true("favourite" %in% names(dp_v1_rc1_with_media$data$media))
+  expect_false("favorite" %in% names(dp_v1_with_media$data$media))
+  expect_true("favourite" %in% names(dp_v1_with_media$data$media))
 })
 
 test_that("read media v1.0-rc1: mediaComments is renamed as comments", {
-  expect_false("mediaComments" %in% names(dp_v1_rc1_with_media$data$media))
-  expect_true("comments" %in% names(dp_v1_rc1_with_media$data$media))
+  expect_false("mediaComments" %in% names(dp_v1_with_media$data$media))
+  expect_true("comments" %in% names(dp_v1_with_media$data$media))
 })
 
 test_that("read media v1.0-rc1: _id is left empty", {
-  expect_true(all(is.na(dp_v1_rc1_with_media$data$media$`_id`)))
+  expect_true(all(is.na(dp_v1_with_media$data$media$`_id`)))
 })
 
 test_that(
@@ -591,7 +591,7 @@ test_that(
       file = dp_path,
       media = TRUE
     ))
-    cols_media_dp_v1_rc1 <- dp_v1_rc1_with_media$data$media %>%
+    cols_media_dp_v1_rc1 <- dp_v1_with_media$data$media %>%
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%
       names()

@@ -1,5 +1,5 @@
 ## read camera trap data package from v1.0-rc1
-path_to_json_v1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/02ce57229209dd65249113a193dbad7c84b8d5da/example/datapackage.json"
+path_to_json_v1 <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/example/datapackage.json"
 dp_v1_rc1_with_media <- suppressMessages(
   read_camtrap_dp(path_to_json_v1)
 )

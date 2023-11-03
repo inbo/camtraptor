@@ -583,3 +583,13 @@ test_that(
     expect_identical(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
   }
 )
+
+test_that("v1.0:media$captureMethod values are replaced with v0.1.6 values",{
+  expect_false(
+    "activityDetection" %in% dp_v1_with_media$data$media$captureMethod
+  )
+  expect_identical(
+    levels(dp_v1_with_media$data$media$captureMethod),
+    c("motionDetection", "timeLapse")
+  )
+})

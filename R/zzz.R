@@ -827,7 +827,13 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
   # add taxonID if missing
   if(!"taxonID" %in% colnames(observations)){
-    observations <- observations %>% dplyr::mutate(taxonID = NA_integer_)
+    observations <- observations %>% 
+      dplyr::mutate(taxonID = NA_integer_)
+  }
+  # add taxonIDReference if missing
+  if(!"taxonIDReference" %in% colnames(observations)){
+    observations <- observations %>% 
+      dplyr::mutate(taxonIDReference = NA_character_)
   }
   
   package$data$observations <- observations

@@ -397,7 +397,7 @@ add_taxonomic_info <- function(package) {
       dplyr::left_join(
         package$data$observations,
         taxon_infos,
-        by  = c("taxonID", "scientificName")
+        by  = c("scientificName")
       )
     package$data$observations <- observations
   }

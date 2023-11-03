@@ -150,12 +150,12 @@ test_that("media arg influences only slot media", {
   metadata_without_media <- dp_without_media
   metadata_without_media$data <- NULL
   expect_identical(metadata_with_media, metadata_without_media)
-  metadata_with_media_dp_v1_rc1 <- dp_v1_with_media
-  metadata_with_media_dp_v1_rc1$data <- NULL
-  metadata_without_media_dp_v1_rc1 <- dp_v1_without_media
-  metadata_without_media_dp_v1_rc1$data <- NULL
-  expect_identical(metadata_with_media_dp_v1_rc1, 
-                   metadata_without_media_dp_v1_rc1)
+  metadata_with_media_dp_v1 <- dp_v1_with_media
+  metadata_with_media_dp_v1$data <- NULL
+  metadata_without_media_dp_v1 <- dp_v1_without_media
+  metadata_without_media_dp_v1$data <- NULL
+  expect_identical(metadata_with_media_dp_v1, 
+                   metadata_without_media_dp_v1)
   # observations are the same
   expect_identical(
     dp_with_media$data$observations, 
@@ -576,11 +576,11 @@ test_that(
       file = dp_path,
       media = TRUE
     ))
-    cols_media_dp_v1_rc1 <- dp_v1_with_media$data$media %>%
+    cols_media_dp_v1 <- dp_v1_with_media$data$media %>%
       names()
     cols_media_dp_v0_1_6 <- dp_with_media$data$media %>%
       names()
-    expect_identical(cols_media_dp_v1_rc1, cols_media_dp_v0_1_6)
+    expect_identical(cols_media_dp_v1, cols_media_dp_v0_1_6)
   }
 )
 

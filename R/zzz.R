@@ -536,6 +536,15 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
     dplyr::filter(.data$role == "rightsHolder") %>%
     dplyr::slice(1) %>%
     dplyr::pull(.data$title)
+  
+  # downconvert `captureMethod` to values from Camtrap DP version v0.1.6
+  package$project$captureMethod <-
+    dplyr::case_match(
+      .default = package$project$captureMethod,
+      package$project$captureMethod,
+      "activityDetection" ~ "motionDetection"
+    )
+  
   return(package)
 }
 

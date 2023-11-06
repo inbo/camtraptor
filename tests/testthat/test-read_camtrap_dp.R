@@ -360,9 +360,19 @@ test_that("read deployments v1.0: boolean NA becomes a factor NA", {
   expect_true(all(is.na(dp_v1_with_media$data$deployments$baitUse)))
 })
 
-test_that("read deployments v1.0: session is left empty", {
-  expect_true(all(is.na(dp_v1_with_media$data$deployments$session)))
-})
+test_that(
+  "read deployments v1.0: session is left empty when deploymentGroups is NA",{
+    skip_if(all(!is.na(
+      readr::read_csv(
+        file.path(dirname(path_to_json_v1), "deployments.csv"),
+        show_col_types = FALSE,
+        col_select = "deploymentGroups"
+      )
+    )), message = "All rows have value for deploymentGroups in deployments.csv")
+    expect_true(any(is.na(
+      dp_v1_with_media$data$deployments$session
+    )))
+  })
 
 test_that("read deployments v1.0: array is left empty", {
   expect_true(all(is.na(dp_v1_with_media$data$deployments$array)))

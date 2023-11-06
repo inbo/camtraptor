@@ -625,12 +625,16 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
     # map to session and then remove
     deployments <- deployments %>%
       dplyr::mutate(session = dplyr::case_when(
-        is.na(.data$session) ~.data$deploymentGroups,
-        is.na(.data$deploymentGroups) ~ .data$session,
         !is.na(.data$deploymentGroups) & !is.na(.data$session) ~ 
           stringr::str_c(.data$session, 
                          .data$deploymentGroups, 
-                         sep = " | "))) %>%
+                         sep = " | "),
+        !is.na(.data$deploymentGroups) & is.na(.data$session) ~
+          .data$deploymentGroups,
+        is.na(.data$deploymentGroups) & !is.na(.data$session) ~
+          .data$session,
+        # if there is no value for neither deploymentGroups or session:
+        .default = NA)) %>%
       dplyr::select(-"deploymentGroups")
   }
   if ("array" %in% names(deployments)) {

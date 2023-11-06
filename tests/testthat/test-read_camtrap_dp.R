@@ -343,10 +343,22 @@ test_that(
     expect_identical(
       levels(dp_v1_with_media$data$deployments$baitUse), baitUse_levels
     )
-    # boolean NA becomes a factor NA
-    expect_true(all(is.na(dp_v1_with_media$data$deployments$baitUse)))
   }
 )
+
+test_that("read deployments v1.0: boolean NA becomes a factor NA", {
+  ## no longer present in the example package!
+  skip_if_not(any(is.na(
+    readr::read_csv(
+      file.path(dirname(path_to_json_v1), "deployments.csv"),
+      show_col_types = FALSE,
+      col_select = "baitUse"
+    )
+  )),
+  message = "There are no NA values present in deployments.baitUse")
+  
+  expect_true(all(is.na(dp_v1_with_media$data$deployments$baitUse)))
+})
 
 test_that("read deployments v1.0: session is left empty", {
   expect_true(all(is.na(dp_v1_with_media$data$deployments$session)))

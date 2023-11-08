@@ -97,13 +97,10 @@ read_camtrap_dp <- function(file = NULL,
   # check version is supported
   assertthat::assert_that(
     version %in% supported_versions,
-    msg = paste0(
-      glue::glue("Version {version} "), 
-      "is not supported. Supported versions: ",
-      glue::glue_collapse(glue::glue("{supported_versions}"), 
-                              sep = " ", 
-                              last = " and "),
-      ".")
+    msg = glue::glue(
+      "Version `{version}` is not supported. Supported versions: ",
+      glue::glue_collapse(supported_versions, sep = " ", last = " and ")
+    )
   )
     
   # get resource names

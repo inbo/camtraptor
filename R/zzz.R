@@ -850,7 +850,7 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   # add taxonID if missing
   if(!"taxonID" %in% colnames(observations)){
     observations <- observations %>% 
-      dplyr::mutate(taxonID = NA_integer_)
+      dplyr::mutate(taxonID = NA_character_)
   }
   # add taxonIDReference if missing
   if(!"taxonIDReference" %in% colnames(observations)){

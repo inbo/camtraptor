@@ -265,11 +265,13 @@ get_record_table <- function(package = NULL,
       Species = "scientificName",
       DateTimeOriginal = "timestamp",
       Directory = "filePath",
-      FileName = "fileName"
+      FileName = "fileName",
+      n = "count"
     ) %>%
     dplyr::select(
       "Station",
       "Species",
+      "n",
       "DateTimeOriginal",
       "Date",
       "Time",

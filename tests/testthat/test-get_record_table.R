@@ -106,18 +106,18 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
 
 test_that("Higher minDeltaTime means less rows returned", {
   nrow_delta_0 <- get_record_table(mica) %>% nrow()
-  nrow_delta_1000 <- get_record_table(mica,
-    minDeltaTime = 1000,
-    deltaTimeComparedTo = "lastRecord"
-  ) %>%
-    nrow()
   nrow_delta_10000 <- suppressMessages(get_record_table(mica,
     minDeltaTime = 10000,
     deltaTimeComparedTo = "lastRecord"
   )) %>%
     nrow()
-  testthat::expect_true(nrow_delta_1000 <= nrow_delta_0)
-  testthat::expect_true(nrow_delta_10000 <= nrow_delta_1000)
+  nrow_delta_100000 <- suppressMessages(get_record_table(mica,
+    minDeltaTime = 100000,
+    deltaTimeComparedTo = "lastRecord"
+  )) %>%
+    nrow()
+  testthat::expect_true(nrow_delta_10000 < nrow_delta_0)
+  testthat::expect_true(nrow_delta_100000 < nrow_delta_10000)
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {

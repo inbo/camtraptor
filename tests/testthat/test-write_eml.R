@@ -33,20 +33,24 @@ test_that("write_eml() can write an eml", {
 })
 
 test_that("write_eml() checks for title", {
-  expect_error(write_eml(mica),
-               regexp = "The dataset must have a `title`.",
-               fixed = TRUE)
+  expect_error(
+    write_eml(mica),
+    "The dataset must have a `title`.",
+    fixed = TRUE
+  )
 })
 
 test_that("write_eml() checks for keywords", {
-  expect_error(write_eml(mica, title = "mica title", keywords = NULL),
-               regexp = "`keywords` should be a character (vector).",
-               fixed = TRUE)
+  expect_error(
+    write_eml(mica, title = "mica title", keywords = NULL),
+    "`keywords` should be a character (vector).",
+    fixed = TRUE
+  )
 })
 
 test_that("write_eml() notifies to check metadata", {
   suppressMessages(expect_message(
     write_eml(mica, title = "mica title", directory = NULL),
-    regexp = "Please review generated metadata carefully before publishing.",
+    "Please review generated metadata carefully before publishing.",
     fixed = TRUE))
 })

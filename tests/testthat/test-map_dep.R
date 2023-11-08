@@ -1,6 +1,6 @@
 test_that("map_dep() returns error when feature is missing", {
   expect_error(map_dep(mica),
-    regexp = 'argument "feature" is missing, with no default',
+    'argument "feature" is missing, with no default',
     fixed = TRUE
   )
 })
@@ -29,7 +29,7 @@ test_that("map_dep() returns error for invalid feature", {
   # more than one feature
   expect_error(
     map_dep(mica, feature = valid_inputs[1:2]),
-    regexp = "`feature` must have length 1",
+    "`feature` must have length 1",
     fixed = TRUE
   )
 })
@@ -37,17 +37,17 @@ test_that("map_dep() returns error for invalid feature", {
 test_that("map_dep() can handle combinations of arguments", {
   expect_warning(
     map_dep(mica, feature = "n_species", effort_unit = "month"),
-    regexp = "`effort_unit` ignored for `feature = n_species`.",
+    "`effort_unit` ignored for `feature = n_species`.",
     fixed = TRUE
   )
   expect_warning(
     map_dep(mica, feature = "n_species", sex = "male"),
-    regexp = "`sex` ignored for `feature = n_species`.",
+    "`sex` ignored for `feature = n_species`.",
     fixed = TRUE
   )
   expect_warning(
     map_dep(mica, feature = "n_species", life_stage = "subadult"),
-    regexp = "`life_stage` ignored for `feature = n_species`.",
+    "`life_stage` ignored for `feature = n_species`.",
     fixed = TRUE
   )
 })
@@ -56,31 +56,31 @@ test_that("map_dep() can toggle showing deployments with zero values", {
   # expect an error when the toggle has length > 1
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = c(TRUE, TRUE)),
-               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               "zero_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   # expect an error when the toggle is not TRUE or FALSE
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = "dax"),
-               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               "zero_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = NA),
-               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               "zero_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   expect_error(map_dep(mica, feature = "n_obs",
                        zero_values_show = NULL),
-               regexp = "zero_values_show must be a logical: TRUE or FALSE.",
+               "zero_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   # expect a message when an url/size is provided but the toggle is off
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
-    regexp = "`zero_values_show` is FALSE: `zero_values_icon_url` ignored.",
+    "`zero_values_show` is FALSE: `zero_values_icon_url` ignored.",
     fixed = TRUE
   ))
   
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", zero_values_show = FALSE),
-    regexp = "`zero_values_show` is FALSE: `zero_values_icon_size` is ignored.",
+    "`zero_values_show` is FALSE: `zero_values_icon_size` is ignored.",
     fixed = TRUE
   ))
   
@@ -93,31 +93,31 @@ test_that("map_dep() can toggle showing deployments with NA values", {
   # expect an error when the toggle has length > 1
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = c(TRUE, TRUE)),
-               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               "na_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   # expect an error when the toggle is not TRUE or FALSE
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = "dax"),
-               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               "na_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = NA),
-               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               "na_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   expect_error(map_dep(mica, feature = "n_obs",
                        na_values_show = NULL),
-               regexp = "na_values_show must be a logical: TRUE or FALSE.",
+               "na_values_show must be a logical: TRUE or FALSE.",
                fixed = TRUE)
   # expect a message when an url/size is provided but the toggle is off
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", na_values_show = FALSE),
-    regexp = "`na_values_show` is FALSE: `na_values_icon_url` ignored.",
+    "`na_values_show` is FALSE: `na_values_icon_url` ignored.",
     fixed = TRUE
   ))
   
   suppressMessages(expect_message(
     map_dep(mica, feature = "n_obs", na_values_show = FALSE),
-    regexp = "`na_values_show` is FALSE: `na_values_icon_size` is ignored.",
+    "`na_values_show` is FALSE: `na_values_icon_size` is ignored.",
     fixed = TRUE
   ))
   
@@ -142,20 +142,18 @@ test_that("map_dep() can calculate and get feature values", {
     )
   suppressMessages(expect_message(
     map_dep(mica, feature = "rai", species = "krakeend"),
-    regexp =
-      glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
+    glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
     fixed = TRUE
   ))
   
   suppressMessages(expect_message(
     map_dep(mica, feature = "rai_individuals", species = "krakeend"),
-    regexp =
-      glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
+    glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
     fixed = TRUE
   ))
   expect_warning(
     map_dep(mica, feature = "n_species", species = "krakeend"),
-    regexp = "`species` ignored for `feature = n_species`",
+    "`species` ignored for `feature = n_species`",
     fixed = TRUE
   )
 })
@@ -168,11 +166,11 @@ test_that("map_dep() allows for scale modifications", {
     relative_scale = FALSE
   ))
   expect_warning(map_dep(mica, feature = "effort", max_scale = 0),
-    regexp = "Relative scale used: max_scale value ignored.",
+    "Relative scale used: max_scale value ignored.",
     fixed = TRUE
   )
   expect_error(map_dep(mica, feature = "effort", relative_scale = FALSE),
-    regexp = "If you use an absolute scale, `max_scale` must be a number, not `NULL`.",
+    "If you use an absolute scale, `max_scale` must be a number, not `NULL`.",
     fixed = TRUE
   )
 })
@@ -205,17 +203,17 @@ test_that("map_dep() allows filtering by predicates", {
   
   expect_message(
     map_dep(mica, pred_gt("latitude", 51.18), feature = "n_species"),
-    regexp = "df %>% dplyr::filter((latitude > 51.18))",
+    "df %>% dplyr::filter((latitude > 51.18))",
     fixed = TRUE)
   
   suppressMessages(expect_message(
     map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
-    regexp = "No deployments left.",
+    "No deployments left.",
     fixed = TRUE))
   
   suppressMessages(expect_message(
     map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
-    regexp = "df %>% dplyr::filter((latitude > 90))",
+    "df %>% dplyr::filter((latitude > 90))",
     fixed = TRUE))
 })
 
@@ -232,7 +230,7 @@ test_that("Argument datapkg is deprecated: warning returned", {
       lifecycle_verbosity = "warning",
       map_dep(datapkg = mica, feature = "n_obs")
     ),
-    regexp = "The `datapkg` argument of `map_dep()` is deprecated as of camtraptor 0.16.0.",
+    "The `datapkg` argument of `map_dep()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE
   )
 })

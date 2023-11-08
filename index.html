@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
-    Camtrap DP (&lt;https://tdwg.github.io/camtrap-dp/&gt;) is a community developed 
+    Camtrap DP (&lt;https://camtrap-dp.tdwg.org&gt;) is a community developed 
     data exchange format for this type of data. With camtraptor you can read and 
     filter data, create overviews of observed species, relative abundance or 
     effort, and plot these data on a map.">
@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Read, Explore and Visualize Camera Trap Data Packages">
 <meta property="og:description" content="Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
-    Camtrap DP (&lt;https://tdwg.github.io/camtrap-dp/&gt;) is a community developed 
+    Camtrap DP (&lt;https://camtrap-dp.tdwg.org&gt;) is a community developed 
     data exchange format for this type of data. With camtraptor you can read and 
     filter data, create overviews of observed species, relative abundance or 
     effort, and plot these data on a map.">
@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,9 @@
     <a class="dropdown-item" href="articles/record-table.html">Record table</a>
     <a class="dropdown-item" href="articles/visualize-deployment-features.html">Visualize deployment features</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -79,11 +82,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). <a href="https://tdwg.github.io/camtrap-dp/" class="external-link">Camtrap DP</a> is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.</p>
+<p>Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). <a href="https://camtrap-dp.tdwg.org" class="external-link">Camtrap DP</a> is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.</p>
 <div class="section level2">
 <h2 id="camtrap-dp">Camtrap DP<a class="anchor" aria-label="anchor" href="#camtrap-dp"></a>
 </h2>
-<p>Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal data model. <code><a href="reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> will automatically down-convert Camtrap DP 1.0-rc.1 datasets to that legacy model to avoid introducing breaking changes. The downside is that some newer properties like <code>media.filePublic</code> and <code>observations.eventEnd</code> are ignored when reading data.</p>
+<p>Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal data model. <code><a href="reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> will automatically down-convert Camtrap DP 1.0 datasets to that legacy model to avoid introducing breaking changes. The downside is that some newer properties like <code>deployments.cameraDepth</code>, <code>media.filePublic</code> and <code>observations.eventEnd</code> are removed when reading data.</p>
 <p>The upcoming <a href="https://github.com/inbo/camtraptor/milestone/3" class="external-link">camtraptor v1.0</a> will update the internal data model to Camtrap DP 1.0 and drop support for Camtrap DP 0.1.6. This is a breaking change that will be accompanied by a number of other major changes. Future versions of camtraptor will always use the latest version of Camtrap DP and up-convert legacy datasets to that model.</p>
 </div>
 <div class="section level2">

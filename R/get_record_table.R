@@ -66,8 +66,10 @@
 #'
 #' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
+#' mica_dependent <- mica
+#' mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
 #' get_record_table(
-#'   mica,
+#'   mica_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastIndependentRecord"
 #' )
@@ -75,7 +77,7 @@
 #' # Set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
 #' get_record_table(
-#'   mica,
+#'   mica_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )

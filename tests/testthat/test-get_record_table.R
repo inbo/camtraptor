@@ -169,12 +169,13 @@ test_that(
     n_media <-
       mica$data$media %>%
       dplyr::group_by(.data$sequenceID) %>%
-      dplyr::count()
+      dplyr::count() %>%
+      dplyr::rename(n_media = n)
     output <- output %>%
       dplyr::left_join(n_media,
         by = "sequenceID"
       )
-    testthat::expect_equal(output$len, output$n)
+    testthat::expect_equal(output$len, output$n_media)
   }
 )
 

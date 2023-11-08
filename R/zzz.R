@@ -445,12 +445,10 @@ convert_to_0.1.6 <- function(package, from = "1.0", media = TRUE){
   supported_versions <- c("1.0")
   assertthat::assert_that(
     from %in% supported_versions,
-    msg = paste0(
+    msg = glue::glue(
       "Only conversion from ", 
-      glue::glue_collapse(glue::glue("{supported_versions}"), 
-                          sep = " ", 
-                          last = " and "),
-      " to 0.1.6 is supported."
+      glue::glue_collapse(supported_versions, sep = " ", last = " and "),
+      " to `0.1.6` is supported."
     )
   )
   # check data slot is present in package
@@ -460,12 +458,10 @@ convert_to_0.1.6 <- function(package, from = "1.0", media = TRUE){
   )
   
   # notify about conversion
-  message(paste0(
-    collapse = "\n",
-    c(
-      "The dataset uses Camtrap DP version 1.0, it has been converted to 0.1.6.",
-      "See https://inbo.github.io/camtraptor/#camtrap-dp for details."
-    )
+  message(glue::glue(
+    "The dataset uses Camtrap DP version 1.0, it has been converted to 0.1.6.",
+    "See https://inbo.github.io/camtraptor/#camtrap-dp for details.",
+    .sep = "\n"
   ))
   # convert metadata
   package <- convert_metadata_to_0.1.6(package, from)  
@@ -496,38 +492,28 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
   if ("role" %in% names(authors)) {
     deprecated_roles <- c("author", "maintainer")
     if (any(deprecated_roles %in% authors$role)) {
-      warning(paste0(
+      warning(glue::glue(
         "Roles ",
-        glue::glue_collapse(glue::glue("{deprecated_roles}"), 
-                            sep = " ",
-                            last = " and "),
-        " are deprecated in ",
-        "version {from}."
-        )
-      )
+        glue::glue_collapse(deprecated_roles, sep = " ", last = " and "),
+        " are deprecated in version {from}."
+      ))
     }
   }
   if ("organizations" %in% names(package)) {
     warning(glue::glue(
-      "The field `organizations` is deprecated in ",
-      "version {from}."
-      )
-    )
+      "The field `organizations` is deprecated in version {from}."
+    ))
   }
   if ("animalTypes" %in% names(package)) {
     warning(glue::glue(
-      "The field `animalTypes` is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `animalTypes` is deprecated in version {from}."
+    ))
   }
   names(package)[names(package) == "observationLevel"] <- "classificationLevel"
   if ("sequenceInterval" %in% names(package$project)) {
     warning(glue::glue(
-      "The field `sequenceInterval` is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `sequenceInterval` is deprecated in version {from}."
+    ))
   }
   package$platform <- package$sources[[1]]$title
   # `title` value of the first contributor with role `rightsHolder`
@@ -613,9 +599,9 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
       dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
   }
   if ("session" %in% names(deployments)) {
-    warning(glue::glue("The field `session` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `session` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate(session = NA)
@@ -637,17 +623,17 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
       dplyr::select(-"deploymentGroups")
   }
   if ("array" %in% names(deployments)) {
-    warning(glue::glue("The field `array` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `array` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate(array = NA)
   }
   if ("_id" %in% names(deployments)) {
-    warning(glue::glue("The field `_id` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate("_id" = NA)
@@ -727,9 +713,9 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
       dplyr::rename(comments = "mediaComments")
   }
   if ("_id" %in% names(media)) {
-    warning(glue::glue("The field `_id` of media is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of media is deprecated in version {from}."
+    ))
   } else {
     media <- media %>%
       dplyr::mutate("_id" = NA)
@@ -798,10 +784,8 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   }
   if ("countNew" %in% names(observations)) {
     warning(glue::glue(
-      "The field `countNew` of observations is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `countNew` of observations is deprecated in version {from}."
+    ))
   } else {
     observations <- observations %>%
       dplyr::mutate("countNew" = NA)
@@ -826,9 +810,9 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
       dplyr::rename(comments = "observationComments")
   }
   if ("_id" %in% names(observations)) {
-    warning(glue::glue("The field `_id` of observations is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of observations is deprecated in version {from}."
+    ))
   } else {
     observations <- observations %>%
       dplyr::mutate("_id" = NA)

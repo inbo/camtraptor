@@ -1,7 +1,7 @@
 #' Read a Camtrap DP
 #'
 #' Reads files from a [Camera Trap Data Package](
-#' https://tdwg.github.io/camtrap-dp) into memory.
+#' https://camtrap-dp.tdwg.org) into memory.
 #' All datetime information is automatically transformed to Coordinated
 #' Universal Time (UTC).
 #' Vernacular names found in the metadata (`package$taxonomic`) are added to the

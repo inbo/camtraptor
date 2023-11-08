@@ -22,7 +22,7 @@ Authors@R: c(
            role = "fnd", comment = "https://lifewatch.be")
   )
 Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
-    'Camtrap DP' (<https://tdwg.github.io/camtrap-dp/>) is a community developed 
+    'Camtrap DP' (<https://camtrap-dp.tdwg.org>) is a community developed 
     data exchange format for this type of data. With camtraptor you can read and 
     filter data, create overviews of observed species, relative abundance or 
     effort, and plot these data on a map.

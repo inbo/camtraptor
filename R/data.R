@@ -1,6 +1,6 @@
 #' Sample of Camtrap DP formatted data
 #'
-#' A sample [Camera Trap Data Package](https://tdwg.github.io/camtrap-dp) as
+#' A sample [Camera Trap Data Package](https://camtrap-dp.tdwg.org) as
 #' read by [read_camtrap_dp()].
 #' The source data are derived from the [Camtrap DP example dataset](
 #' https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example)

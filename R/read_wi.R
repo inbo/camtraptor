@@ -7,7 +7,7 @@
 #' [private](https://www.wildlifeinsights.org/get-started/download/private)
 #' download.
 #' The function transforms data and metadata to a [Camera Trap Data Package](
-#' https://tdwg.github.io/camtrap-dp) which can be written to file with
+#' https://camtrap-dp.tdwg.org) which can be written to file with
 #' [frictionless::write_package()].
 #'
 #' **The function has only been tested on image-based projects.**
@@ -61,7 +61,7 @@ read_wi <- function(directory = ".") {
   # Create package
   package <- frictionless::create_package() # Also sets profile, resources
 
-  # Set metadata properties, see https://tdwg.github.io/camtrap-dp/metadata
+  # Set metadata properties, see https://camtrap-dp.tdwg.org/metadata
   package$name <- basename(directory) # Unique name if unchanged from WI export zip
   package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
   package$created <- lubridate::format_ISO8601(lubridate::now())
@@ -229,7 +229,7 @@ read_wi <- function(directory = ".") {
     # packageID = ""
   )
 
-  # Create deployments, see https://tdwg.github.io/camtrap-dp/data/#deployments
+  # Create deployments, see https://camtrap-dp.tdwg.org/data/#deployments
   deployments <-
     wi_deployments %>%
     dplyr::left_join(wi_cameras, by = c("project_id", "camera_id")) %>%
@@ -298,7 +298,7 @@ read_wi <- function(directory = ".") {
       `_id` = NA_character_
     )
 
-  # Create media, see https://tdwg.github.io/camtrap-dp/data/#media
+  # Create media, see https://camtrap-dp.tdwg.org/data/#media
   media <-
     wi_images %>%
     dplyr::distinct(.data$location, .keep_all = TRUE) %>%
@@ -317,7 +317,7 @@ read_wi <- function(directory = ".") {
       `_id` = NA_character_
     )
 
-  # Create observations, see https://tdwg.github.io/camtrap-dp/data/#observations
+  # Create observations, see https://camtrap-dp.tdwg.org/data/#observations
   observations <-
     wi_images %>%
     dplyr::transmute(

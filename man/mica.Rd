@@ -14,7 +14,7 @@ An object of class \code{datapackage} (inherits from \code{list}) of length 16.
 mica
 }
 \description{
-A sample \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} as
+A sample \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} as
 read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.
 The source data are derived from the \href{https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example}{Camtrap DP example dataset}
 and are saved in \code{inst/extdata/mica}.

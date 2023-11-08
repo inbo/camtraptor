@@ -57,7 +57,7 @@
 #'   - `latitude`
 #'   - `longitude`
 #'
-#'   See the [Deployment](https://tdwg.github.io/camtrap-dp/data/#deployments)
+#'   See the [Deployment](https://camtrap-dp.tdwg.org/data/#deployments)
 #'   section of Camtrap DP for the full list of columns you can use.
 #' @param palette The palette name or the colour function that values will be
 #'   mapped to.

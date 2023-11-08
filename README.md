@@ -26,10 +26,10 @@ effort, and plot these data on a map.
 
 Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal
 data model. `read_camtrap_dp()` will automatically down-convert Camtrap
-DP 1.0-rc.1 datasets to that legacy model to avoid introducing breaking
+DP 1.0 datasets to that legacy model to avoid introducing breaking
 changes. The downside is that some newer properties like
-`media.filePublic` and `observations.eventEnd` are ignored when reading
-data.
+`deployments.cameraDepth`, `media.filePublic` and
+`observations.eventEnd` are removed when reading data.
 
 The upcoming [camtraptor
 v1.0](https://github.com/inbo/camtraptor/milestone/3) will update the

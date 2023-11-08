@@ -19,7 +19,7 @@ Reads files from an unzipped \href{https://www.wildlifeinsights.org/}{Wildlife I
 Data can be exported from Wildlife Insights as a \href{https://www.wildlifeinsights.org/get-started/data-download/public}{public} or
 \href{https://www.wildlifeinsights.org/get-started/download/private}{private}
 download.
-The function transforms data and metadata to a \href{https://tdwg.github.io/camtrap-dp}{Camera Trap Data Package} which can be written to file with
+The function transforms data and metadata to a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} which can be written to file with
 \code{\link[frictionless:write_package]{frictionless::write_package()}}.
 }
 \details{

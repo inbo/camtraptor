@@ -3,7 +3,7 @@
 #' Stores prefixes for info shown while hovering over a deployment with the
 #' mouse.
 #' List fields in deployments as in
-#' <https://tdwg.github.io/camtrap-dp/data/#deployments>.
+#' <https://camtrap-dp.tdwg.org/data/#deployments>.
 #'
 #' Returns a data.frame of all prefixes with the following columns:
 #' - `info`: Deployment info.

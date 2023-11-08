@@ -23,11 +23,11 @@ knitr::opts_chunk$set(
 ![last commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 <!-- badges: end -->
 
-Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). [Camtrap DP](https://tdwg.github.io/camtrap-dp/) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
+Camtraptor is an R package to read, explore and visualize Camera Trap Data Packages (Camtrap DP). [Camtrap DP](https://camtrap-dp.tdwg.org) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
 
 ## Camtrap DP
 
-Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal data model. `read_camtrap_dp()` will automatically down-convert Camtrap DP 1.0-rc.1 datasets to that legacy model to avoid introducing breaking changes. The downside is that some newer properties like `media.filePublic` and `observations.eventEnd` are ignored when reading data.
+Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal data model. `read_camtrap_dp()` will automatically down-convert Camtrap DP 1.0 datasets to that legacy model to avoid introducing breaking changes. The downside is that some newer properties like `deployments.cameraDepth`, `media.filePublic` and `observations.eventEnd` are removed when reading data.
 
 The upcoming [camtraptor v1.0](https://github.com/inbo/camtraptor/milestone/3) will update the internal data model to Camtrap DP 1.0 and drop support for Camtrap DP 0.1.6. This is a breaking change that will be accompanied by a number of other major changes. Future versions of camtraptor will always use the latest version of Camtrap DP and up-convert legacy datasets to that model.
 

@@ -57,7 +57,7 @@
 #'   - `latitude`
 #'   - `longitude`
 #'
-#'   See the [Deployment](https://tdwg.github.io/camtrap-dp/data/#deployments)
+#'   See the [Deployment](https://camtrap-dp.tdwg.org/data/#deployments)
 #'   section of Camtrap DP for the full list of columns you can use.
 #' @param palette The palette name or the colour function that values will be
 #'   mapped to.
@@ -545,8 +545,8 @@ map_dep <- function(package = NULL,
     if (n_not_found_cols > 0) {
       warning(glue::glue(
         "Can't find {n_not_found_cols} columns defined in `hover_columns` in ",
-        "deployments: {not_found_cols*}",
-        .transformer = collapse_transformer(sep = ", ", last = " and ")
+        "deployments: ",
+        glue::glue_collapse(not_found_col, sep = ", ", last = " and ")
       ))
     }
   }

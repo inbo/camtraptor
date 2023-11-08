@@ -1,10 +1,11 @@
 test_that("get_custom_effort returns error for invalid group_by value", {
-  expect_error(get_custom_effort(mica, group_by = "bad_value"),
-               regexp = paste0("Invalid value for group_by parameter: ",
-                               "bad_value.\n",
-                               "Valid inputs are: NULL, day, week, month ",
-                               "and year."),
-               fixed = TRUE
+  expect_error(
+    get_custom_effort(mica, group_by = "bad_value"),
+    paste0(
+      "Invalid value for group_by parameter: bad_value.\n",
+      "Valid inputs are: day, week, month, year and NULL"
+    ),
+    fixed = TRUE
   )
 })
 
@@ -14,10 +15,12 @@ test_that("get_custom_effort returns error for start not a Date", {
   expect_error(
     get_custom_effort(
       mica, 
-      start = lubridate::as_datetime("2021-12-05 22:25:01 CET")),
-    regexp = paste0("`start` must be `NULL` or an object of class Date. ",
-                    "Did you forget to convert a string to Date with ",
-                    "`as.Date()`?"),
+      start = lubridate::as_datetime("2021-12-05 22:25:01 CET")
+    ),
+    paste0(
+      "`start` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
+    ),
     fixed = TRUE
   )
 })
@@ -26,60 +29,73 @@ test_that("get_custom_effort returns error for end not a Date", {
   expect_error(get_custom_effort(mica, end = "2021-01-01"))
   # No datetime allowed
   expect_error(
-    get_custom_effort(mica,
-                      end = lubridate::as_datetime("2021-12-05 22:25:01 CET")),
-    regexp = paste0("`end` must be `NULL` or an object of class Date. ",
-                    "Did you forget to convert a string to Date with ",
-                    "`as.Date()`?"),
+    get_custom_effort(
+      mica,
+      end = lubridate::as_datetime("2021-12-05 22:25:01 CET")
+    ),
+   paste0(
+      "`end` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
+    ),
     fixed = TRUE
   )
 })
 
 test_that("get_custom_effort returns error if end earlier than start", {
   expect_error(
-    get_custom_effort(mica,
-                      start = as.Date("2021-01-01"),
-                      end = as.Date("1990-01-01")),
-    regexp = paste0("`end` value is set too early. `end` value must be not ",
-                    "earlier than the start of the earliest deployment: ",
-                    "2019-10-09."),
+    get_custom_effort(
+      mica, start = as.Date("2021-01-01"), end = as.Date("1990-01-01")
+    ),
+    paste0(
+      "`end` value is set too early. `end` value must be not earlier than the ",
+      "start of the earliest deployment: 2019-10-09."
+    ),
     fixed = TRUE
   )
 })
 
 test_that(
   "get_custom_effort returns error if start later than end of latest deployment", {
-  expect_error(get_custom_effort(mica, start = as.Date("2030-01-01")),
-               regexp = paste0(
-                 "`start` value is set too late. ",
-                 "`start` value must be not later than the end of the latest ",
-                 "deployment: 2021-04-18."
-                 ),
-               fixed = TRUE
-               )
+  expect_error(
+    get_custom_effort(mica, start = as.Date("2030-01-01")),
+    paste0(
+      "`start` value is set too late. ",
+      "`start` value must be not later than the end of the latest deployment: ",
+      "2021-04-18."
+    ),
+    fixed = TRUE
+  )
 })
 
 test_that(
   "get_custom_effort returns error if end earlier than begin of first deployment", {
-    expect_error(get_custom_effort(mica, end = as.Date("1900-04-05")),
-                 regexp = paste0(
-                   "`end` value is set too early. ",
-                   "`end` value must be not earlier than the start of the ",
-                   "earliest deployment: 2019-10-09."),
-                 fixed = TRUE
+    expect_error(
+      get_custom_effort(mica, end = as.Date("1900-04-05")),
+      paste0(
+        "`end` value is set too early. ",
+        "`end` value must be not earlier than the start of the ",
+        "earliest deployment: 2019-10-09."
+      ),
+      fixed = TRUE
     )
   })
 
 test_that("get_custom_effort returns error for invalid effort units", {
-  expect_error(get_custom_effort(mica, unit = "second"),
-               regexp = paste0("Invalid value for unit parameter: second.\n",
-                               "Valid inputs are: hour and day."),
-               fixed = TRUE
+  expect_error(
+    get_custom_effort(mica, unit = "second"),
+    paste0(
+      "Invalid value for unit parameter: second.\n",
+      "Valid inputs are: hour and day"
+    ),
+    fixed = TRUE
   )
-  expect_error(get_custom_effort(mica, unit = "year"),
-               regexp = paste0("Invalid value for unit parameter: year.\n",
-                               "Valid inputs are: hour and day."),
-               fixed = TRUE
+  expect_error(
+    get_custom_effort(mica, unit = "year"),
+    paste0(
+      "Invalid value for unit parameter: year.\n",
+      "Valid inputs are: hour and day"
+    ),
+    fixed = TRUE
   )
 })
 

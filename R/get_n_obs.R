@@ -84,9 +84,8 @@ get_n_obs <- function(package = NULL,
       if (length(species) > 1) {
         ignored_species <- species[!species == "all"]
         warning(glue::glue(
-          "Value `all` found in `species`.",
-          "All other values are ignored: {ignored_species*}.",
-          .transformer = collapse_transformer(sep = ", ", last = " and ")
+          "Value `all` found in `species`. All other values are ignored: ",
+          glue::glue_collapse(ignored_species, sep = ", ", last = " and ")
         ))
       }
       species <- get_species(package)$scientificName

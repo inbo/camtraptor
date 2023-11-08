@@ -545,8 +545,8 @@ map_dep <- function(package = NULL,
     if (n_not_found_cols > 0) {
       warning(glue::glue(
         "Can't find {n_not_found_cols} columns defined in `hover_columns` in ",
-        "deployments: {not_found_cols*}",
-        .transformer = collapse_transformer(sep = ", ", last = " and ")
+        "deployments: ",
+        glue::glue_collapse(not_found_col, sep = ", ", last = " and ")
       ))
     }
   }

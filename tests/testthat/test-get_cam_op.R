@@ -16,8 +16,10 @@ test_that("input camtrap dp is checked properly", {
   # station_col value is not a column of deployments
   expect_error(
     get_cam_op(mica, station_col = "bla"),
-    regexp = paste("Station column name (`bla`) is not valid:", 
-          "it must be one of the deployments column names."),
+    paste0(
+      "Station column name (`bla`) is not valid: ", 
+      "it must be one of the deployments column names."
+    ),
     fixed = TRUE
   )
   # column specified by station_col contains empty values

@@ -15,15 +15,14 @@ test_that("map_dep() returns error for invalid feature", {
       "rai_individuals",
       "effort"
     )
-  valid_input_string <-
-    sub(",([^,]*)$", " and\\1", paste(valid_inputs, collapse = ", "))
-  no_feature <- "not a feature"
+  no_feature <- "not_a_feature"
   # invalid feature
   expect_error(
     map_dep(mica, feature = no_feature),
-    regexp = glue::glue("Invalid value for feature parameter: {no_feature}.",
-      "Valid inputs are: {valid_input_string}.",
-      .sep = "\n"
+    paste0(
+      "Invalid value for feature parameter: not_a_feature.\n",
+      "Valid inputs are: n_species, n_obs, n_individuals, rai, ",
+      "rai_individuals and effort"
     ),
     fixed = TRUE
   )

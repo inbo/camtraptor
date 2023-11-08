@@ -37,26 +37,24 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # Suppress long messages with valid options
   if (length(options) > max_print) {
-    options_to_print <- c(options[1:max_print], "others..")
+    options_to_print <- c(options[1:max_print], "others...")
   } else {
     options_to_print <- options
   }
-
-  # compose error message
-  if (null_allowed == TRUE) {
-    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
-        Valid inputs are: NULL, {options_to_print*}."
-  } else {
-    if (is.null(wrong_values)) {
-      wrong_values <- "NULL"
-    }
-    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
-        Valid inputs are: {options_to_print*}."
+  
+  # Include NULL
+  if (null_allowed) {
+    options_to_print <- append(options_to_print, "NULL")
+  } else if (is.null(wrong_values)) {
+    wrong_values <- "NULL"
   }
-
+  
+  # Compose error message
   msg_to_print <- glue::glue(
-    string_to_print,
-    .transformer = collapse_transformer(sep = ", ", last = " and ")
+    "Invalid value for {arg_name} parameter: ",
+    glue::glue_collapse(wrong_values, sep = ", ", last = " and "),
+    ".\nValid inputs are: ",
+    glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
   )
 
   # Provide user message
@@ -69,21 +67,6 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
     assertthat::assert_that(null_allowed == TRUE,
       msg = msg_to_print
     )
-  }
-}
-
-#' Print list of options
-#'
-#' @param regex Character. A regular expression to parse.
-#' @param ... Additional parameters passed to the collapse.
-#' @noRd
-collapse_transformer <- function(regex = "[*]$", ...) {
-  function(code, envir) {
-    if (grepl(regex, code)) {
-      code <- sub(regex, "", code)
-    }
-    res <- eval(parse(text = code), envir)
-    glue::glue_collapse(res, ...)
   }
 }
 
@@ -207,8 +190,7 @@ get_dep_no_obs <- function(package = NULL,
     }
     message(glue::glue(
       "There are {n_dep_no_obs} deployments without observations: ",
-      "{options_to_print*}",
-      .transformer = collapse_transformer(sep = ", ", last = " and ")
+      glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
     ))
   }
   return(dep_no_obs)

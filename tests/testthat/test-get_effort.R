@@ -1,12 +1,20 @@
 testthat::test_that("get_effort returns error for invalid effort units", {
   testthat::expect_error(
     get_effort(mica, unit = "bad_unit"),
-    "Invalid value for unit parameter: bad_unit.
-Valid inputs are: second, minute, hour, day, month and year.")
+    paste0(
+      "Invalid value for unit parameter: bad_unit.\n",
+      "Valid inputs are: second, minute, hour, day, month and year"
+    ),
+    fixed = TRUE
+  )
   testthat::expect_error(
     get_effort(mica, unit = NULL),
-    "Invalid value for unit parameter: NULL.
-Valid inputs are: second, minute, hour, day, month and year.")
+    paste0(
+      "Invalid value for unit parameter: NULL.\n",
+      "Valid inputs are: second, minute, hour, day, month and year"
+    ),
+    fixed = TRUE
+  )
 })
 
 testthat::test_that("get_effort returns error for invalid datapackage", {
@@ -85,4 +93,3 @@ test_that("Argument datapkg is deprecated: warning returned", {
     regexp = "The `datapkg` argument of `get_effort()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE
   )
-})

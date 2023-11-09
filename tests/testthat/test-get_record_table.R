@@ -203,7 +203,7 @@ test_that(paste(
   testthat::expect_equal(names(rec_table_dup), names(rec_table))
   testthat::expect_equal(
     nrow(rec_table_dup),
-    nrow(mica_duplicates$data$observations)
+    nrow(mica_dup$data$observations)
   )
 })
 

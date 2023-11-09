@@ -146,7 +146,7 @@ get_cam_op <- function(package = NULL,
         "it must be one of the deployments column names."
       )
     )
-    camera_values <- package$data$deployments[[session_col]]
+    camera_values <- package$data$deployments[[camera_col]]
     camera_values <- camera_values[!is.na(camera_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = camera_values,

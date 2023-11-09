@@ -8,6 +8,8 @@ get_cam_op(
   package = NULL,
   ...,
   station_col = "locationName",
+  camera_col = NULL,
+  session_col = NULL,
   use_prefix = FALSE,
   datapkg = lifecycle::deprecated()
 )
@@ -18,21 +20,26 @@ get_cam_op(
 
 \item{...}{filter predicates for filtering on deployments.}
 
-\item{station_col}{Column name to use for identifying the stations.
-Default: \code{"locationName"}.}
+\item{station_col}{Column name to use for identifying the stations. Default:
+\code{"locationName"}.}
 
-\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}).
-If \code{TRUE} the returned row names will start with prefix \code{"Station"} as
-returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+\item{camera_col}{Column name of the column specifying Camera ID. Default:
+\code{NULL}.}
+
+\item{session_col}{Column name to use for identifying the session. Default:
+\code{NULL}. Use it for creating multi-session / multi-season detection
+histories.}
+
+\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
+names will start with prefix \code{"Station"} as returned by
+\href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 Default: \code{FALSE}.}
 
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-A matrix.
-Row names always indicate the station ID.
-Column names are dates.
+A matrix. Row names always indicate the station ID. Column names are
+dates.
 }
 \description{
 Returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
@@ -40,9 +47,8 @@ returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperatio
 }
 \details{
 The deployment data are by default grouped by \code{locationName} (station ID in
-camtrapR jargon) or another column specified by the user.
-If multiple deployments are linked to same location, daily efforts higher
-than 1 occur.
+camtrapR jargon) or another column specified by the user. If multiple
+deployments are linked to same location, daily efforts higher than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment, result
 in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
@@ -55,6 +61,25 @@ get_cam_op(mica, pred_gte("latitude", 51.18))
 
 # Specify column with station names
 get_cam_op(mica, station_col = "locationID")
+
+# Specify column with session IDs
+mica_sessions <- mica
+mica_sessions$data$deployments <- mica_sessions$data$deployments \%>\%
+  dplyr::mutate(session = ifelse(
+    stringr::str_starts(.data$locationName, "B_DL_"),
+      "after2020",
+      "before2020"
+  )
+)
+get_cam_op(mica_sessions, session_col = "session")
+
+# Specify column with camera IDs
+mica_cameras <- mica_sessions
+mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+get_cam_op(mica_cameras, camera_col = "cameraID")
+
+# Specify both session and camera IDs
+get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
 
 # Use prefix Station as in camtrapR's camera operation matrix
 get_cam_op(mica, use_prefix = TRUE)

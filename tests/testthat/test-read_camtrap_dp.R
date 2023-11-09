@@ -70,7 +70,7 @@ test_that("test warnings while reading files with parsing issues", {
   
   # warning on observations
   expect_identical(
-    w[4], # w[3] is returned by readr via frictionless
+    captured_warnings[4], # captured_warnings[3] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `observations`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",
@@ -85,7 +85,7 @@ test_that("test warnings while reading files with parsing issues", {
   
   # warning on media
   expect_identical(
-    w[6], # w[5] is returned by readr via frictionless
+    captured_warnings[6], # captured_warnings[5] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `media`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",

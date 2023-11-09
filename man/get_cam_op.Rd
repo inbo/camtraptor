@@ -54,6 +54,7 @@ Partially active days, e.g. the first or the last day of a deployment, result
 in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \examples{
+library(dplyr)
 get_cam_op(mica)
 
 # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18

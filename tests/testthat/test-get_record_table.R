@@ -185,6 +185,7 @@ test_that(paste(
 ), {
   mica_dup <- mica
   # create duplicates at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
+  # use 3rd observation as the first two are unknown or blank (= no animal)
   mica_dup$data$observations[,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
   mica_dup$data$observations[, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
   mica_dup$data$observations[, "timestamp"] <- mica_dup$data$observations$timestamp[3]

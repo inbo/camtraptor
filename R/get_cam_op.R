@@ -33,6 +33,7 @@
 #'   dates.
 #' @family exploration functions
 #' @importFrom dplyr %>% .data
+#' @importFrom rlang !! :=
 #' @export
 #' @examples
 #' library(dplyr)

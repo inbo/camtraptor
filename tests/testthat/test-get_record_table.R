@@ -183,13 +183,15 @@ test_that(paste(
   "removeDuplicateRecords allows removing duplicates,",
   "but structure output remains the same"
 ), {
-  mica_duplicates <- mica
-  mica_duplicates$data$observations$sequenceID <- mica_duplicates$data$observations$sequenceID[1]
-  mica_duplicates$data$observations$deploymentID <- mica_duplicates$data$observations$deploymentID[1]
-  mica_duplicates$data$observations$timestamp <- mica_duplicates$data$observations$timestamp[1]
-  mica_duplicates$data$observations$scientificName <- "Anas strepera"
-  rec_table <- get_record_table(mica_duplicates)
-  rec_table_dup <- get_record_table(mica_duplicates,
+  mica_dup <- mica
+  # create duplicates at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
+  mica_dup$data$observations[,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
+  mica_dup$data$observations[, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
+  mica_dup$data$observations[, "timestamp"] <- mica_dup$data$observations$timestamp[3]
+  mica_dup$data$observations[, "scientificName"] <- mica_dup$data$observations$scientificName[3]
+  
+  rec_table <- get_record_table(mica_dup)
+  rec_table_dup <- get_record_table(mica_dup,
     removeDuplicateRecords = FALSE
   )
   testthat::expect_equal(nrow(rec_table), 1)

@@ -93,6 +93,20 @@
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
+#' 
+#' # How to deal with duplicates
+#' mica_dup <- mica
+#' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
+#' mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
+#' mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
+#' mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
+#'
+#' # duplicate removed
+#' get_record_table(mica_dup)
+#' 
+#' # duplicate not removed
+#' get_record_table(mica_dup, removeDuplicateRecords = FALSE)
+#' 
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
 get_record_table <- function(package = NULL,

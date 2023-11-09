@@ -49,12 +49,12 @@ test_that("test warnings while reading files with parsing issues", {
     "datapackage_for_parsing_issues.json", 
     package = "camtraptor"
   )
-  w <- capture_warnings(
+  captured_warnings <- capture_warnings(
     dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
   # warning on deployments
   expect_identical(
-    w[2], # w[1] is returned by readr via frictionless
+    captured_warnings[2], # captured_warnings[1] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `deployments`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",

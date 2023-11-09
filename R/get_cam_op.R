@@ -100,7 +100,20 @@ get_cam_op <- function(package = NULL,
     )
   )
   
-  # Check that `session_col` exists in deployments, if defined
+  # Check that `station_col` do not contain the reserved words "__SESS_" and
+  # "__CAM_" (no need to remove NAs beforehand as station_col must not contain
+  # any NA, see previous check)
+  assertthat::assert_that(
+    all(!stringr::str_detect(string = package$data$deployments[[station_col]],
+                             pattern = "__SESS_|__CAM_")),
+    msg = glue::glue(
+      "Station column name (`{station_col}`) must not contain any of the ",
+      "reserved words: \"__SESS_\", \"__CAM_\"."
+    )
+  )
+  
+  # Check that `session_col` exists in deployments, if defined, and that its
+  # values do not contain the reserved words "__SESS_" and "__CAM_"
   if (!is.null(session_col)) {
     assertthat::assert_that(assertthat::is.string(session_col))
     assertthat::assert_that(

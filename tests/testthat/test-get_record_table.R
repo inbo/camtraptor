@@ -197,7 +197,7 @@ test_that(paste(
   )
   testthat::expect_equal(nrow(rec_table), 1)
   testthat::expect_equal(
-    rec_table$DateTimeOriginal, mica$data$observations$timestamp[1]
+    rec_table$DateTimeOriginal, mica$data$observations$timestamp[3]
   )
   testthat::expect_equal(rec_table$delta.time.secs, 0)
   testthat::expect_equal(names(rec_table_dup), names(rec_table))

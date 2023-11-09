@@ -6,18 +6,20 @@ test_that("input camtrap dp is checked properly", {
   # station_col is not NA
   expect_error(
     get_cam_op(mica, station_col = NA),
-    regexp = "station_col is not a string (a length one character vector).",
+    "station_col is not a string (a length one character vector).",
     fixed = TRUE)
   # station_col is length 1
   expect_error(
     get_cam_op(mica, station_col = c("locationID","locationName")),
-    regexp = "station_col is not a string (a length one character vector).",
+    "station_col is not a string (a length one character vector).",
     fixed = TRUE)
   # station_col value is not a column of deployments
   expect_error(
     get_cam_op(mica, station_col = "bla"),
-    regexp = paste("Station column name (`bla`) is not valid:", 
-          "it must be one of the deployments column names."),
+    paste0(
+      "Station column name (`bla`) is not valid: ", 
+      "it must be one of the deployments column names."
+    ),
     fixed = TRUE
   )
   # column specified by station_col contains empty values
@@ -173,7 +175,7 @@ test_that("Argument datapkg is deprecated: warning returned", {
       lifecycle_verbosity = "warning",
       get_cam_op(datapkg = mica)
     ),
-    regexp = "The `datapkg` argument of `get_cam_op()` is deprecated as of camtraptor 0.16.0.",
+    "The `datapkg` argument of `get_cam_op()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE
   )
 })

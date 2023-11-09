@@ -1,7 +1,7 @@
 #' Read a Camtrap DP
 #'
 #' Reads files from a [Camera Trap Data Package](
-#' https://tdwg.github.io/camtrap-dp) into memory.
+#' https://camtrap-dp.tdwg.org) into memory.
 #' All datetime information is automatically transformed to Coordinated
 #' Universal Time (UTC).
 #' Vernacular names found in the metadata (`package$taxonomic`) are added to the
@@ -80,12 +80,12 @@ read_camtrap_dp <- function(file = NULL,
   package <- frictionless::read_package(file)
   
   # supported versions
-  supported_versions <- c("0.1.6", "1.0-rc.1")
+  supported_versions <- c("0.1.6", "1.0")
   
   # get package version
   profile <- package$profile
-  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0-rc.1/camtrap-dp-profile.json") {
-    version <- "1.0-rc.1"
+  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json") {
+    version <- "1.0"
   } else {
     if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {
       version <- "0.1.6"
@@ -97,13 +97,10 @@ read_camtrap_dp <- function(file = NULL,
   # check version is supported
   assertthat::assert_that(
     version %in% supported_versions,
-    msg = paste0(
-      glue::glue("Version {version} "), 
-      "is not supported. Supported versions: ",
-      glue::glue_collapse(glue::glue("{supported_versions}"), 
-                              sep = " ", 
-                              last = " and "),
-      ".")
+    msg = glue::glue(
+      "Version `{version}` is not supported. Supported versions: ",
+      glue::glue_collapse(supported_versions, sep = " ", last = " and ")
+    )
   )
     
   # get resource names
@@ -152,7 +149,7 @@ read_camtrap_dp <- function(file = NULL,
   package <- add_taxonomic_info(package)
   
   # convert to 0.1.6
-  if (version == "1.0-rc.1") {
+  if (version == "1.0") {
     package <- convert_to_0.1.6(package, version, media = media)
   }
   

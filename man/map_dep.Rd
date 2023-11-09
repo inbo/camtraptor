@@ -95,7 +95,7 @@ created internally by a \verb{get_*()} function).
 \item \code{longitude}
 }
 
-See the \href{https://tdwg.github.io/camtrap-dp/data/#deployments}{Deployment}
+See the \href{https://camtrap-dp.tdwg.org/data/#deployments}{Deployment}
 section of Camtrap DP for the full list of columns you can use.}
 
 \item{palette}{The palette name or the colour function that values will be

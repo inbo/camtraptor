@@ -201,7 +201,7 @@ test_that("Argument datapkg is deprecated: warning returned", {
       lifecycle_verbosity = "warning",
       get_record_table(datapkg = mica)
     ),
-    regexp = "The `datapkg` argument of `get_record_table()` is deprecated as of camtraptor 0.16.0.",
+    "The `datapkg` argument of `get_record_table()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE
   )
 })

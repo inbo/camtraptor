@@ -51,8 +51,11 @@ calc_animal_pos <- function(animal_pos,
   assertthat::assert_that(
     length(not_found_cols) == 0,
     msg = glue::glue(
-      "Columns `{not_found_cols}` not found in `animal_pos`.",
-      .transformer = collapse_transformer(sep = "`, `", last = "` and `")
+      "Columns ",
+      glue::glue_collapse(
+        glue::backtick(not_found_cols), sep = ", ", last = " and "
+      ),
+      " not found in `animal_pos`."
     )
   )
 

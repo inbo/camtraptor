@@ -37,26 +37,24 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 
   # Suppress long messages with valid options
   if (length(options) > max_print) {
-    options_to_print <- c(options[1:max_print], "others..")
+    options_to_print <- c(options[1:max_print], "others...")
   } else {
     options_to_print <- options
   }
-
-  # compose error message
-  if (null_allowed == TRUE) {
-    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
-        Valid inputs are: NULL, {options_to_print*}."
-  } else {
-    if (is.null(wrong_values)) {
-      wrong_values <- "NULL"
-    }
-    string_to_print <- "Invalid value for {arg_name} parameter: {wrong_values}.
-        Valid inputs are: {options_to_print*}."
+  
+  # Include NULL
+  if (null_allowed) {
+    options_to_print <- append(options_to_print, "NULL")
+  } else if (is.null(wrong_values)) {
+    wrong_values <- "NULL"
   }
-
+  
+  # Compose error message
   msg_to_print <- glue::glue(
-    string_to_print,
-    .transformer = collapse_transformer(sep = ", ", last = " and ")
+    "Invalid value for {arg_name} parameter: ",
+    glue::glue_collapse(wrong_values, sep = ", ", last = " and "),
+    ".\nValid inputs are: ",
+    glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
   )
 
   # Provide user message
@@ -69,21 +67,6 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
     assertthat::assert_that(null_allowed == TRUE,
       msg = msg_to_print
     )
-  }
-}
-
-#' Print list of options
-#'
-#' @param regex Character. A regular expression to parse.
-#' @param ... Additional parameters passed to the collapse.
-#' @noRd
-collapse_transformer <- function(regex = "[*]$", ...) {
-  function(code, envir) {
-    if (grepl(regex, code)) {
-      code <- sub(regex, "", code)
-    }
-    res <- eval(parse(text = code), envir)
-    glue::glue_collapse(res, ...)
   }
 }
 
@@ -207,8 +190,7 @@ get_dep_no_obs <- function(package = NULL,
     }
     message(glue::glue(
       "There are {n_dep_no_obs} deployments without observations: ",
-      "{options_to_print*}",
-      .transformer = collapse_transformer(sep = ", ", last = " and ")
+      glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
     ))
   }
   return(dep_no_obs)
@@ -371,7 +353,7 @@ mutate_when_missing <- function(.data,...){
 #' 
 #' This help function adds taxonomic information in `taxonomic` element of
 #' metadata to `observations`. Notice that higher classification, i.e. new
-#' fields in v1.0-rc.1, are removed.
+#' fields in v1.0, are removed.
 #' 
 #' @param package Camera trap data package.
 #' @return Camera trap data package with taxonomic related cols added to
@@ -384,9 +366,8 @@ add_taxonomic_info <- function(package) {
   # classification)
   taxon_infos <- dplyr::select(
     taxon_infos,
-    dplyr::any_of(c("taxonID",
-                    "taxonIDReference",
-                    "scientificName",
+    dplyr::all_of("scientificName"),
+    dplyr::any_of(c("taxonIDReference",
                     "taxonRank")),
     dplyr::starts_with("vernacularNames")
   )
@@ -397,7 +378,7 @@ add_taxonomic_info <- function(package) {
       dplyr::left_join(
         package$data$observations,
         taxon_infos,
-        by  = c("taxonID", "scientificName")
+        by  = c("scientificName")
       )
     package$data$observations <- observations
   }
@@ -437,21 +418,19 @@ add_speed_radius_angle <- function(obs){
 #' @param media If `TRUE` (default), read media records into memory. If `FALSE`,
 #'   ignore media file to speed up reading larger Camtrap DP packages.
 #' @noRd
-convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
+convert_to_0.1.6 <- function(package, from = "1.0", media = TRUE){
   if (from == "0.1.6") {
     message(glue::glue("package's version: {from}. No conversion needed."))
     return(package)
   }
   # check version
-  supported_versions <- c("1.0-rc.1")
+  supported_versions <- c("1.0")
   assertthat::assert_that(
     from %in% supported_versions,
-    msg = paste0(
+    msg = glue::glue(
       "Only conversion from ", 
-      glue::glue_collapse(glue::glue("{supported_versions}"), 
-                          sep = " ", 
-                          last = " and "),
-      " to 0.1.6 is supported."
+      glue::glue_collapse(supported_versions, sep = " ", last = " and "),
+      " to `0.1.6` is supported."
     )
   )
   # check data slot is present in package
@@ -461,13 +440,11 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
   )
   
   # notify about conversion
-  message(
-    glue::glue(
-        "The dataset uses Camtrap DP version 1.0-rc.1, it has been converted to 0.1.6.",
-        "See https://inbo.github.io/camtraptor/#camtrap-dp for details.",
-        .seq = "\n"
-      )
-  )
+  message(glue::glue(
+    "The dataset uses Camtrap DP version 1.0, it has been converted to 0.1.6.",
+    "See https://inbo.github.io/camtraptor/#camtrap-dp for details.",
+    .sep = "\n"
+  ))
   # convert metadata
   package <- convert_metadata_to_0.1.6(package, from)  
   # convert deployments
@@ -484,7 +461,7 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
 
 #' Convert metadata to Camtrap DP version 0.1.6
 #' 
-#' Convert metadata of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert metadata of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -492,43 +469,33 @@ convert_to_0.1.6 <- function(package, from = "1.0-rc.1", media = TRUE){
 #' @return Camera trap data package object with converted `metadata`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
+convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
   authors <- purrr::map_df(package$contributors, unlist)
   if ("role" %in% names(authors)) {
     deprecated_roles <- c("author", "maintainer")
     if (any(deprecated_roles %in% authors$role)) {
-      warning(paste0(
+      warning(glue::glue(
         "Roles ",
-        glue::glue_collapse(glue::glue("{deprecated_roles}"), 
-                            sep = " ",
-                            last = " and "),
-        " are deprecated in ",
-        "version {from}."
-        )
-      )
+        glue::glue_collapse(deprecated_roles, sep = " ", last = " and "),
+        " are deprecated in version {from}."
+      ))
     }
   }
   if ("organizations" %in% names(package)) {
     warning(glue::glue(
-      "The field `organizations` is deprecated in ",
-      "version {from}."
-      )
-    )
+      "The field `organizations` is deprecated in version {from}."
+    ))
   }
   if ("animalTypes" %in% names(package)) {
     warning(glue::glue(
-      "The field `animalTypes` is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `animalTypes` is deprecated in version {from}."
+    ))
   }
   names(package)[names(package) == "observationLevel"] <- "classificationLevel"
   if ("sequenceInterval" %in% names(package$project)) {
     warning(glue::glue(
-      "The field `sequenceInterval` is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `sequenceInterval` is deprecated in version {from}."
+    ))
   }
   package$platform <- package$sources[[1]]$title
   # `title` value of the first contributor with role `rightsHolder`
@@ -536,12 +503,21 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
     dplyr::filter(.data$role == "rightsHolder") %>%
     dplyr::slice(1) %>%
     dplyr::pull(.data$title)
+  
+  # downconvert `captureMethod` to values from Camtrap DP version v0.1.6
+  package$project$captureMethod <-
+    dplyr::case_match(
+      .default = package$project$captureMethod,
+      package$project$captureMethod,
+      "activityDetection" ~ "motionDetection"
+    )
+  
   return(package)
 }
 
 #' Convert deployments to Camtrap DP version 0.1.6
 #' 
-#' Convert deployments of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert deployments of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -549,7 +525,7 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0-rc.1"){
 #' @return Camera trap data package object with converted `deployments`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_deployments_to_0.1.6 <- function(package, from = "1.0") {
   
   # check deployments slot is present
   assertthat::assert_that(
@@ -571,6 +547,8 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   }
   # ignore detectionDistance
   deployments$detectionDistance <- NULL
+  # ignore cameraDepth
+  deployments$cameraDepth <- NULL
   if ("baitUse" %in% names(deployments)) {
     # baitUse values in version 0.1.6
     bait_uses_old <- c("none", "scent", "food", "visual", "acoustic", "other")
@@ -603,9 +581,9 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::mutate(baitUse = factor(.data$baitUse, levels = bait_uses_old))
   }
   if ("session" %in% names(deployments)) {
-    warning(glue::glue("The field `session` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `session` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate(session = NA)
@@ -614,26 +592,30 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
     # map to session and then remove
     deployments <- deployments %>%
       dplyr::mutate(session = dplyr::case_when(
-        is.na(.data$session) ~.data$deploymentGroups,
-        is.na(.data$deploymentGroups) ~ .data$session,
         !is.na(.data$deploymentGroups) & !is.na(.data$session) ~ 
           stringr::str_c(.data$session, 
                          .data$deploymentGroups, 
-                         sep = " | "))) %>%
+                         sep = " | "),
+        !is.na(.data$deploymentGroups) & is.na(.data$session) ~
+          .data$deploymentGroups,
+        is.na(.data$deploymentGroups) & !is.na(.data$session) ~
+          .data$session,
+        # if there is no value for neither deploymentGroups or session:
+        .default = NA)) %>%
       dplyr::select(-"deploymentGroups")
   }
   if ("array" %in% names(deployments)) {
-    warning(glue::glue("The field `array` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `array` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate(array = NA)
   }
   if ("_id" %in% names(deployments)) {
-    warning(glue::glue("The field `_id` of deployments is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of deployments is deprecated in version {from}."
+    ))
   } else {
     deployments <- deployments %>%
       dplyr::mutate("_id" = NA)
@@ -653,7 +635,7 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 
 #' Convert media to Camtrap DP version 0.1.6
 #' 
-#' Convert media of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert media of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes. Notice that this function `MUST` be run before
 #' `convert_observations_to_0.1.6()`.
 #' 
@@ -662,7 +644,7 @@ convert_deployments_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 #' @return Camera trap data package object with converted `media`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_media_to_0.1.6 <- function(package, from = "1.0") {
   
   # check media slot is present
   assertthat::assert_that(
@@ -688,7 +670,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   event_obs <- observations %>% 
     dplyr::filter(is.na(.data$mediaID)) %>%
     dplyr::select("eventID", "deploymentID", "eventStart", "eventEnd") %>%
-    # eventID is not anymore required in v1.0-rc1, remove where not present
+    # eventID is not anymore required in v1.0, remove where not present
     dplyr::filter(!is.na(.data$eventID))
   
   # Join on deploymentID and timestamp between eventStart and eventEnd
@@ -713,13 +695,23 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(comments = "mediaComments")
   }
   if ("_id" %in% names(media)) {
-    warning(glue::glue("The field `_id` of media is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of media is deprecated in version {from}."
+    ))
   } else {
     media <- media %>%
       dplyr::mutate("_id" = NA)
   }
+  
+  # convert captureMethod value to v1.6.0 terms
+  media <- media %>% 
+    dplyr::mutate(
+      captureMethod = factor(
+        ifelse(captureMethod == "activityDetection",
+                                "motionDetection",
+                                as.character(captureMethod))
+      )
+    )
   
  package$data$media <- media
   return(package)
@@ -727,7 +719,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 
 #' Convert observations to Camtrap DP version 0.1.6
 #' 
-#' Convert observations of a Camtrap DP from version 1.0-rc.1 to 0.1.6 to avoid
+#' Convert observations of a Camtrap DP from version 1.0 to 0.1.6 to avoid
 #' breaking changes
 #' 
 #' @param package Camera trap data package object.
@@ -735,7 +727,7 @@ convert_media_to_0.1.6 <- function(package, from = "1.0-rc.1") {
 #' @return Camera trap data package object with converted `observations`.
 #' @noRd
 #' @importFrom dplyr %>% .data
-convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
+convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   
   # check observations slot is present
   assertthat::assert_that(
@@ -774,10 +766,8 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   }
   if ("countNew" %in% names(observations)) {
     warning(glue::glue(
-      "The field `countNew` of observations is deprecated in",
-      "version {from}."
-      )
-    )
+      "The field `countNew` of observations is deprecated in version {from}."
+    ))
   } else {
     observations <- observations %>%
       dplyr::mutate("countNew" = NA)
@@ -802,9 +792,9 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
       dplyr::rename(comments = "observationComments")
   }
   if ("_id" %in% names(observations)) {
-    warning(glue::glue("The field `_id` of observations is deprecated in",
-                       "version {from}.")
-    )
+    warning(glue::glue(
+      "The field `_id` of observations is deprecated in version {from}."
+    ))
   } else {
     observations <- observations %>%
       dplyr::mutate("_id" = NA)
@@ -823,6 +813,16 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0-rc.1") {
   }
   # remove bounding box related cols if present
   observations <- observations %>% dplyr::select(-dplyr::starts_with("bbox"))
+  # add taxonID if missing
+  if(!"taxonID" %in% colnames(observations)){
+    observations <- observations %>% 
+      dplyr::mutate(taxonID = NA_character_)
+  }
+  # add taxonIDReference if missing
+  if(!"taxonIDReference" %in% colnames(observations)){
+    observations <- observations %>% 
+      dplyr::mutate(taxonIDReference = NA_character_)
+  }
   
   package$data$observations <- observations
   return(package)

@@ -45,7 +45,9 @@ name.
 \code{directory = NULL}.
 }
 \description{
-Transforms the metadata of a \href{https://tdwg.github.io/camtrap-dp/}{Camera Trap Data Package} to an \href{https://eml.ecoinformatics.org/}{EML} file that can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
+Transforms the metadata of a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} to an \href{https://eml.ecoinformatics.org/}{EML}
+file that can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT} for
+publication.
 }
 \section{Transformation details}{
 

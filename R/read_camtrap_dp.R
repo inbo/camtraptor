@@ -58,7 +58,7 @@ read_camtrap_dp <- function(file = NULL,
   if (lifecycle::is_present(path) | (!is.null(file) && dir.exists(file))) {
     lifecycle::deprecate_warn(
       when = "0.6.0",
-      what = "read_camtrap_dp(path)",
+      what = "camtraptor::read_camtrap_dp(path)",
       details = warning_detail
     )
   }

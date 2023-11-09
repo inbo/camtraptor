@@ -123,9 +123,11 @@ get_cam_op <- function(package = NULL,
         "it must be one of the deployments column names."
       )
     )
+    session_values <- package$data$deployments[[session_col]]
+    session_values <- session_values[!is.na(session_values)]
     assertthat::assert_that(
-      all(!stringr::str_detect(string = package$data$deployments[[session_col]],
-                           pattern = "__SESS_|__CAM_")),
+      all(!stringr::str_detect(string = session_values,
+                               pattern = "__SESS_|__CAM_")),
       msg = glue::glue(
         "Session column name (`{session_col}`) must not contain any of the ",
         "reserved words: \"__SESS_\", \"__CAM_\"."
@@ -144,8 +146,10 @@ get_cam_op <- function(package = NULL,
         "it must be one of the deployments column names."
       )
     )
+    camera_values <- package$data$deployments[[session_col]]
+    camera_values <- camera_values[!is.na(camera_values)]
     assertthat::assert_that(
-      all(!stringr::str_detect(string = package$data$deployments[[camera_col]],
+      all(!stringr::str_detect(string = camera_values,
                            pattern = "__SESS_|__CAM_")),
       msg = glue::glue(
         "Camera column name (`{camera_col}`) must not contain any of the ",

@@ -28,6 +28,44 @@ test_that("input camtrap dp is checked properly", {
   expect_error(get_cam_op(mica_empty_location_name),
                "Column `locationName` must be non-empty: 2 NAs found."
   )
+  # camera_col is not NA
+  expect_error(
+    get_cam_op(mica, camera_col = NA),
+    "camera_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # camera_col is length 1
+  expect_error(
+    get_cam_op(mica, camera_col = c("locationID","locationName")),
+    "camera_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # station_col value is not a column of deployments
+  expect_error(
+    get_cam_op(mica, camera_col = "bla"),
+    paste0(
+      "Camera column name (`bla`) is not valid: ", 
+      "it must be one of the deployments column names."
+    ),
+    fixed = TRUE
+  )
+  # session_col is not NA
+  expect_error(
+    get_cam_op(mica, session_col = NA),
+    "session_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # session_col is length 1
+  expect_error(
+    get_cam_op(mica, session_col = c("locationID","locationName")),
+    "session_col is not a string (a length one character vector).",
+    fixed = TRUE)
+  # session_col value is not a column of deployments
+  expect_error(
+    get_cam_op(mica, session_col = "bla"),
+    paste0(
+      "Session column name (`bla`) is not valid: ", 
+      "it must be one of the deployments column names."
+    ),
+    fixed = TRUE
+  )
   # use_prefix must be TRUE or FALSE
   expect_error(get_cam_op(mica, use_prefix = "bla"))
   expect_error(get_cam_op(mica, use_prefix = NA))
@@ -46,6 +84,122 @@ test_that("output matrix has locations as rownames", {
   expect_equal(row.names(cam_op_matrix), locations)
 })
 
+test_that("output matrix has sessions addded to locations as rownames", {
+  mica_sessions <- mica
+  mica_sessions$data$deployments <- mica_sessions$data$deployments %>%
+    dplyr::mutate(session = ifelse(
+      stringr::str_starts(.data$locationName, "B_DL_"),
+      "after2020",
+      "before2020"
+   )
+  )
+  cam_op_matrix <- get_cam_op(mica_sessions, session_col = "session")
+  locations_sessions <- paste(mica_sessions$data$deployments$locationName,
+                              mica_sessions$data$deployments$session,
+                              sep = "__SESS_"
+  )
+  n_locations <- length(mica_sessions$data$deployments$locationName)
+  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_identical(row.names(cam_op_matrix), locations_sessions)
+})
+
+test_that("output matrix has camera IDs addded to locations as rownames", {
+  mica_cameras <- mica
+  mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+  cam_op_matrix <- get_cam_op(mica_cameras, camera_col = "cameraID")
+  locations_cameras <- paste(mica_cameras$data$deployments$locationName,
+                             mica_cameras$data$deployments$cameraID,
+                             sep = "__CAM_"
+  )
+  n_locations <- length(mica_cameras$data$deployments$locationName)
+  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_identical(row.names(cam_op_matrix), locations_cameras)
+})
+
+test_that(
+  "output matrix has sessions and cameras addded to locations as rownames", {
+    mica_sess_cam <- mica
+    mica_sess_cam$data$deployments$cameraID <- c(1, 2, 3, 4)
+    mica_sess_cam$data$deployments$session <- c(1, 2, 3, 4)
+    cam_op_matrix <- get_cam_op(mica_sess_cam, 
+                                camera_col = "cameraID", 
+                                session_col = "session"
+    )
+    locations_sess_cam <- paste(mica_sess_cam$data$deployments$locationName,
+                                mica_sess_cam$data$deployments$session,
+                               sep = "__SESS_"
+    )
+    locations_sess_cam <- paste(locations_sess_cam,
+                                mica_sess_cam$data$deployments$cameraID,
+                                sep = "__CAM_"
+    )
+    n_locations <- length(mica_sess_cam$data$deployments$locationName)
+    expect_equal(nrow(cam_op_matrix), n_locations)
+    expect_identical(row.names(cam_op_matrix), locations_sess_cam)
+})
+
+test_that(
+  "__SESS_ is a reserved word not used in station, session and camera columns",
+  {
+    mica__sess <- mica
+    mica__sess$data$deployments$session <- c("1__SESS_1")
+    expect_error(get_cam_op(mica__sess, session_col = "session"),
+                 paste0("Session column name (`session`) must not contain any ",
+                        "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+                 fixed = TRUE
+    )
+    mica__sess <- mica
+    mica__sess$data$deployments$cameraID <- paste0(c(1,2,3,4), "__SESS_")
+    expect_error(get_cam_op(mica__sess, camera_col = "cameraID"),
+                 paste0("Camera column name (`cameraID`) must not contain any ",
+                        "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+                 fixed = TRUE
+    )
+    mica__sess <- mica
+    mica__sess$data$deployments$locationName[1] <- paste0(
+      "__SESS_",
+      mica__sess$data$deployments$locationName[1]
+    )
+    expect_error(
+      get_cam_op(mica__sess),
+      paste0("Station column name (`locationName`) must not contain any ",
+             "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+      fixed = TRUE
+    )
+  }
+)
+
+test_that(
+  "__CAM_ is a reserved word not used in station, session and camera columns",
+  {
+    mica__cam <- mica
+    mica__cam$data$deployments$session[1] <- c("1__CAM_1")
+    expect_error(get_cam_op(mica__cam, session_col = "session"),
+                 paste0("Session column name (`session`) must not contain any ",
+                        "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+                 fixed = TRUE
+    )
+    mica__cam <- mica
+    mica__cam$data$deployments$cameraID <- paste0(c(1,2,3,4), "__CAM_")
+    expect_error(get_cam_op(mica__cam, camera_col = "cameraID"),
+                 paste0("Camera column name (`cameraID`) must not contain any ",
+                        "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+                 fixed = TRUE
+    )
+    mica__cam <- mica
+    mica__cam$data$deployments$locationName[1] <- paste0(
+      "__CAM_",
+      mica__cam$data$deployments$locationName[1]
+    )
+    expect_error(
+      get_cam_op(mica__cam),
+      paste0("Station column name (`locationName`) must not contain any ",
+             "of the reserved words: \"__SESS_\", \"__CAM_\"."),
+      fixed = TRUE
+    )
+  }
+)
+
 test_that("output matrix has Station prefix in rownames", {
   cam_op_matrix <- get_cam_op(mica, use_prefix = TRUE)
   locations <- paste0("Station", mica$data$deployments$locationName)
@@ -61,6 +215,7 @@ test_that("output matrix has specified location column as rownames", {
   expect_equal(nrow(cam_op_matrix), n_locations)
   expect_equal(row.names(cam_op_matrix), locations)
 })
+
 
 test_that("output matrix has all deployment days as colnames", {
   cam_op_matrix <- get_cam_op(mica)
@@ -175,7 +330,9 @@ test_that("Argument datapkg is deprecated: warning returned", {
       lifecycle_verbosity = "warning",
       get_cam_op(datapkg = mica)
     ),
-    "The `datapkg` argument of `get_cam_op()` is deprecated as of camtraptor 0.16.0.",
+    paste0("The `datapkg` argument of `get_cam_op()` is deprecated ",
+           "as of camtraptor 0.16.0."
+    ),
     fixed = TRUE
   )
 })

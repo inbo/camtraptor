@@ -52,6 +52,10 @@ test_that("test warnings while reading files with parsing issues", {
   captured_warnings <- capture_warnings(
     dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
+  
+  # check number of warnings
+  expect_length(captured_warnings, 6)
+  
   # warning on deployments
   expect_identical(
     captured_warnings[2], # captured_warnings[1] is returned by readr via frictionless

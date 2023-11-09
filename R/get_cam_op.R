@@ -35,6 +35,7 @@
 #' @importFrom dplyr %>% .data
 #' @export
 #' @examples
+#' library(dplyr)
 #' get_cam_op(mica)
 #'
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18

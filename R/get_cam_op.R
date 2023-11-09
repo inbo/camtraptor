@@ -6,9 +6,8 @@
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' The deployment data are by default grouped by `locationName` (station ID in
-#' camtrapR jargon) or another column specified by the user.
-#' If multiple deployments are linked to same location, daily efforts higher
-#' than 1 occur.
+#' camtrapR jargon) or another column specified by the user. If multiple
+#' deployments are linked to same location, daily efforts higher than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment, result
 #' in decimal effort values as in [camtrapR::cameraOperation()](
@@ -16,19 +15,22 @@
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
-#' @param station_col Column name to use for identifying the stations.
-#'   Default: `"locationName"`.
-#' @param use_prefix Logical (`TRUE`or `FALSE`).
-#'   If `TRUE` the returned row names will start with prefix `"Station"` as
-#'   returned by [camtrapR::cameraOperation()](
+#' @param station_col Column name to use for identifying the stations. Default:
+#'   `"locationName"`.
+#' @param camera_col Column name of the column specifying Camera ID. Default:
+#'   `NULL`.
+#' @param session_col Column name to use for identifying the session. Default:
+#'   `NULL`. Use it for creating multi-session / multi-season detection
+#'   histories.
+#' @param use_prefix Logical (`TRUE`or `FALSE`). If `TRUE` the returned row
+#'   names will start with prefix `"Station"` as returned by
+#'   [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
+#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
-#' @return A matrix.
-#'   Row names always indicate the station ID.
-#'   Column names are dates.
+#' @return A matrix. Row names always indicate the station ID. Column names are
+#'   dates.
 #' @family exploration functions
 #' @importFrom dplyr %>% .data
 #' @export
@@ -41,11 +43,32 @@
 #' # Specify column with station names
 #' get_cam_op(mica, station_col = "locationID")
 #'
+#' # Specify column with session IDs
+#' mica_sessions <- mica
+#' mica_sessions$data$deployments <- mica_sessions$data$deployments %>%
+#'   dplyr::mutate(session = ifelse(
+#'     stringr::str_starts(.data$locationName, "B_DL_"),
+#'       "after2020",
+#'       "before2020"
+#'   )
+#' )
+#' get_cam_op(mica_sessions, session_col = "session")
+#'
+#' # Specify column with camera IDs
+#' mica_cameras <- mica_sessions
+#' mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+#' get_cam_op(mica_cameras, camera_col = "cameraID")
+#'
+#' # Specify both session and camera IDs
+#' get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
+#' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
 get_cam_op <- function(package = NULL,
                        ...,
                        station_col = "locationName",
+                       camera_col = NULL,
+                       session_col = NULL,
                        use_prefix = FALSE,
                        datapkg = lifecycle::deprecated()) {
   # check camera trap data package
@@ -65,7 +88,7 @@ get_cam_op <- function(package = NULL,
     )
   )
   
-  # Check that station_col doesn't contain empty values (NA)
+  # Check that `station_col` doesn't contain empty values (NA)
   n_na <- package$data$deployments %>%
     dplyr::filter(is.na(.data[[station_col]])) %>%
     nrow()
@@ -76,7 +99,48 @@ get_cam_op <- function(package = NULL,
       "{n_na} NAs found."
     )
   )
-
+  
+  # Check that `session_col` exists in deployments, if defined
+  if (!is.null(session_col)) {
+    assertthat::assert_that(assertthat::is.string(session_col))
+    assertthat::assert_that(
+      session_col %in% names(package$data$deployments),
+      msg = glue::glue(
+        "Session column name (`{session_col}`) is not valid: ",
+        "it must be one of the deployments column names."
+      )
+    )
+    assertthat::assert_that(
+      all(!stringr::str_detect(string = package$data$deployments[[session_col]],
+                           pattern = "__SESS_|__CAM_")),
+      msg = glue::glue(
+        "Session column name (`{session_col}`) must not contain any of the ",
+        "reserved words: \"__SESS_\", \"__CAM_\"."
+      )
+    )
+  }
+  
+  # Check that `camera_col` exists in deployments, if defined, and that its
+  # values do not contain the reserved words "__SESS_" and "__CAM_"
+  if (!is.null(camera_col)) {
+    assertthat::assert_that(assertthat::is.string(camera_col))
+    assertthat::assert_that(
+      camera_col %in% names(package$data$deployments),
+      msg = glue::glue(
+        "Camera column name (`{camera_col}`) is not valid: ",
+        "it must be one of the deployments column names."
+      )
+    )
+    assertthat::assert_that(
+      all(!stringr::str_detect(string = package$data$deployments[[camera_col]],
+                           pattern = "__SESS_|__CAM_")),
+      msg = glue::glue(
+        "Camera column name (`{camera_col}`) must not contain any of the ",
+        "reserved words: \"__SESS_\", \"__CAM_\"."
+      )
+    )
+  }
+  
   assertthat::assert_that(
     use_prefix %in% c(TRUE, FALSE),
     msg = "use_prefix must be TRUE or FALSE."
@@ -140,8 +204,26 @@ get_cam_op <- function(package = NULL,
     }
   )
   names(deployment_operational) <- deploys$deploymentID
-
-  # get for each location which days a deployment was active
+  
+  # add session to station names
+  if (!is.null(session_col)) {
+    deploys <- deploys %>%
+      dplyr::mutate(!!station_col := paste(.data[[station_col]], 
+                                         .data[[session_col]],
+                                         sep = "__SESS_")
+      )
+  }
+  
+  # add camera to column names
+  if (!is.null(camera_col)) {
+    deploys <- deploys %>%
+      dplyr::mutate(!!station_col := paste(.data[[station_col]], 
+                                           .data[[camera_col]],
+                                           sep = "__CAM_")
+      )
+  }
+  
+  # get for each station_col which days a deployment was active
   camOps <- purrr::map_dfc(
     unique(deploys[[station_col]]),
     function(loc_name) {

@@ -6,8 +6,9 @@
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' The deployment data are by default grouped by `locationName` (station ID in
-#' camtrapR jargon) or another column specified by the user. If multiple
-#' deployments are linked to same location, daily efforts higher than 1 occur.
+#' camtrapR jargon) or another column specified by the user via the 
+#' `station_col` argument. If multiple deployments are linked to same location, 
+#' daily efforts higher than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment, result
 #' in decimal effort values as in [camtrapR::cameraOperation()](

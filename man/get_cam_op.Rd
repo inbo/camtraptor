@@ -30,7 +30,7 @@ get_cam_op(
 \code{NULL}. Use it for creating multi-session / multi-season detection
 histories.}
 
-\item{use_prefix}{Logical (\code{TRUE}or \code{FALSE}). If \code{TRUE} the returned row
+\item{use_prefix}{Logical (\code{TRUE} or \code{FALSE}). If \code{TRUE} the returned row
 names will start with prefix \code{"Station"} as returned by
 \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 Default: \code{FALSE}.}
@@ -47,8 +47,9 @@ returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperatio
 }
 \details{
 The deployment data are by default grouped by \code{locationName} (station ID in
-camtrapR jargon) or another column specified by the user. If multiple
-deployments are linked to same location, daily efforts higher than 1 occur.
+camtrapR jargon) or another column specified by the user via the
+\code{station_col} argument. If multiple deployments are linked to same location,
+daily efforts higher than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment, result
 in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.

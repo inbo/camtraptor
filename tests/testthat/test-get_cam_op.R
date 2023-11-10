@@ -258,10 +258,10 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   location <- mica$data$deployments$locationName[4]
   start <- as.character(as.Date(mica$data$deployments$start[4]))
   end <- as.character(as.Date(mica$data$deployments$end[4]))
-  expect_true(cam_op_matrix[4, start] > 0)
-  expect_true(cam_op_matrix[4, start] < 1)
-  expect_true(cam_op_matrix[4, end] > 0)
-  expect_true(cam_op_matrix[4, end] < 1)
+  expect_gt(cam_op_matrix[4, start], 0)
+  expect_lt(cam_op_matrix[4, start],1)
+  expect_gt(cam_op_matrix[4, end], 0)
+  expect_lt(cam_op_matrix[4, end], 1)
 })
 
 test_that(
@@ -283,8 +283,8 @@ test_that(
     expect_true(
       nrow(cam_op_matrix) == length(unique(mica1$data$deployments$locationName))
     )
-    expect_true(cam_op_matrix[1, first_full_day_two_deps] > 1)
-    expect_true(cam_op_matrix[1, last_full_day_two_deps] > 1)
+    expect_gt(cam_op_matrix[1, first_full_day_two_deps], 1)
+    expect_gt(cam_op_matrix[1, last_full_day_two_deps], 1)
   }
 )
 

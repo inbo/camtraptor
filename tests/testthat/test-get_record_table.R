@@ -118,8 +118,8 @@ test_that("Higher minDeltaTime means less rows returned", {
     deltaTimeComparedTo = "lastRecord"
   )) %>%
     nrow()
-  testthat::expect_true(nrow_delta_10000 < nrow_delta_0)
-  testthat::expect_true(nrow_delta_100000 < nrow_delta_10000)
+  expect_lt(nrow_delta_10000, nrow_delta_0)
+  expect_lt(nrow_delta_100000, nrow_delta_10000)
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {

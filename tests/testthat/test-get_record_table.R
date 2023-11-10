@@ -1,33 +1,33 @@
 test_that("input of get_record_table, camtrap dp, is checked properly", {
-  testthat::expect_error(get_record_table("aaa"))
-  testthat::expect_error(get_record_table(1))
+  expect_error(get_record_table("aaa"))
+  expect_error(get_record_table(1))
 })
 
 test_that("input of get_record_table, stationCol, is checked properly", {
-  testthat::expect_error(get_record_table(mica, stationCol = "aaa"))
+  expect_error(get_record_table(mica, stationCol = "aaa"))
 })
 
 test_that("input of get_record_table, exclude, is checked properly", {
-  testthat::expect_error(get_record_table(mica, exclude = "rattus not existing"))
+  expect_error(get_record_table(mica, exclude = "rattus not existing"))
 })
 
 test_that("input of get_record_table, minDeltaTime, is checked properly", {
-  testthat::expect_error(
+  expect_error(
     get_record_table(mica, minDeltaTime = "1"),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
-  testthat::expect_error(
+  expect_error(
     get_record_table(mica, minDeltaTime = -10),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
 })
 
 test_that("input of get_record_table, deltaTimeComparedTo, is checked properly", {
-  testthat::expect_error(get_record_table(mica,
+  expect_error(get_record_table(mica,
     minDeltaTime = 100,
     deltaTimeComparedTo = NULL
   ))
-  testthat::expect_error(get_record_table(mica,
+  expect_error(get_record_table(mica,
     minDeltaTime = 100,
     deltaTimeComparedTo = "not valid"
   ))
@@ -44,15 +44,15 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
       deltaTimeComparedTo = "lastRecord"
     )
   )
-  testthat::expect_identical(record_table_int, record_table_dec)
+  expect_identical(record_table_int, record_table_dec)
 })
 
 test_that("input of get_record_table, removeDuplicateRecords, is checked properly", {
   # only TRUE or FALSE are allowed
-  testthat::expect_error(get_record_table(mica,
+  expect_error(get_record_table(mica,
     removeDuplicateRecords = 5
   ))
-  testthat::expect_error(get_record_table(mica,
+  expect_error(get_record_table(mica,
     removeDuplicateRecords = NA
   ))
 })
@@ -79,7 +79,7 @@ test_that("right columns are returned", {
 
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow()
-  testthat::expect_identical(
+  expect_identical(
     nrow_output,
     mica$data$observations %>%
       dplyr::filter(!is.na(scientificName)) %>% nrow()
@@ -99,7 +99,7 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
   )
   nrow_foxes <- get_record_table(mica, exclude = species_to_exclude) %>%
     nrow()
-  testthat::expect_identical(
+  expect_identical(
     nrow_foxes,
     mica$data$observations %>%
       dplyr::filter(scientificName == "Vulpes vulpes") %>% nrow()
@@ -128,21 +128,21 @@ test_that("stations names are equal to values in column passed to StationCOl", {
     dplyr::distinct(Station) %>%
     dplyr::pull()
   location_names <- unique(mica$data$deployments$locationName)
-  testthat::expect_true(all(stations %in% location_names))
+  expect_true(all(stations %in% location_names))
 
   # use locationID as Station
   stations <- get_record_table(mica, stationCol = "locationID") %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
   location_ids <- unique(mica$data$deployments$locationID)
-  testthat::expect_true(all(stations %in% location_ids))
+  expect_true(all(stations %in% location_ids))
 })
 
 test_that("Directory and Filename columns are lists", {
   file_values <- get_record_table(mica) %>%
     dplyr::select(Directory, FileName)
-  testthat::expect_true(class(file_values$Directory) == "list")
-  testthat::expect_true(class(file_values$FileName) == "list")
+  expect_true(class(file_values$Directory) == "list")
+  expect_true(class(file_values$FileName) == "list")
 })
 
 test_that(
@@ -177,7 +177,7 @@ test_that(
       dplyr::left_join(n_media,
         by = "sequenceID"
       )
-    testthat::expect_equal(output$len, output$n_media)
+    expect_equal(output$len, output$n_media)
   }
 )
 
@@ -197,13 +197,13 @@ test_that(paste(
   rec_table_dup <- get_record_table(mica_dup,
     removeDuplicateRecords = FALSE
   )
-  testthat::expect_identical(nrow(rec_table), 1L)
-  testthat::expect_identical(
+  expect_identical(nrow(rec_table), 1L)
+  expect_identical(
     rec_table$DateTimeOriginal, mica$data$observations$timestamp[3]
   )
-  testthat::expect_identical(rec_table$delta.time.secs, 0)
-  testthat::expect_identical(names(rec_table_dup), names(rec_table))
-  testthat::expect_identical(
+  expect_identical(rec_table$delta.time.secs, 0)
+  expect_identical(names(rec_table_dup), names(rec_table))
+  expect_identical(
     nrow(rec_table_dup),
     nrow(mica_dup$data$observations)
   )
@@ -216,7 +216,7 @@ test_that("filtering predicates are allowed and work well", {
   stations_calculate <- mica$data$deployments %>%
     dplyr::filter(longitude < 4.0) %>%
     dplyr::pull(locationName)
-  testthat::expect_identical(stations, stations_calculate)
+  expect_identical(stations, stations_calculate)
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {

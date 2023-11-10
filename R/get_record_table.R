@@ -101,7 +101,7 @@
 #' mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
 #' mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
 #'
-#' # duplicate removed
+#' # duplicates are removed by default by get_record_table()
 #' get_record_table(mica_dup)
 #' 
 #' # duplicate not removed

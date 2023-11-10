@@ -58,21 +58,23 @@ test_that("input of get_record_table, removeDuplicateRecords, is checked properl
 })
 
 test_that("right columns are returned", {
-  record_table <- get_record_table(mica)
-  expected_colnames <- c("Station",
-                         "Species",
-                         "n",
-                          "DateTimeOriginal",
-                         "Date",
-                         "Time",
-                         "delta.time.secs",
-                         "delta.time.mins",
-                         "delta.time.hours",
-                         "delta.time.days",
-                         "Directory",
-                         "FileName"
+  expect_named(
+    get_record_table(mica),
+    c(
+      "Station",
+      "Species",
+      "n",
+      "DateTimeOriginal",
+      "Date",
+      "Time",
+      "delta.time.secs",
+      "delta.time.mins",
+      "delta.time.hours",
+      "delta.time.days",
+      "Directory",
+      "FileName"
+    )
   )
-  testthat::expect_identical(names(record_table), expected_colnames)
 })
 
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {

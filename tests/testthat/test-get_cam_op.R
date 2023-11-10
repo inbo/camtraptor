@@ -73,7 +73,7 @@ test_that("input camtrap dp is checked properly", {
 
 test_that("output is a matrix", {
   cam_op_matrix <- get_cam_op(mica)
-  expect_true("matrix" %in% class(cam_op_matrix))
+  expect_true(is.matrix(cam_op_matrix))
 })
 
 test_that("output matrix has locations as rownames", {

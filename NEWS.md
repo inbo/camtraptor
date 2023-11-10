@@ -6,3 +6,5 @@
   0.1.6 which is currently used as internal data model for camtraptor.
 - `get_custom_effort()` now calculates per calendar month/week (#219).
 - `write_dwc()` has an updated mapping for dwc_audubon.csv (#274).
+- `get_record_table()` returns the number of observed individuals (#279).
+- `get_cam_op()` allows to add session and camera IDs to the station names output (#288).

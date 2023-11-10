@@ -90,3 +90,35 @@ You can also decide to use prefix `"Station"` in the station names as done by ca
 cam_op_with_prefix <- get_cam_op(mica, use_prefix = TRUE)
 cam_op_with_prefix[1:4,1:2]
 ```
+
+### Session and camera IDs
+
+You can specify the column containing the camera IDs to be added to the station names following the camtrapR's convention: `Station__CAM_CameraID`. Only the row names are shown:
+
+```{r add_camera_IDs}
+mica_cameras <- mica
+mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+cam_op_with_camera_ids <- get_cam_op(mica_cameras, camera_col = "cameraID")
+row.names(cam_op_with_camera_ids)
+```
+
+You cans also add the session IDs using `session_col` argument, following the camtrapR's convention: `Station__SESS_sessionID`:
+
+```{r add_session_IDs}
+mica_sessions <- mica
+mica_sessions$data$deployments$session <- c(1, 2, 3, 4)
+cam_op_with_session_ids <- get_cam_op(mica_sessions, session_col = "session")
+row.names(cam_op_with_session_ids)
+```
+
+To use both camera and session IDs, the camtrapR's convention `Station__SESS_SessionID__CAM_CameraID` is followed:
+
+```{r add_session_camera_IDs}
+mica_sessions$data$deployments$cameraID <- c(1, 2, 3, 4)
+cam_op_with_session_and_camera_ids <- get_cam_op(
+  mica_sessions, 
+  camera_col = "cameraID",
+  session_col = "session"
+)
+row.names(cam_op_with_session_and_camera_ids)
+```

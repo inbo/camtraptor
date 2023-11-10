@@ -49,38 +49,58 @@ test_that("test warnings while reading files with parsing issues", {
     "datapackage_for_parsing_issues.json", 
     package = "camtraptor"
   )
-  w <- capture_warnings(
+  captured_warnings <- capture_warnings(
     dp_issues <- camtraptor::read_camtrap_dp(file = camtrap_dp_file_with_issues)
   )
+  
+  # check number of warnings
+  expect_length(captured_warnings, 6)
+  
   # warning on deployments
   expect_identical(
-    w[2], # w[1] is returned by readr via frictionless
+    captured_warnings[2], # captured_warnings[1] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `deployments`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",
       "`readr::problems()`."
     )
   )
+
+  problems_deploys <- readr::problems(dp_issues$data$deployments)
+  expect_identical(nrow(problems_deploys), 2L)
+  expect_identical(problems_deploys$row, c(1L,2L))
+  expect_identical(problems_deploys$col, c(7L,7L))
+  expect_identical(problems_deploys$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on observations
   expect_identical(
-    w[4], # w[3] is returned by readr via frictionless
+    captured_warnings[4], # captured_warnings[3] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `observations`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",
       "`readr::problems()`."
     )
   )
+  problems_obs <- readr::problems(dp_issues$data$observations)
+  expect_identical(nrow(problems_obs), 2L)
+  expect_identical(problems_obs$row, c(1L,2L))
+  expect_identical(problems_obs$col, c(5L,5L))
+  expect_identical(problems_obs$expected, rep("date like %Y-%m-%dT%H:%M:%S%z", 2))
   
   # warning on media
   expect_identical(
-    w[6], # w[5] is returned by readr via frictionless
+    captured_warnings[6], # captured_warnings[5] is returned by readr via frictionless
     paste0(
       "One or more parsing issues occurred while reading `media`. ",
       "Check `?read_camtrap_dp()` for examples on how to use ",
       "`readr::problems()`."
     )
   )
+  problems_media <- readr::problems(dp_issues$data$media)
+  expect_identical(nrow(problems_media), 1L)
+  expect_identical(problems_media$row, 2L)
+  expect_identical(problems_media$col, 5L)
+  expect_identical(problems_media$expected, "date like %Y-%m-%dT%H:%M:%S%z")
 })
 
 test_that("media is checked properly", {

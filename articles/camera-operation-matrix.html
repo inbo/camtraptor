@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Damiano
 Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2023-11-08</h4>
+            <h4 data-toc-skip class="date">2023-11-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/vignettes/camera-operation-matrix.Rmd" class="external-link"><code>vignettes/camera-operation-matrix.Rmd</code></a></small>
       <div class="d-none name"><code>camera-operation-matrix.Rmd</code></div>
@@ -908,6 +908,48 @@ matrix is shown:</p>
 <span><span class="co">#&gt; StationB_DL_val 3_dikke boom                 NA         NA</span></span>
 <span><span class="co">#&gt; StationB_DM_val 4_'t WAD                     NA         NA</span></span>
 <span><span class="co">#&gt; StationMica Viane                     0.5290856          1</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="session-and-camera-ids">Session and camera IDs<a class="anchor" aria-label="anchor" href="#session-and-camera-ids"></a>
+</h3>
+<p>You can specify the column containing the camera IDs to be added to
+the station names following the camtrapR’s convention:
+<code>Station__CAM_CameraID</code>. Only the row names are shown:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mica_cameras</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
+<span><span class="va">mica_cameras</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">cameraID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">cam_op_with_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica_cameras</span>, camera_col <span class="op">=</span> <span class="st">"cameraID"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_camera_ids</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__CAM_1"</span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__CAM_2"        </span></span>
+<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__CAM_3"            </span></span>
+<span><span class="co">#&gt; [4] "Mica Viane__CAM_4"</span></span></code></pre></div>
+<p>You cans also add the session IDs using <code>session_col</code>
+argument, following the camtrapR’s convention:
+<code>Station__SESS_sessionID</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mica_sessions</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
+<span><span class="va">mica_sessions</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">session</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">cam_op_with_session_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica_sessions</span>, session_col <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_session_ids</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__SESS_1"</span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__SESS_2"        </span></span>
+<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__SESS_3"            </span></span>
+<span><span class="co">#&gt; [4] "Mica Viane__SESS_4"</span></span></code></pre></div>
+<p>To use both camera and session IDs, the camtrapR’s convention
+<code>Station__SESS_SessionID__CAM_CameraID</code> is followed:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mica_sessions</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">cameraID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">cam_op_with_session_and_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">mica_sessions</span>, </span>
+<span>  camera_col <span class="op">=</span> <span class="st">"cameraID"</span>,</span>
+<span>  session_col <span class="op">=</span> <span class="st">"session"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_session_and_camera_ids</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__SESS_1__CAM_1"</span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__SESS_2__CAM_2"        </span></span>
+<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__SESS_3__CAM_3"            </span></span>
+<span><span class="co">#&gt; [4] "Mica Viane__SESS_4__CAM_4"</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -80,8 +80,8 @@ test_that("output matrix has locations as rownames", {
   cam_op_matrix <- get_cam_op(mica)
   locations <- mica$data$deployments$locationName
   n_locations <- length(mica$data$deployments$locationName)
-  expect_equal(nrow(cam_op_matrix), n_locations)
-  expect_equal(row.names(cam_op_matrix), locations)
+  expect_identical(nrow(cam_op_matrix), n_locations)
+  expect_identical(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has sessions addded to locations as rownames", {
@@ -99,7 +99,7 @@ test_that("output matrix has sessions addded to locations as rownames", {
                               sep = "__SESS_"
   )
   n_locations <- length(mica_sessions$data$deployments$locationName)
-  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations_sessions)
 })
 
@@ -112,7 +112,7 @@ test_that("output matrix has camera IDs addded to locations as rownames", {
                              sep = "__CAM_"
   )
   n_locations <- length(mica_cameras$data$deployments$locationName)
-  expect_equal(nrow(cam_op_matrix), n_locations)
+  expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations_cameras)
 })
 
@@ -134,7 +134,7 @@ test_that(
                                 sep = "__CAM_"
     )
     n_locations <- length(mica_sess_cam$data$deployments$locationName)
-    expect_equal(nrow(cam_op_matrix), n_locations)
+    expect_identical(nrow(cam_op_matrix), n_locations)
     expect_identical(row.names(cam_op_matrix), locations_sess_cam)
 })
 
@@ -204,16 +204,16 @@ test_that("output matrix has Station prefix in rownames", {
   cam_op_matrix <- get_cam_op(mica, use_prefix = TRUE)
   locations <- paste0("Station", mica$data$deployments$locationName)
   n_locations <- length(mica$data$deployments$locationName)
-  expect_equal(nrow(cam_op_matrix), n_locations)
-  expect_equal(row.names(cam_op_matrix), locations)
+  expect_identical(nrow(cam_op_matrix), n_locations)
+  expect_identical(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has specified location column as rownames", {
   cam_op_matrix <- get_cam_op(mica, station_col = "locationID")
   locations <- mica$data$deployments$locationID
   n_locations <- length(mica$data$deployments$locationID)
-  expect_equal(nrow(cam_op_matrix), n_locations)
-  expect_equal(row.names(cam_op_matrix), locations)
+  expect_identical(nrow(cam_op_matrix), n_locations)
+  expect_identical(row.names(cam_op_matrix), locations)
 })
 
 
@@ -225,8 +225,8 @@ test_that("output matrix has all deployment days as colnames", {
   )
   days_activity <- as.character(days_activity)
   n_days <- length(days_activity)
-  expect_equal(ncol(cam_op_matrix), n_days)
-  expect_equal(colnames(cam_op_matrix), days_activity)
+  expect_identical(ncol(cam_op_matrix), n_days)
+  expect_identical(colnames(cam_op_matrix), days_activity)
 })
 
 test_that("daily effort is > 0 for fully active days, NA for inactive days", {
@@ -321,7 +321,7 @@ test_that("filtering predicates are allowed and work well", {
   filtered_cam_op_matrix <- suppressMessages(
     get_cam_op(mica, pred_lt("longitude", 4.0))
   )
-  expect_equal(rownames(filtered_cam_op_matrix), "Mica Viane")
+  expect_identical(rownames(filtered_cam_op_matrix), "Mica Viane")
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {

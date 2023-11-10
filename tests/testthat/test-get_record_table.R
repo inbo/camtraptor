@@ -44,7 +44,7 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
       deltaTimeComparedTo = "lastRecord"
     )
   )
-  testthat::expect_equal(record_table_int, record_table_dec)
+  testthat::expect_identical(record_table_int, record_table_dec)
 })
 
 test_that("input of get_record_table, removeDuplicateRecords, is checked properly", {
@@ -79,7 +79,7 @@ test_that("right columns are returned", {
 
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow()
-  testthat::expect_equal(
+  testthat::expect_identical(
     nrow_output,
     mica$data$observations %>%
       dplyr::filter(!is.na(scientificName)) %>% nrow()
@@ -99,7 +99,7 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
   )
   nrow_foxes <- get_record_table(mica, exclude = species_to_exclude) %>%
     nrow()
-  testthat::expect_equal(
+  testthat::expect_identical(
     nrow_foxes,
     mica$data$observations %>%
       dplyr::filter(scientificName == "Vulpes vulpes") %>% nrow()
@@ -197,13 +197,13 @@ test_that(paste(
   rec_table_dup <- get_record_table(mica_dup,
     removeDuplicateRecords = FALSE
   )
-  testthat::expect_equal(nrow(rec_table), 1)
-  testthat::expect_equal(
+  testthat::expect_identical(nrow(rec_table), 1L)
+  testthat::expect_identical(
     rec_table$DateTimeOriginal, mica$data$observations$timestamp[3]
   )
-  testthat::expect_equal(rec_table$delta.time.secs, 0)
-  testthat::expect_equal(names(rec_table_dup), names(rec_table))
-  testthat::expect_equal(
+  testthat::expect_identical(rec_table$delta.time.secs, 0)
+  testthat::expect_identical(names(rec_table_dup), names(rec_table))
+  testthat::expect_identical(
     nrow(rec_table_dup),
     nrow(mica_dup$data$observations)
   )

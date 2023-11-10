@@ -22,7 +22,7 @@
 #' @param session_col Column name to use for identifying the session. Default:
 #'   `NULL`. Use it for creating multi-session / multi-season detection
 #'   histories.
-#' @param use_prefix Logical (`TRUE`or `FALSE`). If `TRUE` the returned row
+#' @param use_prefix Logical (`TRUE` or `FALSE`). If `TRUE` the returned row
 #'   names will start with prefix `"Station"` as returned by
 #'   [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).

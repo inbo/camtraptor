@@ -66,8 +66,10 @@
 #'
 #' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
+#' mica_dependent <- mica
+#' mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
 #' get_record_table(
-#'   mica,
+#'   mica_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastIndependentRecord"
 #' )
@@ -75,12 +77,12 @@
 #' # Set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
 #' get_record_table(
-#'   mica,
+#'   mica_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
 #'
-#' # Exclude observations of brown rat
+#' # Exclude observations of mallard
 #' # Exclude is case insensitive and vernacular names are allowed
 #' get_record_table(mica, exclude = "wilde eend")
 #'
@@ -91,6 +93,20 @@
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
+#' 
+#' # How to deal with duplicates
+#' mica_dup <- mica
+#' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
+#' mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
+#' mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
+#' mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
+#'
+#' # duplicates are removed by default by get_record_table()
+#' get_record_table(mica_dup)
+#' 
+#' # duplicate not removed
+#' get_record_table(mica_dup, removeDuplicateRecords = FALSE)
+#' 
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
 get_record_table <- function(package = NULL,
@@ -265,11 +281,13 @@ get_record_table <- function(package = NULL,
       Species = "scientificName",
       DateTimeOriginal = "timestamp",
       Directory = "filePath",
-      FileName = "fileName"
+      FileName = "fileName",
+      n = "count"
     ) %>%
     dplyr::select(
       "Station",
       "Species",
+      "n",
       "DateTimeOriginal",
       "Date",
       "Time",

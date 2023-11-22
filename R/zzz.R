@@ -497,7 +497,8 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
       "The field `sequenceInterval` is deprecated in version {from}."
     ))
   }
-  package$platform <- package$sources[[1]]$title
+  package$platform <- package$sources[[1]]
+  
   # `title` value of the first contributor with role `rightsHolder`
   package$rightsHolder <- purrr::map_df(package$contributors, unlist) %>%
     dplyr::filter(.data$role == "rightsHolder") %>%

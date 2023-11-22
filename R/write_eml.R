@@ -167,10 +167,7 @@ write_eml <- function(package,
       )
     }
     # Sort contributors on order in creators
-    contributors <- dplyr::slice(
-      contributors,
-      order_by = order(factor(.data$title, levels = creators))
-    )
+    contributors <- arrange(contributors, factor(title, level = creators))
   }
   creator_list <- purrr::transpose(contributors) # Create list
   message(glue::glue(

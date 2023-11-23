@@ -367,19 +367,25 @@ add_taxonomic_info <- function(package) {
   taxon_infos <- dplyr::select(
     taxon_infos,
     dplyr::all_of("scientificName"),
-    dplyr::any_of(c("taxonIDReference",
-                    "taxonRank")),
+    dplyr::any_of(c("taxonID", "taxonIDReference", "taxonRank")),
     dplyr::starts_with("vernacularNames")
   )
-  # add taxon infos to observations
+  # Add taxon infos to observations
   if (!is.null(taxon_infos)) {
     cols_taxon_infos <- names(taxon_infos)
     observations <-
       dplyr::left_join(
         package$data$observations,
         taxon_infos,
-        by  = c("scientificName")
+        by = "scientificName"
       )
+    if ("taxonID.y" %in% colnames(observations)) {
+      # Keep only the taxonID added by join with taxonomy
+      observations <-
+        observations %>%
+        rename("taxonID" = "taxonID.y") %>%
+        select(-"taxonID.x")
+    }
     package$data$observations <- observations
   }
   return(package)
@@ -497,7 +503,8 @@ convert_metadata_to_0.1.6 <- function(package, from = "1.0"){
       "The field `sequenceInterval` is deprecated in version {from}."
     ))
   }
-  package$platform <- package$sources[[1]]$title
+  package$platform <- package$sources[[1]]
+  
   # `title` value of the first contributor with role `rightsHolder`
   package$rightsHolder <- purrr::map_df(package$contributors, unlist) %>%
     dplyr::filter(.data$role == "rightsHolder") %>%

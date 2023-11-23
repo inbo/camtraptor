@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,12 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.22.0" id="camtraptor-0220">camtraptor 0.22.0<a class="anchor" aria-label="anchor" href="#camtraptor-0220"></a></h2>
+<ul><li>Fix bug in <code><a href="../reference/write_eml.html">write_eml()</a></code> for Camtrap DP 1.0 datasets (<a href="https://github.com/inbo/camtraptor/issues/290" class="external-link">#290</a>).</li>
+<li>
+<code><a href="../reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> will now always populate <code>taxonID</code> from the <code>package.taxonomy</code> (<a href="https://github.com/inbo/camtraptor/issues/290" class="external-link">#290</a>).</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.21.0" id="camtraptor-0210">camtraptor 0.21.0<a class="anchor" aria-label="anchor" href="#camtraptor-0210"></a></h2>
 <ul><li>
 <code><a href="../reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> supports Camtrap DP 1.0 (upcoming Agouti export format) in favour of Camtrap DP 1.0-rc.1 (<a href="https://github.com/inbo/camtraptor/issues/284" class="external-link">#284</a>). To avoid breaking changes to users, it will down-convert Camtrap DP 1.0 to 0.1.6 which is currently used as internal data model for camtraptor.</li>
@@ -66,7 +72,8 @@
 <li>
 <code><a href="../reference/get_cam_op.html">get_cam_op()</a></code> allows to add session and camera IDs to the station names output (<a href="https://github.com/inbo/camtraptor/issues/288" class="external-link">#288</a>).</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

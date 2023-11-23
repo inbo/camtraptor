@@ -1,3 +1,9 @@
+# camtraptor 0.22.0
+
+- Fix bug in `write_eml()` for Camtrap DP 1.0 datasets (#290).
+- `read_camtrap_dp()` will now always populate `taxonID` from the 
+  `package.taxonomy` (#290).
+
 # camtraptor 0.21.0
 
 - `read_camtrap_dp()` supports Camtrap DP 1.0 (upcoming Agouti export format) 

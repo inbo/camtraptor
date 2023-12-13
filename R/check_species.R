@@ -47,7 +47,7 @@ check_species <- function(package = NULL,
 
   all_species <-
     get_species(package) %>%
-    dplyr::select(-"taxonID")
+    dplyr::select(-dplyr::any_of(c("taxonID", "taxonIDReference")))
   check_value(
     tolower(species),
     unlist(all_species) %>% tolower(),

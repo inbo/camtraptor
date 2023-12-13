@@ -383,8 +383,8 @@ add_taxonomic_info <- function(package) {
       # Keep only the taxonID added by join with taxonomy
       observations <-
         observations %>%
-        rename("taxonID" = "taxonID.y") %>%
-        select(-"taxonID.x")
+        dplyr::rename("taxonID" = "taxonID.y") %>%
+        dplyr::select(-"taxonID.x")
     }
     package$data$observations <- observations
   }

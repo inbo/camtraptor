@@ -743,9 +743,52 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   )
   
   observations <- package$data$observations
-  # only event-type obs are supported
-  observations <- observations %>%
+  
+  # Get media-based observations
+  media_observations <- observations %>%
+    dplyr::filter(.data$observationLevel == "media")
+  
+  # Extract first not NA individualPositionRadius and individualPositionAngle
+  # for each `eventID`
+  obs_first_radius_angle <- 
+    media_observations %>%
+    dplyr::filter(!is.na(.data$individualPositionRadius),
+                  !is.na(.data$individualPositionAngle)) %>%
+    dplyr::group_by(.data$eventID) %>%
+    # Take the very first row with the lowest eventStart.
+    # Notice that multiple media could have the same value of eventStart
+    # Use with_ties = FALSE to be sure to take the very first element.
+    dplyr::slice_min(.data$eventStart, n = 1, with_ties = FALSE) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(c("eventID", 
+                    "individualPositionRadius", 
+                    "individualPositionAngle")) %>%
+    dplyr::rename_with(~ paste0("media_", .x),
+                       dplyr::starts_with("individualPosition")
+    )
+  
+  # Get event-based observations
+  event_observations <- observations %>%
     dplyr::filter(.data$observationLevel == "event")
+  
+  # Add angle/radius to event based observations if missing
+  event_observations <- event_observations %>%
+    dplyr::left_join(obs_first_radius_angle, by = "eventID") %>%
+    dplyr::mutate(
+      individualPositionAngle = dplyr::if_else(
+        condition = is.na(.data$individualPositionAngle),
+        true = .data$media_individualPositionAngle,
+        false = .data$individualPositionAngle),
+      individualPositionRadius = dplyr::if_else(
+        condition = is.na(.data$individualPositionRadius),
+        true = .data$media_individualPositionRadius,
+        false = .data$individualPositionRadius)) %>%
+    dplyr::select(-c("media_individualPositionAngle",
+                     "media_individualPositionRadius")
+    )
+  
+  # only event-type obs are supported
+  observations <- event_observations
   
   if ("eventID" %in% names(observations)) {
     observations <- observations %>%

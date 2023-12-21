@@ -754,13 +754,14 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
     media_observations %>%
     dplyr::filter(!is.na(.data$individualPositionRadius),
                   !is.na(.data$individualPositionAngle)) %>%
-    dplyr::group_by(.data$eventID) %>%
+    dplyr::group_by(.data$eventID, .data$individualID) %>%
     # Take the very first row with the lowest eventStart.
     # Notice that multiple media could have the same value of eventStart
     # Use with_ties = FALSE to be sure to take the very first element.
     dplyr::slice_min(.data$eventStart, n = 1, with_ties = FALSE) %>%
     dplyr::ungroup() %>%
-    dplyr::select(c("eventID", 
+    dplyr::select(c("eventID",
+                    "individualID",
                     "individualPositionRadius", 
                     "individualPositionAngle")) %>%
     dplyr::rename_with(~ paste0("media_", .x),
@@ -773,7 +774,8 @@ convert_observations_to_0.1.6 <- function(package, from = "1.0") {
   
   # Add angle/radius to event based observations if missing
   event_observations <- event_observations %>%
-    dplyr::left_join(obs_first_radius_angle, by = "eventID") %>%
+    dplyr::left_join(obs_first_radius_angle,
+                     by = c("eventID", "individualID")) %>%
     dplyr::mutate(
       individualPositionAngle = dplyr::if_else(
         condition = is.na(.data$individualPositionAngle),

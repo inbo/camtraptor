@@ -533,12 +533,24 @@ test_that(
 )
 
 test_that(
+  "read observations v1.0: radius is NA as NA in media based obs too", {
+    expect_true(all(is.na(dp_v1_with_media$data$observations$radius)))
+  }
+)
+
+test_that(
   "read observations v1.0: individualPositionAngle is renamed as angle", {
     expect_false(
       "individualPositionAngle" %in% 
         names(dp_v1_with_media$data$observations)
     )
     expect_true("angle" %in% names(dp_v1_with_media$data$observations))
+  }
+)
+
+test_that(
+  "read observations v1.0: angle is NA as NA in media based obs too", {
+    expect_true(all(is.na(dp_v1_with_media$data$observations$angle)))
   }
 )
 

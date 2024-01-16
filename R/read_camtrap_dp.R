@@ -81,8 +81,6 @@ read_camtrap_dp <- function(file = NULL,
   
   # Check Camtrap DP version is supported
   version <- get_version(profile = package$profile)
-
-  # Check version is supported
   supported_versions <- c("0.1.6", "1.0")
   assertthat::assert_that(
     version %in% supported_versions,

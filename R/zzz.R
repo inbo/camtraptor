@@ -89,7 +89,7 @@ get_version <- function(profile) {
     pattern = pattern_regex
   )
   if (stringr::str_detect(string = profile, 
-                          pattern = "camtrap-dp-profile.json") & 
+                          pattern = stringr::fixed("camtrap-dp-profile.json")) & 
       !is.na(extracted_version)) {
     extracted_version
   } else {

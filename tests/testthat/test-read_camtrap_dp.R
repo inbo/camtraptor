@@ -31,7 +31,7 @@ test_that("file can be an URL", {
 test_that("only DP versions 1.0 and dp 0.1.6 are supported", {
   expect_error(
     suppressMessages(read_camtrap_dp("https://raw.githubusercontent.com/tdwg/camtrap-dp/bb046c85a55bef2ced709357c0047f0136df8326/example/datapackage.json")),
-    "Version `https://raw.githubusercontent.com/tdwg/camtrap-dp/0.5/camtrap-dp-profile.json` is not supported. Supported versions: 0.1.6 and 1.0",
+    "Version `0.5` is not supported. Supported versions: 0.1.6 and 1.0",
     fixed = TRUE
   )
   

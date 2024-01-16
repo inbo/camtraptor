@@ -70,6 +70,33 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   }
 }
 
+#' Get version from data package profile
+#'
+#' This helper functions returns the version of a Camera Trap Data Package by
+#' applying a regex to its `profile`.
+#' 
+#' The regex rule extracts the version by detecting a sequence of digits and dots.
+#' If no dots are detected or `"camtrap-dp-profile.json"` is not part of
+#' `profile`, the entire `profile` is returned.
+#' 
+#' @param profile Character containing the profile of the data package.
+#' @return Character containing the data package version.
+#' @noRd
+get_version <- function(profile) {
+  pattern_regex <- "\\d+(\\.\\d+){1,2}" # a sequence of digits and dots (max 2)
+  extracted_version <- stringr::str_extract(
+    string = profile, 
+    pattern = pattern_regex
+  )
+  if (stringr::str_detect(string = profile, 
+                          pattern = stringr::fixed("camtrap-dp-profile.json")) & 
+      !is.na(extracted_version)) {
+    extracted_version
+  } else {
+    profile
+  }
+}
+
 #' Check reading issues
 #' 
 #' This helper function throws a warning if issues while reading datapackage
@@ -78,8 +105,9 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
 #' 
 #' @param df Data.frame.
 #' @param df_name Character with name of the data.frame passed to `df`.
-#' @noRd
 #' @return Data.frame containing the issues as returned by `readr::problems()`.
+#' @noRd
+#' 
 check_reading_issues <- function(df, df_name) {
   # get problems
   issues_df <- readr::problems(df)

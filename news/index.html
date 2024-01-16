@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.25.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,19 @@
       <small>Source: <a href="https://github.com/inbo/camtraptor/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.25.0" id="camtraptor-0250">camtraptor 0.25.0<a class="anchor" aria-label="anchor" href="#camtraptor-0250"></a></h2>
+<ul><li>
+<code><a href="../reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> detects Camtrap DP version from <code>package$profile</code> using regex (<a href="https://github.com/inbo/camtraptor/issues/295" class="external-link">#295</a>). This supports reading Camtrap DPs created by the GBIF IPT.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.24.0" id="camtraptor-0240">camtraptor 0.24.0<a class="anchor" aria-label="anchor" href="#camtraptor-0240"></a></h2>
+<ul><li>Replicate old Camtrap DP 0.1.6 behaviour and populate <code>angle</code> and <code>radius</code> for event-based observations. Values are taken from the first media-based observation (fields <code>individualPositionRadius</code> and <code>individualPositionAngle</code>) for each <code>eventID/individualID</code> combination (<a href="https://github.com/inbo/camtraptor/issues/291" class="external-link">#291</a>).</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.23.0" id="camtraptor-0230">camtraptor 0.23.0<a class="anchor" aria-label="anchor" href="#camtraptor-0230"></a></h2>
+<ul><li>Fix bug in <code><a href="../reference/read_camtrap_dp.html">read_camtrap_dp()</a></code> when reading a Camtrap DP 1.0 (<a href="https://github.com/inbo/camtraptor/issues/292" class="external-link">#292</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.22.0" id="camtraptor-0220">camtraptor 0.22.0<a class="anchor" aria-label="anchor" href="#camtraptor-0220"></a></h2>
 <ul><li>Fix bug in <code><a href="../reference/write_eml.html">write_eml()</a></code> for Camtrap DP 1.0 datasets (<a href="https://github.com/inbo/camtraptor/issues/290" class="external-link">#290</a>).</li>

@@ -49,7 +49,7 @@
 read_camtrap_dp <- function(file = NULL,
                             media = TRUE,
                             path = lifecycle::deprecated()) {
-  # check path (deprecated)
+  # Check path (deprecated)
   warning_detail <- paste(
     "Use argument `file` containing the path or URL to the `datapackage.json`",
     "file. The use of parameter `path` with path to the local directory is ",
@@ -62,11 +62,11 @@ read_camtrap_dp <- function(file = NULL,
       details = warning_detail
     )
   }
-  # define the right file value
+  # Define the right file value
   if (lifecycle::is_present(path)) {
     file <- file.path(path, "datapackage.json")
   }
-  # file value is a valid path
+  # File value is a valid path
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
@@ -79,13 +79,11 @@ read_camtrap_dp <- function(file = NULL,
   # Read package (metadata)
   package <- frictionless::read_package(file)
   
-  # Supported versions
-  supported_versions <- c("0.1.6", "1.0")
-  
-  # Get package version
+  # Check Camtrap DP version is supported
   version <- get_version(profile = package$profile)
-  
+
   # Check version is supported
+  supported_versions <- c("0.1.6", "1.0")
   assertthat::assert_that(
     version %in% supported_versions,
     msg = glue::glue(
@@ -96,6 +94,7 @@ read_camtrap_dp <- function(file = NULL,
     
   # Get resource names
   resource_names <- frictionless::resources(package)
+
   # Check needed resources are present
   resources_to_read <- c("deployments", "media", "observations")
   assertthat::assert_that(

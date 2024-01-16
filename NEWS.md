@@ -1,3 +1,11 @@
+# camtraptor 0.24.0
+
+The fields `angle` and `radius` for event-based observations (the only ones returned by `read_camtrap_dp()` at the moment) are now populated by taking the values in `individualPositionRadius` and `individualPositionAngle` from the very first media-based observation for each `eventID`-`individualID` combination (#291).
+
+# camtraptor 0.23.0
+
+Fix bug in `read_camtrap_dp()` while reading a Camera Trap Data Package v1.0 (#292).
+
 # camtraptor 0.22.0
 
 - Fix bug in `write_eml()` for Camtrap DP 1.0 datasets (#290).

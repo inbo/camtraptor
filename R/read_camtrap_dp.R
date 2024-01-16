@@ -85,7 +85,7 @@ read_camtrap_dp <- function(file = NULL,
   # Get package version
   version <- get_version(profile = package$profile)
   
-  # check version is supported
+  # Check version is supported
   assertthat::assert_that(
     version %in% supported_versions,
     msg = glue::glue(
@@ -94,9 +94,9 @@ read_camtrap_dp <- function(file = NULL,
     )
   )
     
-  # get resource names
+  # Get resource names
   resource_names <- frictionless::resources(package)
-  #check needed resources are present
+  # Check needed resources are present
   resources_to_read <- c("deployments", "media", "observations")
   assertthat::assert_that(
     all(resources_to_read %in% resource_names),
@@ -107,10 +107,10 @@ read_camtrap_dp <- function(file = NULL,
     )
   )
   
-  # read deployments
+  # Read deployments
   deployments <- frictionless::read_resource(package, "deployments")
   issues_deployments <- check_reading_issues(deployments, "deployments")
-  # read observations (needed to create sequenceID in media)
+  # Read observations (needed to create sequenceID in media)
   observations <- frictionless::read_resource(package, "observations")
   issues_observations <- check_reading_issues(observations, "observations")
   
@@ -118,7 +118,7 @@ read_camtrap_dp <- function(file = NULL,
     observations <- add_speed_radius_angle(observations)
   }
   
-  # create first version datapackage with resources in data slot
+  # Create first version datapackage with resources in data slot
   data <- list(
     "deployments" = deployments,
     "media" = NULL,
@@ -127,7 +127,7 @@ read_camtrap_dp <- function(file = NULL,
   
   package$data <- data
   
-  # read media if needed
+  # Read media if needed
   if (media) {
     media_df <- frictionless::read_resource(package, "media")
     issues_media <- check_reading_issues(media_df, "media")
@@ -139,12 +139,12 @@ read_camtrap_dp <- function(file = NULL,
   
   package <- add_taxonomic_info(package)
   
-  # convert to 0.1.6
+  # Convert to 0.1.6
   if (version == "1.0") {
     package <- convert_to_0.1.6(package, version, media = media)
   }
   
-  # order columns
+  # Order columns
   package$data$deployments <- order_cols_deployments(package$data$deployments)
   package$data$observations <- order_cols_observations(
     package$data$observations

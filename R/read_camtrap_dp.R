@@ -70,29 +70,20 @@ read_camtrap_dp <- function(file = NULL,
   if (dir.exists(file)) {
     file <- file.path(file, "datapackage.json")
   }
-  # check media arg
+  # Check media arg
   assertthat::assert_that(
     media %in% c(TRUE, FALSE),
     msg = "`media` must be a logical: TRUE or FALSE"
   )
   
-  # read package (metadata)
+  # Read package (metadata)
   package <- frictionless::read_package(file)
   
-  # supported versions
+  # Supported versions
   supported_versions <- c("0.1.6", "1.0")
   
-  # get package version
-  profile <- package$profile
-  if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json") {
-    version <- "1.0"
-  } else {
-    if (profile == "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.6/camtrap-dp-profile.json") {
-      version <- "0.1.6"
-    } else {
-      version <- profile
-    }
-  }
+  # Get package version
+  version <- get_version(profile = package$profile)
   
   # check version is supported
   assertthat::assert_that(

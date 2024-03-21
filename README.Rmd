@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# camtraptor
+# camtraptor <a href="https://inbo.github.io/camtraptor"><img src="man/figures/logo.png" align="right" height="137" alt="camtraptor website" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project.org/package=camtraptor)

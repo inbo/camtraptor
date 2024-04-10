@@ -62,7 +62,7 @@ round_coordinates <- function(package, digits = 3) {
       msg = glue::glue(
         "Can't round from {original_digits} to {digits} digits. ",
         "`{original_digits}` is derived from the ",
-        "`package$coordinatePrecision={original_precision}`.",
+        "`package$coordinatePrecision={original_precision}`."
       )
     )
   } else {
@@ -78,7 +78,7 @@ round_coordinates <- function(package, digits = 3) {
       msg = glue::glue(
         "Can't round from {original_digits} to {digits} digits. ",
         "`{original_digits}` is the maximum number of decimals for latitude ",
-        "in the data.",
+        "in the data."
       )
     )
   }

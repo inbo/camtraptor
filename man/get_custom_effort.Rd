@@ -116,8 +116,8 @@ Other exploration functions:
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_n_species}()},
-\code{\link{get_rai_individuals}()},
 \code{\link{get_rai}()},
+\code{\link{get_rai_individuals}()},
 \code{\link{get_record_table}()},
 \code{\link{get_scientific_name}()},
 \code{\link{get_species}()}

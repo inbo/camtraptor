@@ -1,3 +1,8 @@
+# camtraptor 1.0
+
+- `read_camtrap_dp()` is removed from this package. Packages are now read using 
+the camtrapdp's function [`read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#295).
+
 # camtraptor 0.25.0
 
 - `read_camtrap_dp()` detects Camtrap DP version from `package$profile` using 

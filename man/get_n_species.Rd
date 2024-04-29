@@ -8,7 +8,7 @@ get_n_species(package = NULL, ..., datapkg = lifecycle::deprecated())
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{Filter predicates for filtering on deployments.}
 

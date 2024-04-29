@@ -6,7 +6,7 @@
 #' If a vernacular name is not valid, an error is returned
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param vernacular_name Character vector with input vernacular name(s).
 #' @param datapkg Deprecated.
 #'   Use `package` instead.

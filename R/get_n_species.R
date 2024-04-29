@@ -3,7 +3,7 @@
 #' Gets the number of identified species per deployment.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates for filtering on deployments.
 #' @param datapkg Deprecated.
 #'   Use `package` instead.

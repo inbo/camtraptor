@@ -7,7 +7,7 @@
 write_dwc(package, directory = ".")
 }
 \arguments{
-\item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
+\item{package}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{directory}{Path to local directory to write file(s) to.
 If \code{NULL}, then a list of data frames is returned instead, which can be

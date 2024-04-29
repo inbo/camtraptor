@@ -5,7 +5,7 @@
 #' (`sequenceID`).
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.

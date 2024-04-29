@@ -7,7 +7,7 @@
 #' via `get_effort()`.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive). If `"all"` (default) all scientific names are automatically
 #'   selected.
@@ -81,7 +81,7 @@ get_rai <- function(package = NULL,
 #' via `get_effort()`.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
@@ -159,7 +159,7 @@ get_rai_individuals <- function(package = NULL,
 #' number of individuals respectively.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param use Character, one of:
 #'   - `"n_obs"`: Calculate RAI based on number of observation (standard).
 #'   - `"n_individuals"`: Calculate RAI based on number of individuals.

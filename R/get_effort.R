@@ -3,7 +3,7 @@
 #' Gets the effort (deployment duration) per deployment.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param unit Time unit to use while returning deployment effort (duration).
 #'   One of:
 #'   - `second`

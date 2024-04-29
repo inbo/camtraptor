@@ -174,7 +174,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #' to list the ID of such deployments.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame with deployments not linked to any observations.

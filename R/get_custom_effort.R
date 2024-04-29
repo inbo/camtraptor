@@ -6,7 +6,7 @@
 #' as well. This function calls `get_cam_op()` internally.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates
 #' @param start Start date.
 #'   Default: `NULL`.

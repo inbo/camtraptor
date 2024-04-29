@@ -16,7 +16,7 @@ get_cam_op(
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{filter predicates for filtering on deployments.}
 

@@ -7,7 +7,7 @@
 #' A `meta.xml` file is included as well.
 #' See `write_eml()` to create an `eml.xml` file.
 #'
-#' @param package A Camtrap DP, as read by [read_camtrap_dp()].
+#' @param package A Camtrap DP, as read by [camtrapdp::read_camtrapdp()].
 #' @param directory Path to local directory to write file(s) to.
 #'   If `NULL`, then a list of data frames is returned instead, which can be
 #'   useful for extending/adapting the Darwin Core mapping before writing with

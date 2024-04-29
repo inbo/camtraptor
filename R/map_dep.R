@@ -7,7 +7,7 @@
 #' returned.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param feature Deployment feature to visualize.
 #'   One of:
 #'   - `n_species`: Number of identified species.

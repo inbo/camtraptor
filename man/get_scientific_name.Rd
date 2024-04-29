@@ -12,7 +12,7 @@ get_scientific_name(
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{vernacular_name}{Character vector with input vernacular name(s).}
 

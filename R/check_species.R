@@ -4,7 +4,7 @@
 #' metadata (`package$taxonomic`) and returns error if not.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character vector with scientific or vernacular names.
 #' @param arg_name Character with argument name to return in error message
 #'   Default: "species".

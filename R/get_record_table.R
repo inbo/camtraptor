@@ -10,7 +10,7 @@
 #' **Note**: All dates and times are expressed in UTC format.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
 #' @param exclude Character vector of species names (scientific names or

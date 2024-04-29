@@ -15,7 +15,7 @@
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
 #' @param camera_col Column name of the column specifying Camera ID. Default:

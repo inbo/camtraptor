@@ -7,7 +7,7 @@
 round_coordinates(package, digits = 3)
 }
 \arguments{
-\item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
+\item{package}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{digits}{Number of decimal places to round coordinates to (\code{1}, \code{2} or
 \code{3}).}

@@ -5,7 +5,7 @@
 #' This function can be used before publishing data in order to protect
 #' sensitive species and/or prevent theft of active cameras.
 #'
-#' @param package A Camtrap DP, as read by [read_camtrap_dp()].
+#' @param package A Camtrap DP, as read by [camtrapdp::read_camtrapdp()].
 #' @param digits Number of decimal places to round coordinates to (`1`, `2` or
 #'   `3`).
 #' @return `package` with rounded coordinates as well as updated

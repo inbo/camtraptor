@@ -128,12 +128,9 @@ get_rai_individuals <- function(package,
                                 ...,
                                 species = "all",
                                 sex = NULL,
-  # check camera trap data package
-  check_package(package, datapkg, "get_rai_individuals")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
                                 life_stage = NULL) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   get_rai_primitive(package, ...,
     use = "n_individuals",

@@ -20,6 +20,8 @@
 get_n_species <- function(package, ...) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
+  
+  # Extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments
 

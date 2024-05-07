@@ -182,13 +182,13 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @noRd
 #' @examples
 #' get_dep_no_obs(mica)
-
-  # check input camera trap data package
-  check_package(package, datapkg, "get_dep_no_obs")
-
 get_dep_no_obs <- function(package, ...) {
   # extract observations and deployments
 
+  
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
+  
   observations <- camtrapdp::observations()
   deployments <- camtrapdp::deployments()
   # apply filtering (do not show filtering expression, verbose = FALSE)

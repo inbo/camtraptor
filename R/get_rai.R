@@ -57,11 +57,8 @@ get_rai <- function(package = NULL,
                     sex = NULL,
                     life_stage = NULL,
                     datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_rai")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   get_rai_primitive(package, ...,
     use = "n_obs",

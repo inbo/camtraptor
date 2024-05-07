@@ -38,7 +38,7 @@ check_species <- function(package = NULL,
                           arg_name = "species",
                           datapkg = lifecycle::deprecated()) {
   # Check camera trap data package
-  check_package(package, datapkg, "check_species")
+  camtrapdp::check_camtrapdp(package)
   
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,

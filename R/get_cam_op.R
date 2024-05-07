@@ -74,11 +74,8 @@ get_cam_op <- function(package = NULL,
                        session_col = NULL,
                        use_prefix = FALSE,
                        datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_cam_op")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   # Check that station_col is a single string
   assertthat::assert_that(assertthat::is.string(station_col))

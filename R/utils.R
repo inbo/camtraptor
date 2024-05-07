@@ -188,9 +188,9 @@ labelFormat_scale <- function(max_scale = NULL,
 
 get_dep_no_obs <- function(package, ...) {
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
 
+  observations <- camtrapdp::observations()
+  deployments <- camtrapdp::deployments()
   # apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
 

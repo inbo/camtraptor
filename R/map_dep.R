@@ -103,8 +103,6 @@
 #'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`).
 #'   Default: `c(10, 50)`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for subsetting deployments.
 #' @return Leaflet map.
 #' @family visualization functions
@@ -327,7 +325,7 @@
 #'   radius_range = c(40, 150)
 #' )
 #' }
-map_dep <- function(package = NULL,
+map_dep <- function(package,
                     feature,
                     ...,
                     species = NULL,
@@ -348,8 +346,7 @@ map_dep <- function(package = NULL,
                     na_values_icon_size = 10,
                     relative_scale = TRUE,
                     max_scale = NULL,
-                    radius_range = c(10, 50),
-                    datapkg = lifecycle::deprecated()) {
+                    radius_range = c(10, 50)) {
 
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)

@@ -12,8 +12,6 @@
 #'   - `day`
 #'   - `month`
 #'   - `year`
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -31,11 +29,10 @@
 #'
 #' # Effort expressed as days
 #' get_effort(mica, unit = "day")
-get_effort <- function(package = NULL,
+get_effort <- function(package,
                        ...,
-                       unit = "hour",
-                       datapkg = lifecycle::deprecated()) {
-  # define possible unit values
+                       unit = "hour") {
+  # Define possible unit values
   units <- c("second", "minute", "hour", "day", "month", "year")
 
   # check unit

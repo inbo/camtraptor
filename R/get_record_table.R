@@ -30,8 +30,6 @@
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
@@ -109,14 +107,13 @@
 #' 
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
-get_record_table <- function(package = NULL,
+get_record_table <- function(package,
                              ...,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
-                             removeDuplicateRecords = TRUE,
-                             datapkg = lifecycle::deprecated()) {
+                             removeDuplicateRecords = TRUE) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   

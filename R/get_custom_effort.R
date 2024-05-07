@@ -34,8 +34,6 @@
 #'   each year.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
 #'   - `begin`: Begin date of the interval the effort is calculated over.
@@ -85,13 +83,12 @@
 #'
 #' # Applying filter(s), e.g. deployments with latitude >= 51.18
 #' get_custom_effort(mica, pred_gte("latitude", 51.18))
-get_custom_effort <- function(package = NULL,
+get_custom_effort <- function(package,
                               ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
-                              unit = "hour",
-                              datapkg = lifecycle::deprecated()) {
+                              unit = "hour") {
   # Define possible unit values
   units <- c("hour", "day")
 

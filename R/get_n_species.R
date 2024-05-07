@@ -5,8 +5,6 @@
 #' @param package Camera trap data package object, as returned by
 #'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates for filtering on deployments.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
@@ -19,10 +17,7 @@
 #'
 #' # Get number of species for deployments with latitude >= 51.18
 #' get_n_species(mica, pred_gte("latitude", 51.18))
-get_n_species <- function(package = NULL,
-                          ...,
-                          datapkg = lifecycle::deprecated()) {
-  # extract observations and deployments
+get_n_species <- function(package, ...) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   observations <- package$data$observations

@@ -17,7 +17,6 @@
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
 #'   observations of all life stage classes are taken into account.
-#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
 #' @return A tibble data frame with the following columns: - `deploymentID`:
 #'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
@@ -51,12 +50,11 @@
 #'
 #' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai(mica, pred_gte("latitude", 51.18))
-get_rai <- function(package = NULL,
+get_rai <- function(package,
                     ...,
                     species = "all",
                     sex = NULL,
-                    life_stage = NULL,
-                    datapkg = lifecycle::deprecated()) {
+                    life_stage = NULL) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
@@ -90,8 +88,6 @@ get_rai <- function(package = NULL,
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -128,17 +124,16 @@ get_rai <- function(package = NULL,
 #'
 #' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai_individuals(mica, pred_gte("latitude", 51.18))
-get_rai_individuals <- function(package = NULL,
+get_rai_individuals <- function(package,
                                 ...,
                                 species = "all",
                                 sex = NULL,
-                                life_stage = NULL,
-                                datapkg = lifecycle::deprecated()) {
   # check camera trap data package
   check_package(package, datapkg, "get_rai_individuals")
   if (is.null(package) & !is.name(datapkg)) {
     package <- datapkg
   }
+                                life_stage = NULL) {
   
   get_rai_primitive(package, ...,
     use = "n_individuals",

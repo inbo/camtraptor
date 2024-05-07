@@ -8,7 +8,6 @@
 #' @param species Character vector with scientific or vernacular names.
 #' @param arg_name Character with argument name to return in error message
 #'   Default: "species".
-#' @param datapkg Deprecated. Use `package` instead.
 #' @return A character vector with the correspondent scientific names.
 #' @family validation functions
 #' @importFrom dplyr %>% .data
@@ -33,10 +32,9 @@
 #' \dontrun{
 #' check_species(mica, "bad name")
 #' }
-check_species <- function(package = NULL,
+check_species <- function(package,
                           species,
-                          arg_name = "species",
-                          datapkg = lifecycle::deprecated()) {
+                          arg_name = "species") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   

@@ -18,8 +18,6 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
@@ -57,13 +55,11 @@
 #'
 #' # Applying filter(s), e.g. deployments with latitude >= 51.18
 #' get_n_obs(mica, pred_gte("latitude", 51.18))
-get_n_obs <- function(package = NULL,
+get_n_obs <- function(package,
                       ...,
                       species = "all",
                       sex = NULL,
-                      life_stage = NULL,
-                      datapkg = lifecycle::deprecated()) {
-  # check input data package
+                      life_stage = NULL) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   

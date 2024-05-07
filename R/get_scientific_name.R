@@ -40,11 +40,11 @@ get_scientific_name <- function(package, vernacular_name) {
   
   all_sn_vn <- get_species(package)
 
-  # get vernacular names for check
+  # Get vernacular names for check
   all_vn <-
     all_sn_vn %>%
     dplyr::select(dplyr::starts_with("vernacularName"))
-  # check validity vernacular_name param
+  # Check validity vernacular_name param
   check_value(
     arg = tolower(vernacular_name),
     options = unlist(all_vn) %>% tolower(),
@@ -62,7 +62,7 @@ get_scientific_name <- function(package, vernacular_name) {
   purrr::map_chr(
     input_vernacular,
     function(v) {
-      # search within the columns with vernacular names
+      # Search within the columns with vernacular names
       sc_n <-
         all_sn_vn %>%
         dplyr::filter(dplyr::if_any(

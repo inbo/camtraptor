@@ -65,18 +65,18 @@ get_n_individuals <- function(package,
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
-  # avoid to call variables like column names to make life easier using filter()
+  # Avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 
-  # check sex and life stage values
+  # Check sex and life stage values
   check_value(sex_value, unique(package$data$observations$sex), "sex")
   check_value(life_stage, unique(package$data$observations$lifeStage), "life_stage")
 
-  # get observations of the selected species
+  # Get observations of the selected species
   if (!is.null(species)) {
-    # if species == all retrieve all detected species
+    # If species == all retrieve all detected species
     if ("all" %in% species) {
-      # if also other values are present, they will be ignored
+      # If also other values are present, they will be ignored
       if (length(species) > 1) {
         ignored_species <- species[!species == "all"]
         warning(glue::glue(
@@ -86,7 +86,7 @@ get_n_individuals <- function(package,
       }
       species <- get_species(package)$scientificName
     }
-    # check species and get scientific names
+    # Check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
       package$data$observations %>%

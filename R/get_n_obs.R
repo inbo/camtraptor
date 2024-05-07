@@ -63,18 +63,18 @@ get_n_obs <- function(package,
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
-  # avoid to call variables like column names to make life easier using filter()
+  # Avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 
-  # check sex and lifeStage values
+  # Check sex and lifeStage values
   check_value(sex_value, unique(package$data$observation$sex), "sex")
   check_value(life_stage, unique(package$data$observation$lifeStage), "lifeStage")
 
-  # get observations of the selected species
+  # Get observations of the selected species
   if (!is.null(species)) {
-    # if species == all retrieve all detected species
+    # If species == all retrieve all detected species
     if ("all" %in% species) {
-      # if also other values are present, they will be ignored
+      # If also other values are present, they will be ignored
       if (length(species) > 1) {
         ignored_species <- species[!species == "all"]
         warning(glue::glue(
@@ -84,32 +84,32 @@ get_n_obs <- function(package,
       }
       species <- get_species(package)$scientificName
     }
-    # check species and get scientific names
+    # Check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
-  # get observations of the specified sex
+  # Get observations of the specified sex
   if (!is.null(sex)) {
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(sex %in% sex_value)
   }
 
-  # get observations of the specified life stage
+  # Get observations of the specified life stage
   if (!is.null(life_stage)) {
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
-  # extract observations and deployments
+  # Extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # apply filtering
+  # Apply filtering
   deployments <- apply_filter_predicate(
     df = deployments,
     verbose = TRUE,

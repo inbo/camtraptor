@@ -245,7 +245,7 @@
 #' )
 #'
 #' # Use same icon but but a non default colour for zero values deployments,
-#' # e.g. red (hex: E74C3C)
+#' # E.g. red (hex: E74C3C)
 #' map_dep(
 #'   mica,
 #'   "n_obs",
@@ -351,7 +351,7 @@ map_dep <- function(package,
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
-  # define possible feature values
+  # Define possible feature values
   features <- c(
     "n_species",
     "n_obs",
@@ -361,20 +361,20 @@ map_dep <- function(package,
     "effort"
   )
 
-  # check feature
+  # Check feature
   check_value(feature, features, "feature", null_allowed = FALSE)
   assertthat::assert_that(
     length(feature) == 1,
     msg = "`feature` must have length 1"
   )
 
-  # check effort_unit in combination with feature
+  # Check effort_unit in combination with feature
   if (!is.null(effort_unit) & feature != "effort") {
     warning(glue::glue("`effort_unit` ignored for `feature = {feature}`."))
     effort_unit <- NULL
   }
 
-  # check sex and life stage in combination with feature
+  # Check sex and life stage in combination with feature
   if (!is.null(sex) & !feature %in% c(
     "n_obs",
     "n_individuals",
@@ -394,7 +394,7 @@ map_dep <- function(package,
     life_stage <- NULL
   }
 
-  # check palette/colours
+  # Check palette/colours
   viridis_valid_palettes <- c(
     "magma",
     "inferno",
@@ -412,7 +412,7 @@ map_dep <- function(package,
     )
   }
 
-  # check zero_values_show is a toggle (TRUE or FALSE)
+  # Check zero_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
       assertthat::is.flag(zero_values_show),
       msg = "zero_values_show must be a logical: TRUE or FALSE."
@@ -422,7 +422,7 @@ map_dep <- function(package,
     msg = "zero_values_show must be a logical: TRUE or FALSE."
   )
   
-  # check na_values_show is a toggle (TRUE or FALSE)
+  # Check na_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
     assertthat::is.flag(na_values_show),
     msg = "na_values_show must be a logical: TRUE or FALSE."
@@ -432,12 +432,12 @@ map_dep <- function(package,
     msg = "na_values_show must be a logical: TRUE or FALSE."
   )
   
-  # check zero_values_icon_url
+  # Check zero_values_icon_url
   assertthat::assert_that(
     assertthat::is.string(zero_values_icon_url),
     msg = "`zero_values_icon_url` must be a character (URL)."
   )
-  # check zero_values_icon_url in combination with zero_values_show
+  # Check zero_values_icon_url in combination with zero_values_show
   if (!zero_values_show) {
     message(glue::glue(
       "`zero_values_show` is {zero_values_show}: ",
@@ -446,12 +446,12 @@ map_dep <- function(package,
     zero_values_icon_url <- NULL
   }
 
-  # check na_values_icon_url
+  # Check na_values_icon_url
   assertthat::assert_that(
     assertthat::is.string(na_values_icon_url),
     msg = "`na_values_icon_url` must be a character (URL)."
   )
-  # check na_values_icon_url in combination with na_values_show
+  # Check na_values_icon_url in combination with na_values_show
   if (!na_values_show) {
     message(glue::glue(
       "`na_values_show` is {na_values_show}: ",
@@ -460,12 +460,12 @@ map_dep <- function(package,
     na_values_icon_url <- NULL
   }
 
-  # check zero_values_icon_size
+  # Check zero_values_icon_size
   assertthat::assert_that(
     is.numeric(zero_values_icon_size),
     msg = "`zero_values_icon_size` must be a number."
   )
-  # check zero_values_icon_size in combination with zero_values_show
+  # Check zero_values_icon_size in combination with zero_values_show
   if (!zero_values_show) {
     message(glue::glue(
       "`zero_values_show` is {zero_values_show}: ",
@@ -474,12 +474,12 @@ map_dep <- function(package,
     zero_values_icon_size <- NULL
   }
   
-  # check na_values_icon_size
+  # Check na_values_icon_size
   assertthat::assert_that(
     is.numeric(na_values_icon_size),
     msg = "`na_values_icon_size` must be a number."
   )
-  # check na_values_icon_size in combination with na_values_show
+  # Check na_values_icon_size in combination with na_values_show
   if (!na_values_show) {
     message(glue::glue(
       "`na_values_show` is {na_values_show}: ",
@@ -488,15 +488,15 @@ map_dep <- function(package,
     na_values_icon_size <- NULL
   }
   
-  # extract observations and deployments
+  # Extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # get average lat lon for empty map without deployments (after filtering)
+  # Get average lat lon for empty map without deployments (after filtering)
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
-  # check species in combination with feature and remove from hover in case
+  # Check species in combination with feature and remove from hover in case
   if (is.null(species) | (!is.null(species) & feature %in% c(
     "n_species",
     "effort"
@@ -507,7 +507,7 @@ map_dep <- function(package,
     }
     hover_columns <- hover_columns[hover_columns != "species"]
   } else {
-    # convert species to scientificName in hover_columns
+    # Convert species to scientificName in hover_columns
     hover_columns <- replace(
       hover_columns,
       hover_columns == "species",
@@ -515,14 +515,14 @@ map_dep <- function(package,
     )
   }
 
-  # check cluster
+  # Check cluster
   assertthat::assert_that(cluster %in% c(TRUE, FALSE),
     msg = "cluster must be TRUE or FALSE"
   )
 
-  # check hover_columns
+  # Check hover_columns
   if (!is.null(hover_columns)) {
-    # check all hover_columns values are allowed
+    # Check all hover_columns values are allowed
     possible_hover_columns <- map_dep_prefixes()$info
     possible_hover_columns <-
       possible_hover_columns[!possible_hover_columns %in% features]
@@ -531,7 +531,7 @@ map_dep <- function(package,
       choices = c(possible_hover_columns, "n"),
       several.ok = TRUE
     )
-    # check all hover_columns are in deployments except scientificName
+    # Check all hover_columns are in deployments except scientificName
     not_found_cols <- hover_columns[!hover_columns %in% names(deployments) &
       hover_columns != "n" &
       hover_columns != "scientificName"]
@@ -545,7 +545,7 @@ map_dep <- function(package,
     }
   }
 
-  # check combination relative_scale and max_scale
+  # Check combination relative_scale and max_scale
   if (relative_scale == FALSE) {
     assertthat::assert_that(
       !is.null(max_scale),
@@ -568,7 +568,7 @@ map_dep <- function(package,
     max_scale <- NULL
   }
 
-  # calculate and get feature values
+  # Calculate and get feature values
   if (feature == "n_species") {
     feat_df <- get_n_species(package, ...)
   } else if (feature == "n_obs") {
@@ -594,22 +594,22 @@ map_dep <- function(package,
     feat_df <- feat_df %>% dplyr::rename(n = rai)
   } else if (feature == "effort") {
     if (is.null(effort_unit)) {
-      effort_unit <- "hour" # default value of get_effort()
+      effort_unit <- "hour" # Default value of get_effort()
     }
     feat_df <- get_effort(package, unit = effort_unit, ...)
     feat_df <- feat_df %>% dplyr::rename(n = "effort")
   }
 
-  # define title legend
+  # Define title legend
   title <- get_legend_title(feature)
-  # add unit to legend title (for effort)
+  # Add unit to legend title (for effort)
   title <- add_unit_to_legend_title(
     title,
     unit = effort_unit,
     use_brackets = TRUE
   )
 
-  # add informative message if no deployments left after applying filters and
+  # Add informative message if no deployments left after applying filters and
   # return empty map
   if (nrow(feat_df) == 0) {
     message("No deployments left.")
@@ -621,7 +621,7 @@ map_dep <- function(package,
     return(leaflet_map)
   }
 
-  # add deployment information for maps
+  # Add deployment information for maps
   # first, mandatory fields to make maps and join
   deploy_columns_to_add <- c("deploymentID", "latitude", "longitude")
   # second, columns for hovering text
@@ -637,10 +637,11 @@ map_dep <- function(package,
       by = "deploymentID"
     )
 
-  # add info while hovering
+  # Add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- get_prefixes(feature, hover_columns)
-    ## set n_species or n_obs or rai or rai_individuals or effort to n in hover_info_df
+    # Set n_species or n_obs or rai or rai_individuals or effort to n in
+    # hover_info_df
     hover_info_df$info[hover_info_df$info %in% features] <- "n"
     hover_infos <-
     dplyr::as_tibble(
@@ -669,7 +670,7 @@ map_dep <- function(package,
 
   # Set upper limit if absolute value is used and it is lower than some values
   if (relative_scale == FALSE) {
-    # set all n > max_scale to max_scale
+    # Set all n > max_scale to max_scale
     feat_df <-
       feat_df %>%
       dplyr::mutate(
@@ -677,7 +678,7 @@ map_dep <- function(package,
       )
   }
 
-  # max number of species/obs (with possible upper limit  `max_absolute_scale`
+  # Max number of species/obs (with possible upper limit  `max_absolute_scale`
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(is.null(max_scale),
     ifelse(!all(is.na(feat_df$n)),
@@ -687,17 +688,17 @@ map_dep <- function(package,
     max_scale
   )
 
-  # define colour palette
+  # Define colour palette
   pal <- leaflet::colorNumeric(
     palette = palette,
     domain = c(0, max_n)
   )
 
-  # define bins for ticks of legend
+  # Define bins for ticks of legend
   # bins <- ifelse(max_n < 6, as.integer(max_n) + 1, 6)
   bins <- 6
 
-  # define size scale for avoiding too small or too big circles
+  # Define size scale for avoiding too small or too big circles
   radius_max <- radius_range[2]
   radius_min <- radius_range[1]
   if (max_n != 0) {
@@ -706,30 +707,30 @@ map_dep <- function(package,
     conv_factor <- 0
   }
 
-  # define legend values
+  # Define legend values
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
-  # non_zero values deploys (n > 0 and is not NA)
+  # Non zero values deploys (n > 0 and is not NA)
   non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
-  # zero values
+  # Zero values
   zero_values <- feat_df %>% dplyr::filter(.data$n == 0)
   # NA values (only returned by get_n_species)
   na_values <- feat_df %>% dplyr::filter(is.na(.data$n))
-  # make basic start map
+  # Make basic start map
   leaflet_map <-
     leaflet::leaflet() %>%
     leaflet::addTiles() %>%
     leaflet::addScaleBar()
 
-  # add markers for deployments with zero valuesif needed
+  # Add markers for deployments with zero valuesif needed
   if (zero_values_show & nrow(zero_values) > 0) {
-    # create icon for zero values
+    # Create icon for zero values
     zero_icons <- leaflet::icons(
       iconUrl = zero_values_icon_url,
       iconWidth = zero_values_icon_size,
       iconHeight = zero_values_icon_size
     )
-    # add icons for zero values to the map
+    # Add icons for zero values to the map
     leaflet_map <-
       leaflet_map %>%
       leaflet::addMarkers(
@@ -742,15 +743,15 @@ map_dep <- function(package,
       )
   }
 
-  # add markers for deployments with NA values if needed
+  # Add markers for deployments with NA values if needed
   if (na_values_show & nrow(na_values) > 0) {
-    # create icons for NA values
+    # Create icons for NA values
     na_icons <- leaflet::icons(
       iconUrl = na_values_icon_url,
       iconWidth = na_values_icon_size,
       iconHeight = na_values_icon_size
     )
-    # add icons with NAs to the map
+    # Add icons with NAs to the map
     leaflet_map <-
       leaflet_map %>%
       leaflet::addMarkers(

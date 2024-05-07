@@ -183,18 +183,18 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @examples
 #' get_dep_no_obs(mica)
 get_dep_no_obs <- function(package, ...) {
-  # extract observations and deployments
-
   
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
+  # Extract observations and deployments
   observations <- camtrapdp::observations()
   deployments <- camtrapdp::deployments()
-  # apply filtering (do not show filtering expression, verbose = FALSE)
+  
+  # Apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
 
-  # deployment with no observations
+  # Deployment with no observations
   dep_no_obs <-
     deployments %>%
     dplyr::anti_join(observations %>%

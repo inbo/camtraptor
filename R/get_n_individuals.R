@@ -62,6 +62,7 @@ get_n_individuals <- function(package,
                               ...,
                               species = "all",
                               sex = NULL,
+                              life_stage = NULL) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   

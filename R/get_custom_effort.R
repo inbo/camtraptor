@@ -43,8 +43,8 @@
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # A global effort over the entire duration of the project (datapackage)
-#' # measured in hours
+#' # A global effort over the entire duration of the project (camera trap data
+#' package) measured in hours
 #' get_custom_effort(mica)
 #'
 #' # Global effort expressed in days

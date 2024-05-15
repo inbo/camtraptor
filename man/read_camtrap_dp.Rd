@@ -13,8 +13,10 @@ read_camtrap_dp(file)
 Camera Trap Data Package object.
 }
 \description{
-Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
+Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
+
 This function is deprecated. Please, use \code{read_camtrapdp()} instead.
 }

@@ -1,5 +1,7 @@
 #' Read a Camera Trap Data Package
 #'
+#' `r lifecycle::badge("deprecated")`
+#' 
 #' Reads files from a [Camera Trap Data Package (Camtrap DP)](
 #' https://camtrap-dp.tdwg.org) into memory.
 #' 

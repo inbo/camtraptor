@@ -1,7 +1,7 @@
 # camtraptor 1.0
 
-- `read_camtrap_dp()` is removed from this package. Packages are now read using 
-the camtrapdp's function [`read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#295).
+- `read_camtrapdp()` is the new function to read Camera Trap DPs. It is reexported from camtrapdp's function [`read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#295).
+- `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
 
 # camtraptor 0.25.0
 

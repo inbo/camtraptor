@@ -34,6 +34,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     assertthat,
+    camtrapdp,
     dplyr (>= 1.1.0),
     EML,
     frictionless,

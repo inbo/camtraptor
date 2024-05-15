@@ -25,8 +25,4 @@ The function transforms data and metadata to a \href{https://camtrap-dp.tdwg.org
 \details{
 \strong{The function has only been tested on image-based projects.}
 }
-\seealso{
-Other read functions: 
-\code{\link{read_camtrap_dp}()}
-}
 \concept{read functions}

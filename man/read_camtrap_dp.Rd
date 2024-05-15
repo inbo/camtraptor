@@ -2,64 +2,16 @@
 % Please edit documentation in R/read_camtrap_dp.R
 \name{read_camtrap_dp}
 \alias{read_camtrap_dp}
-\title{Read a Camtrap DP}
+\title{Read a Camera Trap Data Package}
 \usage{
-read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
+read_camtrap_dp(file)
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
-
-\item{media}{If \code{TRUE} (default), read media records into memory. If \code{FALSE},
-ignore media file to speed up reading larger Camtrap DP packages.}
-
-\item{path}{Path to the directory containing the datapackage. Use  \code{file}
-with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-List describing a Data Package (as returned by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}) containing the original metadata, as well
-as a property \code{data} containing the data as three data frames:
-\enumerate{
-\item \code{deployments}
-\item \code{media}
-\item \code{observations}
-}
+Camera Trap Data Package object.
 }
 \description{
-Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} into memory.
-All datetime information is automatically transformed to Coordinated
-Universal Time (UTC).
-Vernacular names found in the metadata (\code{package$taxonomic}) are added to the
-\code{observations} data frame.
+Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
 }
-\examples{
-\dontrun{
-# Read Camtrap DP package
-camtrap_dp_file <- system.file(
-  "extdata", "mica", "datapackage.json", 
-  package = "camtraptor"
-)
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
-
-# Read Camtrap DP package and ignore media file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-
-# If parsing issues while reading deployments, observations or media arise,
-# use readr::problems()
-camtrap_dp_file_with_issues <- system.file(
-  "extdata",
-  "mica_parsing_issues",
-  "datapackage_for_parsing_issues.json",
-  package = "camtraptor"
-)
-muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-readr::problems(muskrat_coypu_with_issues$data$deployments)
-readr::problems(muskrat_coypu_with_issues$data$observations)
-readr::problems(muskrat_coypu_with_issues$data$media)
-}
-}
-\seealso{
-Other read functions: 
-\code{\link{read_wi}()}
-}
-\concept{read functions}

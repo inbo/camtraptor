@@ -5,7 +5,7 @@
 \title{Visualize deployments features}
 \usage{
 map_dep(
-  package = NULL,
+  package,
   feature,
   ...,
   species = NULL,
@@ -24,8 +24,7 @@ map_dep(
   na_values_icon_size = 10,
   relative_scale = TRUE,
   max_scale = NULL,
-  radius_range = c(10, 50),
-  datapkg = lifecycle::deprecated()
+  radius_range = c(10, 50)
 )
 }
 \arguments{
@@ -152,9 +151,6 @@ The upper value is used for the deployment(s) with the highest feature
 value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
 = \code{FALSE}).
 Default: \code{c(10, 50)}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 Leaflet map.
@@ -301,7 +297,7 @@ map_dep(
 )
 
 # Use same icon but but a non default colour for zero values deployments,
-# e.g. red (hex: E74C3C)
+# E.g. red (hex: E74C3C)
 map_dep(
   mica,
   "n_obs",

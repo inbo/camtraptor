@@ -15,3 +15,6 @@ Camera Trap Data Package object.
 \description{
 Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
 }
+\details{
+This function is deprecated. Please, use \code{read_camtrapdp()} instead.
+}

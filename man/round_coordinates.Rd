@@ -58,9 +58,4 @@ mica$coordinatePrecision
 # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 mica$data$deployments$coordinateUncertainty
 }
-\seealso{
-Other publication functions: 
-\code{\link{write_dwc}()},
-\code{\link{write_eml}()}
-}
 \concept{publication functions}

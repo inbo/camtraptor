@@ -15,11 +15,11 @@ status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 <!-- badges: end -->
 
-Camtraptor is an R package to read, explore and visualize Camera Trap
-Data Packages (Camtrap DP). [Camtrap DP](https://camtrap-dp.tdwg.org) is
-a community developed data exchange format for this type of data. With
-camtraptor you can read and filter data, create overviews of observed
-species, relative abundance or effort, and plot these data on a map.
+Camtraptor is an R package to explore and visualize Camera Trap Data
+Packages (Camtrap DP). [Camtrap DP](https://camtrap-dp.tdwg.org) is a
+community developed data exchange format for this type of data. With
+camtraptor you can create overviews of observed species, relative
+abundance or effort, and plot these data on a map.
 
 ## Camtrap DP
 
@@ -30,13 +30,11 @@ changes. The downside is that some newer properties like
 `deployments.cameraDepth`, `media.filePublic` and
 `observations.eventEnd` are removed when reading data.
 
-The upcoming [camtraptor
-v1.0](https://github.com/inbo/camtraptor/milestone/3) will update the
-internal data model to Camtrap DP 1.0 and drop support for Camtrap DP
-0.1.6. This is a breaking change that will be accompanied by a number of
-other major changes. Future versions of camtraptor will always use the
-latest version of Camtrap DP and up-convert legacy datasets to that
-model.
+[camtraptor v1.0](https://github.com/inbo/camtraptor/milestone/3) has
+updated the internal data model to Camtrap DP 1.0 and has dropped
+support for Camtrap DP 0.1.6. This is a breaking change that is
+accompanied by a number of other major changes. See
+[News](https://inbo.github.io/camtraptor/news/index.html).
 
 ## Get Started
 
@@ -60,43 +58,6 @@ devtools::install_github("inbo/camtraptor")
 
 While we support older versions of R up to 3.5, we recommend using R
 4.0.0 or higher.
-
-## Example
-
-Get the taxonomic coverage for an example Camera Trap Data Package
-`mica`:
-
-``` r
-library(camtraptor)
-get_species(mica)
-#> # A tibble: 9 × 5
-#>   taxonID taxonIDReference  scientificName vernacularNames.en vernacularNames.nl
-#>   <chr>   <chr>             <chr>          <chr>              <chr>             
-#> 1 DGP6    https://www.cata… Anas platyrhy… mallard            wilde eend        
-#> 2 DGPL    https://www.cata… Anas strepera  gadwall            krakeend          
-#> 3 32FH    https://www.cata… Ardea          great herons       reigers           
-#> 4 GCHS    https://www.cata… Ardea cinerea  grey heron         blauwe reiger     
-#> 5 RQPW    https://www.cata… Castor fiber   Eurasian beaver    bever             
-#> 6 6MB3T   https://www.cata… Homo sapiens   human              mens              
-#> 7 3Y9VW   https://www.cata… Martes foina   beech marten       steenmarter       
-#> 8 44QYC   https://www.cata… Mustela putor… European polecat   bunzing           
-#> 9 5BSG3   https://www.cata… Vulpes vulpes  red fox            vos
-```
-
-Filter observations in `mica` on female mallards and map the number of
-individuals per deployment location:
-
-``` r
-map_dep(
-  mica,
-  feature = "n_individuals",
-  species = "Anas platyrhynchos",
-  sex = "female"
-)
-#> There are 4 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ## camtraptor vs camtrapR and activity
 

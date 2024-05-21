@@ -49,26 +49,6 @@ devtools::install_github("inbo/camtraptor")
 
 While we support older versions of R up to 3.5, we recommend using R 4.0.0 or higher.
 
-## Example
-
-Get the taxonomic coverage for an example Camera Trap Data Package `mica`:
-
-```{r}
-library(camtraptor)
-get_species(mica)
-```
-
-Filter observations in `mica` on female mallards and map the number of individuals per deployment location:
-
-```{r}
-map_dep(
-  mica,
-  feature = "n_individuals",
-  species = "Anas platyrhynchos",
-  sex = "female"
-)
-```
-
 ## camtraptor vs camtrapR and activity
 
 Camtraptor provides and bundles much needed functionality to read, explore and visualize Camera Trap Data Packages. Over time we hope to include some or all of this functionality in widely used R packages such as [camtrapR](https://cran.r-project.org/package=camtrapR) and [activity](https://cran.r-project.org/package=activity).

@@ -2,6 +2,7 @@
 
 - `read_camtrapdp()` is the new function to read Camera Trap DPs. It is reexported from camtrapdp's function [`read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298).
 - `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
+- publication functions `write_dwc()` and `write_eml()` are removed. The function `write_dwc()` has been moved to camtrapdp package. The `write_eml()` function is not needed anymore ([camtrapdp(#61)](https://github.com/inbo/camtrapdp/issues/61)).
 
 # camtraptor 0.25.0
 

@@ -3,7 +3,7 @@
 #' Gets all identified species.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param datapkg Deprecated.
 #'   Use `package` instead.
 #' @return A tibble data frame with all scientific names and vernacular names of

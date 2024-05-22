@@ -5,19 +5,18 @@
 \title{Get record table}
 \usage{
 get_record_table(
-  package = NULL,
+  package,
   ...,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL,
-  removeDuplicateRecords = TRUE,
-  datapkg = lifecycle::deprecated()
+  removeDuplicateRecords = TRUE
 )
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{Filter predicates for filtering on deployments}
 
@@ -43,9 +42,6 @@ If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (def
 \item{removeDuplicateRecords}{Logical.
 If there are several records of the same species at the same station at
 exactly the same time, show only one?}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame containing species records and additional

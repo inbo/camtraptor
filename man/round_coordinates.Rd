@@ -7,7 +7,7 @@
 round_coordinates(package, digits = 3)
 }
 \arguments{
-\item{package}{A Camtrap DP, as read by \code{\link[=read_camtrap_dp]{read_camtrap_dp()}}.}
+\item{package}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{digits}{Number of decimal places to round coordinates to (\code{1}, \code{2} or
 \code{3}).}
@@ -57,10 +57,5 @@ mica$coordinatePrecision
 
 # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
 mica$data$deployments$coordinateUncertainty
-}
-\seealso{
-Other publication functions: 
-\code{\link{write_dwc}()},
-\code{\link{write_eml}()}
 }
 \concept{publication functions}

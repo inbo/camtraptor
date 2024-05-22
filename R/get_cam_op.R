@@ -15,7 +15,7 @@
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
 #' @param camera_col Column name of the column specifying Camera ID. Default:
@@ -28,7 +28,6 @@
 #'   [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
-#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... filter predicates for filtering on deployments.
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
@@ -67,18 +66,14 @@
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
-get_cam_op <- function(package = NULL,
+get_cam_op <- function(package,
                        ...,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,
-                       use_prefix = FALSE,
-                       datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_cam_op")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                       use_prefix = FALSE) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   # Check that station_col is a single string
   assertthat::assert_that(assertthat::is.string(station_col))

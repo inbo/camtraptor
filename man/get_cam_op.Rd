@@ -5,18 +5,17 @@
 \title{Get camera operation matrix}
 \usage{
 get_cam_op(
-  package = NULL,
+  package,
   ...,
   station_col = "locationName",
   camera_col = NULL,
   session_col = NULL,
-  use_prefix = FALSE,
-  datapkg = lifecycle::deprecated()
+  use_prefix = FALSE
 )
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{filter predicates for filtering on deployments.}
 
@@ -34,8 +33,6 @@ histories.}
 names will start with prefix \code{"Station"} as returned by
 \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 Default: \code{FALSE}.}
-
-\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 A matrix. Row names always indicate the station ID. Column names are

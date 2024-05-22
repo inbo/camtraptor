@@ -6,7 +6,7 @@
 #' as well. This function calls `get_cam_op()` internally.
 #'
 #' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
+#'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates
 #' @param start Start date.
 #'   Default: `NULL`.
@@ -34,8 +34,6 @@
 #'   each year.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
 #'   - `begin`: Begin date of the interval the effort is calculated over.
@@ -45,8 +43,8 @@
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # A global effort over the entire duration of the project (datapackage)
-#' # measured in hours
+#' # A global effort over the entire duration of the project (camera trap data
+#' package) measured in hours
 #' get_custom_effort(mica)
 #'
 #' # Global effort expressed in days
@@ -85,13 +83,12 @@
 #'
 #' # Applying filter(s), e.g. deployments with latitude >= 51.18
 #' get_custom_effort(mica, pred_gte("latitude", 51.18))
-get_custom_effort <- function(package = NULL,
+get_custom_effort <- function(package,
                               ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
-                              unit = "hour",
-                              datapkg = lifecycle::deprecated()) {
+                              unit = "hour") {
   # Define possible unit values
   units <- c("hour", "day")
 
@@ -116,13 +113,10 @@ get_custom_effort <- function(package = NULL,
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
   # Check camera trap data package
-  check_package(package, datapkg, "get_custom_effort")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+  camtrapdp::check_camtrapdp(package)
   
   # Get deployments
-  deployments <- package$data$deployments
+  deployments <- camtrapdp::deployments(package)
 
   # Camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(package, ..., station_col = "deploymentID")

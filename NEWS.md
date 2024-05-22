@@ -2,7 +2,7 @@
 
 - `read_camtrapdp()` reexportes the read functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp). It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
-- publication functions `write_dwc()` and `write_eml()` are removed. The function `write_dwc()` has been moved to camtrapdp package. The `write_eml()` function is not needed anymore ([camtrapdp(#61)](https://github.com/inbo/camtrapdp/issues/61)).
+- `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).
 
 # camtraptor 0.25.0
 

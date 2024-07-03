@@ -7,7 +7,7 @@
 #' 
 #' This function is deprecated. Please use [read_camtrapdp()] instead.
 #'
-#' @param file Path or URL to a `datapackage.json` file.
+#' @inheritParams camtrapdp::read_camtrapdp
 #' @return Camera Trap Data Package object.
 #' @export
 read_camtrap_dp <- function(file) {

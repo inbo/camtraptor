@@ -4,20 +4,18 @@
 \name{reexports}
 \alias{reexports}
 \alias{read_camtrapdp}
-\alias{example_dataset}
 \title{Objects exported from other packages}
 \seealso{
 Other read functions: 
 \code{\link{read_wi}()}
 }
 \concept{read functions}
-\concept{sample data functions}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{camtrapdp}{\code{\link[camtrapdp]{example_dataset}}, \code{\link[camtrapdp]{read_camtrapdp}}}
+  \item{camtrapdp}{\code{\link[camtrapdp]{read_camtrapdp}}}
 }}
 

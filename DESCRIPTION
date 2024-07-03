@@ -37,6 +37,7 @@ Imports:
     camtrapdp,
     dplyr (>= 1.1.0),
     EML,
+    memoise,
     glue,
     htmltools,
     leaflet,

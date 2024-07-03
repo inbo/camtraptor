@@ -4,6 +4,7 @@
 camtrapdp::read_camtrapdp
 
 #' @importFrom camtrapdp example_dataset
+#' @importFrom memoise memoise
 #' @export
 #' @family sample data functions
-camtrapdp::example_dataset
+example_dataset <- memoise::memoise(camtrapdp::example_dataset)

@@ -5,8 +5,6 @@
 #' calculated over all deployments, although filtering predicates can be applied
 #' as well. This function calls `get_cam_op()` internally.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates
 #' @param start Start date.
 #'   Default: `NULL`.
@@ -35,6 +33,7 @@
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
 #' @param ... filter predicates
+#' @inheritParams get_species
 #' @return A tibble data frame with following columns:
 #'   - `begin`: Begin date of the interval the effort is calculated over.
 #'   - `effort`: The effort as number.

@@ -4,8 +4,6 @@
 #' The number of observed individuals is stored in field `count` of
 #' `observations`.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
@@ -19,6 +17,7 @@
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
 #' @param ... filter predicates for filtering on deployments
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.

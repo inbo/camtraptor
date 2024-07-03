@@ -2,9 +2,8 @@
 #'
 #' Gets the number of identified species per deployment.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param ... Filter predicates for filtering on deployments.
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.

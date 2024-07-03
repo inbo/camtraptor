@@ -14,8 +14,6 @@
 #' in decimal effort values as in [camtrapR::cameraOperation()](
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
 #' @param camera_col Column name of the column specifying Camera ID. Default:
@@ -28,6 +26,7 @@
 #'   [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
+#' @inheritParams get_species
 #' @param ... filter predicates for filtering on deployments.
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.

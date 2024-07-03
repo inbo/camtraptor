@@ -9,8 +9,6 @@
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
 #' @param exclude Character vector of species names (scientific names or
@@ -55,6 +53,7 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
+#' @inheritParams get_species
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=

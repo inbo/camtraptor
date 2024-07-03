@@ -6,8 +6,6 @@
 #' Deployments without observations are shown as gray circles and a message is
 #' returned.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param feature Deployment feature to visualize.
 #'   One of:
 #'   - `n_species`: Number of identified species.
@@ -104,6 +102,7 @@
 #'   = `FALSE`).
 #'   Default: `c(10, 50)`.
 #' @param ... Filter predicates for subsetting deployments.
+#' @inheritParams get_species
 #' @return Leaflet map.
 #' @family visualization functions
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()],

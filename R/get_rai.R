@@ -6,8 +6,6 @@
 #' calculated via `get_n_obs()` and `effort` is the effort in days as calculated
 #' via `get_effort()`.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive). If `"all"` (default) all scientific names are automatically
 #'   selected.
@@ -18,6 +16,7 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
 #'   observations of all life stage classes are taken into account.
 #' @param ... Filter predicates for filtering on deployments.
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns: - `deploymentID`:
 #'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
 #'   Relative abundance index.
@@ -75,8 +74,6 @@ get_rai <- function(package,
 #' via `get_n_individuals()` and `effort` is the effort in days as calculated
 #' via `get_effort()`.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
@@ -89,6 +86,7 @@ get_rai <- function(package,
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
 #' @param ... Filter predicates for filtering on deployments.
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `scientificName`: Scientific name.
@@ -147,11 +145,10 @@ get_rai_individuals <- function(package,
 #' `get_rai_individuals()` to calculate RAI based on number of observations or
 #' number of individuals respectively.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param use Character, one of:
 #'   - `"n_obs"`: Calculate RAI based on number of observation (standard).
 #'   - `"n_individuals"`: Calculate RAI based on number of individuals.
+#' @inheritParams get_species
 #' @return A tibble data frame.
 #' @importFrom dplyr .data %>%
 #' @noRd

@@ -3,11 +3,10 @@
 #' Checks if a given scientific or vernacular name(s) can be found in the
 #' metadata (`package$taxonomic`) and returns error if not.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param species Character vector with scientific or vernacular names.
 #' @param arg_name Character with argument name to return in error message
 #'   Default: "species".
+#' @inheritParams get_species
 #' @return A character vector with the correspondent scientific names.
 #' @family validation functions
 #' @importFrom dplyr %>% .data

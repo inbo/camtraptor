@@ -2,8 +2,6 @@
 #'
 #' Gets the effort (deployment duration) per deployment.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param unit Time unit to use while returning deployment effort (duration).
 #'   One of:
 #'   - `second`
@@ -13,6 +11,7 @@
 #'   - `month`
 #'   - `year`
 #' @param ... filter predicates
+#' @inheritParams get_species
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `effort`: Effort expressed in the unit passed by parameter `unit`.

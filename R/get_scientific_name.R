@@ -5,9 +5,8 @@
 #' The match is performed case insensitively.
 #' If a vernacular name is not valid, an error is returned
 #'
-#' @param package Camera trap data package object, as returned by
-#'   [camtrapdp::read_camtrapdp()].
 #' @param vernacular_name Character vector with input vernacular name(s).
+#' @inheritParams get_species
 #' @family exploration functions
 #' @return Character vector of scientific name(s).
 #' @importFrom dplyr .data %>%

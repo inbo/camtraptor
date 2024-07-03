@@ -28,7 +28,13 @@ library(lubridate)
 library(dplyr)
 ```
 
-By loading package `camtraptor`, a camera trap data package called `camtraptor` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+We can load a camera trap data package, `x`:
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+It contains camera trap data about musk rat and coypu. We will use this variable from now on.
 
 ## Species record table
 
@@ -41,7 +47,8 @@ At a certain extent the aggregation of `media` (e.g. images) into `observations`
 If we consider that all observations are independent, then, it will be sufficient to run the following:
 
 ```{r basic_usage}
-get_record_table(mica)
+x <- example_dataset()
+get_record_table(x)
 ```
 
 The function returns the same columns as the camtrapR's function `recordTable()` except for column `n`. The following mapping is applied:
@@ -73,9 +80,9 @@ As described in [Chapter 3](https://jniedballa.github.io/camtrapR/articles/camtr
 Again, as for `recordTable()`, we provide an argument, `deltaTimeComparedTo`, to further control how independence between records is assessed. Setting it to `“lastRecord”` returns only records taken `minDeltaTime` minutes after the last record, i.e. `minDeltaTime` minutes after `timestamp` of the last recorded media file. Example with  `minDeltaTime = 60` (1 hour):
 
 ```{r example_lastRecord}
-mica_dependent <- mica
-mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
-get_record_table(mica_dependent, 
+x_dependent <- x
+x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+get_record_table(x_dependent, 
                  minDeltaTime = 10, 
                  deltaTimeComparedTo = "lastRecord")
 ```
@@ -83,7 +90,7 @@ get_record_table(mica_dependent,
 Setting `deltaTimeComparedTo` to `“lastIndependentRecord”` returns only records taken `minDeltaTime` minutes after the last independent record, i.e. `minDeltaTime` minutes after `timestamp` of the last observation. Example with  `minDeltaTime = 60` (1 hour):
 
 ```{r example_lastIndependentRecord}
-get_record_table(mica_dependent, 
+get_record_table(x_dependent, 
                  minDeltaTime = 10, 
                  deltaTimeComparedTo = "lastIndependentRecord")
 ```
@@ -94,7 +101,7 @@ Similar to `recordTable()`, the function `get_record_table()` allows you also to
 exclude some species. Both vernacular names and scientific names are allowed (case insensitive):
 
 ```{r example_exclude}
-get_record_table(mica, exclude = c("grey heron", "Anas platyrhynchos", "mens"))
+get_record_table(x, exclude = c("grey heron", "Anas platyrhynchos", "mens"))
 ```
 
 ### Station names
@@ -102,33 +109,33 @@ get_record_table(mica, exclude = c("grey heron", "Anas platyrhynchos", "mens"))
 The column containing the station names can also be defined by the user if the default value, `"locationName"`, is not the correct one. It has to be a valid column of  `deployments`. Here below, `locationID` is used:
 
 ```{r example_stationCol}
-get_record_table(mica, stationCol = "locationID")
+get_record_table(x, stationCol = "locationID")
 ```
 
 ### Remove duplicates
 
 It can happen that "duplicates" occur, e.g. when two distinct observations of the same species are made based on the same sequence of images, e.g. same species but different `lifeStage` or `sex`. You can decide what to do with these duplicates by using the argument `removeDuplicateRecords`: by default it is equal to `TRUE`. The duplicates are therefore removed.  To not remove them, set `removeDuplicateRecords` equal to `FALSE`.
 
-Let's create an easy example with a duplicate based on `mica` datapackage:
+Let's create an easy example with a duplicate based on `x`:
 
 ```{r dummy_data_with_duplicates}
-mica_dup <- mica
+x_dup <- x
 # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
-mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
-mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
+x_dup$data$observations[4,"sequenceID"] <- x_dup$data$observations$sequenceID[3]
+x_dup$data$observations[4, "deploymentID"] <- x_dup$data$observations$deploymentID[3]
+x_dup$data$observations[4, "timestamp"] <- x_dup$data$observations$timestamp[3]
 ```
 
 Record table without duplicates:
 
 ```{r no_duplicates}
-get_record_table(mica_dup)
+get_record_table(x_dup)
 ```
 
 Record table with duplicates:
 
 ```{r duplicates_allowed}
-get_record_table(mica_dup, removeDuplicateRecords = FALSE)
+get_record_table(x_dup, removeDuplicateRecords = FALSE)
 ```
 
 ### Use filter predicates
@@ -136,7 +143,7 @@ get_record_table(mica_dup, removeDuplicateRecords = FALSE)
 As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:
 
 ```{r example_filter_predicates_map}
-get_record_table(mica, pred_gt("latitude", 51.18))
+get_record_table(x, pred_gt("latitude", 51.18))
 ```
 
 ### Other arguments needed?

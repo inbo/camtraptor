@@ -3,6 +3,7 @@
 - `read_camtrapdp()` reexportes the read functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp). It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
 - `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).
+- `example_dataset()` allows to create an example dataset in Camtrap DP 1.0 format. It reexports the functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp/reference/example_dataset.html). The internal dataset `mica` is not present anymore.
 
 # camtraptor 0.25.0
 

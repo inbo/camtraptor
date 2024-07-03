@@ -28,7 +28,13 @@ library(lubridate)
 library(dplyr)
 ```
 
-By loading package `camtraptor`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+We can load a camera trap data package, `x`:
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+It contains camera trap data about musk rat and coypu. We will use this variable from now on.
 
 ## Filter predicates
 
@@ -127,19 +133,20 @@ The filter predicates are useful to select a subset of **deployments** for the `
 Apply get_* functions only  to the deployments with location name _"B_DL_val 5_beek kleine vijver"_ or _"B_DL_val 3_dikke boom"_:
 
 ```{r example_locationName_get_n_obs}
-get_n_obs(mica,
+x <- example_dataset()
+get_n_obs(x,
           pred_in("locationName",
                   c("B_DL_val 5_beek kleine vijver", "B_DL_val 3_dikke boom")))
 ```
 
 ```{r example_locationName_get_effort}
-get_effort(mica,
+get_effort(x,
            pred_in("locationName",
                    c("B_DL_val 5_beek kleine vijver", "B_DL_val 3_dikke boom")))
 ```
 
 ```{r example_locationName_get_n_species}
-get_n_species(mica,
+get_n_species(x,
               pred_in("locationName",
                       c("B_DL_val 5_beek kleine vijver", "B_DL_val 3_dikke boom")))
 ```
@@ -149,7 +156,7 @@ get_n_species(mica,
 As shown above, you can combine several predicates for more complex filtering. E.g. calculate the number of species detected by the deployments with one of the location names _B_ML_val 06_Oostpolderkreek_ and _B_ML_val 07_Sint-Anna_, or deployments further south than 50.7 degrees:
 
 ```{r pred_or_get_n_species}
-get_n_species(mica,
+get_n_species(x,
               pred_or(
                 pred_in("locationName",
                         c("B_DL_val 5_beek kleine vijver", "B_DL_val 3_dikke boom")),
@@ -159,7 +166,7 @@ get_n_species(mica,
 Same syntax is valid for visualizing such information via `map_dep()` function:
 
 ```{r exmaple_map_Dep_with_multiple_predicates}
-map_dep(mica,
+map_dep(x,
         feature = "n_species", 
         pred_or(
           pred_in("locationName",
@@ -170,7 +177,7 @@ map_dep(mica,
 Notice also that you can pass as much predicates as you want to `get_*()` functions or `map_dep()` by separating them with comma: they will be combined internally using the AND operator. E.g. to get effort of deployments southern than 51 degrees AND eastern than 4 degrees, you can simplify this:
 
 ```{r example_pred_and_get_n_species}
-get_n_species(mica,
+get_n_species(x,
               pred_and(pred_lt("latitude", 51),
                        pred_gt("longitude", 4)))
 ```
@@ -178,7 +185,7 @@ get_n_species(mica,
 by omitting the  `pred_and()`:
 
 ```{r example_pred_and_get_n_species_simplified}
-get_n_species(mica,
+get_n_species(x,
               pred_lt("latitude", 51),
               pred_gt("longitude", 4))
 ```
@@ -186,14 +193,14 @@ get_n_species(mica,
 This is similar to the behaviour of dplyr's  `filter()` function, where this:
 
 ```{r example_dplyr_filter_and}
-mica$data$deployments %>%
+x$data$deployments %>%
   dplyr::filter(latitude < 51 & longitude > 4)
 ```
 
 is exactly the same as this:
 
 ```{r example_dplyr_filter_and_simplified}
-mica$data$deployments %>%
+x$data$deployments %>%
   dplyr::filter(latitude < 51, longitude > 4)
 ```
 

@@ -33,14 +33,20 @@ library(lubridate)
 library(dplyr)
 ```
 
-This load automatically a camera trap data package, `mica`, containing camera trap data about musk rat and coypu. We will use this variable from now on.
+We can load a camera trap data package, `x`:
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+It contains camera trap data about musk rat and coypu. We will use this variable from now on.
 
 ## Get taxonomic information
 
 As some features must or could be used in combination with a species name, it's sometimes useful to have an idea first about which species have been detected and the correspondent vernacular names if present:
 
 ```{r species_list}
-get_species(mica)
+get_species(x)
 ```
 
 ## Create maps
@@ -52,7 +58,7 @@ get_species(mica)
 You can visualize the number of species detected by each deployment by using the function `map_dep()` with `feature` argument set to `n_species`:
 
 ```{r visualize_n_species_with_clusters_and_default_hover_col}
-map_dep(mica,
+map_dep(x,
         feature = "n_species")
 ```
 
@@ -61,14 +67,14 @@ map_dep(mica,
 To visualize the number of observations, set `feature` = `n_obs`:
 
 ```{r visualize_n_obs_with_clusters_and_default_hover_col}
-map_dep(mica,
+map_dep(x,
         feature = "n_obs")
 ```
 
 You can also specify which species you want to calculate the number of observations:
 
 ```{r visualize_n_obs_species}
-map_dep(mica,
+map_dep(x,
         feature = "n_obs",
         species = "Anas platyrhynchos")
 ```
@@ -79,7 +85,7 @@ You can filter by sex:
 
 ```{r filter_sex}
 map_dep(
-  mica,
+  x,
   "n_obs",
   species = "Anas platyrhynchos",
   sex = c("female", "unknown")
@@ -90,7 +96,7 @@ and life stage:
 
 ```{r filter_life_stage}
 map_dep(
-  mica,
+  x,
   "n_obs",
   life_stage = c("unknown", "subadult")
 )
@@ -101,14 +107,14 @@ map_dep(
 To visualize the number of observed individuals, set `feature` = `n_individuals`:
 
 ```{r visualize_n_individuas_with_clusters_and_default_hover_col}
-map_dep(mica,
+map_dep(x,
         feature = "n_individuals")
 ```
 
 As for observations, you can specify a species:
 
 ```{r specify_species_individuals}
-map_dep(mica,
+map_dep(x,
         feature = "n_individuals",
         species = "Anas platyrhynchos")
 ```
@@ -118,7 +124,7 @@ and filter by sex and/or life stage:
 
 ```{r filter_sex_individuals}
 map_dep(
-  mica,
+  x,
   "n_individuals",
   species = "Anas platyrhynchos",
   sex = c("female", "unknown")
@@ -130,7 +136,7 @@ map_dep(
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
 
 ```{r visualize_rai_with_clusters_and_default_hover_col}
-map_dep(mica,
+map_dep(x,
         feature = "rai",
         species = "Anas platyrhynchos")
 ```
@@ -141,7 +147,7 @@ As for number of observations and number of individuals, you can  filter by sex 
 
 ```{r filter_sex_rai}
 map_dep(
-  mica,
+  x,
   "rai",
   species = "Anas platyrhynchos",
   sex = c("female", "unknown")
@@ -151,7 +157,7 @@ map_dep(
 Common names are allowed as values of `species` as well:
 
 ```{r common_name}
-map_dep(mica,
+map_dep(x,
         feature = "rai",
         species = "great herons")
 ```
@@ -159,7 +165,7 @@ map_dep(mica,
 Values of `species` are also interpreted case insensitive:
 
 ```{r arg_species_case_insensitive}
-map_dep(mica,
+map_dep(x,
         feature = "rai",
         species = "CastoR FIBer")
 ```
@@ -167,7 +173,7 @@ map_dep(mica,
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
 ```{r see_error_message, error = TRUE}
-map_dep(mica,
+map_dep(x,
           feature = "rai",
           species = "This is not a species name")
 ```
@@ -177,7 +183,7 @@ map_dep(mica,
 You can also visualize the RAI based on number of detected individuals instead of the standard RAI which is based on the number of observations. Set `feature = "rai_individuals"`:
 
 ```{r show_rai_individuals}
-map_dep(mica,
+map_dep(x,
         feature = "rai_individuals",
         species = "Anas platyrhynchos")
 ```
@@ -189,7 +195,7 @@ Everything described in previous section about visualizing RAI holds true for RA
 Visualize duration of the deployments, also called _effort_, as number of active hours:
 
 ```{r effort_in_hours}
-map_dep(mica, 
+map_dep(x, 
         feature = "effort",
         effort_unit = "hour")
 ```
@@ -197,7 +203,7 @@ map_dep(mica,
 The same using days as time unit
 
 ```{r effort_in_days}
-map_dep(mica, 
+map_dep(x, 
         feature = "effort",
         effort_unit = "day")
 ```
@@ -205,7 +211,7 @@ map_dep(mica,
 or months
 
 ```{r effort_in_months}
-map_dep(mica, 
+map_dep(x, 
         feature = "effort",
         effort_unit = "month")
 ```
@@ -217,7 +223,7 @@ You can specify which information you want to show while hovering with the mouse
 Here below the lat/lon, the camera height and the tags are shown while hovering:
 
 ```{r visualize_with_clusters_spec_hover_col}
-map_dep(mica,
+map_dep(x,
         hover_columns = c("latitude",
                           "longitude",
                           "cameraHeight",
@@ -229,7 +235,7 @@ map_dep(mica,
 Deactivating both cluster mode and hovering is also possible:
 
 ```{r visualize_without_clusters}
-map_dep(mica,
+map_dep(x,
         feature = "n_species", 
         cluster = FALSE,
         hover_columns = NULL)
@@ -246,7 +252,7 @@ A message about deployment with zero observations is also returned to the R cons
 ```{r show_deployments_without_observations_or_without_known_species}
 # create data package with one deployment with 0 obs and one delpoyment with
 # observations of unknown species
-unknown_species_vs_no_obs <- mica
+unknown_species_vs_no_obs <- x
 unknown_species_vs_no_obs$data$observations <- 
   unknown_species_vs_no_obs$data$observations %>% 
   # a deployment has detected only unknown species
@@ -265,7 +271,7 @@ The default color palette is a [viridis color palette](https://cran.microsoft.co
 
 ```{r use_viridis}
 map_dep(
-  mica,
+  x,
   "n_obs",
   palette = "viridis"
 )
@@ -275,7 +281,7 @@ We can use a palette from `RColorBrewer`, e.g. the `"BuPu"` palette:
 
 ```{r use_BuPu}
 map_dep(
-  mica,
+  x,
   "n_obs",
   palette = "BuPu"
 )
@@ -285,7 +291,7 @@ Another easy way to specify a palette is to create it by passing a vector of col
 
 ```{r use_black_blue_white}
 map_dep(
-  mica,
+  x,
   "n_obs",
   palette = c("black", "blue", "#A3675F")
 )
@@ -297,7 +303,7 @@ You can pass to `zero_value_icon_url` argument the URL to an icon and to `zero_v
 
 ```{r fry_futurama}
 map_dep(
-  mica,
+  x,
   "n_obs",
   life_stage = "subadult",
   zero_values_icon_url = "https://img.icons8.com/color/48/000000/futurama-fry.png",
@@ -309,7 +315,7 @@ Typically the colour is part of the URL. Here below two examples where we change
 
 ```{r specify_zero_colors_value_example_1}
 map_dep(
-  mica,
+  x,
   "n_obs",
   life_stage = "subadult",
   zero_values_icon_url = 
@@ -321,7 +327,7 @@ or the INBO fuchsia (#C04384):
 
 ```{r specify_zero_colors_value_example_2}
 map_dep(
-  mica,
+  x,
   "n_obs",
   life_stage = "subadult",
   zero_values_icon_url = 
@@ -336,7 +342,7 @@ Modifying the default value (`"black"`) can be useful as the color of deployment
 You can also modify the upper and lower limit of the circle sizes by specifying `radius_range` (default:   `c(10,50`):
 
 ```{r change_size_circles}
-map_dep(mica,
+map_dep(x,
         feature = "n_obs",
         radius_range = c(20, 150))
 ```
@@ -348,7 +354,7 @@ By default the upper limit of color palette and radius are defined based on the 
 Upper limit lower than number of observations:
 
 ```{r low_upper_limit}
-map_dep(mica,
+map_dep(x,
         feature = "n_obs",
         relative_scale = FALSE,
         max_scale = 2)
@@ -357,7 +363,7 @@ map_dep(mica,
 Upper limit higher than number of observations:
 
 ```{r high_upper_limit}
-map_dep(mica,
+map_dep(x,
         feature = "n_obs",
         relative_scale = FALSE,
         max_scale = 50)
@@ -368,7 +374,7 @@ map_dep(mica,
 You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 5.6:
 
 ```{r example_filter_predicates_map}
-map_dep(mica,
+map_dep(x,
         pred_gt("longitude", 5.6),
         feature = "n_obs")
 ```

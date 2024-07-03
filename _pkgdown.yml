@@ -16,6 +16,9 @@ authors:
     html: "<img src='https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png' width=72>"
 
 reference:
+- title: Read data
+  contents:
+  - has_concept("read functions")
 - title: Filter data
   contents:
   - has_concept("filter functions")

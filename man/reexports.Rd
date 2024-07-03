@@ -5,6 +5,11 @@
 \alias{reexports}
 \alias{read_camtrapdp}
 \title{Objects exported from other packages}
+\seealso{
+Other read functions: 
+\code{\link{read_wi}()}
+}
+\concept{read functions}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

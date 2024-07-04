@@ -4,13 +4,11 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(package, ..., species = "all", sex = NULL, life_stage = NULL)
+get_n_individuals(package, species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{filter predicates for filtering on deployments}
 
 \item{species}{Character with scientific names or common names (case
 insensitive).
@@ -69,9 +67,6 @@ get_n_individuals(mica, sex = "female")
 
 # Specify both sex and life stage
 get_n_individuals(mica, sex = "unknown", life_stage = "adult")
-
-# Apply filter(s), e.g. deployments with latitude >= 51.18
-get_n_individuals(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

@@ -4,19 +4,11 @@
 \alias{get_rai_individuals}
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
-get_rai_individuals(
-  package,
-  ...,
-  species = "all",
-  sex = NULL,
-  life_stage = NULL
-)
+get_rai_individuals(package, species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{Filter predicates for filtering on deployments.}
 
 \item{species}{Character with scientific names or common names (case
 insensitive).
@@ -75,8 +67,6 @@ get_rai_individuals(mica, sex = c("female", "unknown"))
 get_rai_individuals(mica, life_stage = "adult")
 get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 
-# Apply filter(s): deployments with latitude >= 51.18
-get_rai_individuals(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

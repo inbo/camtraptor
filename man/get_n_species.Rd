@@ -4,13 +4,11 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(package, ...)
+get_n_species(package)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{Filter predicates for filtering on deployments.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -25,9 +23,6 @@ Gets the number of identified species per deployment.
 \examples{
 # Get number of species
 get_n_species(mica)
-
-# Get number of species for deployments with latitude >= 51.18
-get_n_species(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

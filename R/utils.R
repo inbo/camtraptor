@@ -172,25 +172,21 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param ... Filter predicates for filtering on deployments
 #' @inheritParams get_species
 #' @return A tibble data frame with deployments not linked to any observations.
 #' @family exploration functions
 #' @noRd
 #' @examples
 #' get_dep_no_obs(mica)
-get_dep_no_obs <- function(package, ...) {
+get_dep_no_obs <- function(package) {
   
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
   # Extract observations and deployments
-  observations <- camtrapdp::observations()
-  deployments <- camtrapdp::deployments()
+  observations <- camtrapdp::observations(package)
+  deployments <- camtrapdp::deployments(package)
   
-  # Apply filtering (do not show filtering expression, verbose = FALSE)
-  deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
-
   # Deployment with no observations
   dep_no_obs <-
     deployments %>%

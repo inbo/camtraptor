@@ -6,7 +6,6 @@
 \usage{
 get_custom_effort(
   package,
-  ...,
   start = NULL,
   end = NULL,
   group_by = NULL,
@@ -17,34 +16,26 @@ get_custom_effort(
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{...}{filter predicates}
-
-\item{start}{Start date.
-Default: \code{NULL}.
-If \code{NULL} the earliest start date among all deployments is used.
-If \code{group_by} unit is not \code{NULL}, the lowest start value allowed is one
-group by unit before the start date of the earliest deployment.
-If this condition doesn't hold true, a warning is returned and the earliest
-start date among all deployments is used.
-If \code{group_by} unit is \code{NULL} the start must be later than or equal to the
+\item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date
+among all deployments is used. If \code{group_by} unit is not \code{NULL}, the lowest
+start value allowed is one group by unit before the start date of the
+earliest deployment. If this condition doesn't hold true, a warning is
+returned and the earliest start date among all deployments is used. If
+\code{group_by} unit is \code{NULL} the start must be later than or equal to the
 start date among all deployments.}
 
-\item{end}{End date.
-Default: \code{NULL}.
-If \code{NULL} the latest end date among all deployments is used.
-If \code{group_by} unit is not \code{NULL}, the latest end value allowed is one group
-by unit after the end date of the latest deployment.
+\item{end}{End date. Default: \code{NULL}. If \code{NULL} the latest end date among all
+deployments is used. If \code{group_by} unit is not \code{NULL}, the latest end value
+allowed is one group by unit after the end date of the latest deployment.
 If this condition doesn't hold true, a warning is returned and the latest
-end date among all deployments is used.
-If \code{group_by} unit is \code{NULL} the end must be earlier than or equal to the
-end date among all deployments.}
+end date among all deployments is used. If \code{group_by} unit is \code{NULL} the
+end must be earlier than or equal to the end date among all deployments.}
 
-\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}.
-The effort is calculated at the interval rate defined in \code{group_by}.
-Default: \code{NULL}: no grouping, i.e. the entire interval from \code{start} to
-\code{end} is taken into account as a whole. Calendar values are used, i.e.
-grouping by year will calculate the effort from Jan 1st up to Dec 31st for
-each year.}
+\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}. The
+effort is calculated at the interval rate defined in \code{group_by}. Default:
+\code{NULL}: no grouping, i.e. the entire interval from \code{start} to \code{end} is
+taken into account as a whole. Calendar values are used, i.e. grouping by
+year will calculate the effort from Jan 1st up to Dec 31st for each year.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
@@ -59,9 +50,9 @@ A tibble data frame with following columns:
 }
 \description{
 Gets the custom effort (deployment duration) for a custom time window and a
-specific time interval such as day, week, month or year. The custom effort is also
-calculated over all deployments, although filtering predicates can be applied
-as well. This function calls \code{get_cam_op()} internally.
+specific time interval such as day, week, month or year. The custom effort is
+also calculated over all deployments. This function calls \code{get_cam_op()}
+internally.
 }
 \examples{
 # A global effort over the entire duration of the project (Camera Trap Data
@@ -102,8 +93,6 @@ get_custom_effort(
   group_by = "year"
 )
 
-# Applying filter(s), e.g. deployments with latitude >= 51.18
-get_custom_effort(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

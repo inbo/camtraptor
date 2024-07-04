@@ -27,7 +27,6 @@
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
 #' @inheritParams get_species
-#' @param ... filter predicates for filtering on deployments.
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
 #' @family exploration functions
@@ -35,9 +34,6 @@
 #' @examples
 #' library(dplyr)
 #' get_cam_op(mica)
-#'
-#' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-#' get_cam_op(mica, pred_gte("latitude", 51.18))
 #'
 #' # Specify column with station names
 #' get_cam_op(mica, station_col = "locationID")
@@ -64,7 +60,6 @@
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
 get_cam_op <- function(package,
-                       ...,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,
@@ -158,12 +153,8 @@ get_cam_op <- function(package,
     msg = "use_prefix must be TRUE or FALSE."
   )
 
-  # extract and apply filtering on deployments
-  deploys <- apply_filter_predicate(
-    df = package$data$deployments,
-    verbose = TRUE,
-    ...
-  )
+  # Extract the deployments
+  deploys <- deployments(package)
 
   # very first day among all stations
   first_day <- min(deploys$start)

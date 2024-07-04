@@ -16,7 +16,6 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param ... Filter predicates for filtering on deployments
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
@@ -50,11 +49,8 @@
 #'
 #' # Specify both sex and life stage
 #' get_n_obs(mica, sex = "unknown", life_stage = "adult")
-#'
-#' # Applying filter(s), e.g. deployments with latitude >= 51.18
-#' get_n_obs(mica, pred_gte("latitude", 51.18))
+
 get_n_obs <- function(package,
-                      ...,
                       species = "all",
                       sex = NULL,
                       life_stage = NULL) {
@@ -107,19 +103,9 @@ get_n_obs <- function(package,
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # Apply filtering
-  deployments <- apply_filter_predicate(
-    df = deployments,
-    verbose = TRUE,
-    ...
-  )
-
   deploymentID <- deployments$deploymentID
 
-  deployments_no_obs <- get_dep_no_obs(
-    package,
-    pred_in("deploymentID", deploymentID)
-  )
+  deployments_no_obs <- get_dep_no_obs(package)
 
   # get number of observations collected by each deployment for each species
   n_obs <-

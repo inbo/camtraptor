@@ -4,13 +4,11 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(package, ..., unit = "hour")
+get_effort(package, unit = "hour")
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{filter predicates}
 
 \item{unit}{Time unit to use while returning deployment effort (duration).
 One of:

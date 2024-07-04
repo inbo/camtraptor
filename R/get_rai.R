@@ -45,7 +45,7 @@
 #' # Specify life stage
 #' get_rai(mica, life_stage = "adult")
 #' get_rai(mica, life_stage = c("adult", "subadult"))
-get_rai <- function(package
+get_rai <- function(package,
                     species = "all",
                     sex = NULL,
                     life_stage = NULL) {
@@ -114,7 +114,7 @@ get_rai <- function(package
 #' get_rai_individuals(mica, life_stage = "adult")
 #' get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 #'
-get_rai_individuals <- function(package
+get_rai_individuals <- function(package,
                                 species = "all",
                                 sex = NULL,
                                 life_stage = NULL) {

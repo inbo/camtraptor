@@ -172,7 +172,6 @@ labelFormat_scale <- function(max_scale = NULL,
 #' Return subset of deployments without observations. A message is also returned
 #' to list the ID of such deployments.
 #'
-#' @param ... Filter predicates for filtering on deployments
 #' @inheritParams get_species
 #' @return A tibble data frame with deployments not linked to any observations.
 #' @family exploration functions

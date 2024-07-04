@@ -52,6 +52,7 @@ apply_filter_predicate(
 }
 \seealso{
 Other filter functions: 
-\code{\link{pred}()}
+\code{\link{pred}()},
+\code{\link{reexports}}
 }
 \concept{filter functions}

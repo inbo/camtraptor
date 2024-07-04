@@ -22,3 +22,13 @@ camtrapdp::media
 #' @export
 #' @family accessor functions
 camtrapdp::observations
+
+#' @importFrom camtrapdp events
+#' @export
+#' @family accessor functions
+camtrapdp::events
+
+#' @importFrom camtrapdp taxa
+#' @export
+#' @family accessor functions
+camtrapdp::taxa

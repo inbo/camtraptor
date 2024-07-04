@@ -188,9 +188,6 @@ get_dep_no_obs <- function(package, ...) {
   observations <- camtrapdp::observations(package)
   deployments <- camtrapdp::deployments(package)
   
-  # Apply filtering (do not show filtering expression, verbose = FALSE)
-  deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)
-
   # Deployment with no observations
   dep_no_obs <-
     deployments %>%

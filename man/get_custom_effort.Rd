@@ -64,8 +64,8 @@ calculated over all deployments, although filtering predicates can be applied
 as well. This function calls \code{get_cam_op()} internally.
 }
 \examples{
-# A global effort over the entire duration of the project (camera trap data
-package) measured in hours
+# A global effort over the entire duration of the project (Camera Trap Data
+Package) measured in hours
 get_custom_effort(mica)
 
 # Global effort expressed in days

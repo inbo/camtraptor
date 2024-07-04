@@ -114,7 +114,7 @@ get_custom_effort <- function(package,
   camtrapdp::check_camtrapdp(package)
   
   # Get deployments
-  deployments <- camtrapdp::deployments(package)
+  deployments <- deployments(package)
 
   # Camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(package, ..., station_col = "deploymentID")

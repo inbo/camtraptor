@@ -56,6 +56,6 @@ mica <- round_coordinates(mica, 3)
 mica$coordinatePrecision
 
 # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
-mica$data$deployments$coordinateUncertainty
+deployments(mica)$coordinateUncertainty
 }
 \concept{publication functions}

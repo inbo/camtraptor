@@ -185,8 +185,8 @@ get_dep_no_obs <- function(package, ...) {
   camtrapdp::check_camtrapdp(package)
   
   # Extract observations and deployments
-  observations <- camtrapdp::observations()
-  deployments <- camtrapdp::deployments()
+  observations <- observations()
+  deployments <- deployments()
   
   # Apply filtering (do not show filtering expression, verbose = FALSE)
   deployments <- apply_filter_predicate(df = deployments, verbose = FALSE, ...)

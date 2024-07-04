@@ -32,7 +32,7 @@ test_that("get_rai_individuals returns the right dataframe", {
 
 test_that("get_rai_individuals returns the right number of rows: all species selected", {
   all_species <- get_species(mica)
-  all_deployments <- unique(mica$data$deployments$deploymentID)
+  all_deployments <- unique(deployments(mica)$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)

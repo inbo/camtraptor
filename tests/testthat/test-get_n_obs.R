@@ -41,7 +41,7 @@ test_that("get_n_obs returns the right structure of dataframe", {
 
 test_that("get_n_obs returns the right number of rows: all species selected", {
   all_species <- get_species(mica)
-  all_deployments <- unique(mica$data$deployments$deploymentID)
+  all_deployments <- unique(deployments(mica)$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -60,7 +60,7 @@ test_that(paste(
   "get_n_obs returns always the right number of rows:",
   "species undetected in one deployment"
 ), {
-  deployments <- unique(mica$data$deployments$deploymentID)
+  deployments <- unique(deployments(mica)$deploymentID)
 
   n_deployments <- length(deployments)
 
@@ -79,7 +79,7 @@ test_that(
   "get_n_obs returns rows ordered by the original order of deployments",
   {
     # get the original order of deployment IDs
-    deployment_ids <- unique(mica$data$deployments$deploymentID)
+    deployment_ids <- unique(deployments(mica)$deploymentID)
 
     # apply function
     n_obs <- get_n_obs(mica)
@@ -90,7 +90,7 @@ test_that(
 
 test_that("species = 'all' returns the same of using a vector with all species", {
   all_species <- get_species(mica)
-  all_deployments <- unique(mica$data$deployments$deploymentID)
+  all_deployments <- unique(deployments(mica)$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -170,7 +170,7 @@ test_that(paste(
   deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   species <- "Anas platyrhynchos"
   n_obs_via_sequence_id <-
-    mica$data$observations %>%
+    observations(mica) %>%
     dplyr::filter(.data$deploymentID == deploy_id) %>%
     dplyr::filter(.data$scientificName == species) %>%
     dplyr::pull(.data$sequenceID) %>%
@@ -190,7 +190,7 @@ test_that("sex filters data correctly", {
   )
   tot_n_obs_females <- sum(n_obs_females$n)
   expect_equal(tot_n_obs_females, 1)
-  expect_equal(nrow(n_obs_females), nrow(mica$data$deployments))
+  expect_equal(nrow(n_obs_females), nrow(deployments(mica)))
 })
 
 test_that("multiple sex values allowed", {
@@ -202,18 +202,18 @@ test_that("multiple sex values allowed", {
   tot_n_obs_females_unknown <- sum(n_obs_females_unknown$n)
   expect_equal(
     tot_n_obs_females_unknown,
-    mica$data$observations %>%
+    observations(mica) %>%
       dplyr::filter(.data$sex %in% sex_value) %>%
       dplyr::distinct(.data$sequenceID) %>%
       nrow()
   )
-  expect_equal(nrow(n_obs_females_unknown), nrow(mica$data$deployments))
+  expect_equal(nrow(n_obs_females_unknown), nrow(deployments(mica)))
 })
 
 test_that("life_stage filters data correctly", {
   life_stage_value <- "subadult"
   n_obs_subadult_via_distinct <-
-    mica$data$observations %>%
+    observations(mica) %>%
     dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
     dplyr::distinct(.data$sequenceID) %>%
     nrow()
@@ -222,7 +222,7 @@ test_that("life_stage filters data correctly", {
   )
   tot_n_obs_subadult <- sum(n_obs_subadult$n)
   expect_equal(tot_n_obs_subadult, n_obs_subadult_via_distinct)
-  expect_equal(nrow(n_obs_subadult), nrow(mica$data$deployments))
+  expect_equal(nrow(n_obs_subadult), nrow(deployments(mica)))
 })
 
 test_that("multiple age values allowed", {
@@ -232,11 +232,11 @@ test_that("multiple age values allowed", {
   )
   tot_n_obs_subadult_adult <- sum(n_obs_subadult_adult$n)
   n_obs_subadult_adult_calculate <-
-    mica$data$observations %>%
+    observations(mica) %>%
     dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
     nrow()
   expect_equal(tot_n_obs_subadult_adult, n_obs_subadult_adult_calculate)
-  expect_equal(nrow(n_obs_subadult_adult), nrow(mica$data$deployments))
+  expect_equal(nrow(n_obs_subadult_adult), nrow(deployments(mica)))
 })
 
 test_that("error returned if life stage or sex is not present", {
@@ -261,13 +261,13 @@ test_that("Filter by date of deployments via predicates works correctly", {
   end_date <- as.Date("2021-01-01", format = "%Y-%m-%d")
   mica_with_obs_filtered_manually <- mica
   mica_with_obs_filtered_manually$data$deployments <-
-    mica_with_obs_filtered_manually$data$deployments %>%
+    deployments(mica_with_obs_filtered_manually) %>%
     dplyr::filter(end < end_date)
   deploys_filtered <- unique(
-    mica_with_obs_filtered_manually$data$deployments$deploymentID
+    deployments(mica_with_obs_filtered_manually)$deploymentID
   )
   mica_with_obs_filtered_manually$data$observations <-
-    mica_with_obs_filtered_manually$data$observations %>%
+    observations(mica_with_obs_filtered_manually) %>%
     dplyr::filter(.data$deploymentID %in% deploys_filtered)
   obs_filtered_man <- suppressMessages(get_n_obs(
     mica_with_obs_filtered_manually,

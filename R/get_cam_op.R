@@ -44,7 +44,7 @@
 #'
 #' # Specify column with session IDs
 #' mica_sessions <- mica
-#' mica_sessions$data$deployments <- mica_sessions$data$deployments %>%
+#' mica_sessions$data$deployments <- deployments(mica_sessions) %>%
 #'   dplyr::mutate(session = ifelse(
 #'     stringr::str_starts(.data$locationName, "B_DL_"),
 #'       "after2020",
@@ -76,7 +76,7 @@ get_cam_op <- function(package,
   assertthat::assert_that(assertthat::is.string(station_col))
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
-    station_col %in% names(package$data$deployments),
+    station_col %in% names(deployments(package)),
     msg = glue::glue(
       "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
@@ -84,7 +84,7 @@ get_cam_op <- function(package,
   )
   
   # Check that `station_col` doesn't contain empty values (NA)
-  n_na <- package$data$deployments %>%
+  n_na <- deployments(package) %>%
     dplyr::filter(is.na(.data[[station_col]])) %>%
     nrow()
   assertthat::assert_that(
@@ -99,7 +99,7 @@ get_cam_op <- function(package,
   # "__CAM_" (no need to remove NAs beforehand as station_col must not contain
   # any NA, see previous check)
   assertthat::assert_that(
-    all(!stringr::str_detect(string = package$data$deployments[[station_col]],
+    all(!stringr::str_detect(string = deployments(package)[[station_col]],
                              pattern = "__SESS_|__CAM_")),
     msg = glue::glue(
       "Station column name (`{station_col}`) must not contain any of the ",
@@ -112,13 +112,13 @@ get_cam_op <- function(package,
   if (!is.null(session_col)) {
     assertthat::assert_that(assertthat::is.string(session_col))
     assertthat::assert_that(
-      session_col %in% names(package$data$deployments),
+      session_col %in% names(deployments(package)),
       msg = glue::glue(
         "Session column name (`{session_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    session_values <- package$data$deployments[[session_col]]
+    session_values <- deployments(package)[[session_col]]
     session_values <- session_values[!is.na(session_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = session_values,
@@ -135,13 +135,13 @@ get_cam_op <- function(package,
   if (!is.null(camera_col)) {
     assertthat::assert_that(assertthat::is.string(camera_col))
     assertthat::assert_that(
-      camera_col %in% names(package$data$deployments),
+      camera_col %in% names(deployments(package)),
       msg = glue::glue(
         "Camera column name (`{camera_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    camera_values <- package$data$deployments[[camera_col]]
+    camera_values <- deployments(package)[[camera_col]]
     camera_values <- camera_values[!is.na(camera_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = camera_values,
@@ -160,7 +160,7 @@ get_cam_op <- function(package,
 
   # extract and apply filtering on deployments
   deploys <- apply_filter_predicate(
-    df = package$data$deployments,
+    df = deployments(package),
     verbose = TRUE,
     ...
   )

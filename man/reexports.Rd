@@ -4,11 +4,15 @@
 \name{reexports}
 \alias{reexports}
 \alias{read_camtrapdp}
+\alias{deployments}
+\alias{media}
+\alias{observations}
 \title{Objects exported from other packages}
 \seealso{
 Other read functions: 
 \code{\link{read_wi}()}
 }
+\concept{accessor functions}
 \concept{read functions}
 \keyword{internal}
 \description{
@@ -16,6 +20,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{camtrapdp}{\code{\link[camtrapdp]{read_camtrapdp}}}
+  \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}}
 }}
 

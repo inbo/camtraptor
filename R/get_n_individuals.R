@@ -68,8 +68,8 @@ get_n_individuals <- function(package,
   sex_value <- sex
 
   # Check sex and life stage values
-  check_value(sex_value, unique(package$data$observations$sex), "sex")
-  check_value(life_stage, unique(package$data$observations$lifeStage), "life_stage")
+  check_value(sex_value, unique(observations(package)$sex), "sex")
+  check_value(life_stage, unique(observations(package)$lifeStage), "life_stage")
 
   # Get observations of the selected species
   if (!is.null(species)) {
@@ -88,27 +88,27 @@ get_n_individuals <- function(package,
     # Check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # get observations of the specified sex
   if (!is.null(sex)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(.data$sex %in% sex_value)
   }
 
   # get observations of the specified life stage
   if (!is.null(life_stage)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # apply filtering
   deployments <- apply_filter_predicate(

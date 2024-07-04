@@ -20,8 +20,8 @@ get_n_species <- function(package, ...) {
   camtrapdp::check_camtrapdp(package)
   
   # Extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # Apply filtering
   deployments <- apply_filter_predicate(

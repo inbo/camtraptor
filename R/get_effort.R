@@ -10,7 +10,6 @@
 #'   - `day`
 #'   - `month`
 #'   - `year`
-#' @param ... filter predicates
 #' @inheritParams get_species
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -28,7 +27,6 @@
 #' # Effort expressed as days
 #' get_effort(mica, unit = "day")
 get_effort <- function(package,
-                       ...,
                        unit = "hour") {
   # Define possible unit values
   units <- c("second", "minute", "hour", "day", "month", "year")
@@ -38,12 +36,6 @@ get_effort <- function(package,
 
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
-  
-  # Apply filtering
-  package$data$deployments <- apply_filter_predicate(
-    df = deployments(package),
-    verbose = TRUE, ...
-  )
 
   # Get deployments
   deployments <- deployments(package)

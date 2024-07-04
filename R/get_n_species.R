@@ -2,7 +2,6 @@
 #'
 #' Gets the number of identified species per deployment.
 #'
-#' @param ... Filter predicates for filtering on deployments.
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -12,10 +11,7 @@
 #' @examples
 #' # Get number of species
 #' get_n_species(mica)
-#'
-#' # Get number of species for deployments with latitude >= 51.18
-#' get_n_species(mica, pred_gte("latitude", 51.18))
-get_n_species <- function(package, ...) {
+get_n_species <- function(package) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(package)
   
@@ -23,20 +19,10 @@ get_n_species <- function(package, ...) {
   observations <- observations(package)
   deployments <- deployments(package)
 
-  # Apply filtering
-  deployments <- apply_filter_predicate(
-    df = deployments,
-    verbose = TRUE,
-    ...
-  )
+  # Get deployments without observations
+  deployments_no_obs <- get_dep_no_obs(package)
 
-  # Get deployments without observations among the filtered deployments
-  deployments_no_obs <- get_dep_no_obs(
-    package,
-    pred_in("deploymentID", deployments$deploymentID)
-  )
-
-  # Get species detected by each deployment after filtering
+  # Get species detected by each deployment
   species <-
     observations %>%
     dplyr::filter(.data$deploymentID %in% deployments$deploymentID) %>%

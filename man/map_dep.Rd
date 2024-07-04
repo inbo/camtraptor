@@ -7,7 +7,6 @@
 map_dep(
   package,
   feature,
-  ...,
   species = NULL,
   sex = NULL,
   life_stage = NULL,
@@ -41,8 +40,6 @@ One of:
 \item \code{rai_individuals}: Relative Abundance Index based on number of individuals.
 \item \code{effort}: Effort (duration) of the deployment.
 }}
-
-\item{...}{Filter predicates for subsetting deployments.}
 
 \item{species}{Character with a scientific name.
 Required for \code{rai}, optional for \code{n_obs}.
@@ -377,9 +374,5 @@ map_dep(
   radius_range = c(40, 150)
 )
 }
-}
-\seealso{
-Check documentation about filter predicates: \code{\link[=pred]{pred()}}, \code{\link[=pred_in]{pred_in()}},
-\code{\link[=pred_and]{pred_and()}}, ...
 }
 \concept{visualization functions}

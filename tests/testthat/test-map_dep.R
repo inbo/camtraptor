@@ -190,31 +190,6 @@ test_that("map_dep() allows disabling of hover columns", {
       !is.na(map_hover$x$calls[[3]]$args[[11]])
     )
   )
-  
-  
-})
-
-test_that("map_dep() allows filtering by predicates", {
-  # expect_no_error(
-  #   map_dep(mica,
-  #           pred("scientificName", "Anas platyrhynchos"),
-  #           feature = "n_species")
-  #   )
-  
-  expect_message(
-    map_dep(mica, pred_gt("latitude", 51.18), feature = "n_species"),
-    "df %>% dplyr::filter((latitude > 51.18))",
-    fixed = TRUE)
-  
-  suppressMessages(expect_message(
-    map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
-    "No deployments left.",
-    fixed = TRUE))
-  
-  suppressMessages(expect_message(
-    map_dep(mica, pred_gt("latitude", 90), feature = "n_species"),
-    "df %>% dplyr::filter((latitude > 90))",
-    fixed = TRUE))
 })
 
 test_that("map_dep() returns a leaflet", {

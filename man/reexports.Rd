@@ -16,18 +16,6 @@
 \seealso{
 Other read functions: 
 \code{\link{read_wi}()}
-
-Other filter functions: 
-\code{\link{apply_filter_predicate}()},
-\code{\link{pred}()}
-
-Other filter functions: 
-\code{\link{apply_filter_predicate}()},
-\code{\link{pred}()}
-
-Other filter functions: 
-\code{\link{apply_filter_predicate}()},
-\code{\link{pred}()}
 }
 \concept{accessor functions}
 \concept{filter functions}

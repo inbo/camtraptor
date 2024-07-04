@@ -231,8 +231,8 @@ test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
   # Filtering deployments reduces effort value
   filter_deploys <- suppressMessages(
-    get_custom_effort(mica,
-      pred_gte("latitude", 51.18),
+    get_custom_effort(
+      filter_deployments(mica, latitude >= 51.18),
       group_by = "year"
     )
   )

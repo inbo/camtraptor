@@ -164,9 +164,9 @@ test_that("number of individuals is equal to sum of counts", {
     dplyr::filter(scientificName == species) %>%
     dplyr::pull(count) %>%
     sum()
-  n_individuals <- suppressMessages(get_n_individuals(mica,
-    species = "Mallard",
-    pred("deploymentID", deploy_id)
+  n_individuals <- suppressMessages(get_n_individuals(
+    filter_deployments(mica, deploymentID == deploy_id) %>%
+      filter_observations(scientificName == species)
   ))
   expect_equal(n_individuals$n, n_individuals_via_count)
 })

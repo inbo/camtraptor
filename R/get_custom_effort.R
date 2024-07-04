@@ -1,38 +1,30 @@
 #' Get custom effort
 #'
 #' Gets the custom effort (deployment duration) for a custom time window and a
-#' specific time interval such as day, week, month or year. The custom effort is also
-#' calculated over all deployments, although filtering predicates can be applied
-#' as well. This function calls `get_cam_op()` internally.
+#' specific time interval such as day, week, month or year. The custom effort is
+#' also calculated over all deployments. This function calls `get_cam_op()`
+#' internally.
 #'
-#' @param ... Filter predicates
-#' @param start Start date.
-#'   Default: `NULL`.
-#'   If `NULL` the earliest start date among all deployments is used.
-#'   If `group_by` unit is not `NULL`, the lowest start value allowed is one
-#'   group by unit before the start date of the earliest deployment.
-#'   If this condition doesn't hold true, a warning is returned and the earliest
-#'   start date among all deployments is used.
-#'   If `group_by` unit is `NULL` the start must be later than or equal to the
+#' @param start Start date. Default: `NULL`. If `NULL` the earliest start date
+#'   among all deployments is used. If `group_by` unit is not `NULL`, the lowest
+#'   start value allowed is one group by unit before the start date of the
+#'   earliest deployment. If this condition doesn't hold true, a warning is
+#'   returned and the earliest start date among all deployments is used. If
+#'   `group_by` unit is `NULL` the start must be later than or equal to the
 #'   start date among all deployments.
-#' @param end End date.
-#'   Default: `NULL`.
-#'   If `NULL` the latest end date among all deployments is used.
-#'   If `group_by` unit is not `NULL`, the latest end value allowed is one group
-#'   by unit after the end date of the latest deployment.
+#' @param end End date. Default: `NULL`. If `NULL` the latest end date among all
+#'   deployments is used. If `group_by` unit is not `NULL`, the latest end value
+#'   allowed is one group by unit after the end date of the latest deployment.
 #'   If this condition doesn't hold true, a warning is returned and the latest
-#'   end date among all deployments is used.
-#'   If `group_by` unit is `NULL` the end must be earlier than or equal to the
-#'   end date among all deployments.
-#' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`.
-#'   The effort is calculated at the interval rate defined in `group_by`.
-#'   Default: `NULL`: no grouping, i.e. the entire interval from `start` to
-#'   `end` is taken into account as a whole. Calendar values are used, i.e.
-#'   grouping by year will calculate the effort from Jan 1st up to Dec 31st for
-#'   each year.
+#'   end date among all deployments is used. If `group_by` unit is `NULL` the
+#'   end must be earlier than or equal to the end date among all deployments.
+#' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`. The
+#'   effort is calculated at the interval rate defined in `group_by`. Default:
+#'   `NULL`: no grouping, i.e. the entire interval from `start` to `end` is
+#'   taken into account as a whole. Calendar values are used, i.e. grouping by
+#'   year will calculate the effort from Jan 1st up to Dec 31st for each year.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#' @param ... filter predicates
 #' @inheritParams get_species
 #' @return A tibble data frame with following columns:
 #'   - `begin`: Begin date of the interval the effort is calculated over.
@@ -79,10 +71,7 @@
 #'   group_by = "year"
 #' )
 #'
-#' # Applying filter(s), e.g. deployments with latitude >= 51.18
-#' get_custom_effort(mica, pred_gte("latitude", 51.18))
 get_custom_effort <- function(package,
-                              ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
@@ -117,7 +106,7 @@ get_custom_effort <- function(package,
   deployments <- deployments(package)
 
   # Camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(package, ..., station_col = "deploymentID")
+  cam_op <- get_cam_op(package, station_col = "deploymentID")
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

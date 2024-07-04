@@ -28,7 +28,6 @@
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?
-#' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
@@ -101,11 +100,7 @@
 #' 
 #' # duplicate not removed
 #' get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-#' 
-#' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-#' get_record_table(mica, pred_gte("latitude", 51.18))
 get_record_table <- function(package,
-                             ...,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
@@ -171,12 +166,9 @@ get_record_table <- function(package,
   obs <- obs %>%
     dplyr::filter(!.data$scientificName %in% exclude)
 
-  # apply filtering on deployments
-  deployments <- apply_filter_predicate(
-    df = deployments(package),
-    verbose = TRUE,
-    ...
-  )
+  # Extract deployments
+  deployments <- deployments(package)
+  
   # remove observations from filtered out deployments
   obs <- obs %>%
     dplyr::filter(.data$deploymentID %in% deployments$deploymentID)

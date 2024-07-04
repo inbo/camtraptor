@@ -6,7 +6,6 @@
 \usage{
 get_cam_op(
   package,
-  ...,
   station_col = "locationName",
   camera_col = NULL,
   session_col = NULL,
@@ -16,8 +15,6 @@ get_cam_op(
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{filter predicates for filtering on deployments.}
 
 \item{station_col}{Column name to use for identifying the stations. Default:
 \code{"locationName"}.}
@@ -54,9 +51,6 @@ in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/refer
 \examples{
 library(dplyr)
 get_cam_op(mica)
-
-# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-get_cam_op(mica, pred_gte("latitude", 51.18))
 
 # Specify column with station names
 get_cam_op(mica, station_col = "locationID")

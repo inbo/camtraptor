@@ -101,12 +101,9 @@
 #'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`).
 #'   Default: `c(10, 50)`.
-#' @param ... Filter predicates for subsetting deployments.
 #' @inheritParams get_species
 #' @return Leaflet map.
 #' @family visualization functions
-#' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
-#'   [pred_and()], ...
 #' @export
 #' @examples
 #' \dontrun{
@@ -325,7 +322,6 @@
 #' }
 map_dep <- function(package,
                     feature,
-                    ...,
                     species = NULL,
                     sex = NULL,
                     life_stage = NULL,
@@ -490,7 +486,7 @@ map_dep <- function(package,
   observations <- observations(package)
   deployments <- deployments(package)
 
-  # Get average lat lon for empty map without deployments (after filtering)
+  # Get average lat lon for empty map without deployments
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 
@@ -568,9 +564,9 @@ map_dep <- function(package,
 
   # Calculate and get feature values
   if (feature == "n_species") {
-    feat_df <- get_n_species(package, ...)
+    feat_df <- get_n_species(package)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage, ...)
+    feat_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage)
   } else if (feature == "n_individuals") {
     feat_df <- get_n_individuals(
       package,
@@ -580,21 +576,21 @@ map_dep <- function(package,
       ...
     )
   } else if (feature == "rai") {
-    feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage, ...)
+    feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage)
     feat_df <- feat_df %>% dplyr::rename(n = "rai")
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(
       package,
       species = species,
       sex = sex,
-      life_stage = life_stage, ...
+      life_stage = life_stage
     )
     feat_df <- feat_df %>% dplyr::rename(n = rai)
   } else if (feature == "effort") {
     if (is.null(effort_unit)) {
       effort_unit <- "hour" # Default value of get_effort()
     }
-    feat_df <- get_effort(package, unit = effort_unit, ...)
+    feat_df <- get_effort(package, unit = effort_unit)
     feat_df <- feat_df %>% dplyr::rename(n = "effort")
   }
 

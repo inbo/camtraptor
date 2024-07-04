@@ -60,7 +60,6 @@
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
 get_cam_op <- function(package,
-                       ...,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,

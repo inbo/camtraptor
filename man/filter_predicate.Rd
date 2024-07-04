@@ -190,6 +190,7 @@ pred_notna("scientificName")
 }
 \seealso{
 Other filter functions: 
-\code{\link{apply_filter_predicate}()}
+\code{\link{apply_filter_predicate}()},
+\code{\link{reexports}}
 }
 \concept{filter functions}

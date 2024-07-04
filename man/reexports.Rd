@@ -9,12 +9,28 @@
 \alias{observations}
 \alias{events}
 \alias{taxa}
+\alias{filter_deployments}
+\alias{filter_media}
+\alias{filter_observations}
 \title{Objects exported from other packages}
 \seealso{
 Other read functions: 
 \code{\link{read_wi}()}
+
+Other filter functions: 
+\code{\link{apply_filter_predicate}()},
+\code{\link{pred}()}
+
+Other filter functions: 
+\code{\link{apply_filter_predicate}()},
+\code{\link{pred}()}
+
+Other filter functions: 
+\code{\link{apply_filter_predicate}()},
+\code{\link{pred}()}
 }
 \concept{accessor functions}
+\concept{filter functions}
 \concept{read functions}
 \keyword{internal}
 \description{
@@ -23,5 +39,6 @@ below to see their documentation.
 
 \describe{
   \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{events}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}, \code{\link[camtrapdp]{taxa}}}
+  \item{camtrapdp}{\code{\link[camtrapdp]{filter_deployments}}, \code{\link[camtrapdp]{filter_media}}, \code{\link[camtrapdp]{filter_observations}}, \code{\link[camtrapdp]{read_camtrapdp}}}
 }}
 

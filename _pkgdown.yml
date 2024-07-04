@@ -36,3 +36,6 @@ reference:
 - title: Sample data
   contents:
   - has_concept("sample data functions")
+  title: Accessor functions
+  contents:
+  - has_concept("accessor functions")

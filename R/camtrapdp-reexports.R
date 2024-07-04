@@ -11,14 +11,14 @@ example_dataset <- memoise::memoise(camtrapdp::example_dataset)
 #' @importFrom camtrapdp filter_deployments
 #' @export
 #' @family filter functions
-camtrapdp::filter_deployments()
+camtrapdp::filter_deployments
 
 #' @importFrom camtrapdp filter_media
 #' @export
 #' @family filter functions
-camtrapdp::filter_media()
+camtrapdp::filter_media
 
 #' @importFrom camtrapdp filter_observations
 #' @export
 #' @family filter functions
-camtrapdp::filter_observations()
+camtrapdp::filter_observations

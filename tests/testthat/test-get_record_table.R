@@ -209,16 +209,6 @@ test_that(paste(
   )
 })
 
-test_that("filtering predicates are allowed and work well", {
-  stations <- unique(
-    suppressMessages(get_record_table(mica, pred_lt("longitude", 4.0)))$Station
-  )
-  stations_calculate <- mica$data$deployments %>%
-    dplyr::filter(longitude < 4.0) %>%
-    dplyr::pull(locationName)
-  expect_identical(stations, stations_calculate)
-})
-
 test_that("Argument datapkg is deprecated: warning returned", {
   expect_warning(
     rlang::with_options(

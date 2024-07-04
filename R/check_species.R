@@ -3,15 +3,12 @@
 #' Checks if a given scientific or vernacular name(s) can be found in the
 #' metadata (`package$taxonomic`) and returns error if not.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param species Character vector with scientific or vernacular names.
 #' @param arg_name Character with argument name to return in error message
 #'   Default: "species".
-#' @param datapkg Deprecated. Use `package` instead.
+#' @inheritParams get_species
 #' @return A character vector with the correspondent scientific names.
 #' @family validation functions
-#' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' # Species is a scientific name
@@ -33,12 +30,11 @@
 #' \dontrun{
 #' check_species(mica, "bad name")
 #' }
-check_species <- function(package = NULL,
+check_species <- function(package,
                           species,
-                          arg_name = "species",
-                          datapkg = lifecycle::deprecated()) {
+                          arg_name = "species") {
   # Check camera trap data package
-  check_package(package, datapkg, "check_species")
+  camtrapdp::check_camtrapdp(package)
   
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,

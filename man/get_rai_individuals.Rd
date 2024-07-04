@@ -5,17 +5,16 @@
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
 get_rai_individuals(
-  package = NULL,
+  package,
   ...,
   species = "all",
   sex = NULL,
-  life_stage = NULL,
-  datapkg = lifecycle::deprecated()
+  life_stage = NULL
 )
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{Filter predicates for filtering on deployments.}
 
@@ -32,9 +31,6 @@ account.}
 on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with the following columns:

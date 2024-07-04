@@ -65,7 +65,6 @@ mapdep_prefixes <- structure(list(
 #'   - `rai`,
 #'   - `effort`
 #' @param infos Character vector with deployment fields.
-#' @importFrom dplyr .data %>%
 #' @noRd
 get_prefixes <- function(feature, infos) {
   # n can represent #species, #observations, RAI, effort

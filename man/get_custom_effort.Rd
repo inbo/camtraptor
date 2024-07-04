@@ -5,18 +5,17 @@
 \title{Get custom effort}
 \usage{
 get_custom_effort(
-  package = NULL,
+  package,
   ...,
   start = NULL,
   end = NULL,
   group_by = NULL,
-  unit = "hour",
-  datapkg = lifecycle::deprecated()
+  unit = "hour"
 )
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{filter predicates}
 
@@ -49,9 +48,6 @@ each year.}
 
 \item{unit}{Character, the time unit to use while returning custom effort.
 One of: \code{hour} (default), \code{day}.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with following columns:
@@ -68,8 +64,8 @@ calculated over all deployments, although filtering predicates can be applied
 as well. This function calls \code{get_cam_op()} internally.
 }
 \examples{
-# A global effort over the entire duration of the project (datapackage)
-# measured in hours
+# A global effort over the entire duration of the project (camera trap data
+package) measured in hours
 get_custom_effort(mica)
 
 # Global effort expressed in days

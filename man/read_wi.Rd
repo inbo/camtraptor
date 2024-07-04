@@ -27,6 +27,6 @@ The function transforms data and metadata to a \href{https://camtrap-dp.tdwg.org
 }
 \seealso{
 Other read functions: 
-\code{\link{read_camtrap_dp}()}
+\code{\link{reexports}}
 }
 \concept{read functions}

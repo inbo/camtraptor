@@ -4,16 +4,11 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(
-  package = NULL,
-  ...,
-  unit = "hour",
-  datapkg = lifecycle::deprecated()
-)
+get_effort(package, ..., unit = "hour")
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{filter predicates}
 
@@ -27,9 +22,6 @@ One of:
 \item \code{month}
 \item \code{year}
 }}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
 }
 \value{
 A tibble data frame with following columns:

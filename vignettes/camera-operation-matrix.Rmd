@@ -28,7 +28,14 @@ library(lubridate)
 library(dplyr)
 ```
 
-By loading package `camtraptor`, a camera trap data package called `mica` is made available. This data package contains camera trap data of musk rats and coypus. We will use this variable from now on.
+We can load a camera trap data package, `x`:
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+It contains camera trap data about musk rat and coypu. We will use this variable from now on.
+
 
 ## Camera operation matrix
 

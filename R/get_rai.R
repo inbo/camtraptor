@@ -6,8 +6,6 @@
 #' calculated via `get_n_obs()` and `effort` is the effort in days as calculated
 #' via `get_effort()`.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
 #'   insensitive). If `"all"` (default) all scientific names are automatically
 #'   selected.
@@ -17,8 +15,8 @@
 #' @param life_stage Character vector defining the life stage class to filter
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
 #'   observations of all life stage classes are taken into account.
-#' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns: - `deploymentID`:
 #'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
 #'   Relative abundance index.
@@ -51,17 +49,13 @@
 #'
 #' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai(mica, pred_gte("latitude", 51.18))
-get_rai <- function(package = NULL,
+get_rai <- function(package,
                     ...,
                     species = "all",
                     sex = NULL,
-                    life_stage = NULL,
-                    datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_rai")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                    life_stage = NULL) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   get_rai_primitive(package, ...,
     use = "n_obs",
@@ -80,8 +74,6 @@ get_rai <- function(package = NULL,
 #' via `get_n_individuals()` and `effort` is the effort in days as calculated
 #' via `get_effort()`.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
@@ -93,9 +85,8 @@ get_rai <- function(package = NULL,
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `scientificName`: Scientific name.
@@ -131,17 +122,13 @@ get_rai <- function(package = NULL,
 #'
 #' # Apply filter(s): deployments with latitude >= 51.18
 #' get_rai_individuals(mica, pred_gte("latitude", 51.18))
-get_rai_individuals <- function(package = NULL,
+get_rai_individuals <- function(package,
                                 ...,
                                 species = "all",
                                 sex = NULL,
-                                life_stage = NULL,
-                                datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_rai_individuals")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                                life_stage = NULL) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   get_rai_primitive(package, ...,
     use = "n_individuals",
@@ -158,13 +145,11 @@ get_rai_individuals <- function(package = NULL,
 #' `get_rai_individuals()` to calculate RAI based on number of observations or
 #' number of individuals respectively.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param use Character, one of:
 #'   - `"n_obs"`: Calculate RAI based on number of observation (standard).
 #'   - `"n_individuals"`: Calculate RAI based on number of individuals.
+#' @inheritParams get_species
 #' @return A tibble data frame.
-#' @importFrom dplyr .data %>%
 #' @noRd
 get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
   # define possible feature values

@@ -4,8 +4,6 @@
 #' The number of observations is defined as the number of distinct sequences
 #' (`sequenceID`).
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
@@ -18,16 +16,14 @@
 #'   on, e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
+#' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.
 #'   This column is omitted if parameter `species = NULL`.
 #' - `n`: Number of observations.
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # Get number of observations for each species
@@ -57,30 +53,26 @@
 #'
 #' # Applying filter(s), e.g. deployments with latitude >= 51.18
 #' get_n_obs(mica, pred_gte("latitude", 51.18))
-get_n_obs <- function(package = NULL,
+get_n_obs <- function(package,
                       ...,
                       species = "all",
                       sex = NULL,
-                      life_stage = NULL,
-                      datapkg = lifecycle::deprecated()) {
-  # check input data package
-  check_package(package, datapkg, "get_n_obs")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                      life_stage = NULL) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
-  # avoid to call variables like column names to make life easier using filter()
+  # Avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 
-  # check sex and lifeStage values
+  # Check sex and lifeStage values
   check_value(sex_value, unique(package$data$observation$sex), "sex")
   check_value(life_stage, unique(package$data$observation$lifeStage), "lifeStage")
 
-  # get observations of the selected species
+  # Get observations of the selected species
   if (!is.null(species)) {
-    # if species == all retrieve all detected species
+    # If species == all retrieve all detected species
     if ("all" %in% species) {
-      # if also other values are present, they will be ignored
+      # If also other values are present, they will be ignored
       if (length(species) > 1) {
         ignored_species <- species[!species == "all"]
         warning(glue::glue(
@@ -90,32 +82,32 @@ get_n_obs <- function(package = NULL,
       }
       species <- get_species(package)$scientificName
     }
-    # check species and get scientific names
+    # Check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
-  # get observations of the specified sex
+  # Get observations of the specified sex
   if (!is.null(sex)) {
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(sex %in% sex_value)
   }
 
-  # get observations of the specified life stage
+  # Get observations of the specified life stage
   if (!is.null(life_stage)) {
     package$data$observations <-
       package$data$observations %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
-  # extract observations and deployments
+  # Extract observations and deployments
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # apply filtering
+  # Apply filtering
   deployments <- apply_filter_predicate(
     df = deployments,
     verbose = TRUE,

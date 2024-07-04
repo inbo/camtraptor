@@ -5,14 +5,10 @@
 #' The match is performed case insensitively.
 #' If a vernacular name is not valid, an error is returned
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param vernacular_name Character vector with input vernacular name(s).
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
+#' @inheritParams get_species
 #' @family exploration functions
 #' @return Character vector of scientific name(s).
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # One or more vernacular names
@@ -32,21 +28,21 @@
 #' # A scientific name is an invalid vernacular name of course
 #' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 #' }
-get_scientific_name <- function(package = NULL,
-                                vernacular_name,
-                                datapkg = lifecycle::deprecated()) {
-  check_package(package, datapkg, "get_scientific_name")
+get_scientific_name <- function(package, vernacular_name) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
+  
   if (is.null(package) & !is.name(datapkg)) {
     package <- datapkg
   }
   
   all_sn_vn <- get_species(package)
 
-  # get vernacular names for check
+  # Get vernacular names for check
   all_vn <-
     all_sn_vn %>%
     dplyr::select(dplyr::starts_with("vernacularName"))
-  # check validity vernacular_name param
+  # Check validity vernacular_name param
   check_value(
     arg = tolower(vernacular_name),
     options = unlist(all_vn) %>% tolower(),
@@ -64,7 +60,7 @@ get_scientific_name <- function(package = NULL,
   purrr::map_chr(
     input_vernacular,
     function(v) {
-      # search within the columns with vernacular names
+      # Search within the columns with vernacular names
       sc_n <-
         all_sn_vn %>%
         dplyr::filter(dplyr::if_any(

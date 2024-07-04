@@ -39,5 +39,4 @@ reference:
   - has_concept("density estimation functions")
 - title: Sample data
   contents:
-  - has_concept("sample data")
-
+  - has_concept("sample data functions")

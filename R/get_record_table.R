@@ -9,8 +9,6 @@
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
 #' @param exclude Character vector of species names (scientific names or
@@ -30,8 +28,6 @@
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
@@ -57,9 +53,8 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
+#' @inheritParams get_species
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
-#' @importFrom rlang !! :=
 #' @export
 #' @examples
 #' get_record_table(mica)
@@ -109,19 +104,15 @@
 #' 
 #' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
 #' get_record_table(mica, pred_gte("latitude", 51.18))
-get_record_table <- function(package = NULL,
+get_record_table <- function(package,
                              ...,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
-                             removeDuplicateRecords = TRUE,
-                             datapkg = lifecycle::deprecated()) {
-  # check data package
-  check_package(package, datapkg, "get_record_table", media = TRUE)
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                             removeDuplicateRecords = TRUE) {
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(package)
   
   # check stationCol is a valid column name
   assertthat::assert_that(

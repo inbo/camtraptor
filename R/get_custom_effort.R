@@ -39,7 +39,6 @@
 #'   - `effort`: The effort as number.
 #'   - `unit`: Character specifying the effort unit.
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # A global effort over the entire duration of the project (camera trap data

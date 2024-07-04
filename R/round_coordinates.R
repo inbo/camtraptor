@@ -13,7 +13,6 @@
 #'   metadata).
 #' @family publication functions
 #' @export
-#' @importFrom dplyr %>% .data
 #' @section Details:
 #' Rounding coordinates is a recommended method to generalize sensitive
 #' biodiversity information (see

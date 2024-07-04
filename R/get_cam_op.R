@@ -31,8 +31,6 @@
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
 #' @family exploration functions
-#' @importFrom dplyr %>% .data
-#' @importFrom rlang !! :=
 #' @export
 #' @examples
 #' library(dplyr)

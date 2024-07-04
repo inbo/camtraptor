@@ -9,7 +9,6 @@
 #' @inheritParams get_species
 #' @family exploration functions
 #' @return Character vector of scientific name(s).
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # One or more vernacular names

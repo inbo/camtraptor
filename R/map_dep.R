@@ -107,7 +107,6 @@
 #' @family visualization functions
 #' @seealso Check documentation about filter predicates: [pred()], [pred_in()],
 #'   [pred_and()], ...
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' \dontrun{

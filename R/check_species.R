@@ -9,7 +9,6 @@
 #' @inheritParams get_species
 #' @return A character vector with the correspondent scientific names.
 #' @family validation functions
-#' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' # Species is a scientific name

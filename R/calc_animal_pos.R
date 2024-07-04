@@ -30,7 +30,6 @@
 #'   - `angle`: Angular distance from camera.
 #'   - `frame_count`: Indicator of the frame order within each sequence.
 #' @family density estimation functions
-#' @importFrom dplyr %>% .data
 #' @export
 #' @examples
 #' # Use default values

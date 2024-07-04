@@ -107,7 +107,6 @@ get_version <- function(profile) {
 #' @param df_name Character with name of the data.frame passed to `df`.
 #' @return Data.frame containing the issues as returned by `readr::problems()`.
 #' @noRd
-#' 
 check_reading_issues <- function(df, df_name) {
   # get problems
   issues_df <- readr::problems(df)
@@ -177,7 +176,6 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @inheritParams get_species
 #' @return A tibble data frame with deployments not linked to any observations.
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @noRd
 #' @examples
 #' get_dep_no_obs(mica)
@@ -226,7 +224,6 @@ get_dep_no_obs <- function(package, ...) {
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
 #' the fraction of the day the camera was on
 #'
-#' @importFrom dplyr %>% .data
 #' @noRd
 calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
   # check calc_start or calc_end are passed
@@ -319,7 +316,6 @@ mapdep_legend_titles <- structure(list(
 #'   - `n_obs`
 #'   - `rai`
 #'   - `effort`
-#' @importFrom dplyr .data %>%
 #' @noRd
 get_legend_title <- function(feat) {
   # get all legend titles

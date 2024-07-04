@@ -150,7 +150,6 @@ get_rai_individuals <- function(package,
 #'   - `"n_individuals"`: Calculate RAI based on number of individuals.
 #' @inheritParams get_species
 #' @return A tibble data frame.
-#' @importFrom dplyr .data %>%
 #' @noRd
 get_rai_primitive <- function(package, use, species, sex, life_stage, ...) {
   # define possible feature values

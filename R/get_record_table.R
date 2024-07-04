@@ -55,8 +55,6 @@
 #'   as defined in column `fileName` of `media`.
 #' @inheritParams get_species
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
-#' @importFrom rlang !! :=
 #' @export
 #' @examples
 #' get_record_table(mica)

@@ -20,7 +20,6 @@
 #'   - `effort_duration`: A duration object (duration is a class from lubridate
 #'   package).
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # Efforts expressed in hours

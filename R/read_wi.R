@@ -17,7 +17,6 @@
 #'   `images.csv`.
 #' @return CSV (data) files written to disk.
 #' @export
-#' @importFrom dplyr %>% .data
 #' @family read functions
 read_wi <- function(directory = ".") {
   # Check files

@@ -24,7 +24,6 @@
 #'   This column is omitted if parameter `species = NULL`.
 #' - `n`: Number of individuals.
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # Get number of observations for each species

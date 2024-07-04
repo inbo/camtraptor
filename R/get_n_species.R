@@ -8,7 +8,6 @@
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
 #' @family exploration functions
-#' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' # Get number of species

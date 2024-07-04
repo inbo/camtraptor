@@ -7,6 +7,8 @@
 \alias{deployments}
 \alias{media}
 \alias{observations}
+\alias{events}
+\alias{taxa}
 \title{Objects exported from other packages}
 \seealso{
 Other read functions: 
@@ -20,6 +22,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}}
+  \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{events}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}, \code{\link[camtrapdp]{taxa}}}
 }}
 

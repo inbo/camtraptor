@@ -22,7 +22,7 @@ get_n_species <- function(package) {
   # Get deployments without observations
   deployments_no_obs <- get_dep_no_obs(package)
 
-  # Get species detected by each deployment after filtering
+  # Get species detected by each deployment
   species <-
     observations %>%
     dplyr::filter(.data$deploymentID %in% deployments$deploymentID) %>%

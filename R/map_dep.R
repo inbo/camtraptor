@@ -486,7 +486,7 @@ map_dep <- function(package,
   observations <- package$data$observations
   deployments <- package$data$deployments
 
-  # Get average lat lon for empty map without deployments (after filtering)
+  # Get average lat lon for empty map without deployments
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
   avg_lon <- mean(deployments$longitude, na.rm = TRUE)
 

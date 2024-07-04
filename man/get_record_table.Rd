@@ -6,7 +6,6 @@
 \usage{
 get_record_table(
   package,
-  ...,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
@@ -17,8 +16,6 @@ get_record_table(
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{Filter predicates for filtering on deployments}
 
 \item{stationCol}{Character name of the column containing stations.
 Default: \code{"locationName"}.}
@@ -124,9 +121,6 @@ get_record_table(mica_dup)
 
 # duplicate not removed
 get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-
-# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-get_record_table(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

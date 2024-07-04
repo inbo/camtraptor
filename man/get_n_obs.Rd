@@ -4,13 +4,11 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(package, ..., species = "all", sex = NULL, life_stage = NULL)
+get_n_obs(package, species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{package}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{...}{Filter predicates for filtering on deployments}
 
 \item{species}{Character with scientific names or common names (case
 insensitive).
@@ -66,9 +64,6 @@ get_n_obs(mica, sex = "female")
 
 # Specify both sex and life stage
 get_n_obs(mica, sex = "unknown", life_stage = "adult")
-
-# Applying filter(s), e.g. deployments with latitude >= 51.18
-get_n_obs(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
 Other exploration functions: 

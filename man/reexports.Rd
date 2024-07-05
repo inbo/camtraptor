@@ -9,6 +9,7 @@
 \alias{observations}
 \alias{events}
 \alias{taxa}
+\alias{locations}
 \alias{filter_deployments}
 \alias{filter_media}
 \alias{filter_observations}
@@ -26,6 +27,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{events}}, \code{\link[camtrapdp]{filter_deployments}}, \code{\link[camtrapdp]{filter_media}}, \code{\link[camtrapdp]{filter_observations}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}, \code{\link[camtrapdp]{taxa}}}
+  \item{camtrapdp}{\code{\link[camtrapdp]{deployments}}, \code{\link[camtrapdp]{events}}, \code{\link[camtrapdp]{filter_deployments}}, \code{\link[camtrapdp]{filter_media}}, \code{\link[camtrapdp]{filter_observations}}, \code{\link[camtrapdp]{locations}}, \code{\link[camtrapdp]{media}}, \code{\link[camtrapdp]{observations}}, \code{\link[camtrapdp]{read_camtrapdp}}, \code{\link[camtrapdp]{taxa}}}
 }}
 

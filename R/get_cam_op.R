@@ -59,19 +59,19 @@
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' get_cam_op(mica, use_prefix = TRUE)
-get_cam_op <- function(package,
+get_cam_op <- function(x,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,
                        use_prefix = FALSE) {
-  # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  # Check Camera Trap Data Package
+  camtrapdp::check_camtrapdp(x)
   
   # Check that station_col is a single string
   assertthat::assert_that(assertthat::is.string(station_col))
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
-    station_col %in% names(deployments(package)),
+    station_col %in% names(deployments(x)),
     msg = glue::glue(
       "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
@@ -79,7 +79,7 @@ get_cam_op <- function(package,
   )
   
   # Check that `station_col` doesn't contain empty values (NA)
-  n_na <- deployments(package) %>%
+  n_na <- deployments(x) %>%
     dplyr::filter(is.na(.data[[station_col]])) %>%
     nrow()
   assertthat::assert_that(
@@ -94,7 +94,7 @@ get_cam_op <- function(package,
   # "__CAM_" (no need to remove NAs beforehand as station_col must not contain
   # any NA, see previous check)
   assertthat::assert_that(
-    all(!stringr::str_detect(string = deployments(package)[[station_col]],
+    all(!stringr::str_detect(string = deployments(x)[[station_col]],
                              pattern = "__SESS_|__CAM_")),
     msg = glue::glue(
       "Station column name (`{station_col}`) must not contain any of the ",
@@ -107,13 +107,13 @@ get_cam_op <- function(package,
   if (!is.null(session_col)) {
     assertthat::assert_that(assertthat::is.string(session_col))
     assertthat::assert_that(
-      session_col %in% names(deployments(package)),
+      session_col %in% names(deployments(x)),
       msg = glue::glue(
         "Session column name (`{session_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    session_values <- deployments(package)[[session_col]]
+    session_values <- deployments(x)[[session_col]]
     session_values <- session_values[!is.na(session_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = session_values,
@@ -130,13 +130,13 @@ get_cam_op <- function(package,
   if (!is.null(camera_col)) {
     assertthat::assert_that(assertthat::is.string(camera_col))
     assertthat::assert_that(
-      camera_col %in% names(deployments(package)),
+      camera_col %in% names(deployments(x)),
       msg = glue::glue(
         "Camera column name (`{camera_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    camera_values <- deployments(package)[[camera_col]]
+    camera_values <- deployments(x)[[camera_col]]
     camera_values <- camera_values[!is.na(camera_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = camera_values,
@@ -154,7 +154,7 @@ get_cam_op <- function(package,
   )
 
   # Extract the deployments
-  deploys <- deployments(package)
+  deploys <- deployments(x)
 
   # very first day among all stations
   first_day <- min(deploys$start)

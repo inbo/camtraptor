@@ -1,7 +1,7 @@
 #' Check scientific or vernacular name(s)
 #'
 #' Checks if a given scientific or vernacular name(s) can be found in the
-#' metadata (`package$taxonomic`) and returns error if not.
+#' metadata (`x$taxonomic`) and returns error if not.
 #'
 #' @param species Character vector with scientific or vernacular names.
 #' @param arg_name Character with argument name to return in error message
@@ -30,11 +30,11 @@
 #' \dontrun{
 #' check_species(mica, "bad name")
 #' }
-check_species <- function(package,
+check_species <- function(x,
                           species,
                           arg_name = "species") {
-  # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  # Check camera trap Data Package
+  camtrapdp::check_camtrapdp(x)
   
   assertthat::assert_that(
     !is.null(species) & length(species) > 0,
@@ -42,7 +42,7 @@ check_species <- function(package,
   )
 
   all_species <-
-    get_species(package) %>%
+    get_species(x) %>%
     dplyr::select(-dplyr::any_of(c("taxonID", "taxonIDReference")))
   
   check_value(
@@ -52,14 +52,14 @@ check_species <- function(package,
     null_allowed = FALSE
   )
 
-  purrr::map_chr(species, function(x) {
+  purrr::map_chr(species, function(s) {
     # get scientific name in case a vernacular names is given
-    if (!tolower(x) %in% tolower(all_species$scientificName)) {
-      sn <- get_scientific_name(package, x)
-      message(glue::glue("Scientific name of {x}: {sn}"))
+    if (!tolower(s) %in% tolower(all_species$scientificName)) {
+      sn <- get_scientific_name(x, s)
+      message(glue::glue("Scientific name of {s}: {sn}"))
       sn
     } else {
-      stringr::str_to_sentence(x) # in case the scientific name is not capitalized
+      stringr::str_to_sentence(s) # in case the scientific name is not capitalized
     }
   })
 }

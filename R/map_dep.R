@@ -320,7 +320,7 @@
 #'   radius_range = c(40, 150)
 #' )
 #' }
-map_dep <- function(package,
+map_dep <- function(x,
                     feature,
                     species = NULL,
                     sex = NULL,

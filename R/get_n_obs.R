@@ -50,19 +50,19 @@
 #' # Specify both sex and life stage
 #' get_n_obs(mica, sex = "unknown", life_stage = "adult")
 
-get_n_obs <- function(package,
+get_n_obs <- function(x,
                       species = "all",
                       sex = NULL,
                       life_stage = NULL) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # Avoid to call variables like column names to make life easier using filter()
   sex_value <- sex
 
   # Check sex and lifeStage values
-  check_value(sex_value, unique(package$data$observation$sex), "sex")
-  check_value(life_stage, unique(package$data$observation$lifeStage), "lifeStage")
+  check_value(sex_value, unique(x$data$observation$sex), "sex")
+  check_value(life_stage, unique(x$data$observation$lifeStage), "lifeStage")
 
   # Get observations of the selected species
   if (!is.null(species)) {
@@ -76,36 +76,36 @@ get_n_obs <- function(package,
           glue::glue_collapse(ignored_species, sep = ", ", last = " and ")
         ))
       }
-      species <- get_species(package)$scientificName
+      species <- get_species(x)$scientificName
     }
     # Check species and get scientific names
-    species <- check_species(package, species)
-    package$data$observations <-
-      observations(package) %>%
+    species <- check_species(x, species)
+    x$data$observations <-
+      observations(x) %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # Get observations of the specified sex
   if (!is.null(sex)) {
-    package$data$observations <-
-      observations(package) %>%
+    x$data$observations <-
+      observations(x) %>%
       dplyr::filter(sex %in% sex_value)
   }
 
   # Get observations of the specified life stage
   if (!is.null(life_stage)) {
-    package$data$observations <-
-      observations(package) %>%
+    x$data$observations <-
+      observations(x) %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # Extract observations and deployments
-  observations <- observations(package)
-  deployments <- deployments(package)
+  observations <- observations(x)
+  deployments <- deployments(x)
 
   deploymentID <- deployments$deploymentID
 
-  deployments_no_obs <- get_dep_no_obs(package)
+  deployments_no_obs <- get_dep_no_obs(x)
 
   # get number of observations collected by each deployment for each species
   n_obs <-

@@ -45,14 +45,14 @@
 #' # Specify life stage
 #' get_rai(mica, life_stage = "adult")
 #' get_rai(mica, life_stage = c("adult", "subadult"))
-get_rai <- function(package,
+get_rai <- function(x,
                     species = "all",
                     sex = NULL,
                     life_stage = NULL) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
-  get_rai_primitive(package,
+  get_rai_primitive(x,
     use = "n_obs",
     species = species,
     sex = sex,
@@ -114,14 +114,14 @@ get_rai <- function(package,
 #' get_rai_individuals(mica, life_stage = "adult")
 #' get_rai_individuals(mica, life_stage = c("adult", "subadult"))
 #'
-get_rai_individuals <- function(package,
+get_rai_individuals <- function(x,
                                 species = "all",
                                 sex = NULL,
                                 life_stage = NULL) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
-  get_rai_primitive(package,
+  get_rai_primitive(x,
     use = "n_individuals",
     species = species,
     sex = sex,
@@ -142,7 +142,7 @@ get_rai_individuals <- function(package,
 #' @inheritParams get_species
 #' @return A tibble data frame.
 #' @noRd
-get_rai_primitive <- function(package, use, species, sex, life_stage) {
+get_rai_primitive <- function(x, use, species, sex, life_stage) {
   # define possible feature values
   uses <- c("n_obs", "n_individuals")
 
@@ -155,17 +155,17 @@ get_rai_primitive <- function(package, use, species, sex, life_stage) {
 
   # get all identified species if species arg is equal to "all"
   if ("all" %in% species) {
-    species <- get_species(package)$scientificName
+    species <- get_species(x)$scientificName
   }
   # check species
-  species <- check_species(package, species)
+  species <- check_species(x, species)
 
   if (use == "n_obs") {
     # get number of observations
-    n_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage)
+    n_df <- get_n_obs(x, species = species, sex = sex, life_stage = life_stage)
   } else {
     # get number of individuals
-    n_df <- get_n_individuals(package,
+    n_df <- get_n_individuals(x,
       species = species,
       sex = sex,
       life_stage = life_stage
@@ -173,10 +173,10 @@ get_rai_primitive <- function(package, use, species, sex, life_stage) {
   }
 
   # extract deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
 
   # get deployment duration (effort) in days
-  dep_effort <- get_effort(package, unit = "day")
+  dep_effort <- get_effort(x, unit = "day")
 
   # calculate RAI
   n_df %>%

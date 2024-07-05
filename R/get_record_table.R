@@ -100,18 +100,18 @@
 #' 
 #' # duplicate not removed
 #' get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-get_record_table <- function(package,
+get_record_table <- function(x,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
                              removeDuplicateRecords = TRUE) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # check stationCol is a valid column name
   assertthat::assert_that(
-    stationCol %in% names(deployments(package)),
+    stationCol %in% names(deployments(x)),
     msg = glue::glue(
       "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
@@ -120,7 +120,7 @@ get_record_table <- function(package,
 
   # check scientific names of species to be excluded
   if (!is.null(exclude)) {
-    exclude <- check_species(package, species = exclude, arg_name = "exclude")
+    exclude <- check_species(x, species = exclude, arg_name = "exclude")
   }
 
   # check minDeltaTime
@@ -159,7 +159,7 @@ get_record_table <- function(package,
   )
 
   # remove observations of unidentified individuals
-  obs <- observations(package) %>%
+  obs <- observations(x) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
@@ -167,7 +167,7 @@ get_record_table <- function(package,
     dplyr::filter(!.data$scientificName %in% exclude)
 
   # Extract deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
   
   # remove observations from filtered out deployments
   obs <- obs %>%
@@ -182,7 +182,7 @@ get_record_table <- function(package,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    media(package) %>%
+    media(x) %>%
     dplyr::select(
       "sequenceID",
       "filePath",

@@ -58,12 +58,12 @@ read_wi <- function(directory = ".") {
   )
 
   # Create package
-  package <- frictionless::create_package() # Also sets profile, resources
+  x <- frictionless::create_package() # Also sets profile, resources
 
   # Set metadata properties, see https://camtrap-dp.tdwg.org/metadata
-  package$name <- basename(directory) # Unique name if unchanged from WI export zip
-  package$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
-  package$created <- lubridate::format_ISO8601(lubridate::now())
+  x$name <- basename(directory) # Unique name if unchanged from WI export zip
+  x$id <- wi_project$ark_id # (e.g. http://n2t.net/ark:/63614/w12001317)
+  x$created <- lubridate::format_ISO8601(lubridate::now())
 
   # Set license
   metadata_licenses <- stringr::str_split(wi_project$metadata_license, ", ")[[1]]
@@ -84,36 +84,36 @@ read_wi <- function(directory = ".") {
       licenses_collapse = paste(media_licenses, collapse = ", ")
     ))
   }
-  package$licenses <- list(
+  x$licenses <- list(
     list(name = metadata_license, scope = "data"),
     list(name = media_license, scope = "media")
   )
 
   # Set sources
-  package$sources <- c(list(
+  x$sources <- c(list(
     title = "Wildlife Insights",
     path = "https://www.wildlifeinsights.org/"
   ))
 
   # Set contributors
-  package$contributors <- list(list(
+  x$contributors <- list(list(
     title = wi_project$project_admin,
     email = wi_project$project_admin_email
   ))
 
   # Set organizations
-  package$organizations <-
+  x$organizations <-
     list(list(title = wi_project$project_admin_organization))
 
   # Set rightsHolder
-  package$rightsHolder <- wi_project$project_admin_organization
+  x$rightsHolder <- wi_project$project_admin_organization
 
   # Set bibliographicCitation
-  package$bibliographicCitation <-
+  x$bibliographicCitation <-
     stringr::str_replace_all(wi_project$data_citation, "[\r\n]", " ")
 
   # Set projects
-  package$project <- list(
+  x$project <- list(
     id = as.character(wi_project$project_id),
     title = wi_project$project_name,
     acronym = wi_project$project_short_name,
@@ -144,12 +144,12 @@ read_wi <- function(directory = ".") {
     # sequenceInterval = TODO: how to set for images
     # references = not used in WI
   )
-  if (package$project$captureMethod == "both") {
-    package$project$captureMethod <- c("motion detection", "time lapse")
+  if (x$project$captureMethod == "both") {
+    x$project$captureMethod <- c("motion detection", "time lapse")
   }
 
   # Set spatial
-  package$spatial <- list(
+  x$spatial <- list(
     type = "Feature",
     bbox = list(
       min(wi_deployments$longitude),
@@ -169,10 +169,10 @@ read_wi <- function(directory = ".") {
       ))
     )
   )
-  names(package$spatial$properties) <- character(0) # Set as {} in json
+  names(x$spatial$properties) <- character(0) # Set as {} in json
 
   # Set temporal
-  package$temporal <- list(
+  x$temporal <- list(
     start = min(wi_deployments$start_date),
     end = max(wi_deployments$end_date)
   )
@@ -182,7 +182,7 @@ read_wi <- function(directory = ".") {
     "Mammalia", "Aves", "Reptilia", "Amphibia", "Arachnida", "Gastropoda",
     "Malacostraca", "Clitellata", "Chilopoda", "Diplopoda", "Insecta"
   )
-  package$taxonomic <-
+  x$taxonomic <-
     wi_images %>%
     dplyr::distinct(.data$wi_taxon_id, .keep_all = TRUE) %>%
     dplyr::filter(.data$class %in% animal_classes) %>%
@@ -215,13 +215,13 @@ read_wi <- function(directory = ".") {
     ) %>%
     purrr::transpose() %>%
     # Change "vernacularNames": "fox" to "vernacularNames": ["en" = "fox"]
-    purrr::map(function(x) {
-      x$vernacularNames <- list(en = x$vernacularNames)
+    purrr::map(function(taxon) {
+      taxon$vernacularNames <- list(en = taxon$vernacularNames)
       x
     })
 
   # Set platform
-  package$platform <- list(
+  x$platform <- list(
     title = "Wildlife Insights",
     path = "https://www.wildlifeinsights.org/"
     # version = "",
@@ -364,30 +364,30 @@ read_wi <- function(directory = ".") {
 
   # Add data frames as resources (in separate steps for better error handling)
   # TODO: enable as part of https://github.com/inbo/camtraptor/issues/144
-  # package <- frictionless::add_resource(
-  #   package,
+  # x <- frictionless::add_resource(
+  #   x,
   #   resource_name = "deployments",
   #   data = deployments,
   #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/deployments-table-schema.json"
   # )
-  # package <- frictionless::add_resource(
-  #   package,
+  # x <- frictionless::add_resource(
+  #   x,
   #   resource_name = "media",
   #   data = media,
   #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/media-table-schema.json"
   # )
-  # package <- frictionless::add_resource(
-  #   package,
+  # x <- frictionless::add_resource(
+  #   x,
   #   resource_name = "observations",
   #   data = observations,
   #   schema = "https://raw.githubusercontent.com/tdwg/camtrap-dp/0.1.7/observations-table-schema.json"
   # )
 
   # Attach data to package
-  package$data <- list(
+  x$data <- list(
     deployments = deployments,
     media = media,
     observations = observations
   )
-  package
+  x
 }

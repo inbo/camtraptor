@@ -1,7 +1,7 @@
 #' Get scientific name for vernacular name
 #'
 #' Gets the scientific name for one or more vernacular names based on the
-#' taxonomic information found in the metadata (`package$taxonomic`).
+#' taxonomic information found in the metadata (`x$taxonomic`).
 #' The match is performed case insensitively.
 #' If a vernacular name is not valid, an error is returned
 #'
@@ -28,15 +28,15 @@
 #' # A scientific name is an invalid vernacular name of course
 #' get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 #' }
-get_scientific_name <- function(package, vernacular_name) {
+get_scientific_name <- function(x, vernacular_name) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
+  if (is.null(x) & !is.name(datapkg)) {
+    x <- datapkg
   }
   
-  all_sn_vn <- get_species(package)
+  all_sn_vn <- get_species(x)
 
   # Get vernacular names for check
   all_vn <-

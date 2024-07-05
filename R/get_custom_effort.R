@@ -71,7 +71,7 @@
 #'   group_by = "year"
 #' )
 #'
-get_custom_effort <- function(package,
+get_custom_effort <- function(x,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
@@ -100,13 +100,13 @@ get_custom_effort <- function(package,
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # Get deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
 
   # Camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(package, station_col = "deploymentID")
+  cam_op <- get_cam_op(x, station_col = "deploymentID")
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

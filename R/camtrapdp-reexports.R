@@ -33,6 +33,11 @@ camtrapdp::events
 #' @family accessor functions
 camtrapdp::taxa
 
+#' @importFrom camtrapdp locations
+#' @export
+#' @family accessor functions
+camtrapdp::locations
+
 #' @importFrom camtrapdp filter_deployments
 #' @export
 #' @family filter functions

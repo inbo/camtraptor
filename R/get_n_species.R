@@ -16,8 +16,8 @@ get_n_species <- function(package) {
   camtrapdp::check_camtrapdp(package)
   
   # Extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # Get deployments without observations
   deployments_no_obs <- get_dep_no_obs(package)

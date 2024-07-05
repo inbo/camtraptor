@@ -81,27 +81,27 @@ get_n_obs <- function(package,
     # Check species and get scientific names
     species <- check_species(package, species)
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
   # Get observations of the specified sex
   if (!is.null(sex)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(sex %in% sex_value)
   }
 
   # Get observations of the specified life stage
   if (!is.null(life_stage)) {
     package$data$observations <-
-      package$data$observations %>%
+      observations(package) %>%
       dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # Extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   deploymentID <- deployments$deploymentID
 

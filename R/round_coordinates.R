@@ -43,14 +43,14 @@
 #' mica$coordinatePrecision
 #'
 #' # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
-#' mica$data$deployments$coordinateUncertainty
+#' deployments(mica)$coordinateUncertainty
 round_coordinates <- function(package, digits = 3) {
   assertthat::assert_that(
     digits %in% c(1, 2, 3),
     msg = "`digits` must be 1, 2 or 3."
   )
 
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # Detect original number of digits from coordinatePrecision or data
   original_precision <- package$coordinatePrecision
@@ -86,7 +86,7 @@ round_coordinates <- function(package, digits = 3) {
   uncertainty <- c(15691, 1570, 157) # In order for 1, 2, 3, digits
 
   # Update longitude, latitude and coordinateUncertainty
-  package$data$deployments <-
+  deployments(package) <-
     dplyr::mutate(deployments,
       longitude = round(.data$longitude, digits),
       latitude = round(.data$latitude, digits),

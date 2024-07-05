@@ -57,7 +57,7 @@ get_cam_op(mica, station_col = "locationID")
 
 # Specify column with session IDs
 mica_sessions <- mica
-mica_sessions$data$deployments <- mica_sessions$data$deployments \%>\%
+mica_sessions$data$deployments <- deployments(mica_sessions) \%>\%
   dplyr::mutate(session = ifelse(
     stringr::str_starts(.data$locationName, "B_DL_"),
       "after2020",

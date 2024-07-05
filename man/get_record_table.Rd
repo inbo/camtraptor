@@ -112,9 +112,9 @@ get_record_table(
 # How to deal with duplicates
 mica_dup <- mica
 # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
-mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
-mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
+mica_dup$data$observations[4,"sequenceID"] <- observations(mica_dup)$sequenceID[3]
+mica_dup$data$observations[4, "deploymentID"] <- observations(mica_dup)$deploymentID[3]
+mica_dup$data$observations[4, "timestamp"] <- observations(mica_dup)$timestamp[3]
 
 # duplicates are removed by default by get_record_table()
 get_record_table(mica_dup)

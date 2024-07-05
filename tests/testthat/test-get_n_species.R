@@ -25,7 +25,7 @@ test_that("get_n_species returns 0 for obs without recognized species", {
   # observations of unknown species
   unknown_species <- mica
   unknown_species$data$observations <- 
-    unknown_species$data$observations %>% 
+    observations(unknown_species) %>% 
     # a deployment has detected only unknown species
     dplyr::filter(is.na(.data$scientificName) | 
              .data$scientificName != "Homo sapiens")
@@ -37,7 +37,7 @@ test_that("get_n_species returns NA for deployments without observations", {
   # create data package with one deployment with 0 obs and one delpoyment with
   # observations of unknown species
   no_obs <- mica
-  obs <- no_obs$data$observations
+  obs <- observations(no_obs)
   dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   obs <- obs[obs$deploymentID != dep_no_obs,]
   no_obs$data$observations <- obs

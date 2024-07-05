@@ -38,7 +38,7 @@ get_effort <- function(package,
   camtrapdp::check_camtrapdp(package)
 
   # Get deployments
-  deployments <- package$data$deployments
+  deployments <- deployments(package)
 
   # Calculate effort of deployments
   effort_df <-

@@ -184,8 +184,8 @@ get_dep_no_obs <- function(package) {
   camtrapdp::check_camtrapdp(package)
   
   # Extract observations and deployments
-  observations <- camtrapdp::observations(package)
-  deployments <- camtrapdp::deployments(package)
+  observations <- observations(package)
+  deployments <- deployments(package)
   
   # Deployment with no observations
   dep_no_obs <-

@@ -18,7 +18,7 @@ test_that("get_effort returns error for invalid effort units", {
 })
 
 test_that("get_effort returns error for invalid datapackage", {
-  expect_error(get_effort(mica$data$deployments))
+  expect_error(get_effort(deployments(mica)))
 })
 
 
@@ -74,7 +74,7 @@ test_that("get_effort returns the right dataframe", {
 
 test_that("get_effort returns the right number of rows", {
   effort_df <- get_effort(mica)
-  all_deployments <- unique(mica$data$deployments$deploymentID)
+  all_deployments <- unique(deployments(mica)$deploymentID)
   n_all_deployments <- length(all_deployments)
 
   # number of rows should be equal to number of deployments

@@ -268,11 +268,11 @@
 #' # Same behavior for the icon visualizing NA values (`"n_species"` feature)
 #' unknown_species_vs_no_obs <- mica
 #' unknown_species_vs_no_obs$data$observations <- 
-#'   unknown_species_vs_no_obs$data$observations %>% 
-#'   # a deployment has detected only unknown species
+#'   observations(unknown_species_vs_no_obs) %>% 
+#'   # A deployment has detected only unknown species
 #'   filter(is.na(.data$scientificName) | 
 #'            .data$scientificName != "Homo sapiens") %>%
-#'   # a deployment has no observations
+#'   # A deployment has no observations
 #'   filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
 #' # create new map
 #' map_dep(
@@ -483,8 +483,8 @@ map_dep <- function(package,
   }
   
   # Extract observations and deployments
-  observations <- package$data$observations
-  deployments <- package$data$deployments
+  observations <- observations(package)
+  deployments <- deployments(package)
 
   # Get average lat lon for empty map without deployments
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)

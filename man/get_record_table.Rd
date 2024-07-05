@@ -5,7 +5,7 @@
 \title{Get record table}
 \usage{
 get_record_table(
-  package,
+  x,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
@@ -14,7 +14,7 @@ get_record_table(
 )
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{stationCol}{Character name of the column containing stations.

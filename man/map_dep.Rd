@@ -5,7 +5,7 @@
 \title{Visualize deployments features}
 \usage{
 map_dep(
-  package,
+  x,
   feature,
   species = NULL,
   sex = NULL,
@@ -27,7 +27,7 @@ map_dep(
 )
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{feature}{Deployment feature to visualize.

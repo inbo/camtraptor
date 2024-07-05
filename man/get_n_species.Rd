@@ -4,10 +4,10 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(package)
+get_n_species(x)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{

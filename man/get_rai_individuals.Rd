@@ -4,10 +4,10 @@
 \alias{get_rai_individuals}
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
-get_rai_individuals(package, species = "all", sex = NULL, life_stage = NULL)
+get_rai_individuals(x, species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{species}{Character with scientific names or common names (case

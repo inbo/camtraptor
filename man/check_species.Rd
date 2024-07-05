@@ -4,10 +4,10 @@
 \alias{check_species}
 \title{Check scientific or vernacular name(s)}
 \usage{
-check_species(package, species, arg_name = "species")
+check_species(x, species, arg_name = "species")
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{species}{Character vector with scientific or vernacular names.}
@@ -20,7 +20,7 @@ A character vector with the correspondent scientific names.
 }
 \description{
 Checks if a given scientific or vernacular name(s) can be found in the
-metadata (\code{package$taxonomic}) and returns error if not.
+metadata (\code{x$taxonomic}) and returns error if not.
 }
 \examples{
 # Species is a scientific name

@@ -4,16 +4,10 @@
 \alias{get_custom_effort}
 \title{Get custom effort}
 \usage{
-get_custom_effort(
-  package,
-  start = NULL,
-  end = NULL,
-  group_by = NULL,
-  unit = "hour"
-)
+get_custom_effort(x, start = NULL, end = NULL, group_by = NULL, unit = "hour")
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date

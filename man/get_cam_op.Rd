@@ -5,7 +5,7 @@
 \title{Get camera operation matrix}
 \usage{
 get_cam_op(
-  package,
+  x,
   station_col = "locationName",
   camera_col = NULL,
   session_col = NULL,
@@ -13,7 +13,7 @@ get_cam_op(
 )
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{station_col}{Column name to use for identifying the stations. Default:

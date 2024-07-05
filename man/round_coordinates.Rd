@@ -4,16 +4,16 @@
 \alias{round_coordinates}
 \title{Round coordinates to generalize camera trap locations}
 \usage{
-round_coordinates(package, digits = 3)
+round_coordinates(x, digits = 3)
 }
 \arguments{
-\item{package}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+\item{x}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{digits}{Number of decimal places to round coordinates to (\code{1}, \code{2} or
 \code{3}).}
 }
 \value{
-\code{package} with rounded coordinates as well as updated
+\code{x} with rounded coordinates as well as updated
 \code{coordinateUncertainty}.(in deployments) and \code{coordinatePrecision} (in
 metadata).
 }

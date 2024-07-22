@@ -566,7 +566,7 @@ map_deployments <- function(x,
 
   # Calculate and get feature values
   if (feature == "n_species") {
-    feat_df <- get_n_species(x)
+    feat_df <- n_species(x)
   } else if (feature == "n_obs") {
     feat_df <- get_n_obs(x, species = species, sex = sex, life_stage = life_stage)
   } else if (feature == "n_individuals") {
@@ -710,7 +710,7 @@ map_deployments <- function(x,
   non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
   # Zero values
   zero_values <- feat_df %>% dplyr::filter(.data$n == 0)
-  # NA values (only returned by get_n_species)
+  # NA values (only returned by n_species)
   na_values <- feat_df %>% dplyr::filter(is.na(.data$n))
   # Make basic start map
   leaflet_map <-

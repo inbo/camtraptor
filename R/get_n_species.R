@@ -12,8 +12,8 @@
 #' x <- example_dataset()
 #' 
 #' # Get number of species
-#' get_n_species(x)
-get_n_species <- function(x) {
+#' n_species(x)
+n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   

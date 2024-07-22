@@ -32,8 +32,6 @@
 #' @family exploration functions
 #' @export
 #' @examples
-#' library(dplyr)
-#' 
 #' x <- example_dataset()
 #' camtrapR_cameraOperation(x)
 #'
@@ -57,7 +55,11 @@
 #' camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
 #'
 #' # Specify both session and camera IDs
-#' camtrapR_cameraOperation(x_cameras, camera_col = "cameraID", session_col = "session")
+#' camtrapR_cameraOperation(
+#'   x_cameras,
+#'   camera_col = "cameraID",
+#'   session_col = "session"
+#' )
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
 #' camtrapR_cameraOperation(x, use_prefix = TRUE)

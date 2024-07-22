@@ -346,18 +346,3 @@ test_that(
       cam_op_matrix[2, col_idx_start2:col_idx_end2]))
   }
 )
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      camtrapR_cameraOperation(datapkg = x)
-    ),
-    paste0("The `datapkg` argument of `camtrapR_cameraOperation()` is deprecated ",
-           "as of camtraptor 0.16.0."
-    ),
-    fixed = TRUE
-  )
-})

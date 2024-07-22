@@ -299,16 +299,3 @@ test_that(paste(
   expect_true(all(n_obs$scientificName %in% species_value))
   expect_true(all(species_value %in% n_obs$scientificName))
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_obs(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_n_obs()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

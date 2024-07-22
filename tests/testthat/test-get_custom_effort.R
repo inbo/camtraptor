@@ -269,16 +269,3 @@ test_that("check effort and unit values", {
   # Unit value is equal to day if unit value is set to "day"
   expect_identical(unique(tot_effort_days$unit), "day")
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_custom_effort(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_custom_effort()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

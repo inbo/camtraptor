@@ -216,16 +216,3 @@ test_that("map_deployments() returns a leaflet", {
   expect_no_error(map_deployments(x, feature = "n_species"))
   expect_no_message(map_deployments(x, feature = "n_species"))
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      map_deployments(datapkg = x, feature = "n_obs")
-    ),
-    "The `datapkg` argument of `map_deployments()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

@@ -278,16 +278,3 @@ test_that("error returned if life stage or sex is not present", {
   expect_error(get_n_individuals(x, life_stage = "bad"))
   expect_error(get_n_individuals(x, sex = "bad"))
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_n_individuals(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_n_individuals()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

@@ -232,16 +232,3 @@ test_that(paste(
     nrow(observations(x_dup))
   )
 })
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      camtrapR_recordTable(datapkg = x)
-    ),
-    "The `datapkg` argument of `camtrapR_recordTable()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

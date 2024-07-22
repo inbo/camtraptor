@@ -254,12 +254,12 @@ A message about deployment with zero observations is also returned to the R cons
 # observations of unknown species
 unknown_species_vs_no_obs <- x
 unknown_species_vs_no_obs$data$observations <- 
-  observations(unknown_species_vs_no_obs) %>% 
-  # a deployment has detected only unknown species
-  filter(is.na(.data$scientificName) | 
-           .data$scientificName != "Homo sapiens") %>%
-  # a deployment has no observations
-  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
+  unknown_species_vs_no_obs %>%
+  # A deployment has detected only unknown species
+  filter_observations(
+    is.na(scientificName) | scientificName != "Homo sapiens") %>%
+  # A deployment has no observations
+  filter_deployments(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
 # create new map
 map_deployments(unknown_species_vs_no_obs,
         feature = "n_species")

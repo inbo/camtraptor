@@ -45,17 +45,6 @@ One of:
 Required for \code{rai}, optional for \code{n_obs}.
 Default: \code{NULL}.}
 
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}.
-If \code{NULL} (default) all observations of all sex classes are taken into
-account.
-Optional parameter for \code{n_obs} and \code{n_individuals}.}
-
-\item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL} (default) all observations of all life stage classes are taken
-into account.
-Optional parameter for \code{n_obs} and \code{n_individuals}.}
-
 \item{effort_unit}{Time unit to use while visualizing deployment effort
 (duration).
 One of:
@@ -183,36 +172,11 @@ map_deployments(
   species = "Anas platyrhynchos"
 )
 
-# Show number of observations of subadult individuals of Anas strepera
-map_deployments(
-  x,
-  "n_obs",
-  species = "Anas strepera",
-  life_stage = "subadult"
-)
-
-# Show number of observations of female or unknown individuals of gadwall
-map_deployments(
-  x,
-  "n_obs",
-  species = "gadwall",
-  sex = c("female", "unknown")
-)
-
 # Show number of individuals (individuals of unidentified species included if
 # any)
 map_deployments(
   x,
   "n_individuals"
-)
-
-# Same filters by life stage and sex as for number of observations apply
-map_deployments(
-  x,
-  "n_individuals",
-  species = "Anas strepera",
-  sex = "female",
-  life_stage = "adult"
 )
 
 # Show RAI
@@ -222,29 +186,11 @@ map_deployments(
   species = "Anas strepera"
 )
 
-# Same filters by life_stage and sex as for number of observations apply
-map_deployments(
-  x,
-  "rai",
-  species = "Anas strepera",
-  sex = "female",
-  life_stage = "adult"
-)
-
 # Show RAI calculated by using number of detected individuals
 map_deployments(
   x,
   "rai_individuals",
   species = "Anas strepera"
-)
-
-# Same filters by life stage and sex as for basic RAI apply
-map_deployments(
-  x,
-  "rai_individuals",
-  species = "Anas strepera",
-  sex = "female",
-  life_stage = "adult"
 )
 
 # Show effort (hours)
@@ -322,15 +268,11 @@ map_deployments(
 )
 
 # Same behavior for the icon visualizing NA values (`"n_species"` feature)
-unknown_species_vs_no_obs <- x
-unknown_species_vs_no_obs$data$observations <- 
-  observations(unknown_species_vs_no_obs) \%>\% 
-  # A deployment has detected only unknown species
-  filter(is.na(.data$scientificName) | 
-           .data$scientificName != "Homo sapiens") \%>\%
-  # A deployment has no observations
-  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
-# create new map
+unknown_species_vs_no_obs <- x \%>\%
+  filter_observations(
+    is.na(scientificName) | scientificName != "Homo sapiens"
+  ) \%>\%
+  filter_deployments(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
 map_deployments(
   unknown_species_vs_no_obs,
   feature = "n_species",
@@ -341,12 +283,13 @@ map_deployments(
 )
 
 # Set size of the icon for zero values deployments
-map_deployments(
-  x,
-  "n_obs",
-  life_stage = "subadult",
-  zero_values_icon_size = 30
-)
+x \%>\% 
+  filter_observations(lifeStage == "subadult") \%>\%
+  map_deployments(
+    x,
+    "n_obs",
+    zero_values_icon_size = 30
+  )
 
 # Disable cluster
 map_deployments(

@@ -57,13 +57,13 @@
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' get_record_table(x)
+#' camtrapR_recordTable(x)
 #'
 #' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
 #' x_dependent <- x
 #' x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
-#' get_record_table(
+#' camtrapR_recordTable(
 #'   x_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastIndependentRecord"
@@ -71,7 +71,7 @@
 #'
 #' # Set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
-#' get_record_table(
+#' camtrapR_recordTable(
 #'   x_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
@@ -79,10 +79,10 @@
 #'
 #' # Exclude observations of mallard
 #' # Exclude is case insensitive and vernacular names are allowed
-#' get_record_table(x, exclude = "wilde eend")
+#' camtrapR_recordTable(x, exclude = "wilde eend")
 #'
 #' # Specify column to pass station names
-#' get_record_table(
+#' camtrapR_recordTable(
 #'   x,
 #'   stationCol = "locationID",
 #'   minDeltaTime = 20,
@@ -96,12 +96,12 @@
 #' x_dup$data$observations[4, "deploymentID"] <- observations(x_dup)$deploymentID[3]
 #' x_dup$data$observations[4, "timestamp"] <- observations(x_dup)$timestamp[3]
 #'
-#' # duplicates are removed by default by get_record_table()
-#' get_record_table(x_dup)
+#' # duplicates are removed by default by camtrapR_recordTable()
+#' camtrapR_recordTable(x_dup)
 #' 
 #' # duplicate not removed
-#' get_record_table(x_dup, removeDuplicateRecords = FALSE)
-get_record_table <- function(x,
+#' camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
+camtrapR_recordTable <- function(x,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
@@ -306,7 +306,7 @@ get_record_table <- function(x,
 #' Assess temporal independence
 #'
 #' Filters observations based on the temporal independence.
-#' It is a helper function for `get_record_table()`.
+#' It is a helper function for `camtrapR_recordTable()`.
 #'
 #' @param df A data frame.
 #' @param minDeltaTime_dur: Duration, time difference between records of the same

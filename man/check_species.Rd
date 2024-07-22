@@ -4,10 +4,10 @@
 \alias{check_species}
 \title{Check scientific or vernacular name(s)}
 \usage{
-check_species(package, species, arg_name = "species")
+check_species(x, species, arg_name = "species")
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{species}{Character vector with scientific or vernacular names.}
@@ -20,27 +20,29 @@ A character vector with the correspondent scientific names.
 }
 \description{
 Checks if a given scientific or vernacular name(s) can be found in the
-metadata (\code{package$taxonomic}) and returns error if not.
+metadata (\code{x$taxonomic}) and returns error if not.
 }
 \examples{
+x <- example_dataset()
+
 # Species is a scientific name
-check_species(mica, "Martes foina")
+check_species(x, "Martes foina")
 
 # Species is a vector of vernacular names
-check_species(mica, c("beech marten", "european polecat"))
+check_species(x, c("beech marten", "european polecat"))
 
 # Vernacular names can be specified in any language available
-check_species(mica, c("vos", "blauwe reiger"))
+check_species(x, c("vos", "blauwe reiger"))
 
 # Vernacular names and scientific names can be mixed up
-check_species(mica, c("beech marten", "blauwe reiger", "Anas strepera"))
+check_species(x, c("beech marten", "blauwe reiger", "Anas strepera"))
 
 # Case insensitive
-check_species(mica, "AnaS StrePeRa")
-check_species(mica, "bEEch mARteN")
+check_species(x, "AnaS StrePeRa")
+check_species(x, "bEEch mARteN")
 
 \dontrun{
-check_species(mica, "bad name")
+check_species(x, "bad name")
 }
 }
 \concept{validation functions}

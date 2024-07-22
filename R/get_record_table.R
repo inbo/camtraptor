@@ -56,14 +56,15 @@
 #' @family exploration functions
 #' @export
 #' @examples
-#' get_record_table(mica)
+#' x <- example_dataset()
+#' get_record_table(x)
 #'
 #' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
-#' mica_dependent <- mica
-#' mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+#' x_dependent <- x
+#' x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
 #' get_record_table(
-#'   mica_dependent,
+#'   x_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastIndependentRecord"
 #' )
@@ -71,47 +72,47 @@
 #' # Set a minDeltaTime of 20 minutes from last record for filtering out not
 #' # independent observations
 #' get_record_table(
-#'   mica_dependent,
+#'   x_dependent,
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
 #'
 #' # Exclude observations of mallard
 #' # Exclude is case insensitive and vernacular names are allowed
-#' get_record_table(mica, exclude = "wilde eend")
+#' get_record_table(x, exclude = "wilde eend")
 #'
 #' # Specify column to pass station names
 #' get_record_table(
-#'   mica,
+#'   x,
 #'   stationCol = "locationID",
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
 #' 
 #' # How to deal with duplicates
-#' mica_dup <- mica
+#' x_dup <- x
 #' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-#' mica_dup$data$observations[4,"sequenceID"] <- observations(mica_dup)$sequenceID[3]
-#' mica_dup$data$observations[4, "deploymentID"] <- observations(mica_dup)$deploymentID[3]
-#' mica_dup$data$observations[4, "timestamp"] <- observations(mica_dup)$timestamp[3]
+#' x_dup$data$observations[4,"sequenceID"] <- observations(x_dup)$sequenceID[3]
+#' x_dup$data$observations[4, "deploymentID"] <- observations(x_dup)$deploymentID[3]
+#' x_dup$data$observations[4, "timestamp"] <- observations(x_dup)$timestamp[3]
 #'
 #' # duplicates are removed by default by get_record_table()
-#' get_record_table(mica_dup)
+#' get_record_table(x_dup)
 #' 
 #' # duplicate not removed
-#' get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-get_record_table <- function(package,
+#' get_record_table(x_dup, removeDuplicateRecords = FALSE)
+get_record_table <- function(x,
                              stationCol = "locationName",
                              exclude = NULL,
                              minDeltaTime = 0,
                              deltaTimeComparedTo = NULL,
                              removeDuplicateRecords = TRUE) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # check stationCol is a valid column name
   assertthat::assert_that(
-    stationCol %in% names(deployments(package)),
+    stationCol %in% names(deployments(x)),
     msg = glue::glue(
       "Station column name `{stationCol}` not valid: ",
       "It must be one of the deployments column names."
@@ -120,7 +121,7 @@ get_record_table <- function(package,
 
   # check scientific names of species to be excluded
   if (!is.null(exclude)) {
-    exclude <- check_species(package, species = exclude, arg_name = "exclude")
+    exclude <- check_species(x, species = exclude, arg_name = "exclude")
   }
 
   # check minDeltaTime
@@ -159,7 +160,7 @@ get_record_table <- function(package,
   )
 
   # remove observations of unidentified individuals
-  obs <- observations(package) %>%
+  obs <- observations(x) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
   # remove observations of species to be excluded
@@ -167,7 +168,7 @@ get_record_table <- function(package,
     dplyr::filter(!.data$scientificName %in% exclude)
 
   # Extract deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
   
   # remove observations from filtered out deployments
   obs <- obs %>%
@@ -182,7 +183,7 @@ get_record_table <- function(package,
   # extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
-    media(package) %>%
+    media(x) %>%
     dplyr::select(
       "sequenceID",
       "filePath",

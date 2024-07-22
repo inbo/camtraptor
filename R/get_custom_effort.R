@@ -33,45 +33,34 @@
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # A global effort over the entire duration of the project (Camera Trap Data
 #' Package) measured in hours
-#' get_custom_effort(mica)
+#' get_custom_effort(x)
 #'
 #' # Global effort expressed in days
-#' get_custom_effort(mica, unit = "day")
+#' get_custom_effort(x, unit = "day")
 #'
 #' # Total effort from a specific start to a specific end
 #' get_custom_effort(
-#'   mica,
+#'   x,
 #'   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
 #'   end = as.Date("2021-01-10")
 #' )
 #'
 #' # Effort at daily interval
-#' get_custom_effort(
-#'   mica,
-#'   group_by = "day"
-#' )
+#' get_custom_effort(x, group_by = "day")
 #'
 #' # Effort at weekly interval
-#' get_custom_effort(
-#'   mica,
-#'   group_by = "week"
-#' )
+#' get_custom_effort(x, group_by = "week")
 #'
 #' # Effort at monthly interval
-#' get_custom_effort(
-#'   mica,
-#'   group_by = "month"
-#' )
+#' get_custom_effort(x, group_by = "month")
 #'
 #' # Effort at yearly interval
-#' get_custom_effort(
-#'   mica,
-#'   group_by = "year"
-#' )
-#'
-get_custom_effort <- function(package,
+#' get_custom_effort(x, group_by = "year")
+get_custom_effort <- function(x,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
@@ -100,13 +89,13 @@ get_custom_effort <- function(package,
   check_value(group_by, group_bys, "group_by", null_allowed = TRUE)
 
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # Get deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
 
   # Camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(package, station_col = "deploymentID")
+  cam_op <- get_cam_op(x, station_col = "deploymentID")
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

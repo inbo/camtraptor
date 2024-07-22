@@ -4,10 +4,10 @@
 \alias{get_species}
 \title{Get species}
 \usage{
-get_species(package)
+get_species(x)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{
@@ -18,7 +18,8 @@ the identified species.
 Gets all identified species.
 }
 \examples{
-get_species(mica)
+x <- example_dataset()
+get_species(x)
 }
 \seealso{
 Other exploration functions: 

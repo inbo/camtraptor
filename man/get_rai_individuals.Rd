@@ -4,10 +4,10 @@
 \alias{get_rai_individuals}
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
-get_rai_individuals(package, species = "all", sex = NULL, life_stage = NULL)
+get_rai_individuals(x, species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{species}{Character with scientific names or common names (case
@@ -41,32 +41,34 @@ via \code{get_n_individuals()} and \code{effort} is the effort in days as calcul
 via \code{get_effort()}.
 }
 \examples{
+x <- example_dataset()
+
 # Calculate RAI based on number of individuals
-get_rai_individuals(mica) # species = "all" by default, so equivalent of
-get_rai_individuals(mica, species = "all")
+get_rai_individuals(x) # species = "all" by default, so equivalent of
+get_rai_individuals(x, species = "all")
 
 # Selected species
-get_rai_individuals(mica,
+get_rai_individuals(
+  x,
   species = c("Anas platyrhynchos", "Martes foina")
 )
 
 # With common names, also mixing up languages
-get_rai_individuals(mica, species = c("mallard", "steenmarter"))
+get_rai_individuals(x, species = c("mallard", "steenmarter"))
 
 # Mixed scientific and vernacular names
-get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
+get_rai_individuals(x, species = c("Anas platyrhynchos", "beech marten"))
 
 # Species parameter is case insensitive
-get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
+get_rai_individuals(x, species = c("ANAS plAtyRhynChOS"))
 
 # Specify sex
-get_rai_individuals(mica, sex = "female")
-get_rai_individuals(mica, sex = c("female", "unknown"))
+get_rai_individuals(x, sex = "female")
+get_rai_individuals(x, sex = c("female", "unknown"))
 
 # Specify life stage
-get_rai_individuals(mica, life_stage = "adult")
-get_rai_individuals(mica, life_stage = c("adult", "subadult"))
-
+get_rai_individuals(x, life_stage = "adult")
+get_rai_individuals(x, life_stage = c("adult", "subadult"))
 }
 \seealso{
 Other exploration functions: 

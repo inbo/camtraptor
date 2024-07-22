@@ -4,16 +4,16 @@
 \alias{round_coordinates}
 \title{Round coordinates to generalize camera trap locations}
 \usage{
-round_coordinates(package, digits = 3)
+round_coordinates(x, digits = 3)
 }
 \arguments{
-\item{package}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+\item{x}{A Camtrap DP, as read by \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{digits}{Number of decimal places to round coordinates to (\code{1}, \code{2} or
 \code{3}).}
 }
 \value{
-\code{package} with rounded coordinates as well as updated
+\code{x} with rounded coordinates as well as updated
 \code{coordinateUncertainty}.(in deployments) and \code{coordinatePrecision} (in
 metadata).
 }
@@ -49,13 +49,15 @@ Chapman & Wieczorek 2020).
 }
 
 \examples{
+x <- example_dataset()
+
 # Round coordinates of example package to 3 digits
-mica <- round_coordinates(mica, 3)
+x <- round_coordinates(x, 3)
 
 # coordinatePrecision is set in metadata
-mica$coordinatePrecision
+x$coordinatePrecision
 
 # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
-deployments(mica)$coordinateUncertainty
+deployments(x)$coordinateUncertainty
 }
 \concept{publication functions}

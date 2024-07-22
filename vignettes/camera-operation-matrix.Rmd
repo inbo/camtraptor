@@ -42,7 +42,7 @@ It contains camera trap data about musk rat and coypu. We will use this variable
 You can create a camera operation matrix by passing a camera trap data package:
 
 ```{r basic_usage}
-get_cam_op(mica)
+get_cam_op(x)
 ```
 
 The function will read the `deployments` slot of the data package to create the matrix.
@@ -54,30 +54,30 @@ In the example above there was a one-to-one relation between deployments and loc
 In the example below we show what happens if all four deployments are set to the same location (`B_DL_val 5_beek kleine vijver`) and they are active during the same days:
 
 ```{r four_deploys_same_start_end_for_one_location}
-mica1 <- mica
-mica1$data$deployments$locationName <- deployments(mica1)$locationName[1]
-mica1$data$deployments$start <- deployments(mica1)$start[1]
-mica1$data$deployments$end <- deployments(mica1)$deployments$end[1]
-multiple_deploys_matrix <- get_cam_op(mica1)
+x1 <- x
+x1$data$deployments$locationName <- deployments(x1)$locationName[1]
+x1$data$deployments$start <- deployments(x1)$start[1]
+x1$data$deployments$end <- deployments(x1)$deployments$end[1]
+multiple_deploys_matrix <- get_cam_op(x1)
 multiple_deploys_matrix
 ```
 
 In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two deployments active in two different periods:
 
 ```{r two_deploys_two_periods}
-mica2 <- mica
-mica2$data$deployments$locationName[4] <- deployments(mica2)$locationName[3]
-mica2$data$deployments$start[4] <- deployments(mica2)$end[3] + ddays(5)
-mica2$data$deployments$end[4] <- deployments(mica2)$start[4] + ddays(5)
-deployments(mica2) %>% dplyr::select(locationName, start, end)
+x2 <- x
+x2$data$deployments$locationName[4] <- deployments(x2)$locationName[3]
+x2$data$deployments$start[4] <- deployments(x2)$end[3] + ddays(5)
+x2$data$deployments$end[4] <- deployments(x2)$start[4] + ddays(5)
+deployments(x2) %>% dplyr::select(locationName, start, end)
 ```
 
 This results in the following camera operation matrix:
 
 ```{r camOp_two_deploys_two_periods}
-two_deploys_two_periods_matrix <- get_cam_op(mica2)
-days_to_show <- seq(as.Date(deployments(mica2)$start[3]),
-                    as.Date(deployments(mica2)$end[4]),
+two_deploys_two_periods_matrix <- get_cam_op(x2)
+days_to_show <- seq(as.Date(deployments(x2)$start[3]),
+                    as.Date(deployments(x2)$end[4]),
                     by = "days")
 two_deploys_two_periods_matrix[3,as.character(days_to_show)]
 ```
@@ -87,14 +87,14 @@ two_deploys_two_periods_matrix[3,as.character(days_to_show)]
 You can specify the column containing the station names instead of using the default `locationName`. In the example below we use the column `locationID`. A small preview of the matrix is shown:
 
 ```{r cam_op_with_locationID}
-cam_op_with_locationID <- get_cam_op(mica, station_col = "locationID")
+cam_op_with_locationID <- get_cam_op(x, station_col = "locationID")
 cam_op_with_locationID[1:4, 1:2]
 ```
 
 You can also decide to use prefix `"Station"` in the station names as done by camtrapR's `cameraOperation()` by setting `use_prefix = TRUE`. A small preview of the entire matrix is shown:
 
 ```{r use_prefix}
-cam_op_with_prefix <- get_cam_op(mica, use_prefix = TRUE)
+cam_op_with_prefix <- get_cam_op(x, use_prefix = TRUE)
 cam_op_with_prefix[1:4,1:2]
 ```
 
@@ -103,27 +103,27 @@ cam_op_with_prefix[1:4,1:2]
 You can specify the column containing the camera IDs to be added to the station names following the camtrapR's convention: `Station__CAM_CameraID`. Only the row names are shown:
 
 ```{r add_camera_IDs}
-mica_cameras <- mica
-mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-cam_op_with_camera_ids <- get_cam_op(mica_cameras, camera_col = "cameraID")
+x_cameras <- x
+x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+cam_op_with_camera_ids <- get_cam_op(x_cameras, camera_col = "cameraID")
 row.names(cam_op_with_camera_ids)
 ```
 
 You cans also add the session IDs using `session_col` argument, following the camtrapR's convention: `Station__SESS_sessionID`:
 
 ```{r add_session_IDs}
-mica_sessions <- mica
-mica_sessions$data$deployments$session <- c(1, 2, 3, 4)
-cam_op_with_session_ids <- get_cam_op(mica_sessions, session_col = "session")
+x_sessions <- x
+x_sessions$data$deployments$session <- c(1, 2, 3, 4)
+cam_op_with_session_ids <- get_cam_op(x_sessions, session_col = "session")
 row.names(cam_op_with_session_ids)
 ```
 
 To use both camera and session IDs, the camtrapR's convention `Station__SESS_SessionID__CAM_CameraID` is followed:
 
 ```{r add_session_camera_IDs}
-mica_sessions$data$deployments$cameraID <- c(1, 2, 3, 4)
+x_sessions$data$deployments$cameraID <- c(1, 2, 3, 4)
 cam_op_with_session_and_camera_ids <- get_cam_op(
-  mica_sessions, 
+  x_sessions, 
   camera_col = "cameraID",
   session_col = "session"
 )

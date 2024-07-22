@@ -21,12 +21,14 @@
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Efforts expressed in hours
-#' get_effort(mica)
+#' get_effort(x)
 #'
 #' # Effort expressed as days
-#' get_effort(mica, unit = "day")
-get_effort <- function(package,
+#' get_effort(x, unit = "day")
+get_effort <- function(x,
                        unit = "hour") {
   # Define possible unit values
   units <- c("second", "minute", "hour", "day", "month", "year")
@@ -35,10 +37,10 @@ get_effort <- function(package,
   check_value(unit, units, "unit", null_allowed = FALSE)
 
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
 
   # Get deployments
-  deployments <- deployments(package)
+  deployments <- deployments(x)
 
   # Calculate effort of deployments
   effort_df <-

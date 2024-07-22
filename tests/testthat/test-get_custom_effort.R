@@ -1,6 +1,8 @@
 test_that("get_custom_effort returns error for invalid group_by value", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_error(
-    get_custom_effort(mica, group_by = "bad_value"),
+    get_custom_effort(x, group_by = "bad_value"),
     paste0(
       "Invalid value for group_by parameter: bad_value.\n",
       "Valid inputs are: day, week, month, year and NULL"
@@ -10,11 +12,13 @@ test_that("get_custom_effort returns error for invalid group_by value", {
 })
 
 test_that("get_custom_effort returns error for start not a Date", {
-  expect_error(get_custom_effort(mica, start = "2021-01-01"))
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(get_custom_effort(x, start = "2021-01-01"))
   # No datetime allowed
   expect_error(
     get_custom_effort(
-      mica, 
+      x, 
       start = lubridate::as_datetime("2021-12-05 22:25:01 CET")
     ),
     paste0(
@@ -26,11 +30,13 @@ test_that("get_custom_effort returns error for start not a Date", {
 })
 
 test_that("get_custom_effort returns error for end not a Date", {
-  expect_error(get_custom_effort(mica, end = "2021-01-01"))
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(get_custom_effort(x, end = "2021-01-01"))
   # No datetime allowed
   expect_error(
     get_custom_effort(
-      mica,
+      x,
       end = lubridate::as_datetime("2021-12-05 22:25:01 CET")
     ),
    paste0(
@@ -42,9 +48,11 @@ test_that("get_custom_effort returns error for end not a Date", {
 })
 
 test_that("get_custom_effort returns error if end earlier than start", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_error(
     get_custom_effort(
-      mica, start = as.Date("2021-01-01"), end = as.Date("1990-01-01")
+      x, start = as.Date("2021-01-01"), end = as.Date("1990-01-01")
     ),
     paste0(
       "`end` value is set too early. `end` value must be not earlier than the ",
@@ -56,8 +64,10 @@ test_that("get_custom_effort returns error if end earlier than start", {
 
 test_that(
   "get_custom_effort returns error if start later than end of latest deployment", {
-  expect_error(
-    get_custom_effort(mica, start = as.Date("2030-01-01")),
+    skip_if_offline()
+    x <- example_dataset()
+    expect_error(
+    get_custom_effort(x, start = as.Date("2030-01-01")),
     paste0(
       "`start` value is set too late. ",
       "`start` value must be not later than the end of the latest deployment: ",
@@ -69,8 +79,10 @@ test_that(
 
 test_that(
   "get_custom_effort returns error if end earlier than begin of first deployment", {
+    skip_if_offline()
+    x <- example_dataset()
     expect_error(
-      get_custom_effort(mica, end = as.Date("1900-04-05")),
+      get_custom_effort(x, end = as.Date("1900-04-05")),
       paste0(
         "`end` value is set too early. ",
         "`end` value must be not earlier than the start of the ",
@@ -81,8 +93,10 @@ test_that(
   })
 
 test_that("get_custom_effort returns error for invalid effort units", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_error(
-    get_custom_effort(mica, unit = "second"),
+    get_custom_effort(x, unit = "second"),
     paste0(
       "Invalid value for unit parameter: second.\n",
       "Valid inputs are: hour and day"
@@ -90,7 +104,7 @@ test_that("get_custom_effort returns error for invalid effort units", {
     fixed = TRUE
   )
   expect_error(
-    get_custom_effort(mica, unit = "year"),
+    get_custom_effort(x, unit = "year"),
     paste0(
       "Invalid value for unit parameter: year.\n",
       "Valid inputs are: hour and day"
@@ -100,8 +114,10 @@ test_that("get_custom_effort returns error for invalid effort units", {
 })
 
 test_that("get_custom_effort returns warning if start set too early", {
+  skip_if_offline()
+  x <- example_dataset()
   start_too_early <- evaluate_promise(
-    get_custom_effort(mica,
+    get_custom_effort(x,
       start = as.Date("1900-01-01"),
       group_by = "day"
     )
@@ -116,13 +132,15 @@ test_that("get_custom_effort returns warning if start set too early", {
   )
   expect_identical(
     start_too_early$result$begin[1],
-    lubridate::as_date(min(deployments(mica)$start))
+    lubridate::as_date(min(deployments(x)$start))
   )
 })
 
 test_that("get_custom_effort returns warning if end set too late", {
+  skip_if_offline()
+  x <- example_dataset()
   end_too_late <- evaluate_promise(
-    get_custom_effort(mica,
+    get_custom_effort(x,
       end = as.Date("2100-01-01"),
       group_by = "day"
     )
@@ -136,43 +154,45 @@ test_that("get_custom_effort returns warning if end set too late", {
   )
   expect_identical(
     end_too_late$result$begin[nrow(end_too_late$result)],
-    lubridate::as_date(max(deployments(mica)$end))
+    lubridate::as_date(max(deployments(x)$end))
   )
 })
 
 
 test_that("right columns, cols types, right relative number of rows", {
+  skip_if_offline()
+  x <- example_dataset()
   # Right cols and col types: no groups
-  tot_effort <- get_custom_effort(mica)
+  tot_effort <- get_custom_effort(x)
   expect_named(tot_effort, expected = c("begin", "effort", "unit"))
   expect_s3_class(tot_effort$begin, "Date")
   expect_type(tot_effort$effort, "double")
   expect_type(tot_effort$unit, "character")
 
   # Right cols and col types: group by year
-  effort_by_year <- get_custom_effort(mica, group_by = "year")
+  effort_by_year <- get_custom_effort(x, group_by = "year")
   expect_true(
     all(colnames(effort_by_year) == c("begin", "effort", "unit"))
   )
 
   # Right cols and col types: group by month
-  effort_by_month <- get_custom_effort(mica, group_by = "month")
+  effort_by_month <- get_custom_effort(x, group_by = "month")
   expect_named(effort_by_month, expected = c("begin", "effort", "unit"))
 
   # Right cols and col types: group by week
-  effort_by_week <- get_custom_effort(mica, group_by = "week")
+  effort_by_week <- get_custom_effort(x, group_by = "week")
   expect_named(effort_by_week, expected = c("begin", "effort", "unit"))
 
   # Right cols and col types: group by day
-  effort_by_day <- get_custom_effort(mica, group_by = "day")
+  effort_by_day <- get_custom_effort(x, group_by = "day")
   expect_named(effort_by_day, expected = c("begin", "effort", "unit"))
 
   # Number of rows is equal to 1 if group_by is NULL
   expect_identical(nrow(tot_effort), 1L)
 
   # Number of rows with grouping by year is equal to number of calendar years
-  first_day <- min(deployments(mica)$start)
-  last_day <- max(deployments(mica)$end)
+  first_day <- min(deployments(x)$start)
+  last_day <- max(deployments(x)$end)
   n_years <- length(seq(
     lubridate::floor_date(first_day, unit = "years"),
     lubridate::floor_date(last_day, unit = "years"),
@@ -204,21 +224,21 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_gte(nrow(effort_by_month), nrow(effort_by_year))
 
   # Number of rows with start not NULL is lower than with start = NULL
-  set_start <- get_custom_effort(mica,
+  set_start <- get_custom_effort(x,
     start = as.Date("2020-08-01"),
     group_by = "month"
   )
   expect_lt(nrow(set_start), nrow(effort_by_month))
 
   # Number of rows with end not NULL is lower than with end = NULL
-  set_end <- get_custom_effort(mica,
+  set_end <- get_custom_effort(x,
     end = as.Date("2021-01-01"),
     group_by = "month"
   )
   expect_lt(nrow(set_end), nrow(effort_by_month))
 
   # Number of rows with both specific start and end is the lowest
-  set_start_end <- get_custom_effort(mica,
+  set_start_end <- get_custom_effort(x,
     start = as.Date("2020-08-01"),
     end = as.Date("2021-01-01"),
     group_by = "month"
@@ -228,18 +248,20 @@ test_that("right columns, cols types, right relative number of rows", {
 })
 
 test_that("check effort and unit values", {
-  tot_effort <- get_custom_effort(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  tot_effort <- get_custom_effort(x)
   # Filtering deployments reduces effort value
   filter_deploys <- suppressMessages(
     get_custom_effort(
-      filter_deployments(mica, latitude >= 51.18),
+      filter_deployments(x, latitude >= 51.18),
       group_by = "year"
     )
   )
   expect_lt(filter_deploys$effort, tot_effort$effort)
 
   # Effort in hours is higher than effort in days
-  tot_effort_days <- get_custom_effort(mica, unit = "day")
+  tot_effort_days <- get_custom_effort(x, unit = "day")
   expect_gt(tot_effort$effort, tot_effort_days$effort)
 
   # Unit value is equal to hour if default unit value is used
@@ -249,10 +271,12 @@ test_that("check effort and unit values", {
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_custom_effort(datapkg = mica)
+      get_custom_effort(datapkg = x)
     ),
     "The `datapkg` argument of `get_custom_effort()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE

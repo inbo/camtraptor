@@ -4,10 +4,10 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(package, unit = "hour")
+get_effort(x, unit = "hour")
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{unit}{Time unit to use while returning deployment effort (duration).
@@ -36,11 +36,13 @@ package).
 Gets the effort (deployment duration) per deployment.
 }
 \examples{
+x <- example_dataset()
+
 # Efforts expressed in hours
-get_effort(mica)
+get_effort(x)
 
 # Effort expressed as days
-get_effort(mica, unit = "day")
+get_effort(x, unit = "day")
 }
 \seealso{
 Other exploration functions: 

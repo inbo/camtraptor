@@ -1,6 +1,8 @@
 test_that("get_effort returns error for invalid effort units", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_error(
-    get_effort(mica, unit = "bad_unit"),
+    get_effort(x, unit = "bad_unit"),
     paste0(
       "Invalid value for unit parameter: bad_unit.\n",
       "Valid inputs are: second, minute, hour, day, month and year"
@@ -8,7 +10,7 @@ test_that("get_effort returns error for invalid effort units", {
     fixed = TRUE
   )
   expect_error(
-    get_effort(mica, unit = NULL),
+    get_effort(x, unit = NULL),
     paste0(
       "Invalid value for unit parameter: NULL.\n",
       "Valid inputs are: second, minute, hour, day, month and year"
@@ -18,18 +20,24 @@ test_that("get_effort returns error for invalid effort units", {
 })
 
 test_that("get_effort returns error for invalid datapackage", {
-  expect_error(get_effort(deployments(mica)))
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(get_effort(deployments(x)))
 })
 
 
 test_that("values in column unit are all the same", {
-  effort_df <- get_effort(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  effort_df <- get_effort(x)
   distinct_efffort_unit_values <- unique(effort_df$unit)
   expect_equal(length(distinct_efffort_unit_values), 1)
 })
 
 test_that("column effort_duration is of class 'Duration'", {
-  effort_df <- get_effort(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  effort_df <- get_effort(x)
   expect_equal(class(effort_df$effort_duration)[1], "Duration")
   expect_equal(
     attr(class(effort_df$effort_duration), which = "package"),
@@ -38,9 +46,11 @@ test_that("column effort_duration is of class 'Duration'", {
 })
 
 test_that("column unit is always equal to argument unit", {
+  skip_if_offline()
+  x <- example_dataset()
   unit_to_test <- c("second", "minute", "hour", "day", "month", "year")
   for (chosen_unit in unit_to_test) {
-    effort_df <- get_effort(mica, unit = chosen_unit)
+    effort_df <- get_effort(x, unit = chosen_unit)
     efffort_unit_value <- unique(effort_df$unit)
     expect_equal(efffort_unit_value, chosen_unit)
   }
@@ -48,7 +58,9 @@ test_that("column unit is always equal to argument unit", {
 
 
 test_that("get_effort returns the right dataframe", {
-  effort_df <- get_effort(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  effort_df <- get_effort(x)
 
   # type list
   expect_type(effort_df, "list")
@@ -73,8 +85,10 @@ test_that("get_effort returns the right dataframe", {
 
 
 test_that("get_effort returns the right number of rows", {
-  effort_df <- get_effort(mica)
-  all_deployments <- unique(deployments(mica)$deploymentID)
+  skip_if_offline()
+  x <- example_dataset()
+  effort_df <- get_effort(x)
+  all_deployments <- unique(deployments(x)$deploymentID)
   n_all_deployments <- length(all_deployments)
 
   # number of rows should be equal to number of deployments
@@ -85,10 +99,12 @@ test_that("get_effort returns the right number of rows", {
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_effort(datapkg = mica)
+      get_effort(datapkg = x)
     ),
     "The `datapkg` argument of `get_effort()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE

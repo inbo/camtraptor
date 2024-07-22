@@ -7,8 +7,9 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
 - The deprecated argument `datapkg` in `read_camtrap_dp()` is removed.
 - `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).
-- `example_dataset()` allows to create an example dataset in Camtrap DP 1.0 format. It reexports the functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp/reference/example_dataset.html). The internal dataset `mica` is not present anymore.
+- `example_dataset()` allows to create an example dataset in Camtrap DP 1.0 format. It reexports the functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp/reference/example_dataset.html). The internal dataset `mica` is not present anymore. Raw data files in `inst/extdata` are also removed.
 - Functions `deployments()`, `observations()` and `media()` allow to extract the respective tables (#317). They reexports the functionality from camtrapdp, e.g. see [`camtrapdp::deployments()`](https://inbo.github.io/camtrapdp/reference/deployments.html).
+- The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 
 # camtraptor 0.25.0
 

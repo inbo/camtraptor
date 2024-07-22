@@ -9,18 +9,20 @@
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Get number of species
-#' get_n_species(mica)
-get_n_species <- function(package) {
+#' get_n_species(x)
+get_n_species <- function(x) {
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # Extract observations and deployments
-  observations <- observations(package)
-  deployments <- deployments(package)
+  observations <- observations(x)
+  deployments <- deployments(x)
 
   # Get deployments without observations
-  deployments_no_obs <- get_dep_no_obs(package)
+  deployments_no_obs <- get_dep_no_obs(x)
 
   # Get species detected by each deployment
   species <-

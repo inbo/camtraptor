@@ -4,10 +4,10 @@
 \alias{get_scientific_name}
 \title{Get scientific name for vernacular name}
 \usage{
-get_scientific_name(package, vernacular_name)
+get_scientific_name(x, vernacular_name)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
+\item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{vernacular_name}{Character vector with input vernacular name(s).}
@@ -17,27 +17,29 @@ Character vector of scientific name(s).
 }
 \description{
 Gets the scientific name for one or more vernacular names based on the
-taxonomic information found in the metadata (\code{package$taxonomic}).
+taxonomic information found in the metadata (\code{x$taxonomic}).
 The match is performed case insensitively.
 If a vernacular name is not valid, an error is returned
 }
 \examples{
+x <- example_dataset()
+
 # One or more vernacular names
-get_scientific_name(mica, "beech marten")
-get_scientific_name(mica, c("beech marten", "mallard"))
+get_scientific_name(x, "beech marten")
+get_scientific_name(x, c("beech marten", "mallard"))
 
 # Vernacular names can be passed in different languages
-get_scientific_name(mica, c("beech marten", "wilde eend"))
+get_scientific_name(x, c("beech marten", "wilde eend"))
 
 # Search is performed case insensitively
-get_scientific_name(mica, c("MaLLarD"))
+get_scientific_name(x, c("MaLLarD"))
 
 \dontrun{
 # An error is returned if at least one invalid vernacular name is passed
-get_scientfic_name(mica, "this is a bad vernacular name")
+get_scientfic_name(x, "this is a bad vernacular name")
 
 # A scientific name is an invalid vernacular name of course
-get_scientific_name(mica, c("Castor fiber", "wilde eend"))
+get_scientific_name(x, c("Castor fiber", "wilde eend"))
 }
 }
 \seealso{

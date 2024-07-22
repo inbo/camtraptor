@@ -1,5 +1,7 @@
 test_that("get_n_species returns the right dataframe", {
-  output_get_n_species <- get_n_species(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  output_get_n_species <- get_n_species(x)
 
   # type list
   expect_type(output_get_n_species, "list")
@@ -21,9 +23,11 @@ test_that("get_n_species returns the right dataframe", {
 })
 
 test_that("get_n_species returns 0 for obs without recognized species", {
+  skip_if_offline()
+  x <- example_dataset()
   # create data package with one deployment with 0 obs and one delpoyment with
   # observations of unknown species
-  unknown_species <- mica
+  unknown_species <- x
   unknown_species$data$observations <- 
     observations(unknown_species) %>% 
     # a deployment has detected only unknown species
@@ -34,9 +38,11 @@ test_that("get_n_species returns 0 for obs without recognized species", {
 })
 
 test_that("get_n_species returns NA for deployments without observations", {
+  skip_if_offline()
+  x <- example_dataset()
   # create data package with one deployment with 0 obs and one delpoyment with
   # observations of unknown species
-  no_obs <- mica
+  no_obs <- x
   obs <- observations(no_obs)
   dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   obs <- obs[obs$deploymentID != dep_no_obs,]
@@ -46,10 +52,12 @@ test_that("get_n_species returns NA for deployments without observations", {
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_n_species(datapkg = mica)
+      get_n_species(datapkg = x)
     ),
     "The `datapkg` argument of `get_n_species()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE

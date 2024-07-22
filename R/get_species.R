@@ -2,20 +2,21 @@
 #'
 #' Gets all identified species.
 #'
-#' @param package Camera trap data package object, as returned by
+#' @param x Camera trap data package object, as returned by
 #'   [camtrapdp::read_camtrapdp()].
 #' @return A tibble data frame with all scientific names and vernacular names of
 #'   the identified species.
 #' @family exploration functions
 #' @export
 #' @examples
-#' get_species(mica)
-get_species <- function(package) {
-  # Get taxonomic information from package metadata
-  if (!"taxonomic" %in% names(package)) {
+#' x <- example_dataset()
+#' get_species(x)
+get_species <- function(x) {
+  # Get taxonomic information from metadata
+  if (!"taxonomic" %in% names(x)) {
     return(NULL)
   } else {
-    taxonomy <- package$taxonomic
+    taxonomy <- x$taxonomic
     if ("vernacularNames" %in% names(taxonomy[[1]])) {
       # Get all languages used in vernacularNames
       langs <- purrr::map(taxonomy, function(x) {

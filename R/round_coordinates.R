@@ -5,10 +5,10 @@
 #' This function can be used before publishing data in order to protect
 #' sensitive species and/or prevent theft of active cameras.
 #'
-#' @param package A Camtrap DP, as read by [camtrapdp::read_camtrapdp()].
+#' @param x A Camtrap DP, as read by [camtrapdp::read_camtrapdp()].
 #' @param digits Number of decimal places to round coordinates to (`1`, `2` or
 #'   `3`).
-#' @return `package` with rounded coordinates as well as updated
+#' @return `x` with rounded coordinates as well as updated
 #'   `coordinateUncertainty`.(in deployments) and `coordinatePrecision` (in
 #'   metadata).
 #' @family publication functions
@@ -36,24 +36,26 @@
 #' [Table 3](https://doi.org/10.15468/doc-gg7h-s853#table-uncertainty) in
 #' Chapman & Wieczorek 2020).
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Round coordinates of example package to 3 digits
-#' mica <- round_coordinates(mica, 3)
+#' x <- round_coordinates(x, 3)
 #'
 #' # coordinatePrecision is set in metadata
-#' mica$coordinatePrecision
+#' x$coordinatePrecision
 #'
 #' # coordinateUncertainty is set in data: original uncertainty (or 30) + 157 m
-#' deployments(mica)$coordinateUncertainty
-round_coordinates <- function(package, digits = 3) {
+#' deployments(x)$coordinateUncertainty
+round_coordinates <- function(x, digits = 3) {
   assertthat::assert_that(
     digits %in% c(1, 2, 3),
     msg = "`digits` must be 1, 2 or 3."
   )
 
-  deployments <- deployments(package)
+  deployments <- deployments(x)
 
   # Detect original number of digits from coordinatePrecision or data
-  original_precision <- package$coordinatePrecision
+  original_precision <- x$coordinatePrecision
   if (!is.null(original_precision)) {
     original_digits <- -log10(original_precision) # 0.001 -> 3
     assertthat::assert_that(
@@ -61,7 +63,7 @@ round_coordinates <- function(package, digits = 3) {
       msg = glue::glue(
         "Can't round from {original_digits} to {digits} digits. ",
         "`{original_digits}` is derived from the ",
-        "`package$coordinatePrecision={original_precision}`."
+        "`x$coordinatePrecision={original_precision}`."
       )
     )
   } else {
@@ -86,7 +88,7 @@ round_coordinates <- function(package, digits = 3) {
   uncertainty <- c(15691, 1570, 157) # In order for 1, 2, 3, digits
 
   # Update longitude, latitude and coordinateUncertainty
-  deployments(package) <-
+  deployments(x) <-
     dplyr::mutate(deployments,
       longitude = round(.data$longitude, digits),
       latitude = round(.data$latitude, digits),
@@ -101,7 +103,7 @@ round_coordinates <- function(package, digits = 3) {
     )
 
   # Update coordinatePrecision
-  package$coordinatePrecision <- 1 / 10^digits
+  x$coordinatePrecision <- 1 / 10^digits
 
-  package
+  x
 }

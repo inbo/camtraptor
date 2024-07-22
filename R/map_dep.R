@@ -110,27 +110,27 @@
 #' x <- example_dataset()
 #' 
 #' # Show number of species
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_species"
 #' )
 #'
 #' # Show number of observations (observations of unidentified species included
 #' # if any)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs"
 #' )
 #'
 #' # Show number of observations of Anas platyrhynchos
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   species = "Anas platyrhynchos"
 #' )
 #'
 #' # Show number of observations of subadult individuals of Anas strepera
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   species = "Anas strepera",
@@ -138,7 +138,7 @@
 #' )
 #'
 #' # Show number of observations of female or unknown individuals of gadwall
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   species = "gadwall",
@@ -147,13 +147,13 @@
 #'
 #' # Show number of individuals (individuals of unidentified species included if
 #' # any)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_individuals"
 #' )
 #'
 #' # Same filters by life stage and sex as for number of observations apply
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_individuals",
 #'   species = "Anas strepera",
@@ -162,14 +162,14 @@
 #' )
 #'
 #' # Show RAI
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "rai",
 #'   species = "Anas strepera"
 #' )
 #'
 #' # Same filters by life_stage and sex as for number of observations apply
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "rai",
 #'   species = "Anas strepera",
@@ -178,14 +178,14 @@
 #' )
 #'
 #' # Show RAI calculated by using number of detected individuals
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "rai_individuals",
 #'   species = "Anas strepera"
 #' )
 #'
 #' # Same filters by life stage and sex as for basic RAI apply
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "rai_individuals",
 #'   species = "Anas strepera",
@@ -194,47 +194,47 @@
 #' )
 #'
 #' # Show effort (hours)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "effort"
 #' )
 #' # Show effort (days)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "effort",
 #'   effort_unit = "day"
 #' )
 #'
 #' # Use viridis palette (viridis palettes)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   palette = "viridis"
 #' )
 #'
 #' # Use "BuPu" colour palette (RColorBrewer palettes)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   palette = "BuPu"
 #' )
 #'
 #' # Use a palette defined by colour names
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   palette = c("black", "blue", "white")
 #' )
 #'
 #' # Use a palette defined by hex colours
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   palette = c("#000000", "#0000FF", "#FFFFFF")
 #' )
 #'
 #' # Do not show deployments with zero values
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
@@ -243,7 +243,7 @@
 #'
 #' # Use same icon but but a non default colour for zero values deployments,
 #' # E.g. red (hex: E74C3C)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
@@ -251,7 +251,7 @@
 #' )
 #'
 #' # ... or yellow (F1C40F)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
@@ -260,7 +260,7 @@
 #'
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' # in green (2ECC71)
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
@@ -277,7 +277,7 @@
 #'   # A deployment has no observations
 #'   filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
 #' # create new map
-#' map_dep(
+#' map_deployments(
 #'   unknown_species_vs_no_obs,
 #'   feature = "n_species",
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png",
@@ -287,7 +287,7 @@
 #' )
 #'
 #' # Set size of the icon for zero values deployments
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
@@ -295,28 +295,28 @@
 #' )
 #'
 #' # Disable cluster
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_species",
 #'   cluster = FALSE
 #' )
 #'
 #' # Show only number of observations and location name while hovering
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   hover_columns = c("locationName", "n")
 #' )
 #'
 #' # Use absolute scale for colours and radius
-#' map_dep(x,
+#' map_deployments(x,
 #'   "n_species",
 #'   relative_scale = FALSE,
 #'   max_scale = 4
 #' )
 #'
 #' # Change max and min size circles
-#' map_dep(
+#' map_deployments(
 #'   x,
 #'   "n_obs",
 #'   radius_range = c(40, 150)

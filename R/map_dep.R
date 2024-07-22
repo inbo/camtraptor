@@ -322,7 +322,7 @@
 #'   radius_range = c(40, 150)
 #' )
 #' }
-map_dep <- function(x,
+map_deployments <- function(x,
                     feature,
                     species = NULL,
                     sex = NULL,

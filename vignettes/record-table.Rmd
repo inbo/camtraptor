@@ -82,17 +82,21 @@ Again, as for `recordTable()`, we provide an argument, `deltaTimeComparedTo`, to
 ```{r example_lastRecord}
 x_dependent <- x
 x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
-camtrapR_recordTable(x_dependent, 
-                 minDeltaTime = 10, 
-                 deltaTimeComparedTo = "lastRecord")
+camtrapR_recordTable(
+  x_dependent, 
+  minDeltaTime = 10, 
+  deltaTimeComparedTo = "lastRecord"
+)
 ```
 
 Setting `deltaTimeComparedTo` to `“lastIndependentRecord”` returns only records taken `minDeltaTime` minutes after the last independent record, i.e. `minDeltaTime` minutes after `timestamp` of the last observation. Example with  `minDeltaTime = 60` (1 hour):
 
 ```{r example_lastIndependentRecord}
-camtrapR_recordTable(x_dependent, 
-                 minDeltaTime = 10, 
-                 deltaTimeComparedTo = "lastIndependentRecord")
+camtrapR_recordTable(
+  x_dependent, 
+  minDeltaTime = 10, 
+  deltaTimeComparedTo = "lastIndependentRecord"
+)
 ```
 
 ### Exclude some species

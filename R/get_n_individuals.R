@@ -46,28 +46,19 @@
 #' get_n_individuals(x, species = "AnAS PLatyrhyncHOS")
 #' get_n_individuals(x, species = "eurasian BEAVER")
 #'
-#' # Specify life stage
-#' get_n_individuals(x, life_stage = "adult")
+#' # Use `filter_observations()` to filter on life stage
+#' x %>%
+#'   filter_observations(lifeStage == "adult") %>%
+#'   get_n_individuals()
 #'
-#' # Specify sex
-#' get_n_individuals(x, sex = "female")
-#'
-#' # Specify both sex and life stage
-#' get_n_individuals(x, sex = "unknown", life_stage = "adult")
-get_n_individuals <- function(x,
-                              species = "all",
-                              sex = NULL,
-                              life_stage = NULL) {
+#' # Use `filter_observations()` to filter on sex
+#' x %>%
+#'   filter_observations(sex == "female") %>%
+#'   get_n_individuals()
+get_n_individuals <- function(x, species = "all") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Avoid to call variables like column names to make life easier using filter()
-  sex_value <- sex
-
-  # Check sex and life stage values
-  check_value(sex_value, unique(observations(x)$sex), "sex")
-  check_value(life_stage, unique(observations(x)$lifeStage), "life_stage")
-
   # Get observations of the selected species
   if (!is.null(species)) {
     # If species == all retrieve all detected species
@@ -89,29 +80,15 @@ get_n_individuals <- function(x,
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
 
-  # get observations of the specified sex
-  if (!is.null(sex)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(.data$sex %in% sex_value)
-  }
-
-  # get observations of the specified life stage
-  if (!is.null(life_stage)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(.data$lifeStage %in% life_stage)
-  }
-
-  # extract observations and deployments
+  # Extract observations and deployments
   observations <- observations(x)
   deployments <- deployments(x)
 
-  deploymentID <- deployments$deploymentID
+  deploymentID <- purrr::pluck(deployments, "deploymentID")
 
   deployments_no_obs <- get_dep_no_obs(x)
 
-  # get number of individuals collected by each deployment for each species
+  # Get number of individuals collected by each deployment for each species
   n_individuals <-
     observations %>%
     dplyr::group_by(
@@ -121,11 +98,11 @@ get_n_individuals <- function(x,
     dplyr::summarise(n = sum(.data$count)) %>%
     dplyr::ungroup()
 
-  # get all combinations deployments - scientific name
+  # Get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(
-      deployments$deploymentID,
-      unique(c(observations$scientificName, species))
+      deploymentID,
+      unique(c(purrr::pluck(observations, "scientificName"), species))
     ) %>%
     dplyr::rename(
       deploymentID = "Var1",

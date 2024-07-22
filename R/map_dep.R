@@ -343,7 +343,7 @@ map_dep <- function(x,
                     radius_range = c(10, 50)) {
 
   # Check camera trap data package
-  camtrapdp::check_camtrapdp(package)
+  camtrapdp::check_camtrapdp(x)
   
   # Define possible feature values
   features <- c(
@@ -483,8 +483,8 @@ map_dep <- function(x,
   }
   
   # Extract observations and deployments
-  observations <- observations(package)
-  deployments <- deployments(package)
+  observations <- observations(x)
+  deployments <- deployments(x)
 
   # Get average lat lon for empty map without deployments
   avg_lat <- mean(deployments$latitude, na.rm = TRUE)
@@ -564,23 +564,23 @@ map_dep <- function(x,
 
   # Calculate and get feature values
   if (feature == "n_species") {
-    feat_df <- get_n_species(package)
+    feat_df <- get_n_species(x)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(package, species = species, sex = sex, life_stage = life_stage)
+    feat_df <- get_n_obs(x, species = species, sex = sex, life_stage = life_stage)
   } else if (feature == "n_individuals") {
     feat_df <- get_n_individuals(
-      package,
+      x,
       species = species,
       sex = sex,
       life_stage = life_stage,
       ...
     )
   } else if (feature == "rai") {
-    feat_df <- get_rai(package, species = species, sex = sex, life_stage = life_stage)
+    feat_df <- get_rai(x, species = species, sex = sex, life_stage = life_stage)
     feat_df <- feat_df %>% dplyr::rename(n = "rai")
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(
-      package,
+      x,
       species = species,
       sex = sex,
       life_stage = life_stage
@@ -590,7 +590,7 @@ map_dep <- function(x,
     if (is.null(effort_unit)) {
       effort_unit <- "hour" # Default value of get_effort()
     }
-    feat_df <- get_effort(package, unit = effort_unit)
+    feat_df <- get_effort(x, unit = effort_unit)
     feat_df <- feat_df %>% dplyr::rename(n = "effort")
   }
 

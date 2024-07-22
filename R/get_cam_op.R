@@ -35,10 +35,10 @@
 #' library(dplyr)
 #' 
 #' x <- example_dataset()
-#' get_cam_op(x)
+#' camtrapR_cameraOperation(x)
 #'
 #' # Specify column with station names
-#' get_cam_op(x, station_col = "locationID")
+#' camtrapR_cameraOperation(x, station_col = "locationID")
 #'
 #' # Specify column with session IDs
 #' x_sessions <- x
@@ -49,19 +49,19 @@
 #'       "before2020"
 #'   )
 #' )
-#' get_cam_op(x_sessions, session_col = "session")
+#' camtrapR_cameraOperation(x_sessions, session_col = "session")
 #'
 #' # Specify column with camera IDs
 #' x_cameras <- x_sessions
 #' x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-#' get_cam_op(x_cameras, camera_col = "cameraID")
+#' camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
 #'
 #' # Specify both session and camera IDs
-#' get_cam_op(x_cameras, camera_col = "cameraID", session_col = "session")
+#' camtrapR_cameraOperation(x_cameras, camera_col = "cameraID", session_col = "session")
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
-#' get_cam_op(x, use_prefix = TRUE)
-get_cam_op <- function(x,
+#' camtrapR_cameraOperation(x, use_prefix = TRUE)
+camtrapR_cameraOperation <- function(x,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,

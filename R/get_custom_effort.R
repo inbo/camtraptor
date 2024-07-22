@@ -2,7 +2,7 @@
 #'
 #' Gets the custom effort (deployment duration) for a custom time window and a
 #' specific time interval such as day, week, month or year. The custom effort is
-#' also calculated over all deployments. This function calls `get_cam_op()`
+#' also calculated over all deployments. This function calls `camtrapR_cameraOperation()`
 #' internally.
 #'
 #' @param start Start date. Default: `NULL`. If `NULL` the earliest start date
@@ -95,7 +95,7 @@ get_custom_effort <- function(x,
   deployments <- deployments(x)
 
   # Camera operation matrix with filter(s) on deployments
-  cam_op <- get_cam_op(x, station_col = "deploymentID")
+  cam_op <- camtrapR_cameraOperation(x, station_col = "deploymentID")
 
   # Sum effort over all deployments for each day  (in day units)
   sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)

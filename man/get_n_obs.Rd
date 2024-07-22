@@ -69,15 +69,15 @@ get_n_obs(x, sex = "unknown", life_stage = "adult")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_cam_op}()},
+\code{\link{camtrapR_cameraOperation}()},
+\code{\link{camtrapR_recordTable}()},
 \code{\link{get_custom_effort}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
-\code{\link{get_n_species}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
 \code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_species}()},
+\code{\link{n_species}()}
 }
 \concept{exploration functions}

@@ -45,7 +45,7 @@ A tibble data frame with following columns:
 \description{
 Gets the custom effort (deployment duration) for a custom time window and a
 specific time interval such as day, week, month or year. The custom effort is
-also calculated over all deployments. This function calls \code{get_cam_op()}
+also calculated over all deployments. This function calls \code{camtrapR_cameraOperation()}
 internally.
 }
 \examples{
@@ -79,15 +79,15 @@ get_custom_effort(x, group_by = "year")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_cam_op}()},
+\code{\link{camtrapR_cameraOperation}()},
+\code{\link{camtrapR_recordTable}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
 \code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_species}()},
+\code{\link{n_species}()}
 }
 \concept{exploration functions}

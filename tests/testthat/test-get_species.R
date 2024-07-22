@@ -1,25 +1,29 @@
 test_that("right (number of) species", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_identical(
-    get_species(mica),
+    get_species(x),
     dplyr::tibble(
-      taxonID = purrr::map_chr(mica$taxonomic, ~ .[["taxonID"]]),
+      taxonID = purrr::map_chr(x$taxonomic, ~ .[["taxonID"]]),
       taxonIDReference = purrr::map_chr(
-        mica$taxonomic, ~ .[["taxonIDReference"]]
+        x$taxonomic, ~ .[["taxonIDReference"]]
       ),
       scientificName = purrr::map_chr(
-        mica$taxonomic, ~ .[["scientificName"]]
+        x$taxonomic, ~ .[["scientificName"]]
       ),
       vernacularNames.en = purrr::map_chr(
-        mica$taxonomic, ~ .[["vernacularNames"]][["en"]]
+        x$taxonomic, ~ .[["vernacularNames"]][["en"]]
       ),
       vernacularNames.nl = purrr::map_chr(
-        mica$taxonomic, ~ .[["vernacularNames"]][["nl"]]
+        x$taxonomic, ~ .[["vernacularNames"]][["nl"]]
       )
     )
   )
 })
 
 test_that("function works fine with missing vernacular name slots", {
+  skip_if_offline()
+  x <- example_dataset()
   taxonomy <- list(
     list(
       scientificName = "Martes foina",
@@ -33,11 +37,11 @@ test_that("function works fine with missing vernacular name slots", {
     # missing vernacular names
     list(scientificName = "Anas strepera", vernacularNames = list())
   )
-  mica_modified <- mica
-  mica_modified$taxonomic <- taxonomy
-  species_df <- get_species(mica_modified)
+  x_modified <- x
+  x_modified$taxonomic <- taxonomy
+  species_df <- get_species(x_modified)
   # number of rows = number of species
-  expect_equal(nrow(species_df), length(mica_modified$taxonomic))
+  expect_equal(nrow(species_df), length(x_modified$taxonomic))
   # number of columns = number of slots of species list + vernacular names - 1
   expect_equal(
     ncol(species_df),
@@ -73,10 +77,12 @@ test_that("function works fine with missing vernacular name slots", {
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_species(datapkg = mica)
+      get_species(datapkg = x)
     ),
     "The `datapkg` argument of `get_species()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE

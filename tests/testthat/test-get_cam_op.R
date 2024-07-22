@@ -1,65 +1,67 @@
 test_that("input camtrap dp is checked properly", {
-  # character instead of datapackage
+  skip_if_offline()
+  x <- example_dataset()
+  # Character instead of datapackage
   expect_error(get_cam_op("aaa"))
-  # numeric instead of datapackage
+  # Numeric instead of datapackage
   expect_error(get_cam_op(1))
-  # station_col is not NA
+  # Station_col is not NA
   expect_error(
-    get_cam_op(mica, station_col = NA),
+    get_cam_op(x, station_col = NA),
     "station_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # station_col is length 1
+  # Station_col is length 1
   expect_error(
-    get_cam_op(mica, station_col = c("locationID","locationName")),
+    get_cam_op(x, station_col = c("locationID","locationName")),
     "station_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # station_col value is not a column of deployments
+  # Station_col value is not a column of deployments
   expect_error(
-    get_cam_op(mica, station_col = "bla"),
+    get_cam_op(x, station_col = "bla"),
     paste0(
       "Station column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
     ),
     fixed = TRUE
   )
-  # column specified by station_col contains empty values
-  mica_empty_location_name <- mica
-  mica_empty_location_name$data$deployments$locationName[2:3] <- NA
-  expect_error(get_cam_op(mica_empty_location_name),
+  # Column specified by station_col contains empty values
+  x_empty_location_name <- x
+  x_empty_location_name$data$deployments$locationName[2:3] <- NA
+  expect_error(get_cam_op(x_empty_location_name),
                "Column `locationName` must be non-empty: 2 NAs found."
   )
-  # camera_col is not NA
+  # Camera_col is not NA
   expect_error(
-    get_cam_op(mica, camera_col = NA),
+    get_cam_op(x, camera_col = NA),
     "camera_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # camera_col is length 1
+  # Camera_col is length 1
   expect_error(
-    get_cam_op(mica, camera_col = c("locationID","locationName")),
+    get_cam_op(x, camera_col = c("locationID","locationName")),
     "camera_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # station_col value is not a column of deployments
+  # Station_col value is not a column of deployments
   expect_error(
-    get_cam_op(mica, camera_col = "bla"),
+    get_cam_op(x, camera_col = "bla"),
     paste0(
       "Camera column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
     ),
     fixed = TRUE
   )
-  # session_col is not NA
+  # Session_col is not NA
   expect_error(
-    get_cam_op(mica, session_col = NA),
+    get_cam_op(x, session_col = NA),
     "session_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # session_col is length 1
+  # Session_col is length 1
   expect_error(
-    get_cam_op(mica, session_col = c("locationID","locationName")),
+    get_cam_op(x, session_col = c("locationID","locationName")),
     "session_col is not a string (a length one character vector).",
     fixed = TRUE)
-  # session_col value is not a column of deployments
+  # Session_col value is not a column of deployments
   expect_error(
-    get_cam_op(mica, session_col = "bla"),
+    get_cam_op(x, session_col = "bla"),
     paste0(
       "Session column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
@@ -67,73 +69,83 @@ test_that("input camtrap dp is checked properly", {
     fixed = TRUE
   )
   # use_prefix must be TRUE or FALSE
-  expect_error(get_cam_op(mica, use_prefix = "bla"))
-  expect_error(get_cam_op(mica, use_prefix = NA))
+  expect_error(get_cam_op(x, use_prefix = "bla"))
+  expect_error(get_cam_op(x, use_prefix = NA))
 })
 
 test_that("output is a matrix", {
-  cam_op_matrix <- get_cam_op(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x)
   expect_true(is.matrix(cam_op_matrix))
 })
 
 test_that("output matrix has locations as rownames", {
-  cam_op_matrix <- get_cam_op(mica)
-  locations <- deployments(mica)$locationName
-  n_locations <- length(deployments(mica)$locationName)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x)
+  locations <- deployments(x)$locationName
+  n_locations <- length(deployments(x)$locationName)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has sessions addded to locations as rownames", {
-  mica_sessions <- mica
-  mica_sessions$data$deployments <- deployments(mica_sessions) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  x_sessions <- x
+  x_sessions$data$deployments <- deployments(x_sessions) %>%
     dplyr::mutate(session = ifelse(
       stringr::str_starts(.data$locationName, "B_DL_"),
       "after2020",
       "before2020"
    )
   )
-  cam_op_matrix <- get_cam_op(mica_sessions, session_col = "session")
-  locations_sessions <- paste(deployments(mica_sessions)$locationName,
-                              deployments(mica_sessions)$session,
+  cam_op_matrix <- get_cam_op(x_sessions, session_col = "session")
+  locations_sessions <- paste(deployments(x_sessions)$locationName,
+                              deployments(x_sessions)$session,
                               sep = "__SESS_"
   )
-  n_locations <- length(deployments(mica_sessions)$locationName)
+  n_locations <- length(deployments(x_sessions)$locationName)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations_sessions)
 })
 
 test_that("output matrix has camera IDs addded to locations as rownames", {
-  mica_cameras <- mica
-  mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-  cam_op_matrix <- get_cam_op(mica_cameras, camera_col = "cameraID")
-  locations_cameras <- paste(deployments(mica_sessions)$locationName,
-                             deployments(mica_sessions)$cameraID,
+  skip_if_offline()
+  x <- example_dataset()
+  x_cameras <- x
+  x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+  cam_op_matrix <- get_cam_op(x_cameras, camera_col = "cameraID")
+  locations_cameras <- paste(deployments(x_sessions)$locationName,
+                             deployments(x_sessions)$cameraID,
                              sep = "__CAM_"
   )
-  n_locations <- length(deployments(mica_cameras)$locationName)
+  n_locations <- length(deployments(x_cameras)$locationName)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations_cameras)
 })
 
 test_that(
   "output matrix has sessions and cameras addded to locations as rownames", {
-    mica_sess_cam <- mica
-    mica_sess_cam$data$deployments$cameraID <- c(1, 2, 3, 4)
-    mica_sess_cam$data$deployments$session <- c(1, 2, 3, 4)
-    cam_op_matrix <- get_cam_op(mica_sess_cam, 
+    skip_if_offline()
+    x <- example_dataset()
+    x_sess_cam <- x
+    x_sess_cam$data$deployments$cameraID <- c(1, 2, 3, 4)
+    x_sess_cam$data$deployments$session <- c(1, 2, 3, 4)
+    cam_op_matrix <- get_cam_op(x_sess_cam, 
                                 camera_col = "cameraID", 
                                 session_col = "session"
     )
-    locations_sess_cam <- paste(deployments(mica_sess_cam)$locationName,
-                                deployments(mica_sess_cam)$session,
+    locations_sess_cam <- paste(deployments(x_sess_cam)$locationName,
+                                deployments(x_sess_cam)$session,
                                sep = "__SESS_"
     )
     locations_sess_cam <- paste(locations_sess_cam,
-                                deployments(mica_sess_cam)$cameraID,
+                                deployments(x_sess_cam)$cameraID,
                                 sep = "__CAM_"
     )
-    n_locations <- length(deployments(mica_sess_cam)$locationName)
+    n_locations <- length(deployments(x_sess_cam)$locationName)
     expect_identical(nrow(cam_op_matrix), n_locations)
     expect_identical(row.names(cam_op_matrix), locations_sess_cam)
 })
@@ -141,27 +153,29 @@ test_that(
 test_that(
   "__SESS_ is a reserved word not used in station, session and camera columns",
   {
-    mica__sess <- mica
-    mica__sess$data$deployments$session <- c("1__SESS_1")
-    expect_error(get_cam_op(mica__sess, session_col = "session"),
+    skip_if_offline()
+    x <- example_dataset()
+    x_sess <- x
+    x_sess$data$deployments$session <- c("1__SESS_1")
+    expect_error(get_cam_op(x_sess, session_col = "session"),
                  paste0("Session column name (`session`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
-    mica__sess <- mica
-    mica__sess$data$deployments$cameraID <- paste0(c(1,2,3,4), "__SESS_")
-    expect_error(get_cam_op(mica__sess, camera_col = "cameraID"),
+    x_sess <- x
+    x_sess$data$deployments$cameraID <- paste0(c(1,2,3,4), "__SESS_")
+    expect_error(get_cam_op(x_sess, camera_col = "cameraID"),
                  paste0("Camera column name (`cameraID`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
-    mica__sess <- mica
-    mica__sess$data$deployments$locationName[1] <- paste0(
+    x_sess <- x
+    x_sess$data$deployments$locationName[1] <- paste0(
       "__SESS_",
-      deployments(mica__sess)$locationName[1]
+      deployments(x_sess)$locationName[1]
     )
     expect_error(
-      get_cam_op(mica__sess),
+      get_cam_op(x_sess),
       paste0("Station column name (`locationName`) must not contain any ",
              "of the reserved words: \"__SESS_\", \"__CAM_\"."),
       fixed = TRUE
@@ -172,27 +186,29 @@ test_that(
 test_that(
   "__CAM_ is a reserved word not used in station, session and camera columns",
   {
-    mica__cam <- mica
-    mica__cam$data$deployments$session[1] <- c("1__CAM_1")
-    expect_error(get_cam_op(mica__cam, session_col = "session"),
+    skip_if_offline()
+    x <- example_dataset()
+    x_cam <- x
+    x_cam$data$deployments$session[1] <- c("1__CAM_1")
+    expect_error(get_cam_op(x_cam, session_col = "session"),
                  paste0("Session column name (`session`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
-    mica__cam <- mica
-    mica__cam$data$deployments$cameraID <- paste0(c(1,2,3,4), "__CAM_")
-    expect_error(get_cam_op(mica__cam, camera_col = "cameraID"),
+    x_cam <- x
+    x_cam$data$deployments$cameraID <- paste0(c(1,2,3,4), "__CAM_")
+    expect_error(get_cam_op(x_cam, camera_col = "cameraID"),
                  paste0("Camera column name (`cameraID`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
-    mica__cam <- mica
-    mica__cam$data$deployments$locationName[1] <- paste0(
+    x_cam <- x
+    x_cam$data$deployments$locationName[1] <- paste0(
       "__CAM_",
-      deployments(mica__cam)$locationName[1]
+      deployments(x_cam)$locationName[1]
     )
     expect_error(
-      get_cam_op(mica__cam),
+      get_cam_op(x_cam),
       paste0("Station column name (`locationName`) must not contain any ",
              "of the reserved words: \"__SESS_\", \"__CAM_\"."),
       fixed = TRUE
@@ -201,26 +217,32 @@ test_that(
 )
 
 test_that("output matrix has Station prefix in rownames", {
-  cam_op_matrix <- get_cam_op(mica, use_prefix = TRUE)
-  locations <- paste0("Station", deployments(mica)$locationName)
-  n_locations <- length(deployments(mica)$locationName)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x, use_prefix = TRUE)
+  locations <- paste0("Station", deployments(x)$locationName)
+  n_locations <- length(deployments(x)$locationName)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
 
 test_that("output matrix has specified location column as rownames", {
-  cam_op_matrix <- get_cam_op(mica, station_col = "locationID")
-  locations <- deployments(mica)$locationID
-  n_locations <- length(deployments(mica)$locationID)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x, station_col = "locationID")
+  locations <- deployments(x)$locationID
+  n_locations <- length(deployments(x)$locationID)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
 
 
 test_that("output matrix has all deployment days as colnames", {
-  cam_op_matrix <- get_cam_op(mica)
-  days_activity <- seq(as.Date(min(deployments(mica)$start)),
-    as.Date(max(deployments(mica)$end)),
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x)
+  days_activity <- seq(as.Date(min(deployments(x)$start)),
+    as.Date(max(deployments(x)$end)),
     by = "days"
   )
   days_activity <- as.character(days_activity)
@@ -230,12 +252,14 @@ test_that("output matrix has all deployment days as colnames", {
 })
 
 test_that("daily effort is > 0 for fully active days, NA for inactive days", {
-  cam_op_matrix <- get_cam_op(mica)
-  location <- deployments(mica)$locationName[4]
-  deployment_start <- deployments(mica) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x)
+  location <- deployments(x)$locationName[4]
+  deployment_start <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
     dplyr::pull(start)
-  deployment_end <- deployments(mica) %>%
+  deployment_end <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
     dplyr::pull(end)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
@@ -245,7 +269,7 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   cols_activity <- as.character(cols_activity)
 
   cols_inactivity <- seq(as.Date(deployment_end + lubridate::ddays(1)),
-    as.Date(max(deployments(mica)$end)),
+    as.Date(max(deployments(x)$end)),
     by = "days"
   )
   cols_inactivity <- as.character(cols_inactivity)
@@ -254,10 +278,12 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
 })
 
 test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
-  cam_op_matrix <- get_cam_op(mica)
-  location <- deployments(mica)$locationName[4]
-  start <- as.character(as.Date(deployments(mica)$start[4]))
-  end <- as.character(as.Date(deployments(mica)$end[4]))
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op_matrix <- get_cam_op(x)
+  location <- deployments(x)$locationName[4]
+  start <- as.character(as.Date(deployments(x)$start[4]))
+  end <- as.character(as.Date(deployments(x)$end[4]))
   expect_gt(cam_op_matrix[4, start], 0)
   expect_lt(cam_op_matrix[4, start],1)
   expect_gt(cam_op_matrix[4, end], 0)
@@ -267,21 +293,23 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
 test_that(
   "effort is > 1 for locations with multiple deployments active at same time",
   {
-    mica1 <- mica
-    mica1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-    mica1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
-    mica1$data$deployments$locationName[2] <- deployments(mica1)$locationName[1]
-    cam_op_matrix <- get_cam_op(mica1)
+    skip_if_offline()
+    x <- example_dataset()
+    x1 <- x
+    x1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
+    x1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
+    x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
+    cam_op_matrix <- get_cam_op(x1)
 
     first_full_day_two_deps <- as.character(
-      as.Date(deployments(mica1)$start[2]) + lubridate::ddays(1)
+      as.Date(deployments(x1)$start[2]) + lubridate::ddays(1)
     )
     last_full_day_two_deps <- as.character(
-      as.Date(deployments(mica1)$deployments$end[2]) - lubridate::ddays(1)
+      as.Date(deployments(x1)$deployments$end[2]) - lubridate::ddays(1)
     )
     # as many rows as locations
     expect_true(
-      nrow(cam_op_matrix) == length(unique(deployments(mica1)$locationName))
+      nrow(cam_op_matrix) == length(unique(deployments(x1)$locationName))
     )
     expect_gt(cam_op_matrix[1, first_full_day_two_deps], 1)
     expect_gt(cam_op_matrix[1, last_full_day_two_deps], 1)
@@ -291,14 +319,16 @@ test_that(
 test_that(
   "0<effort<=1 for locations with multiple deployments not simultaneously active",
   {
-    mica1 <- mica
-    mica1$data$deployments$locationName[2] <- deployments(mica1)$locationName[1]
-    cam_op_matrix1 <- get_cam_op(mica1)
-    cam_op_matrix <- get_cam_op(mica)
-    start_date1 <- as.character(as.Date(deployments(mica)$start[1]))
-    start_date2 <- as.character(as.Date(deployments(mica)$start[2]))
-    end_date1 <- as.character(as.Date(deployments(mica)$end[1]))
-    end_date2 <- as.character(as.Date(deployments(mica)$end[2]))
+    skip_if_offline()
+    x <- example_dataset()
+    x1 <- x
+    x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
+    cam_op_matrix1 <- get_cam_op(x1)
+    cam_op_matrix <- get_cam_op(x)
+    start_date1 <- as.character(as.Date(deployments(x)$start[1]))
+    start_date2 <- as.character(as.Date(deployments(x)$start[2]))
+    end_date1 <- as.character(as.Date(deployments(x)$end[1]))
+    end_date2 <- as.character(as.Date(deployments(x)$end[2]))
     col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
     col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
     col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)
@@ -318,10 +348,12 @@ test_that(
 )
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_cam_op(datapkg = mica)
+      get_cam_op(datapkg = x)
     ),
     paste0("The `datapkg` argument of `get_cam_op()` is deprecated ",
            "as of camtraptor 0.16.0."

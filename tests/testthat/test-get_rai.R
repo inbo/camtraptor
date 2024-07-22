@@ -1,11 +1,15 @@
 test_that("get_rai returns error if no species is specified", {
-  expect_error(get_rai(mica, species = NULL))
-  expect_error(get_rai(mica, species = character(0)))
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(get_rai(x, species = NULL))
+  expect_error(get_rai(x, species = character(0)))
 })
 
 test_that("get_rai returns the right dataframe", {
+  skip_if_offline()
+  x <- example_dataset()
   output_anas_platyrhyncos <- suppressMessages(
-    get_rai(mica,
+    get_rai(x,
       species = "Anas platyrhynchos"
     )
   )
@@ -31,14 +35,16 @@ test_that("get_rai returns the right dataframe", {
 })
 
 test_that("get_rai returns the right number of rows: all species selected", {
-  all_species <- get_species(mica)
-  all_deployments <- unique(deployments(mica)$deploymentID)
+  skip_if_offline()
+  x <- example_dataset()
+  all_species <- get_species(x)
+  all_deployments <- unique(deployments(x)$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
   # calculate rai for all species
-  output_all_species <- get_rai(mica,
+  output_all_species <- get_rai(x,
     species = all_species$scientificName
   )
 
@@ -50,16 +56,18 @@ test_that("get_rai returns the right number of rows: all species selected", {
 })
 
 test_that("get_rai returns the same if 'all' is used instead of vector with all species", {
-  all_species <- get_species(mica)
-  all_deployments <- unique(deployments(mica)$deploymentID)
+  skip_if_offline()
+  x <- example_dataset()
+  all_species <- get_species(x)
+  all_deployments <- unique(deployments(x)$deploymentID)
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
   # calculate rai for all species using default "all" value
-  output_all_species_default <- get_rai(mica, species = "all")
+  output_all_species_default <- get_rai(x, species = "all")
   # calculate rai for all species specifying the species
-  output_all_species <- get_rai(mica,
+  output_all_species <- get_rai(x,
     species = all_species$scientificName
   )
 
@@ -67,19 +75,23 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
 })
 
 test_that("species is case insensitive", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_equal(
-    suppressMessages(get_rai(mica, species = "Anas platyrhynchos")),
-    suppressMessages(get_rai(mica, species = toupper("Anas platyrhynchos")))
+    suppressMessages(get_rai(x, species = "Anas platyrhynchos")),
+    suppressMessages(get_rai(x, species = toupper("Anas platyrhynchos")))
   )
 })
 
 test_that("sex filters data correctly", {
+  skip_if_offline()
+  x <- example_dataset()
   sex_value <- "female"
   n_obs_females <- suppressMessages(
-    get_n_obs(mica, species = "Mallard", sex = sex_value)
+    get_n_obs(x, species = "Mallard", sex = sex_value)
   )
   rai_females <- suppressMessages(
-    get_rai(mica, species = "Mallard", sex = sex_value)
+    get_rai(x, species = "Mallard", sex = sex_value)
   )
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
@@ -90,12 +102,14 @@ test_that("sex filters data correctly", {
 })
 
 test_that("life_stage filters data correctly", {
+  skip_if_offline()
+  x <- example_dataset()
   life_stage_value <- "subadult"
   n_obs_subadult <- suppressMessages(
-    get_n_obs(mica, species = "Mallard", life_stage = life_stage_value)
+    get_n_obs(x, species = "Mallard", life_stage = life_stage_value)
   )
   rai_subadult <- suppressMessages(
-    get_rai(mica, species = "Mallard", life_stage = life_stage_value)
+    get_rai(x, species = "Mallard", life_stage = life_stage_value)
   )
   # same first two cols as in get_n_obs
   expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
@@ -106,10 +120,12 @@ test_that("life_stage filters data correctly", {
 })
 
 test_that("Argument datapkg is deprecated: warning returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_warning(
     rlang::with_options(
       lifecycle_verbosity = "warning",
-      get_rai(datapkg = mica)
+      get_rai(datapkg = x)
     ),
     "The `datapkg` argument of `get_rai()` is deprecated as of camtraptor 0.16.0.",
     fixed = TRUE

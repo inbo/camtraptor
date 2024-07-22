@@ -49,8 +49,6 @@ Partially active days, e.g. the first or the last day of a deployment, result
 in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \examples{
-library(dplyr)
-
 x <- example_dataset()
 camtrapR_cameraOperation(x)
 
@@ -74,7 +72,11 @@ x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
 camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
 
 # Specify both session and camera IDs
-camtrapR_cameraOperation(x_cameras, camera_col = "cameraID", session_col = "session")
+camtrapR_cameraOperation(
+  x_cameras,
+  camera_col = "cameraID",
+  session_col = "session"
+)
 
 # Use prefix Station as in camtrapR's camera operation matrix
 camtrapR_cameraOperation(x, use_prefix = TRUE)

@@ -154,14 +154,6 @@ Record table with duplicates:
 camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 ```
 
-### Use filter predicates
-
-As for visualization and all other functions, you can select a subset of deployments by using filter predicates. E.g. to get the record table of observations for the deployments with latitude equal or higher than 51.18:
-
-```{r example_filter_predicates_map}
-camtrapR_recordTable(x, pred_gt("latitude", 51.18))
-```
-
 ### Other arguments needed?
 
 Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `get_camera_record()`, please let us know by posting an [issue](https://github.com/inbo/camtraptor/issues)!

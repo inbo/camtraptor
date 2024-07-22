@@ -9,7 +9,8 @@
 #' @family exploration functions
 #' @export
 #' @examples
-#' get_species(mica)
+#' x <- example_dataset()
+#' get_species(x)
 get_species <- function(x) {
   # Get taxonomic information from metadata
   if (!"taxonomic" %in% names(x)) {

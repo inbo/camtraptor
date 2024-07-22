@@ -21,11 +21,13 @@
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Efforts expressed in hours
-#' get_effort(mica)
+#' get_effort(x)
 #'
 #' # Effort expressed as days
-#' get_effort(mica, unit = "day")
+#' get_effort(x, unit = "day")
 get_effort <- function(x,
                        unit = "hour") {
   # Define possible unit values

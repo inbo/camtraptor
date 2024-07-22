@@ -9,8 +9,10 @@
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Get number of species
-#' get_n_species(mica)
+#' get_n_species(x)
 get_n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)

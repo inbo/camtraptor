@@ -177,7 +177,8 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @family exploration functions
 #' @noRd
 #' @examples
-#' get_dep_no_obs(mica)
+#' x <- example_dataset()
+#' get_dep_no_obs(x)
 get_dep_no_obs <- function(x) {
   
   # Check camera trap data package

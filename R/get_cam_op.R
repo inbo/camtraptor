@@ -33,32 +33,34 @@
 #' @export
 #' @examples
 #' library(dplyr)
-#' get_cam_op(mica)
+#' 
+#' x <- example_dataset()
+#' get_cam_op(x)
 #'
 #' # Specify column with station names
-#' get_cam_op(mica, station_col = "locationID")
+#' get_cam_op(x, station_col = "locationID")
 #'
 #' # Specify column with session IDs
-#' mica_sessions <- mica
-#' mica_sessions$data$deployments <- deployments(mica_sessions) %>%
+#' x_sessions <- x
+#' x_sessions$data$deployments <- deployments(x_sessions) %>%
 #'   dplyr::mutate(session = ifelse(
 #'     stringr::str_starts(.data$locationName, "B_DL_"),
 #'       "after2020",
 #'       "before2020"
 #'   )
 #' )
-#' get_cam_op(mica_sessions, session_col = "session")
+#' get_cam_op(x_sessions, session_col = "session")
 #'
 #' # Specify column with camera IDs
-#' mica_cameras <- mica_sessions
-#' mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-#' get_cam_op(mica_cameras, camera_col = "cameraID")
+#' x_cameras <- x_sessions
+#' x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+#' get_cam_op(x_cameras, camera_col = "cameraID")
 #'
 #' # Specify both session and camera IDs
-#' get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
+#' get_cam_op(x_cameras, camera_col = "cameraID", session_col = "session")
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
-#' get_cam_op(mica, use_prefix = TRUE)
+#' get_cam_op(x, use_prefix = TRUE)
 get_cam_op <- function(x,
                        station_col = "locationName",
                        camera_col = NULL,

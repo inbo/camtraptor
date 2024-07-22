@@ -107,29 +107,31 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' x <- example_dataset()
+#' 
 #' # Show number of species
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_species"
 #' )
 #'
 #' # Show number of observations (observations of unidentified species included
 #' # if any)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs"
 #' )
 #'
 #' # Show number of observations of Anas platyrhynchos
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   species = "Anas platyrhynchos"
 #' )
 #'
 #' # Show number of observations of subadult individuals of Anas strepera
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   species = "Anas strepera",
 #'   life_stage = "subadult"
@@ -137,7 +139,7 @@
 #'
 #' # Show number of observations of female or unknown individuals of gadwall
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   species = "gadwall",
 #'   sex = c("female", "unknown")
@@ -146,13 +148,13 @@
 #' # Show number of individuals (individuals of unidentified species included if
 #' # any)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_individuals"
 #' )
 #'
 #' # Same filters by life stage and sex as for number of observations apply
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_individuals",
 #'   species = "Anas strepera",
 #'   sex = "female",
@@ -161,14 +163,14 @@
 #'
 #' # Show RAI
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "rai",
 #'   species = "Anas strepera"
 #' )
 #'
 #' # Same filters by life_stage and sex as for number of observations apply
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "rai",
 #'   species = "Anas strepera",
 #'   sex = "female",
@@ -177,14 +179,14 @@
 #'
 #' # Show RAI calculated by using number of detected individuals
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "rai_individuals",
 #'   species = "Anas strepera"
 #' )
 #'
 #' # Same filters by life stage and sex as for basic RAI apply
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "rai_individuals",
 #'   species = "Anas strepera",
 #'   sex = "female",
@@ -193,47 +195,47 @@
 #'
 #' # Show effort (hours)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "effort"
 #' )
 #' # Show effort (days)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "effort",
 #'   effort_unit = "day"
 #' )
 #'
 #' # Use viridis palette (viridis palettes)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   palette = "viridis"
 #' )
 #'
 #' # Use "BuPu" colour palette (RColorBrewer palettes)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   palette = "BuPu"
 #' )
 #'
 #' # Use a palette defined by colour names
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   palette = c("black", "blue", "white")
 #' )
 #'
 #' # Use a palette defined by hex colours
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   palette = c("#000000", "#0000FF", "#FFFFFF")
 #' )
 #'
 #' # Do not show deployments with zero values
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
 #'   zero_values_show = FALSE
@@ -242,7 +244,7 @@
 #' # Use same icon but but a non default colour for zero values deployments,
 #' # E.g. red (hex: E74C3C)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
@@ -250,7 +252,7 @@
 #'
 #' # ... or yellow (F1C40F)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
@@ -259,14 +261,14 @@
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' # in green (2ECC71)
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
 #'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
 #' )
 #' 
 #' # Same behavior for the icon visualizing NA values (`"n_species"` feature)
-#' unknown_species_vs_no_obs <- mica
+#' unknown_species_vs_no_obs <- x
 #' unknown_species_vs_no_obs$data$observations <- 
 #'   observations(unknown_species_vs_no_obs) %>% 
 #'   # A deployment has detected only unknown species
@@ -286,7 +288,7 @@
 #'
 #' # Set size of the icon for zero values deployments
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   life_stage = "subadult",
 #'   zero_values_icon_size = 30
@@ -294,20 +296,20 @@
 #'
 #' # Disable cluster
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_species",
 #'   cluster = FALSE
 #' )
 #'
 #' # Show only number of observations and location name while hovering
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   hover_columns = c("locationName", "n")
 #' )
 #'
 #' # Use absolute scale for colours and radius
-#' map_dep(mica,
+#' map_dep(x,
 #'   "n_species",
 #'   relative_scale = FALSE,
 #'   max_scale = 4
@@ -315,7 +317,7 @@
 #'
 #' # Change max and min size circles
 #' map_dep(
-#'   mica,
+#'   x,
 #'   "n_obs",
 #'   radius_range = c(40, 150)
 #' )

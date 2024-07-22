@@ -23,28 +23,28 @@
 #' @export
 #' @examples
 #' # Calculate RAI for all species
-#' get_rai(mica) # species = "all" by default, so equivalent of
-#' get_rai(mica, species = "all")
+#' get_rai(x) # species = "all" by default, so equivalent of
+#' get_rai(x, species = "all")
 #'
 #' # Selected species
-#' get_rai(mica, species = c("Anas platyrhynchos", "Martes foina"))
+#' get_rai(x, species = c("Anas platyrhynchos", "Martes foina"))
 #'
 #' # With vernacular names, even mixing languages
-#' get_rai(mica, species = c("mallard", "steenmarter"))
+#' get_rai(x, species = c("mallard", "steenmarter"))
 #'
 #' # Mixed scientific and vernacular names
-#' get_rai(mica, species = c("Anas platyrhynchos", "steenmarter"))
+#' get_rai(x, species = c("Anas platyrhynchos", "steenmarter"))
 #'
 #' # Species parameter is case insensitive
-#' get_rai(mica, species = c("ANAS plAtyRhynChOS"))
+#' get_rai(x, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # Specify sex
-#' get_rai(mica, sex = "female")
-#' get_rai(mica, sex = c("female", "unknown"))
+#' get_rai(x, sex = "female")
+#' get_rai(x, sex = c("female", "unknown"))
 #'
 #' # Specify life stage
-#' get_rai(mica, life_stage = "adult")
-#' get_rai(mica, life_stage = c("adult", "subadult"))
+#' get_rai(x, life_stage = "adult")
+#' get_rai(x, life_stage = c("adult", "subadult"))
 get_rai <- function(x,
                     species = "all",
                     sex = NULL,
@@ -88,32 +88,34 @@ get_rai <- function(x,
 #' @family exploration functions
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Calculate RAI based on number of individuals
-#' get_rai_individuals(mica) # species = "all" by default, so equivalent of
-#' get_rai_individuals(mica, species = "all")
+#' get_rai_individuals(x) # species = "all" by default, so equivalent of
+#' get_rai_individuals(x, species = "all")
 #'
 #' # Selected species
-#' get_rai_individuals(mica,
+#' get_rai_individuals(
+#'   x,
 #'   species = c("Anas platyrhynchos", "Martes foina")
 #' )
 #'
 #' # With common names, also mixing up languages
-#' get_rai_individuals(mica, species = c("mallard", "steenmarter"))
+#' get_rai_individuals(x, species = c("mallard", "steenmarter"))
 #'
 #' # Mixed scientific and vernacular names
-#' get_rai_individuals(mica, species = c("Anas platyrhynchos", "beech marten"))
+#' get_rai_individuals(x, species = c("Anas platyrhynchos", "beech marten"))
 #'
 #' # Species parameter is case insensitive
-#' get_rai_individuals(mica, species = c("ANAS plAtyRhynChOS"))
+#' get_rai_individuals(x, species = c("ANAS plAtyRhynChOS"))
 #'
 #' # Specify sex
-#' get_rai_individuals(mica, sex = "female")
-#' get_rai_individuals(mica, sex = c("female", "unknown"))
+#' get_rai_individuals(x, sex = "female")
+#' get_rai_individuals(x, sex = c("female", "unknown"))
 #'
 #' # Specify life stage
-#' get_rai_individuals(mica, life_stage = "adult")
-#' get_rai_individuals(mica, life_stage = c("adult", "subadult"))
-#'
+#' get_rai_individuals(x, life_stage = "adult")
+#' get_rai_individuals(x, life_stage = c("adult", "subadult"))
 get_rai_individuals <- function(x,
                                 species = "all",
                                 sex = NULL,

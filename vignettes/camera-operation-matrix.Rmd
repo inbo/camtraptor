@@ -55,9 +55,11 @@ In the example below we show what happens if all four deployments are set to the
 
 ```{r four_deploys_same_start_end_for_one_location}
 x1 <- x
-x1$data$deployments$locationName <- deployments(x1)$locationName[1]
-x1$data$deployments$start <- deployments(x1)$start[1]
-x1$data$deployments$end <- deployments(x1)$deployments$end[1]
+x1$data$deployments$locationName <- deployments(x1) %>% 
+  purrr::pluck("locationName", 1)
+x1$data$deployments$start <- deployments(x1) %>% 
+  purrr::pluck("deploymentStart", 1)
+x1$data$deployments$end <- deployments(x1) %>% purrr::pluck("deploymentEnd", 1)
 multiple_deploys_matrix <- camtrapR_cameraOperation(x1)
 multiple_deploys_matrix
 ```
@@ -66,9 +68,12 @@ In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two 
 
 ```{r two_deploys_two_periods}
 x2 <- x
-x2$data$deployments$locationName[4] <- deployments(x2)$locationName[3]
-x2$data$deployments$start[4] <- deployments(x2)$end[3] + ddays(5)
-x2$data$deployments$end[4] <- deployments(x2)$start[4] + ddays(5)
+x2$data$deployments$locationName[4] <- deployments(x2) %>% 
+  purrr::pluck("locationName", 3)
+x2$data$deployments$start[4] <- deployments(x2) %>% 
+  purrr::pluck("deploymentEnd", 3) + ddays(5)
+x2$data$deployments$end[4] <- deployments(x2) %>% 
+  purrr::pluck("deploymentStart", 4) + ddays(5)
 deployments(x2) %>% dplyr::select(locationName, start, end)
 ```
 

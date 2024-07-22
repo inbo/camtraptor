@@ -88,7 +88,7 @@ test_that("get_effort returns the right number of rows", {
   skip_if_offline()
   x <- example_dataset()
   effort_df <- get_effort(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
   n_all_deployments <- length(all_deployments)
 
   # number of rows should be equal to number of deployments

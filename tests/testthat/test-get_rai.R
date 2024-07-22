@@ -38,7 +38,7 @@ test_that("get_rai returns the right number of rows: all species selected", {
   skip_if_offline()
   x <- example_dataset()
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -59,7 +59,7 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
   skip_if_offline()
   x <- example_dataset()
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)

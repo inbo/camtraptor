@@ -84,8 +84,8 @@ test_that("output matrix has locations as rownames", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  locations <- deployments(x)$locationName
-  n_locations <- length(deployments(x)$locationName)
+  locations <- purrr::pluck(deployments(x), "locationName")
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -220,8 +220,8 @@ test_that("output matrix has Station prefix in rownames", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x, use_prefix = TRUE)
-  locations <- paste0("Station", deployments(x)$locationName)
-  n_locations <- length(deployments(x)$locationName)
+  locations <- paste0("Station", purrr::pluck(deployments(x), "locationName"))
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -230,8 +230,8 @@ test_that("output matrix has specified location column as rownames", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x, station_col = "locationID")
-  locations <- deployments(x)$locationID
-  n_locations <- length(deployments(x)$locationID)
+  locations <- purrr::pluck(deployments(x), "locationID")
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -241,8 +241,8 @@ test_that("output matrix has all deployment days as colnames", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  days_activity <- seq(as.Date(min(deployments(x)$start)),
-    as.Date(max(deployments(x)$end)),
+  days_activity <- seq(as.Date(min(purrr::pluck(deployments(x), "deploymentStart"))),
+    as.Date(max(purrr::pluck(deployments(x), "deploymentEnd"))),
     by = "days"
   )
   days_activity <- as.character(days_activity)
@@ -255,13 +255,13 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  location <- deployments(x)$locationName[4]
+  location <- purrr::pluck(deployments(x), "locationName", 4)
   deployment_start <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
-    dplyr::pull(start)
+    dplyr::pull(deploymentStart)
   deployment_end <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
-    dplyr::pull(end)
+    dplyr::pull(deploymentEnd)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
     as.Date(deployment_end) - lubridate::ddays(1),
     by = "days"
@@ -269,7 +269,7 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   cols_activity <- as.character(cols_activity)
 
   cols_inactivity <- seq(as.Date(deployment_end + lubridate::ddays(1)),
-    as.Date(max(deployments(x)$end)),
+    as.Date(max(purrr::pluck(deployments(x), "deploymentEnd"))),
     by = "days"
   )
   cols_inactivity <- as.character(cols_inactivity)
@@ -281,13 +281,17 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  location <- deployments(x)$locationName[4]
-  start <- as.character(as.Date(deployments(x)$start[4]))
-  end <- as.character(as.Date(deployments(x)$end[4]))
-  expect_gt(cam_op_matrix[4, start], 0)
-  expect_lt(cam_op_matrix[4, start],1)
-  expect_gt(cam_op_matrix[4, end], 0)
-  expect_lt(cam_op_matrix[4, end], 1)
+  location <- purrr::pluck(deployments(x), "locationName", 4)
+  start <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentStart", 4))
+  )
+  end <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentEnd", 4))
+  )
+  expect_gt(cam_op_matrix[4, deploymentStart], 0)
+  expect_lt(cam_op_matrix[4, deploymentStart],1)
+  expect_gt(cam_op_matrix[4, deploymentEnd], 0)
+  expect_lt(cam_op_matrix[4, deploymentEnd], 1)
 })
 
 test_that(
@@ -296,16 +300,16 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x1 <- x
-    x1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-    x1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
+    x1$data$deployments$deploymentStart[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
+    x1$data$deployments$deploymentEnd[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
     x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
     cam_op_matrix <- camtrapR_cameraOperation(x1)
 
     first_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$start[2]) + lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentStart[2]) + lubridate::ddays(1)
     )
     last_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$deployments$end[2]) - lubridate::ddays(1)
+      as.Date(deployments(x1)$deployments$deploymentEnd[2]) - lubridate::ddays(1)
     )
     # as many rows as locations
     expect_true(
@@ -322,13 +326,25 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x1 <- x
-    x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
+    x1$data$deployments$locationName[2] <- purrr::pluck(
+      deployments(x1),
+      "locationName",
+      1
+    )
     cam_op_matrix1 <- camtrapR_cameraOperation(x1)
     cam_op_matrix <- camtrapR_cameraOperation(x)
-    start_date1 <- as.character(as.Date(deployments(x)$start[1]))
-    start_date2 <- as.character(as.Date(deployments(x)$start[2]))
-    end_date1 <- as.character(as.Date(deployments(x)$end[1]))
-    end_date2 <- as.character(as.Date(deployments(x)$end[2]))
+    start_date1 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentStart", 1))
+    )
+    start_date2 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentStart", 2))
+    )
+    end_date1 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 1))
+    )
+    end_date2 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 2))
+    )
     col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
     col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
     col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)

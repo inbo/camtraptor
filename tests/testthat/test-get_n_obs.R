@@ -46,7 +46,7 @@ test_that("get_n_obs returns the right number of rows: all species selected", {
   x <- example_dataset()
   
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
@@ -68,7 +68,7 @@ test_that(paste(
   skip_if_offline()
   x <- example_dataset()
   
-  deployments <- unique(deployments(x)$deploymentID)
+  deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_deployments <- length(deployments)
 
@@ -90,7 +90,7 @@ test_that(
     x <- example_dataset()
     
     # Get the original order of deployment IDs
-    deployment_ids <- unique(deployments(x)$deploymentID)
+    deployment_ids <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
     # Apply function
     n_obs <- get_n_obs(x)
@@ -103,7 +103,7 @@ test_that("species = 'all' returns the same of using a vector with all species",
   skip_if_offline()
   x <- example_dataset()
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)

@@ -149,14 +149,14 @@ test_that("stations names are equal to values in column passed to StationCOl", {
   stations <- camtrapR_recordTable(x) %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
-  location_names <- unique(deployments(x)$locationName)
+  location_names <- unique(purrr::pluck(deployments(x), "locationName"))
   expect_true(all(stations %in% location_names))
 
   # use locationID as Station
   stations <- camtrapR_recordTable(x, stationCol = "locationID") %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
-  location_ids <- unique(deployments(x)$locationID)
+  location_ids <- unique(purrr::pluck(deployments(x), "locationID"))
   expect_true(all(stations %in% location_ids))
 })
 

@@ -132,7 +132,7 @@ test_that("get_custom_effort returns warning if start set too early", {
   )
   expect_identical(
     start_too_early$result$begin[1],
-    lubridate::as_date(min(deployments(x)$start))
+    lubridate::as_date(min(purrr::pluck(deployments(x), "deploymentStart")))
   )
 })
 
@@ -154,7 +154,7 @@ test_that("get_custom_effort returns warning if end set too late", {
   )
   expect_identical(
     end_too_late$result$begin[nrow(end_too_late$result)],
-    lubridate::as_date(max(deployments(x)$end))
+    lubridate::as_date(max(purrr::pluck(deployments(x), "deploymentEnd")))
   )
 })
 
@@ -191,8 +191,8 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_identical(nrow(tot_effort), 1L)
 
   # Number of rows with grouping by year is equal to number of calendar years
-  first_day <- min(deployments(x)$start)
-  last_day <- max(deployments(x)$end)
+  first_day <- min(purrr::pluck(deployments(x), "deploymentStart"))
+  last_day <- max(purrr::pluck(deployments(x), "deploymentEnd"))
   n_years <- length(seq(
     lubridate::floor_date(first_day, unit = "years"),
     lubridate::floor_date(last_day, unit = "years"),

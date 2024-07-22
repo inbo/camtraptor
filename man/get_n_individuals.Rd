@@ -40,33 +40,35 @@ The number of observed individuals is stored in field \code{count} of
 \code{observations}.
 }
 \examples{
+x <- example_dataset()
+
 # Get number of observations for each species
-get_n_individuals(mica)
+get_n_individuals(x)
 
 # Get number of obs of all species, not identified individuals as well
-get_n_individuals(mica, species = NULL)
+get_n_individuals(x, species = NULL)
 
 # Get number of observations of Anas platyrhynchos
-get_n_individuals(mica, species = "Anas platyrhynchos")
+get_n_individuals(x, species = "Anas platyrhynchos")
 
 # Get number of observations of eurasian beaver (vernacular name)
-get_n_individuals(mica, species = "eurasian beaver")
+get_n_individuals(x, species = "eurasian beaver")
 
 # Mix scientific and vernacular names
-get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
+get_n_individuals(x, species = c("Anas platyrhynchos", "eurasian beaver"))
 
 # Case insensitive
-get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
-get_n_individuals(mica, species = "eurasian BEAVER")
+get_n_individuals(x, species = "AnAS PLatyrhyncHOS")
+get_n_individuals(x, species = "eurasian BEAVER")
 
 # Specify life stage
-get_n_individuals(mica, life_stage = "adult")
+get_n_individuals(x, life_stage = "adult")
 
 # Specify sex
-get_n_individuals(mica, sex = "female")
+get_n_individuals(x, sex = "female")
 
 # Specify both sex and life stage
-get_n_individuals(mica, sex = "unknown", life_stage = "adult")
+get_n_individuals(x, sex = "unknown", life_stage = "adult")
 }
 \seealso{
 Other exploration functions: 

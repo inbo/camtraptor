@@ -18,7 +18,8 @@ the identified species.
 Gets all identified species.
 }
 \examples{
-get_species(mica)
+x <- example_dataset()
+get_species(x)
 }
 \seealso{
 Other exploration functions: 

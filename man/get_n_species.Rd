@@ -21,8 +21,10 @@ A tibble data frame with the following columns:
 Gets the number of identified species per deployment.
 }
 \examples{
+x <- example_dataset()
+
 # Get number of species
-get_n_species(mica)
+get_n_species(x)
 }
 \seealso{
 Other exploration functions: 

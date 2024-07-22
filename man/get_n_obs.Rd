@@ -40,30 +40,32 @@ The number of observations is defined as the number of distinct sequences
 (\code{sequenceID}).
 }
 \examples{
+x <- example_dataset()
+
 # Get number of observations for each species
-get_n_obs(mica)
+get_n_obs(x)
 
 # Get number of obs of all species, not identified individuals as well
-get_n_obs(mica, species = NULL)
+get_n_obs(x, species = NULL)
 
 # Get number of observations of Anas platyrhynchos (scientific name)
-get_n_obs(mica, species = "Anas platyrhynchos")
+get_n_obs(x, species = "Anas platyrhynchos")
 
 # Get number of observations of eurasian beaver (vernacular names)
-get_n_obs(mica, species = "eurasian beaver")
+get_n_obs(x, species = "eurasian beaver")
 
 # Case insensitive
-get_n_obs(mica, species = "Anas plaTYrhYnchoS")
-get_n_obs(mica, species = "EUrasian beavER")
+get_n_obs(x, species = "Anas plaTYrhYnchoS")
+get_n_obs(x, species = "EUrasian beavER")
 
 # Specify life stage
-get_n_obs(mica, life_stage = "subadult")
+get_n_obs(x, life_stage = "subadult")
 
 # Specify sex
-get_n_obs(mica, sex = "female")
+get_n_obs(x, sex = "female")
 
 # Specify both sex and life stage
-get_n_obs(mica, sex = "unknown", life_stage = "adult")
+get_n_obs(x, sex = "unknown", life_stage = "adult")
 }
 \seealso{
 Other exploration functions: 

@@ -36,11 +36,13 @@ package).
 Gets the effort (deployment duration) per deployment.
 }
 \examples{
+x <- example_dataset()
+
 # Efforts expressed in hours
-get_effort(mica)
+get_effort(x)
 
 # Effort expressed as days
-get_effort(mica, unit = "day")
+get_effort(x, unit = "day")
 }
 \seealso{
 Other exploration functions: 

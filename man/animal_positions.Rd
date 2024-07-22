@@ -21,8 +21,7 @@ A tibble data frame with the following columns:
 }
 \seealso{
 Other sample data: 
-\code{\link{dep_calib_models}},
-\code{\link{mica}}
+\code{\link{dep_calib_models}}
 }
 \concept{sample data}
 \keyword{datasets}

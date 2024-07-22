@@ -1,32 +1,3 @@
-#' Sample of Camtrap DP formatted data
-#'
-#' A sample [Camera Trap Data Package](https://camtrap-dp.tdwg.org) as
-#' read by [read_camtrap_dp()].
-#' The source data are derived from the [Camtrap DP example dataset](
-#' https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example)
-#' and are saved in `inst/extdata/mica`.
-#'
-#' A larger dataset is available in `inst/extdata/mica_zenodo_5590881`.
-#' It is derived from a dataset on [Zenodo](https://zenodo.org/record/5590881),
-#' but excludes `media.csv`.
-#'
-#' @family sample data
-#' @source
-#' <https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example>
-#' @examples
-#' \dontrun{
-#' # mica.rda was created with the code below.
-#' mica <- read_camtrap_dp(
-#'   system.file(
-#'     "extdata/mica",
-#'     "datapackage.json",
-#'     package = "camtraptor"
-#'   )
-#' )
-#' save(mica, file = "data/mica.rda")
-#' }
-"mica"
-
 #' Sample of animal position digitization data
 #'
 #' A tibble data frame with the following columns:

@@ -212,10 +212,26 @@ test_that(paste(
   x_dup <- x
   # create duplicates at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
   # use 3rd observation as the first two are unknown or blank (= no animal)
-  x_dup$data$observations[,"sequenceID"] <- observations(x_dup)$sequenceID[3]
-  x_dup$data$observations[, "deploymentID"] <- observations(x_dup)$deploymentID[3]
-  x_dup$data$observations[, "timestamp"] <- observations(x_dup)$timestamp[3]
-  x_dup$data$observations[, "scientificName"] <- observations(x_dup)$scientificName[3]
+  x_dup$data$observations[,"sequenceID"] <- purrr::pluck(
+    observations(x_dup),
+    "sequenceID",
+    3
+  )
+  x_dup$data$observations[, "deploymentID"] <- purrr::pluck(
+    observations(x_dup),
+    "deploymentID",
+    3
+  )
+  x_dup$data$observations[, "timestamp"] <- purrr::pluck(
+    observations(x_dup),
+    "timestamp",
+    3
+  )
+  x_dup$data$observations[, "scientificName"] <- purrr::pluck(
+    observations(x_dup),
+    "scientificName",
+    3
+  )
   
   rec_table <- camtrapR_recordTable(x_dup)
   rec_table_dup <- camtrapR_recordTable(x_dup,
@@ -223,7 +239,7 @@ test_that(paste(
   )
   expect_identical(nrow(rec_table), 1L)
   expect_identical(
-    rec_table$DateTimeOriginal, observations(x)$timestamp[3]
+    rec_table$DateTimeOriginal, purrr::pluck(observations(x), "timestamp", 3)
   )
   expect_identical(rec_table$delta.time.secs, 0)
   expect_identical(names(rec_table_dup), names(rec_table))

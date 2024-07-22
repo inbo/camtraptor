@@ -4,7 +4,7 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(x, species = "all", sex = NULL, life_stage = NULL)
+get_n_individuals(x, species = "all")
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -61,14 +61,15 @@ get_n_individuals(x, species = c("Anas platyrhynchos", "eurasian beaver"))
 get_n_individuals(x, species = "AnAS PLatyrhyncHOS")
 get_n_individuals(x, species = "eurasian BEAVER")
 
-# Specify life stage
-get_n_individuals(x, life_stage = "adult")
+# Use `filter_observations()` to filter on life stage
+x \%>\%
+  filter_observations(lifeStage == "adult") \%>\%
+  get_n_individuals()
 
-# Specify sex
-get_n_individuals(x, sex = "female")
-
-# Specify both sex and life stage
-get_n_individuals(x, sex = "unknown", life_stage = "adult")
+# Use `filter_observations()` to filter on sex
+x \%>\%
+  filter_observations(sex == "female") \%>\%
+  get_n_individuals()
 }
 \seealso{
 Other exploration functions: 

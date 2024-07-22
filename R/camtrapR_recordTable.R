@@ -92,9 +92,21 @@
 #' # How to deal with duplicates
 #' x_dup <- x
 #' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-#' x_dup$data$observations[4,"sequenceID"] <- observations(x_dup)$sequenceID[3]
-#' x_dup$data$observations[4, "deploymentID"] <- observations(x_dup)$deploymentID[3]
-#' x_dup$data$observations[4, "timestamp"] <- observations(x_dup)$timestamp[3]
+#' x_dup$data$observations[4,"sequenceID"] <- purrr::pluck(
+#'   observations(x_dup),
+#'   "sequenceID",
+#'   3
+#' )
+#' x_dup$data$observations[4, "deploymentID"] <- purrr::pluck(
+#'   observations(x_dup),
+#'   "deploymentID",
+#'   3
+#' )
+#' x_dup$data$observations[4, "timestamp"] <- purrr::pluck(
+#'   observations(x_dup),
+#'   "timestamp",
+#'   3
+#' )
 #'
 #' # duplicates are removed by default by camtrapR_recordTable()
 #' camtrapR_recordTable(x_dup)

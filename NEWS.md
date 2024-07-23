@@ -13,7 +13,7 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - `get_record_table()` has been renamed. Use `camtrapR_recordTable()` (#240).
 - `get_cam_op()` has been renamed. Use `camtrapR_cameraOperation()` (#239).
-- `get_n_species()` has been renamed. Use `camtrapR_nSpecies()` (#243).
+- `get_n_species()` has been renamed. Use `n_species()` (#243).
 - `map_dep()` has been renamed. Use `map_deployments()` (#231).
 
 # camtraptor 0.25.0

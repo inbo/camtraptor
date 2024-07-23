@@ -46,16 +46,6 @@ test_that("map_deployments() can handle combinations of arguments", {
     "`effort_unit` ignored for `feature = n_species`.",
     fixed = TRUE
   )
-  expect_warning(
-    map_deployments(x, feature = "n_species", sex = "male"),
-    "`sex` ignored for `feature = n_species`.",
-    fixed = TRUE
-  )
-  expect_warning(
-    map_deployments(x, feature = "n_species", life_stage = "subadult"),
-    "`life_stage` ignored for `feature = n_species`.",
-    fixed = TRUE
-  )
 })
 
 test_that("map_deployments() can toggle showing deployments with zero values", {

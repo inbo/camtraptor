@@ -43,29 +43,19 @@
 #' get_n_obs(x, species = "Anas plaTYrhYnchoS")
 #' get_n_obs(x, species = "EUrasian beavER")
 #'
-#' # Specify life stage
-#' get_n_obs(x, life_stage = "subadult")
+#' # Use `filter_observations()` to filter on life stage
+#' x %>%
+#'   filter_observations(lifeStage == "adult") %>%
+#'   get_n_obs()
 #'
-#' # Specify sex
-#' get_n_obs(x, sex = "female")
-#'
-#' # Specify both sex and life stage
-#' get_n_obs(x, sex = "unknown", life_stage = "adult")
-
-get_n_obs <- function(x,
-                      species = "all",
-                      sex = NULL,
-                      life_stage = NULL) {
+#' # Use `filter_observations()` to filter on sex
+#' x %>%
+#'   filter_observations(sex == "female") %>%
+#'   get_n_obs()
+get_n_obs <- function(x, species = "all") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Avoid to call variables like column names to make life easier using filter()
-  sex_value <- sex
-
-  # Check sex and lifeStage values
-  check_value(sex_value, unique(x$data$observation$sex), "sex")
-  check_value(life_stage, unique(x$data$observation$lifeStage), "lifeStage")
-
   # Get observations of the selected species
   if (!is.null(species)) {
     # If species == all retrieve all detected species
@@ -86,19 +76,6 @@ get_n_obs <- function(x,
       observations(x) %>%
       dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
   }
-
-  # Get observations of the specified sex
-  if (!is.null(sex)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(sex %in% sex_value)
-  }
-
-  # Get observations of the specified life stage
-  if (!is.null(life_stage)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(.data$lifeStage %in% life_stage)
   }
 
   # Extract observations and deployments

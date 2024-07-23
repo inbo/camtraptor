@@ -334,15 +334,3 @@ map_deployments(x,
         relative_scale = FALSE,
         max_scale = 50)
 ```
-
-### Use filter predicates
-
-You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 5.6:
-
-```{r example_filter_predicates_map}
-map_deployments(x,
-        pred_gt("longitude", 5.6),
-        feature = "n_obs")
-```
-
-More about filter predicates in [filter predicates](https://inbo.github.io/camtraptor/articles/filter-predicates.html) article.

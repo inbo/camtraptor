@@ -84,14 +84,14 @@ get_n_obs <- function(x, species = "all") {
 
   deployments_no_obs <- get_dep_no_obs(x)
 
-  # get number of observations collected by each deployment for each species
+  # Get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
     dplyr::group_by(.data$deploymentID, .data$scientificName) %>%
     dplyr::summarise(n = dplyr::n_distinct(.data$sequenceID)) %>%
     dplyr::ungroup()
 
-  # get all combinations deployments - scientific name
+  # Get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(
       deploymentID,
@@ -100,7 +100,7 @@ get_n_obs <- function(x, species = "all") {
     dplyr::rename(deploymentID = "Var1", scientificName = "Var2") %>%
     dplyr::as_tibble()
 
-  # set 0 to combinations without observations (i.e. n = NA after join)
+  # Set 0 to combinations without observations (i.e. n = NA after join)
   n_obs <-
     combinations_dep_species %>%
     dplyr::left_join(n_obs,
@@ -110,7 +110,7 @@ get_n_obs <- function(x, species = "all") {
     dplyr::mutate(n = as.integer(.data$n))
 
   if (is.null(species)) {
-    # sum all observations per deployment
+    # Sum all observations per deployment
     n_obs <-
       n_obs %>%
       dplyr::group_by(.data$deploymentID) %>%
@@ -118,7 +118,7 @@ get_n_obs <- function(x, species = "all") {
       dplyr::ungroup()
   }
 
-  # order result by deployments and follow same order as in deployments df
+  # Order result by deployments and follow same order as in deployments df
   deployments %>%
     dplyr::select("deploymentID") %>%
     dplyr::left_join(n_obs, by = "deploymentID", multiple = "all")

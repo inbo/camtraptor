@@ -72,10 +72,8 @@ get_n_obs <- function(x, species = "all") {
     }
     # Check species and get scientific names
     species <- check_species(x, species)
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
-  }
+    # Filter observations by species
+    x <- x %>% filter_observations(scientificName %in% species)
   }
 
   # Extract observations and deployments

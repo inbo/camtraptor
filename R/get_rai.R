@@ -9,12 +9,6 @@
 #' @param species Character with scientific names or common names (case
 #'   insensitive). If `"all"` (default) all scientific names are automatically
 #'   selected.
-#' @param sex Character defining the sex class to filter on, e.g. `"female"` or
-#'   `c("male", "unknown")`. If `NULL` (default) all observations of all sex
-#'   classes are taken into account.
-#' @param life_stage Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
-#'   observations of all life stage classes are taken into account.
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns: - `deploymentID`:
 #'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
@@ -38,25 +32,22 @@
 #' # Species parameter is case insensitive
 #' get_rai(x, species = c("ANAS plAtyRhynChOS"))
 #'
-#' # Specify sex
-#' get_rai(x, sex = "female")
-#' get_rai(x, sex = c("female", "unknown"))
+#' # Use `filter_observations()` to filter on life stage
+#' x %>%
+#'   filter_observations(lifeStage == "adult") %>%
+#'   get_rai()
 #'
-#' # Specify life stage
-#' get_rai(x, life_stage = "adult")
-#' get_rai(x, life_stage = c("adult", "subadult"))
-get_rai <- function(x,
-                    species = "all",
-                    sex = NULL,
-                    life_stage = NULL) {
+#' # Use `filter_observations()` to filter on sex
+#' x %>%
+#'   filter_observations(sex == "female") %>%
+#'   get_rai()
+get_rai <- function(x, species = "all") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
   get_rai_primitive(x,
     use = "n_obs",
-    species = species,
-    sex = sex,
-    life_stage = life_stage
+    species = species
   )
 }
 
@@ -72,14 +63,6 @@ get_rai <- function(x,
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
-#' @param sex Character defining the sex class to filter on, e.g. `"female"`
-#'   or `c("male", "unknown")`.
-#'   If `NULL` (default) all observations of all sex classes are taken into
-#'   account.
-#' @param life_stage Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL` (default) all observations of all life stage classes are taken
-#'   into account.
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
@@ -108,27 +91,21 @@ get_rai <- function(x,
 #'
 #' # Species parameter is case insensitive
 #' get_rai_individuals(x, species = c("ANAS plAtyRhynChOS"))
+#' 
+#' # Use `filter_observations()` to filter on life stage
+#' x %>%
+#'   filter_observations(lifeStage == "adult") %>%
+#'   get_rai_individuals()
 #'
-#' # Specify sex
-#' get_rai_individuals(x, sex = "female")
-#' get_rai_individuals(x, sex = c("female", "unknown"))
-#'
-#' # Specify life stage
-#' get_rai_individuals(x, life_stage = "adult")
-#' get_rai_individuals(x, life_stage = c("adult", "subadult"))
-get_rai_individuals <- function(x,
-                                species = "all",
-                                sex = NULL,
-                                life_stage = NULL) {
+#' # Use `filter_observations()` to filter on sex
+#' x %>%
+#'   filter_observations(sex == "female") %>%
+#'   get_rai_individuals()
+get_rai_individuals <- function(x, species = "all") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  get_rai_primitive(x,
-    use = "n_individuals",
-    species = species,
-    sex = sex,
-    life_stage = life_stage
-  )
+  get_rai_primitive(x, use = "n_individuals", species = species)
 }
 
 
@@ -144,7 +121,7 @@ get_rai_individuals <- function(x,
 #' @inheritParams get_species
 #' @return A tibble data frame.
 #' @noRd
-get_rai_primitive <- function(x, use, species, sex, life_stage) {
+get_rai_primitive <- function(x, use, species) {
   # define possible feature values
   uses <- c("n_obs", "n_individuals")
 
@@ -164,14 +141,10 @@ get_rai_primitive <- function(x, use, species, sex, life_stage) {
 
   if (use == "n_obs") {
     # get number of observations
-    n_df <- get_n_obs(x, species = species, sex = sex, life_stage = life_stage)
+    n_df <- get_n_obs(x, species = species)
   } else {
     # get number of individuals
-    n_df <- get_n_individuals(x,
-      species = species,
-      sex = sex,
-      life_stage = life_stage
-    )
+    n_df <- get_n_individuals(x, species = species)
   }
 
   # extract deployments

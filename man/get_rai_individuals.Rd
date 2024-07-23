@@ -4,7 +4,7 @@
 \alias{get_rai_individuals}
 \title{Get Relative Abundance Index (RAI) based on number of individuals}
 \usage{
-get_rai_individuals(x, species = "all", sex = NULL, life_stage = NULL)
+get_rai_individuals(x, species = "all")
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -13,16 +13,6 @@ get_rai_individuals(x, species = "all", sex = NULL, life_stage = NULL)
 \item{species}{Character with scientific names or common names (case
 insensitive).
 If \code{"all"} (default) all scientific names are automatically selected.}
-
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "unknown")}.
-If \code{NULL} (default) all observations of all sex classes are taken into
-account.}
-
-\item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL} (default) all observations of all life stage classes are taken
-into account.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -62,13 +52,15 @@ get_rai_individuals(x, species = c("Anas platyrhynchos", "beech marten"))
 # Species parameter is case insensitive
 get_rai_individuals(x, species = c("ANAS plAtyRhynChOS"))
 
-# Specify sex
-get_rai_individuals(x, sex = "female")
-get_rai_individuals(x, sex = c("female", "unknown"))
+# Use `filter_observations()` to filter on life stage
+x \%>\%
+  filter_observations(lifeStage == "adult") \%>\%
+  get_rai_individuals()
 
-# Specify life stage
-get_rai_individuals(x, life_stage = "adult")
-get_rai_individuals(x, life_stage = c("adult", "subadult"))
+# Use `filter_observations()` to filter on sex
+x \%>\%
+  filter_observations(sex == "female") \%>\%
+  get_rai_individuals()
 }
 \seealso{
 Other exploration functions: 

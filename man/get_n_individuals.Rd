@@ -14,16 +14,6 @@ get_n_individuals(x, species = "all")
 insensitive).
 If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
-
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "unknown")}.
-If \code{NULL} (default) all observations of all sex classes are taken into
-account.}
-
-\item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL} (default) all observations of all life stage classes are taken
-into account.}
 }
 \value{
 A tibble data frame with the following columns:

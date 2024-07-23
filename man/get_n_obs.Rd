@@ -4,7 +4,7 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(x, species = "all", sex = NULL, life_stage = NULL)
+get_n_obs(x, species = "all")
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -14,16 +14,6 @@ get_n_obs(x, species = "all", sex = NULL, life_stage = NULL)
 insensitive).
 If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
-
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"} or
-\code{c("male", "unknown")}.
-If \code{NULL} (default) all observations of all sex classes are taken into
-account.}
-
-\item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
-If \code{NULL} (default) all observations of all life stage classes are taken
-into account.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -58,14 +48,15 @@ get_n_obs(x, species = "eurasian beaver")
 get_n_obs(x, species = "Anas plaTYrhYnchoS")
 get_n_obs(x, species = "EUrasian beavER")
 
-# Specify life stage
-get_n_obs(x, life_stage = "subadult")
+# Use `filter_observations()` to filter on life stage
+x \%>\%
+  filter_observations(lifeStage == "adult") \%>\%
+  get_n_obs()
 
-# Specify sex
-get_n_obs(x, sex = "female")
-
-# Specify both sex and life stage
-get_n_obs(x, sex = "unknown", life_stage = "adult")
+# Use `filter_observations()` to filter on sex
+x \%>\%
+  filter_observations(sex == "female") \%>\%
+  get_n_obs()
 }
 \seealso{
 Other exploration functions: 

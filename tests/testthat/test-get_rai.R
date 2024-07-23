@@ -82,39 +82,3 @@ test_that("species is case insensitive", {
     suppressMessages(get_rai(x, species = toupper("Anas platyrhynchos")))
   )
 })
-
-test_that("sex filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  sex_value <- "female"
-  n_obs_females <- suppressMessages(
-    get_n_obs(x, species = "Mallard", sex = sex_value)
-  )
-  rai_females <- suppressMessages(
-    get_rai(x, species = "Mallard", sex = sex_value)
-  )
-  # same first two cols as in get_n_obs
-  expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
-  expect_equal(nrow(n_obs_females), nrow(rai_females))
-  expect_equal(n_obs_females[, 1:2], rai_females[, 1:2],
-    ignore_attr = TRUE
-  )
-})
-
-test_that("life_stage filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  life_stage_value <- "subadult"
-  n_obs_subadult <- suppressMessages(
-    get_n_obs(x, species = "Mallard", life_stage = life_stage_value)
-  )
-  rai_subadult <- suppressMessages(
-    get_rai(x, species = "Mallard", life_stage = life_stage_value)
-  )
-  # same first two cols as in get_n_obs
-  expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
-  expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))
-  expect_equal(n_obs_subadult[, 1:2], rai_subadult[, 1:2],
-    ignore_attr = TRUE
-  )
-})

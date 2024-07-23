@@ -216,17 +216,19 @@ shown by default as red and black multiplication symbols `×` respectively.
 A message about deployment with zero observations is also returned to the R console:
 
 ```{r show_deployments_without_observations_or_without_known_species}
-# create data package with one deployment with 0 obs and one delpoyment with
-# observations of unknown species
-unknown_species_vs_no_obs <- x
+# Create data package with three deployments with observations of unknown
+# species and one deployment with 0 observations (its deploymentID is not
+# present in observations table).
+
+# Deployment didn't detect any known  species
+unknown_species_vs_no_obs <- x %>%
+  filter_observations(is.na(scientificName))
+# A deployment has no observations
 unknown_species_vs_no_obs$data$observations <- 
-  unknown_species_vs_no_obs %>%
-  # A deployment has detected only unknown species
-  filter_observations(
-    is.na(scientificName) | scientificName != "Homo sapiens") %>%
-  # A deployment has no observations
-  filter_deployments(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
-# create new map
+  observations(unknown_species_vs_no_obs) %>%
+  dplyr::filter(deploymentID != "00a2c20d")
+
+# Create the map
 map_deployments(unknown_species_vs_no_obs,
         feature = "n_species")
 ```

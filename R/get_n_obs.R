@@ -8,14 +8,6 @@
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
 #'   If `NULL` all observations of all species are taken into account.
-#' @param sex Character defining the sex class to filter on, e.g. `"female"` or
-#'   `c("male", "unknown")`.
-#'   If `NULL` (default) all observations of all sex classes are taken into
-#'   account.
-#' @param life_stage Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL` (default) all observations of all life stage classes are taken
-#'   into account.
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.

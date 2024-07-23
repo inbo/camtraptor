@@ -80,7 +80,7 @@ get_n_obs <- function(x, species = "all") {
   observations <- observations(x)
   deployments <- deployments(x)
 
-  deploymentID <- deployments$deploymentID
+  deploymentID <- purrr::pluck(deployments, "deploymentID")
 
   deployments_no_obs <- get_dep_no_obs(x)
 
@@ -94,8 +94,8 @@ get_n_obs <- function(x, species = "all") {
   # get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(
-      deployments$deploymentID,
-      unique(c(unique(observations$scientificName), species))
+      deploymentID,
+      unique(c(unique(purrr::pluck(observations, "scientificName")), species))
     ) %>%
     dplyr::rename(deploymentID = "Var1", scientificName = "Var2") %>%
     dplyr::as_tibble()

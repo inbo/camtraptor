@@ -79,26 +79,15 @@ map_deployments(x,
         species = "Anas platyrhynchos")
 ```
 
-Notice how zero values are also visualized by a specific icon for ease detection. By default a black multiplication symbol `×`.
-
-You can filter by sex:
+Notice how zero values are also visualized by a specific icon for ease detection. By default a black multiplication symbol `×`:
 
 ```{r filter_sex}
-map_deployments(
-  x,
-  "n_obs",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
-```
-
-and life stage:
-
-```{r filter_life_stage}
-map_deployments(
-  x,
-  "n_obs",
-  life_stage = c("unknown", "subadult")
+x %>%
+  filter_observations(sex %in% c("female", "unknown")) %>%
+  map_deployments(
+    x,
+    "n_obs",
+    species = "Anas platyrhynchos"
 )
 ```
 
@@ -119,18 +108,6 @@ map_deployments(x,
         species = "Anas platyrhynchos")
 ```
 
-and filter by sex and/or life stage:
-
-
-```{r filter_sex_individuals}
-map_deployments(
-  x,
-  "n_individuals",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
-```
-
 #### RAI
 
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
@@ -142,17 +119,6 @@ map_deployments(x,
 ```
 
 **Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
-
-As for number of observations and number of individuals, you can  filter by sex and/or life stage:
-
-```{r filter_sex_rai}
-map_deployments(
-  x,
-  "rai",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
-```
 
 Common names are allowed as values of `species` as well:
 

@@ -214,77 +214,6 @@ test_that(paste(
   expect_equal(n_obs$n, n_obs_via_sequence_id)
 })
 
-test_that("sex filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  sex_value <- "female"
-  n_obs_females <- suppressMessages(
-    get_n_obs(x, species = NULL, sex = sex_value)
-  )
-  tot_n_obs_females <- sum(n_obs_females$n)
-  expect_equal(tot_n_obs_females, 1)
-  expect_equal(nrow(n_obs_females), nrow(deployments(x)))
-})
-
-test_that("multiple sex values allowed", {
-  skip_if_offline()
-  x <- example_dataset()
-  sex_value <- c("female", "unknown")
-  n_obs_females_unknown <- suppressMessages(get_n_obs(x,
-    species = NULL,
-    sex = sex_value
-  ))
-  tot_n_obs_females_unknown <- sum(n_obs_females_unknown$n)
-  expect_equal(
-    tot_n_obs_females_unknown,
-    observations(x) %>%
-      dplyr::filter(.data$sex %in% sex_value) %>%
-      dplyr::distinct(.data$sequenceID) %>%
-      nrow()
-  )
-  expect_equal(nrow(n_obs_females_unknown), nrow(deployments(x)))
-})
-
-test_that("life_stage filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  life_stage_value <- "subadult"
-  n_obs_subadult_via_distinct <-
-    observations(x) %>%
-    dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
-    dplyr::distinct(.data$sequenceID) %>%
-    nrow()
-  n_obs_subadult <- suppressMessages(
-    get_n_obs(x, species = NULL, life_stage = life_stage_value)
-  )
-  tot_n_obs_subadult <- sum(n_obs_subadult$n)
-  expect_equal(tot_n_obs_subadult, n_obs_subadult_via_distinct)
-  expect_equal(nrow(n_obs_subadult), nrow(deployments(x)))
-})
-
-test_that("multiple age values allowed", {
-  skip_if_offline()
-  x <- example_dataset()
-  life_stage_value <- c("subadult", "adult")
-  n_obs_subadult_adult <- suppressMessages(
-    get_n_obs(x, species = NULL, life_stage = life_stage_value)
-  )
-  tot_n_obs_subadult_adult <- sum(n_obs_subadult_adult$n)
-  n_obs_subadult_adult_calculate <-
-    observations(x) %>%
-    dplyr::filter(.data$lifeStage %in% life_stage_value) %>%
-    nrow()
-  expect_equal(tot_n_obs_subadult_adult, n_obs_subadult_adult_calculate)
-  expect_equal(nrow(n_obs_subadult_adult), nrow(deployments(x)))
-})
-
-test_that("error returned if life stage or sex is not present", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_error(get_n_obs(x, life_stage = "bad"))
-  expect_error(get_n_obs(x, sex = "bad"))
-})
-
 test_that(paste(
   "scientific_name column contains all specified species,",
   "even if all 0s are returned"
@@ -292,9 +221,8 @@ test_that(paste(
   skip_if_offline()
   x <- example_dataset()
   species_value <- "Anas platyrhynchos"
-  sex_value <- "female"
   n_obs <- suppressMessages(
-    get_n_obs(x, species = species_value, sex = sex_value)
+    get_n_obs(x, species = species_value)
   )
   expect_true(all(n_obs$scientificName %in% species_value))
   expect_true(all(species_value %in% n_obs$scientificName))

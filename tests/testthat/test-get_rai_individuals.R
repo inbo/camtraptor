@@ -14,16 +14,16 @@ test_that("get_rai_individuals returns the right dataframe", {
     )
   )
 
-  # type list
+  # Type list
   expect_type(output_anas_platyrhyncos, "list")
 
-  # class tibble data.frame
+  # Class tibble data.frame
   expect_equal(
     class(output_anas_platyrhyncos),
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deploymentID scientificName and rai only
+  # Columns `deploymentID`, `scientificName` and `rai` only
   expect_equal(
     names(output_anas_platyrhyncos),
     c(
@@ -43,12 +43,12 @@ test_that("get_rai_individuals returns the right number of rows: all species sel
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
-  # calculate rai for all species
+  # Calculate rai for all species
   output_all_species <- get_rai_individuals(x,
     species = all_species$scientificName
   )
 
-  # number of rows should be equal to number of species by number of deployments
+  # Number of rows should be equal to number of species by number of deployments
   expect_equal(
     nrow(output_all_species),
     n_all_species * n_all_deployments
@@ -64,7 +64,7 @@ test_that("get_rai_individuals returns the same if 'all' is used instead of vect
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
-  # calculate rai for all species using default "all" value
+  # Calculate rai for all species using default "all" value
   output_all_species_default <- get_rai_individuals(x, species = "all")
   # calculate rai for all species specifying the species
   output_all_species <- get_rai_individuals(x,

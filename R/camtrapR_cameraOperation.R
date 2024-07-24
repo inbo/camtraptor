@@ -29,7 +29,7 @@
 #' @inheritParams get_species
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
-#' @family exploration functions
+#' @family camtrapR-derived functions
 #' @export
 #' @examples
 #' x <- example_dataset()

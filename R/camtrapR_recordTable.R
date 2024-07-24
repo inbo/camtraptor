@@ -53,7 +53,7 @@
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
 #' @inheritParams get_species
-#' @family exploration functions
+#' @family camtrapR-derived functions
 #' @export
 #' @examples
 #' x <- example_dataset()

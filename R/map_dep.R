@@ -1,5 +1,6 @@
 #' Visualize deployments features
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' This function is deprecated. Please use [map_deployments()] instead.

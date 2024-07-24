@@ -114,11 +114,11 @@
 #' # duplicate not removed
 #' camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 camtrapR_recordTable <- function(x,
-                             stationCol = "locationName",
-                             exclude = NULL,
-                             minDeltaTime = 0,
-                             deltaTimeComparedTo = NULL,
-                             removeDuplicateRecords = TRUE) {
+                                 stationCol = "locationName",
+                                 exclude = NULL,
+                                 minDeltaTime = 0,
+                                 deltaTimeComparedTo = NULL,
+                                 removeDuplicateRecords = TRUE) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   

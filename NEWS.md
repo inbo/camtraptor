@@ -17,7 +17,8 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - `get_record_table()` has been renamed. Use `camtrapR_recordTable()` (#240).
 - `get_cam_op()` has been renamed. Use `camtrapR_cameraOperation()` (#239).
 - `get_n_species()` has been renamed. Use `n_species()` (#243).
-- `map_dep()` has been renamed. Use `map_deployments()` (#231).
+- `map_dep()` has been deprecated. Use `map_deployments()` instead (#231).
+- Arguments `sex` and `life_stage` are deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 
 # camtraptor 0.25.0
 

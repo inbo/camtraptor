@@ -261,8 +261,6 @@
 map_deployments <- function(x,
                     feature,
                     species = NULL,
-                    sex = NULL,
-                    life_stage = NULL,
                     effort_unit = NULL,
                     cluster = TRUE,
                     hover_columns = c(
@@ -504,24 +502,16 @@ map_deployments <- function(x,
   if (feature == "n_species") {
     feat_df <- n_species(x)
   } else if (feature == "n_obs") {
-    feat_df <- get_n_obs(x, species = species, sex = sex, life_stage = life_stage)
+    feat_df <- get_n_obs(x, species = species)
   } else if (feature == "n_individuals") {
-    feat_df <- get_n_individuals(
-      x,
-      species = species,
-      sex = sex,
-      life_stage = life_stage,
-      ...
-    )
+    feat_df <- get_n_individuals(x, species = species)
   } else if (feature == "rai") {
-    feat_df <- get_rai(x, species = species, sex = sex, life_stage = life_stage)
+    feat_df <- get_rai(x, species = species)
     feat_df <- feat_df %>% dplyr::rename(n = "rai")
   } else if (feature == "rai_individuals") {
     feat_df <- get_rai_individuals(
       x,
-      species = species,
-      sex = sex,
-      life_stage = life_stage
+      species = species
     )
     feat_df <- feat_df %>% dplyr::rename(n = rai)
   } else if (feature == "effort") {

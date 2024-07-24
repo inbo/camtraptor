@@ -1,6 +1,10 @@
 #' Get number of identified species for each deployment
 #'
-#' Gets the number of identified species per deployment.
+#' Gets the number of identified species per deployment. A species is identified
+#' if it has a scientific name (`scientificName` != `NA`). If a deployment has
+#' only unidentified species, the number of identified species is set to 0. If a
+#' deployment has no observations, the number of identified species is set to
+#' `NA`.
 #'
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
@@ -10,7 +14,7 @@
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' 
+#'
 #' # Get number of species
 #' n_species(x)
 n_species <- function(x) {

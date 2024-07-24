@@ -82,15 +82,7 @@ camtrapR_cameraOperation(
 camtrapR_cameraOperation(x, use_prefix = TRUE)
 }
 \seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()},
-\code{\link{n_species}()}
+Other camtrapR-derived functions: 
+\code{\link{camtrapR_recordTable}()}
 }
-\concept{exploration functions}
+\concept{camtrapR-derived functions}

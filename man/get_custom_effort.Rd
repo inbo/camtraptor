@@ -79,7 +79,6 @@ get_custom_effort(x, group_by = "year")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{camtrapR_cameraOperation}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},

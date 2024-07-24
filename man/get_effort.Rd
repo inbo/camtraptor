@@ -46,7 +46,6 @@ get_effort(x, unit = "day")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{camtrapR_cameraOperation}()},
 \code{\link{get_custom_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},

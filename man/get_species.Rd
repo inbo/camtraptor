@@ -24,7 +24,6 @@ get_species(x)
 \seealso{
 Other exploration functions: 
 \code{\link{camtrapR_cameraOperation}()},
-\code{\link{camtrapR_recordTable}()},
 \code{\link{get_custom_effort}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},

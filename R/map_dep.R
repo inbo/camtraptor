@@ -5,7 +5,6 @@
 #' 
 #' This function is deprecated. Please use [map_deployments()] instead.
 #'
-#' @inheritParams map_deployments
 #' @inherit map_deployments
 #' @export
 map_dep <- function(x,

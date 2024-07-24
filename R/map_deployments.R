@@ -3,8 +3,6 @@
 #' This function visualizes deployments features such as number of detected
 #' species, number of observations and RAI on a dynamic map.
 #' The circle size and colour are proportional to the mapped feature.
-#' Deployments without observations are shown as gray circles and a message is
-#' returned.
 #'
 #' @param feature Deployment feature to visualize.
 #'   One of:

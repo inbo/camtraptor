@@ -18,6 +18,7 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - `get_cam_op()` has been deprecated. Use `camtrapR_cameraOperation()` (#239).
 - `get_n_species()` has been deprecated. Use `n_species()` (#243).
 - `map_dep()` has been deprecated. Use `map_deployments()` (#231).
+- Filter predicates (`apply_filter_predicate()`, `pred()` `pred_not()` `pred_gt()`, `pred_and()`, `pred_or()`, etc.) are made defunct. Use `filter_deployments()` (#316).
 - Arguments `sex` and `life_stage` are deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 
 # camtraptor 0.25.0

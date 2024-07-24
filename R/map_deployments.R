@@ -182,62 +182,52 @@
 #' )
 #'
 #' # Do not show deployments with zero values
-#' map_deployments(
-#'   x,
-#'   "n_obs",
-#'   life_stage = "subadult",
-#'   zero_values_show = FALSE
-#' )
+#' x %>%
+#'   filter_observations(lifeStage == "subadult") %>%
+#'   map_deployments(
+#'     "n_obs",
+#'     zero_values_show = FALSE
+#'   )
 #'
 #' # Use same icon but but a non default colour for zero values deployments,
 #' # E.g. red (hex: E74C3C)
-#' map_deployments(
-#'   x,
-#'   "n_obs",
-#'   life_stage = "subadult",
-#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
-#' )
+#' x %>%
+#'   filter_observations(lifeStage == "subadult") %>%
+#'   map_deployments(
+#'     "n_obs",
+#'     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/multiply.png"
+#'   )
 #'
 #' # ... or yellow (F1C40F)
-#' map_deployments(
-#'   x,
-#'   "n_obs",
-#'   life_stage = "subadult",
-#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
-#' )
+#' x %>%
+#'   filter_observations(lifeStage == "subadult") %>%
+#'   map_deployments(
+#'     "n_obs",
+#'     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/F1C40F/multiply.png"
+#'   )
 #'
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' # in green (2ECC71)
-#' map_deployments(
-#'   x,
-#'   "n_obs",
-#'   life_stage = "subadult",
-#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
-#' )
-#' 
-#' # Same behavior for the icon visualizing NA values (`"n_species"` feature)
-#' unknown_species_vs_no_obs <- x %>%
-#'   filter_observations(
-#'     is.na(scientificName) | scientificName != "Homo sapiens"
-#'   ) %>%
-#'   filter_deployments(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
-#' map_deployments(
-#'   unknown_species_vs_no_obs,
-#'   feature = "n_species",
-#'   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png",
-#'   zero_values_icon_size = 60,
-#'   na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/futurama-fry.png",
-#'   na_values_icon_size = 60
-#' )
-#'
+#' x %>%
+#'   filter_observations(lifeStage == "subadult") %>%
+#'   map_deployments(
+#'     "n_obs",
+#'     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
+#'   )
+#'   
 #' # Set size of the icon for zero values deployments
 #' x %>% 
 #'   filter_observations(lifeStage == "subadult") %>%
+#'   map_deployments("n_obs", zero_values_icon_size = 30)
+#'
+#' # Use another icon url/size for visualizing NA values (`"n_species"` feature)
+#' x %>%
+#'   filter_observations(deploymentID != "00a2c20d") %>%
 #'   map_deployments(
-#'     x,
-#'     "n_obs",
-#'     zero_values_icon_size = 30
-#'   )
+#'     feature = "n_species",
+#'     na_values_icon_url = "https://img.icons8.com/ios-glyphs/30/E74C3C/futurama-fry.png",
+#'     na_values_icon_size = 60
+#' )
 #'
 #' # Disable cluster
 #' map_deployments(
@@ -254,7 +244,8 @@
 #' )
 #'
 #' # Use absolute scale for colours and radius
-#' map_deployments(x,
+#' map_deployments(
+#'   x,
 #'   "n_species",
 #'   relative_scale = FALSE,
 #'   max_scale = 4

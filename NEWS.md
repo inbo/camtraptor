@@ -15,8 +15,8 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
 - `get_record_table()` has been renamed. Use `camtrapR_recordTable()` (#240).
-- `get_cam_op()` has been renamed. Use `camtrapR_cameraOperation()` (#239).
 - `get_n_species()` has been renamed. Use `n_species()` (#243).
+- `get_cam_op()` has been deprecated. Use `camtrapR_cameraOperation()` (#239).
 - `map_dep()` has been deprecated. Use `map_deployments()` instead (#231).
 - Arguments `sex` and `life_stage` are deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 

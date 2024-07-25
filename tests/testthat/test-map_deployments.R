@@ -206,3 +206,56 @@ test_that("map_deployments() returns a leaflet", {
   expect_no_error(map_deployments(x, feature = "n_species"))
   expect_no_message(map_deployments(x, feature = "n_species"))
 })
+
+test_that("map_dep() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_warning(
+    map_deployments(x, "n_species"),
+    lifecycle_warning_deprecated
+  )
+})
+
+test_that("output of map_dep() is the same as map_deployments()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_identical(
+    suppressWarnings(map_dep(x, "n_species")),
+    map_deployments(x, "n_species")
+  )
+})
+
+test_that("Check all three deprecations: function and args sex and life_stage", {
+  skip_if_offline()
+  x <- example_dataset()
+  warnings <- list()
+  # Using the (superseded) `capture_warnings()` doesn't retain the
+  # class of the warnings. Still, not worth to go more complex
+  warns <- capture_warnings(map_dep(x,
+                                    "n_species",
+                                    sex = "female",
+                                    life_stage = "adult")
+  )
+  
+  # Test length of the warnings
+  expect_length(warnings, 3)
+  
+  # Test the content of the warnings (partial match is enough)
+  expect_match(
+    warnings[[1]]),
+    "`map_dep\\(\\)` was deprecated in camtraptor 1.0.0.",
+    all = FALSE
+  )
+  expect_match(
+    conditionMessage(warnings[[2]]),
+    paste0("The `sex` argument of `map_dep\\(\\)` ", 
+           "is deprecated as of camtraptor 1.0.0."),
+    all = FALSE
+  )
+  expect_match(
+    conditionMessage(warnings[[2]]),
+    paste0("The `life_stage` argument of `map_dep\\(\\)` ",
+           "is deprecated as of camtraptor 1.0.0."),
+    all = FALSE
+  )
+})

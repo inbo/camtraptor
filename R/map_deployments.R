@@ -301,27 +301,7 @@ map_deployments <- function(x,
     warning(glue::glue("`effort_unit` ignored for `feature = {feature}`."))
     effort_unit <- NULL
   }
-
-  # Check sex and life stage in combination with feature
-  if (!is.null(sex) & !feature %in% c(
-    "n_obs",
-    "n_individuals",
-    "rai",
-    "rai_individuals"
-  )) {
-    warning(glue::glue("`sex` ignored for `feature = {feature}`."))
-    sex <- NULL
-  }
-  if (!is.null(life_stage) & !feature %in% c(
-    "n_obs",
-    "n_individuals",
-    "rai",
-    "rai_individuals"
-  )) {
-    warning(glue::glue("`life_stage` ignored for `feature = {feature}`."))
-    life_stage <- NULL
-  }
-
+  
   # Check palette/colours
   viridis_valid_palettes <- c(
     "magma",

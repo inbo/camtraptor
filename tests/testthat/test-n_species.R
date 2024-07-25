@@ -50,3 +50,15 @@ test_that("n_species returns NA for deployments without observations", {
   n_species <- suppressMessages(n_species(package = no_obs))
   expect_true(is.na(n_species[n_species$deploymentID == dep_no_obs,]$n))
 })
+
+test_that("get_n_species() is deprecated and calls n_species()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_warning(get_n_species(x), lifecycle_warning_deprecated)
+})
+
+test_that("output of get_n_species() is the same as n_species()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_identical(suppressWarnings(get_n_species(x)), n_species(x))
+})

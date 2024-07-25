@@ -29,6 +29,12 @@ map_dep <- function(x,
                     max_scale = NULL,
                     radius_range = c(10, 50)) {
   
+  # Throw a warning: `map_dep()` is deprecated
+  lifecycle::deprecate_warn(when = "1.0.0",
+                            what = "map_dep()",
+                            with = "map_deployments()"
+  )
+  
   # Throw a deprecation warning if sex is not NULL and filter observations
   if (!is.null(sex)) {
     lifecycle::deprecate_warn(
@@ -48,12 +54,7 @@ map_dep <- function(x,
     )
     x <- filter_observations(x, lifeStage %in% life_stage)
   }
-  
-  lifecycle::deprecate_warn(when = "1.0.0",
-                            what = "map_dep()",
-                            with = "map_deployments()"
-  )
-  
+
   map_deployments(
     x,
     feature,

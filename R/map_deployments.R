@@ -448,7 +448,7 @@ map_deployments <- function(x,
       warning(glue::glue(
         "Can't find {n_not_found_cols} columns defined in `hover_columns` in ",
         "deployments: ",
-        glue::glue_collapse(not_found_col, sep = ", ", last = " and ")
+        glue::glue_collapse(not_found_cols, sep = ", ", last = " and ")
       ))
     }
   }

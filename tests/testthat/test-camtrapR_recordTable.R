@@ -248,3 +248,22 @@ test_that(paste(
     nrow(observations(x_dup))
   )
 })
+
+test_that("get_record_table() is deprecated and calls camtrapR_recordTable()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_warning(
+    get_record_table(x),
+    lifecycle_warning_deprecated)
+})
+
+test_that(
+  "output of get_record_table() is the same as camtrapR_recordTable()",
+  {
+    skip_if_offline()
+    x <- example_dataset()
+    expect_identical(
+      suppressWarnings(get_record_table(x)),
+      camtrapR_recordTable(x))
+  }
+)

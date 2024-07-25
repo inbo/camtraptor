@@ -362,3 +362,15 @@ test_that(
       cam_op_matrix[2, col_idx_start2:col_idx_end2]))
   }
 )
+
+test_that("get_cam_op() is deprecated and calls camtrapR_cameraOperation()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_warning(get_cam_op(x), lifecycle_warning_deprecated)
+})
+
+test_that("output of get_cam_op() is the same as camtrapR_cameraOperation()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_identical(suppressWarnings(get_cam_op(x)), camtrapR_cameraOperation(x))
+})

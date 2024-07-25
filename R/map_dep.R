@@ -40,7 +40,8 @@ map_dep <- function(x,
     lifecycle::deprecate_warn(
       when = "1.0.0",
       what = "map_dep(sex)",
-      msg = "Please use `filter_observations()` beforehand."
+      details = paste0("Please use `filter_observations()` ",
+                       "with the condition on `sex` instead.")
     )
     x <- filter_observations(x, sex %in% {{ sex }})
   }
@@ -50,7 +51,8 @@ map_dep <- function(x,
     lifecycle::deprecate_warn(
       when = "1.0.0",
       what = "map_dep(life_stage)",
-      msg = "Please use `filter_observations()` beforehand."
+      details = paste0("Please use `filter_observations()` ",
+                       "with the condition on `lifeStage` instead.")
     )
     x <- filter_observations(x, lifeStage %in% life_stage)
   }

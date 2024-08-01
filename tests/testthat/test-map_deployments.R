@@ -211,7 +211,7 @@ test_that("map_dep() is deprecated", {
   skip_if_offline()
   x <- example_dataset()
   expect_warning(
-    map_deployments(x, "n_species"),
+    map_dep(x, "n_species"),
     lifecycle_warning_deprecated
   )
 })
@@ -259,3 +259,4 @@ test_that("Check all three deprecations: function and args sex and life_stage", 
     all = FALSE
   )
 })
+

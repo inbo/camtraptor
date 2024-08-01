@@ -36,8 +36,8 @@
 #'   - `n`: Number of species, number of observations, RAI or effort (column
 #'   created internally by a `get_*()` function).
 #'   - `species`: Species name(s).
-#'   - `start`: Start deployment.
-#'   - `end`: End deployment.
+#'   - `deploymentStart`: Start deployment.
+#'   - `deploymentEnd`: End deployment.
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `locationID`: Location unique identifier.
 #'   - `locationName`: Location name.
@@ -263,7 +263,8 @@ map_deployments <- function(x,
                     cluster = TRUE,
                     hover_columns = c(
                       "n", "species", "deploymentID", "locationID",
-                      "locationName", "latitude", "longitude", "start", "end"
+                      "locationName", "latitude", "longitude",
+                      "deploymentStart", "deploymentEnd"
                     ),
                     palette = "inferno",
                     zero_values_show = TRUE,

@@ -161,9 +161,9 @@ camtrapR_cameraOperation <- function(x,
   deploys <- deployments(x)
 
   # very first day among all stations
-  first_day <- min(deploys$start)
+  first_day <- min(deploys$deploymentStart)
   # very last day among all stations
-  last_day <- max(deploys$end)
+  last_day <- max(deploys$deploymentEnd)
 
   # get sequence with all days from very first day to very last day
   days_operations <- seq(
@@ -179,8 +179,8 @@ camtrapR_cameraOperation <- function(x,
   deploys <-
     deploys %>%
     dplyr::mutate(
-      start_day = lubridate::date(.data$start),
-      end_day = lubridate::date(.data$end)
+      start_day = lubridate::date(.data$deploymentStart),
+      end_day = lubridate::date(.data$deploymentEnd)
     )
 
   # make a operation table per deployment

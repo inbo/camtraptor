@@ -220,7 +220,7 @@ A message about deployment with zero observations is also returned to the R cons
 # species and one deployment with 0 observations (its deploymentID is not
 # present in observations table).
 
-# Deployment didn't detect any known  species
+# Deployment didn't detect any known species
 unknown_species_vs_no_obs <- x %>%
   filter_observations(is.na(scientificName))
 # A deployment has no observations

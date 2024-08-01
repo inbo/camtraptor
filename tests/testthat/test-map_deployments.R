@@ -242,7 +242,7 @@ test_that("Check all three deprecations: function and args sex and life_stage", 
   
   # Test the content of the warnings (partial match is enough)
   expect_match(
-    warnings[[1]]),
+    warnings[[1]],
     "`map_dep\\(\\)` was deprecated in camtraptor 1.0.0.",
     all = FALSE
   )

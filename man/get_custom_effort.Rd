@@ -52,7 +52,7 @@ internally.
 x <- example_dataset()
 
 # A global effort over the entire duration of the project (Camera Trap Data
-Package) measured in hours
+# Package) measured in hours
 get_custom_effort(x)
 
 # Global effort expressed in days

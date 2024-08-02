@@ -11,7 +11,7 @@ map_deployments(
   effort_unit = NULL,
   cluster = TRUE,
   hover_columns = c("n", "species", "deploymentID", "locationID", "locationName",
-    "latitude", "longitude", "start", "end"),
+    "latitude", "longitude", "deploymentStart", "deploymentEnd"),
   palette = "inferno",
   zero_values_show = TRUE,
   zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/000000/multiply.png",
@@ -69,8 +69,8 @@ Default information:
 \item \code{n}: Number of species, number of observations, RAI or effort (column
 created internally by a \verb{get_*()} function).
 \item \code{species}: Species name(s).
-\item \code{start}: Start deployment.
-\item \code{end}: End deployment.
+\item \code{deploymentStart}: Start deployment.
+\item \code{deploymentEnd}: End deployment.
 \item \code{deploymentID}: Deployment unique identifier.
 \item \code{locationID}: Location unique identifier.
 \item \code{locationName}: Location name.

@@ -26,3 +26,4 @@ test_that("Functions works case insensitively", {
   sc_names <- get_scientific_name(x, c("beeCH MArten"))
   expect_equal(sc_names, c("Martes foina"))
 })
+

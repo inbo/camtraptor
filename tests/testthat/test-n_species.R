@@ -25,15 +25,14 @@ test_that("n_species returns the right dataframe", {
 test_that("n_species returns 0 for obs without recognized species", {
   skip_if_offline()
   x <- example_dataset()
-  # create data package with one deployment with 0 obs and one delpoyment with
+  # create data package with one deployment with 0 obs and one deployment with
   # observations of unknown species
-  unknown_species <- x
   unknown_species$data$observations <- 
     observations(unknown_species) %>% 
     # a deployment has detected only unknown species
     dplyr::filter(is.na(.data$scientificName) | 
              .data$scientificName != "Homo sapiens")
-  n_species <- n_species(package = unknown_species)
+  n_species <- n_species(unknown_species)
   expect_equal(n_species[n_species$n == 0,]$n, 0)
 })
 
@@ -47,7 +46,7 @@ test_that("n_species returns NA for deployments without observations", {
   dep_no_obs <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
   obs <- obs[obs$deploymentID != dep_no_obs,]
   no_obs$data$observations <- obs
-  n_species <- suppressMessages(n_species(package = no_obs))
+  n_species <- suppressMessages(n_species(no_obs))
   expect_true(is.na(n_species[n_species$deploymentID == dep_no_obs,]$n))
 })
 

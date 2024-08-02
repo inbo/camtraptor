@@ -45,14 +45,17 @@ get_effort <- function(x,
   # Calculate effort of deployments
   effort_df <-
     deployments %>%
-    dplyr::mutate(effort_duration = lubridate::as.duration(.data$end - .data$start)) %>%
+    dplyr::mutate(
+      effort_duration = 
+        lubridate::as.duration(.data$deploymentEnd - .data$deploymentStart)
+      ) %>%
     dplyr::select("deploymentID", "effort_duration")
   # Convert effort duration in specified effort time units (arg units)
   effort_df$effort <- transform_effort_to_common_units(
     effort = effort_df$effort_duration,
     unit = unit
   )
-  effort_df$unit <-unit
+  effort_df$unit <- unit
   effort_df %>%
     dplyr::relocate(
       "deploymentID",

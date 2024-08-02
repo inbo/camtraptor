@@ -56,7 +56,7 @@ test_that("get_custom_effort returns error if end earlier than start", {
     ),
     paste0(
       "`end` value is set too early. `end` value must be not earlier than the ",
-      "start of the earliest deployment: 2019-10-09."
+      "start of the earliest deployment: 2020-05-30."
     ),
     fixed = TRUE
   )
@@ -86,7 +86,7 @@ test_that(
       paste0(
         "`end` value is set too early. ",
         "`end` value must be not earlier than the start of the ",
-        "earliest deployment: 2019-10-09."
+        "earliest deployment: 2020-05-30."
       ),
       fixed = TRUE
     )
@@ -127,7 +127,7 @@ test_that("get_custom_effort returns warning if start set too early", {
     paste0(
       "`start` value is set too early. ",
       "`start` authomatically set to start date of earliest ",
-      "deployment: 2019-10-09."
+      "deployment: 2020-05-30."
     )
   )
   expect_identical(
@@ -269,3 +269,4 @@ test_that("check effort and unit values", {
   # Unit value is equal to day if unit value is set to "day"
   expect_identical(unique(tot_effort_days$unit), "day")
 })
+

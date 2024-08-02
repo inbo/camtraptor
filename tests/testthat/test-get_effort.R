@@ -22,7 +22,7 @@ test_that("get_effort returns error for invalid effort units", {
 test_that("get_effort returns error for invalid datapackage", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_effort(deployments(x)))
+  expect_error(suppressWarnings(get_effort(deployments(x))))
 })
 
 

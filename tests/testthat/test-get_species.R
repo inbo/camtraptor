@@ -4,18 +4,18 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(x),
     dplyr::tibble(
-      taxonID = purrr::map_chr(x$taxonomic, ~ .[["taxonID"]]),
-      taxonIDReference = purrr::map_chr(
-        x$taxonomic, ~ .[["taxonIDReference"]]
-      ),
       scientificName = purrr::map_chr(
         x$taxonomic, ~ .[["scientificName"]]
       ),
-      vernacularNames.en = purrr::map_chr(
-        x$taxonomic, ~ .[["vernacularNames"]][["en"]]
+      taxonID = purrr::map_chr(x$taxonomic, ~ .[["taxonID"]]),
+      taxonRank = purrr::map_chr(
+        x$taxonomic, ~ .[["taxonRank"]]
       ),
-      vernacularNames.nl = purrr::map_chr(
-        x$taxonomic, ~ .[["vernacularNames"]][["nl"]]
+      vernacularNames.eng = purrr::map_chr(
+        x$taxonomic, ~ .[["vernacularNames"]][["eng"]]
+      ),
+      vernacularNames.nld = purrr::map_chr(
+        x$taxonomic, ~ .[["vernacularNames"]][["nld"]]
       )
     )
   )

@@ -25,7 +25,7 @@
 #'
 #' \dontrun{
 #' # An error is returned if at least one invalid vernacular name is passed
-#' get_scientfic_name(x, "this is a bad vernacular name")
+#' get_scientific_name(x, "this is a bad vernacular name")
 #'
 #' # A scientific name is an invalid vernacular name of course
 #' get_scientific_name(x, c("Castor fiber", "wilde eend"))

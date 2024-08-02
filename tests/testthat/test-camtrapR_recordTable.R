@@ -112,10 +112,11 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
     "Anas strepera",
     "Ardea",
     "Ardea cinerea",
-    "Castor fiber",
+    "Aves",
     "Homo sapiens",
     "Martes foina",
-    "Mustela putorius"
+    "Mustela putorius",
+    "rattus norvegicus"
   )
   nrow_foxes <- camtrapR_recordTable(x, exclude = species_to_exclude) %>%
     nrow()

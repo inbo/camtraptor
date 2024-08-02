@@ -64,7 +64,8 @@ map_dep <- function(x,
     effort_unit = NULL,
     cluster = TRUE,
     hover_columns = c("n", "species", "deploymentID", "locationID",
-                      "locationName", "latitude", "longitude", "start", "end"
+                      "locationName", "latitude", "longitude", 
+                      "deploymentStart", "deploymentEnd"
                       ),
     palette = "inferno",
     zero_values_show = TRUE,

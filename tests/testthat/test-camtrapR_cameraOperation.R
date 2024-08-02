@@ -117,8 +117,8 @@ test_that("output matrix has camera IDs addded to locations as rownames", {
   x_cameras <- x
   x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
   cam_op_matrix <- camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
-  locations_cameras <- paste(deployments(x_sessions)$locationName,
-                             deployments(x_sessions)$cameraID,
+  locations_cameras <- paste(deployments(x_cameras)$locationName,
+                             deployments(x_cameras)$cameraID,
                              sep = "__CAM_"
   )
   n_locations <- length(deployments(x_cameras)$locationName)
@@ -189,7 +189,7 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x_cam <- x
-    x_cam$data$deployments$session[1] <- c("1__CAM_1")
+    x_cam$data$deployments$session <- paste0(c(1,2,3,4), "__CAM_")
     expect_error(camtrapR_cameraOperation(x_cam, session_col = "session"),
                  paste0("Session column name (`session`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
@@ -288,10 +288,10 @@ test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   end <- as.character(
     as.Date(purrr::pluck(deployments(x), "deploymentEnd", 4))
   )
-  expect_gt(cam_op_matrix[4, deploymentStart], 0)
-  expect_lt(cam_op_matrix[4, deploymentStart],1)
-  expect_gt(cam_op_matrix[4, deploymentEnd], 0)
-  expect_lt(cam_op_matrix[4, deploymentEnd], 1)
+  expect_gt(cam_op_matrix[4, start], 0)
+  expect_lt(cam_op_matrix[4, start],1)
+  expect_gt(cam_op_matrix[4, end], 0)
+  expect_lt(cam_op_matrix[4, end], 1)
 })
 
 test_that(
@@ -309,7 +309,7 @@ test_that(
       as.Date(deployments(x1)$deploymentStart[2]) + lubridate::ddays(1)
     )
     last_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$deployments$deploymentEnd[2]) - lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentEnd[2]) - lubridate::ddays(1)
     )
     # as many rows as locations
     expect_true(
@@ -374,3 +374,4 @@ test_that("output of get_cam_op() is the same as camtrapR_cameraOperation()", {
   x <- example_dataset()
   expect_identical(suppressWarnings(get_cam_op(x)), camtrapR_cameraOperation(x))
 })
+

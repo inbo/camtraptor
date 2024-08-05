@@ -69,19 +69,19 @@ In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two 
 x2 <- x
 x2$data$deployments$locationName[4] <- deployments(x2) %>% 
   purrr::pluck("locationName", 3)
-x2$data$deployments$start[4] <- deployments(x2) %>% 
+x2$data$deployments$deploymentStart[4] <- deployments(x2) %>% 
   purrr::pluck("deploymentEnd", 3) + ddays(5)
-x2$data$deployments$end[4] <- deployments(x2) %>% 
+x2$data$deployments$deploymentEnd[4] <- deployments(x2) %>% 
   purrr::pluck("deploymentStart", 4) + ddays(5)
-deployments(x2) %>% dplyr::select(locationName, start, end)
+deployments(x2) %>% dplyr::select(locationName, deploymentStart, deploymentEnd)
 ```
 
 This results in the following camera operation matrix:
 
 ```{r camOp_two_deploys_two_periods}
 two_deploys_two_periods_matrix <- camtrapR_cameraOperation(x2)
-days_to_show <- seq(as.Date(deployments(x2)$start[3]),
-                    as.Date(deployments(x2)$end[4]),
+days_to_show <- seq(as.Date(deployments(x2)$deploymentStart[3]),
+                    as.Date(deployments(x2)$deploymentEnd[4]),
                     by = "days"
 )
 two_deploys_two_periods_matrix[3,as.character(days_to_show)]

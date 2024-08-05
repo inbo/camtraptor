@@ -62,7 +62,7 @@
 #' # Set a minDeltaTime of 20 minutes from last independent record for filtering
 #' # out not independent observations
 #' x_dependent <- x
-#' x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+#' x_dependent$data$observations[4, "timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
 #' camtrapR_recordTable(
 #'   x_dependent,
 #'   minDeltaTime = 20,
@@ -88,11 +88,11 @@
 #'   minDeltaTime = 20,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
-#' 
+#'
 #' # How to deal with duplicates
 #' x_dup <- x
 #' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-#' x_dup$data$observations[4,"sequenceID"] <- purrr::pluck(
+#' x_dup$data$observations[4, "sequenceID"] <- purrr::pluck(
 #'   observations(x_dup),
 #'   "sequenceID",
 #'   3
@@ -110,7 +110,7 @@
 #'
 #' # duplicates are removed by default by camtrapR_recordTable()
 #' camtrapR_recordTable(x_dup)
-#' 
+#'
 #' # duplicate not removed
 #' camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 camtrapR_recordTable <- function(x,
@@ -121,7 +121,7 @@ camtrapR_recordTable <- function(x,
                                  removeDuplicateRecords = TRUE) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
-  
+
   # check stationCol is a valid column name
   assertthat::assert_that(
     stationCol %in% names(deployments(x)),
@@ -181,15 +181,16 @@ camtrapR_recordTable <- function(x,
 
   # Extract deployments
   deployments <- deployments(x)
-  
+
   # remove observations from filtered out deployments
   obs <- obs %>%
     dplyr::filter(.data$deploymentID %in% deployments$deploymentID)
 
   # add station column from deployments to observations
   obs <- obs %>%
-    dplyr::left_join(deployments %>% 
-                       dplyr::select("deploymentID", !!rlang::sym(stationCol)),
+    dplyr::left_join(
+      deployments %>%
+        dplyr::select("deploymentID", !!rlang::sym(stationCol)),
       by = "deploymentID"
     )
   # extract needed info from media and set file names and file paths as
@@ -223,7 +224,9 @@ camtrapR_recordTable <- function(x,
       Time = format(.data$timestamp, format = "%H:%M:%S")
     ) %>%
     dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
-    dplyr::arrange(.data$scientificName, !!rlang::sym(stationCol), .data$timestamp)
+    dplyr::arrange(
+      .data$scientificName, !!rlang::sym(stationCol), .data$timestamp
+    )
   if (minDeltaTime == 0) {
     # observations are by default independent
     record_table <- record_table %>% dplyr::mutate(independent = TRUE)
@@ -261,7 +264,9 @@ camtrapR_recordTable <- function(x,
 
   # get time between obs of two individuals of same species at same location
   record_table <- record_table %>%
-    dplyr::mutate(delta.time = .data$timestamp - dplyr::lag(.data$timestamp)) %>%
+    dplyr::mutate(
+      delta.time = .data$timestamp - dplyr::lag(.data$timestamp)
+    ) %>%
     dplyr::mutate(delta.time.secs = as.numeric(.data$delta.time)) %>%
     dplyr::mutate(delta.time.mins = .data$delta.time.secs / 60) %>%
     dplyr::mutate(delta.time.hours = .data$delta.time.mins / 60) %>%
@@ -321,8 +326,8 @@ camtrapR_recordTable <- function(x,
 #' It is a helper function for `camtrapR_recordTable()`.
 #'
 #' @param df A data frame.
-#' @param minDeltaTime_dur: Duration, time difference between records of the same
-#'   species at the same station to be considered independent.
+#' @param minDeltaTime_dur: Duration, time difference between records of the
+#' same species at the same station to be considered independent.
 #' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
 #'   `"lastRecord"`.
 #'   For two records to be considered independent, must the second one be at
@@ -332,8 +337,8 @@ camtrapR_recordTable <- function(x,
 #'   "lastRecord"`)?
 #'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
 #' @noRd
-assess_temporal_independence <- function(df, minDeltaTime_dur, deltaTimeComparedTo) {
-
+assess_temporal_independence <- function(
+    df, minDeltaTime_dur, deltaTimeComparedTo) {
   # just initialization (set correctly at i = 1)
   last_indep_timestamp <- df$last_timestamp[1]
 

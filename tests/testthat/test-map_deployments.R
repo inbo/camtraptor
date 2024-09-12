@@ -210,10 +210,7 @@ test_that("map_deployments() returns a leaflet", {
 test_that("map_dep() is deprecated", {
   skip_if_offline()
   x <- example_dataset()
-  expect_warning(
-    map_dep(x, "n_species"),
-    lifecycle_warning_deprecated
-  )
+  lifecycle::expect_deprecated(map_dep(x, "n_species"))
 })
 
 test_that("output of map_dep() is the same as map_deployments()", {

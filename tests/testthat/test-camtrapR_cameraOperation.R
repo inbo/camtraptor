@@ -366,7 +366,7 @@ test_that(
 test_that("get_cam_op() is deprecated and calls camtrapR_cameraOperation()", {
   skip_if_offline()
   x <- example_dataset()
-  expect_warning(get_cam_op(x), lifecycle_warning_deprecated)
+  lifecycle::expect_deprecated(get_cam_op(x))
 })
 
 test_that("output of get_cam_op() is the same as camtrapR_cameraOperation()", {

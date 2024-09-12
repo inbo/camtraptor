@@ -27,9 +27,6 @@ reference:
 - title: Validate data
   contents:
   - has_concept("validation functions")
-- title: Publish data
-  contents:
-  - has_concept("publication functions")
 - title: Estimate density
   contents:
   - has_concept("density estimation functions")

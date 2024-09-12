@@ -4,7 +4,6 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 
 - `read_camtrapdp()` reexports the read functionality from [camtrapdp](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298). 
 It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
-- `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
 - The deprecated argument `datapkg` in `read_camtrap_dp()` is removed.
 - `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).
 - `round_coordinates()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/round_coordinates.html) (#327).

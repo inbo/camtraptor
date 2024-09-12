@@ -63,7 +63,7 @@ get_n_individuals <- function(x, species = "all") {
           glue::glue_collapse(ignored_species, sep = ", ", last = " and ")
         ))
       }
-      species <- get_species(x)$scientificName
+      species <- taxa(x)$scientificName
     }
     # Check species and get scientific names
     species <- check_species(x, species)

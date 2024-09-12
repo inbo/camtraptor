@@ -14,12 +14,12 @@ It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
 - Function `locations()` allows to extract information about locations from the deployments (#317). It reexports the functionality from camtrapdp, see [`camtrapdp::locations()`](https://inbo.github.io/camtrapdp/reference/locations.html).
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
-- Filter predicates (`apply_filter_predicate()`, `pred()` `pred_not()` `pred_gt()`, `pred_and()`, `pred_or()`, etc.) are made defunct. Use `filter_deployments()` (#316).
-- Function `get_record_table()` has been deprecated. Use `camtrapR_recordTable()` (#240).
-- Function `get_cam_op()` has been deprecated. Use `camtrapR_cameraOperation()` (#239).
-- Function `get_n_species()` has been deprecated. Use `n_species()` (#243).
-- Function `map_dep()` has been deprecated. Use `map_deployments()` (#231).
-- Arguments `sex` and `life_stage` are deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
+- Filter predicates (`apply_filter_predicate()`, `pred()` `pred_not()` `pred_gt()`, `pred_and()`, `pred_or()`, etc.) are now defunct. Use `filter_deployments()` (#316).
+- Function `get_record_table()` is now deprecated. Use `camtrapR_recordTable()` (#240).
+- Function `get_cam_op()` is now deprecated. Use `camtrapR_cameraOperation()` (#239).
+- Function `get_n_species()` is now deprecated. Use `n_species()` (#243).
+- Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).
+- Arguments `sex` and `life_stage` are now deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 
 # camtraptor 0.25.0
 

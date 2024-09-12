@@ -80,7 +80,7 @@ camtrapR_recordTable(x)
 # Set a minDeltaTime of 20 minutes from last independent record for filtering
 # out not independent observations
 x_dependent <- x
-x_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+x_dependent$data$observations[4, "timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
 camtrapR_recordTable(
   x_dependent,
   minDeltaTime = 20,
@@ -110,7 +110,7 @@ camtrapR_recordTable(
 # How to deal with duplicates
 x_dup <- x
 # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-x_dup$data$observations[4,"sequenceID"] <- purrr::pluck(
+x_dup$data$observations[4, "sequenceID"] <- purrr::pluck(
   observations(x_dup),
   "sequenceID",
   3

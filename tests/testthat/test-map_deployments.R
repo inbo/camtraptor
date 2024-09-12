@@ -228,10 +228,13 @@ test_that("Check all three deprecations: function and args sex and life_stage", 
   warnings <- list()
   # Using the (superseded) `capture_warnings()` doesn't retain the
   # class of the warnings. Still, not worth to go more complex
-  warns <- capture_warnings(map_dep(x,
-                                    "n_species",
-                                    sex = "female",
-                                    life_stage = "adult")
+  warnings <- capture_warnings(
+    rlang::with_options(
+      lifecycle_verbosity = "warning",
+      suppressMessages(
+        map_dep(x, "n_species", sex = "female", life_stage = "adult")
+      )
+    )
   )
   
   # Test length of the warnings
@@ -244,13 +247,13 @@ test_that("Check all three deprecations: function and args sex and life_stage", 
     all = FALSE
   )
   expect_match(
-    conditionMessage(warnings[[2]]),
+    warnings[[2]],
     paste0("The `sex` argument of `map_dep\\(\\)` ", 
            "is deprecated as of camtraptor 1.0.0."),
     all = FALSE
   )
   expect_match(
-    conditionMessage(warnings[[2]]),
+    warnings[[3]],
     paste0("The `life_stage` argument of `map_dep\\(\\)` ",
            "is deprecated as of camtraptor 1.0.0."),
     all = FALSE

@@ -177,7 +177,7 @@ test_that("get_n_individuals returns a warning if 'all' is used with other value
 test_that("number of individuals is equal to sum of counts", {
   skip_if_offline()
   x <- example_dataset()
-  deploy_id <- "29b7d356-4bb4-4ec4-b792-2af5cc32efa8"
+  deploy_id <- "00a2c20d"
   species <- "Anas platyrhynchos"
   n_individuals_via_count <-
     observations(x) %>%

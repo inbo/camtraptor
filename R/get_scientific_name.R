@@ -34,10 +34,6 @@ get_scientific_name <- function(x, vernacular_name) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  if (is.null(x) & !is.name(example_dataset)) {
-    x <- example_dataset
-  }
-  
   all_sn_vn <- get_species(x)
 
   # Get vernacular names for check

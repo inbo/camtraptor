@@ -253,9 +253,7 @@ test_that(paste(
 test_that("get_record_table() is deprecated and calls camtrapR_recordTable()", {
   skip_if_offline()
   x <- example_dataset()
-  expect_warning(
-    get_record_table(x),
-    lifecycle_warning_deprecated)
+  lifecycle::expect_deprecated(get_record_table(x))
 })
 
 test_that(

@@ -92,6 +92,29 @@ get_custom_effort <- function(package = NULL,
                               group_by = NULL,
                               unit = "hour",
                               datapkg = lifecycle::deprecated()) {
+  # Check start earlier than end
+  if (!is.null(start) & !is.null(end)) {
+    assertthat::assert_that(start <= end,
+                            msg = "`start` must be earlier than `end`."
+    )
+  }
+  
+  # Check start and end are both dates
+  assertthat::assert_that(
+    is.null(start) | all(class(start) == "Date"),
+    msg = glue::glue(
+      "`start` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
+    )
+  )
+  assertthat::assert_that(
+    is.null(end) | all(class(end) == "Date"),
+    msg = glue::glue(
+      "`end` must be `NULL` or an object of class Date. ",
+      "Did you forget to convert a string to Date with `as.Date()`?"
+    )
+  )
+  
   # Define possible unit values
   units <- c("hour", "day")
 
@@ -127,38 +150,22 @@ get_custom_effort <- function(package = NULL,
   # Camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(package, ..., station_col = "deploymentID")
 
-  # Sum effort over all deployments for each day  (in day units)
-  sum_effort <- colSums(cam_op, na.rm = TRUE, dims = 1)
-
-  sum_effort <- dplyr::tibble(
-    date = lubridate::as_date(names(sum_effort)),
-    sum_effort = sum_effort
-  )
-
-  # Check start and end are both dates
-  assertthat::assert_that(
-    is.null(start) | all(class(start) == "Date"),
-    msg = glue::glue(
-      "`start` must be `NULL` or an object of class Date. ",
-      "Did you forget to convert a string to Date with `as.Date()`?"
-    )
-  )
-  assertthat::assert_that(
-    is.null(end) | all(class(end) == "Date"),
-    msg = glue::glue(
-      "`end` must be `NULL` or an object of class Date. ",
-      "Did you forget to convert a string to Date with `as.Date()`?"
-    )
-  )
+  # Transform camera operation matrix to df with effort per deployment
+  dep_effort <- cam_op %>%
+    dplyr::as_tibble(rownames = "deploymentID") %>%
+    tidyr::pivot_longer(cols = -"deploymentID",
+                        names_to = "date",
+                        values_to = "effort") %>%
+    dplyr::mutate(date = lubridate::as_date(.data$date))
   
   # Check start is earlier than end of the latest deployment
   if (!is.null(start)) {
     assertthat::assert_that(
-      start <= sum_effort$date[nrow(sum_effort)],
+      start <= max(dep_effort$date),
       msg = glue::glue(
         "`start` value is set too late. ",
         "`start` value must be not later than the end of the ", 
-        "latest deployment: {sum_effort$date[nrow(sum_effort)]}."
+        "latest deployment: {max(dep_effort$date)}."
       )
     )
   }
@@ -166,21 +173,20 @@ get_custom_effort <- function(package = NULL,
   # Check end is later than begin of the earliest deployment
   if (!is.null(end)) {
     assertthat::assert_that(
-      end >= sum_effort$date[1],
+      end >= min(dep_effort$date),
       msg = glue::glue(
         "`end` value is set too early. ",
         "`end` value must be not earlier than the start of the ", 
-        "earliest deployment: {sum_effort$date[1]}."
+        "earliest deployment: {min(dep_effort$date)}."
       )
     )
   }
   
-  
   # Check start is not earlier than start first deployment date.
   # Return a warning and set start to first day deployment otherwise.
   if (!is.null(start)) {
-    if (lubridate::as_date(start) < sum_effort$date[1]) {
-      start <- sum_effort$date[1]
+    if (lubridate::as_date(start) < min(dep_effort$date)) {
+      start <- min(dep_effort$date)
       warning(
         glue::glue(
           "`start` value is set too early. ",
@@ -191,13 +197,13 @@ get_custom_effort <- function(package = NULL,
     }
   } else {
     # Set start to date of the earliest deployment
-    start <- sum_effort$date[1]
+    start <- min(dep_effort$date)
   }
   # Check end is not later than end last deployment date.
   # Return a warning and set end to last day deployment otherwise.
   if (!is.null(end)) {
-    if (lubridate::as_date(end) > sum_effort$date[nrow(sum_effort)]) {
-      end <- sum_effort$date[nrow(sum_effort)]
+    if (lubridate::as_date(end) > max(dep_effort$date)) {
+      end <- max(dep_effort$date)
       warning(
         glue::glue(
           "`end` value is set too late. ",
@@ -207,55 +213,62 @@ get_custom_effort <- function(package = NULL,
     }
   } else {
     # Set end to date of the latest deployment
-    end <- sum_effort$date[nrow(sum_effort)]
+    end <- max(dep_effort$date)
   }
   
-  # Check start earlier than end
-  assertthat::assert_that(start <= end,
-    msg = "`start` must be earlier than `end`."
-  )
-
   # Create df with all dates from start to end
   dates_df <- dplyr::tibble(date = seq(start, end, by = "days"))
 
-  # Join dates_df to sum_effort
-  sum_effort <-
+  # Join dates_df to dep_effort
+  dep_effort <-
     dates_df %>%
-    dplyr::left_join(sum_effort, by = "date")
+    dplyr::left_join(dep_effort, by = "date")
 
   # Filter by start and end date
-  sum_effort <-
-    sum_effort %>%
+  dep_effort <-
+    dep_effort %>%
     dplyr::filter(.data$date >= start & .data$date <= end)
 
   if (is.null(group_by)) {
-    # Calculate total effort (days) over all deployments
+    # Calculate total effort (days) per deployment
     sum_effort <-
-      sum_effort %>%
+      dep_effort %>%
+      dplyr::group_by(.data$deploymentID) %>%
       dplyr::summarise(
         begin = start,
-        effort = sum(.data$sum_effort, na.rm = TRUE)
+        effort = sum(.data$effort, na.rm = TRUE)
       )
   } else {
+    # Calculate total effort (days) per deployment and given temporal grouping
     sum_effort <-
-      sum_effort %>%
+      dep_effort %>%
       dplyr::mutate(
         begin = lubridate::floor_date(.data$date, unit = group_by)) %>%
-      dplyr::group_by(.data$begin) %>%
-      dplyr::summarise(effort = sum(.data$sum_effort, na.rm = TRUE))
+      dplyr::group_by(.data$deploymentID, .data$begin) %>%
+      dplyr::summarise(effort = sum(.data$effort, na.rm = TRUE))
   }
 
   # Transform effort to hours if needed
   if (unit == "hour") {
     sum_effort <-
       sum_effort %>%
+      dplyr::ungroup() %>%
       dplyr::mutate(effort = .data$effort * 24)
   }
 
+  # Add locations (`locationName`)
+  sum_effort <- dplyr::left_join(
+    sum_effort,
+    dplyr::select(deployments, "deploymentID", "locationName"),
+    by = "deploymentID"
+  )
+  
   # Add unit column and adjust column order
   sum_effort %>%
     dplyr::mutate(unit = unit) %>%
     dplyr::select(
+      "deploymentID",
+      "locationName",
       "begin",
       "effort",
       "unit"

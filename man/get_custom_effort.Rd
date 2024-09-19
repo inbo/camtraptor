@@ -110,6 +110,20 @@ get_custom_effort(
 # Applying filter(s), e.g. deployments with latitude >= 51.18, can be
 # combined with other arguments
 get_custom_effort(mica, pred_gte("latitude", 51.18), group_by = "month")
+
+# You can afterwards calculate the total effort over all deployments
+library(dplyr)
+get_custom_effort(mica, group_by = "year", unit = "day") \%>\%
+  dplyr::filter(effort > 0) \%>\%
+  dplyr::group_by(begin) \%>\% 
+  dplyr::summarise(
+    deploymentIDs = list(deploymentID),
+    locationNames = list(locationName),
+    ndep = length(unique(deploymentID)),
+    nloc = length(unique(locationName)),
+    effort = sum(effort),
+    unit = unique(unit)
+  )
 }
 \seealso{
 Other exploration functions: 

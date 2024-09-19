@@ -1,9 +1,8 @@
 #' Get custom effort
 #'
-#' Gets the custom effort (deployment duration) for a custom time window and a
-#' specific time interval such as day, week, month or year. The custom effort is also
-#' calculated over all deployments, although filtering predicates can be applied
-#' as well. This function calls `get_cam_op()` internally.
+#' Gets the effort for each deployment and a specific time interval such as day,
+#' week, month or year. A custom time window can also be set up. This function
+#' calls `get_cam_op()` internally.
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
@@ -38,6 +37,8 @@
 #'   Use `package` instead.
 #' @param ... filter predicates
 #' @return A tibble data frame with following columns:
+#'   - `deploymentID`: Deployment unique identifier.
+#'   - `locationName`: Location name of the deployments.
 #'   - `begin`: Begin date of the interval the effort is calculated over.
 #'   - `effort`: The effort as number.
 #'   - `unit`: Character specifying the effort unit.
@@ -45,46 +46,47 @@
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' # A global effort over the entire duration of the project (datapackage)
-#' # measured in hours
+#' # Effort for each deployment over the entire duration of the project
+#' # (datapackage) measured in hours (default)
 #' get_custom_effort(mica)
 #'
-#' # Global effort expressed in days
+#' # Effort for each deployment expressed in days
 #' get_custom_effort(mica, unit = "day")
 #'
-#' # Total effort from a specific start to a specific end
+#' # Effort for each deployment from a specific start to a specific end
 #' get_custom_effort(
 #'   mica,
 #'   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
 #'   end = as.Date("2021-01-10")
 #' )
 #'
-#' # Effort at daily interval
+#' # Effort for each deployment at daily interval
 #' get_custom_effort(
 #'   mica,
 #'   group_by = "day"
 #' )
 #'
-#' # Effort at weekly interval
+#' # Effort for each deployment at weekly interval
 #' get_custom_effort(
 #'   mica,
 #'   group_by = "week"
 #' )
 #'
-#' # Effort at monthly interval
+#' # Effort for each deployment at monthly interval
 #' get_custom_effort(
 #'   mica,
 #'   group_by = "month"
 #' )
 #'
-#' # Effort at yearly interval
+#' # Effort for each deployment at yearly interval
 #' get_custom_effort(
 #'   mica,
 #'   group_by = "year"
 #' )
 #'
-#' # Applying filter(s), e.g. deployments with latitude >= 51.18
-#' get_custom_effort(mica, pred_gte("latitude", 51.18))
+#' # Applying filter(s), e.g. deployments with latitude >= 51.18, can be
+#' # combined with other arguments
+#' get_custom_effort(mica, pred_gte("latitude", 51.18), group_by = "month")
 get_custom_effort <- function(package = NULL,
                               ...,
                               start = NULL,

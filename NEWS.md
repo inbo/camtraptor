@@ -2,14 +2,22 @@
 
 This is a major release that updates the internal data model to Camtrap DP 1.0 and drops support for Camtrap DP 0.1.6.
 
-- `read_camtrapdp()` reexports the read functionality from [camtrapdp](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298). 
-It replaces the now deprecated `read_camtrap_dp()` (with underscore) (#298).
-- `read_camtrap_dp()` is deprecated. Use `read_camtrapdp()` instead.
+- `read_camtrap_dp()` (with underscore) is now deprecated. Use `read_camtrapdp()`, which reexports the read functionality from [camtrapdp](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298) (#298).
+- Function `get_record_table()` is now deprecated. Use `camtrapR_recordTable()` (#240).
+- Function `get_cam_op()` is now deprecated. Use `camtrapR_cameraOperation()` (#239).
+- Function `get_n_species()` is now deprecated. Use `n_species()` (#243).
+- Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).
+- Filter predicates (`apply_filter_predicate()`, `pred()` `pred_not()` `pred_gt()`, `pred_and()`, `pred_or()`, etc.) are now defunct. Use `filter_deployments()` (#316).
+- Arguments `sex` and `life_stage` are now deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 - The deprecated argument `datapkg` in `read_camtrap_dp()` is removed.
 - `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).
+- `round_coordinates()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/round_coordinates.html) (#327).
 - `example_dataset()` allows to create an example dataset in Camtrap DP 1.0 format. It reexports the functionality from [camtrapdp](https://inbo.github.io/inbo/camtrapdp/reference/example_dataset.html). The internal dataset `mica` is not present anymore. Raw data files in `inst/extdata` are also removed.
 - Functions `deployments()`, `observations()` and `media()` allow to extract the respective tables (#317). They reexports the functionality from camtrapdp, e.g. see [`camtrapdp::deployments()`](https://inbo.github.io/camtrapdp/reference/deployments.html).
+- Functions `events()`and `taxa()` allow to extract information about events and taxa from the observations (#317). They reexport the functionalities from camtrapdp, see [`camtrapdp::events()`](https://inbo.github.io/camtrapdp/reference/events.html) and [camtrapdp::taxa()](https://inbo.github.io/camtrapdp/reference/taxa.html).
+- Function `locations()` allows to extract information about locations from the deployments (#317). It reexports the functionality from camtrapdp, see [`camtrapdp::locations()`](https://inbo.github.io/camtrapdp/reference/locations.html).
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
+- Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
 
 # camtraptor 0.25.0
 

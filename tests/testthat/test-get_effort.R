@@ -22,7 +22,7 @@ test_that("get_effort returns error for invalid effort units", {
 test_that("get_effort returns error for invalid datapackage", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_effort(deployments(x)))
+  expect_error(suppressWarnings(get_effort(deployments(x))))
 })
 
 
@@ -88,25 +88,12 @@ test_that("get_effort returns the right number of rows", {
   skip_if_offline()
   x <- example_dataset()
   effort_df <- get_effort(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
   n_all_deployments <- length(all_deployments)
 
   # number of rows should be equal to number of deployments
   expect_equal(
     nrow(effort_df),
     n_all_deployments
-  )
-})
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_effort(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_effort()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
   )
 })

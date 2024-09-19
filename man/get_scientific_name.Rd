@@ -36,7 +36,7 @@ get_scientific_name(x, c("MaLLarD"))
 
 \dontrun{
 # An error is returned if at least one invalid vernacular name is passed
-get_scientfic_name(x, "this is a bad vernacular name")
+get_scientific_name(x, "this is a bad vernacular name")
 
 # A scientific name is an invalid vernacular name of course
 get_scientific_name(x, c("Castor fiber", "wilde eend"))
@@ -44,15 +44,13 @@ get_scientific_name(x, c("Castor fiber", "wilde eend"))
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
-\code{\link{get_species}()}
+\code{\link{get_species}()},
+\code{\link{n_species}()}
 }
 \concept{exploration functions}

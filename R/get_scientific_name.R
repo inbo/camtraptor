@@ -25,7 +25,7 @@
 #'
 #' \dontrun{
 #' # An error is returned if at least one invalid vernacular name is passed
-#' get_scientfic_name(x, "this is a bad vernacular name")
+#' get_scientific_name(x, "this is a bad vernacular name")
 #'
 #' # A scientific name is an invalid vernacular name of course
 #' get_scientific_name(x, c("Castor fiber", "wilde eend"))
@@ -33,10 +33,6 @@
 get_scientific_name <- function(x, vernacular_name) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
-  
-  if (is.null(x) & !is.name(datapkg)) {
-    x <- datapkg
-  }
   
   all_sn_vn <- get_species(x)
 

@@ -2,22 +2,22 @@ test_that("input camtrap dp is checked properly", {
   skip_if_offline()
   x <- example_dataset()
   # Character instead of datapackage
-  expect_error(get_cam_op("aaa"))
+  expect_error(camtrapR_cameraOperation("aaa"))
   # Numeric instead of datapackage
-  expect_error(get_cam_op(1))
+  expect_error(camtrapR_cameraOperation(1))
   # Station_col is not NA
   expect_error(
-    get_cam_op(x, station_col = NA),
+    camtrapR_cameraOperation(x, station_col = NA),
     "station_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Station_col is length 1
   expect_error(
-    get_cam_op(x, station_col = c("locationID","locationName")),
+    camtrapR_cameraOperation(x, station_col = c("locationID","locationName")),
     "station_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Station_col value is not a column of deployments
   expect_error(
-    get_cam_op(x, station_col = "bla"),
+    camtrapR_cameraOperation(x, station_col = "bla"),
     paste0(
       "Station column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
@@ -27,22 +27,22 @@ test_that("input camtrap dp is checked properly", {
   # Column specified by station_col contains empty values
   x_empty_location_name <- x
   x_empty_location_name$data$deployments$locationName[2:3] <- NA
-  expect_error(get_cam_op(x_empty_location_name),
+  expect_error(camtrapR_cameraOperation(x_empty_location_name),
                "Column `locationName` must be non-empty: 2 NAs found."
   )
   # Camera_col is not NA
   expect_error(
-    get_cam_op(x, camera_col = NA),
+    camtrapR_cameraOperation(x, camera_col = NA),
     "camera_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Camera_col is length 1
   expect_error(
-    get_cam_op(x, camera_col = c("locationID","locationName")),
+    camtrapR_cameraOperation(x, camera_col = c("locationID","locationName")),
     "camera_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Station_col value is not a column of deployments
   expect_error(
-    get_cam_op(x, camera_col = "bla"),
+    camtrapR_cameraOperation(x, camera_col = "bla"),
     paste0(
       "Camera column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
@@ -51,17 +51,17 @@ test_that("input camtrap dp is checked properly", {
   )
   # Session_col is not NA
   expect_error(
-    get_cam_op(x, session_col = NA),
+    camtrapR_cameraOperation(x, session_col = NA),
     "session_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Session_col is length 1
   expect_error(
-    get_cam_op(x, session_col = c("locationID","locationName")),
+    camtrapR_cameraOperation(x, session_col = c("locationID","locationName")),
     "session_col is not a string (a length one character vector).",
     fixed = TRUE)
   # Session_col value is not a column of deployments
   expect_error(
-    get_cam_op(x, session_col = "bla"),
+    camtrapR_cameraOperation(x, session_col = "bla"),
     paste0(
       "Session column name (`bla`) is not valid: ", 
       "it must be one of the deployments column names."
@@ -69,23 +69,23 @@ test_that("input camtrap dp is checked properly", {
     fixed = TRUE
   )
   # use_prefix must be TRUE or FALSE
-  expect_error(get_cam_op(x, use_prefix = "bla"))
-  expect_error(get_cam_op(x, use_prefix = NA))
+  expect_error(camtrapR_cameraOperation(x, use_prefix = "bla"))
+  expect_error(camtrapR_cameraOperation(x, use_prefix = NA))
 })
 
 test_that("output is a matrix", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x)
+  cam_op_matrix <- camtrapR_cameraOperation(x)
   expect_true(is.matrix(cam_op_matrix))
 })
 
 test_that("output matrix has locations as rownames", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x)
-  locations <- deployments(x)$locationName
-  n_locations <- length(deployments(x)$locationName)
+  cam_op_matrix <- camtrapR_cameraOperation(x)
+  locations <- purrr::pluck(deployments(x), "locationName")
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -101,7 +101,7 @@ test_that("output matrix has sessions addded to locations as rownames", {
       "before2020"
    )
   )
-  cam_op_matrix <- get_cam_op(x_sessions, session_col = "session")
+  cam_op_matrix <- camtrapR_cameraOperation(x_sessions, session_col = "session")
   locations_sessions <- paste(deployments(x_sessions)$locationName,
                               deployments(x_sessions)$session,
                               sep = "__SESS_"
@@ -116,9 +116,9 @@ test_that("output matrix has camera IDs addded to locations as rownames", {
   x <- example_dataset()
   x_cameras <- x
   x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-  cam_op_matrix <- get_cam_op(x_cameras, camera_col = "cameraID")
-  locations_cameras <- paste(deployments(x_sessions)$locationName,
-                             deployments(x_sessions)$cameraID,
+  cam_op_matrix <- camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
+  locations_cameras <- paste(deployments(x_cameras)$locationName,
+                             deployments(x_cameras)$cameraID,
                              sep = "__CAM_"
   )
   n_locations <- length(deployments(x_cameras)$locationName)
@@ -133,7 +133,7 @@ test_that(
     x_sess_cam <- x
     x_sess_cam$data$deployments$cameraID <- c(1, 2, 3, 4)
     x_sess_cam$data$deployments$session <- c(1, 2, 3, 4)
-    cam_op_matrix <- get_cam_op(x_sess_cam, 
+    cam_op_matrix <- camtrapR_cameraOperation(x_sess_cam, 
                                 camera_col = "cameraID", 
                                 session_col = "session"
     )
@@ -157,14 +157,14 @@ test_that(
     x <- example_dataset()
     x_sess <- x
     x_sess$data$deployments$session <- c("1__SESS_1")
-    expect_error(get_cam_op(x_sess, session_col = "session"),
+    expect_error(camtrapR_cameraOperation(x_sess, session_col = "session"),
                  paste0("Session column name (`session`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
     x_sess <- x
     x_sess$data$deployments$cameraID <- paste0(c(1,2,3,4), "__SESS_")
-    expect_error(get_cam_op(x_sess, camera_col = "cameraID"),
+    expect_error(camtrapR_cameraOperation(x_sess, camera_col = "cameraID"),
                  paste0("Camera column name (`cameraID`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
@@ -175,7 +175,7 @@ test_that(
       deployments(x_sess)$locationName[1]
     )
     expect_error(
-      get_cam_op(x_sess),
+      camtrapR_cameraOperation(x_sess),
       paste0("Station column name (`locationName`) must not contain any ",
              "of the reserved words: \"__SESS_\", \"__CAM_\"."),
       fixed = TRUE
@@ -189,15 +189,15 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x_cam <- x
-    x_cam$data$deployments$session[1] <- c("1__CAM_1")
-    expect_error(get_cam_op(x_cam, session_col = "session"),
+    x_cam$data$deployments$session <- paste0(c(1,2,3,4), "__CAM_")
+    expect_error(camtrapR_cameraOperation(x_cam, session_col = "session"),
                  paste0("Session column name (`session`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
     )
     x_cam <- x
     x_cam$data$deployments$cameraID <- paste0(c(1,2,3,4), "__CAM_")
-    expect_error(get_cam_op(x_cam, camera_col = "cameraID"),
+    expect_error(camtrapR_cameraOperation(x_cam, camera_col = "cameraID"),
                  paste0("Camera column name (`cameraID`) must not contain any ",
                         "of the reserved words: \"__SESS_\", \"__CAM_\"."),
                  fixed = TRUE
@@ -208,7 +208,7 @@ test_that(
       deployments(x_cam)$locationName[1]
     )
     expect_error(
-      get_cam_op(x_cam),
+      camtrapR_cameraOperation(x_cam),
       paste0("Station column name (`locationName`) must not contain any ",
              "of the reserved words: \"__SESS_\", \"__CAM_\"."),
       fixed = TRUE
@@ -219,9 +219,9 @@ test_that(
 test_that("output matrix has Station prefix in rownames", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x, use_prefix = TRUE)
-  locations <- paste0("Station", deployments(x)$locationName)
-  n_locations <- length(deployments(x)$locationName)
+  cam_op_matrix <- camtrapR_cameraOperation(x, use_prefix = TRUE)
+  locations <- paste0("Station", purrr::pluck(deployments(x), "locationName"))
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -229,9 +229,9 @@ test_that("output matrix has Station prefix in rownames", {
 test_that("output matrix has specified location column as rownames", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x, station_col = "locationID")
-  locations <- deployments(x)$locationID
-  n_locations <- length(deployments(x)$locationID)
+  cam_op_matrix <- camtrapR_cameraOperation(x, station_col = "locationID")
+  locations <- purrr::pluck(deployments(x), "locationID")
+  n_locations <- length(locations)
   expect_identical(nrow(cam_op_matrix), n_locations)
   expect_identical(row.names(cam_op_matrix), locations)
 })
@@ -240,9 +240,9 @@ test_that("output matrix has specified location column as rownames", {
 test_that("output matrix has all deployment days as colnames", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x)
-  days_activity <- seq(as.Date(min(deployments(x)$start)),
-    as.Date(max(deployments(x)$end)),
+  cam_op_matrix <- camtrapR_cameraOperation(x)
+  days_activity <- seq(as.Date(min(purrr::pluck(deployments(x), "deploymentStart"))),
+    as.Date(max(purrr::pluck(deployments(x), "deploymentEnd"))),
     by = "days"
   )
   days_activity <- as.character(days_activity)
@@ -254,14 +254,14 @@ test_that("output matrix has all deployment days as colnames", {
 test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x)
-  location <- deployments(x)$locationName[4]
+  cam_op_matrix <- camtrapR_cameraOperation(x)
+  location <- purrr::pluck(deployments(x), "locationName", 4)
   deployment_start <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
-    dplyr::pull(start)
+    dplyr::pull(deploymentStart)
   deployment_end <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
-    dplyr::pull(end)
+    dplyr::pull(deploymentEnd)
   cols_activity <- seq(as.Date(deployment_start) + lubridate::ddays(1),
     as.Date(deployment_end) - lubridate::ddays(1),
     by = "days"
@@ -269,7 +269,7 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
   cols_activity <- as.character(cols_activity)
 
   cols_inactivity <- seq(as.Date(deployment_end + lubridate::ddays(1)),
-    as.Date(max(deployments(x)$end)),
+    as.Date(max(purrr::pluck(deployments(x), "deploymentEnd"))),
     by = "days"
   )
   cols_inactivity <- as.character(cols_inactivity)
@@ -280,10 +280,14 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
 test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op_matrix <- get_cam_op(x)
-  location <- deployments(x)$locationName[4]
-  start <- as.character(as.Date(deployments(x)$start[4]))
-  end <- as.character(as.Date(deployments(x)$end[4]))
+  cam_op_matrix <- camtrapR_cameraOperation(x)
+  location <- purrr::pluck(deployments(x), "locationName", 4)
+  start <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentStart", 4))
+  )
+  end <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentEnd", 4))
+  )
   expect_gt(cam_op_matrix[4, start], 0)
   expect_lt(cam_op_matrix[4, start],1)
   expect_gt(cam_op_matrix[4, end], 0)
@@ -296,16 +300,16 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x1 <- x
-    x1$data$deployments$start[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-    x1$data$deployments$end[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
+    x1$data$deployments$deploymentStart[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
+    x1$data$deployments$deploymentEnd[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
     x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
-    cam_op_matrix <- get_cam_op(x1)
+    cam_op_matrix <- camtrapR_cameraOperation(x1)
 
     first_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$start[2]) + lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentStart[2]) + lubridate::ddays(1)
     )
     last_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$deployments$end[2]) - lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentEnd[2]) - lubridate::ddays(1)
     )
     # as many rows as locations
     expect_true(
@@ -322,13 +326,25 @@ test_that(
     skip_if_offline()
     x <- example_dataset()
     x1 <- x
-    x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
-    cam_op_matrix1 <- get_cam_op(x1)
-    cam_op_matrix <- get_cam_op(x)
-    start_date1 <- as.character(as.Date(deployments(x)$start[1]))
-    start_date2 <- as.character(as.Date(deployments(x)$start[2]))
-    end_date1 <- as.character(as.Date(deployments(x)$end[1]))
-    end_date2 <- as.character(as.Date(deployments(x)$end[2]))
+    x1$data$deployments$locationName[2] <- purrr::pluck(
+      deployments(x1),
+      "locationName",
+      1
+    )
+    cam_op_matrix1 <- camtrapR_cameraOperation(x1)
+    cam_op_matrix <- camtrapR_cameraOperation(x)
+    start_date1 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentStart", 1))
+    )
+    start_date2 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentStart", 2))
+    )
+    end_date1 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 1))
+    )
+    end_date2 <- as.character(
+      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 2))
+    )
     col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
     col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
     col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)
@@ -347,17 +363,15 @@ test_that(
   }
 )
 
-test_that("Argument datapkg is deprecated: warning returned", {
+test_that("get_cam_op() is deprecated and calls camtrapR_cameraOperation()", {
   skip_if_offline()
   x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_cam_op(datapkg = x)
-    ),
-    paste0("The `datapkg` argument of `get_cam_op()` is deprecated ",
-           "as of camtraptor 0.16.0."
-    ),
-    fixed = TRUE
-  )
+  lifecycle::expect_deprecated(get_cam_op(x))
 })
+
+test_that("output of get_cam_op() is the same as camtrapR_cameraOperation()", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_identical(suppressWarnings(get_cam_op(x)), camtrapR_cameraOperation(x))
+})
+

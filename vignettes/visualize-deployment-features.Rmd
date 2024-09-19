@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to use function `map_dep()` to visualize important deployment features on a leaflet map: 
+This vignette shows how to use function `map_deployments()` to visualize important deployment features on a leaflet map: 
 
 - number of identified species
 - number of observations
@@ -55,10 +55,10 @@ get_species(x)
 
 #### Number of species
 
-You can visualize the number of species detected by each deployment by using the function `map_dep()` with `feature` argument set to `n_species`:
+You can visualize the number of species detected by each deployment by using the function `map_deployments()` with `feature` argument set to `n_species`:
 
 ```{r visualize_n_species_with_clusters_and_default_hover_col}
-map_dep(x,
+map_deployments(x,
         feature = "n_species")
 ```
 
@@ -67,38 +67,27 @@ map_dep(x,
 To visualize the number of observations, set `feature` = `n_obs`:
 
 ```{r visualize_n_obs_with_clusters_and_default_hover_col}
-map_dep(x,
+map_deployments(x,
         feature = "n_obs")
 ```
 
 You can also specify which species you want to calculate the number of observations:
 
 ```{r visualize_n_obs_species}
-map_dep(x,
+map_deployments(x,
         feature = "n_obs",
         species = "Anas platyrhynchos")
 ```
 
-Notice how zero values are also visualized by a specific icon for ease detection. By default a black multiplication symbol `×`.
-
-You can filter by sex:
+Notice how zero values are also visualized by a specific icon for ease detection. By default a black multiplication symbol `×`:
 
 ```{r filter_sex}
-map_dep(
-  x,
-  "n_obs",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
-```
-
-and life stage:
-
-```{r filter_life_stage}
-map_dep(
-  x,
-  "n_obs",
-  life_stage = c("unknown", "subadult")
+x %>%
+  filter_observations(sex %in% c("female", "unknown")) %>%
+  map_deployments(
+    x,
+    "n_obs",
+    species = "Anas platyrhynchos"
 )
 ```
 
@@ -107,28 +96,16 @@ map_dep(
 To visualize the number of observed individuals, set `feature` = `n_individuals`:
 
 ```{r visualize_n_individuas_with_clusters_and_default_hover_col}
-map_dep(x,
+map_deployments(x,
         feature = "n_individuals")
 ```
 
 As for observations, you can specify a species:
 
 ```{r specify_species_individuals}
-map_dep(x,
+map_deployments(x,
         feature = "n_individuals",
         species = "Anas platyrhynchos")
-```
-
-and filter by sex and/or life stage:
-
-
-```{r filter_sex_individuals}
-map_dep(
-  x,
-  "n_individuals",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
 ```
 
 #### RAI
@@ -136,28 +113,17 @@ map_dep(
 To visualize the Relative Abundance Index (RAI) for a species, set `feature` = `rai` and specify a species using its scientific name:
 
 ```{r visualize_rai_with_clusters_and_default_hover_col}
-map_dep(x,
+map_deployments(x,
         feature = "rai",
         species = "Anas platyrhynchos")
 ```
 
 **Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
 
-As for number of observations and number of individuals, you can  filter by sex and/or life stage:
-
-```{r filter_sex_rai}
-map_dep(
-  x,
-  "rai",
-  species = "Anas platyrhynchos",
-  sex = c("female", "unknown")
-)
-```
-
 Common names are allowed as values of `species` as well:
 
 ```{r common_name}
-map_dep(x,
+map_deployments(x,
         feature = "rai",
         species = "great herons")
 ```
@@ -165,7 +131,7 @@ map_dep(x,
 Values of `species` are also interpreted case insensitive:
 
 ```{r arg_species_case_insensitive}
-map_dep(x,
+map_deployments(x,
         feature = "rai",
         species = "CastoR FIBer")
 ```
@@ -173,7 +139,7 @@ map_dep(x,
 If `species` is not specified or is wrong, an informative error message listing all valid values is returned:
 
 ```{r see_error_message, error = TRUE}
-map_dep(x,
+map_deployments(x,
           feature = "rai",
           species = "This is not a species name")
 ```
@@ -183,7 +149,7 @@ map_dep(x,
 You can also visualize the RAI based on number of detected individuals instead of the standard RAI which is based on the number of observations. Set `feature = "rai_individuals"`:
 
 ```{r show_rai_individuals}
-map_dep(x,
+map_deployments(x,
         feature = "rai_individuals",
         species = "Anas platyrhynchos")
 ```
@@ -195,7 +161,7 @@ Everything described in previous section about visualizing RAI holds true for RA
 Visualize duration of the deployments, also called _effort_, as number of active hours:
 
 ```{r effort_in_hours}
-map_dep(x, 
+map_deployments(x, 
         feature = "effort",
         effort_unit = "hour")
 ```
@@ -203,7 +169,7 @@ map_dep(x,
 The same using days as time unit
 
 ```{r effort_in_days}
-map_dep(x, 
+map_deployments(x, 
         feature = "effort",
         effort_unit = "day")
 ```
@@ -211,7 +177,7 @@ map_dep(x,
 or months
 
 ```{r effort_in_months}
-map_dep(x, 
+map_deployments(x, 
         feature = "effort",
         effort_unit = "month")
 ```
@@ -223,7 +189,7 @@ You can specify which information you want to show while hovering with the mouse
 Here below the lat/lon, the camera height and the tags are shown while hovering:
 
 ```{r visualize_with_clusters_spec_hover_col}
-map_dep(x,
+map_deployments(x,
         hover_columns = c("latitude",
                           "longitude",
                           "cameraHeight",
@@ -235,7 +201,7 @@ map_dep(x,
 Deactivating both cluster mode and hovering is also possible:
 
 ```{r visualize_without_clusters}
-map_dep(x,
+map_deployments(x,
         feature = "n_species", 
         cluster = FALSE,
         hover_columns = NULL)
@@ -250,18 +216,20 @@ shown by default as red and black multiplication symbols `×` respectively.
 A message about deployment with zero observations is also returned to the R console:
 
 ```{r show_deployments_without_observations_or_without_known_species}
-# create data package with one deployment with 0 obs and one delpoyment with
-# observations of unknown species
-unknown_species_vs_no_obs <- x
+# Create data package with three deployments with observations of unknown
+# species and one deployment with 0 observations (its deploymentID is not
+# present in observations table).
+
+# Deployment didn't detect any known species
+unknown_species_vs_no_obs <- x %>%
+  filter_observations(is.na(scientificName))
+# A deployment has no observations
 unknown_species_vs_no_obs$data$observations <- 
-  observations(unknown_species_vs_no_obs) %>% 
-  # a deployment has detected only unknown species
-  filter(is.na(.data$scientificName) | 
-           .data$scientificName != "Homo sapiens") %>%
-  # a deployment has no observations
-  filter(deploymentID != "62c200a9-0e03-4495-bcd8-032944f6f5a1")
-# create new map
-map_dep(unknown_species_vs_no_obs,
+  observations(unknown_species_vs_no_obs) %>%
+  dplyr::filter(deploymentID != "00a2c20d")
+
+# Create the map
+map_deployments(unknown_species_vs_no_obs,
         feature = "n_species")
 ```
 
@@ -270,7 +238,7 @@ map_dep(unknown_species_vs_no_obs,
 The default color palette is a [viridis color palette](https://cran.microsoft.com/snapshot/2017-08-01/web/packages/viridis/vignettes/intro-to-viridis.html) called `"inferno"`. You can specify another viridis color palette, e.g. `"viridis"` or `"magma"`, or a [RColorBrewer](https://renenyffenegger.ch/notes/development/languages/R/packages/RColorBrewer/index) palette, e.g. `"BuPu"` or `"Oranges"`. Below we use the `viridis` color palette:
 
 ```{r use_viridis}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   palette = "viridis"
@@ -280,7 +248,7 @@ map_dep(
 We can use a palette from `RColorBrewer`, e.g. the `"BuPu"` palette:
 
 ```{r use_BuPu}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   palette = "BuPu"
@@ -290,7 +258,7 @@ map_dep(
 Another easy way to specify a palette is to create it by passing a vector of colors as names or hex colors, e.g. `c("black", "blue", "#A3675F")`:
 
 ```{r use_black_blue_white}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   palette = c("black", "blue", "#A3675F")
@@ -302,7 +270,7 @@ map_dep(
 You can pass to `zero_value_icon_url` argument the URL to an icon and to `zero_values_icon_size` the size in pixels of such icon. There are several icon libraries you can choose from. A library with many free icons is [icons8](https://icons8.com/). Here, an example with the icon of Fry from Futurama animation series and icon size 50:
 
 ```{r fry_futurama}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   life_stage = "subadult",
@@ -314,7 +282,7 @@ map_dep(
 Typically the colour is part of the URL. Here below two examples where we change the color of the default icon to green (2ECC71):
 
 ```{r specify_zero_colors_value_example_1}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   life_stage = "subadult",
@@ -326,7 +294,7 @@ map_dep(
 or the INBO fuchsia (#C04384):
 
 ```{r specify_zero_colors_value_example_2}
-map_dep(
+map_deployments(
   x,
   "n_obs",
   life_stage = "subadult",
@@ -342,7 +310,7 @@ Modifying the default value (`"black"`) can be useful as the color of deployment
 You can also modify the upper and lower limit of the circle sizes by specifying `radius_range` (default:   `c(10,50`):
 
 ```{r change_size_circles}
-map_dep(x,
+map_deployments(x,
         feature = "n_obs",
         radius_range = c(20, 150))
 ```
@@ -354,7 +322,7 @@ By default the upper limit of color palette and radius are defined based on the 
 Upper limit lower than number of observations:
 
 ```{r low_upper_limit}
-map_dep(x,
+map_deployments(x,
         feature = "n_obs",
         relative_scale = FALSE,
         max_scale = 2)
@@ -363,20 +331,8 @@ map_dep(x,
 Upper limit higher than number of observations:
 
 ```{r high_upper_limit}
-map_dep(x,
+map_deployments(x,
         feature = "n_obs",
         relative_scale = FALSE,
         max_scale = 50)
 ```
-
-### Use filter predicates
-
-You maybe would like to visualize deployment information for a subset of deployments. To do this, you can use filter predicates. E.g. visualize number of observations for the deployments with longitude equal or higher than 5.6:
-
-```{r example_filter_predicates_map}
-map_dep(x,
-        pred_gt("longitude", 5.6),
-        feature = "n_obs")
-```
-
-More about filter predicates in [filter predicates](https://inbo.github.io/camtraptor/articles/filter-predicates.html) article.

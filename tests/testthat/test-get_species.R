@@ -4,18 +4,18 @@ test_that("right (number of) species", {
   expect_identical(
     get_species(x),
     dplyr::tibble(
-      taxonID = purrr::map_chr(x$taxonomic, ~ .[["taxonID"]]),
-      taxonIDReference = purrr::map_chr(
-        x$taxonomic, ~ .[["taxonIDReference"]]
-      ),
       scientificName = purrr::map_chr(
         x$taxonomic, ~ .[["scientificName"]]
       ),
-      vernacularNames.en = purrr::map_chr(
-        x$taxonomic, ~ .[["vernacularNames"]][["en"]]
+      taxonID = purrr::map_chr(x$taxonomic, ~ .[["taxonID"]]),
+      taxonRank = purrr::map_chr(
+        x$taxonomic, ~ .[["taxonRank"]]
       ),
-      vernacularNames.nl = purrr::map_chr(
-        x$taxonomic, ~ .[["vernacularNames"]][["nl"]]
+      vernacularNames.eng = purrr::map_chr(
+        x$taxonomic, ~ .[["vernacularNames"]][["eng"]]
+      ),
+      vernacularNames.nld = purrr::map_chr(
+        x$taxonomic, ~ .[["vernacularNames"]][["nld"]]
       )
     )
   )
@@ -73,18 +73,5 @@ test_that("function works fine with missing vernacular name slots", {
     is.na(species_df %>%
       dplyr::filter(scientificName == "Anas strepera") %>%
       dplyr::pull(vernacularNames.nl))
-  )
-})
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_species(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_species()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
   )
 })

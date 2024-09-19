@@ -8,14 +8,6 @@
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
 #'   If `NULL` all observations of all species are taken into account.
-#' @param sex Character defining the sex class to filter on, e.g. `"female"` or
-#'   `c("male", "unknown")`.
-#'   If `NULL` (default) all observations of all sex classes are taken into
-#'   account.
-#' @param life_stage Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
-#'   If `NULL` (default) all observations of all life stage classes are taken
-#'   into account.
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
@@ -43,29 +35,19 @@
 #' get_n_obs(x, species = "Anas plaTYrhYnchoS")
 #' get_n_obs(x, species = "EUrasian beavER")
 #'
-#' # Specify life stage
-#' get_n_obs(x, life_stage = "subadult")
+#' # Use `filter_observations()` to filter on life stage
+#' x %>%
+#'   filter_observations(lifeStage == "adult") %>%
+#'   get_n_obs()
 #'
-#' # Specify sex
-#' get_n_obs(x, sex = "female")
-#'
-#' # Specify both sex and life stage
-#' get_n_obs(x, sex = "unknown", life_stage = "adult")
-
-get_n_obs <- function(x,
-                      species = "all",
-                      sex = NULL,
-                      life_stage = NULL) {
+#' # Use `filter_observations()` to filter on sex
+#' x %>%
+#'   filter_observations(sex == "female") %>%
+#'   get_n_obs()
+get_n_obs <- function(x, species = "all") {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Avoid to call variables like column names to make life easier using filter()
-  sex_value <- sex
-
-  # Check sex and lifeStage values
-  check_value(sex_value, unique(x$data$observation$sex), "sex")
-  check_value(life_stage, unique(x$data$observation$lifeStage), "lifeStage")
-
   # Get observations of the selected species
   if (!is.null(species)) {
     # If species == all retrieve all detected species
@@ -82,50 +64,35 @@ get_n_obs <- function(x,
     }
     # Check species and get scientific names
     species <- check_species(x, species)
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(tolower(.data$scientificName) %in% tolower(species))
-  }
-
-  # Get observations of the specified sex
-  if (!is.null(sex)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(sex %in% sex_value)
-  }
-
-  # Get observations of the specified life stage
-  if (!is.null(life_stage)) {
-    x$data$observations <-
-      observations(x) %>%
-      dplyr::filter(.data$lifeStage %in% life_stage)
+    # Filter observations by species
+    x <- x %>% filter_observations(scientificName %in% species)
   }
 
   # Extract observations and deployments
   observations <- observations(x)
   deployments <- deployments(x)
 
-  deploymentID <- deployments$deploymentID
+  deploymentID <- purrr::pluck(deployments, "deploymentID")
 
   deployments_no_obs <- get_dep_no_obs(x)
 
-  # get number of observations collected by each deployment for each species
+  # Get number of observations collected by each deployment for each species
   n_obs <-
     observations %>%
     dplyr::group_by(.data$deploymentID, .data$scientificName) %>%
     dplyr::summarise(n = dplyr::n_distinct(.data$sequenceID)) %>%
     dplyr::ungroup()
 
-  # get all combinations deployments - scientific name
+  # Get all combinations deployments - scientific name
   combinations_dep_species <-
     expand.grid(
-      deployments$deploymentID,
-      unique(c(unique(observations$scientificName), species))
+      deploymentID,
+      unique(c(unique(purrr::pluck(observations, "scientificName")), species))
     ) %>%
     dplyr::rename(deploymentID = "Var1", scientificName = "Var2") %>%
     dplyr::as_tibble()
 
-  # set 0 to combinations without observations (i.e. n = NA after join)
+  # Set 0 to combinations without observations (i.e. n = NA after join)
   n_obs <-
     combinations_dep_species %>%
     dplyr::left_join(n_obs,
@@ -135,7 +102,7 @@ get_n_obs <- function(x,
     dplyr::mutate(n = as.integer(.data$n))
 
   if (is.null(species)) {
-    # sum all observations per deployment
+    # Sum all observations per deployment
     n_obs <-
       n_obs %>%
       dplyr::group_by(.data$deploymentID) %>%
@@ -143,7 +110,7 @@ get_n_obs <- function(x,
       dplyr::ungroup()
   }
 
-  # order result by deployments and follow same order as in deployments df
+  # Order result by deployments and follow same order as in deployments df
   deployments %>%
     dplyr::select("deploymentID") %>%
     dplyr::left_join(n_obs, by = "deploymentID", multiple = "all")

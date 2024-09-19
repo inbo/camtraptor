@@ -14,16 +14,16 @@ test_that("get_rai returns the right dataframe", {
     )
   )
 
-  # type list
+  # Type list
   expect_type(output_anas_platyrhyncos, "list")
 
-  # class tibble data.frame
+  # Class tibble data.frame
   expect_equal(
     class(output_anas_platyrhyncos),
     c("tbl_df", "tbl", "data.frame")
   )
 
-  # columns deploymentID scientificName and rai only
+  # Columns `deploymentID`, `scientificName` and `rai` only
   expect_equal(
     names(output_anas_platyrhyncos),
     c(
@@ -38,17 +38,17 @@ test_that("get_rai returns the right number of rows: all species selected", {
   skip_if_offline()
   x <- example_dataset()
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
-  # calculate rai for all species
+  # Calculate rai for all species
   output_all_species <- get_rai(x,
     species = all_species$scientificName
   )
 
-  # number of rows should be equal to number of species by number of deployments
+  # Number of rows should be equal to number of species by number of deployments
   expect_equal(
     nrow(output_all_species),
     n_all_species * n_all_deployments
@@ -59,14 +59,14 @@ test_that("get_rai returns the same if 'all' is used instead of vector with all 
   skip_if_offline()
   x <- example_dataset()
   all_species <- get_species(x)
-  all_deployments <- unique(deployments(x)$deploymentID)
+  all_deployments <- unique(purrr::pluck(deployments(x), "deploymentID"))
 
   n_all_species <- nrow(all_species)
   n_all_deployments <- length(all_deployments)
 
-  # calculate rai for all species using default "all" value
+  # Calculate rai for all species using default "all" value
   output_all_species_default <- get_rai(x, species = "all")
-  # calculate rai for all species specifying the species
+  # Calculate rai for all species specifying the species
   output_all_species <- get_rai(x,
     species = all_species$scientificName
   )
@@ -80,54 +80,5 @@ test_that("species is case insensitive", {
   expect_equal(
     suppressMessages(get_rai(x, species = "Anas platyrhynchos")),
     suppressMessages(get_rai(x, species = toupper("Anas platyrhynchos")))
-  )
-})
-
-test_that("sex filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  sex_value <- "female"
-  n_obs_females <- suppressMessages(
-    get_n_obs(x, species = "Mallard", sex = sex_value)
-  )
-  rai_females <- suppressMessages(
-    get_rai(x, species = "Mallard", sex = sex_value)
-  )
-  # same first two cols as in get_n_obs
-  expect_equal(names(n_obs_females)[1:2], names(rai_females)[1:2])
-  expect_equal(nrow(n_obs_females), nrow(rai_females))
-  expect_equal(n_obs_females[, 1:2], rai_females[, 1:2],
-    ignore_attr = TRUE
-  )
-})
-
-test_that("life_stage filters data correctly", {
-  skip_if_offline()
-  x <- example_dataset()
-  life_stage_value <- "subadult"
-  n_obs_subadult <- suppressMessages(
-    get_n_obs(x, species = "Mallard", life_stage = life_stage_value)
-  )
-  rai_subadult <- suppressMessages(
-    get_rai(x, species = "Mallard", life_stage = life_stage_value)
-  )
-  # same first two cols as in get_n_obs
-  expect_equal(names(n_obs_subadult)[1:2], names(rai_subadult)[1:2])
-  expect_equal(nrow(n_obs_subadult), nrow(rai_subadult))
-  expect_equal(n_obs_subadult[, 1:2], rai_subadult[, 1:2],
-    ignore_attr = TRUE
-  )
-})
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_rai(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_rai()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
   )
 })

@@ -56,7 +56,7 @@ test_that("get_custom_effort returns error if end earlier than start", {
     ),
     paste0(
       "`end` value is set too early. `end` value must be not earlier than the ",
-      "start of the earliest deployment: 2019-10-09."
+      "start of the earliest deployment: 2020-05-30."
     ),
     fixed = TRUE
   )
@@ -86,7 +86,7 @@ test_that(
       paste0(
         "`end` value is set too early. ",
         "`end` value must be not earlier than the start of the ",
-        "earliest deployment: 2019-10-09."
+        "earliest deployment: 2020-05-30."
       ),
       fixed = TRUE
     )
@@ -127,12 +127,12 @@ test_that("get_custom_effort returns warning if start set too early", {
     paste0(
       "`start` value is set too early. ",
       "`start` authomatically set to start date of earliest ",
-      "deployment: 2019-10-09."
+      "deployment: 2020-05-30."
     )
   )
   expect_identical(
     start_too_early$result$begin[1],
-    lubridate::as_date(min(deployments(x)$start))
+    lubridate::as_date(min(purrr::pluck(deployments(x), "deploymentStart")))
   )
 })
 
@@ -154,7 +154,7 @@ test_that("get_custom_effort returns warning if end set too late", {
   )
   expect_identical(
     end_too_late$result$begin[nrow(end_too_late$result)],
-    lubridate::as_date(max(deployments(x)$end))
+    lubridate::as_date(max(purrr::pluck(deployments(x), "deploymentEnd")))
   )
 })
 
@@ -191,8 +191,8 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_identical(nrow(tot_effort), 1L)
 
   # Number of rows with grouping by year is equal to number of calendar years
-  first_day <- min(deployments(x)$start)
-  last_day <- max(deployments(x)$end)
+  first_day <- min(purrr::pluck(deployments(x), "deploymentStart"))
+  last_day <- max(purrr::pluck(deployments(x), "deploymentEnd"))
   n_years <- length(seq(
     lubridate::floor_date(first_day, unit = "years"),
     lubridate::floor_date(last_day, unit = "years"),
@@ -270,15 +270,3 @@ test_that("check effort and unit values", {
   expect_identical(unique(tot_effort_days$unit), "day")
 })
 
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_custom_effort(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_custom_effort()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

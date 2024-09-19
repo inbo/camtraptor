@@ -27,15 +27,3 @@ test_that("Functions works case insensitively", {
   expect_equal(sc_names, c("Martes foina"))
 })
 
-test_that("Argument datapkg is deprecated: warning returned", {
-  skip_if_offline()
-  x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_scientific_name(datapkg = x, vernacular_name = "beech marten")
-    ),
-    "The `datapkg` argument of `get_scientific_name()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
-})

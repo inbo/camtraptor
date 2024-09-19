@@ -232,7 +232,10 @@ calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
   deploy_df <-
     deploy_df %>%
     dplyr::mutate(
-      edge = dplyr::if_else(!is.null(calc_start), .data$start, .data$end),
+      edge = dplyr::if_else(
+        !is.null(calc_start), 
+        .data$deploymentStart, .data$deploymentEnd
+        ),
       edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
     )
   deploy_df %>%

@@ -1,43 +1,43 @@
-test_that("input of get_record_table, camtrap dp, is checked properly", {
+test_that("input of camtrapR_recordTable, camtrap dp, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_record_table("aaa"))
-  expect_error(get_record_table(1))
+  expect_error(camtrapR_recordTable("aaa"))
+  expect_error(camtrapR_recordTable(1))
 })
 
-test_that("input of get_record_table, stationCol, is checked properly", {
+test_that("input of camtrapR_recordTable, stationCol, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_record_table(x, stationCol = "aaa"))
+  expect_error(camtrapR_recordTable(x, stationCol = "aaa"))
 })
 
-test_that("input of get_record_table, exclude, is checked properly", {
+test_that("input of camtrapR_recordTable, exclude, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_record_table(x, exclude = "rattus not existing"))
+  expect_error(camtrapR_recordTable(x, exclude = "rattus not existing"))
 })
 
-test_that("input of get_record_table, minDeltaTime, is checked properly", {
+test_that("input of camtrapR_recordTable, minDeltaTime, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
   expect_error(
-    get_record_table(x, minDeltaTime = "1"),
+    camtrapR_recordTable(x, minDeltaTime = "1"),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
   expect_error(
-    get_record_table(x, minDeltaTime = -10),
+    camtrapR_recordTable(x, minDeltaTime = -10),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
 })
 
-test_that("input of get_record_table, deltaTimeComparedTo, is checked properly", {
+test_that("input of camtrapR_recordTable, deltaTimeComparedTo, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
-  expect_error(get_record_table(x,
+  expect_error(camtrapR_recordTable(x,
     minDeltaTime = 100,
     deltaTimeComparedTo = NULL
   ))
-  expect_error(get_record_table(x,
+  expect_error(camtrapR_recordTable(x,
     minDeltaTime = 100,
     deltaTimeComparedTo = "not valid"
   ))
@@ -46,12 +46,12 @@ test_that("input of get_record_table, deltaTimeComparedTo, is checked properly",
 test_that("if not integer, minDeltaTime is set to integer (floor)", {
   skip_if_offline()
   x <- example_dataset()
-  record_table_int <- get_record_table(x,
+  record_table_int <- camtrapR_recordTable(x,
     minDeltaTime = 1000,
     deltaTimeComparedTo = "lastRecord"
   )
   record_table_dec <- suppressMessages(
-    get_record_table(x,
+    camtrapR_recordTable(x,
       minDeltaTime = 1000.7,
       deltaTimeComparedTo = "lastRecord"
     )
@@ -59,14 +59,14 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
   expect_identical(record_table_int, record_table_dec)
 })
 
-test_that("input of get_record_table, removeDuplicateRecords, is checked properly", {
+test_that("input of camtrapR_recordTable, removeDuplicateRecords, is checked properly", {
   skip_if_offline()
   x <- example_dataset()
   # only TRUE or FALSE are allowed
-  expect_error(get_record_table(x,
+  expect_error(camtrapR_recordTable(x,
     removeDuplicateRecords = 5
   ))
-  expect_error(get_record_table(x,
+  expect_error(camtrapR_recordTable(x,
     removeDuplicateRecords = NA
   ))
 })
@@ -75,7 +75,7 @@ test_that("right columns are returned", {
   skip_if_offline()
   x <- example_dataset()
   expect_named(
-    get_record_table(x),
+    camtrapR_recordTable(x),
     c(
       "Station",
       "Species",
@@ -96,7 +96,7 @@ test_that("right columns are returned", {
 test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
   skip_if_offline()
   x <- example_dataset()
-  nrow_output <- get_record_table(x, minDeltaTime = 0) %>% nrow()
+  nrow_output <- camtrapR_recordTable(x, minDeltaTime = 0) %>% nrow()
   expect_identical(
     nrow_output,
     observations(x) %>%
@@ -112,12 +112,13 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
     "Anas strepera",
     "Ardea",
     "Ardea cinerea",
-    "Castor fiber",
+    "Aves",
     "Homo sapiens",
     "Martes foina",
-    "Mustela putorius"
+    "Mustela putorius",
+    "rattus norvegicus"
   )
-  nrow_foxes <- get_record_table(x, exclude = species_to_exclude) %>%
+  nrow_foxes <- camtrapR_recordTable(x, exclude = species_to_exclude) %>%
     nrow()
   expect_identical(
     nrow_foxes,
@@ -129,13 +130,13 @@ test_that("nrows = n obs of red foxes if all other species are excluded", {
 test_that("Higher minDeltaTime means less rows returned", {
   skip_if_offline()
   x <- example_dataset()
-  nrow_delta_0 <- get_record_table(x) %>% nrow()
-  nrow_delta_10000 <- suppressMessages(get_record_table(x,
+  nrow_delta_0 <- camtrapR_recordTable(x) %>% nrow()
+  nrow_delta_10000 <- suppressMessages(camtrapR_recordTable(x,
     minDeltaTime = 10000,
     deltaTimeComparedTo = "lastRecord"
   )) %>%
     nrow()
-  nrow_delta_100000 <- suppressMessages(get_record_table(x,
+  nrow_delta_100000 <- suppressMessages(camtrapR_recordTable(x,
     minDeltaTime = 100000,
     deltaTimeComparedTo = "lastRecord"
   )) %>%
@@ -146,22 +147,22 @@ test_that("Higher minDeltaTime means less rows returned", {
 
 test_that("stations names are equal to values in column passed to StationCOl", {
   # use locationName as Station
-  stations <- get_record_table(x) %>%
+  stations <- camtrapR_recordTable(x) %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
-  location_names <- unique(deployments(x)$locationName)
+  location_names <- unique(purrr::pluck(deployments(x), "locationName"))
   expect_true(all(stations %in% location_names))
 
   # use locationID as Station
-  stations <- get_record_table(x, stationCol = "locationID") %>%
+  stations <- camtrapR_recordTable(x, stationCol = "locationID") %>%
     dplyr::distinct(Station) %>%
     dplyr::pull()
-  location_ids <- unique(deployments(x)$locationID)
+  location_ids <- unique(purrr::pluck(deployments(x), "locationID"))
   expect_true(all(stations %in% location_ids))
 })
 
 test_that("Directory and Filename columns are lists", {
-  file_values <- get_record_table(x) %>%
+  file_values <- camtrapR_recordTable(x) %>%
     dplyr::select(Directory, FileName)
   expect_true(class(file_values$Directory) == "list")
   expect_true(class(file_values$FileName) == "list")
@@ -173,7 +174,7 @@ test_that(
     "media of independent obs"
   ),
   {
-    output <- get_record_table(x)
+    output <- camtrapR_recordTable(x)
     # add n media, observationID and sequenceID to record table
     output <- output %>%
       dplyr::mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
@@ -212,18 +213,34 @@ test_that(paste(
   x_dup <- x
   # create duplicates at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
   # use 3rd observation as the first two are unknown or blank (= no animal)
-  x_dup$data$observations[,"sequenceID"] <- observations(x_dup)$sequenceID[3]
-  x_dup$data$observations[, "deploymentID"] <- observations(x_dup)$deploymentID[3]
-  x_dup$data$observations[, "timestamp"] <- observations(x_dup)$timestamp[3]
-  x_dup$data$observations[, "scientificName"] <- observations(x_dup)$scientificName[3]
+  x_dup$data$observations[,"sequenceID"] <- purrr::pluck(
+    observations(x_dup),
+    "sequenceID",
+    3
+  )
+  x_dup$data$observations[, "deploymentID"] <- purrr::pluck(
+    observations(x_dup),
+    "deploymentID",
+    3
+  )
+  x_dup$data$observations[, "timestamp"] <- purrr::pluck(
+    observations(x_dup),
+    "timestamp",
+    3
+  )
+  x_dup$data$observations[, "scientificName"] <- purrr::pluck(
+    observations(x_dup),
+    "scientificName",
+    3
+  )
   
-  rec_table <- get_record_table(x_dup)
-  rec_table_dup <- get_record_table(x_dup,
+  rec_table <- camtrapR_recordTable(x_dup)
+  rec_table_dup <- camtrapR_recordTable(x_dup,
     removeDuplicateRecords = FALSE
   )
   expect_identical(nrow(rec_table), 1L)
   expect_identical(
-    rec_table$DateTimeOriginal, observations(x)$timestamp[3]
+    rec_table$DateTimeOriginal, purrr::pluck(observations(x), "timestamp", 3)
   )
   expect_identical(rec_table$delta.time.secs, 0)
   expect_identical(names(rec_table_dup), names(rec_table))
@@ -233,15 +250,19 @@ test_that(paste(
   )
 })
 
-test_that("Argument datapkg is deprecated: warning returned", {
+test_that("get_record_table() is deprecated and calls camtrapR_recordTable()", {
   skip_if_offline()
   x <- example_dataset()
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_record_table(datapkg = x)
-    ),
-    "The `datapkg` argument of `get_record_table()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
+  lifecycle::expect_deprecated(get_record_table(x))
 })
+
+test_that(
+  "output of get_record_table() is the same as camtrapR_recordTable()",
+  {
+    skip_if_offline()
+    x <- example_dataset()
+    expect_identical(
+      suppressWarnings(get_record_table(x)),
+      camtrapR_recordTable(x))
+  }
+)

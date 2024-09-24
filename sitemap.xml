@@ -1,114 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://inbo.github.io/camtraptor/404.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/articles/camera-operation-matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/articles/filter-predicates.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/articles/record-table.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/articles/visualize-deployment-features.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/animal_positions.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/apply_filter_predicate.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/calc_animal_pos.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/check_species.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/dep_calib_models.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/filter_predicate.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_cam_op.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_custom_effort.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_effort.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_n_individuals.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_n_obs.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_n_species.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_rai.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_rai_individuals.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_record_table.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_scientific_name.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/get_species.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/map_dep.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/mica.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/read_camtrap_dp.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/read_wi.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/round_coordinates.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/write_dwc.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/camtraptor/reference/write_eml.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://inbo.github.io/camtraptor/404.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/CONTRIBUTING.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/LICENSE-text.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/articles/camera-operation-matrix.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/articles/filter-predicates.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/articles/index.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/articles/record-table.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/articles/visualize-deployment-features.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/authors.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/index.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/news/index.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/animal_positions.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/apply_filter_predicate.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/calc_animal_pos.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/check_species.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/dep_calib_models.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/filter_predicate.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_cam_op.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_custom_effort.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_effort.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_n_individuals.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_n_obs.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_n_species.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_rai.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_rai_individuals.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_record_table.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_scientific_name.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/get_species.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/index.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/map_dep.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/mica.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/read_camtrap_dp.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/read_wi.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/round_coordinates.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/write_dwc.html</loc></url>
+<url><loc>https://inbo.github.io/camtraptor/reference/write_eml.html</loc></url>
 </urlset>
+

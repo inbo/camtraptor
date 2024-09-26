@@ -13,7 +13,7 @@ example_dataset <- memoise::memoise(camtrapdp::example_dataset)
 #' @family accessor functions
 camtrapdp::deployments
 
-#' @importFrom camtrapdp deployments
+#' @importFrom camtrapdp `deployments<-`
 #' @export
 #' @family accessor functions
 camtrapdp::`deployments<-`
@@ -23,7 +23,7 @@ camtrapdp::`deployments<-`
 #' @family accessor functions
 camtrapdp::media
 
-#' @importFrom camtrapdp media
+#' @importFrom camtrapdp `media<-`
 #' @export
 #' @family accessor functions
 camtrapdp::`media<-`
@@ -33,7 +33,7 @@ camtrapdp::`media<-`
 #' @family accessor functions
 camtrapdp::observations
 
-#' @importFrom camtrapdp observations
+#' @importFrom camtrapdp `observations<-`
 #' @export
 #' @family accessor functions
 camtrapdp::`observations<-`

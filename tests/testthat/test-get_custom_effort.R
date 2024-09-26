@@ -254,6 +254,21 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_lt(nrow(set_start_end), nrow(set_start))
 })
 
+test_that("output get_custom_effort can be manipulated to output get_effort", {
+  # Get effort in days per deployment
+  effort_days <- get_custom_effort(mica)
+  # Total effort via get_effort
+  tot_effort <- get_effort(mica)
+  # Same effort per deployment
+  expect_equal(effort_days$effort, tot_effort$effort)
+  # Columns `deploymentID` and `effort` are equal
+  expect_equal(effort_days$deploymentID, tot_effort$deploymentID)
+  # While grouping per a specific time interval, the sum of effort is equal to total effort as calculated via `get_effort()`
+  effort_days_per_week <- get_custom_effort(mica, group_by = "week")
+  expect_equal(sum(effort_days_per_week$effort), sum(tot_effort$effort))
+})
+
+
 test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
   # Filtering on deployments reduces number of rows (less deployments)

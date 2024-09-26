@@ -1,3 +1,7 @@
+# camtraptor 0.26.0
+
+- `get_custom_effort()` returns now the effort for each deployment separately (#333). The returned data frame has two new columns: `deploymentID` and `locationName`.
+
 # camtraptor 0.25.0
 
 - `read_camtrap_dp()` detects Camtrap DP version from `package$profile` using 

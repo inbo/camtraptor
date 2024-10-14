@@ -1,3 +1,59 @@
+test_that("get_custom_effort() returns error if one or more deployments have NA as `start`", {
+  a <- mica
+  # One NA as ´start´
+  a$data$deployments$start[1] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8.")
+  )
+  # Two NAs
+  a$data$deployments$start[3] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 and ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1.")
+  )
+  # Three NAs
+  a$data$deployments$start[4] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1 and ",
+           "7ca633fa-64f8-4cfc-a628-6b0c419056d7.")
+  )
+})
+
+test_that("get_custom_effort() returns error if one or more deployments have NA as `end`", {
+  a <- mica
+  # One NA
+  a$data$deployments$end[1] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8.")
+  )
+  # Two NAs
+  a$data$deployments$end[3] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 and ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1.")
+  )
+  # Three NAs
+  a$data$deployments$end[4] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1 and ",
+           "7ca633fa-64f8-4cfc-a628-6b0c419056d7.")
+  )
+})
+
 test_that("get_custom_effort returns error for invalid group_by value", {
   expect_error(
     get_custom_effort(mica, group_by = "bad_value"),
@@ -46,10 +102,7 @@ test_that("get_custom_effort returns error if end earlier than start", {
     get_custom_effort(
       mica, start = as.Date("2021-01-01"), end = as.Date("1990-01-01")
     ),
-    paste0(
-      "`end` value is set too early. `end` value must be not earlier than the ",
-      "start of the earliest deployment: 2019-10-09."
-    ),
+    paste0("`start` must be earlier than `end`"),
     fixed = TRUE
   )
 })
@@ -144,7 +197,12 @@ test_that("get_custom_effort returns warning if end set too late", {
 test_that("right columns, cols types, right relative number of rows", {
   # Right cols and col types: no groups
   tot_effort <- get_custom_effort(mica)
-  expect_named(tot_effort, expected = c("begin", "effort", "unit"))
+  expect_named(tot_effort, expected = c("deploymentID",
+                                        "locationName",
+                                        "begin",
+                                        "effort",
+                                        "unit")
+  )
   expect_s3_class(tot_effort$begin, "Date")
   expect_type(tot_effort$effort, "double")
   expect_type(tot_effort$unit, "character")
@@ -152,25 +210,46 @@ test_that("right columns, cols types, right relative number of rows", {
   # Right cols and col types: group by year
   effort_by_year <- get_custom_effort(mica, group_by = "year")
   expect_true(
-    all(colnames(effort_by_year) == c("begin", "effort", "unit"))
+    all(colnames(effort_by_year) == c("deploymentID",
+                                      "locationName",
+                                      "begin",
+                                      "effort",
+                                      "unit")
+    )
   )
 
   # Right cols and col types: group by month
   effort_by_month <- get_custom_effort(mica, group_by = "month")
-  expect_named(effort_by_month, expected = c("begin", "effort", "unit"))
+  expect_named(effort_by_month, expected = c("deploymentID",
+                                             "locationName",
+                                             "begin",
+                                             "effort",
+                                             "unit")
+  )
 
   # Right cols and col types: group by week
   effort_by_week <- get_custom_effort(mica, group_by = "week")
-  expect_named(effort_by_week, expected = c("begin", "effort", "unit"))
+  expect_named(effort_by_week, expected = c("deploymentID",
+                                            "locationName",
+                                            "begin",
+                                            "effort",
+                                            "unit")
+  )
 
   # Right cols and col types: group by day
   effort_by_day <- get_custom_effort(mica, group_by = "day")
-  expect_named(effort_by_day, expected = c("begin", "effort", "unit"))
+  expect_named(effort_by_day, expected = c("deploymentID",
+                                           "locationName",
+                                           "begin",
+                                           "effort",
+                                           "unit")
+  )
 
-  # Number of rows is equal to 1 if group_by is NULL
-  expect_identical(nrow(tot_effort), 1L)
+  # Number of rows is equal to number of deployments (4) if group_by is NULL
+  expect_identical(nrow(tot_effort), nrow(mica$data$deployments))
 
   # Number of rows with grouping by year is equal to number of calendar years
+  # multiplied by number of deployments(4)
   first_day <- min(mica$data$deployments$start)
   last_day <- max(mica$data$deployments$end)
   n_years <- length(seq(
@@ -178,23 +257,27 @@ test_that("right columns, cols types, right relative number of rows", {
     lubridate::floor_date(last_day, unit = "years"),
     by = "years")
   )
-  expect_identical(nrow(effort_by_year), n_years)
+  expect_identical(nrow(effort_by_year), n_years * nrow(mica$data$deployments))
 
   # Number of rows with grouping by month is equal to number of calendar months
+  # multiplied by number of deployments(4)
   n_months <- length(seq(
     lubridate::floor_date(first_day, unit = "months"),
     lubridate::floor_date(last_day, unit = "months"),
     by = "months")
   )
-  expect_identical(nrow(effort_by_month), n_months)
+  expect_identical(nrow(effort_by_month),
+                   n_months * nrow(mica$data$deployments)
+  )
 
   # Number of rows with grouping by week is equal to number of calendar weeks
+  # multiplied by number of deployments(4)
   n_weeks <- length(seq(
     lubridate::floor_date(first_day, unit = "weeks"),
     lubridate::floor_date(last_day, unit = "weeks"),
     by = "weeks")
   )
-  expect_identical(nrow(effort_by_week), n_weeks)
+  expect_identical(nrow(effort_by_week), n_weeks * nrow(mica$data$deployments))
 
   # Number of rows for daily groups is higher than for weekly groups
   expect_gte(nrow(effort_by_day), nrow(effort_by_week))
@@ -227,20 +310,35 @@ test_that("right columns, cols types, right relative number of rows", {
   expect_lt(nrow(set_start_end), nrow(set_start))
 })
 
+test_that("output get_custom_effort can be manipulated to output get_effort", {
+  # Get effort in days per deployment
+  effort_days <- get_custom_effort(mica)
+  # Total effort via get_effort
+  tot_effort <- get_effort(mica)
+  # Same effort per deployment
+  expect_equal(effort_days$effort, tot_effort$effort)
+  # Columns `deploymentID` and `effort` are equal
+  expect_equal(effort_days$deploymentID, tot_effort$deploymentID)
+  # While grouping per a specific time interval, the sum of effort is equal to total effort as calculated via `get_effort()`
+  effort_days_per_week <- get_custom_effort(mica, group_by = "week")
+  expect_equal(sum(effort_days_per_week$effort), sum(tot_effort$effort))
+})
+
+
 test_that("check effort and unit values", {
   tot_effort <- get_custom_effort(mica)
-  # Filtering deployments reduces effort value
+  # Filtering on deployments reduces number of rows (less deployments)
   filter_deploys <- suppressMessages(
     get_custom_effort(mica,
       pred_gte("latitude", 51.18),
       group_by = "year"
     )
   )
-  expect_lt(filter_deploys$effort, tot_effort$effort)
+  expect_lt(nrow(filter_deploys), nrow(tot_effort))
 
   # Effort in hours is higher than effort in days
   tot_effort_days <- get_custom_effort(mica, unit = "day")
-  expect_gt(tot_effort$effort, tot_effort_days$effort)
+  expect_true(all(tot_effort$effort > tot_effort_days$effort))
 
   # Unit value is equal to hour if default unit value is used
   expect_identical(unique(tot_effort$unit), "hour")

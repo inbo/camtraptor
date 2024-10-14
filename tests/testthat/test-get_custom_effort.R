@@ -1,3 +1,59 @@
+test_that("get_custom_effort() returns error if one or more deployments have NA as `start`", {
+  a <- mica
+  # One NA as ´start´
+  a$data$deployments$start[1] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8.")
+  )
+  # Two NAs
+  a$data$deployments$start[3] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 and ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1.")
+  )
+  # Three NAs
+  a$data$deployments$start[4] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`start` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1 and ",
+           "7ca633fa-64f8-4cfc-a628-6b0c419056d7.")
+  )
+})
+
+test_that("get_custom_effort() returns error if one or more deployments have NA as `end`", {
+  a <- mica
+  # One NA
+  a$data$deployments$end[1] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8.")
+  )
+  # Two NAs
+  a$data$deployments$end[3] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 and ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1.")
+  )
+  # Three NAs
+  a$data$deployments$end[4] <- NA
+  expect_error(
+    get_custom_effort(a),
+    paste0("The deployments with the following deploymentID have missing ",
+           "`end` value: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, ",
+           "62c200a9-0e03-4495-bcd8-032944f6f5a1 and ",
+           "7ca633fa-64f8-4cfc-a628-6b0c419056d7.")
+  )
+})
+
 test_that("get_custom_effort returns error for invalid group_by value", {
   expect_error(
     get_custom_effort(mica, group_by = "bad_value"),

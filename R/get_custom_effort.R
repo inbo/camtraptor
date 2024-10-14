@@ -163,6 +163,32 @@ get_custom_effort <- function(package = NULL,
   # Get deployments
   deployments <- package$data$deployments
 
+  # Stop function and inform user about deployments with missing `start` date
+  no_start_deployments <- deployments[is.na(deployments$start),]$deploymentID
+  if (length(no_start_deployments) > 0) {
+    stop(
+      glue::glue(
+        "The deployments with the following deploymentID ",
+        "have missing `start` value: ",
+        glue::glue_collapse(no_start_deployments, sep = ", ", last = " and "),
+        "."
+      )
+    )
+  }
+  
+  # Stop function and inform user about deployments with missing `end` date
+  no_end_deployments <- deployments[is.na(deployments$end),]$deploymentID
+  if (length(no_end_deployments) > 0) {
+    stop(
+      glue::glue(
+        "The deployments with the following deploymentID ",
+        "have missing `end` value: ",
+        glue::glue_collapse(no_end_deployments, sep = ", ", last = " and "),
+        "."
+      )
+    )
+  }
+  
   # Camera operation matrix with filter(s) on deployments
   cam_op <- get_cam_op(package, ..., station_col = "deploymentID")
 

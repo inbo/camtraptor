@@ -20,6 +20,10 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
 
+# camtraptor 0.26.0
+
+- `get_custom_effort()` returns now the effort for each deployment separately (#333). The returned data frame has two new columns: `deploymentID` and `locationName`.
+
 # camtraptor 0.25.0
 
 - `read_camtrap_dp()` detects Camtrap DP version from `package$profile` using 

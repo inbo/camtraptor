@@ -37,28 +37,29 @@ One of: \code{hour} (default), \code{day}.}
 \value{
 A tibble data frame with following columns:
 \itemize{
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{locationName}: Location name of the deployments.
 \item \code{begin}: Begin date of the interval the effort is calculated over.
 \item \code{effort}: The effort as number.
 \item \code{unit}: Character specifying the effort unit.
 }
 }
 \description{
-Gets the custom effort (deployment duration) for a custom time window and a
-specific time interval such as day, week, month or year. The custom effort is
-also calculated over all deployments. This function calls \code{camtrapR_cameraOperation()}
-internally.
+Gets the effort for each deployment and a specific time interval such as day,
+week, month or year. A custom time window can also be set up. This function
+calls \code{camtrapR_cameraOperation()} internally.
 }
 \examples{
 x <- example_dataset()
 
-# A global effort over the entire duration of the project (Camera Trap Data
-# Package) measured in hours
+# Effort for each deployment over the entire duration of the project (Camera Trap Data
+# Package) measured in hours (default)
 get_custom_effort(x)
 
-# Global effort expressed in days
+# Effort for each deployment expressed in days
 get_custom_effort(x, unit = "day")
 
-# Total effort from a specific start to a specific end
+# Effort for each deployment from a specific start to a specific end
 get_custom_effort(
   x,
   start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
@@ -76,6 +77,20 @@ get_custom_effort(x, group_by = "month")
 
 # Effort at yearly interval
 get_custom_effort(x, group_by = "year")
+
+# You can afterwards calculate the total effort over all deployments
+library(dplyr)
+get_custom_effort(x, group_by = "year", unit = "day") \%>\%
+  dplyr::filter(effort > 0) \%>\%
+  dplyr::group_by(begin) \%>\% 
+  dplyr::summarise(
+    deploymentIDs = list(deploymentID),
+    locationNames = list(locationName),
+    ndep = length(unique(deploymentID)),
+    nloc = length(unique(locationName)),
+    effort = sum(effort),
+    unit = unique(unit)
+  )
 }
 \seealso{
 Other exploration functions: 

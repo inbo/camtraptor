@@ -34,7 +34,7 @@ Other contributors:
   \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) [contributor]
   \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
-  \item LifeWatch Belgium (https://lifewatch.be) [funder]
+  \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }
 
 }

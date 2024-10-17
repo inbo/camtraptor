@@ -29,7 +29,7 @@ filter_out_timelapse <- function(x) {
   
   if ("captureMethod" %in% names(observations(x))) {
     x %>%
-      filter_observations(captureMethod != "timelapse")
+      filter_observations(captureMethod != "timelapse" |is.na(captureMethod))
   } else {
     x
   }

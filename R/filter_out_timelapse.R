@@ -19,7 +19,7 @@
 #' 
 #' # Create a data package with timelapse observations
 #' obs <- observations(x)
-#' obs$captureMethod <- rep("timelapse", nrow(obs) - 1)
+#' obs$captureMethod <- c(rep("timelapse", nrow(obs) - 1), "activityDetection")
 #' observations(x) <- obs
 #' # Filter out timelapse observations
 #' filter_out_timelapse(x)

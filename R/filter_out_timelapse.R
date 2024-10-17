@@ -24,6 +24,9 @@
 #' # Filter out timelapse observations
 #' filter_out_timelapse(x)
 filter_out_timelapse <- function(x) {
+  # Check Camera Trap Data Package
+  check_camtrapdp(x)
+  
   if ("captureMethod" %in% names(observations(x))) {
     x %>%
       filter_observations(captureMethod != "timelapse")

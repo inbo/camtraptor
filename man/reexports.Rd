@@ -20,6 +20,15 @@
 \seealso{
 Other read functions: 
 \code{\link{read_wi}()}
+
+Other filter functions: 
+\code{\link{filter_out_timelapse}()}
+
+Other filter functions: 
+\code{\link{filter_out_timelapse}()}
+
+Other filter functions: 
+\code{\link{filter_out_timelapse}()}
 }
 \concept{accessor functions}
 \concept{filter functions}

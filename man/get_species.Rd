@@ -6,30 +6,8 @@
 \usage{
 get_species(x)
 }
-\arguments{
-\item{x}{Camera trap data package object, as returned by
-\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-}
-\value{
-A tibble data frame with all scientific names and vernacular names of
-the identified species.
-}
 \description{
-Gets all identified species.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Please use \code{\link[=taxa]{taxa()}} instead.
 }
-\examples{
-x <- example_dataset()
-get_species(x)
-}
-\seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{n_species}()}
-}
-\concept{exploration functions}

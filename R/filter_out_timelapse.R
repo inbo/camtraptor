@@ -1,0 +1,36 @@
+#' Filter out timelapse observations
+#'
+#' Subsets observations in a Camera Trap Data Package object, removing timelapse
+#' observations, i.e. observations where `captureMethod` = `timeLapse`. This
+#' function is a shortcut for `filter_observations(x, captureMethod !=
+#' "timelapse")`.
+#' 
+#' @inheritParams get_species
+#'
+#' @return `x` filtered.
+#' @family filter functions
+#' @export
+#'
+#' @examples
+#' x <- example_dataset()
+#' 
+#' # `x` doesn't contain timelapse observations, returned as is
+#' filter_out_timelapse(x)
+#' 
+#' # Create a data package with timelapse observations
+#' obs <- observations(x)
+#' obs$captureMethod <- c(rep("timelapse", nrow(obs) - 1), "activityDetection")
+#' observations(x) <- obs
+#' # Filter out timelapse observations
+#' filter_out_timelapse(x)
+filter_out_timelapse <- function(x) {
+  # Check Camera Trap Data Package
+  camtrapdp::check_camtrapdp(x)
+  
+  if ("captureMethod" %in% names(observations(x))) {
+    x %>%
+      filter_observations(captureMethod != "timelapse" | is.na(captureMethod))
+  } else {
+    x
+  }
+}

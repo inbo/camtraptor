@@ -22,6 +22,7 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
 - Function `filter_out_timelapse()` allows to filter out timelapse observations (#306). See [`camtrapdp::filter_out_timelapse()`](https://inbo.github.io/camtrapdp/reference/filter_out_timelapse.html).
+- File `CITATION.cff` added to the package (#345).
 
 # camtraptor 0.26.0
 

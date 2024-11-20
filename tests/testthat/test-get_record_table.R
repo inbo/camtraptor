@@ -72,7 +72,11 @@ test_that("right columns are returned", {
       "delta.time.hours",
       "delta.time.days",
       "Directory",
-      "FileName"
+      "FileName",
+      "latitude",
+      "longitude",
+      "clock",
+      "solar"
     )
   )
 })

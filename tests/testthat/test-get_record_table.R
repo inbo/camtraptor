@@ -56,6 +56,14 @@ test_that("input of get_record_table, removeDuplicateRecords, is checked properl
     removeDuplicateRecords = NA
   ))
 })
+test_that("warning is returned if some observations have no timestamp", {
+  mica_no_timestamp <- mica
+  mica_no_timestamp$data$observations$timestamp[3:5] <- NA
+  expect_warning(
+    get_record_table(mica_no_timestamp),
+    "Some observations have no timestamp and will be removed."
+  )
+})
 
 test_that("right columns are returned", {
   expect_named(
@@ -211,6 +219,20 @@ test_that(paste(
     nrow(rec_table_dup),
     nrow(mica_dup$data$observations)
   )
+})
+
+test_that("clock is always in the range [0, 2*pi]", {
+  clock_values <- get_record_table(mica) %>%
+    dplyr::pull(clock)
+  expect_true(all(clock_values >= 0))
+  expect_true(all(clock_values <= 2 * pi))
+})
+
+test_that("solar is always in the range [0, 2*pi]", {
+  solar_values <- get_record_table(mica) %>%
+    dplyr::pull(solar)
+  expect_true(all(solar_values >= 0))
+  expect_true(all(solar_values <= 2 * pi))
 })
 
 test_that("filtering predicates are allowed and work well", {

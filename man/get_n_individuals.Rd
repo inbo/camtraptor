@@ -19,7 +19,7 @@ A tibble data frame with the following columns:
 }
 }
 \description{
-Gets the number of individuals (of a subset of species) per deployment.
+Gets the number of individuals per deployment.
 The number of observed individuals is stored in column \code{count} of
 \code{observations}.
 }

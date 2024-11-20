@@ -5,7 +5,7 @@
 #' 
 #' This function is deprecated. Please use [taxa()] instead.
 #'
-#' @inheritParams taxa
+#' @inheritParams n_species
 #' @export
 get_species <- function(x) {
   lifecycle::deprecate_warn(

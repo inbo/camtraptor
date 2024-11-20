@@ -4,7 +4,6 @@
 #' The number of observed individuals is stored in column `count` of
 #' `observations`.
 #'
-#'   If `NULL` all observations of all species are taken into account.
 #' @inheritParams n_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.

@@ -24,7 +24,7 @@
 #'   year will calculate the effort from Jan 1st up to Dec 31st for each year.
 #' @param unit Character, the time unit to use while returning custom effort.
 #'   One of: `hour` (default), `day`.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `locationName`: Location name of the deployments.

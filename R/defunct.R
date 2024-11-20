@@ -94,3 +94,15 @@ apply_filter_predicate <- function(arg, value) {
                             "apply_filter_predicate()",
                             "filter_deployments()")
 }
+
+#' @export
+#' @rdname defunct
+check_species <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "check_species()", "taxa()")
+}
+
+#' @export
+#' @rdname defunct
+get_scientific_name <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "get_scientific_name()", "taxa()")
+}

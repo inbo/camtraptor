@@ -18,21 +18,22 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID})
+\strong{Maintainer}: Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (Research Institute for Nature and Forest (INBO))
 
 Authors:
 \itemize{
-  \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID})
-  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID})
+  \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (Research Institute for Nature and Forest (INBO))
 }
 
 Other contributors:
 \itemize{
   \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-10205}{ORCID}) [contributor]
-  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) [contributor]
-  \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) [contributor]
-  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) [contributor]
-  \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) [contributor]
+  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (University of Antwerp) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
   \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }

@@ -22,6 +22,9 @@ A tibble data frame with the following columns:
 
 This function is deprecated. Please use \code{\link[=n_species]{n_species()}} instead.
 }
+\details{
+Only event-based observations (\code{observationLevel} = \code{event}) are taken into account.
+}
 \examples{
 x <- example_dataset()
 
@@ -35,7 +38,5 @@ Other exploration functions:
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_rai_individuals}()}
 }

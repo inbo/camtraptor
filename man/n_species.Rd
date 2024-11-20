@@ -24,6 +24,9 @@ only unidentified species, the number of identified species is set to 0. If a
 deployment has no observations, the number of identified species is set to
 \code{NA}.
 }
+\details{
+Only event-based observations (\code{observationLevel} = \code{event}) are taken into account.
+}
 \examples{
 x <- example_dataset()
 
@@ -37,8 +40,6 @@ Other exploration functions:
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_rai_individuals}()}
 }
 \concept{exploration functions}

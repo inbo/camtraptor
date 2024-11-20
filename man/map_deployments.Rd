@@ -25,6 +25,9 @@ map_deployments(
 )
 }
 \arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
 \item{feature}{Deployment feature to visualize.
 One of:
 \itemize{

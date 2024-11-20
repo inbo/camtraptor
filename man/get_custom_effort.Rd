@@ -7,6 +7,9 @@
 get_custom_effort(x, start = NULL, end = NULL, group_by = NULL, unit = "hour")
 }
 \arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
 \item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date
 among all deployments is used. If \code{group_by} unit is not \code{NULL}, the lowest
 start value allowed is one group by unit before the start date of the
@@ -96,7 +99,6 @@ Other exploration functions:
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
 \code{\link{n_species}()}
 }
 \concept{exploration functions}

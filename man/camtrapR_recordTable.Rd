@@ -14,6 +14,9 @@ camtrapR_recordTable(
 )
 }
 \arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
 \item{stationCol}{Character name of the column containing stations.
 Default: \code{"locationName"}.}
 

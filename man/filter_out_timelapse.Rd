@@ -6,6 +6,10 @@
 \usage{
 filter_out_timelapse(x)
 }
+\arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+}
 \value{
 \code{x} filtered.
 }

@@ -6,6 +6,10 @@
 \usage{
 n_species(x)
 }
+\arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+}
 \value{
 A tibble data frame with the following columns:
 \itemize{
@@ -36,7 +40,6 @@ Other exploration functions:
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()}
+\code{\link{get_rai_individuals}()}
 }
 \concept{exploration functions}

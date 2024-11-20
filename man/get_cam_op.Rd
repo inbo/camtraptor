@@ -13,6 +13,9 @@ get_cam_op(
 )
 }
 \arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
 \item{station_col}{Column name to use for identifying the stations. Default:
 \code{"locationName"}.}
 

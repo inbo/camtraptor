@@ -7,9 +7,6 @@
 check_species(x, species, arg_name = "species")
 }
 \arguments{
-\item{x}{Camera trap data package object, as returned by
-\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
 \item{species}{Character vector with scientific or vernacular names.}
 
 \item{arg_name}{Character with argument name to return in error message

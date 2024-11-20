@@ -7,9 +7,6 @@
 get_effort(x, unit = "hour")
 }
 \arguments{
-\item{x}{Camera trap data package object, as returned by
-\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
 \item{unit}{Time unit to use while returning deployment effort (duration).
 One of:
 \itemize{
@@ -52,7 +49,6 @@ Other exploration functions:
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
 \code{\link{get_scientific_name}()},
-\code{\link{get_species}()},
 \code{\link{n_species}()}
 }
 \concept{exploration functions}

@@ -1,6 +1,7 @@
 #' Get number of individuals for each deployment
 #'
-#' The number of observed individuals is stored in field `count` of
+#' Gets the number of individuals per deployment.
+#' The number of observed individuals is stored in column `count` of
 #' `observations`.
 #'
 #'   If `NULL` all observations of all species are taken into account.

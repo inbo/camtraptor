@@ -60,7 +60,7 @@
 #'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
 #'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
 #'   - `clock`: Numeric, clock time in radians.
-#'   - `solar`: Numeric, solar time in radians.
+#'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
@@ -330,7 +330,9 @@ get_record_table <- function(package = NULL,
         .data$Date,
         .data$Time,
         .data$Directory,
-        .data$FileName
+        .data$FileName,
+        .data$latitude,
+        .data$longitude
       ) %>%
       dplyr::mutate(row_number = dplyr::row_number()) %>%
       dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs) &

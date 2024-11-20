@@ -69,7 +69,7 @@ get_n_individuals <- function(x) {
     ) %>%
     dplyr::as_tibble()
 
-  # set 0 to combinations without observed individuals (i.e. n = NA after join)
+  # Set 0 to combinations without observed individuals (i.e. n = NA after join)
   n_individuals <-
     combinations_dep_species %>%
     dplyr::left_join(n_individuals,
@@ -78,7 +78,7 @@ get_n_individuals <- function(x) {
     dplyr::mutate(n = ifelse(is.na(.data$n), 0, .data$n)) %>%
     dplyr::mutate(n = as.integer(.data$n))
 
-  # order result by deployments and follow same order as in deployments df
+  # Order result by deployments and follow same order as in deployments df
   deployments %>%
     dplyr::select("deploymentID") %>%
     dplyr::left_join(n_individuals, by = "deploymentID", multiple = "all")

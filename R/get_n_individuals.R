@@ -15,7 +15,7 @@
 #' @examples
 #' x <- example_dataset()
 #' 
-#' # Get number of observations for each species
+#' # Get number of individuals for each species
 #' get_n_individuals(x)
 #'
 #' # Use `filter_observations()` to filter on  scientific name

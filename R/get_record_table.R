@@ -187,6 +187,15 @@ get_record_table <- function(package = NULL,
   obs <- obs %>%
     dplyr::filter(!.data$scientificName %in% exclude)
 
+  
+  # Remove observations without timestamp and returns a warning message
+  # if there are any
+  if (any(is.na(obs$timestamp))) {
+    warning("Some observations have no timestamp and will be removed.")
+    obs <- obs %>%
+      dplyr::filter(!is.na(.data$timestamp))
+  }
+  
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
     df = package$data$deployments,

@@ -42,7 +42,9 @@ test_that("n_species returns NA for deployments without observations", {
 test_that("get_n_species() is deprecated and calls n_species()", {
   skip_if_offline()
   x <- example_dataset()
-  lifecycle::expect_deprecated(get_n_species(x))
+  lifecycle::expect_deprecated(get_n_species(x),
+                               "was deprecated in camtraptor 1.0.0.",
+                               fixed = TRUE)
 })
 
 test_that("output of get_n_species() is the same as n_species()", {

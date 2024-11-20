@@ -57,6 +57,10 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
+#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
+#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
+#'   - `clock`: Numeric, clock time in radians.
+#'   - `solar`: Numeric, solar time in radians.
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
@@ -172,6 +176,9 @@ get_record_table <- function(package = NULL,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE."
   )
 
+  # Add coordinates to observations
+  package <- add_coordinates(package)
+  
   # remove observations of unidentified individuals
   obs <- package$data$observations %>%
     dplyr::filter(!is.na(.data$scientificName))
@@ -276,6 +283,17 @@ get_record_table <- function(package = NULL,
     )) %>%
     dplyr::ungroup()
 
+  # Add clock time in radians
+  record_table <- record_table %>%
+    dplyr::mutate(clock = activity::gettime(.data$timestamp))
+  # Add solar time in radians
+  matrix_coords <- matrix(c(record_table$longitude, record_table$latitude),
+                          ncol = 2)
+  record_table <- record_table %>%
+    dplyr::mutate(solar = overlap::sunTime(.data$clock,
+                                           .data$timestamp,
+                                           matrix_coords))
+  
   record_table <- record_table %>%
     dplyr::rename(Station := !!stationCol,
       Species = "scientificName",
@@ -296,7 +314,11 @@ get_record_table <- function(package = NULL,
       "delta.time.hours",
       "delta.time.days",
       "Directory",
-      "FileName"
+      "FileName",
+      "latitude",
+      "longitude",
+      "clock",
+      "solar"
     )
   # remove duplicates if needed
   if (isTRUE(removeDuplicateRecords)) {

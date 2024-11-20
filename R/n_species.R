@@ -5,6 +5,8 @@
 #' only unidentified species, the number of identified species is set to 0. If a
 #' deployment has no observations, the number of identified species is set to
 #' `NA`.
+#' 
+#' Only event-based observations (`observationLevel` = `event`) are taken into account.
 #'
 #' @inheritParams get_species
 #' @return A tibble data frame with the following columns:
@@ -21,8 +23,9 @@ n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Extract observations and deployments
-  observations <- observations(x)
+  # Extract event-based observations and deployments
+  observations <- observations(x) %>%
+    dplyr::filter(.data$observationLevel == "event")
   deployments <- deployments(x)
 
   # Get deployments without observations

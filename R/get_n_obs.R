@@ -8,7 +8,7 @@
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
 #'   If `NULL` all observations of all species are taken into account.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.

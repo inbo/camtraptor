@@ -8,7 +8,8 @@
 #' 
 #' Only event-based observations (`observationLevel` = `event`) are taken into account.
 #'
-#' @inheritParams get_species
+#' @param x Camera trap data package object, as returned by
+#'   [camtrapdp::read_camtrapdp()].
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.

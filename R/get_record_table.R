@@ -57,6 +57,10 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
+#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
+#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
+#'   - `clock`: Numeric, clock time in radians.
+#'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
 #' @family exploration functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
@@ -172,6 +176,9 @@ get_record_table <- function(package = NULL,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE."
   )
 
+  # Add coordinates to observations
+  package <- add_coordinates(package)
+  
   # remove observations of unidentified individuals
   obs <- package$data$observations %>%
     dplyr::filter(!is.na(.data$scientificName))
@@ -180,6 +187,15 @@ get_record_table <- function(package = NULL,
   obs <- obs %>%
     dplyr::filter(!.data$scientificName %in% exclude)
 
+  
+  # Remove observations without timestamp and returns a warning message
+  # if there are any
+  if (any(is.na(obs$timestamp))) {
+    warning("Some observations have no timestamp and will be removed.")
+    obs <- obs %>%
+      dplyr::filter(!is.na(.data$timestamp))
+  }
+  
   # apply filtering on deployments
   deployments <- apply_filter_predicate(
     df = package$data$deployments,
@@ -276,6 +292,17 @@ get_record_table <- function(package = NULL,
     )) %>%
     dplyr::ungroup()
 
+  # Add clock time in radians
+  record_table <- record_table %>%
+    dplyr::mutate(clock = activity::gettime(.data$timestamp))
+  # Add solar time in radians
+  matrix_coords <- matrix(c(record_table$longitude, record_table$latitude),
+                          ncol = 2)
+  record_table <- record_table %>%
+    dplyr::mutate(solar = overlap::sunTime(.data$clock,
+                                           .data$timestamp,
+                                           matrix_coords))
+  
   record_table <- record_table %>%
     dplyr::rename(Station := !!stationCol,
       Species = "scientificName",
@@ -296,7 +323,11 @@ get_record_table <- function(package = NULL,
       "delta.time.hours",
       "delta.time.days",
       "Directory",
-      "FileName"
+      "FileName",
+      "latitude",
+      "longitude",
+      "clock",
+      "solar"
     )
   # remove duplicates if needed
   if (isTRUE(removeDuplicateRecords)) {
@@ -308,7 +339,9 @@ get_record_table <- function(package = NULL,
         .data$Date,
         .data$Time,
         .data$Directory,
-        .data$FileName
+        .data$FileName,
+        .data$latitude,
+        .data$longitude
       ) %>%
       dplyr::mutate(row_number = dplyr::row_number()) %>%
       dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs) &

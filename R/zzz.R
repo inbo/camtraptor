@@ -1009,3 +1009,26 @@ order_cols_observations <- function(df) {
       )
     )
 }
+
+#' Add deployment coordinates to observations
+#' 
+#' This function adds deployment coordinates to observations based on
+#' `deploymentID`.
+#' 
+#' @param package Camera trap data package object.
+#' @return Camera trap data package object with `observations` updated.
+#' @noRd
+add_coordinates <- function(package) {
+  
+  deployments <- package$data$deployments
+  observations <- package$data$observations
+  
+  # add coordinates to observations
+  observations <- observations %>%
+    dplyr::left_join(deployments %>% 
+                       dplyr::select("deploymentID", "longitude", "latitude"),
+                     by = "deploymentID")
+  
+  package$data$observations <- observations
+  return(package)
+}

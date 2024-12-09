@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.26.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.27.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Damiano
 Oldoni</h4>
             
-            <h4 data-toc-skip class="date">2024-11-27</h4>
+            <h4 data-toc-skip class="date">2024-12-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/main/vignettes/record-table.Rmd" class="external-link"><code>vignettes/record-table.Rmd</code></a></small>
       <div class="d-none name"><code>record-table.Rmd</code></div>
@@ -113,7 +113,7 @@ trap data package.</p>
 be sufficient to run the following:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -133,8 +133,9 @@ be sufficient to run the following:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>The function returns the same columns as the camtrapR’s function
 <code>recordTable()</code> except for column <code>n</code>. The
 following mapping is applied:</p>
@@ -248,7 +249,7 @@ last record, i.e. <code>minDeltaTime</code> minutes after
 <span>                 minDeltaTime <span class="op">=</span> <span class="fl">10</span>, </span>
 <span>                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastRecord"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of not independent observations to be removed: 1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -267,8 +268,9 @@ last record, i.e. <code>minDeltaTime</code> minutes after
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Setting <code>deltaTimeComparedTo</code> to
 <code>“lastIndependentRecord”</code> returns only records taken
 <code>minDeltaTime</code> minutes after the last independent record,
@@ -280,7 +282,7 @@ hour):</p>
 <span>                 minDeltaTime <span class="op">=</span> <span class="fl">10</span>, </span>
 <span>                 deltaTimeComparedTo <span class="op">=</span> <span class="st">"lastIndependentRecord"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of not independent observations to be removed: 1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -299,8 +301,9 @@ hour):</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="exclude-some-species">Exclude some species<a class="anchor" aria-label="anchor" href="#exclude-some-species"></a>
@@ -313,7 +316,7 @@ insensitive):</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grey heron"</span>, <span class="st">"Anas platyrhynchos"</span>, <span class="st">"mens"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Scientific name of grey heron: Ardea cinerea</span></span>
 <span><span class="co">#&gt; Scientific name of mens: Homo sapiens</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas s…     4 2020-07-29 <span style="color: #949494;">05:46:48</span> 2020-07-29 05:4…               0</span></span>
@@ -327,8 +330,9 @@ insensitive):</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
@@ -339,7 +343,7 @@ correct one. It has to be a valid column of <code>deployments</code>.
 Here below, <code>locationID</code> is used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, stationCol <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2df5259b-… Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -359,8 +363,9 @@ Here below, <code>locationID</code> is used:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> ff1535c0-… Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> ff1535c0-… Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> ff1535c0-… Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
@@ -384,7 +389,7 @@ remove them, set <code>removeDuplicateRecords</code> equal to
 <p>Record table without duplicates:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -403,12 +408,13 @@ remove them, set <code>removeDuplicateRecords</code> equal to
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Record table with duplicates:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica_dup</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -428,8 +434,9 @@ remove them, set <code>removeDuplicateRecords</code> equal to
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-filter-predicates">Use filter predicates<a class="anchor" aria-label="anchor" href="#use-filter-predicates"></a>
@@ -441,7 +448,7 @@ of observations for the deployments with latitude equal or higher than
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">mica</span>, <span class="fu"><a href="../reference/filter_predicate.html">pred_gt</a></span><span class="op">(</span><span class="st">"latitude"</span>, <span class="fl">51.18</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df %&gt;% dplyr::filter((latitude &gt; 51.18))</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 16</span></span></span>
 <span><span class="co">#&gt;    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> B_DL_val … Anas p…     2 2020-07-31 <span style="color: #949494;">04:43:33</span> 2020-07-31 04:4…               0</span></span>
@@ -457,8 +464,9 @@ of observations for the deployments with latitude equal or higher than
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> B_DL_val … Mustel…     1 2020-06-23 <span style="color: #949494;">23:33:53</span> 2020-06-23 23:3…          <span style="text-decoration: underline;">349</span>322</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> B_DL_val … Mustel…     1 2020-06-28 <span style="color: #949494;">23:33:16</span> 2020-06-28 23:3…          <span style="text-decoration: underline;">431</span>963</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> B_DL_val … Vulpes…     1 2020-06-26 <span style="color: #949494;">02:09:25</span> 2020-06-26 02:0…               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: delta.time.mins &lt;dbl&gt;, delta.time.hours &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   delta.time.days &lt;dbl&gt;, Directory &lt;list&gt;, FileName &lt;list&gt;, latitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   longitude &lt;dbl&gt;, clock &lt;dbl&gt;, solar &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="other-arguments-needed">Other arguments needed?<a class="anchor" aria-label="anchor" href="#other-arguments-needed"></a>

@@ -13,5 +13,5 @@ get_n_species <- function(x) {
     what = "get_n_species()",
     with = "n_species()"
   )
-  get_n_species(x)
+  n_species(x)
 }

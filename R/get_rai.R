@@ -9,7 +9,7 @@
 #' @param species Character with scientific names or common names (case
 #'   insensitive). If `"all"` (default) all scientific names are automatically
 #'   selected.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with the following columns: - `deploymentID`:
 #'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
 #'   Relative abundance index.
@@ -63,7 +63,7 @@ get_rai <- function(x, species = "all") {
 #' @param species Character with scientific names or common names (case
 #'   insensitive).
 #'   If `"all"` (default) all scientific names are automatically selected.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `scientificName`: Scientific name.
@@ -118,7 +118,7 @@ get_rai_individuals <- function(x, species = "all") {
 #' @param use Character, one of:
 #'   - `"n_obs"`: Calculate RAI based on number of observation (standard).
 #'   - `"n_individuals"`: Calculate RAI based on number of individuals.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame.
 #' @noRd
 get_rai_primitive <- function(x, use, species) {

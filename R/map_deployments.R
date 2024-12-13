@@ -91,7 +91,7 @@
 #'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
 #'   = `FALSE`).
 #'   Default: `c(10, 50)`.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return Leaflet map.
 #' @family visualization functions
 #' @export

@@ -14,7 +14,9 @@ filter_out_timelapse(x)
 \code{x} filtered.
 }
 \description{
-Subsets observations in a Camera Trap Data Package object, removing timelapse observations, i.e. observations where \code{captureMethod} = \code{timeLapse}.
+Subsets observations in a Camera Trap Data Package object, removing timelapse
+observations, i.e. observations where \code{captureMethod} = \code{timeLapse}. This
+function is a shortcut for \code{filter_observations(x, captureMethod != "timelapse")}.
 }
 \examples{
 x <- example_dataset()
@@ -24,7 +26,7 @@ filter_out_timelapse(x)
 
 # Create a data package with timelapse observations
 obs <- observations(x)
-obs$captureMethod <- rep("timelapse", nrow(obs) - 1)
+obs$captureMethod <- c(rep("timelapse", nrow(obs) - 1), "activityDetection")
 observations(x) <- obs
 # Filter out timelapse observations
 filter_out_timelapse(x)

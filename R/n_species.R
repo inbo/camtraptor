@@ -34,7 +34,7 @@ n_species <- function(x) {
 
   # Get species detected by each deployment
   species <-
-    observations %>%
+    observations(x) %>%
     dplyr::distinct(.data$deploymentID, .data$scientificName)
 
   # Get deployments with unidentified observations

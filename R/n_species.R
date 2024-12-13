@@ -24,12 +24,12 @@ n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Extract event-based observations and deployments
-  observations <- observations(x) %>%
-    dplyr::filter(.data$observationLevel == "event")
   deployments <- deployments(x)
-
   # Get deployments without observations
+  # Use event-based observations only
+  x <- x %>%
+    filter_observations(.data$observationLevel == "event")
+  
   deployments_no_obs <- get_dep_no_obs(x)
 
   # Get species detected by each deployment
@@ -64,6 +64,13 @@ n_species <- function(x) {
     dplyr::select("deploymentID") %>%
     dplyr::mutate(n = NA_integer_)
 
-  # Add them to n_species and return
-  n_species %>% dplyr::bind_rows(deployments_no_obs)
+  # Add them to n_species and preserve order of deployments as in deployment
+  # table
+  n_species %>% 
+    dplyr::bind_rows(deployments_no_obs) %>%
+    # Preserve order of deployments as in deployments(x)
+    dplyr::right_join(
+      deployments(x) %>% dplyr::select("deploymentID"),
+      by = "deploymentID"
+    )
 }

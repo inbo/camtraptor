@@ -3,16 +3,14 @@ test_that("n_species returns the right dataframe", {
   x <- example_dataset()
   output_get_n_species <- n_species(x)
 
-  # type list
+  # Type list
   expect_type(output_get_n_species, "list")
-
-  # class tibble data.frame
+  # Class tibble data.frame
   expect_equal(
     class(output_get_n_species),
     c("tbl_df", "tbl", "data.frame")
   )
-
-  # columns deploymentID and n only
+  # Columns deploymentID and n only
   expect_equal(
     names(output_get_n_species),
     c(

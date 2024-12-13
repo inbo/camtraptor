@@ -20,6 +20,12 @@ test_that("n_species returns the right dataframe", {
       "n"
     )
   )
+  # All deployments should be present in the same order as 
+  # deployments(x)
+  expect_identical(
+    output_get_n_species$deploymentID,
+    deployments(x) %>% dplyr::pull("deploymentID")
+  )
 })
 
 test_that("n_species returns 0 for obs without recognized species", {
@@ -27,7 +33,14 @@ test_that("n_species returns 0 for obs without recognized species", {
   x <- example_dataset()
   # Set scientificName equal to NA for all observations = unrecognized species
   observations(x) <- observations(x) %>% dplyr::mutate(scientificName = NA)
-  expect_true(all(dplyr::pull(n_species(x), "n") == 0))
+  output_get_n_species <- n_species(x)
+  expect_true(all(dplyr::pull(output_get_n_species, "n") == 0))
+  # All deployments should be present in the same order as 
+  # deployments(x)
+  expect_identical(
+    output_get_n_species$deploymentID,
+    deployments(x) %>% dplyr::pull("deploymentID")
+    )
 })
 
 test_that("n_species returns NA for deployments without observations", {
@@ -37,6 +50,12 @@ test_that("n_species returns NA for deployments without observations", {
   observations(x) <- observations(x)[0,]
   n_sp <- suppressMessages(n_species(x))
   expect_true(all(is.na(dplyr::pull(n_sp, "n"))))
+  # All deployments should be present in the same order as 
+  # deployments(x)
+  expect_identical(
+    n_sp$deploymentID,
+    deployments(x) %>% dplyr::pull("deploymentID")
+    )
 })
 
 test_that("n_species returns NA for deployments with only media-based observations", {
@@ -48,6 +67,12 @@ test_that("n_species returns NA for deployments with only media-based observatio
     observations()
   n_sp <- suppressMessages(n_species(x))
   expect_true(all(is.na(dplyr::pull(n_sp, "n"))))
+  # All deployments should be present in the same order as 
+  # deployments(x)
+  expect_identical(
+    n_sp$deploymentID,
+    deployments(x) %>% dplyr::pull("deploymentID")
+    )
 })
 
 test_that("get_n_species() is deprecated and calls n_species()", {

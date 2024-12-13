@@ -39,6 +39,17 @@ test_that("n_species returns NA for deployments without observations", {
   expect_true(all(is.na(dplyr::pull(n_sp, "n"))))
 })
 
+test_that("n_species returns NA for deployments with only media-based observations", {
+  skip_if_offline()
+  x <- example_dataset()
+  # Create data package without event-based observations
+  observations(x) <- x %>%
+    filter_observations(.data$observationLevel == "media") %>%
+    observations()
+  n_sp <- suppressMessages(n_species(x))
+  expect_true(all(is.na(dplyr::pull(n_sp, "n"))))
+})
+
 test_that("get_n_species() is deprecated and calls n_species()", {
   skip_if_offline()
   x <- example_dataset()

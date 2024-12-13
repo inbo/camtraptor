@@ -44,6 +44,7 @@ n_species <- function(x) {
     dplyr::pull(.data$deploymentID)
 
   # Get amount of species detected by each deployment
+  # Notice that NA is counted as a species
   n_species <-
     species %>%
     dplyr::group_by(.data$deploymentID) %>%

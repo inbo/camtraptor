@@ -24,7 +24,6 @@ n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  deployments <- deployments(x)
   # Use event-based observations only
   x <- x %>%
     filter_observations(.data$observationLevel == "event")

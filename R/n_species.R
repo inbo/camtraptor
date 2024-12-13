@@ -25,11 +25,11 @@ n_species <- function(x) {
   camtrapdp::check_camtrapdp(x)
   
   deployments <- deployments(x)
-  # Get deployments without observations
   # Use event-based observations only
   x <- x %>%
     filter_observations(.data$observationLevel == "event")
   
+  # Get deployments without event-based observations
   deployments_no_obs <- get_dep_no_obs(x)
 
   # Get species detected by each deployment

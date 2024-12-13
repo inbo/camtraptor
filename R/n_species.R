@@ -52,6 +52,7 @@ n_species <- function(x) {
     dplyr::ungroup()
 
   # Remove the count of NA as species and set n as integer
+  # In this way deployments with only unidentified species will have n = 0
   n_species <- n_species %>%
     dplyr::mutate(n = ifelse(.data$deploymentID %in% unidentified_obs,
       as.integer(.data$n - 1),

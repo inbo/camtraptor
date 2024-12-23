@@ -294,7 +294,7 @@ read_wi <- function(directory = ".") {
       ),
       habitat = NA_character_,
       tags = .data$subproject_name, # Set subproject as tag
-      comments = paste(c(.data$event_description, .data$camera_functioning), collapse = " | "), # TODO: check with other dataset
+      comments = paste(.data$event_description, .data$remarks, .data$camera_functioning, sep = " | "), # TODO: check with other dataset
       `_id` = NA_character_
     )
 

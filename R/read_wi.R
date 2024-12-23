@@ -27,7 +27,7 @@ read_wi <- function(directory = ".") {
   assertthat::assert_that(file.exists(cameras_file))
   deployments_file <- file.path(directory, "deployments.csv")
   assertthat::assert_that(file.exists(deployments_file))
-  images_file <- file.path(directory, "images.csv")
+  images_file <- list.files(directory, pattern = "^images_.*\\.csv$", full.names = TRUE)
   assertthat::assert_that(file.exists(images_file))
 
   # Read data from files

@@ -4,7 +4,7 @@
 #' This function adds deployment coordinates to `observations` based on
 #' `deploymentID`.
 #' 
-#' @return Camera trap data package object with `observations` updated.
+#' @return Camera trap data package object, where `observations` is updated by appending two new columns: `latitude` and `longitude`.
 #' @inheritParams n_species
 #' @family accessor functions
 #' @export

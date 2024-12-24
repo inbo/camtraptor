@@ -66,6 +66,10 @@ independent record of a given species at a certain location.
 as defined in column \code{filePath} of \code{media}.
 \item \code{Filename}: List, file names of the images linked to the given record,
 as defined in column \code{fileName} of \code{media}.
+\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID} of the observations.
+\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID} of the observations.
+\item \code{clock}: Numeric, clock time in radians.
+\item \code{solar}: Numeric, solar time in radians. Calculated using \code{overlap::sunTime}, which essentially uses the approach described in \href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
 }
 }
 \description{

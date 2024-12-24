@@ -21,6 +21,33 @@
 Other read functions: 
 \code{\link{read_wi}()}
 
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()}
+
 Other filter functions: 
 \code{\link{filter_out_timelapse}()}
 

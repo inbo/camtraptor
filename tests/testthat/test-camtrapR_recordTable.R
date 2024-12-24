@@ -70,6 +70,14 @@ test_that("input of camtrapR_recordTable, removeDuplicateRecords, is checked pro
     removeDuplicateRecords = NA
   ))
 })
+test_that("warning is returned if some observations have no timestamp", {
+  mica_no_timestamp <- mica
+  mica_no_timestamp$data$observations$timestamp[3:5] <- NA
+  expect_warning(
+    get_record_table(mica_no_timestamp),
+    "Some observations have no timestamp and will be removed."
+  )
+})
 
 test_that("right columns are returned", {
   skip_if_offline()
@@ -88,7 +96,11 @@ test_that("right columns are returned", {
       "delta.time.hours",
       "delta.time.days",
       "Directory",
-      "FileName"
+      "FileName",
+      "latitude",
+      "longitude",
+      "clock",
+      "solar"
     )
   )
 })
@@ -201,8 +213,7 @@ test_that(
         by = "sequenceID"
       )
     expect_equal(output$len, output$n_media)
-  }
-)
+})
 
 test_that(paste(
   "removeDuplicateRecords allows removing duplicates,",
@@ -250,6 +261,20 @@ test_that(paste(
   )
 })
 
+test_that("clock is always in the range [0, 2*pi]", {
+  clock_values <- get_record_table(mica) %>%
+    dplyr::pull(clock)
+  expect_true(all(clock_values >= 0))
+  expect_true(all(clock_values <= 2 * pi))
+})
+
+test_that("solar is always in the range [0, 2*pi]", {
+  solar_values <- get_record_table(mica) %>%
+    dplyr::pull(solar)
+  expect_true(all(solar_values >= 0))
+  expect_true(all(solar_values <= 2 * pi))
+})
+
 test_that("get_record_table() is deprecated and calls camtrapR_recordTable()", {
   skip_if_offline()
   x <- example_dataset()
@@ -257,12 +282,10 @@ test_that("get_record_table() is deprecated and calls camtrapR_recordTable()", {
 })
 
 test_that(
-  "output of get_record_table() is the same as camtrapR_recordTable()",
-  {
+  "output of get_record_table() is the same as camtrapR_recordTable()", {
     skip_if_offline()
     x <- example_dataset()
     expect_identical(
       suppressWarnings(get_record_table(x)),
       camtrapR_recordTable(x))
-  }
-)
+})

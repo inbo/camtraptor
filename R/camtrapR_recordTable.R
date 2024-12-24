@@ -52,6 +52,10 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
+#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
+#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
+#'   - `clock`: Numeric, clock time in radians.
+#'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
 #' @inheritParams n_species
 #' @family camtrapR-derived functions
 #' @export
@@ -172,6 +176,10 @@ camtrapR_recordTable <- function(x,
   )
 
   # remove observations of unidentified individuals
+  # Add coordinates to observations
+  x <- add_coordinates(x)
+  
+  # Remove observations of unidentified individuals
   obs <- observations(x) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
@@ -277,6 +285,18 @@ camtrapR_recordTable <- function(x,
     )) %>%
     dplyr::ungroup()
 
+  # Add clock time in radians
+  record_table <- record_table %>%
+    dplyr::mutate(clock = activity::gettime(.data$timestamp))
+  # Add solar time in radians
+  matrix_coords <- matrix(c(record_table$longitude, record_table$latitude),
+                          ncol = 2)
+  record_table <- record_table %>%
+    dplyr::mutate(solar = overlap::sunTime(.data$clock,
+                                           .data$timestamp,
+                                           matrix_coords))
+  
+  # Finalize `record_table`
   record_table <- record_table %>%
     dplyr::rename(Station := !!stationCol,
       Species = "scientificName",

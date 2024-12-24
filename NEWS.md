@@ -24,6 +24,10 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - Function `filter_out_timelapse()` allows to filter out timelapse observations (#306). See [`camtrapdp::filter_out_timelapse()`](https://inbo.github.io/camtrapdp/reference/filter_out_timelapse.html).
 - File `CITATION.cff` added to the package (#345).
 
+# camtraptor 0.27.0
+
+- `get_record_table()` returns now 4 new columns: `longitude`, `latitude` (deployment coordinates), `clock` (clock time of the observation in radians) and `solar` (sun time of the observation in radians) (#341).
+
 # camtraptor 0.26.0
 
 - `get_custom_effort()` returns now the effort for each deployment separately (#333). The returned data frame has two new columns: `deploymentID` and `locationName`.

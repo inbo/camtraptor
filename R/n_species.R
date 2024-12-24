@@ -5,8 +5,11 @@
 #' only unidentified species, the number of identified species is set to 0. If a
 #' deployment has no observations, the number of identified species is set to
 #' `NA`.
+#' 
+#' Only event-based observations (`observationLevel` = `event`) are taken into account.
 #'
-#' @inheritParams get_species
+#' @param x Camera trap data package object, as returned by
+#'   [camtrapdp::read_camtrapdp()].
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
@@ -21,17 +24,16 @@ n_species <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Extract observations and deployments
-  observations <- observations(x)
-  deployments <- deployments(x)
-
-  # Get deployments without observations
+  # Use event-based observations only
+  x <- x %>%
+    filter_observations(.data$observationLevel == "event")
+  
+  # Get deployments without event-based observations
   deployments_no_obs <- get_dep_no_obs(x)
 
   # Get species detected by each deployment
   species <-
-    observations %>%
-    dplyr::filter(.data$deploymentID %in% deployments$deploymentID) %>%
+    observations(x) %>%
     dplyr::distinct(.data$deploymentID, .data$scientificName)
 
   # Get deployments with unidentified observations
@@ -41,6 +43,7 @@ n_species <- function(x) {
     dplyr::pull(.data$deploymentID)
 
   # Get amount of species detected by each deployment
+  # Notice that NA is counted as a species
   n_species <-
     species %>%
     dplyr::group_by(.data$deploymentID) %>%
@@ -48,10 +51,11 @@ n_species <- function(x) {
     dplyr::ungroup()
 
   # Remove the count of NA as species and set n as integer
+  # In this way deployments with only unidentified species will have n = 0
   n_species <- n_species %>%
     dplyr::mutate(n = ifelse(.data$deploymentID %in% unidentified_obs,
-      as.integer(.data$n - 1),
-      as.integer(.data$n)
+                             as.integer(.data$n - 1),
+                             as.integer(.data$n)
     ))
 
   # Set up n = NA (number of species) for deployments without observations
@@ -60,6 +64,13 @@ n_species <- function(x) {
     dplyr::select("deploymentID") %>%
     dplyr::mutate(n = NA_integer_)
 
-  # Add them to n_species and return
-  n_species %>% dplyr::bind_rows(deployments_no_obs)
+  # Add them to n_species and preserve order of deployments as in deployment
+  # table
+  n_species %>% 
+    dplyr::bind_rows(deployments_no_obs) %>%
+    # Preserve order of deployments as in deployments(x)
+    dplyr::right_join(
+      deployments(x) %>% dplyr::select("deploymentID"),
+      by = "deploymentID"
+    )
 }

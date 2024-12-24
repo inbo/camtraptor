@@ -1,73 +1,44 @@
 #' Get number of observations for each deployment
 #'
-#' Gets the number of observations (of a subset of species) per deployment.
+#' Gets the number of observations per deployment.
 #' The number of observations is defined as the number of distinct sequences
 #' (`sequenceID`).
 #'
-#' @param species Character with scientific names or common names (case
-#'   insensitive).
-#'   If `"all"` (default) all scientific names are automatically selected.
-#'   If `NULL` all observations of all species are taken into account.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.
-#'   This column is omitted if parameter `species = NULL`.
 #' - `n`: Number of observations.
 #' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()
 #' 
-#' # Get number of observations for each species
+#' # Get number of individuals for each species
 #' get_n_obs(x)
 #'
-#' # Get number of obs of all species, not identified individuals as well
-#' get_n_obs(x, species = NULL)
-#'
-#' # Get number of observations of Anas platyrhynchos (scientific name)
-#' get_n_obs(x, species = "Anas platyrhynchos")
-#'
-#' # Get number of observations of eurasian beaver (vernacular names)
-#' get_n_obs(x, species = "eurasian beaver")
-#'
-#' # Case insensitive
-#' get_n_obs(x, species = "Anas plaTYrhYnchoS")
-#' get_n_obs(x, species = "EUrasian beavER")
-#'
-#' # Use `filter_observations()` to filter on life stage
+#' # Use `filter_observations()` to filter on  scientific name
 #' x %>%
-#'   filter_observations(lifeStage == "adult") %>%
+#'   filter_observations(
+#'     scientificName %in% c("Anas platyrhynchos", "Vulpes vulpes")
+#'   ) %>%
 #'   get_n_obs()
 #'
-#' # Use `filter_observations()` to filter on sex
+#' # Use `filter_observations()` to filter on vernacular name
 #' x %>%
-#'   filter_observations(sex == "female") %>%
+#'   filter_observations(taxon.vernacularNames.eng == "mallard") %>%
 #'   get_n_obs()
-get_n_obs <- function(x, species = "all") {
+#'
+#' # Get number of individuals per deployment
+#' x %>%
+#'   get_n_obs() %>%
+#'   dplyr::group_by(.data$deploymentID) %>%
+#'   dplyr::summarise(n = sum(.data$n)) %>%
+#'   dplyr::ungroup()
+get_n_obs <- function(x) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
-  # Get observations of the selected species
-  if (!is.null(species)) {
-    # If species == all retrieve all detected species
-    if ("all" %in% species) {
-      # If also other values are present, they will be ignored
-      if (length(species) > 1) {
-        ignored_species <- species[!species == "all"]
-        warning(glue::glue(
-          "Value `all` found in `species`. All other values are ignored: ",
-          glue::glue_collapse(ignored_species, sep = ", ", last = " and ")
-        ))
-      }
-      species <- get_species(x)$scientificName
-    }
-    # Check species and get scientific names
-    species <- check_species(x, species)
-    # Filter observations by species
-    x <- x %>% filter_observations(scientificName %in% species)
-  }
-
   # Extract observations and deployments
   observations <- observations(x)
   deployments <- deployments(x)
@@ -87,7 +58,7 @@ get_n_obs <- function(x, species = "all") {
   combinations_dep_species <-
     expand.grid(
       deploymentID,
-      unique(c(unique(purrr::pluck(observations, "scientificName")), species))
+      unique(purrr::pluck(observations, "scientificName"))
     ) %>%
     dplyr::rename(deploymentID = "Var1", scientificName = "Var2") %>%
     dplyr::as_tibble()

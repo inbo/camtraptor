@@ -10,7 +10,7 @@
 #'   - `day`
 #'   - `month`
 #'   - `year`
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `effort`: Effort expressed in the unit passed by parameter `unit`.

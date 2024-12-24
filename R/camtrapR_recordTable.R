@@ -52,7 +52,7 @@
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
-#' @inheritParams get_species
+#' @inheritParams n_species
 #' @family camtrapR-derived functions
 #' @export
 #' @examples

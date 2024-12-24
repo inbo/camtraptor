@@ -15,6 +15,8 @@
 \alias{pred_and}
 \alias{pred_or}
 \alias{apply_filter_predicate}
+\alias{check_species}
+\alias{get_scientific_name}
 \title{Defunct functions}
 \usage{
 # Deprecated in 1.0.0 -------------------------------------
@@ -44,6 +46,10 @@ pred_and(arg, value)
 pred_or(arg, value)
 
 apply_filter_predicate(arg, value)
+
+check_species(x)
+
+get_scientific_name(x)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

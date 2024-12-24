@@ -4,62 +4,49 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(x, species = "all")
+get_n_individuals(x)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
-
-\item{species}{Character with scientific names or common names (case
-insensitive).
-If \code{"all"} (default) all scientific names are automatically selected.
-If \code{NULL} all observations of all species are taken into account.}
 }
 \value{
 A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
-\item \code{scientificName}: Scientific name of the species.
-This column is omitted if parameter \code{species = NULL}.
+\item \code{scientificName}: Scientific name of the species. \code{NA} for not identified individuals.
 \item \code{n}: Number of individuals.
 }
 }
 \description{
-Gets the number of individuals (of a subset of species) per deployment.
-The number of observed individuals is stored in field \code{count} of
+Gets the number of individuals per deployment.
+The number of observed individuals is stored in column \code{count} of
 \code{observations}.
 }
 \examples{
 x <- example_dataset()
 
-# Get number of observations for each species
+# Get number of individuals for each species
 get_n_individuals(x)
 
-# Get number of obs of all species, not identified individuals as well
-get_n_individuals(x, species = NULL)
-
-# Get number of observations of Anas platyrhynchos
-get_n_individuals(x, species = "Anas platyrhynchos")
-
-# Get number of observations of eurasian beaver (vernacular name)
-get_n_individuals(x, species = "eurasian beaver")
-
-# Mix scientific and vernacular names
-get_n_individuals(x, species = c("Anas platyrhynchos", "eurasian beaver"))
-
-# Case insensitive
-get_n_individuals(x, species = "AnAS PLatyrhyncHOS")
-get_n_individuals(x, species = "eurasian BEAVER")
-
-# Use `filter_observations()` to filter on life stage
+# Use `filter_observations()` to filter on  scientific name
 x \%>\%
-  filter_observations(lifeStage == "adult") \%>\%
+  filter_observations(
+    scientificName \%in\% c("Anas platyrhynchos", "Vulpes vulpes")
+  ) \%>\%
   get_n_individuals()
 
-# Use `filter_observations()` to filter on sex
+# Use `filter_observations()` to filter on vernacular name
 x \%>\%
-  filter_observations(sex == "female") \%>\%
+  filter_observations(taxon.vernacularNames.eng == "mallard") \%>\%
   get_n_individuals()
+
+# Get number of individuals per deployment
+x \%>\%
+  get_n_individuals() \%>\%
+  dplyr::group_by(.data$deploymentID) \%>\%
+  dplyr::summarise(n = sum(.data$n)) \%>\%
+  dplyr::ungroup()
 }
 \seealso{
 Other exploration functions: 
@@ -68,8 +55,6 @@ Other exploration functions:
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()},
 \code{\link{n_species}()}
 }
 \concept{exploration functions}

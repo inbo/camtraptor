@@ -126,7 +126,7 @@ camtrapR_recordTable <- function(x,
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
 
-  # check stationCol is a valid column name
+  # Check `stationCol` is a valid column name
   assertthat::assert_that(
     stationCol %in% names(deployments(x)),
     msg = glue::glue(
@@ -135,16 +135,16 @@ camtrapR_recordTable <- function(x,
     )
   )
 
-  # check scientific names of species to be excluded
+  # Check scientific names of species to be excluded
   if (!is.null(exclude)) {
     exclude <- check_species(x, species = exclude, arg_name = "exclude")
   }
 
-  # check minDeltaTime
+  # Check `minDeltaTime`
   assertthat::assert_that(is.numeric(minDeltaTime) & minDeltaTime >= 0,
     msg = "`minDeltaTime` must be a number greater or equal to 0."
   )
-  # minDeltaTime is set to an integer
+  # `minDeltaTime` is set to an integer
   if (minDeltaTime != as.integer(minDeltaTime)) {
     minDeltaTime <- as.integer(minDeltaTime)
     message(glue::glue(
@@ -152,7 +152,7 @@ camtrapR_recordTable <- function(x,
     ))
   }
 
-  # make a duration object out of minDeltaTime
+  # Make a duration object out of `minDeltaTime`
   minDeltaTime_duration <- lubridate::duration(minutes = minDeltaTime)
 
   # check deltaTimeComparedTo
@@ -183,7 +183,7 @@ camtrapR_recordTable <- function(x,
   obs <- observations(x) %>%
     dplyr::filter(!is.na(.data$scientificName))
 
-  # remove observations of species to be excluded
+  # Remove observations of species to be excluded
   obs <- obs %>%
     dplyr::filter(!.data$scientificName %in% exclude)
 
@@ -194,14 +194,14 @@ camtrapR_recordTable <- function(x,
   obs <- obs %>%
     dplyr::filter(.data$deploymentID %in% deployments$deploymentID)
 
-  # add station column from deployments to observations
+  # Add station column from deployments to observations
   obs <- obs %>%
     dplyr::left_join(
       deployments %>%
         dplyr::select("deploymentID", !!rlang::sym(stationCol)),
       by = "deploymentID"
     )
-  # extract needed info from media and set file names and file paths as
+  # Extract needed info from media and set file names and file paths as
   # lists for each sequence id
   grouped_media_info <-
     media(x) %>%
@@ -218,13 +218,13 @@ camtrapR_recordTable <- function(x,
       # important if deltaTimeComparedTo is lastRecord
       last_timestamp = dplyr::last(.data$timestamp)
     )
-  # add needed media info from media to observations
+  # Add needed media info from media to observations
   obs <- obs %>%
     dplyr::left_join(grouped_media_info,
       by = "sequenceID"
     )
 
-  # get record table
+  # Get record table
   record_table <-
     obs %>%
     dplyr::mutate(
@@ -236,10 +236,10 @@ camtrapR_recordTable <- function(x,
       .data$scientificName, !!rlang::sym(stationCol), .data$timestamp
     )
   if (minDeltaTime == 0) {
-    # observations are by default independent
+    # Observations are by default independent
     record_table <- record_table %>% dplyr::mutate(independent = TRUE)
   } else {
-    # assess independence
+    # Assess independence
     record_independence <- record_table %>%
       dplyr::mutate(independent = FALSE) %>%
       tidyr::nest() %>%
@@ -251,14 +251,14 @@ camtrapR_recordTable <- function(x,
       ))
     record_independence <- record_independence %>%
       tidyr::unnest(cols = c("data"))
-    # add independence information to record_table
+    # Add independence information to record_table
     record_table <- record_table %>%
       dplyr::left_join(record_independence,
         by = c("scientificName", stationCol, "observationID")
       )
   }
 
-  # remove not independent observations
+  # Remove not independent observations
   n_dependent_obs <- record_table %>%
     dplyr::filter(.data$independent == FALSE) %>%
     nrow()
@@ -270,7 +270,7 @@ camtrapR_recordTable <- function(x,
       dplyr::filter(.data$independent == TRUE)
   }
 
-  # get time between obs of two individuals of same species at same location
+  # Get time between obs of two individuals of same species at same location
   record_table <- record_table %>%
     dplyr::mutate(
       delta.time = .data$timestamp - dplyr::lag(.data$timestamp)
@@ -319,7 +319,8 @@ camtrapR_recordTable <- function(x,
       "Directory",
       "FileName"
     )
-  # remove duplicates if needed
+  
+  # Remove duplicates if needed
   if (isTRUE(removeDuplicateRecords)) {
     record_table <- record_table %>%
       dplyr::group_by(

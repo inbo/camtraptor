@@ -12,7 +12,7 @@
 #' x <- example_dataset()
 #' 
 #' # Add coordinates to observations
-#' add_coordinates(x) %>% observations(x)
+#' add_coordinates(x) %>% observations()
 add_coordinates <- function(x) {
   
   # add coordinates to observations

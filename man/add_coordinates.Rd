@@ -21,7 +21,7 @@ This function adds deployment coordinates to \code{observations} based on
 x <- example_dataset()
 
 # Add coordinates to observations
-add_coordinates(x) \%>\% observations(x)
+add_coordinates(x) \%>\% observations()
 }
 \seealso{
 Other accessor functions: 

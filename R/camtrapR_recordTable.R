@@ -175,7 +175,6 @@ camtrapR_recordTable <- function(x,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE."
   )
 
-  # remove observations of unidentified individuals
   # Add coordinates to observations
   x <- add_coordinates(x)
   

@@ -11,12 +11,11 @@
 #' @importFrom dplyr .data %>%
 #' @export
 plot_time <- function(package = NULL, yaxis = "locationName") {
-  
   assertthat::assert_that(
     yaxis %in% names(package$data$deployments),
     msg = "`yaxis` must be a column of deployements"
   )
-  
+
   obs <- dplyr::left_join(
     package$data$observations,
     package$data$deployments,
@@ -30,17 +29,21 @@ plot_time <- function(package = NULL, yaxis = "locationName") {
     dplyr::ungroup() %>%
     dplyr::arrange(.data$group_start, .data$group_label) %>%
     dplyr::mutate(
-      group_id = cumsum(dplyr::lag(.data$group_label) != .data$group_label | 
-                          is.na(dplyr::lag(.data$group_label)))
+      group_id = cumsum(dplyr::lag(.data$group_label) != .data$group_label |
+        is.na(dplyr::lag(.data$group_label)))
     )
 
   dep <- obs %>%
-    dplyr::group_by(.data$group_id, .data$group_label) %>%
+    dplyr::group_by(deploymentID) %>%
     dplyr::summarise(
       start = dplyr::first(.data$start),
       end = dplyr::last(.data$end),
+      group_id = dplyr::first(.data$group_id),
       .groups = "drop"
     )
+
+  grp <- obs %>%
+    dplyr::distinct(group_id, group_label)
 
   ggplot2::ggplot() +
     # Horizontal bars for deployments
@@ -65,12 +68,16 @@ plot_time <- function(package = NULL, yaxis = "locationName") {
     ) +
     # Custom y-axis labels with colors
     ggplot2::scale_y_continuous(
-      breaks = dep$group_id,
-      labels = dep$group_label
+      breaks = grp$group_id,
+      labels = grp$group_label,
+      trans = "reverse"
     ) +
     ggplot2::labs(
       x = "Time", y = yaxis,
       title = "Data Package Coverage"
     ) +
-    ggplot2::theme_minimal()
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.grid.minor.y = element_blank()
+    )
 }

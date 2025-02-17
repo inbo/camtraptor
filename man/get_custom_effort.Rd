@@ -128,6 +128,7 @@ get_custom_effort(mica, group_by = "year", unit = "day") \%>\%
 \seealso{
 Other exploration functions: 
 \code{\link{get_cam_op}()},
+\code{\link{get_detection_history}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},

@@ -86,6 +86,7 @@ get_rai_individuals(mica, pred_gte("latitude", 51.18))
 Other exploration functions: 
 \code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
+\code{\link{get_detection_history}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},

@@ -56,6 +56,7 @@ get_effort(mica, unit = "day")
 Other exploration functions: 
 \code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
+\code{\link{get_detection_history}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_n_species}()},

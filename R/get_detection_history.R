@@ -23,16 +23,25 @@ get_detection_history <- function(cam_op,
                                   output,
                                   occasion_length = 1) {
   # Check camera operation matrix, `cam_op`
-  assertthat::assert_that(is.matrix(cam_op))
+  assertthat::assert_that(
+    is.matrix(cam_op),
+    msg = "`cam_op` must be a matrix."
+  )
   # Check record table, `rec_table`
-  assertthat::assert_that(is.data.frame(rec_table))
+  assertthat::assert_that(is.data.frame(rec_table),
+                          msg = "`rec_table` must be a tibble data.frame."
+  )
+  assertthat::assert_that(
+    "tbl_df" %in% class(rec_table),
+    msg = "`rec_table` must be a tibble data.frame."
+  )
   assertthat::assert_that(
     all(c("Station", "Date", "Species", "n", "n_ind") %in% colnames(rec_table)),
     msg = paste0("Invalid record table. Must contain at least the columns: ",
                  "`Station`, `Date`, `Species`, `n`, and `n_ind`.")
   )
   assertthat::assert_that(is.character(species))
-  # Check output
+  # Check `output`
   assertthat::assert_that(is.character(output))
   assertthat::assert_that(
     output %in% c("binary", "n_observations", "n_individuals"),

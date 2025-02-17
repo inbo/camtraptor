@@ -9,22 +9,30 @@ get_detection_history(cam_op, rec_table, species, output, occasion_length = 1)
 \arguments{
 \item{cam_op}{A matrix with camera operation data. Rows represent camera stations and columns represent occasions. The matrix should contain the number of days that each station was active on each occasion.}
 
-\item{rec_table}{A data frame with the camera trap records. The data frame should contain the columns 'Station', 'Date', 'Species', 'n', and 'n_ind'. 'Station' is the camera station ID, 'Date' is the date of the record, 'Species' is the species name, 'n' is the number of observations, and 'n_ind' is the number of individuals detected.}
+\item{rec_table}{A data frame with the camera trap records. The data frame should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station' is the camera station ID, 'Date' is the date of the record, 'Species' is the species name, 'n' is the number of observations, and 'n_ind' is the number of individuals detected.}
 
-\item{species}{The species name.}
+\item{species}{Character. The species name.}
 
-\item{output}{The type of output. Choose one of: 'binary', 'n_observations', 'n_individuals'.}
+\item{output}{Character. The type of output. Choose one of: \code{"binary"}, \code{"n_observations"}, \code{"n_individuals"}.}
 
-\item{occasion_length}{The length of the occasions in days. Default: 1.}
+\item{occasion_length}{The length of the occasions in days. No decimals allowed. Default: 1.}
 }
 \value{
-A list with three elements: 'detection_history' is the detection history matrix, 'effort' is the effort matrix, and 'dates' is the dates matrix.
+A list with three elements:
+\itemize{
+\item \code{detection_history}: the detection history matrix
+\item \code{effort}: the effort matrix
+\item \code{dates}: the dates matrix
+}
 }
 \description{
-This function creates a detection history matrix for a species from a camera trap dataset.
+This function creates a detection history matrix for a species based on the record table and the camera operation matrix.
 The detection history matrix is a binary matrix where rows represent camera stations and columns represent occasions.
 The matrix is filled with 1s and 0s, where 1 indicates that the species was detected at a station on a given occasion and 0 indicates that the species was not detected.
 The function also returns the effort matrix, which contains the number of days that each station was active on each occasion, and the dates matrix, which contains the dates of the occasions.
+}
+\details{
+This function doesn't take as input a camera trap data package object, but a camera operation matrix and a record table, which are both calculated based on a camera trap data package object. For more information, see the \code{\link[=get_cam_op]{get_cam_op()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
 }
 \examples{
 cam_op <- get_cam_op(mica)
@@ -32,17 +40,8 @@ rec_table <- get_record_table(mica)
 get_detection_history(cam_op, rec_table, "Anas platyrhynchos", "binary")
 }
 \seealso{
-Other exploration functions: 
+Other camtrapR-derived functions: 
 \code{\link{get_cam_op}()},
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_record_table}()}
 }
-\concept{exploration functions}
+\concept{camtrapR-derived functions}

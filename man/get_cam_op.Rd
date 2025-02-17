@@ -87,17 +87,8 @@ get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
 get_cam_op(mica, use_prefix = TRUE)
 }
 \seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
+Other camtrapR-derived functions: 
 \code{\link{get_detection_history}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+\code{\link{get_record_table}()}
 }
-\concept{exploration functions}
+\concept{camtrapR-derived functions}

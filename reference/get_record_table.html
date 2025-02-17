@@ -148,6 +148,10 @@ independent record of a given species at a certain location.</p></li>
 as defined in column <code>filePath</code> of <code>media</code>.</p></li>
 <li><p><code>Filename</code>: List, file names of the images linked to the given record,
 as defined in column <code>fileName</code> of <code>media</code>.</p></li>
+<li><p><code>Latitude</code>: Numeric, latitude of the station, based on <code>deploymentID</code> of the observations.</p></li>
+<li><p><code>Longitude</code>: Numeric, longitude of the station, based on <code>deploymentID</code> of the observations.</p></li>
+<li><p><code>clock</code>: Numeric, clock time in radians.</p></li>
+<li><p><code>solar</code>: Numeric, solar time in radians. Calculated using <code><a href="https://rdrr.io/pkg/overlap/man/sunTime.html" class="external-link">overlap::sunTime</a></code>, which essentially uses the approach described in <a href="https://doi.org/10.1111/j.1469-7998.2011.00864.x" class="external-link">Nouvellet et al. (2012)</a>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

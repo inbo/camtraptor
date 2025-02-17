@@ -17,7 +17,11 @@
 #' cam_op <- get_cam_op(mica)
 #' rec_table <- get_record_table(mica)
 #' get_detection_history(cam_op, rec_table, "Anas platyrhynchos", "binary")
-get_detection_history <- function(cam_op, rec_table, species, output, occasion_length = 1) {
+get_detection_history <- function(cam_op,
+                                  rec_table,
+                                  species,
+                                  output,
+                                  occasion_length = 1) {
   # Check camera operation matrix, `cam_op`
   assertthat::assert_that(is.matrix(cam_op))
   # Check record table, `rec_table`
@@ -30,12 +34,24 @@ get_detection_history <- function(cam_op, rec_table, species, output, occasion_l
   assertthat::assert_that(is.character(species))
   # Check output
   assertthat::assert_that(is.character(output))
-  assertthat::assert_that(output %in% c("binary", "n_observations", "n_individuals"),
-                          msg = "Invalid output. Choose one of: `binary`, `n_observations`, `n_individuals`")
+  assertthat::assert_that(
+    output %in% c("binary", "n_observations", "n_individuals"),
+    msg = paste0("Invalid output. Choose one of: ",
+                 "`binary`, `n_observations`, `n_individuals`")
+  )
   # Check occasion_length
-  assertthat::assert_that(is.numeric(occasion_length), msg = "Invalid `occasion_length`. Must be numeric.")
-  assertthat::assert_that(occasion_length > 0, msg = "Invalid `occasion_length`. Must be greater than 0.")
-  assertthat::assert_that(round(occasion_length) == occasion_length, msg = "Invalid `occasion_length`. Must be an integer."))
+  assertthat::assert_that(
+    is.numeric(occasion_length),
+    msg = "Invalid `occasion_length`. Must be numeric."
+  )
+  assertthat::assert_that(
+    occasion_length > 0,
+    msg = "Invalid `occasion_length`. Must be greater than 0."
+  )
+  assertthat::assert_that(
+    round(occasion_length) == occasion_length,
+    msg = "Invalid `occasion_length`. Must be an integer."
+  )
   
   which_not_na <- function(x) which(!is.na(x))
   cam_op_list <- apply(cam_op, 1, which_not_na)

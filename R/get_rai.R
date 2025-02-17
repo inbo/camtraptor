@@ -19,9 +19,10 @@
 #'   observations of all life stage classes are taken into account.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments.
-#' @return A tibble data frame with the following columns: - `deploymentID`:
-#'   Deployment unique identifier. - `scientificName`: Scientific name. - `rai`:
-#'   Relative abundance index.
+#' @return A tibble data frame with the following columns: 
+#'   - `deploymentID`: Deployment unique identifier. 
+#'   - `scientificName`: Scientific name. 
+#'   - `rai`:  Relative abundance index.
 #' @family exploration functions
 #' @export
 #' @examples

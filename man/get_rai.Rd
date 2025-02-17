@@ -34,9 +34,12 @@ observations of all life stage classes are taken into account.}
 \item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
-A tibble data frame with the following columns: - \code{deploymentID}:
-Deployment unique identifier. - \code{scientificName}: Scientific name. - \code{rai}:
-Relative abundance index.
+A tibble data frame with the following columns:
+\itemize{
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{scientificName}: Scientific name.
+\item \code{rai}:  Relative abundance index.
+}
 }
 \description{
 Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized

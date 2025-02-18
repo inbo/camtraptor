@@ -160,3 +160,38 @@ test_that("Check output", {
     fixed = TRUE
   )
 })
+
+test_that("Check occasion_length", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  species <- "Anas platyrhynchos"
+  output <- "binary"
+  occasion_length <- "not an integer"
+  expect_error(get_detection_history(cam_op = cam_op,
+                                     rec_table = rec_table,
+                                     species = species,
+                                     output = output,
+                                     occasion_length = occasion_length),
+               "Invalid `occasion_length`. Must be an integer vector of length 1.",
+               fixed = TRUE
+  )
+  occasion_length <- c(1,2)
+  expect_error(get_detection_history(cam_op = cam_op,
+                                     rec_table = rec_table,
+                                     species = species,
+                                     output = output,
+                                     occasion_length = occasion_length),
+               "Invalid `occasion_length`. Must be an integer vector of length 1.",
+               fixed = TRUE
+  )
+  occasion_length <- -1
+  expect_error(get_detection_history(cam_op = cam_op,
+                                     rec_table = rec_table,
+                                     species = species,
+                                     output = output,
+                                     occasion_length = occasion_length),
+               "Invalid `occasion_length`. Must be greater than 0.",
+               fixed = TRUE
+  )
+}
+)

@@ -402,6 +402,6 @@ test_that("Test day1 = specific date", {
                                  species = species,
                                  output = output,
                                  occasionLength = occasionLength,
-                                 day1 = "2021-01-01")
-  expect_true(all(res_1$dates >= "2021-01-01" | is.na(res_1$dates)))
+                                 day1 = "2021-04-01")
+  expect_true(all(res_1$dates >= "2021-04-01" | is.na(res_1$dates)))
 })

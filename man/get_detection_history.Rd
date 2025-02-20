@@ -4,18 +4,36 @@
 \alias{get_detection_history}
 \title{Get the detection history of a species}
 \usage{
-get_detection_history(cam_op, rec_table, species, output, occasion_length = 1)
+get_detection_history(
+  recordTable,
+  camOp,
+  species,
+  output,
+  occasionLength = 1,
+  day1 = "station"
+)
 }
 \arguments{
-\item{cam_op}{A matrix with camera operation data. Rows represent camera stations and columns represent occasions. The matrix should contain the number of days that each station was active on each occasion.}
+\item{recordTable}{A data frame with the camera trap records. The data frame
+should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station'
+is the camera station ID, 'Date' is the date of the record, 'Species' is
+the species name, 'n' is the number of observations, and 'n_ind' is the
+number of individuals detected.}
 
-\item{rec_table}{A data frame with the camera trap records. The data frame should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station' is the camera station ID, 'Date' is the date of the record, 'Species' is the species name, 'n' is the number of observations, and 'n_ind' is the number of individuals detected.}
+\item{camOp}{A matrix with camera operation data. Rows represent camera
+stations and columns represent occasions. The matrix should contain the
+number of days that each station was active on each occasion.}
 
 \item{species}{Character. The species name.}
 
-\item{output}{Character. The type of output. Choose one of: \code{"binary"}, \code{"n_observations"}, \code{"n_individuals"}.}
+\item{output}{Character. The type of output. Choose one of: \code{"binary"},
+\code{"n_observations"}, \code{"n_individuals"}.}
 
-\item{occasion_length}{The length of the occasions in days. No decimals allowed. Default: 1.}
+\item{occasionLength}{The length of the occasions in days. No decimals
+allowed. Default: 1.}
+
+\item{day1}{Character. Day occasions should begin: station setup date
+(\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). Default: "station".}
 }
 \value{
 A list with three elements:
@@ -26,18 +44,52 @@ A list with three elements:
 }
 }
 \description{
-This function creates a detection history matrix for a species based on the record table and the camera operation matrix.
-The detection history matrix is a binary matrix where rows represent camera stations and columns represent occasions.
-The matrix is filled with 1s and 0s, where 1 indicates that the species was detected at a station on a given occasion and 0 indicates that the species was not detected.
-The function also returns the effort matrix, which contains the number of days that each station was active on each occasion, and the dates matrix, which contains the dates of the occasions.
+This function creates a detection history matrix for a species based on the
+record table and the camera operation matrix. The detection history matrix is
+a binary matrix where rows represent camera stations and columns represent
+occasions. The matrix is filled with 1s and 0s, where 1 indicates that the
+species was detected at a station on a given occasion and 0 indicates that
+the species was not detected. The function also returns the effort matrix,
+which contains the number of days that each station was active on each
+occasion, and the dates matrix, which contains the dates of the occasions.
 }
 \details{
-This function doesn't take as input a camera trap data package object, but a camera operation matrix and a record table, which are both calculated based on a camera trap data package object. For more information, see the \code{\link[=get_cam_op]{get_cam_op()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
+This function doesn't take as input a camera trap data package object, but a
+camera operation matrix and a record table, which are both calculated based
+on a camera trap data package object. For more information, see the
+\code{\link[=get_camOp]{get_camOp()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
 }
 \examples{
-cam_op <- get_cam_op(mica)
-rec_table <- get_record_table(mica)
-get_detection_history(cam_op, rec_table, "Anas platyrhynchos", "binary")
+camOp <- get_camOp(mica)
+recordTable <- get_record_table(mica)
+
+# Binary output
+get_detection_history(recordTable, camOp, "Anas platyrhynchos", "binary")
+
+# Number of observations output
+get_detection_history(
+ recordTable,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_observations"
+)
+ 
+# Number of individuals output
+get_detection_history(
+ recordTable,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_individuals"
+)
+
+# occasion lenght of 7 days
+get_detection_history(
+ recordTable,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_individuals",
+ occasionLength = 7
+)
 }
 \seealso{
 Other camtrapR-derived functions: 

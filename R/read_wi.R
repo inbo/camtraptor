@@ -27,7 +27,7 @@ read_wi <- function(directory = ".") {
   assertthat::assert_that(file.exists(cameras_file))
   deployments_file <- file.path(directory, "deployments.csv")
   assertthat::assert_that(file.exists(deployments_file))
-  images_file <- file.path(directory, "images.csv")
+  images_file <- list.files(directory, pattern = "^images_.*\\.csv$", full.names = TRUE)
   assertthat::assert_that(file.exists(images_file))
 
   # Read data from files
@@ -294,7 +294,7 @@ read_wi <- function(directory = ".") {
       ),
       habitat = NA_character_,
       tags = .data$subproject_name, # Set subproject as tag
-      comments = paste(c(.data$event_description, .data$camera_functioning), collapse = " | "), # TODO: check with other dataset
+      comments = paste(.data$event_description, .data$remarks, .data$camera_functioning, sep = " | "), # TODO: check with other dataset
       `_id` = NA_character_
     )
 
@@ -320,6 +320,17 @@ read_wi <- function(directory = ".") {
   # Create observations, see https://camtrap-dp.tdwg.org/data/#observations
   observations <-
     wi_images %>%
+    dplyr::mutate(
+      # Convert WI bounding_boxes (json) into bboxX, bboxY, bboxWidth, bboxHeight
+      clean_boxes = gsub('.*\\[|\\].*', '', gsub('\\\\', '', bounding_boxes)),
+      bbox_data = strsplit(clean_boxes, ","),
+      bbox_data = lapply(bbox_data, as.numeric),
+      bboxX = sapply(bbox_data, `[`, 1),
+      bboxY = sapply(bbox_data, `[`, 2),
+      bboxWidth = sapply(bbox_data, function(x) x[3] - x[1]),
+      bboxHeight = sapply(bbox_data, function(x) x[4] - x[2])
+    ) %>%
+    dplyr::select(-clean_boxes, -bbox_data) %>%
     dplyr::transmute(
       observationID = paste(.data$image_id, .data$wi_taxon_id, sep = ":"), # TODO: not guaranteed unique
       deploymentID = .data$deployment_id,
@@ -353,8 +364,12 @@ read_wi <- function(directory = ".") {
       countNew = NA_integer_,
       lifeStage = tolower(.data$age),
       sex = tolower(.data$sex),
-      behaviour = NA_character_,
+      behaviour = .data$behavior,
       individualID = NA_character_,
+      bboxX = .data$bboxX,
+      bboxY = .data$bboxY,
+      bboxWidth = .data$bboxWidth,
+      bboxHeight = .data$bboxHeight,
       classificationMethod = ifelse(is.na(.data$cv_confidence), "human", "machine"),
       classifiedBy = .data$identified_by,
       classificationTimestamp = NA,

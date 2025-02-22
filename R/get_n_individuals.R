@@ -129,7 +129,8 @@ get_n_individuals <- function(package = NULL,
 
   deployments_no_obs <- get_dep_no_obs(
     package,
-    pred_in("deploymentID", deploymentID)
+    pred_in("deploymentID", deploymentID),
+    verbose = FALSE
   )
 
   # get number of individuals collected by each deployment for each species

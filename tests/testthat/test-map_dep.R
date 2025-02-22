@@ -140,17 +140,6 @@ test_that("map_dep() can calculate and get feature values", {
       " and\\1",
       paste(no_obs_deployments, collapse = ", ")
     )
-  suppressMessages(expect_message(
-    map_dep(mica, feature = "rai", species = "krakeend"),
-    glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
-    fixed = TRUE
-  ))
-  
-  suppressMessages(expect_message(
-    map_dep(mica, feature = "rai_individuals", species = "krakeend"),
-    glue::glue("There are 3 deployments without observations: {no_obs_deployments_str}"),
-    fixed = TRUE
-  ))
   expect_warning(
     map_dep(mica, feature = "n_species", species = "krakeend"),
     "`species` ignored for `feature = n_species`",

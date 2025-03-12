@@ -19,7 +19,7 @@
 #' @param species Character. The species name.
 #' @param output Character. The type of output. Choose one of: `"binary"`,
 #'   `"n_observations"`, `"n_individuals"`.
-#' @param occasionLength The length of the occasions in days. No decimals
+#' @param occasionLength Integer. The length of the occasions in days. No decimals
 #'   allowed. Default: 1.
 #' @param day1 Character. Day occasions should begin: station setup date
 #'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). Default: "station".
@@ -38,11 +38,16 @@
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
-#' camOp <- get_camOp(mica)
+#' camOp <- get_cam_op(mica)
 #' recordTable <- get_record_table(mica)
 #' 
 #' # Binary output
-#' get_detection_history(recordTable, camOp, "Anas platyrhynchos", "binary")
+#' get_detection_history(
+#'   recordTable,
+#'   camOp,
+#'   species = "Anas platyrhynchos",
+#'   output = "binary"
+#' )
 #' 
 #' # Number of observations output
 #' get_detection_history(
@@ -67,6 +72,15 @@
 #'  species = "Anas platyrhynchos",
 #'  output = "n_individuals",
 #'  occasionLength = 7
+#' )
+#' 
+#' # Specify start date via `day1`
+#' get_detection_history(
+#'   recordTable,
+#'   camOp,
+#'   species = "Anas platyrhynchos",
+#'   output = "binary",
+#'   day1 = "2020-06-22"
 #' )
 get_detection_history <- function(recordTable,
                                   camOp,

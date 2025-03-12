@@ -239,6 +239,49 @@ test_that("day1 is equal station or a valid date", {
   )
 })
 
+
+# Check `buffer`
+test_that("buffer is NULL or an integer of length 1", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  # `buffer` is a character, not right class
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          buffer = "blablabla"),
+  paste0("Invalid `buffer`. If buffer is defined, ",
+         "it must be an integer of length 1.")
+  )
+  # `buffer` is a vector with length > 1 
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          buffer = c(1, 2, 4)),
+    paste0("Invalid `buffer`. If buffer is defined, ",
+           "it must be an integer of length 1.")
+  )
+  # `buffer` is negative
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          buffer = -1),
+    "Invalid `buffer`. If `buffer` is defined, it must be 1 or higher."
+  )
+})
+
+
 # Test output ####
 
 test_that("Output is a list of three matrices", {
@@ -261,6 +304,27 @@ test_that("Output is a list of three matrices", {
   expect_type(res$detection_history, "double")
   expect_type(res$effort, "double")
   expect_type(res$dates, "character")
+  expect_equal(
+    rownames(res$detection_history),
+    c("B_DL_val 3_dikke boom",
+      "B_DL_val 5_beek kleine vijver",
+      "B_DM_val 4_'t WAD",
+      "Mica Viane")
+  )
+  expect_equal(
+    rownames(res$effort),
+    c("B_DL_val 3_dikke boom",
+      "B_DL_val 5_beek kleine vijver",
+      "B_DM_val 4_'t WAD",
+      "Mica Viane")
+  )
+  expect_equal(
+    rownames(res$dates),
+    c("B_DL_val 3_dikke boom",
+      "B_DL_val 5_beek kleine vijver",
+      "B_DM_val 4_'t WAD",
+      "Mica Viane")
+  )
 })
 
 test_that("detection history dates and effort are output independent", {
@@ -397,11 +461,87 @@ test_that("Test day1 = specific date", {
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res_1 <- get_detection_history(recordTable = rec_table,
-                                 camOp = cam_op,
-                                 species = species,
-                                 output = output,
-                                 occasionLength = occasionLength,
-                                 day1 = "2021-04-01")
-  expect_true(all(res_1$dates >= "2021-04-01" | is.na(res_1$dates)))
+  # Right warning returned with number of records removed and example
+  expect_warning(
+    res_1 <- get_detection_history(recordTable = rec_table,
+                                   camOp = cam_op,
+                                   species = species,
+                                   output = output,
+                                   occasionLength = occasionLength,
+                                   day1 = "2020-08-03"),
+    paste0("2 record(s) (out of 4) are removed because they were taken ",
+    "before `day1` (2020-08-03), e.g.:\n",
+    "B_DL_val 5_beek kleine vijver: 2020-07-31."
+    ),
+    fixed = TRUE
+  )
+  # All dates are more recent than `day1` 
+  expect_true(all(res_1$dates >= "2020-08-03" | is.na(res_1$dates)))
+})
+
+test_that("Test `buffer`", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  buffer <- 5
+  # Error returned if `buffer` is so big that no occasions are found.
+  expect_error(get_detection_history(recordTable = rec_table,
+                                     camOp = cam_op,
+                                     species = species,
+                                     output = output,
+                                     occasionLength = occasionLength,
+                                     day1 = "station",
+                                     buffer = 1000),
+    paste0("In all stations, the occasions begin after retrieval. ",
+           "Choose a smaller buffer argument.")
+  )
+  # Right warning returned with number of removed records and an example
+  expect_warning(
+    res_with_buffer <- get_detection_history(recordTable = rec_table,
+                                   camOp = cam_op,
+                                   species = species,
+                                   output = output,
+                                   occasionLength = occasionLength,
+                                   day1 = "station",
+                                   buffer = buffer),
+    paste0("2 record(s) (out of 4) are removed because they were taken ",
+           "during the buffer period of 5 day(s), e.g.:\n",
+           "B_DL_val 5_beek kleine vijver: 2020-07-31."
+    ),
+    fixed = TRUE
+  )
+  # All dates are more recent than `start` of deployments +
+  # `buffer`. We check second row only, the one containing records of Anas platyrhynchos.
+  expect_true(
+    all(res_with_buffer$dates[2,] >= "2020-08-03" | 
+          is.na(res_with_buffer$dates[2,])
+    )
+  )
+  
+  # Number of columns is reduced by buffer
+  res_no_buffer <- get_detection_history(recordTable = rec_table,
+                                         camOp = cam_op,
+                                         species = species,
+                                         output = output,
+                                         occasionLength = occasionLength,
+                                         day1 = "station",
+                                         buffer = NULL)
+  n_cols_no_buffer <- ncol(res_no_buffer$detection_history)
+  # The detection history is shifted by buffer days. But do not compare the
+  # columns names as the ones with no buffer have higher numbers (higher number
+  # of occasions)
+  expect_identical(
+    unname(res_with_buffer$detection_history),
+    unname(res_no_buffer$detection_history[, (buffer+1):n_cols_no_buffer])
+  )
+  expect_identical(
+    unname(res_with_buffer$effort),
+    unname(res_no_buffer$effort[, (buffer+1):n_cols_no_buffer])
+  )
+  expect_identical(
+    unname(res_with_buffer$dates),
+    unname(res_no_buffer$dates[, (buffer+1):n_cols_no_buffer])
+  )
 })

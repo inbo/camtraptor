@@ -23,6 +23,10 @@
 #'   allowed. Default: 1.
 #' @param day1 Character. Day occasions should begin: station setup date
 #'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). Default: "station".
+#' @param buffer Integer. It makes the first occasion begin a number of days
+#'   after station setup. `buffer` can be used only in combination with `day1` =
+#'   `"station"`. Default: `NULL`. A warning is returned if some records are
+#'   removed because taken during the buffer period.
 #' @return A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
@@ -87,7 +91,8 @@ get_detection_history <- function(recordTable,
                                   species,
                                   output,
                                   occasionLength = 1,
-                                  day1 = "station") {
+                                  day1 = "station",
+                                  buffer = NULL) {
   # Check camera operation matrix, `camOp`
   assertthat::assert_that(
     is.matrix(camOp),
@@ -129,28 +134,20 @@ get_detection_history <- function(recordTable,
               null_allowed = FALSE
   )
   # Check occasionLength
-  if (class(occasionLength) == "integer") {
-    occasionLength <- as.numeric(occasionLength)
-  }
   assertthat::assert_that(
-    rlang::is_scalar_double(occasionLength),
+    rlang::is_scalar_integerish(occasionLength),
     msg = "Invalid `occasionLength`. Must be an integer vector of length 1."
   )
   assertthat::assert_that(
     occasionLength > 0,
     msg = "Invalid `occasionLength`. Must be greater than 0."
   )
-  assertthat::assert_that(
-    round(occasionLength) == occasionLength,
-    msg = "Invalid `occasionLength`. Must be an integer."
-  )
+
   # Check `day1`
   assertthat::assert_that(
     rlang::is_string(day1),
-    msg = "`day1` must be a character vector of lenght 1."
+    msg = "`day1` must be a character vector of length 1."
   )
-  
-  # Check `day1`
   if (day1 != "station") {
     # `day1` must be equal to "station" or a string representing a valid
     # date in ISO 8601 format
@@ -183,11 +180,35 @@ get_detection_history <- function(recordTable,
     )
   }
   
-  # Remove columns (days) before `day1` is `day1` is a string representing a
+  # Check `buffer`
+  assertthat::assert_that(
+    is.null(buffer) | rlang::is_scalar_integerish(buffer),
+    msg = paste0("Invalid `buffer`. If buffer is defined, ",
+                 "it must be an integer of length 1.")
+  )
+  if (!is.null(buffer)) {
+    assertthat::assert_that(
+      buffer > 0,
+      msg = "Invalid `buffer`. If `buffer` is defined, it must be 1 or higher."
+    )
+  }
+  # For calculation it's better to have buffer = 0 instead of `NULL`
+  if (is.null(buffer)) {
+    buffer <- 0
+  }
+
+  # Remove records of other species
+  recordTable <- recordTable %>% 
+    dplyr::filter(.data$Species == species)
+  # Total number of records in `recordTable`
+  tot_records <- nrow(recordTable)
+  
+  # Remove columns (days) before `day1` if `day1` is a string representing a
   # valid date
   if (day1 != "station") {
     camOp <- camOp[, colnames(camOp) >= day1]
   }
+  
   # Create a help data.frame with `Station` and first day
   periods_df <- dplyr::tibble(
     Station = rownames(camOp))
@@ -198,7 +219,8 @@ get_detection_history <- function(recordTable,
         first_day = lubridate::as_date(day1)
       )
   } else {
-    # If `day1` is "station" add the first day of each station to the data.frame
+    # If `day1` is "station" add the first day of each station + `buffer` (if
+    # defined) to the data.frame.
     # Define first a function to get the indices of non-NA values in a vector
     which_not_na <- function(x) which(!is.na(x))
     periods_df <- periods_df %>%
@@ -208,23 +230,58 @@ get_detection_history <- function(recordTable,
                 1,
                 function(x) colnames(camOp)[which_not_na(x)[1]]
           )
-        )
+        ) + lubridate::duration(buffer, units = "days")
       )
   }
   
   # Remove records in `recordTable` recorded before `day1` if `day1` is a string
   # representing a valid date
   if (day1 != "station") {
+    records_to_remove <- recordTable %>%
+      dplyr::filter(.data$Date < lubridate::as_date(day1))
+    n_records_to_remove <- nrow(records_to_remove)
+    if (nrow(records_to_remove) > 0) {
+      warning(
+        glue::glue(
+          "{n_records_to_remove} record(s) (out of {tot_records}) are removed ",
+          "because they were taken before `day1` ({day1}), e.g.:",
+          "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
+        )
+      )
+    }
     recordTable <- recordTable %>%
       dplyr::filter(.data$Date >= lubridate::as_date(day1))
   }
+  
+  # Remove records in `recordTable` recorded during the `buffer` days.
+  # No records will be removed in this step if buffer = 0
+  records_to_remove <- recordTable %>%
+    dplyr::left_join(periods_df, by = "Station") %>%
+    dplyr::filter(.data$Date < .data$first_day)
+  n_records_to_remove <- nrow(records_to_remove)
+  assertthat::assert_that(
+    n_records_to_remove < tot_records,
+    msg = paste0(
+      "In all stations, the occasions begin after retrieval. ",
+      "Choose a smaller buffer argument."
+    )
+  )
+  if (nrow(records_to_remove) > 0) {
+    warning(
+      glue::glue(
+        "{n_records_to_remove} record(s) (out of {tot_records}) are removed ",
+        "because they were taken during the buffer period of ",
+        "{buffer} day(s), e.g.:",
+        "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
+      )
+    )
+  }
+  recordTable <- recordTable %>%
+    dplyr::left_join(periods_df, by = "Station") %>%
+    dplyr::filter(.data$Date >= .data$first_day)
+  
   # Calculate the detection history information for each station
-  station_records <- recordTable %>% 
-    dplyr::filter(.data$Species == species) %>%
-    dplyr::left_join(
-      periods_df,
-      by = "Station"
-    ) %>%
+  station_records <- recordTable %>%
     dplyr::mutate(period_start = 
       .data$first_day + 
         occasionLength * 
@@ -268,9 +325,14 @@ get_detection_history <- function(recordTable,
       .groups = "drop")
   
   # Maximum number of occasions along all stations, i.e. the maximum number of
-  # rows with effort not NA over all stations
+  # rows with effort not NA over all stations. If buffer is not 0 remove buffer
+  # days as well.
   max_occasions <- camOp_long_grouped %>%
     dplyr::filter(!is.na(.data$Effort)) %>%
+    # Add `first_day` column to take buffer days into account
+    dplyr::left_join(periods_df, by = "Station") %>%
+    # Do not count buffer days
+    dplyr::filter(.data$period_start >= .data$first_day) %>%
     dplyr::group_by(.data$Station) %>%
     dplyr::summarise(
       max_occasions = max(dplyr::row_number()),
@@ -291,6 +353,10 @@ get_detection_history <- function(recordTable,
     det_hist_all_info %>%
       dplyr::filter(.data$Station == x) %>%
       dplyr::filter(!is.na(.data$Effort)) %>%
+      # Add `first_day` column to take buffer days into account
+      dplyr::left_join(periods_df, by = "Station") %>%
+      # Do not count buffer days
+      dplyr::filter(.data$period_start >= .data$first_day) %>%
       dplyr::select("period_start", "Effort", "z", "n_obs", "n_ind")
   })
   names(det_hist_list) <- stations
@@ -342,7 +408,7 @@ get_detection_history <- function(recordTable,
       # Transform the list of padded vectors into a matrix
       x <- do.call(rbind, x)
       # Assign the station names as rownames
-      rownames(x) <- names(stations)
+      rownames(x) <- stations
       # Assign progressive number of occasions as column names. Use prefix "o".
       colnames(x) <- paste0("o", seq_len(ncol(x)))
       x

@@ -10,7 +10,8 @@ get_detection_history(
   species,
   output,
   occasionLength = 1,
-  day1 = "station"
+  day1 = "station",
+  buffer = NULL
 )
 }
 \arguments{
@@ -29,11 +30,16 @@ number of days that each station was active on each occasion.}
 \item{output}{Character. The type of output. Choose one of: \code{"binary"},
 \code{"n_observations"}, \code{"n_individuals"}.}
 
-\item{occasionLength}{The length of the occasions in days. No decimals
+\item{occasionLength}{Integer. The length of the occasions in days. No decimals
 allowed. Default: 1.}
 
 \item{day1}{Character. Day occasions should begin: station setup date
 (\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). Default: "station".}
+
+\item{buffer}{Integer. It makes the first occasion begin a number of days
+after station setup. \code{buffer} can be used only in combination with \code{day1} =
+\code{"station"}. Default: \code{NULL}. A warning is returned if some records are
+removed because taken during the buffer period.}
 }
 \value{
 A list with three elements:
@@ -60,11 +66,16 @@ on a camera trap data package object. For more information, see the
 \code{\link[=get_camOp]{get_camOp()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
 }
 \examples{
-camOp <- get_camOp(mica)
+camOp <- get_cam_op(mica)
 recordTable <- get_record_table(mica)
 
 # Binary output
-get_detection_history(recordTable, camOp, "Anas platyrhynchos", "binary")
+get_detection_history(
+  recordTable,
+  camOp,
+  species = "Anas platyrhynchos",
+  output = "binary"
+)
 
 # Number of observations output
 get_detection_history(
@@ -82,13 +93,22 @@ get_detection_history(
  output = "n_individuals"
 )
 
-# occasion length of 7 days
+# Occasion length of 7 days
 get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
  output = "n_individuals",
  occasionLength = 7
+)
+
+# Specify start date via `day1`
+get_detection_history(
+  recordTable,
+  camOp,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  day1 = "2020-06-22"
 )
 }
 \seealso{

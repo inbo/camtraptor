@@ -82,7 +82,7 @@ get_detection_history(
  output = "n_individuals"
 )
 
-# occasion lenght of 7 days
+# occasion length of 7 days
 get_detection_history(
  recordTable,
  camOp,

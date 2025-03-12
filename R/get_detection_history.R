@@ -60,7 +60,7 @@
 #'  output = "n_individuals"
 #' )
 #' 
-#' # occasion lenght of 7 days
+#' # Occasion length of 7 days
 #' get_detection_history(
 #'  recordTable,
 #'  camOp,

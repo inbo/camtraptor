@@ -587,9 +587,9 @@ test_that("Test `buffer`", {
                                          day1 = "station",
                                          buffer = NULL)
   n_cols_no_buffer <- ncol(res_no_buffer$detection_history)
-  # The detection history is shifted by buffer days. But do not compare the
-  # columns names as the ones with no buffer have higher numbers (higher number
-  # of occasions)
+  # If `occasionLength` is equal to 1, the detection history is shifted by
+  # buffer days. But do not compare the columns names as the ones with no buffer
+  # have higher numbers (higher number of occasions)
   expect_identical(
     unname(res_with_buffer$detection_history),
     unname(res_no_buffer$detection_history[, (buffer+1):n_cols_no_buffer])

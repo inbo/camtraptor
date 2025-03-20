@@ -239,23 +239,18 @@ get_detection_history <- function(recordTable,
     buffer <- 0
   }
 
-  # Remove records of other species
-  recordTable <- recordTable %>% 
-    dplyr::filter(.data$Species == species)
-  # Total number of records in `recordTable`
-  tot_records <- nrow(recordTable)
+  # Total number of records of given species in `recordTable`
+  tot_records <- recordTable %>%
+    dplyr::filter(.data$Species == species) %>%
+    nrow()
   
-  # Remove columns (days) before `day1` if `day1` is a string representing a
-  # valid date
-  if (day1 != "station") {
-    camOp <- camOp[, colnames(camOp) >= day1]
-  }
-  
-  # Create a help data.frame with `Station` and first day
+  # Create a help data.frame with `Station`, first day and last day.
+  # Define first a function to get the indices of non-NA values in a vector
+  which_not_na <- function(x) which(!is.na(x))
   periods_df <- dplyr::tibble(
     Station = rownames(camOp))
-  # If `day1` is a string representing a valid date add it to the data.frame
   if (day1 != "station") {
+    # If `day1` is a string representing a valid date, add it as first day.
     periods_df <- periods_df %>%
       dplyr::mutate(
         first_day = lubridate::as_date(day1)
@@ -263,26 +258,53 @@ get_detection_history <- function(recordTable,
   } else {
     # If `day1` is "station" add the first day of each station + `buffer` (if
     # defined) to the data.frame.
-    # Define first a function to get the indices of non-NA values in a vector
-    which_not_na <- function(x) which(!is.na(x))
     periods_df <- periods_df %>%
       dplyr::mutate(
         first_day = lubridate::as_date(
-          apply(camOp, 
-                1,
-                function(x) colnames(camOp)[which_not_na(x)[1]]
+          apply(
+            camOp, 
+            1,
+            function(x) colnames(camOp)[which_not_na(x)[1]]
           )
         ) + lubridate::duration(buffer, units = "days")
       )
   }
-  
+  # Add last_day to `periods_df`
+  periods_df <- periods_df  %>%
+    dplyr::mutate(
+      last_day = lubridate::as_date(
+        apply(
+          camOp, 
+          1,
+          function(x) {
+            cam_op_row_without_na <- which_not_na(x)
+            colnames(camOp)[cam_op_row_without_na[length(cam_op_row_without_na)]]
+          }
+        )
+      )
+    )
+  # Check that buffer is not too big: `first_day` must be <= `last_day` for at
+  # least one station. We have already checked that day1 is <= latest available
+  # date in `camOp` so it can be only an issue due to the buffer.
+  assertthat::assert_that(
+    any(periods_df$first_day <= periods_df$last_day),
+    msg = paste0(
+      "In all stations, the occasions begin after retrieval. ",
+      "Choose a smaller buffer argument."
+    )
+  )
+  # Remove columns (days) before `day1` if `day1` is a string representing a
+  # valid date
+  if (day1 != "station") {
+    camOp <- camOp[, colnames(camOp) >= day1]
+  }
   # Remove records in `recordTable` recorded before `day1` if `day1` is a string
   # representing a valid date
   if (day1 != "station") {
     records_to_remove <- recordTable %>%
       dplyr::filter(.data$Date < lubridate::as_date(day1))
     n_records_to_remove <- nrow(records_to_remove)
-    if (nrow(records_to_remove) > 0) {
+    if (n_records_to_remove > 0) {
       warning(
         glue::glue(
           "{n_records_to_remove} record(s) (out of {tot_records}) are removed ",
@@ -295,20 +317,14 @@ get_detection_history <- function(recordTable,
       dplyr::filter(.data$Date >= lubridate::as_date(day1))
   }
   
-  # Remove records in `recordTable` recorded during the `buffer` days.
-  # No records will be removed in this step if buffer = 0
+  
   records_to_remove <- recordTable %>%
     dplyr::left_join(periods_df, by = "Station") %>%
-    dplyr::filter(.data$Date < .data$first_day)
+    dplyr::filter(.data$Date < .data$first_day) %>%
+    # The warning communicates only number of records for the given species
+    dplyr::filter(.data$Species == species)
   n_records_to_remove <- nrow(records_to_remove)
-  assertthat::assert_that(
-    n_records_to_remove < tot_records,
-    msg = paste0(
-      "In all stations, the occasions begin after retrieval. ",
-      "Choose a smaller buffer argument."
-    )
-  )
-  if (nrow(records_to_remove) > 0) {
+  if (n_records_to_remove > 0) {
     warning(
       glue::glue(
         "{n_records_to_remove} record(s) (out of {tot_records}) are removed ",
@@ -318,6 +334,11 @@ get_detection_history <- function(recordTable,
       )
     )
   }
+  
+  # Remove records of other species
+  recordTable <- recordTable %>% 
+    dplyr::filter(.data$Species == species)
+  # Remove records after `first_day` (if `buffer` = 0, no records removed)
   recordTable <- recordTable %>%
     dplyr::left_join(periods_df, by = "Station") %>%
     dplyr::filter(.data$Date >= .data$first_day)

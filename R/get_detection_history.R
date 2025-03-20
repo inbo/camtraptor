@@ -166,7 +166,25 @@ get_detection_history <- function(recordTable,
     occasionLength > 0,
     msg = "Invalid `occasionLength`. Must be greater than 0."
   )
-
+  # Check `minActiveDaysPerOccasion`
+  assertthat::assert_that(
+    is.null(minActiveDaysPerOccasion) | 
+      rlang::is_scalar_integerish(minActiveDaysPerOccasion),
+    msg = paste0("Invalid `minActiveDaysPerOccasion`. Must be an integer ",
+                 "vector of length 1.")
+  )
+  if (!is.null(minActiveDaysPerOccasion)) {
+    assertthat::assert_that(
+      minActiveDaysPerOccasion > 0,
+      msg = "Invalid `minActiveDaysPerOccasion`. Must be greater than 0."
+    )
+    assertthat::assert_that(
+      minActiveDaysPerOccasion <= occasionLength,
+      msg = paste0("`minActiveDaysPerOccasion` must be smaller than or equal to ",
+                   "`occasionLength`."
+      )
+    )
+  }
   # Check `day1`
   assertthat::assert_that(
     rlang::is_string(day1),

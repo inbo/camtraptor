@@ -114,6 +114,7 @@ get_detection_history <- function(recordTable,
                                   species,
                                   output,
                                   occasionLength = 1,
+                                  minActiveDaysPerOccasion = NULL,
                                   day1 = "station",
                                   buffer = NULL) {
   # Check camera operation matrix, `camOp`

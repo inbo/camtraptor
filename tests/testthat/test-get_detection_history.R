@@ -602,4 +602,44 @@ test_that("Test `buffer`", {
     unname(res_with_buffer$dates),
     unname(res_no_buffer$dates[, (buffer+1):n_cols_no_buffer])
   )
+  
+  # If `occasionLength` is higher than 1, the situation is more complex and not
+  # easy to test. However, if `buffer` is equal to `occasionLength`, then we
+  # have one occasion less.
+  occasionLength <- 7
+  expect_warning(
+    res_buffer_occasion_length <- get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = occasionLength
+    )
+  )
+  res_no_buffer_occasion_length <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output,
+    occasionLength = occasionLength,
+    day1 = "station",
+    buffer = NULL
+  )
+  n_cols_no_buffer <- ncol(res_no_buffer_occasion_length$detection_history)
+  expect_identical(
+    unname(res_buffer_occasion_length$detection_history),
+    unname(
+      res_no_buffer_occasion_length$detection_history[, 2:n_cols_no_buffer]
+    )
+  )
+  expect_identical(
+    unname(res_buffer_occasion_length$effort),
+    unname(res_no_buffer_occasion_length$effort[, 2:n_cols_no_buffer])
+  )
+  expect_identical(
+    unname(res_buffer_occasion_length$dates),
+    unname(res_no_buffer_occasion_length$dates[, 2:n_cols_no_buffer])
+  )
 })

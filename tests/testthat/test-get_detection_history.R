@@ -265,8 +265,7 @@ test_that("day1 is equal station or a valid date", {
                           occasionLength = occasionLength,
                           day1 = "not a station"),
     paste0("`day1` must be equal to 'station' or a string representing a ",
-           "valid date in ISO 8601 format."
-           ),
+           "valid date in ISO 8601 format."),
     fixed = TRUE
   )
   # `day1` is too late
@@ -278,8 +277,7 @@ test_that("day1 is equal station or a valid date", {
                           occasionLength = occasionLength,
                           day1 = "2100-01-01"),
     paste0("`day1` must be a date lower or equal to the last date ",
-           "in the camera operation matrix."
-    ),
+           "in the camera operation matrix."),
     fixed = TRUE
   )
   # `day1` is too early
@@ -291,8 +289,7 @@ test_that("day1 is equal station or a valid date", {
                           occasionLength = occasionLength,
                           day1 = "2000-01-01"),
     paste0("`day1` must be a date greater or equal to the first date ",
-           "in the camera operation matrix."
-    ),
+           "in the camera operation matrix."),
     fixed = TRUE
   )
 })

@@ -21,6 +21,9 @@
 #'   `"n_observations"`, `"n_individuals"`.
 #' @param occasionLength Integer. The length of the occasions in days. No decimals
 #'   allowed. Default: 1.
+#' @param minActiveDaysPerOccasion Integer. Minimum number of active trap days
+#'   for occasions to be included. Default: `NULL`. If used, it must be smaller
+#'   than or equal to `occasionLength`.
 #' @param day1 Character. Day occasions should begin: station setup date
 #'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). Default: "station".
 #' @param buffer Integer. It makes the first occasion begin a number of days
@@ -77,6 +80,17 @@
 #'  output = "n_individuals",
 #'  occasionLength = 7
 #' )
+#' 
+#' # use a `minActiveDaysPerOccasion` of 2 days
+#' get_detection_history(
+#'  recordTable,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_individuals",
+#'  occasionLength = 7,
+#'  minActiveDaysPerOccasion = 2
+#' )
+
 #' 
 #' # Specify start date via `day1`
 #' get_detection_history(

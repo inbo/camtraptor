@@ -10,6 +10,7 @@ get_detection_history(
   species,
   output,
   occasionLength = 1,
+  minActiveDaysPerOccasion = NULL,
   day1 = "station",
   buffer = NULL
 )
@@ -32,6 +33,10 @@ number of days that each station was active on each occasion.}
 
 \item{occasionLength}{Integer. The length of the occasions in days. No decimals
 allowed. Default: 1.}
+
+\item{minActiveDaysPerOccasion}{Integer. Minimum number of active trap days
+for occasions to be included. Default: \code{NULL}. If used, it must be smaller
+than or equal to \code{occasionLength}.}
 
 \item{day1}{Character. Day occasions should begin: station setup date
 (\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). Default: "station".}
@@ -102,6 +107,16 @@ get_detection_history(
  occasionLength = 7
 )
 
+# use a `minActiveDaysPerOccasion` of 2 days
+get_detection_history(
+ recordTable,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_individuals",
+ occasionLength = 7,
+ minActiveDaysPerOccasion = 2
+)
+
 # Specify start date via `day1`
 get_detection_history(
   recordTable,
@@ -109,6 +124,15 @@ get_detection_history(
   species = "Anas platyrhynchos",
   output = "binary",
   day1 = "2020-06-22"
+)
+
+# Use a `buffer` of 2 days
+get_detection_history(
+ recordTable,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_individuals",
+ buffer = 2
 )
 }
 \seealso{

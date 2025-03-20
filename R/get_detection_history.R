@@ -100,6 +100,15 @@
 #'   output = "binary",
 #'   day1 = "2020-06-22"
 #' )
+#' 
+#' # Use a `buffer` of 2 days
+#' get_detection_history(
+#'  recordTable,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_individuals",
+#'  buffer = 2
+#' )
 get_detection_history <- function(recordTable,
                                   camOp,
                                   species,

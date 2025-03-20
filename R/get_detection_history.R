@@ -302,6 +302,8 @@ get_detection_history <- function(recordTable,
   # representing a valid date
   if (day1 != "station") {
     records_to_remove <- recordTable %>%
+      # The warning communicates only number of records for the given species
+      dplyr::filter(.data$Species == species) %>%
       dplyr::filter(.data$Date < lubridate::as_date(day1))
     n_records_to_remove <- nrow(records_to_remove)
     if (n_records_to_remove > 0) {

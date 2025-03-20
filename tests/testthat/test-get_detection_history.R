@@ -179,7 +179,16 @@ test_that("Check occasionLength", {
                fixed = TRUE
   )
   occasionLength <- c(1,2)
-  
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = "station"),
+    "Invalid `occasionLength`. Must be an integer vector of length 1.",
+    fixed = TRUE
+  )
   occasionLength <- -1
   expect_error(get_detection_history(recordTable = rec_table,
                                      camOp = cam_op,

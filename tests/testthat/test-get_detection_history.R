@@ -201,6 +201,55 @@ test_that("Check occasionLength", {
   )
 })
 
+test_that("Check minActiveDaysPerOccasion", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  species <- "Anas platyrhynchos"
+  output <- "binary"
+  occasionLength <- 5
+  minActiveDaysPerOccasion <- "not an integer"
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      minActiveDaysPerOccasion = minActiveDaysPerOccasion,
+      day1 = "station"
+    ),
+    "Invalid `minActiveDaysPerOccasion`. Must be an integer vector of length 1.",
+    fixed = TRUE
+  )
+  minActiveDaysPerOccasion <- c(1,2)
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      minActiveDaysPerOccasion = minActiveDaysPerOccasion,
+      day1 = "station"
+    ),
+    paste0("Invalid `minActiveDaysPerOccasion`. Must be an integer vector ",
+           "of length 1."),
+    fixed = TRUE
+  )
+  minActiveDaysPerOccasion <- -1
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          minActiveDaysPerOccasion = minActiveDaysPerOccasion,
+                          day1 = "station"),
+    "Invalid `minActiveDaysPerOccasion`. Must be greater than 0.",
+    fixed = TRUE
+  )
+})
+
 # Check `day1`
 test_that("day1 is equal station or a valid date", {
   cam_op <- get_cam_op(mica)

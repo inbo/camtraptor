@@ -540,10 +540,9 @@ test_that("Test day1 = specific date", {
 test_that("Test `buffer`", {
   cam_op <- get_cam_op(mica)
   rec_table <- get_record_table(mica)
-  output <- "binary"
+  output <- "n_observations"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  buffer <- 5
   # Error returned if `buffer` is so big that no occasions are found.
   expect_error(get_detection_history(recordTable = rec_table,
                                      camOp = cam_op,
@@ -556,6 +555,7 @@ test_that("Test `buffer`", {
            "Choose a smaller buffer argument.")
   )
   # Right warning returned with number of removed records and an example
+  buffer <- 5
   expect_warning(
     res_with_buffer <- get_detection_history(recordTable = rec_table,
                                    camOp = cam_op,

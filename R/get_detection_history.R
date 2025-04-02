@@ -197,6 +197,26 @@ get_detection_history <- function(recordTable,
       )
     )
   }
+  # Check `maxNumberDays`
+  assertthat::assert_that(
+    is.null(maxNumberDays) | rlang::is_scalar_integerish(maxNumberDays),
+    msg = paste0("Invalid `maxNumberDays`. If defined, it must be an integer ",
+                 "vector of length 1."),
+    fixed = TRUE
+  )
+  if (!is.null(maxNumberDays)) {
+    assertthat::assert_that(
+      maxNumberDays > 0,
+      msg = "Invalid `maxNumberDays`. Must be greater than 0."
+    )
+    assertthat::assert_that(
+      maxNumberDays >= occasionLength,
+      msg = paste0(
+        "Invalid `maxNumberDays`. If defined, it must be greater than or ",
+        "equal to `occasionLength`."
+      )
+    )
+  }
   # Check `day1`
   assertthat::assert_that(
     rlang::is_string(day1),

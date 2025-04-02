@@ -667,15 +667,29 @@ test_that("Test `buffer`", {
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # Error returned if `buffer` is so big that no occasions are found.
+  buffer <- 1000
   expect_error(get_detection_history(recordTable = rec_table,
                                      camOp = cam_op,
                                      species = species,
                                      output = output,
                                      occasionLength = occasionLength,
                                      day1 = "station",
-                                     buffer = 1000),
+                                     buffer = buffer),
     paste0("In all stations, the occasions begin after retrieval. ",
            "Choose a smaller buffer argument.")
+  )
+  # Error returned if `buffer` is so big that all records for given species are
+  # removed.
+  buffer <- 10
+  expect_error(get_detection_history(recordTable = rec_table,
+                                     camOp = cam_op,
+                                     species = species,
+                                     output = output,
+                                     occasionLength = occasionLength,
+                                     day1 = "station",
+                                     buffer = buffer),
+               paste0("No more records after removing records before survey ",
+                      "begin. The detection history would be empty.")
   )
   # Right warning returned with number of removed records and an example
   buffer <- 5
@@ -729,7 +743,7 @@ test_that("Test `buffer`", {
   # If `occasionLength` is higher than 1, the situation is more complex and not
   # easy to test. However, if `buffer` is equal to `occasionLength`, then we
   # have one occasion less.
-  occasionLength <- 7
+  occasionLength <- 3
   expect_warning(
     res_buffer_occasion_length <- get_detection_history(
       recordTable = rec_table,

@@ -24,6 +24,9 @@
 #' @param minActiveDaysPerOccasion Integer. Minimum number of active trap days
 #'   for occasions to be included. Default: `NULL`. If used, it must be smaller
 #'   than or equal to `occasionLength`.
+#' @param maxNumberDays Integer. Maximum number of trap days per station.
+#'   Default: `NULL`. If used, it must be greater than or equal to
+#'   `occasionLength`.
 #' @param day1 Character. Day occasions should begin: station setup date
 #'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). Default: "station".
 #' @param buffer Integer. It makes the first occasion begin a number of days
@@ -81,7 +84,7 @@
 #'  occasionLength = 7
 #' )
 #' 
-#' # use a `minActiveDaysPerOccasion` of 5 days
+#' # Use a `minActiveDaysPerOccasion` of 5 days
 #' get_detection_history(
 #'  recordTable,
 #'  camOp,
@@ -90,7 +93,15 @@
 #'  occasionLength = 7,
 #'  minActiveDaysPerOccasion = 5
 #' )
-
+#' 
+#' # Use a `maxNumberDays` of 5 days
+#' get_detection_history(
+#'  recordTable,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_individuals",
+#'  maxNumberDays = 5
+#' )
 #' 
 #' # Specify start date via `day1`
 #' get_detection_history(
@@ -115,6 +126,7 @@ get_detection_history <- function(recordTable,
                                   output,
                                   occasionLength = 1,
                                   minActiveDaysPerOccasion = NULL,
+                                  maxNumberDays = NULL,
                                   day1 = "station",
                                   buffer = NULL) {
   # Check camera operation matrix, `camOp`

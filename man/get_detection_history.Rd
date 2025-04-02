@@ -31,8 +31,8 @@ number of days that each station was active on each occasion.}
 \item{output}{Character. The type of output. Choose one of: \code{"binary"},
 \code{"n_observations"}, \code{"n_individuals"}.}
 
-\item{occasionLength}{Integer. The length of the occasions in days. No decimals
-allowed. Default: 1.}
+\item{occasionLength}{Integer. The length of the occasions in days. No
+decimals allowed. Default: 1.}
 
 \item{minActiveDaysPerOccasion}{Integer. Minimum number of active trap days
 for occasions to be included. Default: \code{NULL}. If used, it must be smaller
@@ -107,14 +107,14 @@ get_detection_history(
  occasionLength = 7
 )
 
-# use a `minActiveDaysPerOccasion` of 2 days
+# use a `minActiveDaysPerOccasion` of 5 days
 get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
  output = "n_individuals",
  occasionLength = 7,
- minActiveDaysPerOccasion = 2
+ minActiveDaysPerOccasion = 5
 )
 
 # Specify start date via `day1`

@@ -510,6 +510,56 @@ test_that("Test occasionLength > 1", {
   )
 })
 
+test_that("Test minActiveDaysPerOccasion > 1", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "n_observations"
+  occasionLength <- 7
+  species <- "Anas platyrhynchos"
+  res_1 <- get_detection_history(recordTable = rec_table,
+                                 camOp = cam_op,
+                                 species = species,
+                                 output = output,
+                                 occasionLength = occasionLength,
+                                 day1 = "station")
+  # Get number of NAs per rows in detection history matrix
+  n_na_per_row_1_det_hist <- rowSums(is.na(res_1$detection_history))
+  # Get number of NAs per rows in effort matrix
+  n_na_per_row_1_effort <- rowSums(is.na(res_1$effort))
+  # Get number of NAs per rows in dates matrix
+  n_na_per_row_1_dates <- rowSums(is.na(res_1$dates))
+  
+  minActiveDaysPerOccasion <- 5 # less than `occasionLength`
+  res_5 <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output,
+    occasionLength = occasionLength,
+    minActiveDaysPerOccasion = minActiveDaysPerOccasion,
+    day1 = "station")
+  # Get number of NAs per rows in detection history matrix
+  n_na_per_row_5_det_hist <- rowSums(is.na(res_5$detection_history))
+  # Get number of NAs per rows in effort matrix
+  n_na_per_row_5_effort <- rowSums(is.na(res_5$effort))
+  # Get number of NAs per rows in dates matrix
+  n_na_per_row_5_dates <- rowSums(is.na(res_5$dates))
+  
+  # Number of NAs for each row (station) in res_5 is higher or equal to the
+  # number of NAs for the same row in res_1 (as we are looking for more active
+  # days)
+  expect_true(all(n_na_per_row_5_det_hist >= n_na_per_row_1_det_hist))
+  expect_true(all(n_na_per_row_5_effort > n_na_per_row_1_effort))
+  expect_true(all(n_na_per_row_5_dates > n_na_per_row_1_dates))
+  
+  # Same number of NAs for each row (station) in res_5 for detection history,
+  # effort and dates, doesn't matter the value of `minActiveDaysPerOccasion`
+  expect_identical(n_na_per_row_1_det_hist, n_na_per_row_1_effort)
+  expect_identical(n_na_per_row_1_det_hist, n_na_per_row_1_dates)
+  expect_identical(n_na_per_row_5_det_hist, n_na_per_row_5_effort)
+  expect_identical(n_na_per_row_5_det_hist, n_na_per_row_5_dates)
+})
+
 test_that("Test day1 = specific date", {
   cam_op <- get_cam_op(mica)
   rec_table <- get_record_table(mica)

@@ -19,8 +19,8 @@
 #' @param species Character. The species name.
 #' @param output Character. The type of output. Choose one of: `"binary"`,
 #'   `"n_observations"`, `"n_individuals"`.
-#' @param occasionLength Integer. The length of the occasions in days. No decimals
-#'   allowed. Default: 1.
+#' @param occasionLength Integer. The length of the occasions in days. No
+#'   decimals allowed. Default: 1.
 #' @param minActiveDaysPerOccasion Integer. Minimum number of active trap days
 #'   for occasions to be included. Default: `NULL`. If used, it must be smaller
 #'   than or equal to `occasionLength`.
@@ -81,14 +81,14 @@
 #'  occasionLength = 7
 #' )
 #' 
-#' # use a `minActiveDaysPerOccasion` of 2 days
+#' # use a `minActiveDaysPerOccasion` of 5 days
 #' get_detection_history(
 #'  recordTable,
 #'  camOp,
 #'  species = "Anas platyrhynchos",
 #'  output = "n_individuals",
 #'  occasionLength = 7,
-#'  minActiveDaysPerOccasion = 2
+#'  minActiveDaysPerOccasion = 5
 #' )
 
 #' 
@@ -157,7 +157,7 @@ get_detection_history <- function(recordTable,
               arg_name = "output",
               null_allowed = FALSE
   )
-  # Check occasionLength
+  # Check `occasionLength`
   assertthat::assert_that(
     rlang::is_scalar_integerish(occasionLength),
     msg = "Invalid `occasionLength`. Must be an integer vector of length 1."
@@ -221,7 +221,6 @@ get_detection_history <- function(recordTable,
       )
     )
   }
-  
   # Check `buffer`
   assertthat::assert_that(
     is.null(buffer) | rlang::is_scalar_integerish(buffer),
@@ -425,6 +424,18 @@ get_detection_history <- function(recordTable,
       dplyr::select("period_start", "Effort", "z", "n_obs", "n_ind")
   })
   names(det_hist_list) <- stations
+  
+  # Remove occasions with less than `minActiveDaysPerOccasion` active days
+  det_hist_list <- purrr::map(
+    det_hist_list,
+    function(x) {
+      if (!is.null(minActiveDaysPerOccasion)) {
+        x <- x %>%
+          dplyr::filter(.data$Effort >= minActiveDaysPerOccasion)
+      }
+      x
+    }
+  )
   
   # Get detection history asked by user in the form of a list of vectors
   det_hist <- purrr::map(

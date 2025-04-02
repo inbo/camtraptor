@@ -246,7 +246,7 @@ test_that("Check minActiveDaysPerOccasion", {
                           occasionLength = occasionLength,
                           minActiveDaysPerOccasion = minActiveDaysPerOccasion,
                           day1 = "station"),
-    paste0("Invalid `minActiveDaysPerOccasion`. IF defined, it must be ",
+    paste0("Invalid `minActiveDaysPerOccasion`. If defined, it must be ",
            "greater than 0."),
     fixed = TRUE
   )
@@ -257,8 +257,8 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
   cam_op <- get_cam_op(mica)
   rec_table <- get_record_table(mica)
   output <- "binary"
-  occasionLength <- 1
   species <- "Anas platyrhynchos"
+  occasionLength <- 1
   # `maxNumberDays` is a character, not right class
   maxNumberDays = "blablabla"
   expect_error(
@@ -294,7 +294,35 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           maxNumberDays = maxNumberDays),
-    "Invalid `maxNumberDays`. If defined, it must be greater than 0.",
+    "Invalid `maxNumberDays`. Must be greater than 0.",
+    fixed = TRUE
+  )
+  # `maxNumberDays` is less than `occasionLength`
+  maxNumberDays <- 1
+  occasionLength <- 7
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          maxNumberDays = maxNumberDays),
+    paste0("Invalid `maxNumberDays`. If defined, it must be greater than or ",
+           "equal to `occasionLength`."),
+    fixed = TRUE
+  )
+  # `maxNumberDays` is greater than the number of days in the camera operation
+  # matrix
+  maxNumberDays <- 1000
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          maxNumberDays = maxNumberDays),
+    paste0("Invalid `maxNumberDays`. Must be smaller than or equal to the number ",
+           "of columns of `camOp`."),
     fixed = TRUE
   )
 })
@@ -337,12 +365,11 @@ test_that("day1 is equal to `\"station\"` or a valid date", {
                           output = output,
                           occasionLength = occasionLength,
                           day1 = "2000-01-01"),
-    paste0("`day1` must be a date greater or equal to the first date ",
+    paste0("Invalid `day1`. Must be a date greater or equal to the first date ",
            "in the camera operation matrix."),
     fixed = TRUE
   )
 })
-
 
 # Check `buffer`
 test_that("buffer is NULL or an integer of length 1", {
@@ -359,7 +386,7 @@ test_that("buffer is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           buffer = "blablabla"),
-  paste0("Invalid `buffer`. If buffer is defined, ",
+  paste0("Invalid `buffer`. If defined, ",
          "it must be an integer of length 1.")
   )
   # `buffer` is a vector with length > 1 
@@ -370,7 +397,7 @@ test_that("buffer is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           buffer = c(1, 2, 4)),
-    paste0("Invalid `buffer`. If buffer is defined, ",
+    paste0("Invalid `buffer`. If defined, ",
            "it must be an integer of length 1.")
   )
   # `buffer` is negative
@@ -381,7 +408,7 @@ test_that("buffer is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           buffer = -1),
-    "Invalid `buffer`. If `buffer` is defined, it must be 1 or higher."
+    "Invalid `buffer`. If defined, it must be 1 or higher."
   )
 })
 

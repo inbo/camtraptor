@@ -219,6 +219,13 @@ get_detection_history <- function(recordTable,
         "equal to `occasionLength`."
       )
     )
+    assertthat::assert_that(
+      maxNumberDays <= ncol(camOp),
+      msg = paste0(
+        "Invalid `maxNumberDays`. Must be smaller than or equal to the number ",
+        "of columns of `camOp`."
+      )
+    )
   }
   # Check `day1`
   assertthat::assert_that(
@@ -253,7 +260,7 @@ get_detection_history <- function(recordTable,
     assertthat::assert_that(
       as.Date(day1) >= min(as.Date(colnames(camOp))),
       msg = paste0(
-        "Invalid `day1`. Must be a date lower or equal to the last date ",
+        "Invalid `day1`. Must be a date greater or equal to the first date ",
         "in the camera operation matrix."
       )
     )

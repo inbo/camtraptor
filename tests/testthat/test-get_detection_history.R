@@ -252,6 +252,49 @@ test_that("Check minActiveDaysPerOccasion", {
   )
 })
 
+# Check `maxNumberDays`
+test_that("maxNumberDays is NULL or an integer of length 1", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  # `maxNumberDays` is a character, not right class
+  maxNumberDays = "blablabla"
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          maxNumberDays = maxNumberDays),
+    paste0("Invalid `maxNumberDays`. If defined, it must be an integer ",
+           "vector of length 1."),
+    fixed = TRUE
+  )
+  # `maxNumberDays` is a vector with length > 1
+  maxNumberDays <- c(1, 2, 4)
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          maxNumberDays = maxNumberDays),
+    paste0("Invalid `maxNumberDays`. If defined, it must be an integer ",
+           "vector of length 1."),
+    fixed = TRUE
+  )
+  # `maxNumberDays` is negative
+  maxNumberDays <- -1
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          maxNumberDays = maxNumberDays),
+    "Invalid `maxNumberDays`. If defined, it must be greater than 0.",
     fixed = TRUE
   )
 })

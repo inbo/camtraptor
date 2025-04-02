@@ -218,7 +218,8 @@ test_that("Check minActiveDaysPerOccasion", {
       minActiveDaysPerOccasion = minActiveDaysPerOccasion,
       day1 = "station"
     ),
-    "Invalid `minActiveDaysPerOccasion`. Must be an integer vector of length 1.",
+    paste0("Invalid `minActiveDaysPerOccasion`. If defined, it must be an ",
+           "integer vector of length 1."),
     fixed = TRUE
   )
   minActiveDaysPerOccasion <- c(1,2)
@@ -232,8 +233,8 @@ test_that("Check minActiveDaysPerOccasion", {
       minActiveDaysPerOccasion = minActiveDaysPerOccasion,
       day1 = "station"
     ),
-    paste0("Invalid `minActiveDaysPerOccasion`. Must be an integer vector ",
-           "of length 1."),
+    paste0("Invalid `minActiveDaysPerOccasion`. If defined, it must be an ",
+           "integer vector of length 1."),
     fixed = TRUE
   )
   minActiveDaysPerOccasion <- -1
@@ -245,13 +246,18 @@ test_that("Check minActiveDaysPerOccasion", {
                           occasionLength = occasionLength,
                           minActiveDaysPerOccasion = minActiveDaysPerOccasion,
                           day1 = "station"),
-    "Invalid `minActiveDaysPerOccasion`. Must be greater than 0.",
+    paste0("Invalid `minActiveDaysPerOccasion`. IF defined, it must be ",
+           "greater than 0."),
+    fixed = TRUE
+  )
+})
+
     fixed = TRUE
   )
 })
 
 # Check `day1`
-test_that("day1 is equal station or a valid date", {
+test_that("day1 is equal to `\"station\"` or a valid date", {
   cam_op <- get_cam_op(mica)
   rec_table <- get_record_table(mica)
   output <- "binary"
@@ -264,8 +270,8 @@ test_that("day1 is equal station or a valid date", {
                           output = output,
                           occasionLength = occasionLength,
                           day1 = "not a station"),
-    paste0("`day1` must be equal to 'station' or a string representing a ",
-           "valid date in ISO 8601 format."),
+    paste0("Invalid `day1`. Must be equal to 'station' or a string ",
+           "representing a valid date in ISO 8601 format."),
     fixed = TRUE
   )
   # `day1` is too late
@@ -276,7 +282,7 @@ test_that("day1 is equal station or a valid date", {
                           output = output,
                           occasionLength = occasionLength,
                           day1 = "2100-01-01"),
-    paste0("`day1` must be a date lower or equal to the last date ",
+    paste0("Invalid `day1`. Must be a date lower or equal to the last date ",
            "in the camera operation matrix."),
     fixed = TRUE
   )

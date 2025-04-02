@@ -182,18 +182,21 @@ get_detection_history <- function(recordTable,
   assertthat::assert_that(
     is.null(minActiveDaysPerOccasion) | 
       rlang::is_scalar_integerish(minActiveDaysPerOccasion),
-    msg = paste0("Invalid `minActiveDaysPerOccasion`. Must be an integer ",
-                 "vector of length 1.")
+    msg = paste0("Invalid `minActiveDaysPerOccasion`. If defined, it must be ",
+                 "an integer vector of length 1."
+    )
   )
   if (!is.null(minActiveDaysPerOccasion)) {
     assertthat::assert_that(
       minActiveDaysPerOccasion > 0,
-      msg = "Invalid `minActiveDaysPerOccasion`. Must be greater than 0."
+      msg = paste0("Invalid `minActiveDaysPerOccasion`. If defined, it must ",
+                   "be greater than 0."
+      )
     )
     assertthat::assert_that(
       minActiveDaysPerOccasion <= occasionLength,
-      msg = paste0("`minActiveDaysPerOccasion` must be smaller than or equal to ",
-                   "`occasionLength`."
+      msg = paste0("Invalid `minActiveDaysPerOccasion`. If defined, ", 
+                   "it must be smaller than or equal to `occasionLength`."
       )
     )
   }
@@ -220,7 +223,7 @@ get_detection_history <- function(recordTable,
   # Check `day1`
   assertthat::assert_that(
     rlang::is_string(day1),
-    msg = "`day1` must be a character vector of length 1."
+    msg = "Invalid `day1`. Must be a character vector of length 1."
   )
   if (day1 != "station") {
     # `day1` must be equal to "station" or a string representing a valid
@@ -229,7 +232,7 @@ get_detection_history <- function(recordTable,
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
         stop(paste0(
-          "`day1` must be equal to 'station' or a string representing ",
+          "Invalid `day1`. Must be equal to 'station' or a string representing ",
           "a valid date in ISO 8601 format."
           ),
           call. = FALSE
@@ -240,29 +243,30 @@ get_detection_history <- function(recordTable,
     # dates in camera operation matrix
     assertthat::assert_that(
       as.Date(day1) <= max(as.Date(colnames(camOp))),
-      msg = paste0("`day1` must be a date lower or equal to the last date ",
-                   "in the camera operation matrix."
+      msg = paste0(
+        "Invalid `day1`. Must be a date lower or equal to the last date ",
+        "in the camera operation matrix."
       )
     )
     # If `day1` is a string representing a valid date check it's not before the
     # dates in camera operation matrix
     assertthat::assert_that(
       as.Date(day1) >= min(as.Date(colnames(camOp))),
-      msg = paste0("`day1` must be a date greater or equal to the first date ",
-                   "in the camera operation matrix."
+      msg = paste0(
+        "Invalid `day1`. Must be a date lower or equal to the last date ",
+        "in the camera operation matrix."
       )
     )
   }
   # Check `buffer`
   assertthat::assert_that(
     is.null(buffer) | rlang::is_scalar_integerish(buffer),
-    msg = paste0("Invalid `buffer`. If buffer is defined, ",
-                 "it must be an integer of length 1.")
+    msg = "Invalid `buffer`. If defined, it must be an integer of length 1."
   )
   if (!is.null(buffer)) {
     assertthat::assert_that(
       buffer > 0,
-      msg = "Invalid `buffer`. If `buffer` is defined, it must be 1 or higher."
+      msg = "Invalid `buffer`. If defined, it must be 1 or higher."
     )
   }
   # For calculation it's better to have buffer = 0 instead of `NULL`

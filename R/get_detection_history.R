@@ -335,47 +335,21 @@ get_detection_history <- function(recordTable,
       "Choose a smaller buffer argument."
     )
   )
-  if (day1 != "station") {
-    # Remove columns (days) before `day1` if `day1` is a string representing a
-    # valid date
-    camOp <- camOp[, colnames(camOp) >= day1]
-    # Remove records in `recordTable` recorded before `day1` if `day1` is a
-    # string representing a valid date. Return warning/error if some/all records
-    # are removed.
-    tot_records <- recordTable %>%
-    # The warning communicates only number of records for the given species
+  tot_records <- recordTable %>%
+    # The warnings communicate only number of records for the given species
     dplyr::filter(.data$Species == species)
+  n_tot_records <- nrow(tot_records)
+  # Return warning/error if some/all records are before `day1` if `day1` is a
+  # string representing a valid date.
+  if (day1 != "station") {
     records_to_remove <- tot_records %>%
       dplyr::filter(.data$Date < lubridate::as_date(day1))
-    n_records_to_remove <- nrow(records_to_remove)
-    n_tot_records <- nrow(tot_records)
-    if (n_records_to_remove > 0) {
-      assertthat::assert_that(
-        n_records_to_remove < n_tot_records,
-        msg = paste0("No more records after removing records before survey ",
-                     "begin. The detection history would be empty."
-        )
-      )
-      warning(
-        glue::glue(
-          "{n_records_to_remove} record(s) (out of {n_tot_records}) are ",
-          "removed because they were taken before `day1` ({day1}), e.g.:",
-          "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
-        )
-      )
-    }
-    recordTable <- recordTable %>%
-      dplyr::filter(.data$Date >= lubridate::as_date(day1))
+  } else {
+    records_to_remove <- tot_records %>%
+      dplyr::left_join(periods_df, by = "Station") %>%
+      dplyr::filter(.data$Date < .data$first_day)
   }
-  
-  tot_records <- recordTable %>%
-    # The warning communicates only number of records for the given species
-    dplyr::filter(.data$Species == species)
-  records_to_remove <- tot_records %>%
-    dplyr::left_join(periods_df, by = "Station") %>%
-    dplyr::filter(.data$Date < .data$first_day)
   n_records_to_remove <- nrow(records_to_remove)
-  n_tot_records <- nrow(tot_records)
   if (n_records_to_remove > 0) {
     assertthat::assert_that(
       n_records_to_remove < n_tot_records,
@@ -383,24 +357,84 @@ get_detection_history <- function(recordTable,
                    "begin. The detection history would be empty."
       )
     )
-    warning(
-      glue::glue(
-        "{n_records_to_remove} record(s) (out of {n_tot_records}) are removed ",
-        "because they were taken during the buffer period of ",
-        "{buffer} day(s), e.g.:",
-        "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
+    if (day1 != "station") {
+      warning(
+        glue::glue(
+          "{n_records_to_remove} record(s) (out of {n_tot_records}) are ",
+          "removed because they were taken before `day1` ({day1}), e.g.:",
+          "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
+        )
       )
-    )
+    } else {
+      warning(
+        glue::glue(
+          "{n_records_to_remove} record(s) (out of {n_tot_records}) are removed ",
+          "because they were taken during the buffer period of ",
+          "{buffer} day(s), e.g.:",
+          "\n{records_to_remove$Station[1]}: ",
+          "{records_to_remove$Date[1]}."
+        )
+      )
+    }
   }
   
-  # Remove records of other species
+  # Return warnings/errors if some/all records are after `maxNumberDays`
+  if (!is.null(maxNumberDays)) {
+    if (day1 != "station") {
+      end_date <- lubridate::as_date(day1) + 
+        lubridate::duration(maxNumberDays, units = "days")
+      end_date <- lubridate::as_date(end_date)
+      records_to_remove <- tot_records %>%
+        dplyr::filter(.data$Date >= end_date)
+    } else {
+      records_to_remove <- tot_records %>%
+        dplyr::left_join(periods_df, by = "Station") %>%
+        dplyr::filter(
+          .data$Date >= .data$first_day + 
+            lubridate::duration(maxNumberDays, units = "days")
+        )
+    }
+    n_records_to_remove <- nrow(records_to_remove)
+    if (n_records_to_remove > 0) {
+      assertthat::assert_that(
+        n_records_to_remove < n_tot_records,
+        msg = paste0("No more records after removing records after ",
+                     "`maxNumberDays`. The detection history would be empty."
+        )
+      )
+      warning(
+          glue::glue(
+            "{n_records_to_remove} record(s) (out of {n_tot_records}) are ",
+            "removed because they were taken after `maxNumberDays` ",
+            "({maxNumberDays} days after the first day of each station), e.g.:",
+            "\n{records_to_remove$Station[1]}: {records_to_remove$Date[1]}."
+          )
+      )
+    }
+  }
+  
+  # Afer all checks, we can remove:
+  # - Records before `day1` (if `day1` is a date) and after `maxNumberDays`
+  if (day1 != "station") {
+    recordTable <- recordTable %>%
+      dplyr::filter(.data$Date >= lubridate::as_date(day1)) %>%
+      dplyr::filter(.data$Date < end_date)
+  }
+  # - Records of other species
   recordTable <- recordTable %>% 
     dplyr::filter(.data$Species == species)
-  # Remove records after `first_day` (if `buffer` = 0, no records removed)
+  # - Records after `first_day` (if `buffer` = 0, no records removed)
   recordTable <- recordTable %>%
     dplyr::left_join(periods_df, by = "Station") %>%
     dplyr::filter(.data$Date >= .data$first_day)
+  # - Records after `maxNumberDays` (if `maxNumberDays` is defined)
   
+  
+  # Remove columns (days) before `day1` if `day1` is a string representing a
+  # valid date
+  if (day1 != "station") {
+    camOp <- camOp[, colnames(camOp) >= day1]
+  }
   # Calculate the detection history information for each station
   station_records <- recordTable %>%
     dplyr::mutate(period_start = 

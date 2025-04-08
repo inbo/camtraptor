@@ -321,8 +321,24 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           maxNumberDays = maxNumberDays),
-    paste0("Invalid `maxNumberDays`. Must be smaller than or equal to the number ",
-           "of columns of `camOp`."),
+    paste0(
+      "Invalid `maxNumberDays`. Must be smaller than or equal to the number ",
+      "of columns of `camOp`."),
+    fixed = TRUE
+  )
+  # maxNumberDays is very short: all records are removed as they are taken after
+  maxNumberDays <- 1
+  occasionLength <- 1
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = "station",
+                          maxNumberDays = maxNumberDays),
+    paste0("All records removed because they are taken after `maxNumberDays` ",
+           "(1 days). The detection history would be empty."),
     fixed = TRUE
   )
 })
@@ -412,6 +428,78 @@ test_that("buffer is NULL or an integer of length 1", {
   )
 })
 
+test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  
+  # Combination `day1` as date and `maxNumberDays`
+  maxNumberDays <- 3
+  day1 <- "2021-04-01"
+  # For all stations first day (`day1`: 2021-04-01) > last day (latest date is
+  # 2021-03-29 = 2021-03-27  + `maxNumberDays` - 1).
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = day1,
+                          maxNumberDays = maxNumberDays),
+    paste0("In all stations, the occasions begin after retrieval. ",
+           "Choose an earlier `day1` date or a larger `maxNumberDays` ",
+           "argument."),
+    fixed = TRUE
+  )
+  
+  # Combination `buffer` (`day1` = "station") and `maxNumberDays`
+  maxNumberDays <- 3
+  # `buffer` equivalent of `day1`="2020-08-03 (`B_DL_val 5_beek kleine vijver`)
+  buffer <- 5
+  day1 <- "station"
+  # Right error returned: all records removed as first day of the station is
+  # 2020-08-03 (2020-07-29 + `buffer`) and the last day is 2020-07-31
+  # (2020-07-29 + `maxNumberDays`).
+  expect_error(get_detection_history(recordTable = rec_table,
+                                           camOp = cam_op,
+                                           species = species,
+                                           output = output,
+                                           occasionLength = occasionLength,
+                                           day1 = day1,
+                                           maxNumberDays = maxNumberDays,
+                                           buffer = buffer),
+    paste0("In all stations, the occasions begin after retrieval. ",
+           "Choose a smaller `buffer` argument or a larger `maxNumberDays` ",
+           "argument."),
+    fixed = TRUE
+  )
+  
+  maxNumberDays <- 3
+  day1 <- "2020-08-03"
+  # Combination `day1` as date and `maxNumberDays`. In this case there is still
+  # ONE deployment where last day > `day1` + `maxNumberDays` - 1 as the
+  # deployment starts in 2021! So, another error is returned, when filtering
+  # record table at later stage. All records of the given species are removed as
+  # first day of the station is 2020-08-03 (`day1`) and the last day is
+  # 2020-07-31 (2020-07-29 -> `maxNumberDays`).
+  expect_error(
+    suppressWarnings(get_detection_history(recordTable = rec_table,
+                                           camOp = cam_op,
+                                           species = species,
+                                           output = output,
+                                           occasionLength = occasionLength,
+                                           day1 = day1,
+                                           maxNumberDays = maxNumberDays)),
+    paste0("All records removed. The detection history would be empty. ",
+           "Check that `recordTable` contains records of the species and ",
+           "that the dates are within the range of the camera operation ",
+           "matrix. Check also the comibnation of arguments `buffer` (0), ",
+           "`day1` (2020-08-03) and `maxNumberDays` (3)."),
+    fixed = TRUE
+  )
+})
 
 # Test output ####
 
@@ -636,6 +724,100 @@ test_that("Test minActiveDaysPerOccasion > 1", {
   expect_identical(n_na_per_row_5_det_hist, n_na_per_row_5_dates)
 })
 
+test_that("Test maxNumberDays", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  species <- "Anas platyrhynchos"
+  occasionLength <- 1
+  maxNumberDays <- 2
+  # Right error returned because all records are removed: first record of Anas
+  # platyrhynchos occurs on 2020-07-31, the third day of the station.
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = "station",
+                          maxNumberDays = maxNumberDays),
+    paste0("All records removed because they are taken after `maxNumberDays` ",
+           "(2 days). The detection history would be empty."),
+    fixed = TRUE
+  )
+  maxNumberDays <- 3
+  # Right warning returned with number of records removed and example. The first
+  # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the
+  # station. All the other records are removed.
+  expect_warning(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = "station",
+                          maxNumberDays = maxNumberDays),
+    paste0("3 record(s) (out of 4) are removed because they were taken ",
+           "after `maxNumberDays` (3 days) the first day of each station, ",
+           "e.g.:\nB_DL_val 5_beek kleine vijver: 2020-08-02."
+    ),
+    fixed = TRUE
+  )
+  
+  # 7 rows returned if `maxNumberDays`: 7 (`occasionLength`  = 1 day)
+  occasionLength <- 1
+  maxNumberDays <- 7
+  res_max_days_7 <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output,
+    occasionLength = occasionLength,
+    day1 = "station",
+    maxNumberDays = maxNumberDays
+  )
+  expect_identical(
+    ncol(res_max_days_7$detection_history),
+    as.integer(maxNumberDays)
+  )
+  expect_identical(
+    ncol(res_max_days_7$effort),
+    as.integer(maxNumberDays)
+  )
+  expect_identical(
+    ncol(res_max_days_7$dates),
+    as.integer(maxNumberDays)
+  )
+  
+  # ncols = maxNumberDays / occasionLength. Example: 3 columns returned if
+  # `maxNumberDays` = 6 and`occasionLength` = 2 days.
+  occasionLength <- 2
+  maxNumberDays <- 6
+  res_max_days_6 <- suppressWarnings(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      maxNumberDays = maxNumberDays
+    )
+  )
+  expect_identical(
+    ncol(res_max_days_6$detection_history),
+    as.integer(maxNumberDays / occasionLength)
+  )
+  expect_identical(
+    ncol(res_max_days_6$effort),
+    as.integer(maxNumberDays / occasionLength)
+  )
+  expect_identical(
+    ncol(res_max_days_6$dates),
+    as.integer(maxNumberDays / occasionLength)
+  )
+})
+
 test_that("Test day1 = specific date", {
   cam_op <- get_cam_op(mica)
   rec_table <- get_record_table(mica)
@@ -676,7 +858,7 @@ test_that("Test `buffer`", {
                                      day1 = "station",
                                      buffer = buffer),
     paste0("In all stations, the occasions begin after retrieval. ",
-           "Choose a smaller buffer argument.")
+           "Choose a smaller `buffer` argument.")
   )
   # Error returned if `buffer` is so big that all records for given species are
   # removed.
@@ -778,5 +960,65 @@ test_that("Test `buffer`", {
   expect_identical(
     unname(res_buffer_occasion_length$dates),
     unname(res_no_buffer_occasion_length$dates[, 2:n_cols_no_buffer])
+  )
+  
+  # If `maxNumberDays` is defined and `occasionLength` = 1:
+  # ncols = `maxNumberDays` - `buffer`
+  buffer <- 2
+  maxNumberDays <- 5
+  occasionLength <- 1
+  res_max_buffer <- suppressWarnings(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer,
+      maxNumberDays = maxNumberDays
+    )
+  )
+  expect_identical(
+    ncol(res_max_buffer$detection_history),
+    as.integer(maxNumberDays - buffer)
+  )
+  expect_identical(
+    ncol(res_max_buffer$effort),
+    as.integer(maxNumberDays - buffer)
+  )
+  expect_identical(
+    ncol(res_max_buffer$dates),
+    as.integer(maxNumberDays - buffer)
+  )
+  
+  # If `maxNumberDays` is defined and `occasionLength` = 2:
+  # ncols = (`maxNumberDays` - `buffer`) / `occasionLength`
+  occasionLength <- 2
+  maxNumberDays <- 6
+  buffer <- 2
+  res_max_buffer <- suppressWarnings(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer,
+      maxNumberDays = maxNumberDays
+    )
+  )
+  expect_identical(
+    ncol(res_max_buffer$detection_history),
+    as.integer((maxNumberDays - buffer) / occasionLength)
+  )
+  expect_identical(
+    ncol(res_max_buffer$effort),
+    as.integer((maxNumberDays - buffer) / occasionLength)
+  )
+  expect_identical(
+    ncol(res_max_buffer$dates),
+    as.integer((maxNumberDays - buffer) / occasionLength)
   )
 })

@@ -1,6 +1,6 @@
 # camtraptor 0.28.0
 
-- `get_detection_history()` calculates the detection history based on a record table and a camera operation matrix in analogy with the `camtrapR::detectionHistory` function (#360).
+- `get_detection_history()` calculates the detection history based on a record table and a camera operation matrix. Some analogies with the `camtrapR::detectionHistory` function (#360).
 
 # camtraptor 0.27.0
 

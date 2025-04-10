@@ -742,9 +742,9 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
   media <- media %>% 
     dplyr::mutate(
       captureMethod = factor(
-        ifelse(captureMethod == "activityDetection",
-                                "motionDetection",
-                                as.character(.data$captureMethod))
+        ifelse(.data$captureMethod == "activityDetection",
+               "motionDetection",
+               as.character(.data$captureMethod))
       )
     )
   

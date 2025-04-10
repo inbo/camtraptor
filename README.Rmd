@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project.org/package=camtraptor)
 [![R-CMD-check](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml)
+[![Release](https://img.shields.io/github/v/release/inbo/camtraptor.svg)](https://github.com/inbo/camtraptor/releases)
+[![camtraptor status badge](https://inbo.r-universe.dev/camtraptor/badges/version)](https://inbo.r-universe.dev/camtraptor)
 [![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![last commit](https://img.shields.io/github/last-commit/inbo/camtraptor)

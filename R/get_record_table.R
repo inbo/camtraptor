@@ -41,6 +41,7 @@
 #'   - `Station`: Character, station names, as found in the deployment column
 #'   defined in parameter `stationCol`.
 #'   - `Species`: Character, the scientific name of the observed species.
+#'   - `n`: Numeric, the number of individuals of the observed species.
 #'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
 #'   `observations`, in UTC format.
 #'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.
@@ -61,7 +62,7 @@
 #'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
 #'   - `clock`: Numeric, clock time in radians.
 #'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
-#' @family exploration functions
+#' @family camtrapR-derived functions
 #' @importFrom dplyr .data %>%
 #' @importFrom rlang !! :=
 #' @export

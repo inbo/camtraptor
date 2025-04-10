@@ -45,7 +45,9 @@ Default: \code{NULL}. If used, it must be greater than or equal to
 \code{occasionLength}.}
 
 \item{day1}{Character. Day occasions should begin: station setup date
-(\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). Default: "station".}
+(\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). For multi-season
+detection history (\code{unmarkedMultFrameInput} = \code{TRUE}), only \code{day1} =
+\code{"station"} is allowed. Default: "station".}
 
 \item{buffer}{Integer. It makes the first occasion begin a number of days
 after station setup. \code{buffer} can be used only in combination with \code{day1} =
@@ -76,7 +78,7 @@ occasion, and the dates matrix, which contains the dates of the occasions.
 This function doesn't take as input a camera trap data package object, but a
 camera operation matrix and a record table, which are both calculated based
 on a camera trap data package object. For more information, see the
-\code{\link[=get_camOp]{get_camOp()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
+\code{\link[=get_cam_op]{get_cam_op()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
 
 If the camera operation matrix (\code{camOp}) was created for a multi-season study (via argument \code{session_col} in \code{get_cam_op()}), the session will be detected automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B}, \code{o2_SESS_B}, etc.
 }

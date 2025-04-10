@@ -45,7 +45,7 @@
 #' This function doesn't take as input a camera trap data package object, but a
 #' camera operation matrix and a record table, which are both calculated based
 #' on a camera trap data package object. For more information, see the
-#' [get_camOp()] and [get_record_table()] functions.
+#' [get_cam_op()] and [get_record_table()] functions.
 #' 
 #' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `get_cam_op()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
 #' 
@@ -428,7 +428,7 @@ get_detection_history <- function(recordTable,
     # of each station, so we need to add a day to the last day.
     periods_df <- periods_df %>%
       dplyr::mutate(last_day_plus_one = .data$last_day + 1)
-    by <- dplyr::join_by(Station == station_without_session,
+    by <- dplyr::join_by(x$Station == y$station_without_session,
                          dplyr::between(
                            x$DateTimeOriginal,
                            y$first_day,
@@ -440,10 +440,10 @@ get_detection_history <- function(recordTable,
                                        "first_day",
                                        "last_day_plus_one"),
                        by = by)
-    
+    # Finalize `recordTable` with station names containing the session.
     recordTable <- recordTable %>%
       dplyr::mutate(Station = .data$station_with_session) %>%
-      dplyr::select(-all_of(
+      dplyr::select(-dplyr::all_of(
         c("first_day", "last_day_plus_one", "station_with_session")
         )
       )
@@ -625,7 +625,7 @@ get_detection_history <- function(recordTable,
         occasionLength * 
         floor(as.numeric(.data$Date - .data$first_day)/occasionLength)
     ) %>%
-    dplyr::group_by(.data$Station, period_start) %>%
+    dplyr::group_by(.data$Station, .data$period_start) %>%
     dplyr::summarize(z = 1,
                      n_obs = dplyr::n(),
                      n_ind = sum(.data$n),
@@ -661,7 +661,7 @@ get_detection_history <- function(recordTable,
                       as.numeric(.data$Date - .data$first_day)/occasionLength
                     )
     ) %>%
-    dplyr::group_by(Station, period_start) %>%
+    dplyr::group_by(.data$Station, .data$period_start) %>%
     dplyr::summarise(
       Effort = ifelse(
         all(is.na(.data$Effort)), NA, sum(.data$Effort, na.rm = TRUE)
@@ -689,7 +689,12 @@ get_detection_history <- function(recordTable,
     camOp_long_grouped,
     station_records,
     by = c("Station", "period_start")) %>%
-    dplyr::mutate(across(c("z", "n_obs", "n_ind"), ~tidyr::replace_na(.x, 0)))
+    dplyr::mutate(
+      dplyr::across(
+        c("z", "n_obs", "n_ind"),
+        function(x) tidyr::replace_na(x, 0)
+      )
+    )
   
   # Create a list with all detection history information for each station
   stations <- unique(det_hist_all_info$Station)
@@ -723,7 +728,7 @@ get_detection_history <- function(recordTable,
     function(x) {
       if (output == "binary") {
         dh <- x %>%
-          dplyr::pull(z)
+          dplyr::pull("z")
       } else if (output == "n_observations") {
         dh <- x %>%
           dplyr::pull("n_obs")
@@ -749,7 +754,7 @@ get_detection_history <- function(recordTable,
   dates <- purrr::map(det_hist_list, function(x) {
       d <- x %>%
         dplyr::rename("Date" = "period_start") %>%
-        dplyr::pull(.data$Date) %>%
+        dplyr::pull("Date") %>%
         as.character.Date()
       # Pad the dates of occasions per station with NAs to match the max number
       # of occasions

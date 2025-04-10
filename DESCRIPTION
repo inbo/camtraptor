@@ -50,6 +50,7 @@ Imports:
     RColorBrewer,
     readr,
     rlang,
+    reshape2,
     stringr,
     tidyr,
     tools,

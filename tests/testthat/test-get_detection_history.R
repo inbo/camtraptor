@@ -1,5 +1,6 @@
 test_that("Camera operation matrix input, `camOp`, has right format", {
   rec_table <- get_record_table(mica)
+  cam_op <- get_cam_op(mica)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
@@ -26,6 +27,37 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
                                      occasionLength = occasionLength),
                "`camOp` must be a matrix.",
                fixed = TRUE
+  )
+  # All rownames of camOp must be with or without `__SESS_`. No mixed names
+  rownames(cam_op)[1] <- stringr::str_c(rownames(cam_op)[1], "__SESS_A")
+  expect_error(get_detection_history(recordTable = rec_table,
+                                     camOp = cam_op,
+                                     species = species,
+                                     output = output,
+                                     occasionLength = occasionLength),
+    paste0(
+      "No prefix `__SESS_` found in row names of the camera operation ",
+      "matrix. If sessions are used, they must be indicated in all ",
+      "rownames of camera operation matrix. Please check the camera ",
+      "operation matrix."
+    )
+  )
+  # Sessions are used, but not all rownames have the session after prefix
+  # `__SESS_`.
+  cam_op <- get_cam_op(mica)
+  rownames(cam_op) <- stringr::str_c(rownames(cam_op), "__SESS_")
+  rownames(cam_op)[1:2] <- stringr::str_c(rownames(cam_op)[1:2], "A")
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength),
+    paste0(
+      "No session found in some row names of the camera operation matrix. ",
+      "Be sure that all row names contain a valid string after prefix ",
+      "`__SESS_`. Please check the camera operation matrix."
+    )
   )
 }
 )
@@ -493,10 +525,62 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
                                            day1 = day1,
                                            maxNumberDays = maxNumberDays)),
     paste0("All records removed. The detection history would be empty. ",
-           "Check that `recordTable` contains records of the species and ",
-           "that the dates are within the range of the camera operation ",
-           "matrix. Check also the comibnation of arguments `buffer` (0), ",
-           "`day1` (2020-08-03) and `maxNumberDays` (3)."),
+           "Check that `recordTable` contains records of the species ",
+           "and that the dates are within the range of the camera ",
+           "operation matrix. Check also the comibnation of arguments ",
+           "`buffer`, `day1` and `maxNumberDays`."),
+    fixed = TRUE
+  )
+})
+
+# Check `unmarkedMultFrameInput`
+test_that("unmarkedMultFrameInput is TRUE or FALSE", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  # `unmarkedMultFrameInput` is a character, not right class
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          unmarkedMultFrameInput = "blablabla"),
+    "`unmarkedMultFrameInput` must be logical (`TRUE` / `FALSE`).",
+    fixed = TRUE
+  )
+  # `unmarkedMultFrameInput` is a vector with length > 1
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          unmarkedMultFrameInput = c(TRUE, FALSE)),
+    "`unmarkedMultFrameInput` must be logical (`TRUE` / `FALSE`).",
+    fixed = TRUE
+  )
+})
+
+# Check `unmarkedMultFrameInput`/`day1`
+test_that("day1 must be `\"station\"` if unmarkedMultFrameInput is `TRUE`", {
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  output <- "binary"
+  species <- "Anas platyrhynchos"
+  occasionLength <- 1
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          unmarkedMultFrameInput = TRUE,
+                          day1 = "2020-08-03"),
+    paste0("`day1` must be equal to `\"station\"` for multi-season detection ",
+           "history (`unmarkedMultFrameInput` = `TRUE`)."),
     fixed = TRUE
   )
 })
@@ -523,27 +607,9 @@ test_that("Output is a list of three matrices", {
   expect_type(res$detection_history, "double")
   expect_type(res$effort, "double")
   expect_type(res$dates, "character")
-  expect_equal(
-    rownames(res$detection_history),
-    c("B_DL_val 3_dikke boom",
-      "B_DL_val 5_beek kleine vijver",
-      "B_DM_val 4_'t WAD",
-      "Mica Viane")
-  )
-  expect_equal(
-    rownames(res$effort),
-    c("B_DL_val 3_dikke boom",
-      "B_DL_val 5_beek kleine vijver",
-      "B_DM_val 4_'t WAD",
-      "Mica Viane")
-  )
-  expect_equal(
-    rownames(res$dates),
-    c("B_DL_val 3_dikke boom",
-      "B_DL_val 5_beek kleine vijver",
-      "B_DM_val 4_'t WAD",
-      "Mica Viane")
-  )
+  expect_identical(rownames(res$detection_history),rownames(cam_op))
+  expect_identical(rownames(res$effort),rownames(cam_op))
+  expect_identical(rownames(res$dates), rownames(cam_op))
 })
 
 test_that("detection history dates and effort are output independent", {
@@ -572,10 +638,10 @@ test_that("detection history dates and effort are output independent", {
                                              output = output,
                                              occasionLength = occasionLength,
                                              day1 = "station")
-  expect_equal(res_binary$dates, res_n_observations$dates)
-  expect_equal(res_binary$dates, res_n_individuals$dates)
-  expect_equal(res_binary$effort, res_n_observations$effort)
-  expect_equal(res_binary$effort, res_n_individuals$effort)
+  expect_identical(res_binary$dates, res_n_observations$dates)
+  expect_identical(res_binary$dates, res_n_individuals$dates)
+  expect_identical(res_binary$effort, res_n_observations$effort)
+  expect_identical(res_binary$effort, res_n_individuals$effort)
 })
 
 test_that("dates are in the right ISO format (YYY-MM-DD)", {
@@ -776,18 +842,9 @@ test_that("Test maxNumberDays", {
     day1 = "station",
     maxNumberDays = maxNumberDays
   )
-  expect_identical(
-    ncol(res_max_days_7$detection_history),
-    as.integer(maxNumberDays)
-  )
-  expect_identical(
-    ncol(res_max_days_7$effort),
-    as.integer(maxNumberDays)
-  )
-  expect_identical(
-    ncol(res_max_days_7$dates),
-    as.integer(maxNumberDays)
-  )
+  expect_equal(ncol(res_max_days_7$detection_history), maxNumberDays)
+  expect_equal(ncol(res_max_days_7$effort),maxNumberDays)
+  expect_equal(ncol(res_max_days_7$dates), maxNumberDays)
   
   # ncols = maxNumberDays / occasionLength. Example: 3 columns returned if
   # `maxNumberDays` = 6 and`occasionLength` = 2 days.
@@ -804,18 +861,11 @@ test_that("Test maxNumberDays", {
       maxNumberDays = maxNumberDays
     )
   )
-  expect_identical(
-    ncol(res_max_days_6$detection_history),
-    as.integer(maxNumberDays / occasionLength)
+  expect_equal(ncol(res_max_days_6$detection_history),
+               maxNumberDays / occasionLength
   )
-  expect_identical(
-    ncol(res_max_days_6$effort),
-    as.integer(maxNumberDays / occasionLength)
-  )
-  expect_identical(
-    ncol(res_max_days_6$dates),
-    as.integer(maxNumberDays / occasionLength)
-  )
+  expect_equal(ncol(res_max_days_6$effort), maxNumberDays / occasionLength)
+  expect_equal(ncol(res_max_days_6$dates),maxNumberDays / occasionLength)
 })
 
 test_that("Test day1 = specific date", {
@@ -890,10 +940,10 @@ test_that("Test `buffer`", {
     fixed = TRUE
   )
   # All dates are more recent than `start` of deployments +
-  # `buffer`. We check second row only, the one containing records of Anas platyrhynchos.
+  # `buffer`. We check first row only, the one containing records of Anas platyrhynchos.
   expect_true(
-    all(res_with_buffer$dates[2,] >= "2020-08-03" | 
-          is.na(res_with_buffer$dates[2,])
+    all(res_with_buffer$dates[1,] >= "2020-08-03" | 
+          is.na(res_with_buffer$dates[1,])
     )
   )
   
@@ -979,18 +1029,9 @@ test_that("Test `buffer`", {
       maxNumberDays = maxNumberDays
     )
   )
-  expect_identical(
-    ncol(res_max_buffer$detection_history),
-    as.integer(maxNumberDays - buffer)
-  )
-  expect_identical(
-    ncol(res_max_buffer$effort),
-    as.integer(maxNumberDays - buffer)
-  )
-  expect_identical(
-    ncol(res_max_buffer$dates),
-    as.integer(maxNumberDays - buffer)
-  )
+  expect_equal(ncol(res_max_buffer$detection_history), maxNumberDays - buffer)
+  expect_equal(ncol(res_max_buffer$effort), maxNumberDays - buffer)
+  expect_equal(ncol(res_max_buffer$dates), maxNumberDays - buffer)
   
   # If `maxNumberDays` is defined and `occasionLength` = 2:
   # ncols = (`maxNumberDays` - `buffer`) / `occasionLength`
@@ -1009,16 +1050,231 @@ test_that("Test `buffer`", {
       maxNumberDays = maxNumberDays
     )
   )
+  expect_equal(ncol(res_max_buffer$detection_history),
+               (maxNumberDays - buffer) / occasionLength
+  )
+  expect_equal(ncol(res_max_buffer$effort),
+               (maxNumberDays - buffer) / occasionLength
+  )
+  expect_equal(ncol(res_max_buffer$dates),
+               (maxNumberDays - buffer) / occasionLength
+  )
+})
+
+test_that("Test unmarkedMultFrameInput", {
+  output <- "binary"
+  occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  # Create a multi-season camera operation matrix / record table
+  mica_sessions <- mica
+  mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
+  mica_sessions$data$deployments$locationID <- c(
+    mica_sessions$data$deployments$locationID[1:2],
+    mica_sessions$data$deployments$locationID[1:2]
+  )
+  mica_sessions$data$deployments$locationName <- c(
+   mica_sessions$data$deployments$locationName[1:2],
+   mica_sessions$data$deployments$locationName[1:2]
+  )
+  lubridate::year(mica_sessions$data$deployments$start[4]) <- 2021
+  lubridate::year(mica_sessions$data$deployments$end[4]) <- 2021
+  lubridate::year(mica_sessions$data$observations$timestamp) <- dplyr::if_else(
+    lubridate::year(mica_sessions$data$observations$timestamp) == 2019,
+    2021,
+    lubridate::year(mica_sessions$data$observations$timestamp)
+  )
+  lubridate::year(mica_sessions$data$media$timestamp) <-  dplyr::if_else(
+    lubridate::year(mica_sessions$data$media$timestamp) == 2019,
+    2021,
+    lubridate::year(mica_sessions$data$media$timestamp)
+  )
+  camOp_sessions <- get_cam_op(mica_sessions, session_col = "session")
+  recordTable_sessions <- get_record_table(mica_sessions)
+  # No multi-season detection history (`unmarkedMultFrameInput` = `FALSE`)
+  # requested: all stations/seasons returned as they would be different
+  # stations.
+  no_multi_season <- get_detection_history(
+    recordTable_sessions,
+    camOp_sessions,
+    species = species,
+    output = output,
+    unmarkedMultFrameInput = FALSE
+  )
+  # Multi-season detection history (`unmarkedMultFrameInput` = `TRUE`)
+  multi_season <- get_detection_history(
+    recordTable_sessions,
+    camOp_sessions,
+    species = species,
+    output = output,
+    unmarkedMultFrameInput = TRUE
+  )
+  # Run a standard detection history with basic example dataset
+  cam_op <- get_cam_op(mica)
+  rec_table <- get_record_table(mica)
+  standard <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output
+  )
+  
+  # Check output of detection history without taking into account the seasons.
+  # Rownames are the same as the camera operation matrix
   expect_identical(
-    ncol(res_max_buffer$detection_history),
-    as.integer((maxNumberDays - buffer) / occasionLength)
+    rownames(no_multi_season$detection_history),
+    rownames(camOp_sessions)
   )
   expect_identical(
-    ncol(res_max_buffer$effort),
-    as.integer((maxNumberDays - buffer) / occasionLength)
+    rownames(no_multi_season$effort),
+    rownames(camOp_sessions)
   )
   expect_identical(
-    ncol(res_max_buffer$dates),
-    as.integer((maxNumberDays - buffer) / occasionLength)
+    rownames(no_multi_season$dates),
+    rownames(camOp_sessions)
   )
+  # Content of detection history and effort is the same as the standard
+  # detection history and correspondent effort. The dates are the same only for
+  # the first two rows by construction.
+  expect_identical(
+    unname(no_multi_season$detection_history),
+    unname(standard$detection_history)
+  )
+  expect_identical(
+    unname(no_multi_season$effort),
+    unname(standard$effort)
+  )
+  expect_identical(
+    unname(no_multi_season$dates[1:2,]),
+    unname(standard$dates[1:2,])
+  )
+  # Check output of detection history taking into account the seasons.
+  # Number of rows is equal to the number of stations, which is 2
+  expect_equal(nrow(multi_season$detection_history), 2)
+  expect_equal(nrow(multi_season$effort), 2)
+  expect_equal(nrow(multi_season$dates), 2)
+  # Number of columns is equal to the highest number of days of a
+  # station/season multiplied by number of seasons, which is 2.
+  n_cols_standard <- ncol(standard$detection_history)
+  n_cols <- n_cols_standard * 2
+  expect_equal(ncol(multi_season$detection_history), n_cols)
+  expect_equal(ncol(multi_season$effort), n_cols)
+  expect_equal(ncol(multi_season$dates), n_cols)
+  # Output of first half of columns is equal to first two rows of output without
+  # season.
+  expect_identical(
+    unname(
+      multi_season$detection_history[, 1:n_cols_standard]
+    ),
+    unname(standard$detection_history[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$effort[, 1:n_cols_standard]),
+    unname(standard$effort[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$dates[, 1:n_cols_standard]),
+    unname(standard$dates[1:2, ])
+  )
+  # Output of second half of columns is equal to the second two rows of output
+  expect_identical(
+    unname(
+      multi_season$detection_history[, (n_cols_standard + 1):n_cols]
+    ),
+    unname(standard$detection_history[3:4, ])
+  )
+  
+  # Multi-season works with `occasionLength` > 1
+  occasionLength <- 2
+  multi_season <- get_detection_history(
+    recordTable_sessions,
+    camOp_sessions,
+    species = species,
+    output = output,
+    unmarkedMultFrameInput = TRUE,
+    occasionLength = occasionLength
+  )
+  standard <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output,
+    occasionLength = occasionLength
+  )
+  # Number of rows is equal to the number of stations, which is 2
+  # Number of rows is equal to the number of stations, which is 2
+  expect_equal(nrow(multi_season$detection_history), 2)
+  expect_equal(nrow(multi_season$effort), 2)
+  expect_equal(nrow(multi_season$dates), 2)
+  # Number of columns is equal to the highest number of days of a
+  # station/season multiplied by number of seasons, which is 2.
+  n_cols_standard <- ncol(standard$detection_history)
+  n_cols <- n_cols_standard * 2
+  expect_equal(ncol(multi_season$detection_history), n_cols)
+  expect_equal(ncol(multi_season$effort), n_cols)
+  expect_equal(ncol(multi_season$dates), n_cols)
+  # Output of first half of columns is equal to first two rows of output without
+  # season.
+  expect_identical(
+    unname(
+      multi_season$detection_history[, 1:n_cols_standard]
+    ),
+    unname(standard$detection_history[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$effort[, 1:n_cols_standard]),
+    unname(standard$effort[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$dates[, 1:n_cols_standard]),
+    unname(standard$dates[1:2, ])
+  )
+  
+  # Multi-season works with `buffer`
+  buffer <- 2
+  occasionLength <- 1 # Set back to 1 to test `buffer` independently
+  multi_season <- get_detection_history(
+    recordTable_sessions,
+    camOp_sessions,
+    species = species,
+    output = output,
+    unmarkedMultFrameInput = TRUE,
+    occasionLength = occasionLength,
+    buffer = buffer
+  )
+  standard <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = output,
+    occasionLength = occasionLength,
+    buffer = buffer
+  )
+  # Number of rows is equal to the number of stations, which is 2
+  expect_equal(nrow(multi_season$detection_history), 2)
+  expect_equal(nrow(multi_season$effort), 2)
+  expect_equal(nrow(multi_season$dates), 2)
+  # Number of columns is equal to the highest number of days of a
+  # station/season multiplied by number of seasons, which is 2.
+  n_cols_standard <- ncol(standard$detection_history)
+  n_cols <- n_cols_standard * 2
+  expect_equal(ncol(multi_season$detection_history), n_cols)
+  expect_equal(ncol(multi_season$effort), n_cols)
+  expect_equal(ncol(multi_season$dates), n_cols)
+  # Output of first half of columns is equal to first two rows of output without
+  # season.
+  expect_identical(
+    unname(
+      multi_season$detection_history[, 1:n_cols_standard]
+    ),
+    unname(standard$detection_history[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$effort[, 1:n_cols_standard]),
+    unname(standard$effort[1:2, ])
+  )
+  expect_identical(
+    unname(multi_season$dates[, 1:n_cols_standard]),
+    unname(standard$dates[1:2, ])
+  )
+  
 })

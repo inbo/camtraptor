@@ -20,7 +20,7 @@
 #' @param output Character. The type of output. Choose one of: `"binary"`,
 #'   `"n_observations"`, `"n_individuals"`.
 #' @param occasionLength Integer. The length of the occasions in days. No
-#'   decimals allowed. Default: 1.
+#'   decimals allowed. Default: `1`.
 #' @param minActiveDaysPerOccasion Integer. Minimum number of active trap days
 #'   for occasions to be included. Default: `NULL`. If used, it must be smaller
 #'   than or equal to `occasionLength`.
@@ -28,11 +28,14 @@
 #'   Default: `NULL`. If used, it must be greater than or equal to
 #'   `occasionLength`.
 #' @param day1 Character. Day occasions should begin: station setup date
-#'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). Default: "station".
+#'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). For multi-season
+#'   detection history (`unmarkedMultFrameInput` = `TRUE`), only `day1` =
+#'   `"station"` is allowed. Default: "station".
 #' @param buffer Integer. It makes the first occasion begin a number of days
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are
 #'   removed because taken during the buffer period.
+#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()]). Default: `FALSE`.
 #' @return A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
@@ -44,10 +47,13 @@
 #' on a camera trap data package object. For more information, see the
 #' [get_camOp()] and [get_record_table()] functions.
 #' 
+#' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `get_cam_op()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
+#' 
 #' @family camtrapR-derived functions
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
+#' library(dplyr)
 #' camOp <- get_cam_op(mica)
 #' recordTable <- get_record_table(mica)
 #' 
@@ -120,6 +126,49 @@
 #'  output = "n_individuals",
 #'  buffer = 2
 #' )
+#' 
+#' # Multi-season detection history
+#' 
+#' # Create a multi-season camera operation matrix / record table
+#' mica_sessions <- mica
+#' mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
+#' mica_sessions$data$deployments$locationID <- c(
+#'   mica_sessions$data$deployments$locationID[1:2],
+#'   mica_sessions$data$deployments$locationID[1:2]
+#' )
+#' mica_sessions$data$deployments$locationName <- c(
+#'   mica_sessions$data$deployments$locationName[1:2],
+#'   mica_sessions$data$deployments$locationName[1:2]
+#' )
+#' delta <- lubridate::duration(2, units = "years")
+#' mica_sessions$data$deployments$start[4] <- mica_sessions$data$deployments$start[4] + delta
+#' mica_sessions$data$deployments$end[4] <- mica_sessions$data$deployments$end[4] + delta
+#' mica_sessions$data$observations <- mica_sessions$data$observations %>%
+#' dplyr::mutate(timestamp = dplyr::if_else(
+#'   deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
+#'   timestamp + delta,
+#'   timestamp
+#'   )
+#' )
+#' mica_sessions$data$media <- mica_sessions$data$media %>%
+#' dplyr::mutate(
+#'  timestamp = dplyr::if_else(
+#'  deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
+#'  timestamp + delta,
+#'  timestamp
+#'  )
+#' )
+#' camOp_sessions <- get_cam_op(mica_sessions, session_col = "session")
+#' recordTable_sessions <- get_record_table(mica_sessions)
+#' 
+#' # Create a multi-season detection history
+#' get_detection_history(
+#'   recordTable_sessions,
+#'   camOp_sessions,
+#'   species = "Anas platyrhynchos",
+#'   output = "n_individuals",
+#'   unmarkedMultFrameInput = TRUE
+#' )
 get_detection_history <- function(recordTable,
                                   camOp,
                                   species,
@@ -128,12 +177,8 @@ get_detection_history <- function(recordTable,
                                   minActiveDaysPerOccasion = NULL,
                                   maxNumberDays = NULL,
                                   day1 = "station",
-                                  buffer = NULL) {
-  # Check camera operation matrix, `camOp`
-  assertthat::assert_that(
-    is.matrix(camOp),
-    msg = "`camOp` must be a matrix."
-  )
+                                  buffer = NULL,
+                                  unmarkedMultFrameInput = FALSE) {
   # Check record table, `recordTable`
   assertthat::assert_that(is.data.frame(recordTable),
                           msg = "`recordTable` must be a tibble data.frame."
@@ -149,7 +194,7 @@ get_detection_history <- function(recordTable,
   )
   # Check `species`
   species_in_recordTable <- recordTable %>% 
-  dplyr::pull(.data$Species) %>%
+    dplyr::pull(.data$Species) %>%
     unique()
   assertthat::assert_that(
     rlang::is_string(species),
@@ -159,6 +204,39 @@ get_detection_history <- function(recordTable,
               arg_name = "species",
               null_allowed = FALSE
   )
+  # Check camera operation matrix, `camOp`
+  assertthat::assert_that(
+    is.matrix(camOp),
+    msg = "`camOp` must be a matrix."
+  )
+  # Sessions present in all rownames of camera operation matrix or not at all
+  stations_cam_op <- rownames(camOp)
+  stations_without_sess <- stations_cam_op[
+    !stringr::str_detect(stations_cam_op, "SESS_")
+  ]
+  assertthat::assert_that(
+    length(stations_without_sess) == 0 | 
+      length(stations_without_sess) == length(stations_cam_op),
+    msg = paste0(
+      "No prefix `__SESS_` found in row names of the camera operation ",
+      "matrix. If sessions are used, they must be indicated in all ",
+      "rownames of camera operation matrix. Please check the camera ",
+      "operation matrix."
+    )
+  )
+  if (length(stations_without_sess) == 0) {
+    # Check the session name: the string after "__SESS_" is not empty
+    sessions <- stringr::str_extract(stations_cam_op, "(?<=__SESS_).*")
+    sessions_length <- stringr::str_length(sessions)
+    assertthat::assert_that(
+      all(sessions_length > 0),
+      msg = paste0(
+        "No session found in some row names of the camera operation matrix. ",
+        "Be sure that all row names contain a valid string after prefix ",
+        "`__SESS_`. Please check the camera operation matrix."
+      )
+    )
+  }
   # Check `output`
   assertthat::assert_that(
     rlang::is_string(output),
@@ -233,8 +311,15 @@ get_detection_history <- function(recordTable,
     msg = "Invalid `day1`. Must be a character vector of length 1."
   )
   if (day1 != "station") {
-    # `day1` must be equal to "station" or a string representing a valid
-    # date in ISO 8601 format
+    # `unmarkedMultFrameInput` must be `FALSE` if `day1` is not "station"
+    assertthat::assert_that(
+      unmarkedMultFrameInput == FALSE,
+      msg = paste0(
+        "`day1` must be equal to `\"station\"` for multi-season detection ",
+        "history (`unmarkedMultFrameInput` = `TRUE`)."
+      )
+    )
+    # `day1` must be a string representing a valid date in ISO 8601 format
     tryCatch(
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
@@ -276,41 +361,39 @@ get_detection_history <- function(recordTable,
       msg = "Invalid `buffer`. If defined, it must be 1 or higher."
     )
   }
+  
+  # Check `unmarkedMultFrameInput`
+  assertthat::assert_that(
+    rlang::is_scalar_logical(unmarkedMultFrameInput),
+    msg = "`unmarkedMultFrameInput` must be logical (`TRUE` / `FALSE`)."
+  )
+  # Check `unmarkedMultFrameInput` is not NA
+  assertthat::assert_that(
+    !is.na(unmarkedMultFrameInput),
+    msg = "`unmarkedMultFrameInput` must be logical (`TRUE` / `FALSE`)."
+  )
+  
   # For calculation it's better to have buffer = 0 instead of `NULL`
   if (is.null(buffer)) {
     buffer <- 0
   }
-
-  # Total number of records of given species in `recordTable`
-  tot_records <- recordTable %>%
-    dplyr::filter(.data$Species == species) %>%
-    nrow()
   
-  # Create a help data.frame with `Station`, first day and last day.
+  # Create a help data.frame with `Station`, first day and last day based on the
+  # camera operation matrix.
   # Define first a function to get the indices of non-NA values in a vector
   which_not_na <- function(x) which(!is.na(x))
   periods_df <- dplyr::tibble(
     Station = rownames(camOp))
-  if (day1 != "station") {
-    # If `day1` is a string representing a valid date, add it as first day.
-    periods_df <- periods_df %>%
-      dplyr::mutate(
-        first_day = lubridate::as_date(day1)
+  periods_df <- periods_df %>%
+    dplyr::mutate(
+      first_day = lubridate::as_date(
+        apply(
+          camOp, 
+          1,
+          function(x) colnames(camOp)[which_not_na(x)[1]]
+        )
       )
-  } else {
-    # If `day1` is "station" add the first day of each station + `buffer` (if
-    # defined) to the data.frame.
-    periods_df <- periods_df %>%
-      dplyr::mutate(
-        first_day = lubridate::as_date(
-          apply(
-            camOp, 
-            1,
-            function(x) colnames(camOp)[which_not_na(x)[1]]
-          )
-        ) + lubridate::duration(buffer, units = "days")
-      )
-  }
+    )
   # Add last_day to `periods_df`
   periods_df <- periods_df  %>%
     dplyr::mutate(
@@ -320,11 +403,71 @@ get_detection_history <- function(recordTable,
           1,
           function(x) {
             cam_op_row_without_na <- which_not_na(x)
-            colnames(camOp)[cam_op_row_without_na[length(cam_op_row_without_na)]]
+            colnames(camOp)[
+              cam_op_row_without_na[length(cam_op_row_without_na)]
+            ]
           }
         )
       )
     )
+  
+  # If sessions are indicated, add sessions to stations in column `Station` of
+  # `recordTable`
+  if (length(stations_without_sess) == 0) {
+    # Add column with stations without sessions
+    periods_df <- periods_df %>%
+      dplyr::mutate(
+        station_without_session = stringr::str_remove(
+          string = .data$Station,
+          pattern = "__SESS_.*"
+        )
+      )
+    periods_df <- periods_df %>%
+      dplyr::rename("station_with_session" = "Station")
+    # As we need to join based on datetime, we need the end of the very last day
+    # of each station, so we need to add a day to the last day.
+    periods_df <- periods_df %>%
+      dplyr::mutate(last_day_plus_one = .data$last_day + 1)
+    by <- dplyr::join_by(Station == station_without_session,
+                         dplyr::between(
+                           x$DateTimeOriginal,
+                           y$first_day,
+                           y$last_day_plus_one))
+    recordTable <- recordTable %>%
+      dplyr::left_join(periods_df %>%
+                         dplyr::select("station_with_session",
+                                       "station_without_session",
+                                       "first_day",
+                                       "last_day_plus_one"),
+                       by = by)
+    
+    recordTable <- recordTable %>%
+      dplyr::mutate(Station = .data$station_with_session) %>%
+      dplyr::select(-all_of(
+        c("first_day", "last_day_plus_one", "station_with_session")
+        )
+      )
+    periods_df <- periods_df %>%
+      dplyr::select("station_with_session",
+                    "first_day",
+                    "last_day") %>%
+      dplyr::rename("Station" = "station_with_session")
+  }
+  
+  if (day1 != "station") {
+    # If `day1` is a string representing a valid date, add it as first day.
+    periods_df <- periods_df %>%
+      dplyr::mutate(
+        first_day = lubridate::as_date(day1)
+      )
+  } else {
+    # If `day1` is "station" add `buffer` if defined.
+    periods_df <- periods_df %>%
+      dplyr::mutate(
+        first_day = .data$first_day + 
+          lubridate::duration(buffer, units = "days")
+      )
+  }
   # Notice that `maxNumberDays` counts from first day of each station: `buffer`
   # is not taken into account. Set `last_day` based on `maxNumberDays` if
   # defined.
@@ -465,8 +608,7 @@ get_detection_history <- function(recordTable,
       "Check that `recordTable` contains records of the species ",
       "and that the dates are within the range of the camera ",
       "operation matrix. Check also the comibnation of arguments ",
-      "`buffer` ({buffer}), `day1` ({day1}) and ",
-      "`maxNumberDays` ({maxNumberDays})."
+      "`buffer`, `day1` and `maxNumberDays`."
     )
   )
   
@@ -618,14 +760,46 @@ get_detection_history <- function(recordTable,
   # Return the detection history, effort and dates matrices as a list of
   # matrices
   list(detection_history = det_hist, effort = eff, dates = dates) %>%
-    purrr::map(function(x) {
+    purrr::imap(function(x, type) {
       # Transform the list of padded vectors into a matrix
       x <- do.call(rbind, x)
       # Assign the station names as rownames
       rownames(x) <- stations
+      # Order rows based on order of rows in camera operation matrix
+      x <- x[stations_cam_op, ]
       # Assign progressive number of occasions as column names. Use prefix "o".
       colnames(x) <- paste0("o", seq_len(ncol(x)))
-      x
+      if (unmarkedMultFrameInput == TRUE) {
+        # Extract station and session info
+        full_names <- rownames(x)
+        station <- stringr::str_remove(full_names, "__SESS_.*")
+        session <- stringr::str_extract(full_names, "__SESS_.*")
+        stations <- unique(station)
+        sessions <- unique(session)
+        col_names <- colnames(x)
+        n_cols <- ncol(x)
+        # Use purrr to reshape the data
+        reshaped_list <- purrr::map(stations, function(st) {
+          out <- purrr::map(sessions, function(sess) {
+            idx <- which(station == st & session == sess)
+            if (length(idx) == 1) x[idx, ] else rep(NA, n_cols)
+          })
+          # Flatten the list
+          if (type == "dates") {
+            # Dates are characters
+            out %>% purrr::flatten_chr()
+          } else {
+            # Detection history and effort are numbers
+            out %>% purrr::flatten_dbl()
+          }
+        })
+        
+        # Combine to matrix
+        x <- do.call(rbind, reshaped_list)
+        rownames(x) <- stations
+        colnames(x) <- as.vector(outer(col_names, sessions, paste0))
       }
-    )
+      x
+    }
+  )
 }

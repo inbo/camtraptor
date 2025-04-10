@@ -13,7 +13,8 @@ get_detection_history(
   minActiveDaysPerOccasion = NULL,
   maxNumberDays = NULL,
   day1 = "station",
-  buffer = NULL
+  buffer = NULL,
+  unmarkedMultFrameInput = FALSE
 )
 }
 \arguments{
@@ -33,7 +34,7 @@ number of days that each station was active on each occasion.}
 \code{"n_observations"}, \code{"n_individuals"}.}
 
 \item{occasionLength}{Integer. The length of the occasions in days. No
-decimals allowed. Default: 1.}
+decimals allowed. Default: \code{1}.}
 
 \item{minActiveDaysPerOccasion}{Integer. Minimum number of active trap days
 for occasions to be included. Default: \code{NULL}. If used, it must be smaller
@@ -50,6 +51,8 @@ Default: \code{NULL}. If used, it must be greater than or equal to
 after station setup. \code{buffer} can be used only in combination with \code{day1} =
 \code{"station"}. Default: \code{NULL}. A warning is returned if some records are
 removed because taken during the buffer period.}
+
+\item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return the input for multi-season occupancy models in unmarked R package (argument \code{y} in \code{\link[unmarked:unmarkedMultFrame]{unmarked::unmarkedMultFrame()}}). Default: \code{FALSE}.}
 }
 \value{
 A list with three elements:
@@ -74,8 +77,11 @@ This function doesn't take as input a camera trap data package object, but a
 camera operation matrix and a record table, which are both calculated based
 on a camera trap data package object. For more information, see the
 \code{\link[=get_camOp]{get_camOp()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
+
+If the camera operation matrix (\code{camOp}) was created for a multi-season study (via argument \code{session_col} in \code{get_cam_op()}), the session will be detected automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B}, \code{o2_SESS_B}, etc.
 }
 \examples{
+library(dplyr)
 camOp <- get_cam_op(mica)
 recordTable <- get_record_table(mica)
 
@@ -147,6 +153,49 @@ get_detection_history(
  species = "Anas platyrhynchos",
  output = "n_individuals",
  buffer = 2
+)
+
+# Multi-season detection history
+
+# Create a multi-season camera operation matrix / record table
+mica_sessions <- mica
+mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
+mica_sessions$data$deployments$locationID <- c(
+  mica_sessions$data$deployments$locationID[1:2],
+  mica_sessions$data$deployments$locationID[1:2]
+)
+mica_sessions$data$deployments$locationName <- c(
+  mica_sessions$data$deployments$locationName[1:2],
+  mica_sessions$data$deployments$locationName[1:2]
+)
+delta <- lubridate::duration(2, units = "years")
+mica_sessions$data$deployments$start[4] <- mica_sessions$data$deployments$start[4] + delta
+mica_sessions$data$deployments$end[4] <- mica_sessions$data$deployments$end[4] + delta
+mica_sessions$data$observations <- mica_sessions$data$observations \%>\%
+dplyr::mutate(timestamp = dplyr::if_else(
+  deploymentID \%in\% mica_sessions$data$deployments$deploymentID[4],
+  timestamp + delta,
+  timestamp
+  )
+)
+mica_sessions$data$media <- mica_sessions$data$media \%>\%
+dplyr::mutate(
+ timestamp = dplyr::if_else(
+ deploymentID \%in\% mica_sessions$data$deployments$deploymentID[4],
+ timestamp + delta,
+ timestamp
+ )
+)
+camOp_sessions <- get_cam_op(mica_sessions, session_col = "session")
+recordTable_sessions <- get_record_table(mica_sessions)
+
+# Create a multi-season detection history
+get_detection_history(
+  recordTable_sessions,
+  camOp_sessions,
+  species = "Anas platyrhynchos",
+  output = "n_individuals",
+  unmarkedMultFrameInput = TRUE
 )
 }
 \seealso{

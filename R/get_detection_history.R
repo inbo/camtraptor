@@ -643,7 +643,7 @@ get_detection_history <- function(recordTable,
       periods_df,
       by = "Station"
     ) %>%
-    dplyr::mutate(Date = lubridate::as_date(Date))
+    dplyr::mutate(Date = lubridate::as_date(.data$Date))
   
   # Apply `maxNumberDays` to `camOp_long` by comparing `last_day` with `Date`
   camOp_long <- camOp_long %>%

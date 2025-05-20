@@ -9,7 +9,7 @@ Authors@R: c(
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = "aut",
            comment = c(ORCID = "0000-0002-6658-6062")),
     person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = "ctb",
-           comment = c(ORCID = "0000-0002-8185-10205")),
+           comment = c(ORCID = "0000-0002-8185-1020")),
     person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "ctb",
            comment = c(ORCID = "0000-0001-8804-4216")),
     person("Jim", "Casaer", , "jim.casaer@inbo.be", role = "ctb",

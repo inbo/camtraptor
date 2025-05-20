@@ -45,7 +45,7 @@ Note: All dates and times are expressed in UTC format."><meta property="og:image
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get record table</h1>
-      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/v0.27.0/R/get_record_table.R" class="external-link"><code>R/get_record_table.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/main/R/get_record_table.R" class="external-link"><code>R/get_record_table.R</code></a></small>
       <div class="d-none name"><code>get_record_table.Rd</code></div>
     </div>
 
@@ -148,6 +148,10 @@ independent record of a given species at a certain location.</p></li>
 as defined in column <code>filePath</code> of <code>media</code>.</p></li>
 <li><p><code>Filename</code>: List, file names of the images linked to the given record,
 as defined in column <code>fileName</code> of <code>media</code>.</p></li>
+<li><p><code>Latitude</code>: Numeric, latitude of the station, based on <code>deploymentID</code> of the observations.</p></li>
+<li><p><code>Longitude</code>: Numeric, longitude of the station, based on <code>deploymentID</code> of the observations.</p></li>
+<li><p><code>clock</code>: Numeric, clock time in radians.</p></li>
+<li><p><code>solar</code>: Numeric, solar time in radians. Calculated using <code><a href="https://rdrr.io/pkg/overlap/man/sunTime.html" class="external-link">overlap::sunTime</a></code>, which essentially uses the approach described in <a href="https://doi.org/10.1111/j.1469-7998.2011.00864.x" class="external-link">Nouvellet et al. (2012)</a>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -401,7 +405,7 @@ as defined in column <code>fileName</code> of <code>media</code>.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>

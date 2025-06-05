@@ -49,7 +49,6 @@ get_scientific_name(mica, c("Castor fiber", "wilde eend"))
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_cam_op}()},
 \code{\link{get_custom_effort}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
@@ -57,7 +56,6 @@ Other exploration functions:
 \code{\link{get_n_species}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{get_record_table}()},
 \code{\link{get_species}()}
 }
 \concept{exploration functions}

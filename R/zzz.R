@@ -709,8 +709,8 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
     dplyr::filter(!is.na(.data$eventID))
   
   # Join on deploymentID and timestamp between eventStart and eventEnd
-  by <- dplyr::join_by(deploymentID, 
-                       between(x$timestamp, y$eventStart, y$eventEnd))
+  by <- dplyr::join_by("deploymentID", 
+                       dplyr::between(x$timestamp, y$eventStart, y$eventEnd))
   # Join media with event-based observations (obs without mediaID)
   media <- media %>%
     dplyr::full_join(event_obs, by) %>%
@@ -742,9 +742,9 @@ convert_media_to_0.1.6 <- function(package, from = "1.0") {
   media <- media %>% 
     dplyr::mutate(
       captureMethod = factor(
-        ifelse(captureMethod == "activityDetection",
-                                "motionDetection",
-                                as.character(captureMethod))
+        ifelse(.data$captureMethod == "activityDetection",
+               "motionDetection",
+               as.character(.data$captureMethod))
       )
     )
   

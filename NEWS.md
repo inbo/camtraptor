@@ -1,3 +1,7 @@
+# camtraptor 0.28.0
+
+- `get_detection_history()` calculates the detection history based on a record table and a camera operation matrix. Some analogies with the `camtrapR::detectionHistory` function (#360).
+
 # camtraptor 0.27.0
 
 - `get_record_table()` returns now 4 new columns: `longitude`, `latitude` (deployment coordinates), `clock` (clock time of the observation in radians) and `solar` (sun time of the observation in radians) (#341).

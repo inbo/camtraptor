@@ -32,7 +32,7 @@
 #' @param ... filter predicates for filtering on deployments.
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
-#' @family exploration functions
+#' @family camtrapR-derived functions
 #' @importFrom dplyr %>% .data
 #' @importFrom rlang !! :=
 #' @export

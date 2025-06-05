@@ -25,6 +25,9 @@ reference:
 - title: Publish data
   contents:
   - has_concept("publication functions")
+- title: camtrapR-derived data
+  contents:
+  - has_concept("camtrapR-derived functions")
 - title: Estimate density
   contents:
   - has_concept("density estimation functions")

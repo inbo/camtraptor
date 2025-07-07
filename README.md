@@ -8,6 +8,9 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project.org/package=camtraptor)
 [![R-CMD-check](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml)
+[![Release](https://img.shields.io/github/v/release/inbo/camtraptor.svg)](https://github.com/inbo/camtraptor/releases)
+[![camtraptor status
+badge](https://inbo.r-universe.dev/camtraptor/badges/version)](https://inbo.r-universe.dev/camtraptor)
 [![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -47,6 +50,13 @@ To get started, see:
   overview of all functions.
 
 ## Installation
+
+You can install the stable version of **camtraptor** from the INBO R
+universe:
+
+``` r
+install.packages("trias", repos = "https://inbo.r-universe.dev")
+```
 
 You can install the development version of camtraptor from
 [GitHub](https://github.com/inbo/camtraptor) with:

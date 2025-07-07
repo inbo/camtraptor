@@ -29,7 +29,8 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-10205}{ORCID}) [contributor]
+  \item Martijn Bollen \email{martijn.bollen@inbo.be} (\href{https://orcid.org/0000-0002-1621-6258}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-1020}{ORCID}) [contributor]
   \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]

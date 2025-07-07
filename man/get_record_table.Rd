@@ -138,5 +138,6 @@ camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 }
 \seealso{
 Other camtrapR-derived functions: 
-\code{\link{camtrapR_cameraOperation}()}
+\code{\link{camtrapR_cameraOperation}()},
+\code{\link{get_detection_history}()}
 }

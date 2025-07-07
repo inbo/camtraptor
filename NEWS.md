@@ -11,6 +11,7 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).
 - Arguments `sex` and `life_stage` are now deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 - The functions `get_scientific_name()` and `check_species()` are now defunct. Use `taxa()` for an overview of all species (#235).
+- The function `read_wi()` is now defunct as not in scope (#351). 
 - Filter predicates (`apply_filter_predicate()`, `pred()` `pred_not()` `pred_gt()`, `pred_and()`, `pred_or()`, etc.) are now defunct. Use `filter_deployments()` (#316).
 - The deprecated argument `datapkg` in `read_camtrap_dp()` is removed.
 - `write_dwc()` has moved to [camtrapdp](https://inbo.github.io/camtrapdp/reference/write_dwc.html). `write_eml()` is not needed for GBIF processing of Camtrap DPs and has been removed ([camtrapdp#61](https://github.com/inbo/camtrapdp/issues/61)).

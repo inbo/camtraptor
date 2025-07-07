@@ -106,3 +106,9 @@ check_species <- function(x) {
 get_scientific_name <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "get_scientific_name()", "taxa()")
 }
+
+#' @export
+#' @rdname defunct
+read_wi <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "read_wi()")
+}

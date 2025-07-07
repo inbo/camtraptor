@@ -4,7 +4,11 @@
 \alias{add_coordinates}
 \title{Add deployment coordinates to observations}
 \usage{
-add_coordinates(package)
+add_coordinates(x)
+}
+\arguments{
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{
 Camera trap data package object, where \code{observations} is updated by appending two new columns: \code{latitude} and \code{longitude}.

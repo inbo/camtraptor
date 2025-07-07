@@ -1,4 +1,3 @@
-
 #' Add deployment coordinates to observations
 #' 
 #' This function adds deployment coordinates to `observations` based on

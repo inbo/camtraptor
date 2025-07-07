@@ -5,6 +5,7 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - `read_camtrap_dp()` (with underscore) is now deprecated. Use `read_camtrapdp()`, which reexports the read functionality from [camtrapdp](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298) (#298).
 - Function `get_record_table()` is now deprecated. Use `camtrapR_recordTable()` (#240).
 - Function `get_cam_op()` is now deprecated. Use `camtrapR_cameraOperation()` (#239).
+- Function `get_detection_history()` is now deprecated. Use `camtrapR_detectionHistory()` (#365).
 - Function `get_species()` is now deprecated. Use `taxa()` (#343).
 - Function `get_n_species()` is now deprecated. Use `n_species()` (#243).
 - Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).

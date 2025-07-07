@@ -83,7 +83,7 @@ camtrapR_cameraOperation(x, use_prefix = TRUE)
 }
 \seealso{
 Other camtrapR-derived functions: 
-\code{\link{camtrapR_recordTable}()},
-\code{\link{get_detection_history}()}
+\code{\link{camtrapR_detectionHistory}()},
+\code{\link{camtrapR_recordTable}()}
 }
 \concept{camtrapR-derived functions}

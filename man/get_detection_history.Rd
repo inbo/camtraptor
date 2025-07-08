@@ -86,8 +86,10 @@ If the camera operation matrix (\code{camOp}) was created for a multi-season stu
 }
 \examples{
 library(dplyr)
-camOp <- camtrapR_cameraOperation(mica)
-recordTable <- camtrapR_recordTable(mica)
+x <- example_dataset()
+
+camOp <- camtrapR_cameraOperation(x)
+recordTable <- camtrapR_recordTable(x)
 
 # Binary output
 camtrapR_detectionHistory(

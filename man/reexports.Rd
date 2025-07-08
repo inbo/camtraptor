@@ -18,9 +18,6 @@
 \alias{filter_observations}
 \title{Objects exported from other packages}
 \seealso{
-Other read functions: 
-\code{\link{read_wi}()}
-
 Other accessor functions: 
 \code{\link{add_coordinates}()}
 

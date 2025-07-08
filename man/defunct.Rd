@@ -17,6 +17,7 @@
 \alias{apply_filter_predicate}
 \alias{check_species}
 \alias{get_scientific_name}
+\alias{read_wi}
 \title{Defunct functions}
 \usage{
 # Deprecated in 1.0.0 -------------------------------------
@@ -50,6 +51,8 @@ apply_filter_predicate(arg, value)
 check_species(x)
 
 get_scientific_name(x)
+
+read_wi(x)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

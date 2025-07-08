@@ -2,7 +2,8 @@
 % Please edit documentation in R/calc_animal_pos.R
 \name{calc_animal_pos}
 \alias{calc_animal_pos}
-\title{Calculate animal position}
+\title{This function is deprecated. Please use \code{\link[=calculate_individual_radius_angle]{calculate_individual_radius_angle()}}
+instead.}
 \usage{
 calc_animal_pos(
   animal_pos,
@@ -16,50 +17,61 @@ calc_animal_pos(
 )
 }
 \arguments{
-\item{animal_pos}{Data frame (tibble) of animal position digitization data.
-It must contain (at least) the columns defined in args \code{dep_tag},
-\code{sequence_id}, \code{x}, \code{y}, \code{image_width} and \code{image_height}.}
-
-\item{calib_models}{Named list of deployment calibration models or site calibration
-models (\code{calibs} objects), produced using \code{cal.site()} (not yet included in
-this package). The deployment names are used as names.}
-
-\item{dep_tag}{Column in \code{animal_pos} against which
-names of the elements can be matched to apply the right deployment
-calibration models. Default: \code{"deploymentID"}.}
-
-\item{sequence_id}{Column in \code{animal_pos} containing
-the sequence ID the images belong to. Default: \code{"sequenceID"}.}
-
-\item{x}{Column in \code{animal_pos} containing x pixel
-positions for each digitised point. Default: \code{"x"}.}
-
-\item{y}{Column in \code{animal_pos} containing y pixel
-positions for each digitised point. Default: \code{"y"}.}
-
-\item{image_width}{Column in \code{animal_pos} containing the pixel x dimension of
-each image. Default: \code{"imageWidth"}. Notice that the pixel x dimension must
-be consistent for each deployment.}
-
-\item{image_height}{Column in \code{animal_pos} containing the pixel y dimension
-of each image. Default: \code{"imageHeight"}. Notice that the pixel y dimension
-must be consistent for each deployment.}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{
-Original tibble data frame as passed via \code{animal_pos} with
-additional columns:
-\itemize{
-\item \code{radius}: Radial distance from camera.
-\item \code{angle}: Angular distance from camera.
-\item \code{frame_count}: Indicator of the frame order within each sequence.
-}
+A matrix. Row names always indicate the station ID. Column names are
+dates.
 }
 \description{
-Calculates the position of animal relative to a camera based on image pixel
-positions and site calibration models.
+Returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
+returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+}
+\details{
+The deployment data are by default grouped by \code{locationName} (station ID in
+camtrapR jargon) or another column specified by the user via the
+\code{station_col} argument. If multiple deployments are linked to same location,
+daily efforts higher than 1 occur.
+
+Partially active days, e.g. the first or the last day of a deployment, result
+in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \examples{
-# Use default values
-calc_animal_pos(animal_positions, dep_calib_models)
+x <- example_dataset()
+camtrapR_cameraOperation(x)
+
+# Specify column with station names
+camtrapR_cameraOperation(x, station_col = "locationID")
+
+# Specify column with session IDs
+x_sessions <- x
+x_sessions$data$deployments <- deployments(x_sessions) \%>\%
+  dplyr::mutate(session = ifelse(
+    stringr::str_starts(.data$locationName, "B_DL_"),
+      "after2020",
+      "before2020"
+  )
+)
+camtrapR_cameraOperation(x_sessions, session_col = "session")
+
+# Specify column with camera IDs
+x_cameras <- x_sessions
+x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
+
+# Specify both session and camera IDs
+camtrapR_cameraOperation(
+  x_cameras,
+  camera_col = "cameraID",
+  session_col = "session"
+)
+
+# Use prefix Station as in camtrapR's camera operation matrix
+camtrapR_cameraOperation(x, use_prefix = TRUE)
 }
-\concept{density estimation functions}
+\seealso{
+Other camtrapR-derived functions: 
+\code{\link{camtrapR_detectionHistory}()},
+\code{\link{camtrapR_recordTable}()}
+}

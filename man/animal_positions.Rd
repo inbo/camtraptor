@@ -14,14 +14,14 @@ animal_positions
 A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}
-\item \code{sequenceID}
+\item \code{eventID}
 \item \code{x} and \code{y}: The coordinates.
 \item \code{imageWidth} and \code{imageHeight}: The image dimensions.
 }
 }
 \seealso{
 Other sample data: 
-\code{\link{dep_calib_models}}
+\code{\link{calibration_models}}
 }
 \concept{sample data}
 \keyword{datasets}

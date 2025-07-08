@@ -9,6 +9,7 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - Function `get_species()` is now deprecated. Use `taxa()` (#343).
 - Function `get_n_species()` is now deprecated. Use `n_species()` (#243).
 - Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).
+- Function `calc_animal_pos()` is now deprecated. Use `calculate_individual_radius_angle()` (#242).
 - Arguments `sex` and `life_stage` are now deprecated in (deprecated) `map_dep()`. Use `filter_observations()` beforehand.
 - The functions `get_scientific_name()` and `check_species()` are now defunct. Use `taxa()` for an overview of all species (#235).
 - The function `read_wi()` is now defunct as not in scope (#351). 
@@ -24,6 +25,8 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - The first argument of many functions accepts a Camtrap DP object: not `package` anymore, but `x` (#324).
 - Functions `filter_deployments()`, `filter_observations()` and `filter_media()` allow to filter at data package level (#315). They reexport the functionalities from camtrapdp. See [`camtrapdp::filter_deployments()`](https://inbo.github.io/camtrapdp/reference/filter_deployments.html), [`camtrapdp::filter_observations()`](https://inbo.github.io/camtrapdp/reference/filter_observations.html) and [`camtrapdp::filter_media()`](https://inbo.github.io/camtrapdp/reference/filter_media.html).
 - Function `filter_out_timelapse()` allows to filter out timelapse observations (#306). See [`camtrapdp::filter_out_timelapse()`](https://inbo.github.io/camtrapdp/reference/filter_out_timelapse.html).
+- Included dataframes `animal_pos` and `calib_models` renamed to `animal_positions` and `calibration_models`, respectively (#242).
+- Column `sequenceID` in included dataframe `animal_positions`is renamed to `eventID` (#242).
 - File `CITATION.cff` added to the package (#345).
 
 # camtraptor 0.28.0

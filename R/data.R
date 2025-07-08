@@ -2,7 +2,7 @@
 #'
 #' A tibble data frame with the following columns:
 #' - `deploymentID`
-#' - `sequenceID`
+#' - `eventID`
 #' - `x` and `y`: The coordinates.
 #' - `imageWidth` and `imageHeight`: The image dimensions.
 #'
@@ -16,4 +16,4 @@
 #' The deployment names are used as names.
 #'
 #' @family sample data
-"dep_calib_models"
+"calibration_models"

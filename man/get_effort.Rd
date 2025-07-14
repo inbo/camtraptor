@@ -10,24 +10,12 @@ get_effort(x, unit = "hour")
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{unit}{Time unit to use while returning deployment effort (duration).
-One of:
-\itemize{
-\item \code{second}
-\item \code{minute}
-\item \code{hour}
-\item \code{day}
-\item \code{month}
-\item \code{year}
-}}
+\item{unit}{Deprecated and not supported anymore.}
 }
 \value{
 A tibble data frame with following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
-\item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
-\item \code{unit}: The unit used to express the effort.
-One of the values available for parameter \code{unit}.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
 package).
 }
@@ -51,6 +39,7 @@ Other exploration functions:
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{n_species}()}
+\code{\link{n_species}()},
+\code{\link{summarize_deployments}()}
 }
 \concept{exploration functions}

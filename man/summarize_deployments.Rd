@@ -17,7 +17,7 @@ Default: \code{deploymentID}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
 \code{"year"}. The effort is calculated at the interval rate defined in
-\code{group_time_by}. Default: NULL, no grouping, i.e. the entire duration of
+\code{group_time_by}. Default: \code{NULL}, no grouping, i.e. the entire duration of
 the deployment is taken into account as a whole.}
 }
 \value{
@@ -38,21 +38,22 @@ effort.
 \examples{
 x <- example_dataset()
 
-# Return effort per deploymentID and locationName, by day
+# Return effort per `deploymentID` and `locationName`, by day
 summarize_deployments(
   x,
   group_by = c("deploymentID", "locationName"),
   group_time_by = "day"
 )
 
-# Return effort per deploymentID and locationName, by month
+# Return effort per `deploymentID` and `locationName`, by month
 summarize_deployments(
  x,
  group_by = c("deploymentID", "locationName"),
  group_time_by = "month"
 )
 
-# Return the effort per deploymentID and locationName. No grouping by time.
+# Return the effort per `deploymentID` and `locationName` No grouping by
+time.
 summarize_deployments(
   x,
   group_by = c("deploymentID", "locationName")

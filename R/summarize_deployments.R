@@ -11,7 +11,7 @@
 #'   Default: `deploymentID`.
 #' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
 #'   `"year"`. The effort is calculated at the interval rate defined in
-#'   `group_time_by`. Default: NULL, no grouping, i.e. the entire duration of
+#'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
 #'   the deployment is taken into account as a whole.
 #' @return A tibble data frame with the following columns:
 #'   - `group_by` names, e.g. `deploymentID` and `locationName`.
@@ -25,21 +25,22 @@
 #' @examples
 #' x <- example_dataset()
 #'
-#' # Return effort per deploymentID and locationName, by day
+#' # Return effort per `deploymentID` and `locationName`, by day
 #' summarize_deployments(
 #'   x,
 #'   group_by = c("deploymentID", "locationName"),
 #'   group_time_by = "day"
 #' )
 #' 
-#' # Return effort per deploymentID and locationName, by month
+#' # Return effort per `deploymentID` and `locationName`, by month
 #' summarize_deployments(
 #'  x,
 #'  group_by = c("deploymentID", "locationName"),
 #'  group_time_by = "month"
 #' )
 #' 
-#' # Return the effort per deploymentID and locationName. No grouping by time.
+#' # Return the effort per `deploymentID` and `locationName` No grouping by
+#' time.
 #' summarize_deployments(
 #'   x,
 #'   group_by = c("deploymentID", "locationName")

@@ -12,12 +12,7 @@
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' 
-#' # Efforts expressed in hours
 #' get_effort(x)
-#'
-#' # Effort expressed as days
-#' get_effort(x, unit = "day")
 get_effort <- function(x,
                        unit = "hour") {
   lifecycle::deprecate_warn(

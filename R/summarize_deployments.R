@@ -47,6 +47,22 @@
 #'   x,
 #'   group_by = c("deploymentID", "locationName")
 #' )
+#' 
+#' # Afterwards, you can calculate the total effort over all deployments. You
+#' can also show other information, e.g. the (number of) deployments and
+#' locations.
+#' library(dplyr)
+#' summarize_deployments(
+#'   x,
+#'   group_by = c("deploymentID", "locationName"),
+#'   group_time_by = "month") %>%
+#'   dplyr::group_by(month) %>%
+#'   dplyr::summarise(
+#'     deploymentIDs = list(deploymentID),
+#'     ndep = length(unique(deploymentID)),
+#'     nloc = length(unique(locationName)),
+#'     effort_duration = sum(effort_duration)
+#' )
 summarize_deployments <- function(x,
                                   group_by = "deploymentID",
                                   group_time_by = NULL) {

@@ -6,15 +6,38 @@ test_that("summarize_deployments() returns error for invalid datapackage", {
   expect_error(summarize_deployments(x))
 })
 
+test_that("summarize_deployments() returns error for invalid group_by", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(
+    summarize_deployments(x, group_by = "invalid"),
+    paste0("Invalid value for group_by parameter: invalid.\n",
+           "Valid inputs are: deploymentID, locationID, locationName ",
+           "and deploymentTags"
+    )
+  )
+})
+
+test_that("summarize_deployments() returns error for invalid group_time_by", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_error(
+    summarize_deployments(x, group_time_by = "invalid"),
+    paste0("Invalid value for group_time_by parameter: invalid.\n",
+           "Valid inputs are: day, week, month, year and NULL"
+    )
+  )
+})
+
 test_that(
   "summarize_deployments() returns correct summary with default arguments", {
     skip_if_offline()
     x <- example_dataset()
     summary <- summarize_deployments(x)
     
-    # Type list
+    # The returned summary is of type list
     expect_type(summary, "list")
-    # Class tibble data.frame
+    # The returned summary is a tibble data.frame
     expect_equal(
       class(summary),
       c("tbl_df", "tbl", "data.frame")
@@ -48,11 +71,86 @@ test_that(
 })
 
 test_that(
+  "summarize_deployments() returns correct summary using `group_by`", {
+    skip_if_offline()
+    x <- example_dataset()
+    deployments <- deployments(x)
+    
+    # Default summary is the same as summary with `group_by = "deploymentID"`
+    summary <- summarize_deployments(x, group_by = "deploymentID")
+    expect_identical(summary, summarize_deployments(x))
+    
+    # Use `group_by = c("locationID", "deploymentID")`
+    summary_location_id <- summarize_deployments(
+      x,
+      group_by = c("locationID", "deploymentID")
+    )
+    # The summary has the expected columns
+    expect_identical(
+      names(summary_location_id),
+      c("locationID", "deploymentID", "effort_duration")
+    )
+    # The summary has the same effort duration
+    expect_identical(
+      summary_location_id %>%
+        dplyr::arrange(.data$deploymentID) %>%
+        dplyr::pull(effort_duration),
+      summary$effort_duration
+    )
+    # The summary has the same values in `locationID` column as in deployments
+    expect_identical(
+      summary_location_id$locationID,
+      deployments %>%
+        dplyr::arrange(locationID) %>%
+        dplyr::pull(locationID)
+    )
+    
+    # Group by `locationID` only. If `locationID` values are not unique, the
+    # effort is summed up
+    deploys <- deployments
+    deploys$locationID[1] <- deploys$locationID[2]
+    deploys$locationID[3] <- deploys$locationID[4]
+    deployments(x) <- deploys
+    summary_location_id <- summarize_deployments(
+      x, group_by = "locationID"
+    )
+    
+    # The summary has the expected columns
+    expect_identical(
+      names(summary_location_id), c("locationID", "effort_duration")
+    )
+    # The summary has two row less than the deployments
+    expect_equal(
+      nrow(summary_location_id), nrow(deployments(x)) - 2
+    )
+    # The summary has the right location IDs
+    expect_identical(
+      summary_location_id$locationID,
+      unique(purrr::pluck(deployments(x), "locationID"))
+    )
+    # The returned effort is the sum of the effort of deployments
+    expect_identical(
+      summary_location_id$effort_duration,
+      c(summary$effort_duration[1] + summary$effort_duration[2],
+        summary$effort_duration[3] + summary$effort_duration[4]
+      )
+    )
+  })
+
+test_that(
   "summarize_deployments() returns correct summary using `group_time_by`", {
     skip_if_offline()
     x <- example_dataset()
     deployments <- deployments(x)
     summary <- summarize_deployments(x, group_time_by = "day")
+    
+    # The returned summary is of type list
+    expect_type(summary, "list")
+    # The returned summary is a tibble data.frame
+    expect_equal(
+      class(summary),
+      c("tbl_df", "tbl", "data.frame")
+    )
     
     # Check that the `summary` has the expected columns
     expect_equal(

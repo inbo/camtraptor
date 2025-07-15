@@ -214,11 +214,52 @@ test_that(
 # Check that output of `summarise_deployments()` is the same as
 # `summarize_deployments()`
 test_that(
-  "summarize_deployments() returns the same output as summarise_deployments()", {
+  paste0("The synonyms summarize_deployments() and summarise_deployments() ",
+         "return the same output"
+  ), {
     skip_if_offline()
     x <- example_dataset()
     expect_identical(
       summarize_deployments(x),
       summarise_deployments(x)
     )
-  })
+})
+
+test_that("get_effort() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  lifecycle::expect_deprecated(get_effort(x, unit = NULL),
+                               regex = "was deprecated in camtraptor 1.0.0.")
+  # Check double deprecation when `unit` is not NULL
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_effort(x, unit = "day"),
+      regex = "is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+})
+
+test_that("get_custom_effort() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset() 
+  lifecycle::expect_deprecated(
+    get_custom_effort(x,
+                      start = NULL,
+                      end = NULL, 
+                      group_by = "month",
+                      unit = NULL),
+    regex = "was deprecated in camtraptor 1.0.0.")
+  # Check double deprecation when `unit` is not NULL
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_custom_effort(x,
+                        start = NULL,
+                        end = NULL, 
+                        group_by = "month",
+                        unit = "day"),
+      regex = "is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+})

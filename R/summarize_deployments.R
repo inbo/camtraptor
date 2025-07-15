@@ -3,6 +3,8 @@
 #' This function is intended to summarize deployments information, such as the
 #' effort.
 #' 
+#' `summarize_deployments()` and `summarise_deployments()` are synonyms.
+#' 
 #' @param x Camera trap data package object, as returned by
 #'   [camtrapdp::read_camtrapdp()].
 #' @param group_by Character vector with the names of the columns in
@@ -96,6 +98,9 @@ summarize_deployments <- function(x,
       effort_duration = lubridate::as.duration(.data$effort_duration)
     )
 }
+#' @rdname summarize_deployments
+#' @export
+summarise_deployments <- summarize_deployments
 
 #' Summarize deployment information
 #' 

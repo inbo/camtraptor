@@ -2,9 +2,12 @@
 % Please edit documentation in R/summarize_deployments.R
 \name{summarize_deployments}
 \alias{summarize_deployments}
+\alias{summarise_deployments}
 \title{Summarize deployments information}
 \usage{
 summarize_deployments(x, group_by = "deploymentID", group_time_by = NULL)
+
+summarise_deployments(x, group_by = "deploymentID", group_time_by = NULL)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -34,6 +37,9 @@ package). Duration is always recorded as a fixed number of seconds. See
 \description{
 This function is intended to summarize deployments information, such as the
 effort.
+}
+\details{
+\code{summarize_deployments()} and \code{summarise_deployments()} are synonyms.
 }
 \examples{
 x <- example_dataset()

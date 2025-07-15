@@ -210,3 +210,15 @@ test_that(
     testthat::expect_identical(effort_start_day,
                                summary_effort_start)
 })
+
+# Check that output of `summarise_deployments()` is the same as
+# `summarize_deployments()`
+test_that(
+  "summarize_deployments() returns the same output as summarise_deployments()", {
+    skip_if_offline()
+    x <- example_dataset()
+    expect_identical(
+      summarize_deployments(x),
+      summarise_deployments(x)
+    )
+  })

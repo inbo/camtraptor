@@ -10,38 +10,25 @@ get_custom_effort(x, start = NULL, end = NULL, group_by = NULL, unit = "hour")
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{start}{Start date. Default: \code{NULL}. If \code{NULL} the earliest start date
-among all deployments is used. If \code{group_by} unit is not \code{NULL}, the lowest
-start value allowed is one group by unit before the start date of the
-earliest deployment. If this condition doesn't hold true, a warning is
-returned and the earliest start date among all deployments is used. If
-\code{group_by} unit is \code{NULL} the start must be later than or equal to the
-start date among all deployments.}
+\item{start}{Deprecated and not supported anymore. Use \code{filter_deployments()} to filter out deployments.}
 
-\item{end}{End date. Default: \code{NULL}. If \code{NULL} the latest end date among all
-deployments is used. If \code{group_by} unit is not \code{NULL}, the latest end value
-allowed is one group by unit after the end date of the latest deployment.
-If this condition doesn't hold true, a warning is returned and the latest
-end date among all deployments is used. If \code{group_by} unit is \code{NULL} the
-end must be earlier than or equal to the end date among all deployments.}
+\item{end}{Deprecated and not supported anymore.  Use \code{filter_deployments()} to filter out deployments.}
 
-\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}. The
-effort is calculated at the interval rate defined in \code{group_by}. Default:
-\code{NULL}: no grouping, i.e. the entire interval from \code{start} to \code{end} is
-taken into account as a whole. Calendar values are used, i.e. grouping by
-year will calculate the effort from Jan 1st up to Dec 31st for each year.}
+\item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}.
+Default: \code{NULL}. See \code{group_time_by} argument in
+\verb{[summarize_deployments()]}.}
 
-\item{unit}{Character, the time unit to use while returning custom effort.
-One of: \code{hour} (default), \code{day}.}
+\item{unit}{Deprecated and not supported anymore.}
 }
 \value{
-A tibble data frame with following columns:
+A tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID}: Deployment unique identifier.
-\item \code{locationName}: Location name of the deployments.
-\item \code{begin}: Begin date of the interval the effort is calculated over.
-\item \code{effort}: The effort as number.
-\item \code{unit}: Character specifying the effort unit.
+\item \code{group_by} names, e.g. \code{deploymentID} and \code{locationName}.
+\item \code{group_time_by} name if provided, e.g. \code{month}. It contains the first
+date of the time interval, e.g. the first day of the month.
+\item \code{effort_duration}: A duration object (duration is a class from lubridate
+package). Duration is always recorded as a fixed number of seconds. See
+\code{\link[lubridate:duration]{lubridate::duration()}}.
 }
 }
 \description{
@@ -52,31 +39,11 @@ calls \code{camtrapR_cameraOperation()} internally.
 \examples{
 x <- example_dataset()
 
-# Effort for each deployment over the entire duration of the project (Camera Trap Data
-# Package) measured in hours (default)
+# Effort for each deployment over the entire duration of the project
 get_custom_effort(x)
-
-# Effort for each deployment expressed in days
-get_custom_effort(x, unit = "day")
-
-# Effort for each deployment from a specific start to a specific end
-get_custom_effort(
-  x,
-  start = as.Date("2019-12-15"), # or lubridate::as_date("2019-12-15")
-  end = as.Date("2021-01-10")
-)
-
-# Effort at daily interval
-get_custom_effort(x, group_by = "day")
-
-# Effort at weekly interval
-get_custom_effort(x, group_by = "week")
 
 # Effort at monthly interval
 get_custom_effort(x, group_by = "month")
-
-# Effort at yearly interval
-get_custom_effort(x, group_by = "year")
 
 # You can afterwards calculate the total effort over all deployments
 library(dplyr)

@@ -12,7 +12,6 @@
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `effort_duration`: A duration object (duration is a class from lubridate
 #'   package).
-#' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

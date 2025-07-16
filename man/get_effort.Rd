@@ -32,14 +32,3 @@ This function is deprecated. Please use \code{\link[=summarize_deployments]{summ
 x <- example_dataset()
 get_effort(x)
 }
-\seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{n_species}()},
-\code{\link{summarize_deployments}()}
-}
-\concept{exploration functions}

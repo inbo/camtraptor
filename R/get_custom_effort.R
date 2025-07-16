@@ -16,7 +16,6 @@
 #' @param unit Deprecated and not supported anymore.
 #' @inheritParams n_species
 #' @inherit summarize_deployments return
-#' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

@@ -1,8 +1,12 @@
 #' Get custom effort
 #'
-#' Gets the effort for each deployment and a specific time interval such as day,
-#' week, month or year. A custom time window can also be set up. This function
-#' calls `camtrapR_cameraOperation()` internally.
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function is deprecated. Please use [summarize_deployments()] instead.
+#' 
+#' This function returns the effort for each deployment and a specific time
+#' interval such as day, week, month or year. A custom time window can also be
+#' set up. This function calls `camtrapR_cameraOperation()` internally.
 #'
 #' @param start Deprecated and not supported anymore. Use `filter_deployments()` to filter out deployments.
 #' @param end Deprecated and not supported anymore.  Use `filter_deployments()` to filter out deployments.

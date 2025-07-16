@@ -32,9 +32,14 @@ package). Duration is always recorded as a fixed number of seconds. See
 }
 }
 \description{
-Gets the effort for each deployment and a specific time interval such as day,
-week, month or year. A custom time window can also be set up. This function
-calls \code{camtrapR_cameraOperation()} internally.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
+This function is deprecated. Please use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+
+This function returns the effort for each deployment and a specific time
+interval such as day, week, month or year. A custom time window can also be
+set up. This function calls \code{camtrapR_cameraOperation()} internally.
 }
 \examples{
 x <- example_dataset()

@@ -1,6 +1,10 @@
 #' Get effort
 #'
-#' Gets the effort (deployment duration) per deployment.
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function is deprecated. Please use [summarize_deployments()] instead.
+#' 
+#' This function returns the effort (deployment duration) per deployment.
 #'
 #' @param unit Deprecated and not supported anymore. 
 #' @inheritParams n_species

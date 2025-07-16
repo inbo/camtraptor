@@ -21,7 +21,12 @@ package).
 }
 }
 \description{
-Gets the effort (deployment duration) per deployment.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
+This function is deprecated. Please use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+
+This function returns the effort (deployment duration) per deployment.
 }
 \examples{
 x <- example_dataset()

@@ -51,7 +51,7 @@ test_that(
     # deployments in the dataset
     expect_equal(nrow(summary), nrow(deployments(x)))
     
-    # Check that the order of dpeloyments is the same as in the dataset
+    # Check that the order of deployments is the same as in the dataset
     expect_equal(
       summary$deploymentID,
       purrr::pluck(deployments(x),"deploymentID")
@@ -119,7 +119,7 @@ test_that(
     expect_identical(
       names(summary_location_id), c("locationID", "effort_duration")
     )
-    # The summary has two row less than the deployments
+    # The summary has two rows less than the deployments
     expect_equal(
       nrow(summary_location_id), nrow(deployments(x)) - 2
     )

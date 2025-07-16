@@ -55,13 +55,14 @@
 #' summarize_deployments(
 #'   x,
 #'   group_by = c("deploymentID", "locationName"),
-#'   group_time_by = "month") %>%
-#'   dplyr::group_by(month) %>%
-#'   dplyr::summarise(
-#'     deploymentIDs = list(deploymentID),
-#'     ndep = length(unique(deploymentID)),
-#'     nloc = length(unique(locationName)),
-#'     effort_duration = sum(effort_duration)
+#'   group_time_by = "month"
+#'   ) %>%
+#' dplyr::group_by(month) %>%
+#' dplyr::summarise(
+#'   deploymentIDs = list(deploymentID),
+#'   ndep = length(unique(deploymentID)),
+#'   nloc = length(unique(locationName)),
+#'   effort_duration = sum(effort_duration)
 #' )
 summarize_deployments <- function(x,
                                   group_by = "deploymentID",
@@ -92,12 +93,12 @@ summarize_deployments <- function(x,
   # Effort per `deploymentID` and `group_time_by`. It contains also the
   # deployment columns in `group_by`
   effort_df <- deployment_ids %>%
-    purrr::map(~ summarize_deployment(deployment = .,
-                                      deployments = deployments,
-                                      group_by = group_by,
-                                      group_time_by = group_time_by
-                                      )
-    )
+    purrr::map(~ summarize_deployment(
+      deployment = .,
+      deployments = deployments,
+      group_by = group_by,
+      group_time_by = group_time_by
+    ))
   effort_df <- purrr::list_rbind(effort_df)
 
   # Calculate the sum of effort over all deployments grouped by `group_by` and
@@ -128,10 +129,10 @@ summarise_deployments <- summarize_deployments
 #'   `deploymentID`, `deploymentStart`, and `deploymentEnd`.
 #' @param group_by A character vector of deployment column names to group the
 #'   results by. It is only used to pass the columns needed for the
-#'   summarization afterwards. The grouping occurrs at `deploymentID` level and
-#'   `group_time_by`.
+#'   summary afterwards. The grouping occurs at `deploymentID` level and by the
+#'   `group_time_by` argument.
 #' @param group_time_by A character string indicating the time unit to group the
-#' #'   results by. If `NULL`, no time grouping is applied.
+#'   results by. If `NULL`, no time grouping is applied.
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: The ID of the deployment.
 #'   - `group_by` names, e.g. `locationName`.
@@ -148,6 +149,7 @@ summarize_deployment <- function(deployment_id,
   start_date <- deployments %>% 
     dplyr::filter(.data$deploymentID == deployment_id) %>%
     dplyr::pull("deploymentStart")
+  # Find date of the start and end of the given calendar period
   start_floor_date <- calendar_floor_date(start_date, group_time_by)
   start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
   end_date <- deployments %>% 
@@ -175,23 +177,30 @@ summarize_deployment <- function(deployment_id,
     )
   }
   
-  effort_per_deploy_df <- dplyr::tibble(start = start_date_series,
-                                        end = end_date_series) %>%
-    dplyr::mutate(deploymentID = deployment_id) %>%
-    dplyr::left_join(deployments,
-                     by = "deploymentID",
-                     relationship = "many-to-one",
-                     unmatched = "drop") %>%
-    # Calculate effort duration for each time group
-    dplyr::mutate(effort_duration = lubridate::as.duration(
-      pmin(.data$end, .data$deploymentEnd) -
-        pmax(.data$start, .data$deploymentStart))) %>%
-    dplyr::select(
-      dplyr::any_of(c(group_by, "start", "effort_duration")))
-  if (!is.null(group_time_by)) {
-    effort_per_deploy_df %>%
-      dplyr::rename(!!group_time_by := start)
-  } else {
-    effort_per_deploy_df
-  }
+  effort_per_deploy_df <-
+  dplyr::tibble(
+    start = start_date_series,
+    end = end_date_series
+  ) %>%
+  dplyr::mutate(deploymentID = deployment_id) %>%
+  dplyr::left_join(
+    deployments,
+    by = "deploymentID",
+    relationship = "many-to-one",
+    unmatched = "drop"
+  ) %>%
+  # Calculate effort duration for each time group
+  dplyr::mutate(effort_duration = lubridate::as.duration(
+    pmin(.data$end, .data$deploymentEnd) -
+      pmax(.data$start, .data$deploymentStart)
+  )) %>%
+  dplyr::select(
+    dplyr::any_of(c(group_by, "start", "effort_duration"))
+  )
+if (!is.null(group_time_by)) {
+  effort_per_deploy_df %>%
+    dplyr::rename(!!group_time_by := start)
+} else {
+  effort_per_deploy_df
+}
 }

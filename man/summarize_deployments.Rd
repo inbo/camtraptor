@@ -35,8 +35,7 @@ package). Duration is always recorded as a fixed number of seconds. See
 }
 }
 \description{
-This function is intended to summarize deployments information, such as the
-effort.
+Summarizes deployments information, more specifically the duration effort.
 }
 \details{
 \code{summarize_deployments()} and \code{summarise_deployments()} are synonyms.

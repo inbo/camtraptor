@@ -1,7 +1,6 @@
 #' Summarize deployments information
 #' 
-#' This function is intended to summarize deployments information, such as the
-#' effort.
+#' Summarizes deployments information, more specifically the duration effort.
 #' 
 #' `summarize_deployments()` and `summarise_deployments()` are synonyms.
 #' 
@@ -121,7 +120,7 @@ summarise_deployments <- summarize_deployments
 
 #' Summarize deployment information
 #' 
-#' This function summarizes the deployment information for a given deployment.
+#' Summarizes the deployments information for a given deployment.
 #' It is the core function used in `summarize_deployments()`.
 #' 
 #' @param deployment_id The deployment ID to summarize.

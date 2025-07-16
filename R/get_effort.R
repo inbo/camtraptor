@@ -4,9 +4,11 @@
 #' 
 #' Gets the effort (deployment duration) per deployment.
 #' 
-#' This function is deprecated. Please use [summarize_deployments()] instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_deployments()]
+#' instead.
 #'
-#' @param unit Deprecated and not supported anymore. 
+#' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
+#'   effort. Not supported anymore.
 #' @inheritParams n_species
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.

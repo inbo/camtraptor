@@ -3,17 +3,20 @@
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' Gets the effort for each deployment and a specific time interval such as day,
-#' week, month or year. A custom time window can also be set up. This function
-#' calls `camtrapR_cameraOperation()` internally.
+#' week, month or year. 
 #' 
-#' This function is deprecated. Please use [summarize_deployments()] instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_deployments()]
+#' instead.
 #'
-#' @param start Deprecated and not supported anymore. Use `filter_deployments()` to filter out deployments.
-#' @param end Deprecated and not supported anymore.  Use `filter_deployments()` to filter out deployments.
+#' @param start `r lifecycle::badge("deprecated")` if not `NULL `. Not supported
+#'   anymore. Use `filter_deployments()` to filter out deployments.
+#' @param end `r lifecycle::badge("deprecated")` if not `NULL `. Not supported
+#'   anymore. Use `filter_deployments()` to filter out deployments.
 #' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`.
 #'   Default: `NULL`. See `group_time_by` argument in
 #'   `[summarize_deployments()]`.
-#' @param unit Deprecated and not supported anymore.
+#' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
+#'   effort. Not supported anymore.
 #' @inheritParams n_species
 #' @inherit summarize_deployments return
 #' @export

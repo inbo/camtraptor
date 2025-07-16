@@ -10,15 +10,18 @@ get_custom_effort(x, start = NULL, end = NULL, group_by = NULL, unit = "hour")
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{start}{Deprecated and not supported anymore. Use \code{filter_deployments()} to filter out deployments.}
+\item{start}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if not \code{NULL }. Not supported
+anymore. Use \code{filter_deployments()} to filter out deployments.}
 
-\item{end}{Deprecated and not supported anymore.  Use \code{filter_deployments()} to filter out deployments.}
+\item{end}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if not \code{NULL }. Not supported
+anymore. Use \code{filter_deployments()} to filter out deployments.}
 
 \item{group_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"year"}.
 Default: \code{NULL}. See \code{group_time_by} argument in
 \verb{[summarize_deployments()]}.}
 
-\item{unit}{Deprecated and not supported anymore.}
+\item{unit}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The unit used to quantify the
+effort. Not supported anymore.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -36,10 +39,10 @@ package). Duration is always recorded as a fixed number of seconds. See
 }
 \details{
 Gets the effort for each deployment and a specific time interval such as day,
-week, month or year. A custom time window can also be set up. This function
-calls \code{camtrapR_cameraOperation()} internally.
+week, month or year.
 
-This function is deprecated. Please use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_deployments]{summarize_deployments()}}
+instead.
 }
 \examples{
 x <- example_dataset()

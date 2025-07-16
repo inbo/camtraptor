@@ -10,7 +10,8 @@ get_effort(x, unit = "hour")
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{unit}{Deprecated and not supported anymore.}
+\item{unit}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The unit used to quantify the
+effort. Not supported anymore.}
 }
 \value{
 A tibble data frame with following columns:
@@ -26,7 +27,8 @@ package).
 \details{
 Gets the effort (deployment duration) per deployment.
 
-This function is deprecated. Please use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_deployments]{summarize_deployments()}}
+instead.
 }
 \examples{
 x <- example_dataset()

@@ -33,15 +33,7 @@
 #'   group_time_by = "day"
 #' )
 #' 
-#' # Return effort per `deploymentID` and `locationName`, by month
-#' summarize_deployments(
-#'  x,
-#'  group_by = c("deploymentID", "locationName"),
-#'  group_time_by = "month"
-#' )
-#' 
-#' # Return the effort per `deploymentID` and `locationName` No grouping by
-#' time.
+#' # Return effort per `deploymentID` and `locationName`. No grouping by time.
 #' summarize_deployments(
 #'   x,
 #'   group_by = c("deploymentID", "locationName")

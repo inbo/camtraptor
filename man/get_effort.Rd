@@ -10,47 +10,27 @@ get_effort(x, unit = "hour")
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{unit}{Time unit to use while returning deployment effort (duration).
-One of:
-\itemize{
-\item \code{second}
-\item \code{minute}
-\item \code{hour}
-\item \code{day}
-\item \code{month}
-\item \code{year}
-}}
+\item{unit}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The unit used to quantify the
+effort. Not supported anymore.}
 }
 \value{
 A tibble data frame with following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
-\item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
-\item \code{unit}: The unit used to express the effort.
-One of the values available for parameter \code{unit}.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
 package).
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Gets the effort (deployment duration) per deployment.
+
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_deployments]{summarize_deployments()}}
+instead.
 }
 \examples{
 x <- example_dataset()
-
-# Efforts expressed in hours
 get_effort(x)
-
-# Effort expressed as days
-get_effort(x, unit = "day")
 }
-\seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{n_species}()}
-}
-\concept{exploration functions}

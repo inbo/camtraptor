@@ -219,7 +219,7 @@ get_dep_no_obs <- function(x) {
 #'
 #' While assessing the camera operation matrix, start and end day are edge
 #' case. The daily effort is a real number between 0 and 1 as and is defined as
-#' the fraction of the day the camera was on
+#' the fraction of the day the camera was on.
 #'
 #' @noRd
 calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
@@ -257,6 +257,66 @@ calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
     # calculate the fraction of the duration of the active part
     dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
     dplyr::pull(.data$daily_effort)
+}
+
+#' Find date of the begin of the given calendar period
+#' 
+#' This function calculates the date of the calendar start based on the
+#' time period defined in `group_time_by`.
+#' 
+#' @param my_date A datetime object.
+#' @param period `NULL` or character, one of:
+#'  - `day`
+#'  - `week`
+#'  - `month`
+#'  - `year`
+#' @return A date object with the calendar start of the time group.
+#' @noRd
+calendar_floor_date <- function(my_date, period) {
+  if (is.null(period)) {
+    my_date
+  } else if (period == "day") {
+    lubridate::floor_date(my_date, unit = "day")
+  } else if (period == "week") {
+    lubridate::floor_date(my_date, unit = "week")
+  } else if (period == "month") {
+    lubridate::floor_date(my_date, unit = "month")
+  } else if (period == "year") {
+    lubridate::floor_date(my_date, unit = "year")
+  }
+  else {
+    stop(glue::glue("Unknown period value: {period}."))
+  }
+}
+
+#' Find date of the end of the given calendar period
+#' 
+#' This function calculates the date of the calendar end based on the
+#' time period defined in `group_time_by`.
+#' 
+#' @param my_date A datetime object.
+#' @param period `NULL` or character, one of:
+#'  - `day`
+#'  - `week`
+#'  - `month`
+#'  - `year`
+#' @return A date object with the calendar end of the time period.
+#' @noRd
+calendar_ceiling_date <- function(my_date, period) {
+  if (is.null(period)) {
+    my_date
+  } else if (period == "day") {
+    lubridate::ceiling_date(my_date, unit = "day")
+  } else if (period == "week") {
+    lubridate::ceiling_date(my_date, unit = "week")
+  } else if (period == "month") {
+    lubridate::ceiling_date(my_date, unit = "month")
+  } else if (period == "year") {
+    lubridate::ceiling_date(my_date, unit = "year")
+  }
+  else {
+    stop(glue::glue("Unknown period value: {period}"))
+  }
 }
 
 #' Predict radial distance

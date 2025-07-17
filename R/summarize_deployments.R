@@ -65,18 +65,7 @@ summarize_deployments <- function(x,
   group_bys <- c("deploymentID", "locationID", "locationName", "deploymentTags")
   check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
   
-  # Check `group_time_by`
-  assertthat::assert_that(
-    is.null(group_time_by) | length(group_time_by) == 1,
-    msg = "`group_time_by` must have length 1 or NULL."
-  )
-  group_time_bys <- c( "day", "week", "month", "year")
-  check_value(
-    group_time_by,
-    group_time_bys,
-    "group_time_by",
-    null_allowed = TRUE
-  )
+  check_group_time_by(group_time_by)
   
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")

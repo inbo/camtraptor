@@ -70,6 +70,22 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   }
 }
 
+check_group_time_by <- function(
+    group_time_by,
+    group_time_bys = c( "day", "week", "month", "year")
+) {
+  assertthat::assert_that(
+    is.null(group_time_by) | length(group_time_by) == 1,
+    msg = "`group_time_by` must have length 1 or NULL."
+  )
+  check_value(
+    group_time_by,
+    group_time_bys,
+    "group_time_by",
+    null_allowed = TRUE
+  )
+}
+
 #' Get version from data package profile
 #'
 #' This helper functions returns the version of a Camera Trap Data Package by

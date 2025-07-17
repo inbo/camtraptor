@@ -65,7 +65,9 @@ summarize_deployments <- function(x,
   group_bys <- c("deploymentID", "locationID", "locationName", "deploymentTags")
   check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
   
-  check_group_time_by(group_time_by)
+  # Check `group_time_by`
+  group_time_bys <- c("day", "week", "month", "year")
+  check_group_time_by(group_time_by, group_time_bys)
   
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")

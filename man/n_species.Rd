@@ -39,6 +39,7 @@ Other exploration functions:
 \code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
-\code{\link{summarize_deployments}()}
+\code{\link{summarize_deployments}()},
+\code{\link{summarize_observations}()}
 }
 \concept{exploration functions}

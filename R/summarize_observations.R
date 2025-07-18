@@ -39,7 +39,7 @@
 summarize_observations <- function(x,
                                    group_by = c("deploymentID"),
                                    group_time_by = NULL) {
-   # Check camera trap data package
+  # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
   # Check `group_by`
@@ -73,14 +73,46 @@ summarize_observations <- function(x,
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")
   
-  # Create summary
-  n_observations(deployment_ids = deployment_ids,
-                 deployments = deployments,
-                 observations = observations,
-                 group_by_deployments = group_by_deployments,
-                 group_by_observations = group_by_observations,
-                 group_time_by = group_time_by)
-
+  
+  # Define the formula for the number of observations per deployment
+  formula_n_obs_per_dep <- rlang::expr(
+    n_observations := dplyr::n_distinct(.data$observationID)
+  )
+  # Define the formula for the total number of observations
+  formula_n_obs <- rlang::expr(
+    n_observations := sum(.data$n_observations, na.rm = TRUE)
+  )
+                       
+  # Calculate n_observations
+  n_obs_df <- calc_obs_feature(deployment_ids = deployment_ids,
+                               deployments = deployments,
+                               observations = observations,
+                               group_by_deployments = group_by_deployments,
+                               group_by_observations = group_by_observations,
+                               group_time_by = group_time_by,
+                               formula_per_deployment = formula_n_obs_per_dep,
+                               formula_total = formula_n_obs
+  )
+  
+  # Define the formula for the sum of individual counts per deployment
+  formula_sum_count_per_dep <- rlang::expr(
+    sum_count := sum(.data$count, na.rm = TRUE)
+  )
+  # Calculate sum_count (sum of individual counts)
+  formula_sum_count <- rlang::expr(
+    sum_count := sum(.data$sum_count, na.rm = TRUE)
+  )
+  sum_count_df <- calc_obs_feature(
+    deployment_ids = deployment_ids,
+    deployments = deployments,
+    observations = observations,
+    group_by_deployments = group_by_deployments,
+    group_by_observations = group_by_observations,
+    group_time_by = group_time_by,
+    formula_per_deployment = formula_sum_count_per_dep,
+    formula_total = formula_sum_count
+  )
+  sum_count_df
 }
 #' @rdname summarize_deployments
 #' @export

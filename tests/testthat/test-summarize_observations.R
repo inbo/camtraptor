@@ -29,9 +29,52 @@ test_that("summarize_observations() returns error for invalid group_time_by", {
   )
 })
 
+testthat::test_that(
+  paste0(
+    "summarize_observations() returns correct summary for grouping by ",
+    "deploymentID and scientificName (default)"), {
+      skip_if_offline()
+      x <- example_dataset()  
+      summary <- summarize_observations(
+        x,
+        group_by = c("deploymentID", "scientificName")
+      )
+      # Check that the `summary` has the expected columns
+      expect_equal(
+        c("deploymentID", "scientificName", "n_observations"),
+        names(summary)
+      )
+      # All deployments are present
+      expect_true(all(purrr::pluck(deployments(x), "deploymentID") %in%
+                        summary$deploymentID)
+      )
+      # All scientific names are present
+      x <- x %>% filter_observations(.data$observationLevel == "event")
+      expect_true(all(
+        unique(purrr::pluck(observations(x), "scientificName")) %in%
+          summary$scientificName
+      ))
+    })
+
+testthat::test_that(
+  "summarize_observations() takes into account only event-based observations", {
+    skip_if_offline()
+    x <- example_dataset()
+    summary <- summarize_observations(x)
+    x_event_obs <- x %>%
+      filter_observations(.data$observationLevel == "event")
+    summary_event_obs <- summarize_observations(
+      x_event_obs
+    )
+    expect_identical(
+      summary,
+      summary_event_obs
+    )
+  })
+
 test_that(
   paste0("summarize_observations() returns correct summary for grouping by ",
-         "deploymentID only"), {
+         "deploymentID, i.e. no grouping by observations columns"), {
     skip_if_offline()
     x <- example_dataset()
     summary <- summarize_observations(x, group_by = "deploymentID")
@@ -66,23 +109,6 @@ test_that(
 })
 
 testthat::test_that(
-  "summarize_observations() takes into account only event-based observations", {
-    skip_if_offline()
-    x <- example_dataset()
-    summary <- summarize_observations(x, group_by = "deploymentID")
-    x_event_obs <- x %>%
-      filter_observations(.data$observationLevel == "event")
-    summary_event_obs <- summarize_observations(
-      x_event_obs,
-      group_by = "deploymentID"
-    )
-  expect_identical(
-    summary,
-    summary_event_obs
-  )
-})
-
-testthat::test_that(
   "Deployments without observations are not included in the summary", {
     skip_if_offline()
     x <- example_dataset()
@@ -99,37 +125,11 @@ testthat::test_that(
     expect_identical(summary_one_deploy$n_observations, 14L)
 })
 
-testthat::test_that(
-  paste0(
-    "summarize_observations() returns correct summary for grouping by ",
-    "deploymentID and scientificName (default)"), {
-    skip_if_offline()
-    x <- example_dataset()  
-    summary <- summarize_observations(
-      x,
-      group_by = c("deploymentID", "scientificName")
-    )
-    # Check that the `summary` has the expected columns
-    expect_equal(
-      c("deploymentID", "scientificName", "n_observations"),
-      names(summary)
-    )
-    # All deployments are present
-    expect_true(all(purrr::pluck(deployments(x), "deploymentID") %in%
-                      summary$deploymentID)
-    )
-    # All scientific names are present
-    x <- x %>% filter_observations(.data$observationLevel == "event")
-    expect_true(all(
-      unique(purrr::pluck(observations(x), "scientificName")) %in%
-        summary$scientificName
-    ))
-})
 
 testthat::test_that(
   paste0(
-    "summarize_observations() returns correct summary for lifeStage, ",
-    "i.e. no deployments columns"), {
+    "summarize_observations() returns correct summary for grouping by ",
+    "lifeStage, i.e. no grouping by deployments columns"), {
     skip_if_offline()
     x <- example_dataset()
     summary <- summarize_observations(x, group_by = "lifeStage")

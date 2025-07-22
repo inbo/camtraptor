@@ -35,13 +35,10 @@ testthat::test_that(
     "deploymentID and scientificName (default)"), {
       skip_if_offline()
       x <- example_dataset()  
-      summary <- summarize_observations(
-        x,
-        group_by = c("deploymentID", "scientificName")
-      )
+      summary <- summarize_observations(x)
       # Check that the `summary` has the expected columns
       expect_equal(
-        c("deploymentID", "scientificName", "n_observations"),
+        c("deploymentID", "scientificName", "n_observations", "sum_count"),
         names(summary)
       )
       # All deployments are present
@@ -54,6 +51,11 @@ testthat::test_that(
         unique(purrr::pluck(observations(x), "scientificName")) %in%
           summary$scientificName
       ))
+      # Correct type of columns
+      expect_true(is.character(summary$deploymentID))
+      expect_true(is.character(summary$scientificName))
+      expect_true(is.integer(summary$n_observations))
+      expect_true(is.integer(summary$sum_count))
     })
 
 testthat::test_that(
@@ -70,7 +72,7 @@ testthat::test_that(
       summary,
       summary_event_obs
     )
-  })
+})
 
 test_that(
   paste0("summarize_observations() returns correct summary for grouping by ",
@@ -87,10 +89,12 @@ test_that(
       c("tbl_df", "tbl", "data.frame")
     )
     # Check that the `summary` has the expected columns
-    expect_equal(c("deploymentID", "n_observations"), names(summary))
+    expect_equal(c("deploymentID", "n_observations", "sum_count"), names(summary))
     
     # Check that `deploymentID` is a character
     expect_true(is.character(summary$deploymentID))
+    # Check that `n_observations` is a number
+    expect_true(is.numeric(summary$n_observations))
     # Check that `n_observations` is a number
     expect_true(is.numeric(summary$n_observations))
     
@@ -105,7 +109,25 @@ test_that(
     )
 
     # Number of observations returned is correct
-    expect_identical(summary$n_observations, c(14L, 11L, 6L, 5L))
+    n_observations <- example_dataset() %>%
+      filter_observations(.data$observationLevel == "event") %>%
+      observations() %>%
+      dplyr::group_by(deploymentID) %>%
+      dplyr::summarise(n_obs = dplyr::n_distinct(.data$observationID)) %>%
+      dplyr::ungroup() %>%
+      dplyr::pull(n_obs)
+    expect_identical(summary$n_observations, n_observations)
+    # Sum of individual counts returned is correct
+    sum_individual_counts <- x %>%
+      filter_observations(.data$observationLevel == "event") %>%
+      observations() %>%
+      dplyr::group_by(deploymentID) %>%
+      dplyr::summarise(sum_count = as.integer(
+        sum(.data$count, na.rm = TRUE))
+      ) %>%
+      dplyr::ungroup() %>%
+      dplyr::pull(sum_count)
+    expect_identical(summary$sum_count, sum_individual_counts)
 })
 
 testthat::test_that(
@@ -123,6 +145,7 @@ testthat::test_that(
     expect_equal(nrow(summary_one_deploy), 1)
     expect_identical(summary_one_deploy$deploymentID, "00a2c20d")
     expect_identical(summary_one_deploy$n_observations, 14L)
+    expect_identical(summary_one_deploy$sum_count, 26L)
 })
 
 
@@ -135,7 +158,7 @@ testthat::test_that(
     summary <- summarize_observations(x, group_by = "lifeStage")
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("lifeStage", "n_observations"),
+      c("lifeStage", "n_observations", "sum_count"),
       names(summary)
     )
   # No deployments info is present
@@ -146,4 +169,63 @@ testthat::test_that(
     unique(purrr::pluck(observations(x), "lifeStage")) %in%
       summary$lifeStage
   ))
+  
+  # Correct type of columns
+  expect_true(is.factor(summary$lifeStage))
+  expect_true(is.integer(summary$n_observations))
+  expect_true(is.integer(summary$sum_count))
+  
+  # Total number of observations is preserved
+  expect_true(
+    sum(summary$n_observations) ==
+      nrow(observations(x))
+  )
+  # Total number of individuals is preserved
+  expect_true(
+    sum(summary$sum_count) ==
+      sum(purrr::pluck(observations(x), "count"), na.rm = TRUE)
+  )
+})
+
+testthat::test_that(
+  "summarize_observations() returns correct summary when grouping by time", {
+    skip_if_offline()
+    x <- example_dataset()
+    summary <- summarize_observations(x, group_time_by = "day")
+    
+    # Check that the `summary` has the expected columns
+    expect_equal(
+      c("deploymentID", "scientificName", "day", "n_observations", "sum_count"),
+      names(summary)
+    )
+    
+    # All dates are present
+    x_events <- x %>% filter_observations(.data$observationLevel == "event")
+    expect_true(all(
+      unique(
+        lubridate::as_datetime(
+          lubridate::as_date(purrr::pluck(observations(x_events), "eventStart"))
+        ) %in%
+        summary$day
+      )
+    ))
+    
+    # Correct type of columns
+    expect_true(is.character(summary$deploymentID))
+    expect_true(is.character(summary$scientificName))
+    expect_true(lubridate::is.timepoint(summary$day))
+    expect_true(is.integer(summary$n_observations))
+    expect_true(is.integer(summary$sum_count))
+    
+    # Total number of observations is preserved
+    expect_true(
+      sum(summary$n_observations) ==
+        nrow(observations(x_events))
+    )
+    
+    # Total number of individuals is preserved
+    expect_true(
+      sum(summary$sum_count) ==
+        sum(purrr::pluck(observations(x_events), "count"), na.rm = TRUE)
+    )
 })

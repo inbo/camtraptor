@@ -11,7 +11,11 @@ summarize_deployments(x, group_by = "deploymentID", group_time_by = NULL)
 
 summarise_deployments(x, group_by = "deploymentID", group_time_by = NULL)
 
-summarise_observations(x, group_by = c("deploymentID"), group_time_by = NULL)
+summarise_observations(
+  x,
+  group_by = c("deploymentID", "scientificName"),
+  group_time_by = NULL
+)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by

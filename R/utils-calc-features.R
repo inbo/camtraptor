@@ -17,6 +17,8 @@
 #'   `"year"`. The effort is calculated at the interval rate defined in
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
 #'   the deployment is taken into account as a whole.
+#' @param col_obs_for_feature Character. The column in `observations` to use for
+#'  the feature calculation.
 #' @param formula_per_deployment A formula to calculate the feature per
 #'   deployment.
 #' @param formula_total A formula to calculate the feature over all deployments.
@@ -25,11 +27,24 @@
 calc_obs_feature <- function(deployment_ids,
                              deployments,
                              observations,
-                             group_by_deployments = group_by_deployments,
-                             group_by_observations = group_by_observations,
+                             group_by_deployments,
+                             group_by_observations,
                              group_time_by,
+                             col_obs_for_feature,
                              formula_per_deployment,
                              formula_total) {
+  # Check that `col_obs_for_feature` is of length 1
+  assertthat::assert_that(
+    length(col_obs_for_feature) == 1,
+    msg = "col_obs_for_feature must have length 1"
+  )
+  # Check that `col_obs_for_feature` is a valid column in `observations`
+  check_value(
+    col_obs_for_feature,
+    colnames(observations),
+    "col_obs_for_feature",
+    null_allowed = FALSE
+  )
   # Number of observations per `deploymentID` and `group_time_by`. It contains
   # also the deployment columns in `group_by_deployments` and the observation
   # columns in `group_by_observations`
@@ -41,9 +56,9 @@ calc_obs_feature <- function(deployment_ids,
       group_by_deployments = group_by_deployments,
       group_by_observations = group_by_observations,
       group_time_by = group_time_by,
+      col_obs_for_feature = col_obs_for_feature,
       formula = formula_per_deployment
-    )
-    )
+    ))
   feat_per_deploy <- purrr::list_rbind(feat_per_deploy)
   
   # Calculate the number of observations over all deployments grouped by
@@ -71,6 +86,7 @@ calc_obs_feature_per_deployment <- function(deployment_id,
                                             group_by_deployments,
                                             group_by_observations,
                                             group_time_by,
+                                            col_obs_for_feature,
                                             formula) {
   feature_col_name <- rlang::f_lhs(formula)
   feature_calc <- rlang::f_rhs(formula)
@@ -81,8 +97,10 @@ calc_obs_feature_per_deployment <- function(deployment_id,
       deployment_id = deployment_id,
       deployments = deployments,
       observations = observations,
-      group_by = group_by_deployments,
-      group_time_by = group_time_by
+      group_by_deployments = group_by_deployments,
+      group_by_observations = group_by_observations,
+      group_time_by = group_time_by,
+      col_obs_for_feature = col_obs_for_feature
     ) %>%
       # Group by deploymentID and any additional grouping variables given in
       # `group_by_deployments` and `group_by_observations`
@@ -94,7 +112,7 @@ calc_obs_feature_per_deployment <- function(deployment_id,
       # Calculate number of observations (`observationID`) per group. Use function
       # in `func` in `dplyr::summarise()` with arg `col_to_use` to specify the
       # column. The new column is named based on `col_to_create` value.
-      dplyr::summarise(!!feature_col := !!feature_calc) %>%
+      dplyr::summarise(!!feature_col_name := !!feature_calc) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::any_of(c(group_by_deployments,
                                     group_by_observations,
@@ -112,7 +130,7 @@ calc_obs_feature_per_deployment <- function(deployment_id,
         ), ~ character(0)
       )) %>%
       dplyr::mutate(start = lubridate::as_datetime(character(0))) %>%
-      dplyr::mutate(!!feature_col = integer(0))
+      dplyr::mutate(!!feature_col_name := integer(0))
   }
   if (!is.null(group_time_by)) {
     feat_one_deploy_df %>%

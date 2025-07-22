@@ -541,7 +541,13 @@ enrich_deployment <- function(deployment_id,
 #' given time grouping. This function is an extension of `enrich_deployment()`.
 #' 
 #' @param observations A data frame containing observation information of a
-#'   given deployment.
+#'  given deployment.
+#' @param group_by_deployments A character vector of deployment column names to
+#'  add to the date series.
+#' @param group_by_observations A character vector of observation column names
+#'  to add to the date series.
+#' @param col_obs_for_feature A character vector of observation columns to add
+#'  to the date series.
 #' @inheritParams enrich_deployment
 #' @return A tibble data frame with start/end dates, the deployment ID, the
 #'   columns in `group_by` and the observations columns. If `deployment_id` not
@@ -550,16 +556,28 @@ enrich_deployment <- function(deployment_id,
 enrich_observations <- function(deployment_id,
                                 deployments,
                                 observations,
-                                group_by,
-                                group_time_by) {
+                                group_by_deployments,
+                                group_by_observations,
+                                group_time_by,
+                                col_obs_for_feature) {
   if (deployment_id %in% observations$deploymentID) {
     observations %>%
+      dplyr::select("deploymentID",
+                    "eventStart",
+                    dplyr::any_of(group_by_observations),
+                    dplyr::any_of(col_obs_for_feature)) %>%
       dplyr::left_join(enrich_deployment(deployment_id = deployment_id,
                                          deployments = deployments,
-                                         group_by = group_by,
+                                         group_by = group_by_deployments,
                                          group_time_by = group_time_by),
-                       by = "deploymentID"
-    )
+                       by = dplyr::join_by(deploymentID,
+                                           dplyr::between(
+                                             x = x$eventStart,
+                                             y$start,
+                                             y$end
+                                           )
+                       )
+      )
   } else {
     NULL
   }

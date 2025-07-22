@@ -4,7 +4,11 @@
 \alias{summarize_observations}
 \title{Summarize observations information}
 \usage{
-summarize_observations(x, group_by = c("deploymentID"), group_time_by = NULL)
+summarize_observations(
+  x,
+  group_by = c("deploymentID", "scientificName"),
+  group_time_by = NULL
+)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -24,9 +28,11 @@ the deployment is taken into account as a whole.}
 A tibble data frame with the following columns:
 \itemize{
 \item \code{group_by} names, e.g. \code{deploymentID} and \code{locationName}.
-\item \code{group_time_by} name if provided, e.g. \code{month}. It contains the first
-date of the time interval, e.g. the first day of the month.
-\item \code{n_observations}: Number of observations.
+\item \code{group_time_by} name if provided, e.g. \code{month}. It is a datetime column
+containing the first date of the time interval, e.g. the first day of the
+month.
+\item \code{n_observations}: integer vector with the number of observations.
+\item \code{sum_count}: integer vector with the sum of individual counts.
 }
 }
 \description{
@@ -44,7 +50,7 @@ Summarizes event-based observations by calculating:
 }
 \examples{
 x <- example_dataset()
-# Summarize observations by `deploymentID` (default)
+# Summarize observations by `deploymentID` and `scientificName` (default)
 summarize_observations(x)
 
 # Summarize observations by `deploymentID` and month

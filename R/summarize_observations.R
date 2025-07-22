@@ -21,14 +21,16 @@
 #' @inheritParams summarize_deployments
 #' @return A tibble data frame with the following columns:
 #'   - `group_by` names, e.g. `deploymentID` and `locationName`.
-#'   - `group_time_by` name if provided, e.g. `month`. It contains the first
-#'   date of the time interval, e.g. the first day of the month.
-#'   - `n_observations`: Number of observations.
+#'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
+#'   containing the first date of the time interval, e.g. the first day of the
+#'   month.
+#'   - `n_observations`: integer vector with the number of observations.
+#'   - `sum_count`: integer vector with the sum of individual counts.
 #' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' # Summarize observations by `deploymentID` (default)
+#' # Summarize observations by `deploymentID` and `scientificName` (default)
 #' summarize_observations(x)
 #'
 #' # Summarize observations by `deploymentID` and month
@@ -36,9 +38,10 @@
 #'
 #' # Summarize observations by `locationId`, and `locationName`
 #' #' summarize_observations(x, group_by = "locationName")
-summarize_observations <- function(x,
-                                   group_by = c("deploymentID"),
-                                   group_time_by = NULL) {
+summarize_observations <- function(
+    x,
+    group_by = c("deploymentID", "scientificName"),
+    group_time_by = NULL) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
   
@@ -82,7 +85,6 @@ summarize_observations <- function(x,
   formula_n_obs <- rlang::expr(
     n_observations := sum(.data$n_observations, na.rm = TRUE)
   )
-                       
   # Calculate n_observations
   n_obs_df <- calc_obs_feature(deployment_ids = deployment_ids,
                                deployments = deployments,
@@ -90,13 +92,14 @@ summarize_observations <- function(x,
                                group_by_deployments = group_by_deployments,
                                group_by_observations = group_by_observations,
                                group_time_by = group_time_by,
+                               col_obs_for_feature = "observationID",
                                formula_per_deployment = formula_n_obs_per_dep,
                                formula_total = formula_n_obs
   )
   
   # Define the formula for the sum of individual counts per deployment
   formula_sum_count_per_dep <- rlang::expr(
-    sum_count := sum(.data$count, na.rm = TRUE)
+    sum_count := as.integer(sum(.data$count, na.rm = TRUE))
   )
   # Calculate sum_count (sum of individual counts)
   formula_sum_count <- rlang::expr(
@@ -109,10 +112,17 @@ summarize_observations <- function(x,
     group_by_deployments = group_by_deployments,
     group_by_observations = group_by_observations,
     group_time_by = group_time_by,
+    col_obs_for_feature = "count",
     formula_per_deployment = formula_sum_count_per_dep,
     formula_total = formula_sum_count
   )
-  sum_count_df
+  
+  # Join the features
+  dplyr::left_join(
+    n_obs_df,
+    sum_count_df,
+    by = c(group_by_deployments, group_by_observations, group_time_by)
+  )
 }
 #' @rdname summarize_deployments
 #' @export

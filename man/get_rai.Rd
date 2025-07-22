@@ -56,7 +56,6 @@ x \%>\%
 \seealso{
 Other exploration functions: 
 \code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
 \code{\link{get_rai_individuals}()},
 \code{\link{n_species}()},
 \code{\link{summarize_deployments}()},

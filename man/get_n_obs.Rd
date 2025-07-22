@@ -11,50 +11,23 @@ get_n_obs(x)
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{
-A tibble data frame with the following columns:
+A tibble data frame with following columns:
 \itemize{
-\item \code{deploymentID}: Deployment unique identifier.
-\item \code{scientificName}: Scientific name of the species.
-\item \code{n}: Number of observations.
+\item \code{deploymentID}: deployment unique identifier.
+\item \code{n_observations}: intger vector with the number of observations.
+\item \code{sum_count}: integer vector with the sum of the count of individuals.
+\item \code{rai}: numeric vector with the relative abundance index (RAI) based on
+number of observations.
+\item \code{rai_individuals}: numeric vector with the RAI based on the count of
+individuals.
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Gets the number of observations per deployment.
-The number of observations is defined as the number of distinct sequences
-(\code{sequenceID}).
+
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
+instead.
 }
-\examples{
-x <- example_dataset()
-
-# Get number of individuals for each species
-get_n_obs(x)
-
-# Use `filter_observations()` to filter on  scientific name
-x \%>\%
-  filter_observations(
-    scientificName \%in\% c("Anas platyrhynchos", "Vulpes vulpes")
-  ) \%>\%
-  get_n_obs()
-
-# Use `filter_observations()` to filter on vernacular name
-x \%>\%
-  filter_observations(taxon.vernacularNames.eng == "mallard") \%>\%
-  get_n_obs()
-
-# Get number of individuals per deployment
-x \%>\%
-  get_n_obs() \%>\%
-  dplyr::group_by(.data$deploymentID) \%>\%
-  dplyr::summarise(n = sum(.data$n)) \%>\%
-  dplyr::ungroup()
-}
-\seealso{
-Other exploration functions: 
-\code{\link{get_n_individuals}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{n_species}()},
-\code{\link{summarize_deployments}()},
-\code{\link{summarize_observations}()}
-}
-\concept{exploration functions}

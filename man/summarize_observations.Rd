@@ -62,7 +62,6 @@ summarize_observations(x, group_time_by = "month")
 \seealso{
 Other exploration functions: 
 \code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
 \code{\link{get_rai}()},
 \code{\link{get_rai_individuals}()},
 \code{\link{n_species}()},

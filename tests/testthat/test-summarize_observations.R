@@ -372,28 +372,28 @@ test_that("get_n_individuals() and some of its args are deprecated", {
 test_that("get_n_individuals() returns the right output", {
   skip_if_offline()
   x <- example_dataset()
-  summary_n_obs <- suppressWarnings(get_n_individuals(x))
+  summary_n_individuals <- suppressWarnings(get_n_individuals(x))
   # Right columns
   expect_equal(
-    names(summary_n_obs),
+    names(summary_n_individuals),
     c("deploymentID", "scientificName", "n")
   )
   # Right types
-  expect_true(is.character(summary_n_obs$deploymentID))
-  expect_true(is.character(summary_n_obs$scientificName))
-  expect_true(is.integer(summary_n_obs$n))
+  expect_true(is.character(summary_n_individuals$deploymentID))
+  expect_true(is.character(summary_n_individuals$scientificName))
+  expect_true(is.integer(summary_n_individuals$n))
   # Same output as summary_observations() with grouping by deploymentID and scientificName
   expect_identical(
-    summary_n_obs,
+    summary_n_individuals,
     summarize_observations(x,
                            group_by = c("deploymentID", "scientificName")) %>%
       dplyr::rename(n = sum_count) %>%
       dplyr::select(deploymentID, scientificName, n)
   )
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by species
-  summary_n_obs <- suppressWarnings(get_n_individuals(x, species = c("Anas strepera")))
+  summary_n_individuals <- suppressWarnings(get_n_individuals(x, species = c("Anas strepera")))
   expect_identical(
-    summary_n_obs,
+    summary_n_individuals,
     summarize_observations(
       x %>% filter_observations(scientificName == "Anas strepera"),
       group_by = c("deploymentID", "scientificName")
@@ -404,11 +404,11 @@ test_that("get_n_individuals() returns the right output", {
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by lifeStage and sex
   life_stages <- c("adult", "subadult")
   sex_values <- c("female", "male")
-  summary_n_obs <- suppressWarnings(
+  summary_n_individuals <- suppressWarnings(
     get_n_individuals(x, sex = sex_values, life_stage = life_stages)
   )
   expect_identical(
-    summary_n_obs,
+    summary_n_individuals,
     summarize_observations(
       x %>%
         filter_observations(sex %in% sex_values, lifeStage %in% life_stages),

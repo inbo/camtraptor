@@ -4,56 +4,67 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(x)
+get_n_individuals(x, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
+
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.
+Common names are not supported anymore as of camtraptor 1.0.0. Please, check
+\code{filter_observations()} to know how to filter by \code{scientificName}.
+If \code{"all"} (default) all scientific names are automatically selected.
+If \code{NULL} all observations of all species are taken into account.}
+
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex class to filter on, e.g. \code{"female"} or
+\code{c("male", "unknown")}.
+If \code{NULL} (default) all observations of all sex classes are taken into
+account. Please, check
+\code{filter_observations()} to know how to filter by \code{sex}.}
+
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector defining the life stage class to filter
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+If \code{NULL} (default) all observations of all life stage classes are taken
+into account. Please, check \code{filter_observations()} to know how to filter
+by \code{lifeStage}.}
 }
 \value{
 A tibble data frame with the following columns:
 \itemize{
 \item \code{deploymentID}: Deployment unique identifier.
-\item \code{scientificName}: Scientific name of the species. \code{NA} for not identified individuals.
-\item \code{n}: Number of individuals.
+\item \code{scientificName}: Scientific name of the species.
+This column is omitted if parameter \code{species = NULL}.
+\item \code{n}: Number of observations.
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Gets the number of individuals per deployment.
-The number of observed individuals is stored in column \code{count} of
-\code{observations}.
+
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
+instead.
 }
 \examples{
 x <- example_dataset()
 
-# Get number of individuals for each species
+# Get sum of `individualCount` for each species
 get_n_individuals(x)
 
-# Use `filter_observations()` to filter on  scientific name
-x \%>\%
-  filter_observations(
-    scientificName \%in\% c("Anas platyrhynchos", "Vulpes vulpes")
-  ) \%>\%
-  get_n_individuals()
+# Get sum of `individualCount` of all species (unidentified included)
+get_n_individuals(x, species = NULL)
+ 
+# Get number of observations of some species only, e.g. Anas platyrhynchos
+get_n_individuals(x, species = "Anas platyrhynchos")
 
-# Use `filter_observations()` to filter on vernacular name
-x \%>\%
-  filter_observations(taxon.vernacularNames.eng == "mallard") \%>\%
-  get_n_individuals()
+# Specify sex
+get_n_individuals(x, sex = "female")
 
-# Get number of individuals per deployment
-x \%>\%
-  get_n_individuals() \%>\%
-  dplyr::group_by(.data$deploymentID) \%>\%
-  dplyr::summarise(n = sum(.data$n)) \%>\%
-  dplyr::ungroup()
+# Specify life stage
+get_n_individuals(x, life_stage = c("subadult", "adult"))
 }
-\seealso{
-Other exploration functions: 
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{n_species}()},
-\code{\link{summarize_deployments}()},
-\code{\link{summarize_observations}()}
-}
-\concept{exploration functions}

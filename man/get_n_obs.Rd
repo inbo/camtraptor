@@ -4,30 +4,67 @@
 \alias{get_n_obs}
 \title{Get number of observations for each deployment}
 \usage{
-get_n_obs(x)
+get_n_obs(x, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
+
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.
+Common names are not supported anymore as of camtraptor 1.0.0. Please, check
+\code{filter_observations()} to know how to filter by \code{scientificName}.
+If \code{"all"} (default) all scientific names are automatically selected.
+If \code{NULL} all observations of all species are taken into account.}
+
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex class to filter on, e.g. \code{"female"} or
+\code{c("male", "unknown")}.
+If \code{NULL} (default) all observations of all sex classes are taken into
+account. Please, check
+\code{filter_observations()} to know how to filter by \code{sex}.}
+
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector defining the life stage class to filter
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+If \code{NULL} (default) all observations of all life stage classes are taken
+into account. Please, check \code{filter_observations()} to know how to filter
+by \code{lifeStage}.}
 }
 \value{
-A tibble data frame with following columns:
+A tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID}: deployment unique identifier.
-\item \code{n_observations}: intger vector with the number of observations.
-\item \code{sum_count}: integer vector with the sum of the count of individuals.
-\item \code{rai}: numeric vector with the relative abundance index (RAI) based on
-number of observations.
-\item \code{rai_individuals}: numeric vector with the RAI based on the count of
-individuals.
+\item \code{deploymentID}: Deployment unique identifier.
+\item \code{scientificName}: Scientific name of the species.
+This column is omitted if parameter \code{species = NULL}.
+\item \code{n}: Number of observations.
 }
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
-Gets the number of observations per deployment.
+Gets the number of (event-based) observations per deployment.
 
 It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
 instead.
+}
+\examples{
+x <- example_dataset()
+
+# Get number of observations for each species
+get_n_obs(x)
+
+# Get number of obs of all species, not identified individuals as well
+get_n_obs(x, species = NULL)
+ 
+# Get number of observations of Anas platyrhynchos
+get_n_obs(x, species = "Anas platyrhynchos")
+
+# Specify sex
+get_n_obs(x, sex = "female")
+
+# Specify life stage
+get_n_obs(x, life_stage = c("subadult", "adult"))
 }

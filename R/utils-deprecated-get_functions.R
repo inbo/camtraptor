@@ -12,12 +12,13 @@
 #' @return A tibble data frame with summarized observations as returned by
 #'   `summarize_observations()`.
 #' @noRd
-summarize_observations_for_deprecated_functions <- function(x,
-                                                            ...,
-                                                            species = "all",
-                                                            sex = NULL,
-                                                            life_stage = NULL,
-                                                            function_name = NULL) {
+summarize_observations_for_deprecated_functions <- function(
+    x,
+    ...,
+    species = "all",
+    sex = NULL,
+    life_stage = NULL,
+    function_name = NULL) {
   # Check function_name
   assertthat::assert_that(
     rlang::is_character(function_name, n = 1),
@@ -53,14 +54,14 @@ summarize_observations_for_deprecated_functions <- function(x,
   # Check `sex` values
   check_value(
     sex_values,
-    unique(dplyr::pull(observations(x), "sex")),
+    as.character(unique(dplyr::pull(observations(x), "sex"))),
     "sex",
     null_allowed = TRUE
   )
   # Check `life_stage` values
   check_value(
     life_stage,
-    unique(dplyr::pull(observations(x), "lifeStage")),
+    as.character(unique(dplyr::pull(observations(x), "lifeStage"))),
     "lifeStage",
     null_allowed = TRUE
   )
@@ -71,7 +72,7 @@ summarize_observations_for_deprecated_functions <- function(x,
       when = "1.0.0",
       what = paste0(function_name, "(...)"),
       details = glue::glue(
-        "Filtering deprecates passed via `...` are deprecated as of ",
+        "Filtering predicates passed via `...` are deprecated as of ",
         "camtraptor 1.0.0 and are ignored. Please, use ",
         "`filter_deployments()` to filter on deployments."
       )

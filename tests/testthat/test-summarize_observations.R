@@ -38,8 +38,13 @@ testthat::test_that(
       summary <- summarize_observations(x)
       # Check that the `summary` has the expected columns
       expect_equal(
-        c("deploymentID", "scientificName", "n_observations", "sum_count"),
-        names(summary)
+        names(summary),
+        c("deploymentID",
+          "scientificName",
+          "n_observations",
+          "sum_count",
+          "rai_observations",
+          "rai_count")
       )
       # All deployments are present
       expect_true(all(purrr::pluck(deployments(x), "deploymentID") %in%
@@ -56,6 +61,8 @@ testthat::test_that(
       expect_true(is.character(summary$scientificName))
       expect_true(is.integer(summary$n_observations))
       expect_true(is.integer(summary$sum_count))
+      expect_true(is.numeric(summary$rai_observations))
+      expect_true(is.numeric(summary$rai_count))
     })
 
 testthat::test_that(
@@ -89,14 +96,24 @@ test_that(
              c("tbl_df", "tbl", "data.frame")
            )
            # Check that the `summary` has the expected columns
-           expect_equal(c("deploymentID", "n_observations", "sum_count"), names(summary))
+           expect_equal(names(summary),
+                        c("deploymentID",
+                          "n_observations",
+                          "sum_count",
+                          "rai_observations",
+                          "rai_count")
+           )
            
            # Check that `deploymentID` is a character
            expect_true(is.character(summary$deploymentID))
            # Check that `n_observations` is a number
            expect_true(is.numeric(summary$n_observations))
-           # Check that `n_observations` is a number
-           expect_true(is.numeric(summary$n_observations))
+           # Check that `sum_count` is a number
+           expect_true(is.numeric(summary$sum_count))
+           # Check that `rai_observations` is a number
+           expect_true(is.numeric(summary$rai_observations))
+           # Check that `rai_count` is a number
+           expect_true(is.numeric(summary$rai_count))
            
            # Check that the number of returned deployments matches the number of
            # deployments in the dataset
@@ -158,8 +175,12 @@ testthat::test_that(
       summary <- summarize_observations(x, group_by = "lifeStage")
       # Check that the `summary` has the expected columns
       expect_equal(
-        c("lifeStage", "n_observations", "sum_count"),
-        names(summary)
+        names(summary),
+        c("lifeStage",
+          "n_observations",
+          "sum_count",
+          "rai_observations",
+          "rai_count")
       )
       # No deployments info is present
       expect_true(!"deploymentID" %in% names(summary))
@@ -174,7 +195,8 @@ testthat::test_that(
       expect_true(is.factor(summary$lifeStage))
       expect_true(is.integer(summary$n_observations))
       expect_true(is.integer(summary$sum_count))
-      
+      expect_true(is.numeric(summary$rai_observations))
+      expect_true(is.numeric(summary$rai_count))
       # Total number of observations is preserved
       expect_true(
         sum(summary$n_observations) ==
@@ -185,6 +207,10 @@ testthat::test_that(
         sum(summary$sum_count) ==
           sum(purrr::pluck(observations(x), "count"), na.rm = TRUE)
       )
+      # RAI cannot be calculated without grouping by deployments columns:
+      # rai_observations and rai_count are NA
+      expect_true(all(is.na(summary$rai_observations)))
+      expect_true(all(is.na(summary$rai_count)))
     })
 
 testthat::test_that(
@@ -195,10 +221,15 @@ testthat::test_that(
     
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("deploymentID", "scientificName", "day", "n_observations", "sum_count"),
-      names(summary)
+      names(summary),
+      c("deploymentID",
+        "scientificName",
+        "day",
+        "n_observations",
+        "sum_count",
+        "rai_observations",
+        "rai_count")
     )
-    
     # All dates are present
     x_events <- x %>% filter_observations(.data$observationLevel == "event")
     expect_true(all(
@@ -216,6 +247,8 @@ testthat::test_that(
     expect_true(lubridate::is.timepoint(summary$day))
     expect_true(is.integer(summary$n_observations))
     expect_true(is.integer(summary$sum_count))
+    expect_true(is.numeric(summary$rai_observations))
+    expect_true(is.numeric(summary$rai_count))
     
     # Total number of observations is preserved
     expect_true(
@@ -232,6 +265,7 @@ testthat::test_that(
 
 test_that("get_n_obs() and some of its args are deprecated", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "warning")
   x <- example_dataset()
   # Single deprecation with `species` = "all" (default)
   lifecycle::expect_deprecated(get_n_obs(x, species = "all"),
@@ -268,7 +302,7 @@ test_that("get_n_obs() and some of its args are deprecated", {
     lifecycle::expect_deprecated(
       get_n_obs(x, ... = "bla"),
       regex = paste0(
-        "Filtering deprecates passed via `...` are deprecated as of ",
+        "Filtering predicates passed via `...` are deprecated as of ",
         "camtraptor 1.0.0"
       )
     ),
@@ -278,8 +312,9 @@ test_that("get_n_obs() and some of its args are deprecated", {
 
 test_that("get_n_obs() returns the right output", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  summary_n_obs <- suppressWarnings(get_n_obs(x))
+  summary_n_obs <- get_n_obs(x)
   # Right columns
   expect_equal(
     names(summary_n_obs),
@@ -298,7 +333,7 @@ test_that("get_n_obs() returns the right output", {
       dplyr::select(deploymentID, scientificName, n)
   )
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by species
-  summary_n_obs <- suppressWarnings(get_n_obs(x, species = c("Anas strepera")))
+  summary_n_obs <- get_n_obs(x, species = c("Anas strepera"))
   expect_identical(
     summary_n_obs,
     summarize_observations(
@@ -311,9 +346,7 @@ test_that("get_n_obs() returns the right output", {
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by lifeStage and sex
   life_stages <- c("adult", "subadult")
   sex_values <- c("female", "male")
-  summary_n_obs <- suppressWarnings(
-    get_n_obs(x, sex = sex_values, life_stage = life_stages)
-  )
+  summary_n_obs <- get_n_obs(x, sex = sex_values, life_stage = life_stages)
   expect_identical(
     summary_n_obs,
     summarize_observations(
@@ -328,6 +361,7 @@ test_that("get_n_obs() returns the right output", {
 
 test_that("get_n_individuals() and some of its args are deprecated", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "warning")
   x <- example_dataset()
   # Single deprecation with `species` = "all" (default)
   lifecycle::expect_deprecated(get_n_individuals(x, species = "all"),
@@ -339,7 +373,7 @@ test_that("get_n_individuals() and some of its args are deprecated", {
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
       get_n_individuals(x, species = c("Anas strepera", "Martes foina")),
-      regex = "is deprecated as of camtraptor 1.0.0"
+      regex = "Argument `species` is deprecated as of camtraptor 1.0.0"
     ),
     regex = "was deprecated in camtraptor 1.0.0."
   )
@@ -347,7 +381,7 @@ test_that("get_n_individuals() and some of its args are deprecated", {
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
       get_n_individuals(x, life_stage = c("adult", "subadult")),
-      regex = "is deprecated as of camtraptor 1.0.0"
+      regex = "Argument `life_stage` is deprecated as of camtraptor 1.0.0"
     ),
     regex = "was deprecated in camtraptor 1.0.0."
   )
@@ -355,15 +389,18 @@ test_that("get_n_individuals() and some of its args are deprecated", {
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
       get_n_individuals(x, sex = c("female", "male")),
-      regex = "is deprecated as of camtraptor 1.0.0"
+      regex = "Argument `sex` is deprecated as of camtraptor 1.0.0"
     ),
     regex = "was deprecated in camtraptor 1.0.0."
   )
   # Check double deprecation when ellipses are used
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
-      get_n_individuals(x, ... = "bla"),
-      regex = "is deprecated as of camtraptor 1.0.0"
+      get_n_individuals(x, "bla"),
+      regex = paste0(
+        "Filtering predicates passed via `...` are deprecated as of ",
+        "camtraptor 1.0.0"
+      )
     ),
     regex = "was deprecated in camtraptor 1.0.0."
   )
@@ -371,8 +408,9 @@ test_that("get_n_individuals() and some of its args are deprecated", {
 
 test_that("get_n_individuals() returns the right output", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  summary_n_individuals <- suppressWarnings(get_n_individuals(x))
+  summary_n_individuals <- get_n_individuals(x)
   # Right columns
   expect_equal(
     names(summary_n_individuals),
@@ -391,7 +429,7 @@ test_that("get_n_individuals() returns the right output", {
       dplyr::select(deploymentID, scientificName, n)
   )
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by species
-  summary_n_individuals <- suppressWarnings(get_n_individuals(x, species = c("Anas strepera")))
+  summary_n_individuals <- get_n_individuals(x, species = c("Anas strepera"))
   expect_identical(
     summary_n_individuals,
     summarize_observations(
@@ -404,8 +442,10 @@ test_that("get_n_individuals() returns the right output", {
   # Same output as summary_observations() with grouping by deploymentID and scientificName and when filtering by lifeStage and sex
   life_stages <- c("adult", "subadult")
   sex_values <- c("female", "male")
-  summary_n_individuals <- suppressWarnings(
-    get_n_individuals(x, sex = sex_values, life_stage = life_stages)
+  summary_n_individuals <- get_n_individuals(
+    x,
+    sex = sex_values,
+    life_stage = life_stages
   )
   expect_identical(
     summary_n_individuals,
@@ -416,5 +456,208 @@ test_that("get_n_individuals() returns the right output", {
     ) %>%
       dplyr::rename(n = sum_count) %>%
       dplyr::select(deploymentID, scientificName, n)
+  )
+})
+
+test_that("get_rai() and some of its args are deprecated", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "warning")
+  x <- example_dataset()
+  # Single deprecation with `species` = "all" (default)
+  lifecycle::expect_deprecated(get_rai(x, species = "all"),
+                               regex = "was deprecated in camtraptor 1.0.0.")
+  # Single deprecation with `species` = NULL
+  lifecycle::expect_deprecated(get_rai(x, species = NULL),
+                               regex = "was deprecated in camtraptor 1.0.0.")
+  # Check double deprecation when `species` is not NULL or not "all"
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai(x, species = c("Anas strepera", "Martes foina")),
+      regex = "Argument `species` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when `life_stage` is given
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai(x, life_stage = c("adult", "subadult")),
+      regex = "Argument `life_stage` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when `sex` is given
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai(x, sex = c("female", "male")),
+      regex = "Argument `sex` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when ellipses are used
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai(x, "bla"),
+      regex = paste0(
+        "Filtering predicates passed via `...` are deprecated as of ",
+        "camtraptor 1.0.0"
+      )
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+})
+
+test_that("get_rai() returns the right output", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  x <- example_dataset()
+  summary_ray <- get_rai(x)
+  # Right columns
+  expect_equal(
+    names(summary_ray),
+    c("deploymentID", "scientificName", "rai")
+  )
+  # Right types
+  expect_true(is.character(summary_ray$deploymentID))
+  expect_true(is.character(summary_ray$scientificName))
+  expect_true(is.numeric(summary_ray$rai))
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName
+  expect_identical(
+    summary_ray,
+    summarize_observations(x,
+                           group_by = c("deploymentID", "scientificName")) %>%
+      dplyr::rename(rai = rai_observations) %>%
+      dplyr::select(deploymentID, scientificName, rai)
+  )
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName and when filtering by species
+  summary_ray <- get_rai(x, species = c("Anas strepera"))
+  expect_identical(
+    summary_ray,
+    summarize_observations(
+      x %>% filter_observations(scientificName == "Anas strepera"),
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
+      dplyr::rename(rai = rai_observations) %>%
+      dplyr::select(deploymentID, scientificName, rai)
+  )
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName and when filtering by lifeStage and sex
+  life_stages <- c("adult", "subadult")
+  sex_values <- c("female", "male")
+  summary_ray <- get_rai(x, sex = sex_values, life_stage = life_stages)
+  expect_identical(
+    summary_ray,
+    summarize_observations(
+      x %>% 
+        filter_observations(sex %in% sex_values, lifeStage %in% life_stages),
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
+      dplyr::rename(rai = rai_observations) %>%
+      dplyr::select(deploymentID, scientificName, rai)
+  )
+})
+
+test_that("get_rai_individuals() and some of its args are deprecated", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "warning")
+  x <- example_dataset()
+  # Single deprecation with `species` = "all" (default)
+  lifecycle::expect_deprecated(get_rai_individuals(x, species = "all"),
+                               regex = "was deprecated in camtraptor 1.0.0.")
+  # Single deprecation with `species` = NULL
+  lifecycle::expect_deprecated(get_rai_individuals(x, species = NULL),
+                               regex = "was deprecated in camtraptor 1.0.0.")
+  # Check double deprecation when `species` is not NULL or not "all"
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai_individuals(x, species = c("Anas strepera", "Martes foina")),
+      regex = " Argument `species` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when `life_stage` is given
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai_individuals(x, life_stage = c("adult", "subadult")),
+      regex = "Argument `life_stage` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when `sex` is given
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai_individuals(x, sex = c("female", "male")),
+      regex = "Argument `sex` is deprecated as of camtraptor 1.0.0"
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when ellipses are used
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_rai_individuals(x, ... = "bla"),
+      regex = paste0(
+        "Filtering predicates passed via `...` are deprecated as of ",
+        "camtraptor 1.0.0"
+      )
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+})
+
+test_that("get_rai_individuals() returns the right output", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  x <- example_dataset()
+  summary_rai_individuals <- get_rai_individuals(x)
+  # Right columns
+  expect_equal(
+    names(summary_rai_individuals),
+    c("deploymentID", "scientificName", "rai")
+  )
+  # Right types
+  expect_true(is.character(summary_rai_individuals$deploymentID))
+  expect_true(is.character(summary_rai_individuals$scientificName))
+  expect_true(is.numeric(summary_rai_individuals$rai))
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName
+  expect_identical(
+    summary_rai_individuals,
+    summarize_observations(x,
+                           group_by = c("deploymentID", "scientificName")) %>%
+      dplyr::rename(rai = rai_count) %>%
+      dplyr::select(deploymentID, scientificName, rai)
+  )
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName and when filtering by species
+  summary_rai_individuals <- get_rai_individuals(x, species = c("Anas strepera")
+  )
+  expect_identical(
+    summary_rai_individuals,
+    summarize_observations(
+      x %>% filter_observations(scientificName == "Anas strepera"),
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
+      dplyr::rename(rai = rai_count) %>%
+      dplyr::select(deploymentID, scientificName, rai)
+  )
+  # Same output as summary_observations() with grouping by deploymentID and
+  # scientificName and when filtering by lifeStage and sex
+  life_stages <- c("adult", "subadult")
+  sex_values <- c("female", "male")
+  summary_rai_individuals <- get_rai_individuals(
+    x,
+    sex = sex_values,
+    life_stage = life_stages
+  )
+  expect_identical(
+    summary_rai_individuals,
+    summarize_observations(
+      x %>%
+        filter_observations(sex %in% sex_values, lifeStage %in% life_stages),
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
+      dplyr::rename(rai = rai_count) %>%
+      dplyr::select(deploymentID, scientificName, rai)
   )
 })

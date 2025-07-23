@@ -26,6 +26,10 @@
 #'   month.
 #'   - `n_observations`: integer vector with the number of observations.
 #'   - `sum_count`: integer vector with the sum of individual counts.
+#'   - `rai_observations`: numeric vector with the Relative Abundance Index
+#'   (RAI), defined as `100 * (n_observations/effort)` where `n_observations` is
+#'   the number of observations and `effort` is the `effort_duration` as
+#'   returned by `summarize_deployments()` expressed in days.
 #' @family exploration functions
 #' @export
 #' @examples
@@ -37,7 +41,7 @@
 #' summarize_observations(x, group_time_by = "month")
 #'
 #' # Summarize observations by `locationId`, and `locationName`
-#' #' summarize_observations(x, group_by = "locationName")
+#' summarize_observations(x, group_by = "locationName")
 summarize_observations <- function(
     x,
     group_by = c("deploymentID", "scientificName"),
@@ -118,11 +122,41 @@ summarize_observations <- function(
   )
   
   # Join the features
-  dplyr::left_join(
+  summary <- dplyr::left_join(
     n_obs_df,
     sum_count_df,
     by = c(group_by_deployments, group_by_observations, group_time_by)
   )
+  
+  # Add RAI based on number of observations () and RAI based on the sum of
+  # individual counts. To do so, we need to calculate the effort. If `group_by`
+  # doesn't contain deployment columns, the effort cannot be calculated:
+  # RAI cannot be calculated either. Message returned and NA values are
+  # returned.
+  if (length(group_by_deployments) > 0) {
+    effort_df <- summarize_deployments(x,
+                                       group_by = group_by_deployments,
+                                       group_time_by = group_time_by)
+    summary %>%
+      dplyr::left_join(effort_df,
+                       by = c(group_by_deployments, group_time_by)) %>%
+      dplyr::mutate(rai_observations =
+                      100 * .data$n_observations / 
+                      # Duration in days
+                      (.data$effort_duration / lubridate::ddays(1))
+      ) %>%
+      dplyr::mutate(rai_count =
+                      100 * .data$sum_count /
+                      # Duration in days
+                      (.data$effort_duration / lubridate::ddays(1))
+      ) %>%
+      dplyr::select(-"effort_duration")
+  } else {
+    summary %>%
+      dplyr::mutate(rai_observations = NA_real_,
+                    rai_count = NA_real_
+      )
+  }
 }
 #' @rdname summarize_deployments
 #' @export

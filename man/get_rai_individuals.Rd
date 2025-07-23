@@ -2,17 +2,35 @@
 % Please edit documentation in R/get_rai.R
 \name{get_rai_individuals}
 \alias{get_rai_individuals}
-\title{Get Relative Abundance Index (RAI) based on number of individuals}
+\title{Get Relative Abundance Index (RAI) based on the sum of individual counts}
 \usage{
-get_rai_individuals(x, species = "all")
+get_rai_individuals(x, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{species}{Character with scientific names or common names (case
-insensitive).
-If \code{"all"} (default) all scientific names are automatically selected.}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
+
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.
+Common names are not supported anymore as of camtraptor 1.0.0. Please, check
+\code{filter_observations()} to know how to filter by \code{scientificName}.
+If \code{"all"} (default) all scientific names are automatically selected.
+If \code{NULL} all observations of all species are taken into account.}
+
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex class to filter on, e.g. \code{"female"} or
+\code{c("male", "unknown")}.
+If \code{NULL} (default) all observations of all sex classes are taken into
+account. Please, check
+\code{filter_observations()} to know how to filter by \code{sex}.}
+
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector defining the life stage class to filter
+on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+If \code{NULL} (default) all observations of all life stage classes are taken
+into account. Please, check \code{filter_observations()} to know how to filter
+by \code{lifeStage}.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -23,12 +41,14 @@ A tibble data frame with the following columns:
 }
 }
 \description{
-Function to get the RAI (Relative Abundance Index) per deployment based on
-number of detected individuals instead of the number of observations. The RAI
-is normalized using 100 days deployment activity. In other words:
-\code{RAI = 100 * (n/effort)} where \code{n} is the number of individuals as calculated
-via \code{get_n_individuals()} and \code{effort} is the effort in days as calculated
-via \code{get_effort()}.
+Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
+using 100 days deployment activity. In other words: \code{RAI = 100 * (n/effort)}
+where \code{n} is the sum of individual counts related to event-based observations
+and \code{effort} is the effort duration in days.
+}
+\details{
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
+instead.
 }
 \examples{
 x <- example_dataset()
@@ -42,31 +62,4 @@ get_rai_individuals(
   x,
   species = c("Anas platyrhynchos", "Martes foina")
 )
-
-# With common names, also mixing up languages
-get_rai_individuals(x, species = c("mallard", "steenmarter"))
-
-# Mixed scientific and vernacular names
-get_rai_individuals(x, species = c("Anas platyrhynchos", "beech marten"))
-
-# Species parameter is case insensitive
-get_rai_individuals(x, species = c("ANAS plAtyRhynChOS"))
-
-# Use `filter_observations()` to filter on life stage
-x \%>\%
-  filter_observations(lifeStage == "adult") \%>\%
-  get_rai_individuals()
-
-# Use `filter_observations()` to filter on sex
-x \%>\%
-  filter_observations(sex == "female") \%>\%
-  get_rai_individuals()
 }
-\seealso{
-Other exploration functions: 
-\code{\link{get_rai}()},
-\code{\link{n_species}()},
-\code{\link{summarize_deployments}()},
-\code{\link{summarize_observations}()}
-}
-\concept{exploration functions}

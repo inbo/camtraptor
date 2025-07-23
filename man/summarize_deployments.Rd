@@ -83,8 +83,6 @@ dplyr::summarise(
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
 \code{\link{n_species}()},
 \code{\link{summarize_observations}()}
 }

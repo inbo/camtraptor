@@ -33,6 +33,10 @@ containing the first date of the time interval, e.g. the first day of the
 month.
 \item \code{n_observations}: integer vector with the number of observations.
 \item \code{sum_count}: integer vector with the sum of individual counts.
+\item \code{rai_observations}: numeric vector with the Relative Abundance Index
+(RAI), defined as \code{100 * (n_observations/effort)} where \code{n_observations} is
+the number of observations and \code{effort} is the \code{effort_duration} as
+returned by \code{summarize_deployments()} expressed in days.
 }
 }
 \description{
@@ -57,12 +61,10 @@ summarize_observations(x)
 summarize_observations(x, group_time_by = "month")
 
 # Summarize observations by `locationId`, and `locationName`
-#' summarize_observations(x, group_by = "locationName")
+summarize_observations(x, group_by = "locationName")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
 \code{\link{n_species}()},
 \code{\link{summarize_deployments}()}
 }

@@ -41,5 +41,7 @@ get_n_individuals <- function(x,
     function_name = deparse(sys.call()[[1]])
   ) %>%
     dplyr::rename("n" = "sum_count") %>%
+    # `any_of()` instead of `all_of()` to avoid error if column `scientificName`
+    # is not present (species = NULL)
     dplyr::select(dplyr::any_of(c("deploymentID", "scientificName", "n")))
 }

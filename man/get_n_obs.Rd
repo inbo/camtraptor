@@ -45,7 +45,7 @@ This column is omitted if parameter \code{species = NULL}.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
-Gets the number of (event-based) observations per deployment.
+Gets the number of event-based observations per deployment.
 
 It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
 instead.

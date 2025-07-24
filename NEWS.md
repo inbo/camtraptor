@@ -2,6 +2,8 @@
 
 This is a major release that updates the internal data model to Camtrap DP 1.0 and drops support for Camtrap DP 0.1.6.
 
+- New `summarize_deployments()` calculates the duration effort (#366). Possibility to group by one or more deployment fields: `deploymentID`, `locationID`, `locationName` and `deploymentTags`.
+- New `summarize_observations()` calculates several observations related features, such as the number of taxa, the number of events, the number of observations, the sum of individual counts and the Relative Abundance Index  (RAI) (#367). Possibility to group by one or more deployment and observation fields: `deploymentID`, `locationID`, `locationName`, `deploymentTags`, `scientificName`, `lifeStage`, `sex`, `behavior`. The features can also be calculated at daily, weekly, monthly or yearly level.
 - `read_camtrap_dp()` (with underscore) is now deprecated. Use `read_camtrapdp()`, which reexports the read functionality from [camtrapdp](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html) (#298) (#298).
 - Function `get_record_table()` is now deprecated. Use `camtrapR_recordTable()` (#240).
 - Function `get_cam_op()` is now deprecated. Use `camtrapR_cameraOperation()` (#239).

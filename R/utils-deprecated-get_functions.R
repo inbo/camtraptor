@@ -26,7 +26,11 @@ summarize_observations_for_deprecated_functions <- function(
   )
   check_value(
     function_name,
-    c("get_n_obs", "get_n_individuals", "get_rai", "get_rai_individuals"),
+    c("get_n_species",
+      "get_n_obs",
+      "get_n_individuals",
+      "get_rai",
+      "get_rai_individuals"),
     "function_name",
     null_allowed = FALSE
   )
@@ -66,13 +70,16 @@ summarize_observations_for_deprecated_functions <- function(
     null_allowed = TRUE
   )
   
-  # Return warning if ellipses are used
-  if (length(list(...)) > 0) {
+  # If filtering predicates are passed via `...`, they return error as they are
+  # defunct. This will trigger an error if `...` contains filtering predicates
+  preds <- list(...)
+  # Return warning if ellipses are used and are not filtering predicates
+  if (length(preds) > 0) {
     lifecycle::deprecate_warn(
       when = "1.0.0",
       what = paste0(function_name, "(...)"),
       details = glue::glue(
-        "Filtering predicates passed via `...` are deprecated as of ",
+        "Arguments passed via `...` are deprecated as of ",
         "camtraptor 1.0.0 and are ignored. Please, use ",
         "`filter_deployments()` to filter on deployments."
       )

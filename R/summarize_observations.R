@@ -1,9 +1,10 @@
 #' Summarize observations information
 #'
 #' Summarizes event-based observations by calculating:
+#' - Number of scientific names.
+#' - Number of events.
 #' - Number of observations.
 #' - Sum of individual counts.
-#' - Number of species.
 #' - Relative Abundance Index (RAI) based on number of observations.
 #' - Relative Abundance Index (RAI) based on individual counts.
 #'
@@ -24,6 +25,10 @@
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
 #'   containing the first date of the time interval, e.g. the first day of the
 #'   month.
+#'   - `n_scientificName`: integer vector with the number of scientific names.
+#'   If `scientificName` is in `group_by`, `n_scientificName` is equal to 1 or
+#'   0, if `scientificName = NA` (unidentified animals).
+#'   - `n_events`: integer vector with the number of events.
 #'   - `n_observations`: integer vector with the number of observations.
 #'   - `sum_count`: integer vector with the sum of individual counts.
 #'   - `rai_observations`: numeric vector with the Relative Abundance Index
@@ -80,6 +85,47 @@ summarize_observations <- function(
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")
   
+  # Define the formula for the number of scientific names per deployment
+  formula_n_species_per_dep <- rlang::expr(
+    n_scientificName := dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
+  )
+  # Define the formula for the total number of scientific names 
+  formula_n_species <- rlang::expr(
+    n_scientificName := sum(.data$n_scientificName, na.rm = TRUE)
+  )
+  # Calculate n_scientificName
+  n_species_df <- calc_obs_feature(
+    deployment_ids = deployment_ids,
+    deployments = deployments,
+    observations = observations,
+    group_by_deployments = group_by_deployments,
+    group_by_observations = group_by_observations,
+    group_time_by = group_time_by,
+    col_obs_for_feature = "scientificName",
+    formula_per_deployment = formula_n_species_per_dep,
+    formula_total = formula_n_species
+  )
+  
+  # Define the formula for the number of events per deployment
+  formula_n_events_per_dep <- rlang::expr(
+    n_events := dplyr::n_distinct(.data$eventID, na.rm = TRUE)
+  )
+  # Define the formula for the total number of events
+  formula_n_events <- rlang::expr(
+    n_events := sum(.data$n_events, na.rm = TRUE)
+  )
+  # Calculate n_events
+  n_events_df <- calc_obs_feature(
+    deployment_ids = deployment_ids,
+    deployments = deployments,
+    observations = observations,
+    group_by_deployments = group_by_deployments,
+    group_by_observations = group_by_observations,
+    group_time_by = group_time_by,
+    col_obs_for_feature = "eventID",
+    formula_per_deployment = formula_n_events_per_dep,
+    formula_total = formula_n_events
+  )
   
   # Define the formula for the number of observations per deployment
   formula_n_obs_per_dep <- rlang::expr(
@@ -122,9 +168,9 @@ summarize_observations <- function(
   )
   
   # Join the features
-  summary <- dplyr::left_join(
-    n_obs_df,
-    sum_count_df,
+  summary <- purrr::reduce(
+    list(n_species_df, n_events_df, n_obs_df, sum_count_df),
+    dplyr::left_join,
     by = c(group_by_deployments, group_by_observations, group_time_by)
   )
   

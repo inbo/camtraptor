@@ -9,7 +9,7 @@
 #'
 #' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
 #'   effort. Not supported anymore.
-#' @inheritParams n_species
+#' @inheritParams summarize_deployments
 #' @return A tibble data frame with following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `effort_duration`: A duration object (duration is a class from lubridate

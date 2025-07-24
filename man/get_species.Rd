@@ -10,8 +10,15 @@ get_species(x)
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
+\value{
+A tibble data frame with taxonomic information.
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function is deprecated. Please use \code{\link[=taxa]{taxa()}} instead.
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=taxa]{taxa()}} instead.
+}
+\examples{
+x <- example_dataset()
+get_species(x)
 }

@@ -23,7 +23,8 @@
 #'   into account. Please, check `filter_observations()` to know how to filter
 #'   by `lifeStage`.
 #' @param ... `r lifecycle::badge("deprecated")` filter predicates for filtering
-#'   on deployments are not supported anymore and will be ignored. Please use
+#'   on deployments are not supported anymore and an error is returned. Anything
+#'   else throws a deprecation warning and will be ignored. Please use
 #'   `filter_deployments()` to filter on deployments.
 #' @inheritParams summarize_deployments
 #' @return A tibble data frame with the following columns:

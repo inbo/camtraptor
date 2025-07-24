@@ -83,7 +83,6 @@ dplyr::summarise(
 }
 \seealso{
 Other exploration functions: 
-\code{\link{n_species}()},
 \code{\link{summarize_observations}()}
 }
 \concept{exploration functions}

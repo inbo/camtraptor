@@ -28,6 +28,7 @@
 #' @param removeDuplicateRecords Logical.
 #'   If there are several records of the same species at the same station at
 #'   exactly the same time, show only one?
+#' @inheritParams summarize_deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
@@ -56,7 +57,6 @@
 #'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
 #'   - `clock`: Numeric, clock time in radians.
 #'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
-#' @inheritParams n_species
 #' @family camtrapR-derived functions
 #' @export
 #' @examples

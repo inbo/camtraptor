@@ -5,7 +5,7 @@
 #' function is a shortcut for `filter_observations(x, captureMethod !=
 #' "timelapse")`.
 #' 
-#' @inheritParams n_species
+#' @inheritParams summarize_deployments
 #'
 #' @return `x` filtered.
 #' @family filter functions

@@ -31,6 +31,10 @@ A tibble data frame with the following columns:
 \item \code{group_time_by} name if provided, e.g. \code{month}. It is a datetime column
 containing the first date of the time interval, e.g. the first day of the
 month.
+\item \code{n_scientificName}: integer vector with the number of scientific names.
+If \code{scientificName} is in \code{group_by}, \code{n_scientificName} is equal to 1 or
+0, if \code{scientificName = NA} (unidentified animals).
+\item \code{n_events}: integer vector with the number of events.
 \item \code{n_observations}: integer vector with the number of observations.
 \item \code{sum_count}: integer vector with the sum of individual counts.
 \item \code{rai_observations}: numeric vector with the Relative Abundance Index
@@ -42,9 +46,10 @@ returned by \code{summarize_deployments()} expressed in days.
 \description{
 Summarizes event-based observations by calculating:
 \itemize{
+\item Number of scientific names.
+\item Number of events.
 \item Number of observations.
 \item Sum of individual counts.
-\item Number of species.
 \item Relative Abundance Index (RAI) based on number of observations.
 \item Relative Abundance Index (RAI) based on individual counts.
 }
@@ -65,7 +70,6 @@ summarize_observations(x, group_by = "locationName")
 }
 \seealso{
 Other exploration functions: 
-\code{\link{n_species}()},
 \code{\link{summarize_deployments}()}
 }
 \concept{exploration functions}

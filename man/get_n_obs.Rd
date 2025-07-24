@@ -11,7 +11,8 @@ get_n_obs(x, ..., species = "all", sex = NULL, life_stage = NULL)
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
-on deployments are not supported anymore and will be ignored. Please use
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
 \code{filter_deployments()} to filter on deployments.}
 
 \item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.

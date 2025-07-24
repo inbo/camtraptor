@@ -4,11 +4,16 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(x)
+get_n_species(x, ...)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -20,19 +25,11 @@ A tibble data frame with the following columns:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function is deprecated. Please use \code{\link[=n_species]{n_species()}} instead.
-}
-\details{
-Only event-based observations (\code{observationLevel} = \code{event}) are taken into account.
+It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
+instead.
 }
 \examples{
 x <- example_dataset()
-
 # Get number of species
-n_species(x)
-}
-\seealso{
-Other exploration functions: 
-\code{\link{summarize_deployments}()},
-\code{\link{summarize_observations}()}
+get_n_species(x)
 }

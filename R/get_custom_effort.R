@@ -17,7 +17,7 @@
 #'   `[summarize_deployments()]`.
 #' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
 #'   effort. Not supported anymore.
-#' @inheritParams n_species
+#' @inheritParams summarize_deployments
 #' @inherit summarize_deployments return
 #' @export
 #' @examples

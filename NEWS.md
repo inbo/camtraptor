@@ -7,7 +7,11 @@ This is a major release that updates the internal data model to Camtrap DP 1.0 a
 - Function `get_cam_op()` is now deprecated. Use `camtrapR_cameraOperation()` (#239).
 - Function `get_detection_history()` is now deprecated. Use `camtrapR_detectionHistory()` (#365).
 - Function `get_species()` is now deprecated. Use `taxa()` (#343).
-- Function `get_n_species()` is now deprecated. Use `n_species()` (#243).
+- Function `get_n_species()` is now deprecated. Use `summarize_observations()` (#243).
+- Function `get_n_obs()` is now deprecated. Use `summarize_observations()` (#367).
+- Function `get_n_individuals()` is now deprecated. Use `summarize_observations()` (#367).
+- Function `get_rai()` is now deprecated. Use `summarize_observations()` (#243).
+- Function `get_rai_individuals()` deprecated. Use `summarize_observations()` (#243).
 - Function `get_custom_effort()` is now deprecated. Use `summarize_deployments()` (#366).
 - Function `get_effort()` is now deprecated. Use `summarize_deployments()` (#366).
 - Function `map_dep()` is now deprecated. Use `map_deployments()` (#231).

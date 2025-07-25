@@ -15,9 +15,7 @@
 #' @param group_by Character, one of `"day"`, `"week"`, `"month"`, `"year"`.
 #'   Default: `NULL`. See `group_time_by` argument in
 #'   `[summarize_deployments()]`.
-#' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
-#'   effort. Not supported anymore.
-#' @inheritParams summarize_deployments
+#' @inheritParams get_effort
 #' @inherit summarize_deployments return
 #' @export
 #' @examples
@@ -43,43 +41,18 @@
 #'     unit = unique(unit)
 #'   )
 get_custom_effort <- function(x,
+                              ...,
                               start = NULL,
                               end = NULL,
                               group_by = NULL,
                               unit = "hour") {
-  lifecycle::deprecate_warn(
-    when = "1.0.0",
-    what = "get_custom_effort()",
-    details = glue::glue(
-      "Please use `summarize_deployments(x, group_by = \"deploymentID\", group_time_by = {group_by})` ",
-      "instead. Notice also that the effort is only returned as a lubridate ",
-      "duration object in column `effort_duration`. The columns `effort` and ",
-      "`unit` are not returned anymore. If temporal grouping is applied, a column named as the allowed value is "
-    )
-  )
-  if (!is.null(unit)) {
-    lifecycle::deprecate_warn(
-      when = "1.0.0",
-      what = "get_custom_effort(unit)",
-      details = glue::glue(
-        "The effort is now only returned as a lubridate duration object in ",
-        "column `effort_duration`. To suppress this warning, set ",
-        "`unit = NULL`."
-      )
-    )
-  }
-  # Check start earlier than end
-  if (!is.null(start) & !is.null(end)) {
-    assertthat::assert_that(start <= end,
-                            msg = "`start` must be earlier than `end`."
-    )
-  }
-  
-  # Check camera trap data package
-  camtrapdp::check_camtrapdp(x)
-  
-  summarize_deployments(x,
-                        group_by = "deploymentID",
-                        group_time_by = group_by
+  summarize_deployments_for_deprecated_functions(
+    x,
+    ...,
+    start = start,
+    end = end,
+    group_by = group_by,
+    unit = unit,
+    function_name = deparse(sys.call()[[1]])
   )
 }

@@ -128,49 +128,11 @@ summarize_deployment <- function(deployment_id,
                                  deployments,
                                  group_by,
                                  group_time_by) {
-  start_date <- deployments %>% 
-    dplyr::filter(.data$deploymentID == deployment_id) %>%
-    dplyr::pull("deploymentStart")
-  # Find date of the start and end of the given calendar period
-  start_floor_date <- calendar_floor_date(start_date, group_time_by)
-  start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
-  end_date <- deployments %>% 
-    dplyr::filter(.data$deploymentID == deployment_id) %>%
-    dplyr::pull("deploymentEnd")
-  end_floor_date <- calendar_floor_date(end_date, group_time_by)
-  end_ceiling_date <- calendar_ceiling_date(end_date, group_time_by)
-  
-  # Create a vector with all datetimes the time groups start and end
-  if (is.null(group_time_by)) {
-    start_date_series <- start_date
-    end_date_series <- end_date
-  } else {
-    start_date_series <- lubridate::as_datetime(
-      seq.Date(from = lubridate::date(start_floor_date),
-               to = lubridate::date(end_floor_date),
-               by = group_time_by
-      )
-    )
-    end_date_series <- lubridate::as_datetime(
-      seq.Date(from = lubridate::date(start_ceiling_date),
-               to = lubridate::date(end_ceiling_date),
-               by = group_time_by
-      )
-    )
-  }
-  
-  effort_per_deploy_df <-
-  dplyr::tibble(
-    start = start_date_series,
-    end = end_date_series
-  ) %>%
-  dplyr::mutate(deploymentID = deployment_id) %>%
-  dplyr::left_join(
-    deployments,
-    by = "deploymentID",
-    relationship = "many-to-one",
-    unmatched = "drop"
-  ) %>%
+  effort_per_deploy_df <- enrich_deployment(
+    deployment_id = deployment_id,
+    deployments = deployments,
+    group_by = group_by,
+    group_time_by = group_time_by) %>%
   # Calculate effort duration for each time group
   dplyr::mutate(effort_duration = lubridate::as.duration(
     pmin(.data$end, .data$deploymentEnd) -

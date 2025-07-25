@@ -530,6 +530,8 @@ enrich_deployment <- function(deployment_id,
     dplyr::left_join(
       deployments %>%
         dplyr::select("deploymentID",
+                      "deploymentStart",
+                      "deploymentEnd",
                       dplyr::any_of(group_by)),
       by = "deploymentID")
 }

@@ -4,11 +4,23 @@
 \alias{get_custom_effort}
 \title{Get custom effort}
 \usage{
-get_custom_effort(x, start = NULL, end = NULL, group_by = NULL, unit = "hour")
+get_custom_effort(
+  x,
+  ...,
+  start = NULL,
+  end = NULL,
+  group_by = NULL,
+  unit = "hour"
+)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
 
 \item{start}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} if not \code{NULL }. Not supported
 anymore. Use \code{filter_deployments()} to filter out deployments.}
@@ -21,7 +33,7 @@ Default: \code{NULL}. See \code{group_time_by} argument in
 \verb{[summarize_deployments()]}.}
 
 \item{unit}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The unit used to quantify the
-effort. Not supported anymore.}
+effort. Ignored as the effort is returned only as a duration object.}
 }
 \value{
 A tibble data frame with the following columns:

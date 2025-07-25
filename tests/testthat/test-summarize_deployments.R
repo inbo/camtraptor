@@ -68,7 +68,7 @@ test_that(
     ends <- purrr::pluck(deployments(x), "deploymentEnd")
     deployment_durations <- lubridate::as.duration(ends - starts)
     expect_equal(summary$effort_duration, deployment_durations)
-})
+  })
 
 test_that(
   "summarize_deployments() returns correct summary using `group_by`", {
@@ -179,7 +179,7 @@ test_that(
       dplyr::filter(.data$deploymentID == deployment_id) %>%
       dplyr::pull(day)
     expect_identical(days, summary_days)
-  
+    
     # Duration is equal to a full day except for the start and end day
     # Check for one deployment
     n_full_days <- length(days) - 2
@@ -193,7 +193,7 @@ test_that(
       dplyr::pull(effort_duration)
     testthat::expect_identical(effort_full_days,
                                summary_effort_full_days
-                               )
+    )
     # Duration is correct during the days of `deploymentStart` and
     # `deploymentEnd` days.
     # Check for one deployment
@@ -209,7 +209,7 @@ test_that(
       dplyr::pull(effort_duration)
     testthat::expect_identical(effort_start_day,
                                summary_effort_start)
-})
+  })
 
 # Check that output of `summarise_deployments()` is the same as
 # `summarize_deployments()`
@@ -223,7 +223,7 @@ test_that(
       summarize_deployments(x),
       summarise_deployments(x)
     )
-})
+  })
 
 test_that("get_effort() is deprecated", {
   skip_if_offline()
@@ -237,6 +237,46 @@ test_that("get_effort() is deprecated", {
       regex = "is deprecated as of camtraptor 1.0.0"
     ),
     regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when ellipses are used and are not defunct
+  # filtering predicates
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_effort(x, unit = NULL, ... = "bla"),
+      regex = paste0(
+        "Arguments passed via `...` are deprecated as of ",
+        "camtraptor 1.0.0"
+      )
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check error when ellipses is a filtering predicate function
+  expect_error(
+    lifecycle::expect_deprecated(
+      get_effort(x, unit = NULL, pred_gte("latitude", 51.28)),
+      regex = "was deprecated in camtraptor 1.0.0"
+    ),
+    "was deprecated in camtraptor 1.0.0 and is now defunct"
+  )
+})
+
+test_that("get_effort() returns the right output", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  x <- example_dataset()
+  summary_effort <- get_effort(x, unit = NULL)
+  # Right columns
+  expect_equal(
+    names(summary_effort),
+    c("deploymentID", "effort_duration")
+  )
+  # Right types
+  expect_true(is.character(summary_effort$deploymentID))
+  expect_true(lubridate::is.duration(summary_effort$effort_duration))
+  # Same output as summary_deployments() with grouping by deploymentID
+  expect_identical(
+    summary_effort,
+    summarize_deployments(x, group_by = "deploymentID")
   )
 })
 
@@ -261,5 +301,55 @@ test_that("get_custom_effort() is deprecated", {
       regex = "is deprecated as of camtraptor 1.0.0"
     ),
     regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check double deprecation when ellipses are used and are not defunct
+  # filtering predicates
+  lifecycle::expect_deprecated(
+    lifecycle::expect_deprecated(
+      get_custom_effort(x, unit = NULL, ... = "bla"),
+      regex = paste0(
+        "Arguments passed via `...` are deprecated as of ",
+        "camtraptor 1.0.0"
+      )
+    ),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
+  # Check error when ellipses is a filtering predicate function
+  expect_error(
+    lifecycle::expect_deprecated(
+      get_custom_effort(x, unit = NULL, pred_gte("latitude", 51.28)),
+      regex = "was deprecated in camtraptor 1.0.0"
+    ),
+    "was deprecated in camtraptor 1.0.0 and is now defunct"
+  )
+})
+
+test_that("get_custom_effort() returns the right output", {
+  skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  x <- example_dataset()
+  summary_custom_effort <- get_custom_effort(
+    x, group_by = "month", unit = NULL
+  )
+  # Right columns
+  expect_equal(
+    names(summary_custom_effort),
+    c("deploymentID", "month", "effort_duration")
+  )
+  # Right types
+  expect_true(is.character(summary_custom_effort$deploymentID))
+  expect_true(lubridate::is.timepoint(summary_custom_effort$month))
+  expect_true(lubridate::is.duration(summary_custom_effort$effort_duration))
+  # Same output as summary_deployments() with grouping by deploymentID and
+  # grouping time by month
+  expect_identical(
+    summary_custom_effort,
+    summarize_deployments(x, group_by = "deploymentID", group_time_by = "month")
+  )
+  
+  # Same output as get_effort() if no group_by is specified
+  expect_identical(
+    get_custom_effort(x, unit = NULL),
+    get_effort(x, unit = NULL)
   )
 })

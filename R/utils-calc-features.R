@@ -60,14 +60,16 @@ calc_obs_feature <- function(deployment_ids,
       formula = formula_per_deployment
     ))
   feat_per_deploy <- purrr::list_rbind(feat_per_deploy)
-  
+
   # Calculate the number of observations over all deployments grouped by
   # `group_by_deployments`, `group_by_observations` and `group_time_by`
   feat_per_deploy %>%
     dplyr::group_by(
-      dplyr::across(dplyr::all_of(c(group_by_deployments,
-                                    group_by_observations,
-                                    group_time_by)))
+      dplyr::across(dplyr::all_of(c(
+        group_by_deployments,
+        group_by_observations,
+        group_time_by
+      )))
     ) %>%
     dplyr::summarise(
       !!rlang::f_lhs(formula_total) := !!rlang::f_rhs(formula_total)
@@ -76,7 +78,7 @@ calc_obs_feature <- function(deployment_ids,
 }
 
 #' Calculate the observations related feature per deployment
-#' 
+#'
 #' Calculates the desired feature for a given deployment.
 #' It is used internally in `calc_obs_feature()`.
 #' @noRd
@@ -105,30 +107,35 @@ calc_obs_feature_per_deployment <- function(deployment_id,
       # Group by deploymentID and any additional grouping variables given in
       # `group_by_deployments` and `group_by_observations`
       dplyr::group_by(
-        dplyr::across(c("start",
-                        dplyr::all_of(group_by_deployments),
-                        dplyr::all_of(group_by_observations)))
+        dplyr::across(c(
+          "start",
+          dplyr::all_of(group_by_deployments),
+          dplyr::all_of(group_by_observations)
+        ))
       ) %>%
-      # Calculate number of observations (`observationID`) per group. Use function
-      # in `func` in `dplyr::summarise()` with arg `col_to_use` to specify the
-      # column. The new column is named based on `col_to_create` value.
+      # Calculate number of observations (`observationID`) per group. Use
+      # function in `func` in `dplyr::summarise()` with arg `col_to_use` to
+      # specify the column. The new column is named based on `col_to_create`
+      # value.
       dplyr::summarise(!!feature_col_name := !!feature_calc) %>%
       dplyr::ungroup() %>%
-      dplyr::select(dplyr::any_of(c(group_by_deployments,
-                                    group_by_observations,
-                                    "start",
-                                    rlang::as_string(feature_col_name)))
-      )
+      dplyr::select(dplyr::any_of(c(
+        group_by_deployments,
+        group_by_observations,
+        "start",
+        rlang::as_string(feature_col_name)
+      )))
   } else {
     # Empty tibble if feature is not present in the deployment, e.g. no
     # observations
     feat_one_deploy_df <- dplyr::tibble(
       !!!purrr::map(
-        purrr::set_names(
+        rlang::set_names(
           x = c(group_by_deployments, group_by_observations),
           nm = c(group_by_deployments, group_by_observations)
         ), ~ character(0)
-      )) %>%
+      )
+    ) %>%
       dplyr::mutate(start = lubridate::as_datetime(character(0))) %>%
       dplyr::mutate(!!feature_col_name := integer(0))
   }

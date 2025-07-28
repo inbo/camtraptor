@@ -99,7 +99,7 @@ summarize_deployments_for_deprecated_functions <- function(
 #' arguments `species`, `life_stage` and `sex` is also handled here.
 #'
 #' @param func_name Character, name of the deprecated function that is called.
-#'   One of`get_n_obs()`, `get_n_individuals()`, `get_rai()` and
+#'   One of `get_n_obs()`, `get_n_individuals()`, `get_rai()` or
 #'   `get_rai_individuals()`. Default: `NULL`.
 #' @inheritParams get_n_obs
 #' @return A tibble data frame with summarized observations as returned by
@@ -132,8 +132,8 @@ summarize_observations_for_deprecated_functions <- function(
     when = "1.0.0",
     what = paste0(function_name, "()"),
     details = glue::glue(
-      "Please use `summarize_observations(x, group_by = c(\"deploymentID\", \"scientificName\")` ",
-      "instead."
+      "Please use `summarize_observations(x, group_by = c(\"deploymentID\", ",
+      "\"scientificName\")` instead."
     )
   )
   

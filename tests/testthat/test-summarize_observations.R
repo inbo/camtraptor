@@ -29,10 +29,8 @@ test_that("summarize_observations() returns error for invalid group_time_by", {
   )
 })
 
-testthat::test_that(
-  paste0(
-    "summarize_observations() returns correct summary for grouping by ",
-    "deploymentID and scientificName (default)"), {
+testthat::test_that("summarize_observations() returns correct summary for
+                    grouping by deploymentID and scientificName (default)", {
       skip_if_offline()
       x <- example_dataset()  
       summary <- summarize_observations(x)
@@ -85,10 +83,8 @@ testthat::test_that(
     )
   })
 
-test_that(
-  paste0("summarize_observations() returns correct summary for grouping by ",
-         "deploymentID, i.e. no grouping by observations columns"
-  ), {
+test_that("summarize_observations() returns correct summary for grouping by 
+          deploymentID, i.e. no grouping by observations columns", {
     skip_if_offline()
     x <- example_dataset()
     summary <- summarize_observations(x, group_by = "deploymentID")
@@ -111,36 +107,33 @@ test_that(
                    "rai_count")
     )
     
-    # Check that `deploymentID` is a character
+    # Correct type of columns
     expect_true(is.character(summary$deploymentID))
-    # Check that `n_scientificName` is an integer
     expect_true(is.integer(summary$n_scientificName))
-    # Check that `n_events` is an integer
     expect_true(is.integer(summary$n_events))
-    # Check that `n_observations` is an integer
     expect_true(is.integer(summary$n_observations))
-    # Check that `sum_count` is an integer
     expect_true(is.integer(summary$sum_count))
-    # Check that `rai_observations` is a number
     expect_true(is.numeric(summary$rai_observations))
-    # Check that `rai_count` is a number
     expect_true(is.numeric(summary$rai_count))
     
     # Check that the number of returned deployments matches the number of
     # deployments in the dataset
     expect_equal(nrow(summary), nrow(deployments(x)))
     
-    # Right `deploymentID` values
+    # Correct `deploymentID` values
     expect_equal(
       summary$deploymentID,
       dplyr::pull(deployments(x),"deploymentID")
     )
     
-    # Number of scientific names returned is correct
-    n_species_df <- x %>%
+    observations_grouped <- 
+      x %>%
       filter_observations(.data$observationLevel == "event") %>%
       observations() %>%
-      dplyr::group_by(deploymentID) %>%
+      dplyr::group_by(deploymentID)
+    # Number of scientific names returned is correct
+    n_species_df <- 
+      observations_grouped %>%
       dplyr::summarise(
         n_scientificName = dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
       ) %>%
@@ -149,26 +142,20 @@ test_that(
                      n_species_df$n_scientificName
     )
     # Number of events returned is correct
-    n_events_df <- x %>%
-      filter_observations(.data$observationLevel == "event") %>%
-      observations() %>%
-      dplyr::group_by(deploymentID) %>%
+    n_events_df <- 
+      observations_grouped %>%
       dplyr::summarise(n_events = dplyr::n_distinct(.data$eventID)) %>%
       dplyr::ungroup()
     expect_identical(summary$n_events, n_events_df$n_events)
     # Number of observations returned is correct
-    n_obs_df <- x %>%
-      filter_observations(.data$observationLevel == "event") %>%
-      observations() %>%
-      dplyr::group_by(deploymentID) %>%
+    n_obs_df <-
+      observations_grouped %>%
       dplyr::summarise(n_obs = dplyr::n_distinct(.data$observationID)) %>%
       dplyr::ungroup()
     expect_identical(summary$n_observations, n_obs_df$n_obs)
     # Sum of individual counts returned is correct
-    sum_individual_counts_df <- x %>%
-      filter_observations(.data$observationLevel == "event") %>%
-      observations() %>%
-      dplyr::group_by(deploymentID) %>%
+    sum_individual_counts_df <- 
+      observations_grouped %>%
       dplyr::summarise(sum_count = as.integer(
         sum(.data$count, na.rm = TRUE))
       ) %>%
@@ -234,10 +221,9 @@ testthat::test_that(
     )
   })
 
-testthat::test_that(
-  paste0(
-    "summarize_observations() returns correct summary for grouping by ",
-    "lifeStage, i.e. no grouping by deployments columns"), {
+testthat::test_that("summarize_observations() returns correct summary for
+                    grouping by lifeStage, i.e. no grouping by deployments
+                    columns", {
       skip_if_offline()
       x <- example_dataset()
       summary <- summarize_observations(x, group_by = "lifeStage")
@@ -525,7 +511,8 @@ test_that("get_n_obs() returns the right output", {
   expect_identical(
     summary_n_obs,
     summarize_observations(x,
-                           group_by = c("deploymentID", "scientificName")) %>%
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
       dplyr::rename(n = n_observations) %>%
       dplyr::select(deploymentID, scientificName, n)
   )
@@ -563,10 +550,12 @@ test_that("get_n_individuals() and some of its args are deprecated", {
   x <- example_dataset()
   # Single deprecation with `species` = "all" (default)
   lifecycle::expect_deprecated(get_n_individuals(x, species = "all"),
-                               regex = "was deprecated in camtraptor 1.0.0.")
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
   # Single deprecation with `species` = NULL
   lifecycle::expect_deprecated(get_n_individuals(x, species = NULL),
-                               regex = "was deprecated in camtraptor 1.0.0.")
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
   # Check double deprecation when `species` is not NULL or not "all"
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
@@ -630,8 +619,10 @@ test_that("get_n_individuals() returns the right output", {
   # scientificName
   expect_identical(
     summary_n_individuals,
-    summarize_observations(x,
-                           group_by = c("deploymentID", "scientificName")) %>%
+    summarize_observations(
+      x,
+      group_by = c("deploymentID", "scientificName")
+    ) %>%
       dplyr::rename(n = sum_count) %>%
       dplyr::select(deploymentID, scientificName, n)
   )

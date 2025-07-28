@@ -461,48 +461,47 @@ mutate_when_missing <- function(.data,...){
 #' - `deploymentID`: the ID of the deployment.
 #' @noRd
 create_date_series <- function(deployment_id, deployments, group_time_by) {
-  
   # Select the deployment by ID
-  deployment <- deployments %>% 
+  deployment <- deployments %>%
     dplyr::filter(.data$deploymentID == deployment_id)
-  
   # Get start datetimes of the deployment
   start_date <- deployment %>%
     dplyr::pull("deploymentStart")
   # Calculate floor/ceiling start dates, based on the time grouping
   start_floor_date <- calendar_floor_date(start_date, group_time_by)
   start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
-  
   # Get end datetimes of the deployment
-  end_date <- deployments %>% 
+  end_date <- deployments %>%
     dplyr::filter(.data$deploymentID == deployment_id) %>%
     dplyr::pull("deploymentEnd")
   # Calculate floor/ceiling end dates, based on the time grouping
   end_floor_date <- calendar_floor_date(end_date, group_time_by)
   end_ceiling_date <- calendar_ceiling_date(end_date, group_time_by)
-  
   # Create a vector with all datetimes the time groups start and end
   if (is.null(group_time_by)) {
     start_date_series <- start_date
     end_date_series <- end_date
   } else {
     start_date_series <- lubridate::as_datetime(
-      seq.Date(from = lubridate::date(start_floor_date),
-               to = lubridate::date(end_floor_date),
-               by = group_time_by
+      seq.Date(
+        from = lubridate::date(start_floor_date),
+        to = lubridate::date(end_floor_date),
+        by = group_time_by
       )
     )
     end_date_series <- lubridate::as_datetime(
-      seq.Date(from = lubridate::date(start_ceiling_date),
-               to = lubridate::date(end_ceiling_date),
-               by = group_time_by
+      seq.Date(
+        from = lubridate::date(start_ceiling_date),
+        to = lubridate::date(end_ceiling_date),
+        by = group_time_by
       )
     )
   }
   # Return a tibble dataframe with the deployment ID and the start/end date series
-  dplyr::tibble(start = start_date_series,
-                end = end_date_series,
-                deploymentID = deployment_id
+  dplyr::tibble(
+    start = start_date_series,
+    end = end_date_series,
+    deploymentID = deployment_id
   )
 }
 
@@ -525,15 +524,19 @@ enrich_deployment <- function(deployment_id,
   create_date_series(
     deployments = deployments,
     deployment_id = deployment_id,
-    group_time_by = group_time_by) %>%
+    group_time_by = group_time_by
+  ) %>%
     # Add needed deployments columns
     dplyr::left_join(
       deployments %>%
-        dplyr::select("deploymentID",
-                      "deploymentStart",
-                      "deploymentEnd",
-                      dplyr::any_of(group_by)),
-      by = "deploymentID")
+        dplyr::select(
+          "deploymentID",
+          "deploymentStart",
+          "deploymentEnd",
+          dplyr::any_of(group_by)
+        ),
+      by = "deploymentID"
+    )
 }
 
 #' Enrich observations information of a deployment with date series
@@ -564,21 +567,27 @@ enrich_observations <- function(deployment_id,
                                 col_obs_for_feature) {
   if (deployment_id %in% observations$deploymentID) {
     observations %>%
-      dplyr::select("deploymentID",
-                    "eventStart",
-                    dplyr::any_of(group_by_observations),
-                    dplyr::any_of(col_obs_for_feature)) %>%
-      dplyr::left_join(enrich_deployment(deployment_id = deployment_id,
-                                         deployments = deployments,
-                                         group_by = group_by_deployments,
-                                         group_time_by = group_time_by),
-                       by = dplyr::join_by(deploymentID,
-                                           dplyr::between(
-                                             x = x$eventStart,
-                                             y$start,
-                                             y$end
-                                           )
-                       )
+      dplyr::select(
+        "deploymentID",
+        "eventStart",
+        dplyr::any_of(group_by_observations),
+        dplyr::any_of(col_obs_for_feature)
+      ) %>%
+      dplyr::left_join(
+        enrich_deployment(
+          deployment_id = deployment_id,
+          deployments = deployments,
+          group_by = group_by_deployments,
+          group_time_by = group_time_by
+        ),
+        by = dplyr::join_by(
+          deploymentID,
+          dplyr::between(
+            x = x$eventStart,
+            y$start,
+            y$end
+          )
+        )
       )
   } else {
     NULL

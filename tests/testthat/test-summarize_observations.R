@@ -207,9 +207,9 @@ testthat::test_that(
     skip_if_offline()
     x <- example_dataset()
     o <- observations(x)
-    o_with_no_obs <- o %>% dplyr::filter(deploymentID == "00a2c20d")
+    o_with_obs_one_deploy <- o %>% dplyr::filter(deploymentID == "00a2c20d")
     x_with_obs_one_deploy <- x
-    observations(x_with_obs_one_deploy) <- o_with_no_obs
+    observations(x_with_obs_one_deploy) <- o_with_obs_one_deploy
     summary_one_deploy <- summarize_observations(
       x_with_obs_one_deploy,
       group_by = "deploymentID"

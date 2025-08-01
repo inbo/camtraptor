@@ -2,9 +2,16 @@
 % Please edit documentation in R/summarize_observations.R
 \name{summarize_observations}
 \alias{summarize_observations}
+\alias{summarise_observations}
 \title{Summarize observations information}
 \usage{
 summarize_observations(
+  x,
+  group_by = c("deploymentID", "scientificName"),
+  group_time_by = NULL
+)
+
+summarise_observations(
   x,
   group_by = c("deploymentID", "scientificName"),
   group_time_by = NULL

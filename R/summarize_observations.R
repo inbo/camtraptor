@@ -205,6 +205,6 @@ summarize_observations <- function(
       )
   }
 }
-#' @rdname summarize_deployments
+#' @rdname summarize_observations
 #' @export
 summarise_observations <- summarize_observations

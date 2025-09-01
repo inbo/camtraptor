@@ -11,7 +11,8 @@ add_coordinates(x)
 \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 }
 \value{
-Camera trap data package object, where \code{observations} is updated by appending two new columns: \code{latitude} and \code{longitude}.
+Camera trap data package object, where \code{observations} is updated by
+appending two new columns: \code{latitude} and \code{longitude}
 }
 \description{
 This function adds deployment coordinates to \code{observations} based on

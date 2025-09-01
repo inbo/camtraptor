@@ -70,6 +70,19 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   }
 }
 
+check_group_time_by <- function(group_time_by, group_time_bys) {
+  assertthat::assert_that(
+    is.null(group_time_by) | length(group_time_by) == 1,
+    msg = "`group_time_by` must have length 1 or NULL."
+  )
+  check_value(
+    group_time_by,
+    group_time_bys,
+    "group_time_by",
+    null_allowed = TRUE
+  )
+}
+
 #' Get version from data package profile
 #'
 #' This helper functions returns the version of a Camera Trap Data Package by
@@ -427,4 +440,156 @@ mutate_when_missing <- function(.data,...){
   columns_to_add <- cols_to_check[!cols_to_check %in% colnames(.data)]
   if(!rlang::is_empty(columns_to_add)){.data <- dplyr::mutate(.data,...)}
   return(.data)
+}
+
+#' Create date series based on a deployment start/end and the time grouping
+#' 
+#' This function creates start/end date series for a given deployment, based on
+#' the `deploymentStart`, `deploymentEnd` and the given time grouping.
+#' 
+#' @param deployment_id Character, deployment ID.
+#' @param deployments A tibble data frame with deployments.
+#' @param group_time_by `NULL` or character, one of:
+#'  - `NULL`: No grouping, return the deployment start/end dates.
+#'  - `day`: Group by day.
+#'  - `week`: Group by week.
+#'  - `month`: Group by month.
+#'  - `year`: Group by year.
+#' @return A tibble data frame with three columns:
+#' - `start`: start dates.
+#' - `end`: end dates.
+#' - `deploymentID`: the ID of the deployment.
+#' @noRd
+create_date_series <- function(deployment_id, deployments, group_time_by) {
+  # Select the deployment by ID
+  deployment <- deployments %>%
+    dplyr::filter(.data$deploymentID == deployment_id)
+  # Get start datetimes of the deployment
+  start_date <- deployment %>%
+    dplyr::pull("deploymentStart")
+  # Calculate floor/ceiling start dates, based on the time grouping
+  start_floor_date <- calendar_floor_date(start_date, group_time_by)
+  start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
+  # Get end datetimes of the deployment
+  end_date <- deployments %>%
+    dplyr::filter(.data$deploymentID == deployment_id) %>%
+    dplyr::pull("deploymentEnd")
+  # Calculate floor/ceiling end dates, based on the time grouping
+  end_floor_date <- calendar_floor_date(end_date, group_time_by)
+  end_ceiling_date <- calendar_ceiling_date(end_date, group_time_by)
+  # Create a vector with all datetimes the time groups start and end
+  if (is.null(group_time_by)) {
+    start_date_series <- start_date
+    end_date_series <- end_date
+  } else {
+    start_date_series <- lubridate::as_datetime(
+      seq.Date(
+        from = lubridate::date(start_floor_date),
+        to = lubridate::date(end_floor_date),
+        by = group_time_by
+      )
+    )
+    end_date_series <- lubridate::as_datetime(
+      seq.Date(
+        from = lubridate::date(start_ceiling_date),
+        to = lubridate::date(end_ceiling_date),
+        by = group_time_by
+      )
+    )
+  }
+  # Return a tibble dataframe with the deployment ID and the start/end date series
+  dplyr::tibble(
+    start = start_date_series,
+    end = end_date_series,
+    deploymentID = deployment_id
+  )
+}
+
+#' Enrich deployment information with date series
+#'
+#' This function enriches the information about one deployment with date series
+#' based on its `deploymentStart`, `deploymentEnd` and the given time grouping.
+#' This function uses `create_date_series()` for creating the date series.
+#' 
+#' @param group_by A character vector of deployment column names to add to
+#'   the date series.
+#' @inheritParams create_date_series
+#' @return A tibble data frame with start/end dates, the deployment ID and the
+#'   deployments columns in `group_by`.
+#' @noRd
+enrich_deployment <- function(deployment_id,
+                              deployments,
+                              group_by,
+                              group_time_by) {
+  create_date_series(
+    deployments = deployments,
+    deployment_id = deployment_id,
+    group_time_by = group_time_by
+  ) %>%
+    # Add needed deployments columns
+    dplyr::left_join(
+      deployments %>%
+        dplyr::select(
+          "deploymentID",
+          "deploymentStart",
+          "deploymentEnd",
+          dplyr::any_of(group_by)
+        ),
+      by = "deploymentID"
+    )
+}
+
+#' Enrich observations information of a deployment with date series
+#' 
+#' This function enriches the information about the observations of a deployment
+#' with date series based on its `deploymentStart`, `deploymentEnd` and the
+#' given time grouping. This function is an extension of `enrich_deployment()`.
+#' 
+#' @param observations A data frame containing observation information of a
+#'  given deployment.
+#' @param group_by_deployments A character vector of deployment column names to
+#'  add to the date series.
+#' @param group_by_observations A character vector of observation column names
+#'  to add to the date series.
+#' @param col_obs_for_feature A character vector of observation columns to add
+#'  to the date series.
+#' @inheritParams enrich_deployment
+#' @return A tibble data frame with start/end dates, the deployment ID, the
+#'   columns in `group_by` and the observations columns. If `deployment_id` not
+#'   in `observations`, `NULL` is returned.
+#' @noRd
+enrich_observations <- function(deployment_id,
+                                deployments,
+                                observations,
+                                group_by_deployments,
+                                group_by_observations,
+                                group_time_by,
+                                col_obs_for_feature) {
+  if (deployment_id %in% observations$deploymentID) {
+    observations %>%
+      dplyr::select(
+        "deploymentID",
+        "eventStart",
+        dplyr::any_of(group_by_observations),
+        dplyr::any_of(col_obs_for_feature)
+      ) %>%
+      dplyr::left_join(
+        enrich_deployment(
+          deployment_id = deployment_id,
+          deployments = deployments,
+          group_by = group_by_deployments,
+          group_time_by = group_time_by
+        ),
+        by = dplyr::join_by(
+          deploymentID,
+          dplyr::between(
+            x = x$eventStart,
+            y$start,
+            y$end
+          )
+        )
+      )
+  } else {
+    NULL
+  }
 }

@@ -26,7 +26,7 @@
 #'   [camtrapR::cameraOperation()](
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
-#' @inheritParams n_species
+#' @inheritParams summarize_deployments
 #' @return A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
 #' @family camtrapR-derived functions

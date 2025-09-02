@@ -54,17 +54,15 @@ x <- example_dataset()
 # Return effort using default `group_by` and no time grouping
 summarize_deployments(x)
 
-# Return effort per `deploymentID` and `locationName`, by day
+# Return effort using default `group_by` and grouping by year
+summarize_deployments(x, group_time_by = "year")
+
+# Return effort specifying grouping columns, e.g. `deploymentID` and
+# `locationName` and grouping by day
 summarize_deployments(
   x,
   group_by = c("deploymentID", "locationName"),
   group_time_by = "day"
-)
-
-# Return effort per `deploymentID` and `locationName`. No grouping by time.
-summarize_deployments(
-  x,
-  group_by = c("deploymentID", "locationName")
 )
 
 # Afterwards, you can calculate the total effort over all deployments. You 

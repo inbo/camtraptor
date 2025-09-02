@@ -101,9 +101,9 @@ summarize_deployments <- function(
       dplyr::across(dplyr::all_of(c(group_by, group_time_by)))
     ) %>%
     dplyr::summarise(
-      effort_duration = sum(.data$effort_duration, na.rm = TRUE)
+      effort_duration = sum(.data$effort_duration, na.rm = TRUE),
+      .groups = "keep"
     ) %>%
-    dplyr::ungroup() %>%
     dplyr::mutate(
       effort_duration = lubridate::as.duration(.data$effort_duration)
     )

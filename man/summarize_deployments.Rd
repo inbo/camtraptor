@@ -31,7 +31,7 @@ deployments. At the moment you can choose one or many columns among:
 the deployment is taken into account as a whole.}
 }
 \value{
-A tibble data frame with the following columns:
+A grouped tibble data frame with the following columns:
 \itemize{
 \item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude} and
 \code{locationName}.
@@ -67,9 +67,9 @@ summarize_deployments(
   group_by = c("deploymentID", "locationName")
 )
 
-# Afterwards, you can calculate the total effort over all deployments. You
-can also show other information, e.g. the (number of) deployments and
-locations.
+# Afterwards, you can calculate the total effort over all deployments. You 
+# can also show other information, e.g. the (number of) deployments and
+# locations.
 library(dplyr)
 summarize_deployments(
   x,

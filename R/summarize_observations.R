@@ -12,9 +12,9 @@
 #'
 #' @param group_by Character vector with names of columns in deployments and
 #'   observations. At the moment you can choose one or many columns among:
-#'   `c("deploymentID", "locationID", "locationName", "deploymentTags",
-#'   "scientificName", "lifeStage", "sex", "behavior")`. Default:
-#'   `c("deploymentID", "scientificName")`.
+#'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
+#'   "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")`.
+#'   Default: `c("deploymentID", "latitude", "longitude", "scientificName")`.
 #' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
 #'   `"year"`. The features are calculated at the interval rate defined in
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
@@ -42,14 +42,14 @@
 #' # Summarize observations by `deploymentID` and `scientificName` (default)
 #' summarize_observations(x)
 #'
-#' # Summarize observations by `deploymentID` and month
+#' # Summarize observations by `deploymentID`, `latitude`, `longitude` and month
 #' summarize_observations(x, group_time_by = "month")
 #'
 #' # Summarize observations by `locationId`, and `locationName`
 #' summarize_observations(x, group_by = "locationName")
 summarize_observations <- function(
     x,
-    group_by = c("deploymentID", "scientificName"),
+    group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
     group_time_by = NULL) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
@@ -58,6 +58,8 @@ summarize_observations <- function(
   # Some `group_by` values are deployment related, others obs related
   group_bys_deployments <- c(
     "deploymentID",
+    "latitude",
+    "longitude",
     "locationID",
     "locationName",
     "deploymentTags"

@@ -7,13 +7,13 @@
 \usage{
 summarize_observations(
   x,
-  group_by = c("deploymentID", "scientificName"),
+  group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
   group_time_by = NULL
 )
 
 summarise_observations(
   x,
-  group_by = c("deploymentID", "scientificName"),
+  group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
   group_time_by = NULL
 )
 }
@@ -23,8 +23,8 @@ summarise_observations(
 
 \item{group_by}{Character vector with names of columns in deployments and
 observations. At the moment you can choose one or many columns among:
-\code{c("deploymentID", "locationID", "locationName", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}. Default:
-\code{c("deploymentID", "scientificName")}.}
+\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}.
+Default: \code{c("deploymentID", "latitude", "longitude", "scientificName")}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
 \code{"year"}. The features are calculated at the interval rate defined in
@@ -66,7 +66,8 @@ Summarizes event-based observations by calculating:
 }
 \examples{
 x <- example_dataset()
-# Summarize observations by `deploymentID` and `scientificName` (default)
+# Summarize observations by `deploymentID`, `latitude`, `longitude` and
+# `scientificName` (default)
 summarize_observations(x)
 
 # Summarize observations by `deploymentID` and month

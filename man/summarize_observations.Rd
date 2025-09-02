@@ -32,9 +32,9 @@ Default: \code{c("deploymentID", "latitude", "longitude", "scientificName")}.}
 the deployment is taken into account as a whole.}
 }
 \value{
-A tibble data frame with the following columns:
+A grouped tibble data frame with the following columns:
 \itemize{
-\item \code{group_by} names, e.g. \code{deploymentID} and \code{locationName}.
+\item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude}, and \code{scientificName}.
 \item \code{group_time_by} name if provided, e.g. \code{month}. It is a datetime column
 containing the first date of the time interval, e.g. the first day of the
 month.

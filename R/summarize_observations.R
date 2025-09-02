@@ -20,8 +20,8 @@
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
 #'   the deployment is taken into account as a whole.
 #' @inheritParams summarize_deployments
-#' @return A tibble data frame with the following columns:
-#'   - `group_by` names, e.g. `deploymentID` and `locationName`.
+#' @return A grouped tibble data frame with the following columns:
+#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`, and `scientificName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
 #'   containing the first date of the time interval, e.g. the first day of the
 #'   month.
@@ -39,7 +39,8 @@
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' # Summarize observations by `deploymentID` and `scientificName` (default)
+#' # Summarize observations by `deploymentID`, `latitude`, `longitude` and
+#' # `scientificName` (default)
 #' summarize_observations(x)
 #'
 #' # Summarize observations by `deploymentID`, `latitude`, `longitude` and month

@@ -72,9 +72,9 @@ calc_obs_feature <- function(deployment_ids,
       )))
     ) %>%
     dplyr::summarise(
-      !!rlang::f_lhs(formula_total) := !!rlang::f_rhs(formula_total)
-    ) %>%
-    dplyr::ungroup()
+      !!rlang::f_lhs(formula_total) := !!rlang::f_rhs(formula_total),
+      .groups = "keep"
+    )
 }
 
 #' Calculate the observations related feature per deployment
@@ -108,17 +108,18 @@ calc_obs_feature_per_deployment <- function(deployment_id,
       # `group_by_deployments` and `group_by_observations`
       dplyr::group_by(
         dplyr::across(c(
-          "start",
           dplyr::all_of(group_by_deployments),
-          dplyr::all_of(group_by_observations)
+          dplyr::all_of(group_by_observations),
+          "start"
         ))
       ) %>%
       # Calculate number of observations (`observationID`) per group. Use
       # function in `func` in `dplyr::summarise()` with arg `col_to_use` to
       # specify the column. The new column is named based on `col_to_create`
       # value.
-      dplyr::summarise(!!feature_col_name := !!feature_calc) %>%
-      dplyr::ungroup() %>%
+      dplyr::summarise(!!feature_col_name := !!feature_calc,
+                       .groups = "keep"
+      ) %>%
       dplyr::select(dplyr::any_of(c(
         group_by_deployments,
         group_by_observations,
@@ -136,6 +137,15 @@ calc_obs_feature_per_deployment <- function(deployment_id,
         ), ~ character(0)
       )
     ) %>%
+      # Group by deploymentID and any additional grouping variables given in
+      # `group_by_deployments` and `group_by_observations`
+      dplyr::group_by(
+        dplyr::across(c(
+          dplyr::all_of(group_by_deployments),
+          dplyr::all_of(group_by_observations),
+          "start"
+        ))
+      ) %>%
       dplyr::mutate(start = lubridate::as_datetime(character(0))) %>%
       dplyr::mutate(!!feature_col_name := integer(0))
   }

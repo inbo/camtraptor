@@ -5,9 +5,17 @@
 \alias{summarise_deployments}
 \title{Summarize deployments information}
 \usage{
-summarize_deployments(x, group_by = "deploymentID", group_time_by = NULL)
+summarize_deployments(
+  x,
+  group_by = c("deploymentID", "latitude", "longitude"),
+  group_time_by = NULL
+)
 
-summarise_deployments(x, group_by = "deploymentID", group_time_by = NULL)
+summarise_deployments(
+  x,
+  group_by = c("deploymentID", "latitude", "longitude"),
+  group_time_by = NULL
+)
 }
 \arguments{
 \item{x}{Camera trap data package object, as returned by
@@ -15,8 +23,7 @@ summarise_deployments(x, group_by = "deploymentID", group_time_by = NULL)
 
 \item{group_by}{Character vector with the names of the columns in
 deployments. At the moment you can choose one or many columns among:
-\code{c("deploymentID", "locationID", "locationName", "deploymentTags")}.
-Default: \code{deploymentID}.}
+\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags")}. Default: \code{c("deploymentID", "latitude", "longitude")}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
 \code{"year"}. The effort is calculated at the interval rate defined in
@@ -26,7 +33,8 @@ the deployment is taken into account as a whole.}
 \value{
 A tibble data frame with the following columns:
 \itemize{
-\item \code{group_by} names, e.g. \code{deploymentID} and \code{locationName}.
+\item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude} and
+\code{locationName}.
 \item \code{group_time_by} name if provided, e.g. \code{month}. It contains the first
 date of the time interval, e.g. the first day of the month.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
@@ -42,6 +50,9 @@ Summarizes deployments information, more specifically the duration effort.
 }
 \examples{
 x <- example_dataset()
+
+# Return effort using default `group_by` and no time grouping
+summarize_deployments(x)
 
 # Return effort per `deploymentID` and `locationName`, by day
 summarize_deployments(

@@ -60,7 +60,7 @@ calc_obs_feature <- function(deployment_ids,
       formula = formula_per_deployment
     ))
   feat_per_deploy <- purrr::list_rbind(feat_per_deploy)
-
+  
   # Calculate the number of observations over all deployments grouped by
   # `group_by_deployments`, `group_by_observations` and `group_time_by`
   feat_per_deploy %>%
@@ -128,26 +128,37 @@ calc_obs_feature_per_deployment <- function(deployment_id,
       )))
   } else {
     # Empty tibble if feature is not present in the deployment, e.g. no
-    # observations
+    # observations.
+    # Start with setting all columns to character, the most common type.
     feat_one_deploy_df <- dplyr::tibble(
       !!!purrr::map(
         rlang::set_names(
-          x = c(group_by_deployments, group_by_observations),
-          nm = c(group_by_deployments, group_by_observations)
+          x = c(group_by_deployments, group_by_observations, "start"),
+          nm = c(group_by_deployments, group_by_observations, "start")
         ), ~ character(0)
       )
-    ) %>%
-      # Group by deploymentID and any additional grouping variables given in
-      # `group_by_deployments` and `group_by_observations`
+    )
+    # Add the feature column with the correct type (integer, numeric, etc.)
+    feat_one_deploy_df <- feat_one_deploy_df %>%
+      dplyr::mutate(start = lubridate::as_datetime(character(0))) %>%
+      dplyr::mutate(!!feature_col_name := integer(0)) %>%
+      # latitude and longitude, if present, must be set to numeric
+      dplyr::mutate(
+        dplyr::across(
+          dplyr::any_of(c("latitude", "longitude")),
+          as.numeric)
+      )
+    # Group by deploymentID and any additional grouping variables given in
+    # `group_by_deployments` and `group_by_observations`
+    feat_one_deploy_df <- feat_one_deploy_df %>%
       dplyr::group_by(
         dplyr::across(c(
           dplyr::all_of(group_by_deployments),
           dplyr::all_of(group_by_observations),
           "start"
         ))
-      ) %>%
-      dplyr::mutate(start = lubridate::as_datetime(character(0))) %>%
-      dplyr::mutate(!!feature_col_name := integer(0))
+      )
+      
   }
   if (!is.null(group_time_by)) {
     feat_one_deploy_df %>%

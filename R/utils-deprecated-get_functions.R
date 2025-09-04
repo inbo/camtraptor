@@ -133,7 +133,7 @@ summarize_observations_for_deprecated_functions <- function(
     what = paste0(function_name, "()"),
     details = glue::glue(
       "Please use `summarize_observations(x, group_by = c(\"deploymentID\", ",
-      "\"scientificName\")` instead."
+      "\"latitude\"), \"longitude\"), \"scientificName\")` instead."
     )
   )
   

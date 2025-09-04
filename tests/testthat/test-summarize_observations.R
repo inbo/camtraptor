@@ -62,15 +62,15 @@ testthat::test_that("summarize_observations() returns correct summary for
   expect_identical(
     dplyr::select(
       deployments(x),
-      "deploymentID",
-      "latitude",
-      "longitude"
+      deploymentID,
+      latitude,
+      longitude
     ),
     dplyr::distinct(
       dplyr::ungroup(summary),
-      "deploymentID",
-      "latitude",
-      "longitude"
+      deploymentID,
+      latitude,
+      longitude
     )
   )
   # All scientific names are present

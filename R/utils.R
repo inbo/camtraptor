@@ -28,13 +28,13 @@
 #' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   max_print <- 20
-
+  
   # Drop NA
   options <- options[!is.na(options)]
-
+  
   # Wrong values
   wrong_values <- arg[!(arg %in% options)]
-
+  
   # Suppress long messages with valid options
   if (length(options) > max_print) {
     options_to_print <- c(options[1:max_print], "others...")
@@ -56,7 +56,7 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
     ".\nValid inputs are: ",
     glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
   )
-
+  
   # Provide user message
   if (!is.null(arg)) {
     assertthat::assert_that(
@@ -64,7 +64,8 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
       msg = msg_to_print
     )
   } else {
-    assertthat::assert_that(null_allowed == TRUE,
+    assertthat::assert_that(
+      null_allowed == TRUE,
       msg = msg_to_print
     )
   }
@@ -157,7 +158,8 @@ labelFormat_scale <- function(max_scale = NULL,
                               big.mark = ",",
                               transform = identity) {
   formatNum <- function(x, max_scale) {
-    cuts_chrs <- format(round(transform(x), digits),
+    cuts_chrs <- format(
+      round(transform(x), digits),
       trim = TRUE,
       scientific = FALSE,
       big.mark = big.mark
@@ -170,12 +172,15 @@ labelFormat_scale <- function(max_scale = NULL,
     }
     return(cuts_chrs)
   }
-
+  
   function(type, ...) {
-    switch(type,
-      numeric = (function(cuts) {
-        paste0(prefix, formatNum(cuts, max_scale), suffix)
-      })(...)
+    switch(
+      type,
+      numeric = (
+        function(cuts) {
+          paste0(prefix, formatNum(cuts, max_scale), suffix)
+        }
+      )(...)
     )
   }
 }
@@ -248,27 +253,39 @@ calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
       edge = dplyr::if_else(
         !is.null(calc_start), 
         .data$deploymentStart, .data$deploymentEnd
-        ),
+      ),
       edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
     )
   deploy_df %>%
     # calculate the duration of the start/end day (edge day)
     dplyr::mutate(
       edge_day_duration =
-        lubridate::as.duration(lubridate::as_datetime(.data$edge_day) +
-          lubridate::ddays(1) -
-          lubridate::as_datetime(.data$edge_day))
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) + 
+            lubridate::ddays(1) -
+            lubridate::as_datetime(.data$edge_day)
+        )
     ) %>%
     # calculate the duration of the active part of the start/end day
     dplyr::mutate(active_edge_day_duration = dplyr::if_else(
       !is.null(calc_start),
       # start day
-      .data$edge_day_duration - lubridate::as.duration(.data$edge - lubridate::as_datetime(.data$edge_day)),
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          .data$edge - lubridate::as_datetime(.data$edge_day)
+        ),
       # end day
-      .data$edge_day_duration - lubridate::as.duration(lubridate::as_datetime(.data$edge_day) + lubridate::ddays(1) - .data$edge)
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) +
+            lubridate::ddays(1) -
+            .data$edge
+        )
     )) %>%
     # calculate the fraction of the duration of the active part
-    dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
+    dplyr::mutate(
+      daily_effort = .data$active_edge_day_duration / .data$edge_day_duration
+    ) %>%
     dplyr::pull(.data$daily_effort)
 }
 

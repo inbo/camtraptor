@@ -45,7 +45,7 @@ calc_obs_feature <- function(deployment_ids,
     "col_obs_for_feature",
     null_allowed = FALSE
   )
-  # Number of observations per `deploymentID` and `group_time_by`. It contains
+  # Calculate the feature per `deploymentID` and `group_time_by`. It contains
   # also the deployment columns in `group_by_deployments` and the observation
   # columns in `group_by_observations`
   feat_per_deploy <- deployment_ids %>%
@@ -61,7 +61,7 @@ calc_obs_feature <- function(deployment_ids,
     ))
   feat_per_deploy <- purrr::list_rbind(feat_per_deploy)
   
-  # Calculate the number of observations over all deployments grouped by
+  # Calculate the feature over all deployments grouped by
   # `group_by_deployments`, `group_by_observations` and `group_time_by`
   feat_per_deploy %>%
     dplyr::group_by(

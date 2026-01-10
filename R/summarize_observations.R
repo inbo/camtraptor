@@ -35,6 +35,10 @@
 #'   (RAI), defined as `100 * (n_observations/effort)` where `n_observations` is
 #'   the number of observations and `effort` is the `effort_duration` as
 #'   returned by `summarize_deployments()` expressed in days.
+#'   - `rai_count`: numeric vector with the Relative Abundance Index (RAI),
+#'   defined as `100 * (sum_count/effort)` where `sum_count` is the sum of
+#'   individual counts and `effort` is the `effort_duration` as returned by
+#'   `summarize_deployments()` expressed in days.
 #' @family exploration functions
 #' @export
 #' @examples

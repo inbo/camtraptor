@@ -47,8 +47,8 @@
 #' # `scientificName` (default)
 #' summarize_observations(x)
 #'
-#' # Summarize observations by `deploymentID`, `latitude`, `longitude` and month
-#' summarize_observations(x, group_time_by = "month")
+#' # Summarize observations by `deploymentID`, and month
+#' summarize_observations(x, group_by = "deploymentID", group_time_by = "month")
 #'
 #' # Summarize observations by `locationId`, and `locationName`
 #' summarize_observations(x, group_by = "locationName")

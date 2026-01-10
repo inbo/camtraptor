@@ -1,6 +1,6 @@
 #' Calculate the observations related feature
 #'
-#' Calculates the desired feature. This function uses the passed formulas;
+#' Calculates the desired feature. This function uses the passed formulas.
 #' Temporal grouping is also possible. This function is used internally in
 #' `summarize_observations()`.
 #'

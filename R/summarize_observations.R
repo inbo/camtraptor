@@ -60,28 +60,12 @@ summarize_observations <- function(
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`
-  # Some `group_by` values are deployment related, others obs related
-  group_bys_deployments <- c(
-    "deploymentID",
-    "latitude",
-    "longitude",
-    "locationID",
-    "locationName",
-    "deploymentTags"
-  )
-  group_bys_observations <- c(
-    "scientificName",
-    "lifeStage",
-    "sex",
-    "behavior"
-  )
-  group_bys <- c(group_bys_deployments, group_bys_observations)
+  group_bys <- c(.group_bys_deployments, .group_bys_observations)
   check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
-  group_by_deployments <- group_by[group_by %in% group_bys_deployments]
-  group_by_observations <- group_by[group_by %in% group_bys_observations]
+  group_by_deployments <- group_by[group_by %in% .group_bys_deployments]
+  group_by_observations <- group_by[group_by %in% .group_bys_observations]
   # Check `group_time_by`
-  group_time_bys <- c("day", "week", "month", "year")
-  check_group_time_by(group_time_by, group_time_bys)
+  check_group_time_by(group_time_by, .group_time_bys)
   # Use event-based observations only
   x <- x %>%
     filter_observations(.data$observationLevel == "event")

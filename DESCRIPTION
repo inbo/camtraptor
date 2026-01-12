@@ -54,6 +54,7 @@ Imports:
     readr,
     rlang,
     reshape2,
+    snakecase,
     stringr,
     tidyr,
     tools,

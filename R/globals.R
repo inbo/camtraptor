@@ -31,3 +31,25 @@
 .features_deployments <- c(
   "effort_duration"
 )
+
+#' Prefix table for hover info over deployments
+#'
+#' Stores prefixes for info shown in leaflet map while hovering over a
+#' deployment with the mouse.
+#'
+#' Returns a data.frame of all prefixes with the following columns:
+#' - `info`: all valid grouping columns (deployments or observations) and features.
+#' - `prefix`: Prefix to use.
+.prefixes_for_hover_info <- dplyr::tibble(
+  info = c(.group_bys_deployments,
+           .group_bys_observations,
+           .features_deployments,
+           .features_observations
+  ),
+  prefix = snakecase::to_sentence_case(info) %>%
+    stringr::str_c(": ") %>%
+    # Add `"s"` to `"N scientific name"`
+    stringr::str_replace(pattern = "N scientific name", replacement = "N scientific names") %>%
+    # Replace `"count"` with `individual counts"`
+    stringr::str_replace(pattern = "count", replacement = "individual counts")
+)

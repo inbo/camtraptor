@@ -84,6 +84,70 @@ check_group_time_by <- function(group_time_by, group_time_bys) {
   )
 }
 
+#' Check a data frame is output of `summarize_observations()`.
+#' 
+#' @param grouped_df A grouped tibble data frame as returned by
+#'   `summarize_observations()`.
+#' @return If no error, `TRUE`.
+check_summary <- function(grouped_df) {
+  # Check input is a grouped data frame
+  assertthat::assert_that(
+    "grouped_df" %in% class(grouped_df),
+    msg = "The summary must be a grouped tibble data frame."
+  )
+  
+  all_columns <- colnames(grouped_df)
+  grouping_cols <- dplyr::group_vars(grouped_df)
+  features <- setdiff(all_columns, grouping_cols)
+  
+  # Check the columns used for grouping are valid grouping cols
+  wrong_grouping_cols <- setdiff(
+    grouping_cols,
+    c(.group_bys_deployments, .group_bys_observations, .group_time_bys)
+  )
+  assertthat::assert_that(
+    length(wrong_grouping_cols) == 0,
+    msg = glue::glue(
+      "Invalid grouping columns in the summary: ",
+      glue::glue_collapse(
+        glue::backtick(wrong_grouping_cols), sep = ", ", last = " and "
+      ),
+      ".\n",
+      "Valid deployment grouping columns: ",
+      glue::glue_collapse(
+        glue::backtick(c(.group_bys_deployments, .group_bys_observations, .group_time_bys)), sep = ", ", last = " and "
+      ),
+      ".\n"
+    )
+  )
+  # Only one time grouping present
+  time_grouping_cols <- intersect(grouping_cols, .group_time_bys)
+  assertthat::assert_that(
+    length(time_grouping_cols) <= 1,
+    msg = glue::glue(
+      "Only one time grouping column is allowed in the summary. ",
+      "Found: ",
+      glue::glue_collapse(
+        glue::backtick(time_grouping_cols), sep = ", ", last = " and "
+      ),
+      "."
+    )
+  )
+  
+  # Check `grouped_df` contains the right features
+  wrong_features <- setdiff(features, .features_observations)
+  assertthat::assert_that(
+    length(wrong_features) == 0,
+    msg = glue::glue(
+      "Invalid features in the summary: ",
+      glue::glue_collapse(
+        glue::backtick(wrong_features), sep = ", ", last = " and "
+      ),
+      "."
+    )
+  )
+}
+
 #' Get version from data package profile
 #'
 #' This helper functions returns the version of a Camera Trap Data Package by

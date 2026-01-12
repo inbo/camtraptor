@@ -169,7 +169,8 @@ extend_summary <- function(summary, x) {
 summarize_observations <- function(
     x,
     group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
-    group_time_by = NULL) {
+    group_time_by = NULL,
+    extend = FALSE) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
 
@@ -285,7 +286,7 @@ summarize_observations <- function(
       group_by = group_by_deployments,
       group_time_by = group_time_by
     )
-    summary %>%
+    summary <- summary %>%
       dplyr::left_join(effort_df,
         by = c(group_by_deployments, group_time_by)
       ) %>%
@@ -303,13 +304,23 @@ summarize_observations <- function(
       ) %>%
       dplyr::select(-"effort_duration")
   } else {
-    summary %>%
+    summary <- summary %>%
       dplyr::mutate(
         rai_observations = NA_real_,
         rai_count = NA_real_
       )
   }
+  # Extend summary if required
+  if (isTRUE(extend)) {
+    extend_summary(
+      summary = summary,
+      x = x
+    )
+  } else {
+    summary
+  }
 }
+
 #' @rdname summarize_observations
 #' @export
 summarise_observations <- summarize_observations

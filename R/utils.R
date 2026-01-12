@@ -249,54 +249,6 @@ labelFormat_scale <- function(max_scale = NULL,
   }
 }
 
-#' Get deployments without observations
-#'
-#' Return subset of deployments without observations. A message is also returned
-#' to list the ID of such deployments.
-#'
-#' @inheritParams n_species
-#' @return A tibble data frame with deployments not linked to any observations.
-#' @family exploration functions
-#' @noRd
-#' @examples
-#' x <- example_dataset()
-#' get_dep_no_obs(x)
-get_dep_no_obs <- function(x) {
-  
-  # Check camera trap data package
-  camtrapdp::check_camtrapdp(x)
-  
-  # Extract observations and deployments
-  observations <- observations(x)
-  deployments <- deployments(x)
-  
-  # Deployment with no observations
-  dep_no_obs <-
-    deployments %>%
-    dplyr::anti_join(observations %>%
-      dplyr::distinct(.data$deploymentID),
-    by = "deploymentID"
-    )
-
-  dep_no_obs_ids <- dep_no_obs$deploymentID
-  n_dep_no_obs <- length(dep_no_obs_ids)
-
-  if (n_dep_no_obs > 0) {
-    max_print <- 20
-    # Suppress long messages
-    if (length(dep_no_obs_ids) > max_print) {
-      options_to_print <- c(dep_no_obs_ids[1:max_print], "others..")
-    } else {
-      options_to_print <- dep_no_obs_ids
-    }
-    message(glue::glue(
-      "There are {n_dep_no_obs} deployments without observations: ",
-      glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
-    ))
-  }
-  return(dep_no_obs)
-}
-
 #' Calculate daily effort for start or end day
 #'
 #' While assessing the camera operation matrix, start and end day are edge

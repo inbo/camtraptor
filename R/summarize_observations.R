@@ -1,3 +1,117 @@
+#' Extend observations summary with the groups left out by summarize functions
+#'
+#' The function `summarize_observations()` doesn't include all possible groups.
+#' This is also the normal behavior of dplyr's `summarize()` function. However,
+#' for exploration and visualization purposes, it is sometimes useful to know
+#' which groups are missing. This function extends the summary with the missing
+#' groups. More details are provided in the details section.
+#'
+#' @details
+#' The function works by getting all possible combinations of the grouping
+#' columns of the summary from `observations` and all existent
+#' combinations in `deployments`.
+#' Then, it performs a full join between the provided summary and the complete
+#' set of groups. This ensures that all possible groups are represented in the
+#' final output.
+#' 
+#' @param summary A grouped tibble data frame as returned by
+#'   `summarize_observations()`.
+#' @param x Camera Trap Data Package object.
+#' @return A grouped tibble data frame with the missing groups added. The values
+#'   of the features are set to `0` or `NA`, depending on the feature. See the
+#'   details section for more information.
+#' @noRd
+extend_summary <- function(summary, x) {
+  
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(x)
+  # Check `summary` is a valid summary
+  check_summary(summary)
+  
+  # Get observations
+  obs <- observations(x)
+  
+  # Get grouping columns from the summary
+  grouping_cols <- dplyr::group_vars(summary)
+  
+  # Grouping cols in observations
+  grouping_cols_obs <- grouping_cols[
+    grouping_cols %in% .group_bys_observations
+  ]
+  
+  # Grouping cols in deployments if any
+  grouping_cols_dep <- grouping_cols[
+    grouping_cols %in% .group_bys_deployments
+  ]
+  
+  # Time grouping column if any
+  time_group_col <- grouping_cols[
+    grouping_cols %in% .group_time_bys
+  ]
+  if (length(time_group_col) == 0) {
+    # Set time_group_col to NULL if not present: it makes easier to handle
+    # later: one if-else statement less
+    time_group_col <- NULL
+  }
+  
+  # Get all deployment/time groups by running `summarize_deployments()` with
+  # the same temporal grouping if any
+  if (length(grouping_cols_dep) > 0) {
+    dep_time_groups <- summarize_deployments(
+      x,
+      group_by = grouping_cols_dep,
+      group_time_by = time_group_col
+    )
+  } else {
+    dep_time_groups <- summarize_deployments(
+      x,
+      group_by = "deploymentID", # "dummy" grouping to get time groups
+      group_time_by = time_group_col
+    )
+  }
+  dep_time_groups <- dep_time_groups %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::any_of(c(grouping_cols_dep, time_group_col))) %>%
+    dplyr::distinct()
+  
+  # Get all possible groups in observations
+  all_groups_obs <- obs %>%
+    # Select only the grouping columns present in observations (using `any_of()`
+    # to avoid error when summary is also grouped temporally
+    dplyr::select(dplyr::any_of(grouping_cols_obs)) %>%
+    dplyr::distinct() %>%
+    # Get all unique values per grouping column. This step is needed because
+    # `expand.grid()` considers multiple NAs in a column as separate entities
+    # when creating combinations, leading to duplicate rows in the output.
+    purrr::map(unique) %>%
+    # Create all combinations of grouping columns.
+    expand.grid() %>%
+    dplyr::as_tibble()
+  
+  # Extend the deployments/time groups with the observation groups
+  all_groups <- tidyr::expand_grid(dep_time_groups, all_groups_obs)
+  
+  # Extend summary with all possible groups
+  extended_summary <- summary %>%
+    dplyr::full_join(all_groups, by = grouping_cols) %>%
+    # Preserve the order based on grouping columns
+    dplyr::arrange(dplyr::across(dplyr::all_of(grouping_cols)))
+  
+  # NAs must be replaced by `0` except for `n_scientficName`
+  features_zero <- .features_observations[
+    .features_observations != "n_scientificName"
+  ]
+  extended_summary <- extended_summary %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::all_of(features_zero),
+        ~ tidyr::replace_na(., 0)
+      )
+    )
+  
+  return(extended_summary)
+}
+
 #' Summarize observations information
 #'
 #' Summarizes event-based observations by calculating:

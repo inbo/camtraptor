@@ -122,17 +122,34 @@ extend_summary <- function(summary, x) {
 #' - Relative Abundance Index (RAI) based on number of observations.
 #' - Relative Abundance Index (RAI) based on individual counts.
 #'
-#' `summarize_observations()` and `summarise_observations()` are synonyms.
+#' @details `summarize_observations()` and `summarise_observations()` are
+#'   synonyms.
+#'
+#' By default (`extend = FALSE`), the function follows the standard behavior of
+#' `dplyr::summarise()`, returning only groups that have observations. This
+#' means deployments or time periods with zero observations for the specified
+#' grouping are excluded from the output.
+#'
+#' When `extend = TRUE`, the summary is extended to include all possible
+#' combinations of grouping variables, even when no observations exist for a
+#' particular group. This is particularly useful for visualisations (`map_summary()`) and analysis as it identifies for example:
+#' - Deployments where a specific species was not observed.
+#' - Time periods when a specific species was not observed.
+#' - Presence/absence patterns across deployments.
+#'
+#' For extended summaries, feature values are set to `0` for groups with no
+#' observations, except for `n_scientificName` which is set to `NA` when no
+#' species are present as `O` is used when only unidentified individuals are
+#' observed.
 #'
 #' @param group_by Character vector with names of columns in deployments and
 #'   observations. At the moment you can choose one or many columns among:
 #'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
-#'   "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")`.
+#'   "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")`.\cr
 #'   Default: `c("deploymentID", "latitude", "longitude", "scientificName")`.
-#' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
-#'   `"year"`. The features are calculated at the interval rate defined in
-#'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
-#'   the deployment is taken into account as a whole.
+#' @param extend Logical. If `TRUE`, the summary is extended with all possible
+#'   groups left out by `summarize_observations()`. See details section for more
+#'   information. Default: `FALSE`.
 #' @inheritParams summarize_deployments
 #' @return A grouped tibble data frame with the following columns:
 #'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`, and `scientificName`.
@@ -161,11 +178,19 @@ extend_summary <- function(summary, x) {
 #' # `scientificName` (default)
 #' summarize_observations(x)
 #'
-#' # Summarize observations by `deploymentID`, and month
-#' summarize_observations(x, group_by = "deploymentID", group_time_by = "month")
-#'
-#' # Summarize observations by `locationId`, and `locationName`
+#' # Summarize observations by `locationId`, and `locationName` (summary by
+#' deployment columns only)
 #' summarize_observations(x, group_by = "locationName")
+#'
+#' # Summarize observations by `scientificName` and `sex` (summary by
+#' observation columns only)
+#' summarize_observations(x, group_by = c("scientificName", "sex"))
+#'
+#' # Apply temporal grouping by month
+#' summarize_observations(x, group_time_by = "month")
+#'
+#' # Extend the summary to include all possible groups
+#' summarize_observations(x, extend = TRUE)
 summarize_observations <- function(
     x,
     group_by = c("deploymentID", "latitude", "longitude", "scientificName"),

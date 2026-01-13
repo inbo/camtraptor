@@ -100,10 +100,15 @@ extend_summary <- function(summary, x) {
     # Preserve the order based on grouping columns
     dplyr::arrange(dplyr::across(dplyr::all_of(grouping_cols)))
   
-  # NAs must be replaced by `0` except for `n_scientficName`
+  # NAs must be replaced by `0` except for `n_scientficName` and rai_* columns when grouping is done only by observations columns.
   features_zero <- .features_observations[
     .features_observations != "n_scientificName"
   ]
+  if (length(grouping_cols_dep) == 0) {
+    features_zero <- features_zero[
+      !features_zero %in% c("rai_observations", "rai_count")
+    ]
+  }
   extended_summary <- extended_summary %>%
     dplyr::mutate(
       dplyr::across(

@@ -414,6 +414,98 @@ testthat::test_that(
   )
 })
 
+testthat::test_that(
+  "extending summary  works well with observation grouping variables", {
+    skip_if_offline()
+    x <- example_dataset()
+    s <- summarize_observations(x, group_by = c("sex", "lifeStage"))
+    s_extended <- summarize_observations(
+      x,
+      group_by = c("sex", "lifeStage"),
+      extend = TRUE
+    )
+    # Extended summary preserves grouping
+    expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+    # Extended summary includes the not extended summary
+    missing_rows <- dplyr::anti_join(s, s_extended)
+    testthat::expect_equal(nrow(missing_rows), 0)
+    # Extended summary has as many rows as all combinations of grouping
+    # variables (valid for grouping variables in observations)
+    sex_values <- unique(dplyr::pull(observations(x), "sex"))
+    life_stage_values <- unique(dplyr::pull(observations(x), "lifeStage"))
+    expect_identical(
+      nrow(s_extended),
+      length(sex_values) * length(life_stage_values)
+    )
+  }
+)
+
+testthat::test_that(
+  "extending summary works well with time grouping and deployments variables", {
+    skip_if_offline()
+    x <- example_dataset()
+    s <- summarize_observations(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week"
+    )
+    s_extended <- summarize_observations(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week",
+      extend = TRUE
+    )
+    # Extended summary preserves grouping
+    expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+    # Extended summary includes the not extended summary
+    missing_rows <- dplyr::anti_join(s, s_extended)
+    testthat::expect_equal(nrow(missing_rows), 0)
+    # Extended summary has as many rows as summarize_deployments() with
+    # time grouping by week
+    summary_deployments <- summarize_deployments(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week"
+    )
+    expect_identical(nrow(s_extended), nrow(summary_deployments))
+  }
+)
+
+test_that("extending summary works well with dep-obs variables", {
+  skip_if_offline()
+  x <- example_dataset()
+  s <- summarize_observations(
+    x,
+    group_by = c("deploymentID", "sex"),
+    group_time_by = "month"
+  )
+  s_extended <- summarize_observations(
+    x,
+    group_by = c("deploymentID", "sex"),
+    group_time_by = "month",
+    extend = TRUE
+  )
+  # Extended summary preserves grouping
+  expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+  # Extended summary includes the not extended summary
+  missing_rows <- dplyr::anti_join(s, s_extended)
+  testthat::expect_equal(nrow(missing_rows), 0)
+  # Extended summary has as many rows as all sex values multiplied by 
+  # number of locations-months in deployments summary
+  n_deployment_month_values <- summarize_deployments(
+    x,
+    group_by = "deploymentID",
+    group_time_by = "month"
+  ) %>%
+    nrow()
+  sex_values <- unique(dplyr::pull(observations(x), "sex"))
+  n_sex_values <- length(sex_values)
+  expect_identical(
+    nrow(s_extended),
+    n_deployment_month_values * n_sex_values
+  )
+})
+
 test_that("get_n_species() and some of its args are deprecated", {
   skip_if_offline()
   x <- example_dataset()

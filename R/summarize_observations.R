@@ -74,22 +74,25 @@ extend_summary <- function(summary, x) {
     dplyr::select(dplyr::any_of(c(grouping_cols_dep, time_group_col))) %>%
     dplyr::distinct()
   
-  # Get all possible groups in observations
-  all_groups_obs <- obs %>%
-    # Select only the grouping columns present in observations (using `any_of()`
-    # to avoid error when summary is also grouped temporally
-    dplyr::select(dplyr::any_of(grouping_cols_obs)) %>%
-    dplyr::distinct() %>%
-    # Get all unique values per grouping column. This step is needed because
-    # `expand.grid()` considers multiple NAs in a column as separate entities
-    # when creating combinations, leading to duplicate rows in the output.
-    purrr::map(unique) %>%
-    # Create all combinations of grouping columns.
-    expand.grid() %>%
-    dplyr::as_tibble()
-  
-  # Extend the deployments/time groups with the observation groups
-  all_groups <- tidyr::expand_grid(dep_time_groups, all_groups_obs)
+  # Get all possible groups by expanding the deployments-time groups with
+  # observations groups if any
+  if (length(grouping_cols_obs) > 0) {
+    all_groups_obs <- obs %>%
+      # Select only the grouping columns present in observations
+      dplyr::select(dplyr::all_of(grouping_cols_obs)) %>%
+      dplyr::distinct() %>%
+      # Get all unique values per grouping column. This step is needed because
+      # `expand.grid()` considers multiple NAs in a column as separate entities
+      # when creating combinations, leading to duplicate rows in the output.
+      purrr::map(unique) %>%
+      # Create all combinations of grouping columns.
+      expand.grid() %>%
+      dplyr::as_tibble()
+    
+    all_groups <- tidyr::expand_grid(dep_time_groups, all_groups_obs)
+  } else {
+    all_groups <- dep_time_groups
+  }
   
   # Extend summary with all possible groups
   extended_summary <- summary %>%

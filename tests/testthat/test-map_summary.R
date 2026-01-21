@@ -88,6 +88,33 @@ test_that("map_summary() returns a leaflet", {
   )
 })
 
+test_that("map_summary() returns a leaflet with the right title", {
+  skip_if_offline()
+  df <- example_dataset() %>%
+    summarize_observations()
+  map <- map_summary(df, feature = "n_observations")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+      "Number of observations"
+  )
+  map <- map_summary(df, feature = "n_scientificName")
+  expect_equal(map$x$calls[[5]]$args[[1]]$title, "Number of detected species")
+  map <- map_summary(df, feature = "sum_count")
+  expect_equal(map$x$calls[[5]]$args[[1]]$title, "Sum of individual counts")
+  map <- map_summary(df, feature = "rai_observations")
+  expect_equal(map$x$calls[[4]]$args[[1]]$title, "RAI")
+  map <- map_summary(df, feature = "rai_count")
+  expect_equal(map$x$calls[[5]]$args[[1]]$title, "RAI (individual counts)")
+  df <- example_dataset() %>%
+    summarize_deployments()
+  df
+  map <- map_summary(df, feature = "effort_duration")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+    "Effort (hour)"
+  )
+})
+
 test_that("map_summary() can toggle showing deployments with zero values", {
   skip_if_offline()
   df <- example_dataset() %>%

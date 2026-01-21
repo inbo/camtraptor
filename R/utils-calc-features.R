@@ -147,6 +147,14 @@ calc_obs_feature_per_deployment <- function(deployment_id,
         dplyr::across(
           dplyr::any_of(c("latitude", "longitude")),
           as.numeric)
+      ) %>%
+      # deploymentStart and deploymentEnd, if present, must be set to
+      # POSIXct
+      dplyr::mutate(
+        dplyr::across(
+          dplyr::any_of(c("deploymentStart", "deploymentEnd")),
+          lubridate::as_datetime
+        )
       )
     # Group by deploymentID and any additional grouping variables given in
     # `group_by_deployments` and `group_by_observations`

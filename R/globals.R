@@ -6,6 +6,8 @@
   "longitude",
   "locationID",
   "locationName",
+  "deploymentStart",
+  "deploymentEnd",
   "deploymentTags"
 )
 .group_bys_observations <- c(

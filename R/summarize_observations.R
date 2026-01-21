@@ -153,8 +153,9 @@ extend_summary <- function(summary, x) {
 #' @param group_by Character vector with names of columns in deployments and
 #'   observations. At the moment you can choose one or many columns among:
 #'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
-#'   "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")`.\cr
-#'   Default: `c("deploymentID", "latitude", "longitude", "scientificName")`.
+#'   "deploymentStart", "deploymentEnd", "deploymentTags", "scientificName",
+#'   "lifeStage", "sex", "behavior")`. Default: `c("deploymentID", "latitude",
+#'   "longitude", "scientificName")`.
 #' @param extend Logical. If `TRUE`, the summary is extended with all possible
 #'   groups left out by `summarize_observations()`. See details section for more
 #'   information. Default: `FALSE`.

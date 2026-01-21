@@ -9,7 +9,8 @@
 #' @param group_by Character vector with the names of the columns in
 #'   deployments. At the moment you can choose one or many columns among:
 #'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
-#'   "deploymentTags")`. Default: `c("deploymentID", "latitude", "longitude")`.
+#'   "deploymentStart", "deploymentEnd", "deploymentTags")`. Default:
+#'   `c("deploymentID", "latitude", "longitude")`.
 #' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
 #'   `"year"`. The effort is calculated at the interval rate defined in
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of

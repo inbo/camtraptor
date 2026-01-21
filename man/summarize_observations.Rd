@@ -8,13 +8,15 @@
 summarize_observations(
   x,
   group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
-  group_time_by = NULL
+  group_time_by = NULL,
+  extend = FALSE
 )
 
 summarise_observations(
   x,
   group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
-  group_time_by = NULL
+  group_time_by = NULL,
+  extend = FALSE
 )
 }
 \arguments{
@@ -23,13 +25,17 @@ summarise_observations(
 
 \item{group_by}{Character vector with names of columns in deployments and
 observations. At the moment you can choose one or many columns among:
-\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}.
+\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}.\cr
 Default: \code{c("deploymentID", "latitude", "longitude", "scientificName")}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
-\code{"year"}. The features are calculated at the interval rate defined in
+\code{"year"}. The effort is calculated at the interval rate defined in
 \code{group_time_by}. Default: \code{NULL}, no grouping, i.e. the entire duration of
 the deployment is taken into account as a whole.}
+
+\item{extend}{Logical. If \code{TRUE}, the summary is extended with all possible
+groups left out by \code{summarize_observations()}. See details section for more
+information. Default: \code{FALSE}.}
 }
 \value{
 A grouped tibble data frame with the following columns:
@@ -48,6 +54,10 @@ If \code{scientificName} is in \code{group_by}, \code{n_scientificName} is equal
 (RAI), defined as \code{100 * (n_observations/effort)} where \code{n_observations} is
 the number of observations and \code{effort} is the \code{effort_duration} as
 returned by \code{summarize_deployments()} expressed in days.
+\item \code{rai_count}: numeric vector with the Relative Abundance Index (RAI),
+defined as \code{100 * (sum_count/effort)} where \code{sum_count} is the sum of
+individual counts and \code{effort} is the \code{effort_duration} as returned by
+\code{summarize_deployments()} expressed in days.
 }
 }
 \description{
@@ -62,7 +72,27 @@ Summarizes event-based observations by calculating:
 }
 }
 \details{
-\code{summarize_observations()} and \code{summarise_observations()} are synonyms.
+\code{summarize_observations()} and \code{summarise_observations()} are
+synonyms.
+
+By default (\code{extend = FALSE}), the function follows the standard behavior of
+\code{dplyr::summarise()}, returning only groups that have observations. This
+means deployments or time periods with zero observations for the specified
+grouping are excluded from the output.
+
+When \code{extend = TRUE}, the summary is extended to include all possible
+combinations of grouping variables, even when no observations exist for a
+particular group. This is particularly useful for visualisations (\code{map_summary()}) and analysis as it identifies for example:
+\itemize{
+\item Deployments where a specific species was not observed.
+\item Time periods when a specific species was not observed.
+\item Presence/absence patterns across deployments.
+}
+
+For extended summaries, feature values are set to \code{0} for groups with no
+observations, except for \code{n_scientificName} which is set to \code{NA} when no
+species are present as \code{O} is used when only unidentified individuals are
+observed.
 }
 \examples{
 x <- example_dataset()
@@ -70,11 +100,19 @@ x <- example_dataset()
 # `scientificName` (default)
 summarize_observations(x)
 
-# Summarize observations by `deploymentID`, `latitude`, `longitude` and month
+# Summarize observations by `locationId`, and `locationName` (summary by
+deployment columns only)
+summarize_observations(x, group_by = "locationName")
+
+# Summarize observations by `scientificName` and `sex` (summary by
+observation columns only)
+summarize_observations(x, group_by = c("scientificName", "sex"))
+
+# Apply temporal grouping by month
 summarize_observations(x, group_time_by = "month")
 
-# Summarize observations by `locationId`, and `locationName`
-summarize_observations(x, group_by = "locationName")
+# Extend the summary to include all possible groups
+summarize_observations(x, extend = TRUE)
 }
 \seealso{
 Other exploration functions: 

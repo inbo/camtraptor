@@ -113,6 +113,26 @@ test_that("map_summary() returns a leaflet with the right title", {
     map$x$calls[[4]]$args[[1]]$title,
     "Effort (hour)"
   )
+  map <- map_summary(df, feature = "effort_duration", effort_unit = "day")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+    "Effort (day)"
+  )
+  map <- map_summary(df, feature = "effort_duration", effort_unit = "week")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+    "Effort (week)"
+  )
+  map <- map_summary(df, feature = "effort_duration", effort_unit = "month")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+    "Effort (month)"
+  )
+  map <- map_summary(df, feature = "effort_duration", effort_unit = "year")
+  expect_equal(
+    map$x$calls[[4]]$args[[1]]$title,
+    "Effort (year)"
+  )
 })
 
 test_that("map_summary() can toggle showing deployments with zero values", {

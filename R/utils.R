@@ -98,7 +98,7 @@ check_summary <- function(grouped_df) {
   # Check input is a grouped data frame
   assertthat::assert_that(
     "grouped_df" %in% class(grouped_df),
-    msg = "The summary must be a grouped tibble data frame."
+    msg = "The summary must be a grouped data frame."
   )
   
   all_columns <- colnames(grouped_df)

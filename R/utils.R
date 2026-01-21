@@ -90,6 +90,11 @@ check_group_time_by <- function(group_time_by, group_time_bys) {
 #'   `summarize_observations()`.
 #' @return If no error, `TRUE`.
 check_summary <- function(grouped_df) {
+  # Check input is a data frame
+  assertthat::assert_that(
+    is.data.frame(grouped_df),
+    msg = "The summary must be a data frame."
+  )
   # Check input is a grouped data frame
   assertthat::assert_that(
     "grouped_df" %in% class(grouped_df),

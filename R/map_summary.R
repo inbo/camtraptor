@@ -323,7 +323,7 @@ map_summary <- function(
     msg = "Columns `latitude` and `longitude` in `df` must be numeric."
   )
 
-  # Remove columns where latitude and/or longitude are NA and give a warning
+  # Remove rows where latitude and/or longitude are NA and give a warning
   if (any(is.na(df$latitude) | is.na(df$longitude))) {
     n_na_coords <- sum(is.na(df$latitude) | is.na(df$longitude))
     warning(
@@ -352,39 +352,15 @@ map_summary <- function(
     msg = "`feature` must be a character of length 1."
   )
 
-  # Map deprecated feature values to new ones
-  features <- c(
-    "n_species" = "n_scientificName",
-    "n_obs" = "n_observations",
-    "n_individuals" = "sum_count",
-    "rai" = "rai_observations",
-    "rai_individuals" = "rai_count",
-    "effort" = "effort_duration"
+  # Check `feature` is valid, i.e. one of the possible observations/deployments
+  # features
+  check_value(
+    feature,
+    c(.features_observations, .features_deployments),
+    "feature",
+    null_allowed = FALSE
   )
-
-  # Replace the deprecated feature with the non deprecated value and return
-  # warning
-  if (feature %in% names(features)) {
-    warning(
-      glue::glue(
-        "`{feature}` is deprecated as of camtraptor 1.0.0. ",
-        "Please use `{features[[feature]]}` instead."
-      )
-    )
-    feature <- features[[feature]]
-  }
-  # Remove names (deprecated feature names)
-  names(features) <- NULL
-
-  # Check `feature` is valid
-  check_value(feature, features, "feature", null_allowed = FALSE)
-
-  # Check `effort_unit` in combination with `feature`
-  if (!is.null(effort_unit) & feature != "effort_duration") {
-    warning(glue::glue("`effort_unit` ignored for `feature = {feature}`."))
-    effort_unit <- NULL
-  }
-
+  
   # Check `feature` is present in `df`
   assertthat::assert_that(
     feature %in% names(df),
@@ -398,6 +374,12 @@ map_summary <- function(
       )
     )
   )
+
+  # Check `effort_unit` in combination with `feature`
+  if (!is.null(effort_unit) & feature != "effort_duration") {
+    warning(glue::glue("`effort_unit` ignored for `feature = {feature}`."))
+    effort_unit <- NULL
+  }
 
   # Check palette/colors
   viridis_valid_palettes <- c(
@@ -420,13 +402,13 @@ map_summary <- function(
   # Check zero_values_show is a toggle (TRUE or FALSE)
   assertthat::assert_that(
     rlang::is_bool(zero_values_show),
-    msg = "zero_values_show must be a logical: TRUE or FALSE."
+    msg = "zero_values_show must be a logical of length 1: TRUE or FALSE."
   )
 
   # Check `na_values_show` is a toggle (TRUE or FALSE)
   assertthat::assert_that(
     rlang::is_bool(na_values_show),
-    msg = "na_values_show must be a logical: TRUE or FALSE."
+    msg = "na_values_show must be a logical of length 1: TRUE or FALSE."
   )
 
   # Check `zero_values_icon_url` and `zero_values_icon_size` in combination with
@@ -501,7 +483,7 @@ map_summary <- function(
       all(!is.na(hover_columns)),
       msg = "`hover_columns` must be a character vector or `NULL`."
     )
-    # Check all value of `hover_columns` are present in `df`
+    # Check all values of `hover_columns` are present in `df`
     check_value(
       arg = hover_columns,
       options = names(df),
@@ -551,7 +533,7 @@ map_summary <- function(
       dplyr::mutate(
         effort_duration = lubridate::time_length(
           .data$effort_duration,
-          units = effort_unit
+          unit = effort_unit
         )
       )
   } else {

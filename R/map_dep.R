@@ -79,14 +79,89 @@ map_dep <- function(
     x <- filter_observations(x, scientificName %in% species)
   }
   
-  # Run the right summary function based on the feature value
-  if (feature %in% c("effort", "effort_duration")) {
-    summarize_deployments(x)
-  } else {
-    summarize_observations(x)
+  # Map deprecated feature values to new ones
+  features <- c(
+    "n_species" = "n_scientificName",
+    "n_obs" = "n_observations",
+    "n_individuals" = "sum_count",
+    "rai" = "rai_observations",
+    "rai_individuals" = "rai_count",
+    "effort" = "effort_duration"
+  )
+  # Add new features to the possible features
+  features <- c(
+    setdiff(camtraptor:::.features_observations, features),
+    setdiff(camtraptor:::.features_deployments, features),
+    features
+  )
+  
+  # Replace the deprecated feature with the non deprecated value and return
+  # warning
+  if (feature %in% names(features)) {
+    warning(
+      glue::glue(
+        "`{feature}` is deprecated as of camtraptor 1.0.0. ",
+        "Please use `{features[[feature]]}` instead."
+      )
+    )
+    feature <- features[[feature]]
   }
+  # Remove names (deprecated feature names)
+  names(features) <- NULL
+  
+  
+  # Map deprecated `hover_columns` to new `hover_columns`
+  hover_columns[hover_columns == "n"] <- feature
+  hover_columns[hover_columns == "species"] <- "scientificName"
+  hover_columns[hover_columns == "start"] <- "deploymentStart"
+  hover_columns[hover_columns == "end"] <- "deploymentEnd"
+  if (feature == "effort_duration") {
+    # Remove `"scientificName"` from `hover_columns` if present as it is not
+    # available in deployments summary
+    hover_columns <- hover_columns[hover_columns != "scientificName"]
+  }
+  
+  # Run the right summary function based on the feature value
+  if (feature == "effort_duration") {
+    group_by_vars <- unique(
+      c(
+        .group_bys_deployments[.group_bys_deployments %in% hover_columns],
+        "latitude",
+        "longitude"
+      )
+    )
+    if (zero_values_show) {
+      df <- summarize_deployments(x, group_by = group_by_vars, extend = TRUE)
+    } else {
+      df <- summarize_deployments(x, group_by = group_by_vars)
+    }
+  } else {
+    group_by_vars <- unique(
+      c(
+        .group_bys_deployments[.group_bys_deployments %in% hover_columns],
+        .group_bys_observations[.group_bys_observations %in% hover_columns],
+        "latitude",
+        "longitude"
+      )
+    )
+    if (feature == "n_scientificName") {
+      # Remove `scientificName` from grouping variables to get total number of
+      # species
+      group_by_vars <- group_by_vars[group_by_vars != "scientificName"]
+      # Remove `scientificName` from hover columns as it will not be available
+      # in the summary data frame
+      hover_columns <- hover_columns[hover_columns != "scientificName"]
+    }
+    if (zero_values_show | na_values_show) {
+      df <- summarize_observations(x, group_by_vars, extend = TRUE)
+    } else {
+      df <- summarize_observations(x, group_by_vars)
+    }
+  }
+  
+  # Run `map_summary()` with the obtained summary data frame
   map_summary(
-    x,
+    df,
     feature,
     effort_unit = effort_unit,
     cluster = cluster,

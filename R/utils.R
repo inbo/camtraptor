@@ -120,9 +120,13 @@ check_summary <- function(grouped_df) {
       ".\n",
       "Valid deployment grouping columns: ",
       glue::glue_collapse(
-        glue::backtick(c(.group_bys_deployments, .group_bys_observations, .group_time_bys)), sep = ", ", last = " and "
+        glue::backtick(
+          c(.group_bys_deployments, .group_bys_observations, .group_time_bys)
+        ),
+        sep = ", ",
+        last = " and "
       ),
-      ".\n"
+      "."
     )
   )
   # Only one time grouping present

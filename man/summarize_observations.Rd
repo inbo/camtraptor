@@ -25,8 +25,7 @@ summarise_observations(
 
 \item{group_by}{Character vector with names of columns in deployments and
 observations. At the moment you can choose one or many columns among:
-\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}.\cr
-Default: \code{c("deploymentID", "latitude", "longitude", "scientificName")}.}
+\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentStart", "deploymentEnd", "deploymentTags", "scientificName", "lifeStage", "sex", "behavior")}. Default: \code{c("deploymentID", "latitude", "longitude", "scientificName")}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
 \code{"year"}. The effort is calculated at the interval rate defined in

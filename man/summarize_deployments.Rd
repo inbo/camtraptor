@@ -23,7 +23,8 @@ summarise_deployments(
 
 \item{group_by}{Character vector with the names of the columns in
 deployments. At the moment you can choose one or many columns among:
-\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentTags")}. Default: \code{c("deploymentID", "latitude", "longitude")}.}
+\code{c("deploymentID", "latitude", "longitude", "locationID", "locationName", "deploymentStart", "deploymentEnd", "deploymentTags")}. Default:
+\code{c("deploymentID", "latitude", "longitude")}.}
 
 \item{group_time_by}{Character, one of \code{"day"}, \code{"week"}, \code{"month"},
 \code{"year"}. The effort is calculated at the interval rate defined in

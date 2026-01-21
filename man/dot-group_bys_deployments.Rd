@@ -6,7 +6,7 @@
 \title{Define internal vectors with possible \code{group_by} values, to be used in
 \code{summarize_observations()}, \code{summarize_deployments()} and check functions.}
 \format{
-An object of class \code{character} of length 6.
+An object of class \code{character} of length 8.
 }
 \usage{
 .group_bys_deployments

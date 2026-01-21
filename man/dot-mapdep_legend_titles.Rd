@@ -5,7 +5,7 @@
 \alias{.mapdep_legend_titles}
 \title{Map legend title table}
 \format{
-An object of class \code{list} of length 2.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 6 rows and 2 columns.
 }
 \usage{
 .mapdep_legend_titles

@@ -78,6 +78,16 @@ test_that("map_summary() warns if effort_unit is used with wrong feature", {
   )
 })
 
+test_that("map_summary() returns a leaflet", {
+  skip_if_offline()
+  df <- example_dataset() %>%
+    summarize_observations()
+  expect_s3_class(
+    map_summary(df, feature = "n_observations"),
+    c("leaflet", "htmlwidget")
+  )
+})
+
 test_that("map_summary() can toggle showing deployments with zero values", {
   skip_if_offline()
   df <- example_dataset() %>%
@@ -220,16 +230,6 @@ test_that("map_summary() allows disabling of hover columns", {
           "<p>Scientific name: (.*?)</p>"
         )
     )
-  )
-})
-
-test_that("map_summary() returns a leaflet", {
-  skip_if_offline()
-  df <- example_dataset() %>%
-    summarize_observations()
-  expect_s3_class(
-    map_summary(df, feature = "n_observations"),
-    c("leaflet", "htmlwidget")
   )
 })
 

@@ -144,7 +144,10 @@ check_summary <- function(grouped_df) {
   )
   
   # Check `grouped_df` contains the right features
-  wrong_features <- setdiff(features, c(.features_observations, .features_deployments))
+  wrong_features <- setdiff(
+    features,
+    c(.features_observations, .features_deployments)
+  )
   assertthat::assert_that(
     length(wrong_features) == 0,
     msg = glue::glue(

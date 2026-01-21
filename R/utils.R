@@ -155,6 +155,14 @@ check_summary <- function(grouped_df) {
       glue::glue_collapse(
         glue::backtick(wrong_features), sep = ", ", last = " and "
       ),
+      ".\nValid features from `summarize_observations()`: ",
+      glue::glue_collapse(
+        glue::backtick(.features_observations), sep = ", ", last = " and "
+      ),
+      ".\nValid features from `summarize_deployments()`: ",
+      glue::glue_collapse(
+        glue::backtick(.features_deployments), sep = ", ", last = " and "
+      ),
       "."
     )
   )

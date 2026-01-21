@@ -39,9 +39,10 @@
 #' Stores prefixes for info shown in leaflet map while hovering over a
 #' deployment with the mouse.
 #'
-#' Returns a data.frame of all prefixes with the following columns:
+#' A data.frame of all prefixes with the following columns:
 #' - `info`: all valid grouping columns (deployments or observations) and features.
 #' - `prefix`: Prefix to use.
+#' @keywords internal
 .prefixes_for_hover_info <- dplyr::tibble(
   info = c(.group_bys_deployments,
            .group_bys_observations,
@@ -55,3 +56,30 @@
     # Replace `"count"` with `individual counts"`
     stringr::str_replace(pattern = "count", replacement = "individual counts")
 )
+
+#' Map legend title table
+#'
+#' Store legend titles for deployment visualizations: RAI, effort, number of
+#' observations, etc.
+#' A data frame of all titles with the following columns:
+#' - `feature`: Deployment feature to visualize.
+#' - `legend_title`: Legend title.
+#' @keywords internal
+.mapdep_legend_titles <- structure(list(
+  feature = c(
+    "n_scientificName",
+    "n_observations",
+    "sum_count",
+    "rai_observations",
+    "rai_count",
+    "effort_duration"
+  ),
+  legend_title = c(
+    "Number of detected species",
+    "Number of observations",
+    "Sum of individuals counts",
+    "RAI",
+    "RAI (individual counts)",
+    "Effort"
+  )
+))

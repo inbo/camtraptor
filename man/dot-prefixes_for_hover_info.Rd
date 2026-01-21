@@ -15,10 +15,10 @@ Stores prefixes for info shown in leaflet map while hovering over a
 deployment with the mouse.
 }
 \details{
-Returns a data.frame of all prefixes with the following columns:
+A data.frame of all prefixes with the following columns:
 \itemize{
 \item \code{info}: all valid grouping columns (deployments or observations) and features.
 \item \code{prefix}: Prefix to use.
 }
 }
-\keyword{datasets}
+\keyword{internal}

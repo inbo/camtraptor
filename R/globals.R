@@ -47,7 +47,8 @@
   info = c(.group_bys_deployments,
            .group_bys_observations,
            .features_deployments,
-           .features_observations
+           .features_observations,
+           .group_time_bys
   ),
   prefix = snakecase::to_sentence_case(info) %>%
     stringr::str_c(": ") %>%

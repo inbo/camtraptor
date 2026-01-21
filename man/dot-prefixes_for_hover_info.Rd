@@ -5,7 +5,7 @@
 \alias{.prefixes_for_hover_info}
 \title{Prefix table for hover info over deployments}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 19 rows and 2 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 23 rows and 2 columns.
 }
 \usage{
 .prefixes_for_hover_info

@@ -77,7 +77,7 @@
   legend_title = c(
     "Number of detected species",
     "Number of observations",
-    "Sum of individuals counts",
+    "Sum of individual counts",
     "RAI",
     "RAI (individual counts)",
     "Effort"

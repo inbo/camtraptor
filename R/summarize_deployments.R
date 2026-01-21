@@ -66,19 +66,15 @@ summarize_deployments <- function(
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`
-  group_bys <- c(
-    "deploymentID",
-    "latitude",
-    "longitude",
-    "locationID",
-    "locationName",
-    "deploymentTags"
+  check_value(
+    group_by,
+    .group_bys_deployments,
+    "group_by",
+    null_allowed = FALSE
   )
-  check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
   
   # Check `group_time_by`
-  group_time_bys <- c("day", "week", "month", "year")
-  check_group_time_by(group_time_by, group_time_bys)
+  check_group_time_by(group_time_by, .group_time_bys)
   
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")

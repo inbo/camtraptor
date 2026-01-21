@@ -13,8 +13,8 @@ test_that("summarize_observations() returns error for invalid group_by", {
     summarize_observations(x, group_by = "invalid"),
     paste0("Invalid value for group_by parameter: invalid.\n",
            "Valid inputs are: deploymentID, latitude, longitude, locationID, ",
-           "locationName, deploymentTags, scientificName, lifeStage, sex and ",
-           "behavior"
+           "locationName, deploymentStart, deploymentEnd, deploymentTags, ",
+           "scientificName, lifeStage, sex and behavior"
     )
   )
 })

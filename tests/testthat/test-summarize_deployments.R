@@ -13,7 +13,7 @@ test_that("summarize_deployments() returns error for invalid group_by", {
     summarize_deployments(x, group_by = "invalid"),
     paste0("Invalid value for group_by parameter: invalid.\n",
            "Valid inputs are: deploymentID, latitude, longitude, locationID, ",
-           "locationName and deploymentTags"
+           "locationName, deploymentStart, deploymentEnd and deploymentTags"
     )
   )
 })
@@ -44,7 +44,8 @@ test_that(
     )
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("deploymentID", "latitude", "longitude", "effort_duration"), names(summary)
+      c("deploymentID", "latitude", "longitude", "effort_duration"),
+      names(summary)
     )
     
     # Check that the number of returned deployments matches the number of

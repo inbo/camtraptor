@@ -320,7 +320,7 @@ map_summary <- function(
     all(c("latitude", "longitude") %in% names(df)),
     msg = paste(
       "`df` must contain columns `latitude` and `longitude`.",
-      "Ensure these are included in the `group_by` parameter when calling",
+      "Ensure these are included in the `group_by` argument when calling",
       "`summarize_observations()` or `summarize_deployments()`."
     )
   )

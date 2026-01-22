@@ -25,6 +25,21 @@ test_that("map_summary() returns error when `df` is not a grouped data frame", {
   )
 })
 
+test_that("map_summary() returns error when lat/lon are missing", {
+  skip_if_offline()
+  df <- example_dataset() %>%
+    summarize_observations(group_by = "deploymentID")
+  expect_error(
+    map_summary(df, feature = "n_observations"),
+    paste0(
+      "`df` must contain columns `latitude` and `longitude`. ",
+      "Ensure these are included in the `group_by` argument when ",
+      "calling `summarize_observations()` or `summarize_deployments()`."
+    ),
+    fixed = TRUE
+  )
+})
+
 test_that("map_summary() returns error when feature is missing", {
   skip_if_offline()
   df_dep <- example_dataset() %>%
@@ -41,7 +56,7 @@ test_that("map_summary() returns error when feature is missing", {
   )
 })
 
-test_that("map_summary() returns error for invalid or more than one feature", {
+test_that("map_summary() returns error for invalid, not present or > 1 feat", {
   skip_if_offline()
   df <- example_dataset() %>%
     summarize_observations()

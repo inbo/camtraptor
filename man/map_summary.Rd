@@ -200,7 +200,7 @@ x_anas_p \%>\%
     zero_values_icon_size = NULL
   )
 
-# You can eventually filter the specise after summarizing,
+# You can eventually filter the species after summarizing,
 # although it could not be the most efficient way for large camtrap data
 # packages
 x \%>\%

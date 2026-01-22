@@ -130,11 +130,7 @@ map_dep <- function(
         "longitude"
       )
     )
-    if (zero_values_show) {
-      df <- summarize_deployments(x, group_by = group_by_vars, extend = TRUE)
-    } else {
-      df <- summarize_deployments(x, group_by = group_by_vars)
-    }
+    df <- summarize_deployments(x, group_by = group_by_vars)
   } else {
     group_by_vars <- unique(
       c(

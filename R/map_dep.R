@@ -149,9 +149,9 @@ map_dep <- function(
       hover_columns <- hover_columns[hover_columns != "scientificName"]
     }
     if (zero_values_show | na_values_show) {
-      df <- summarize_observations(x, group_by_vars, extend = TRUE)
+      df <- summarize_observations(x, group_by = group_by_vars, extend = TRUE)
     } else {
-      df <- summarize_observations(x, group_by_vars)
+      df <- summarize_observations(x, group_by = group_by_vars)
     }
   }
   

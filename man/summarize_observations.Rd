@@ -90,7 +90,7 @@ particular group. This is particularly useful for visualisations (\code{map_summ
 
 For extended summaries, feature values are set to \code{0} for groups with no
 observations, except for \code{n_scientificName} which is set to \code{NA} when no
-species are present as \code{O} is used when only unidentified individuals are
+species are present as \code{0} is used when only unidentified individuals are
 observed.
 }
 \examples{

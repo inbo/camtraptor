@@ -147,7 +147,7 @@ extend_summary <- function(summary, x) {
 #'
 #' For extended summaries, feature values are set to `0` for groups with no
 #' observations, except for `n_scientificName` which is set to `NA` when no
-#' species are present as `O` is used when only unidentified individuals are
+#' species are present as `0` is used when only unidentified individuals are
 #' observed.
 #'
 #' @param group_by Character vector with names of columns in deployments and

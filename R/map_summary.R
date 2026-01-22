@@ -318,7 +318,11 @@ map_summary <- function(
   # Check columns `latitude` and `longitude` are present in `df`
   assertthat::assert_that(
     all(c("latitude", "longitude") %in% names(df)),
-    msg = "`df` must contain columns `latitude` and `longitude`."
+    msg = paste(
+      "`df` must contain columns `latitude` and `longitude`.",
+      "Ensure these are included in the `group_by` parameter when calling",
+      "`summarize_observations()` or `summarize_deployments()`."
+    )
   )
 
   # Check columns `latitude` and `longitude` are numeric

@@ -573,7 +573,9 @@ map_summary <- function(
           if (lubridate::is.POSIXt(info)) {
             info <- format(info)
           }
-          paste0(x, as.character(feat_df[[y]]))
+          # Escape HTML to prevent XSS
+          escaped_info <- htmltools::htmlEscape(as.character(info))
+          paste0(x, escaped_info)
         }),
         .name_repair = "minimal"
       ) %>%

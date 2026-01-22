@@ -38,14 +38,6 @@ testthat::test_that("summarize_observations() returns correct summary for
   summary <- summarize_observations(x)
   # Check that the `summary` has the expected columns
   expect_equal(
-    c("deploymentID", "latitude", "longitude", "scientificName",
-      "n_scientificName", "n_events", "n_observations", "sum_count",
-      "rai_observations", "rai_count"
-    ),
-    names(summary)
-  )
-  # Check that the `summary` has the expected columns
-  expect_equal(
     names(summary),
     c("deploymentID",
       "latitude",

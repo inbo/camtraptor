@@ -553,7 +553,11 @@ map_summary <- function(
   # Add copy of feature column as `n` for easier handling
   feat_df <- feat_df %>%
     dplyr::mutate(n = .data[[feature]])
-
+  
+  # Order the data frame by feature: this will help in plotting the small circles
+  # above the big ones
+  feat_df <- feat_df %>% dplyr::arrange(.data$n)
+  
   # Define title legend
   title <- get_legend_title(feature)
   # Add unit to legend title (for effort)

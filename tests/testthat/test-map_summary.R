@@ -66,6 +66,8 @@ test_that("map_summary() returns error for invalid or more than one feature", {
     fixed = TRUE
   )
   # Feature is correct but not present in the summary
+  df <- example_dataset() %>%
+    summarize_observations()
   expect_error(
     map_summary(df, feature = "effort_duration"),
     paste0(

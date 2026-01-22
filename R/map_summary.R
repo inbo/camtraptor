@@ -345,7 +345,7 @@ map_summary <- function(
   if (nrow(df) == 0) {
     message("No data to show.")
     leaflet_map <-
-      leaflet::leaflet(feat_df) %>%
+      leaflet::leaflet() %>%
       leaflet::addTiles() %>%
       leaflet::addControl(htmltools::tags$b(title), position = "bottomright")
     return(leaflet_map)

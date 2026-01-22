@@ -65,6 +65,16 @@ test_that("map_summary() returns error for invalid or more than one feature", {
     ),
     fixed = TRUE
   )
+  # Feature is correct but not present in the summary
+  expect_error(
+    map_summary(df, feature = "effort_duration"),
+    paste0(
+      "`feature` 'effort_duration' not found in `df`. ",
+      "Based on your `df`, possible values for `feature` are: ",
+      "`n_scientificName`, `n_events`, `n_observations`, `sum_count`, ",
+      "`rai_observations` and `rai_count`"
+    )
+  )
 })
 
 test_that("map_summary() warns if effort_unit is used with wrong feature", {

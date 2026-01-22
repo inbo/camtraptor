@@ -359,9 +359,10 @@ map_summary <- function(
 
   # Check `feature` is valid, i.e. one of the possible observations/deployments
   # features
+  all_features <- c(.features_observations, .features_deployments)
   check_value(
     feature,
-    c(.features_observations, .features_deployments),
+    all_features,
     "feature",
     null_allowed = FALSE
   )
@@ -370,10 +371,10 @@ map_summary <- function(
   assertthat::assert_that(
     feature %in% names(df),
     msg = glue::glue(
-      "`feature` '{feature}' not found in `df`.",
+      "`feature` '{feature}' not found in `df`. ",
       "Based on your `df`, possible values for `feature` are: ",
       glue::glue_collapse(
-        glue::backtick(features[features %in% names(df)]),
+        glue::backtick(all_features[all_features %in% names(df)]),
         sep = ", ",
         last = " and "
       )

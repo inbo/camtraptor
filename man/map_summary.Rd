@@ -142,7 +142,7 @@ before using this function. See the examples.
 \examples{
 \dontrun{
 x <- example_dataset()
-# Filter a data package to get only data  Anas platyrhynchos
+# Filter a data package to get only the data of Anas platyrhynchos
 x_anas_p <- x \%>\%
   filter_observations(scientificName == "Anas platyrhynchos")
 
@@ -162,7 +162,7 @@ x_anas_p \%>\%
   ) \%>\%
   map_summary("n_scientificName")
 
-# Show total number of observations
+# Show total number of observations (all species)
 x \%>\%
  summarize_observations(
   group_by = c("deploymentID", "latitude", "longitude")
@@ -234,6 +234,11 @@ x_anas_p \%>\%
 x \%>\%
  summarize_deployments() \%>\%
  map_summary("effort_duration", effort_unit = "day")
+
+# Show effort per month
+x \%>\%
+summarize_deployments(group_time_by = "month") \%>\%
+map_summary("effort_duration", effort_unit = "day")
 
 # Use viridis palette
 x_anas_p \%>\%

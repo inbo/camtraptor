@@ -48,7 +48,7 @@ pred_or(arg, value)
 
 apply_filter_predicate(arg, value)
 
-check_species(x)
+check_species(x, species, arg_name)
 
 get_scientific_name(x)
 

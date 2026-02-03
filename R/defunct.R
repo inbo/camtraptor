@@ -97,7 +97,7 @@ apply_filter_predicate <- function(arg, value) {
 
 #' @export
 #' @rdname defunct
-check_species <- function(x) {
+check_species <- function(x, species, arg_name) {
   lifecycle::deprecate_stop("1.0.0", "check_species()", "taxa()")
 }
 

@@ -20,9 +20,8 @@ camtrapR_recordTable(
 \item{stationCol}{Character name of the column containing stations.
 Default: \code{"locationName"}.}
 
-\item{exclude}{Character vector of species names (scientific names or
-vernacular names) to be excluded from the record table.
-Default: \code{NULL}.}
+\item{exclude}{Character vector of scientific names to be excluded from the
+record table. Default: \code{NULL}.}
 
 \item{minDeltaTime}{Time difference between records of the same
 species at the same station to be considered independent (in minutes).
@@ -36,9 +35,9 @@ species (\code{deltaTimeComparedTo = "lastIndependentRecord"}), or
 \code{minDeltaTime} minutes after the last record (\code{deltaTimeComparedTo = "lastRecord"}).
 If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (default).}
 
-\item{removeDuplicateRecords}{Logical.
-If there are several records of the same species at the same station at
-exactly the same time, show only one?}
+\item{removeDuplicateRecords}{Logical. If there are several records of the
+same species (but different \code{sex} or \code{lifeStage}) at the same station at
+exactly the same time, show only one? Default: \code{TRUE}.}
 }
 \value{
 A tibble data frame containing species records and additional
@@ -74,70 +73,51 @@ as defined in column \code{fileName} of \code{media}.
 }
 \description{
 Calculates the record table from a camera trap data package and so tabulating
-species records.
-The record table is a concept developed within the camtrapR package, see
-\href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}.
-See also the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
+species records. Only event-based observations and their corresponding media
+are taken into account. The record table is a concept developed within the
+camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
+function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
 x <- example_dataset()
 camtrapR_recordTable(x)
 
-# Set a minDeltaTime of 20 minutes from last independent record for filtering
-# out not independent observations
-x_dependent <- x
-x_dependent$data$observations[4, "timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+# Create a new camera trap data package with dependent observations only for
+# demonstration.
+obs <- observations(x)
+obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
+x_dep <- x
+observations(x_dep) <- obs
+
+# Set a minDeltaTime of 100 minutes from last independent record for
+# filtering out not independent observations.
 camtrapR_recordTable(
-  x_dependent,
-  minDeltaTime = 20,
+  x_dep,
+  minDeltaTime = 100,
   deltaTimeComparedTo = "lastIndependentRecord"
 )
 
-# Set a minDeltaTime of 20 minutes from last record for filtering out not
-# independent observations
+# Set a minDeltaTime of 100 minutes from last record for filtering out not
+# independent observations.
 camtrapR_recordTable(
-  x_dependent,
-  minDeltaTime = 20,
+  x_dep,
+  minDeltaTime = 100,
   deltaTimeComparedTo = "lastRecord"
 )
 
-# Exclude observations of mallard
-# Exclude is case insensitive and vernacular names are allowed
-camtrapR_recordTable(x, exclude = "wilde eend")
+# Exclude observations of Anas platyrhynchos.
+camtrapR_recordTable(x, exclude = "Anas platyrhynchos")
 
 # Specify column to pass station names
+camtrapR_recordTable(x, stationCol = "locationID")
+
+# Include "duplicates", i.e. records of same species at same time, but
+# different attributes, such as life stage or sex.
 camtrapR_recordTable(
-  x,
-  stationCol = "locationID",
-  minDeltaTime = 20,
-  deltaTimeComparedTo = "lastRecord"
+ x,
+ removeDuplicateRecords = FALSE
 )
-
-# How to deal with duplicates
-x_dup <- x
-# create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-x_dup$data$observations[4, "sequenceID"] <- purrr::pluck(
-  observations(x_dup),
-  "sequenceID",
-  3
-)
-x_dup$data$observations[4, "deploymentID"] <- purrr::pluck(
-  observations(x_dup),
-  "deploymentID",
-  3
-)
-x_dup$data$observations[4, "timestamp"] <- purrr::pluck(
-  observations(x_dup),
-  "timestamp",
-  3
-)
-
-# duplicates are removed by default by camtrapR_recordTable()
-camtrapR_recordTable(x_dup)
-
-# duplicate not removed
-camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 }
 \seealso{
 Other camtrapR-derived functions: 

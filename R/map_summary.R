@@ -263,7 +263,6 @@
 #'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
 #'   ) %>%
 #'   map_summary(
-#'     x,
 #'     "n_observations",
 #'     hover_columns = c("locationName", "n_observations")
 #' )
@@ -274,7 +273,6 @@
 #'     group_by = c("deploymentID", "latitude", "longitude")
 #'   ) %>%
 #'   map_summary(
-#'     x,
 #'     "n_scientificName",
 #'     relative_scale = FALSE,
 #'     max_scale = 4
@@ -286,7 +284,6 @@
 #'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
 #'   ) %>%
 #'   map_summary(
-#'     x,
 #'     "n_observations",
 #'     radius_range = c(40, 150)
 #' )

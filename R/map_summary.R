@@ -200,11 +200,6 @@
 #'   summarize_observations() %>%
 #'   map_summary("n_observations", palette = "viridis")
 #'
-#' # Use "BuPu" color palette (RColorBrewer palettes)
-#' x_anas_p %>%
-#'   summarize_observations() %>%
-#'   map_summary("n_observations", palette = "BuPu")
-#'
 #' # Use a palette defined by color names
 #' x_anas_p %>%
 #'   summarize_observations() %>%

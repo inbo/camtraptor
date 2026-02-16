@@ -102,10 +102,10 @@
 #'
 #' # Show number of species
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_scientificName")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_scientificName")
 #'
 #' # Show number of species: show deployments with no
 #' # observations (NA icon and size as defaults)
@@ -118,10 +118,10 @@
 #'
 #' # Show total number of observations (all species)
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_observations")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_observations")
 #'
 #' # Show number of observations of Anas platyrhynchos  - show deployments with
 #' # no observations (zero icon and size  as defaults)
@@ -158,61 +158,61 @@
 #' # although it could not be the most efficient way for large camtrap data
 #' # packages
 #' x %>%
-#'  summarize_observations(
-#'    group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
-#'  ) %>%
-#' filter(scientificName == "Anas platyrhynchos") %>%
-#' map_summary("n_scientificName")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude", "scientificName")
+#'   ) %>%
+#'   filter(scientificName == "Anas platyrhynchos") %>%
+#'   map_summary("n_scientificName")
 #'
 #' # Show number of individuals
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("sum_count")
+#'   summarize_observations() %>%
+#'   map_summary("sum_count")
 #'
 #' # Show RAI
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("rai_observations")
+#'   summarize_observations() %>%
+#'   map_summary("rai_observations")
 #'
 #' # Show RAI (individual counts)
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("rai_count")
+#'   summarize_observations() %>%
+#'   map_summary("rai_count")
 #'
 #' # Show effort (hours)
 #' x_anas_p %>%
-#'  summarize_deployments() %>%
-#'  map_summary("effort_duration")
+#'   summarize_deployments() %>%
+#'   map_summary("effort_duration")
 #'
 #' # Show effort (days)
 #' x %>%
-#'  summarize_deployments() %>%
-#'  map_summary("effort_duration", effort_unit = "day")
+#'   summarize_deployments() %>%
+#'   map_summary("effort_duration", effort_unit = "day")
 #'
 #' # Show effort per month
 #' x %>%
-#' summarize_deployments(group_time_by = "month") %>%
-#' map_summary("effort_duration", effort_unit = "day")
-#' 
+#'   summarize_deployments(group_time_by = "month") %>%
+#'   map_summary("effort_duration", effort_unit = "day")
+#'
 #' # Use viridis palette
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = "viridis")
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = "viridis")
 #'
 #' # Use "BuPu" color palette (RColorBrewer palettes)
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = "BuPu")
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = "BuPu")
 #'
 #' # Use a palette defined by color names
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = c("black", "blue", "white"))
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = c("black", "blue", "white"))
 #'
 #' # Use a palette defined by hex colors
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
 #'
 #' # Use same icon but a non default color for zero values deployments,
 #' # E.g. red (hex: E74C3C)
@@ -256,43 +256,43 @@
 #'
 #' # Disable cluster
 #' x %>%
-#'  summarize_observations(
-#'  group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_observations", cluster = FALSE)
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_observations", cluster = FALSE)
 #'
 #' # Show only number of observations and location name while hovering
 #' x %>%
-#'  summarize_observations(
-#'  group_by = c("deploymentID", "locationName", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_observations",
-#'   hover_columns = c("locationName", "n_observations")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     x,
+#'     "n_observations",
+#'     hover_columns = c("locationName", "n_observations")
 #' )
 #'
 #' # Use absolute scale for colors and radius
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_scientificName",
-#'   relative_scale = FALSE,
-#'   max_scale = 4
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     x,
+#'     "n_scientificName",
+#'     relative_scale = FALSE,
+#'     max_scale = 4
 #' )
 #'
 #' # Change max and min size circles
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "locationName", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_observations",
-#'   radius_range = c(40, 150)
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     x,
+#'     "n_observations",
+#'     radius_range = c(40, 150)
 #' )
 #' }
 map_summary <- function(

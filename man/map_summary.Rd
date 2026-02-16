@@ -59,22 +59,21 @@ If  \code{NULL} (default), the effort is returned in hours.
 }}
 
 \item{cluster}{Logical value indicating whether using the cluster option
-while visualizing maps.
-Default: \code{TRUE}.}
+while visualizing maps. Default: \code{TRUE}.}
 
 \item{hover_columns}{Character vector of the columns of \code{df} to show on mouse
-hover. Use \code{NULL} to disable hovering. Default: all columns in \code{df} used for
-grouping and the \code{feature} to visualize.}
+hover. Use \code{NULL} to disable hovering. Default: all columns in \code{df} used
+for grouping and the \code{feature} to visualize.}
 
 \item{palette}{The palette name or the color function that values will be
-mapped to.
-Typically one of the following:
+mapped to. Default: \code{"inferno"}. Typically one of the following:
 \itemize{
 \item A character vector of RGB or named colors. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}.
-For more options, see parameter \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.
-}}
+}
+
+For more options, see parameter \code{palette} of \code{\link[leaflet:colorNumeric]{leaflet::colorNumeric()}}.}
 
 \item{zero_values_show}{Logical indicating whether to show deployments with
 zero values. Default: \code{TRUE}. See details.}
@@ -104,21 +103,19 @@ groups (e.g. deployments) with no observations. Used only if \code{feature} is
 \code{"n_scientificName"}, ignored otherwise. Use \code{NULL} if \code{na_values_show} is
 \code{FALSE}. Default: 10.}
 
-\item{relative_scale}{Logical indicating whether to use a relative color
-and radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}).
-If absolute scale is used, specify a valid \code{max_scale}.}
+\item{relative_scale}{Logical indicating whether to use a relative color and
+radius scale (\code{TRUE}) or an absolute scale (\code{FALSE}). If absolute scale is
+used, specify a valid \code{max_scale}.}
 
-\item{max_scale}{Number indicating the max value used to map color
-and radius.}
+\item{max_scale}{Number indicating the max value used to map color and
+radius.}
 
 \item{radius_range}{Vector of length 2 containing the lower and upper limit
-of the circle radius.
-The lower value is used for deployments with zero feature value, e.g. no
-observations, no identified species, zero RAI or zero effort.
-The upper value is used for the deployment(s) with the highest feature
-value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
-= \code{FALSE}).
-Default: \code{c(10, 50)}.}
+of the circle radius. The lower value is used for deployments with zero
+feature value, e.g. no observations, no identified species, zero RAI or
+zero effort. The upper value is used for the deployment(s) with the highest
+feature value (\code{relative_scale} = \code{TRUE}) or \code{max_scale} (\code{relative_scale}
+= \code{FALSE}). Default: \code{c(10, 50)}.}
 }
 \value{
 Leaflet map.
@@ -130,14 +127,15 @@ dynamic map. The circle size and color are proportional to the mapped
 feature.
 }
 \details{
-Deployments with zero values are shown only if they are present
-in the summary, \code{df}. If you want to show deployments with zero values not
-present in the summary, be sure to have used \code{extend} = \code{TRUE} in \code{summarize_observations()}. See the examples.
+Deployments with zero values are shown only if they are present in
+the summary, \code{df}. If you want to show deployments with zero values not
+present in the summary, be sure to have used \code{extend} = \code{TRUE} in
+\code{summarize_observations()}. See the examples.
 
-Notice also that the argument \code{species} is not present anymore. If
-you want to visualize a feature only for a specific group of species,
-please filter the camera trap data package using \code{\link[=filter_observations]{filter_observations()}}
-before using this function. See the examples.
+Notice also that the argument \code{species} is not present anymore. If you want
+to visualize a feature only for a specific group of species, please filter
+the camera trap data package using \code{\link[=filter_observations]{filter_observations()}} before using
+this function. See the examples.
 }
 \examples{
 \dontrun{
@@ -148,10 +146,10 @@ x_anas_p <- x \%>\%
 
 # Show number of species
 x \%>\%
- summarize_observations(
-  group_by = c("deploymentID", "latitude", "longitude")
- ) \%>\%
- map_summary("n_scientificName")
+  summarize_observations(
+    group_by = c("deploymentID", "latitude", "longitude")
+  ) \%>\%
+  map_summary("n_scientificName")
 
 # Show number of species: show deployments with no
 # observations (NA icon and size as defaults)
@@ -164,10 +162,10 @@ x_anas_p \%>\%
 
 # Show total number of observations (all species)
 x \%>\%
- summarize_observations(
-  group_by = c("deploymentID", "latitude", "longitude")
- ) \%>\%
- map_summary("n_observations")
+  summarize_observations(
+    group_by = c("deploymentID", "latitude", "longitude")
+  ) \%>\%
+  map_summary("n_observations")
 
 # Show number of observations of Anas platyrhynchos  - show deployments with
 # no observations (zero icon and size  as defaults)
@@ -201,64 +199,60 @@ x_anas_p \%>\%
   )
 
 # You can eventually filter the species after summarizing,
-# although it could not be the most efficient way for large camtrap data
-# packages
+# although it could not be the most efficient way for large Camera Trap Data
+# Packages
+library(dplyr)
 x \%>\%
- summarize_observations(
-   group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
- ) \%>\%
-filter(scientificName == "Anas platyrhynchos") \%>\%
-map_summary("n_scientificName")
+  summarize_observations(
+    group_by = c("deploymentID", "latitude", "longitude", "scientificName")
+  ) \%>\%
+  filter(scientificName == "Anas platyrhynchos") \%>\%
+  map_summary("n_scientificName")
 
 # Show number of individuals
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("sum_count")
+  summarize_observations() \%>\%
+  map_summary("sum_count")
 
 # Show RAI
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("rai_observations")
+  summarize_observations() \%>\%
+  map_summary("rai_observations")
 
 # Show RAI (individual counts)
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("rai_count")
+  summarize_observations() \%>\%
+  map_summary("rai_count")
 
 # Show effort (hours)
 x_anas_p \%>\%
- summarize_deployments() \%>\%
- map_summary("effort_duration")
+  summarize_deployments() \%>\%
+  map_summary("effort_duration")
 
 # Show effort (days)
 x \%>\%
- summarize_deployments() \%>\%
- map_summary("effort_duration", effort_unit = "day")
+  summarize_deployments() \%>\%
+  map_summary("effort_duration", effort_unit = "day")
 
 # Show effort per month
 x \%>\%
-summarize_deployments(group_time_by = "month") \%>\%
-map_summary("effort_duration", effort_unit = "day")
+  summarize_deployments(group_time_by = "month") \%>\%
+  map_summary("effort_duration", effort_unit = "day")
 
 # Use viridis palette
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("n_observations", palette = "viridis")
-
-# Use "BuPu" color palette (RColorBrewer palettes)
-x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("n_observations", palette = "BuPu")
+  summarize_observations() \%>\%
+  map_summary("n_observations", palette = "viridis")
 
 # Use a palette defined by color names
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("n_observations", palette = c("black", "blue", "white"))
+  summarize_observations() \%>\%
+  map_summary("n_observations", palette = c("black", "blue", "white"))
 
 # Use a palette defined by hex colors
 x_anas_p \%>\%
- summarize_observations() \%>\%
- map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
+  summarize_observations() \%>\%
+  map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
 
 # Use same icon but a non default color for zero values deployments,
 # E.g. red (hex: E74C3C)
@@ -275,7 +269,7 @@ x_anas_p \%>\%
 # Use another icon via a different URL, e.g. the character Fry from Futurama
 # in green (2ECC71)
 x_anas_p \%>\%
-  summarize_observations() \%>\%
+  summarize_observations(extend = TRUE) \%>\%
   map_summary(
     "n_observations",
     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
@@ -284,7 +278,7 @@ x_anas_p \%>\%
 # Set size of the icon for zero values deployments
 x \%>\%
   filter_observations(scientificName == "Anas platyrhynchos") \%>\%
-  summarize_observations() \%>\%
+  summarize_observations(extend = TRUE) \%>\%
   map_summary("n_observations", zero_values_icon_size = 30)
 
 # Use another icon url/size for visualizing groups with no observations
@@ -302,43 +296,40 @@ x \%>\%
 
 # Disable cluster
 x \%>\%
- summarize_observations(
- group_by = c("deploymentID", "latitude", "longitude")
- ) \%>\%
- map_summary("n_observations", cluster = FALSE)
+  summarize_observations(
+    group_by = c("deploymentID", "latitude", "longitude")
+  ) \%>\%
+  map_summary("n_observations", cluster = FALSE)
 
 # Show only number of observations and location name while hovering
 x \%>\%
- summarize_observations(
- group_by = c("deploymentID", "locationName", "latitude", "longitude")
- ) \%>\%
-map_summary(
-  x,
-  "n_observations",
-  hover_columns = c("locationName", "n_observations")
+  summarize_observations(
+    group_by = c("deploymentID", "locationName", "latitude", "longitude")
+  ) \%>\%
+  map_summary(
+    "n_observations",
+    hover_columns = c("locationName", "n_observations")
 )
 
 # Use absolute scale for colors and radius
 x \%>\%
- summarize_observations(
-  group_by = c("deploymentID", "latitude", "longitude")
- ) \%>\%
-map_summary(
-  x,
-  "n_scientificName",
-  relative_scale = FALSE,
-  max_scale = 4
+  summarize_observations(
+    group_by = c("deploymentID", "latitude", "longitude")
+  ) \%>\%
+  map_summary(
+    "n_scientificName",
+    relative_scale = FALSE,
+    max_scale = 4
 )
 
 # Change max and min size circles
 x \%>\%
- summarize_observations(
-  group_by = c("deploymentID", "locationName", "latitude", "longitude")
- ) \%>\%
-map_summary(
-  x,
-  "n_observations",
-  radius_range = c(40, 150)
+  summarize_observations(
+    group_by = c("deploymentID", "locationName", "latitude", "longitude")
+  ) \%>\%
+  map_summary(
+    "n_observations",
+    radius_range = c(40, 150)
 )
 }
 }

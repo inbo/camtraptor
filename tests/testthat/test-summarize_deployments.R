@@ -12,8 +12,8 @@ test_that("summarize_deployments() returns error for invalid group_by", {
   expect_error(
     summarize_deployments(x, group_by = "invalid"),
     paste0("Invalid value for group_by parameter: invalid.\n",
-           "Valid inputs are: deploymentID, locationID, locationName ",
-           "and deploymentTags"
+           "Valid inputs are: deploymentID, latitude, longitude, locationID, ",
+           "locationName, deploymentStart, deploymentEnd and deploymentTags"
     )
   )
 })
@@ -40,11 +40,12 @@ test_that(
     # The returned summary is a tibble data.frame
     expect_equal(
       class(summary),
-      c("tbl_df", "tbl", "data.frame")
+      c("grouped_df", "tbl_df", "tbl", "data.frame")
     )
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("deploymentID", "effort_duration"), names(summary)
+      c("deploymentID", "latitude", "longitude", "effort_duration"),
+      names(summary)
     )
     
     # Check that the number of returned deployments matches the number of
@@ -76,8 +77,12 @@ test_that(
     x <- example_dataset()
     deployments <- deployments(x)
     
-    # Default summary is the same as summary with `group_by = "deploymentID"`
-    summary <- summarize_deployments(x, group_by = "deploymentID")
+    # Default summary is the same as summary with 
+    # `group_by = c("deploymentID", "latitude", "longitude")`
+    summary <- summarize_deployments(
+      x,
+      group_by = c("deploymentID", "latitude", "longitude")
+    )
     expect_identical(summary, summarize_deployments(x))
     
     # Use `group_by = c("locationID", "deploymentID")`
@@ -149,12 +154,12 @@ test_that(
     # The returned summary is a tibble data.frame
     expect_equal(
       class(summary),
-      c("tbl_df", "tbl", "data.frame")
+      c("grouped_df", "tbl_df", "tbl", "data.frame")
     )
     
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("deploymentID", "day", "effort_duration"), names(summary)
+      c("deploymentID", "latitude", "longitude", "day", "effort_duration"), names(summary)
     )
     
     # Check that `effort_duration` is a duration object from lubridate

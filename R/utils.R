@@ -28,13 +28,13 @@
 #' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   max_print <- 20
-
+  
   # Drop NA
   options <- options[!is.na(options)]
-
+  
   # Wrong values
   wrong_values <- arg[!(arg %in% options)]
-
+  
   # Suppress long messages with valid options
   if (length(options) > max_print) {
     options_to_print <- c(options[1:max_print], "others...")
@@ -56,7 +56,7 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
     ".\nValid inputs are: ",
     glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
   )
-
+  
   # Provide user message
   if (!is.null(arg)) {
     assertthat::assert_that(
@@ -64,7 +64,8 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
       msg = msg_to_print
     )
   } else {
-    assertthat::assert_that(null_allowed == TRUE,
+    assertthat::assert_that(
+      null_allowed == TRUE,
       msg = msg_to_print
     )
   }
@@ -80,6 +81,90 @@ check_group_time_by <- function(group_time_by, group_time_bys) {
     group_time_bys,
     "group_time_by",
     null_allowed = TRUE
+  )
+}
+
+#' Check a data frame is output of `summarize_observations()`.
+#' 
+#' @param grouped_df A grouped tibble data frame as returned by
+#'   `summarize_observations()`.
+#' @return If no error, `TRUE`.
+check_summary <- function(grouped_df) {
+  # Check input is a data frame
+  assertthat::assert_that(
+    is.data.frame(grouped_df),
+    msg = "The summary must be a data frame."
+  )
+  # Check input is a grouped data frame
+  assertthat::assert_that(
+    "grouped_df" %in% class(grouped_df),
+    msg = "The summary must be a grouped data frame."
+  )
+  
+  all_columns <- colnames(grouped_df)
+  grouping_cols <- dplyr::group_vars(grouped_df)
+  features <- setdiff(all_columns, grouping_cols)
+  
+  # Check the columns used for grouping are valid grouping cols
+  wrong_grouping_cols <- setdiff(
+    grouping_cols,
+    c(.group_bys_deployments, .group_bys_observations, .group_time_bys)
+  )
+  assertthat::assert_that(
+    length(wrong_grouping_cols) == 0,
+    msg = glue::glue(
+      "Invalid grouping columns in the summary: ",
+      glue::glue_collapse(
+        glue::backtick(wrong_grouping_cols), sep = ", ", last = " and "
+      ),
+      ".\n",
+      "Valid deployment grouping columns: ",
+      glue::glue_collapse(
+        glue::backtick(
+          c(.group_bys_deployments, .group_bys_observations, .group_time_bys)
+        ),
+        sep = ", ",
+        last = " and "
+      ),
+      "."
+    )
+  )
+  # Only one time grouping present
+  time_grouping_cols <- intersect(grouping_cols, .group_time_bys)
+  assertthat::assert_that(
+    length(time_grouping_cols) <= 1,
+    msg = glue::glue(
+      "Only one time grouping column is allowed in the summary. ",
+      "Found: ",
+      glue::glue_collapse(
+        glue::backtick(time_grouping_cols), sep = ", ", last = " and "
+      ),
+      "."
+    )
+  )
+  
+  # Check `grouped_df` contains the right features
+  wrong_features <- setdiff(
+    features,
+    c(.features_observations, .features_deployments)
+  )
+  assertthat::assert_that(
+    length(wrong_features) == 0,
+    msg = glue::glue(
+      "Invalid features in the summary: ",
+      glue::glue_collapse(
+        glue::backtick(wrong_features), sep = ", ", last = " and "
+      ),
+      ".\nValid features from `summarize_observations()`: ",
+      glue::glue_collapse(
+        glue::backtick(.features_observations), sep = ", ", last = " and "
+      ),
+      ".\nValid features from `summarize_deployments()`: ",
+      glue::glue_collapse(
+        glue::backtick(.features_deployments), sep = ", ", last = " and "
+      ),
+      "."
+    )
   )
 }
 
@@ -157,7 +242,8 @@ labelFormat_scale <- function(max_scale = NULL,
                               big.mark = ",",
                               transform = identity) {
   formatNum <- function(x, max_scale) {
-    cuts_chrs <- format(round(transform(x), digits),
+    cuts_chrs <- format(
+      round(transform(x), digits),
       trim = TRUE,
       scientific = FALSE,
       big.mark = big.mark
@@ -170,62 +256,17 @@ labelFormat_scale <- function(max_scale = NULL,
     }
     return(cuts_chrs)
   }
-
+  
   function(type, ...) {
-    switch(type,
-      numeric = (function(cuts) {
-        paste0(prefix, formatNum(cuts, max_scale), suffix)
-      })(...)
+    switch(
+      type,
+      numeric = (
+        function(cuts) {
+          paste0(prefix, formatNum(cuts, max_scale), suffix)
+        }
+      )(...)
     )
   }
-}
-
-#' Get deployments without observations
-#'
-#' Return subset of deployments without observations. A message is also returned
-#' to list the ID of such deployments.
-#'
-#' @inheritParams n_species
-#' @return A tibble data frame with deployments not linked to any observations.
-#' @family exploration functions
-#' @noRd
-#' @examples
-#' x <- example_dataset()
-#' get_dep_no_obs(x)
-get_dep_no_obs <- function(x) {
-  
-  # Check camera trap data package
-  camtrapdp::check_camtrapdp(x)
-  
-  # Extract observations and deployments
-  observations <- observations(x)
-  deployments <- deployments(x)
-  
-  # Deployment with no observations
-  dep_no_obs <-
-    deployments %>%
-    dplyr::anti_join(observations %>%
-      dplyr::distinct(.data$deploymentID),
-    by = "deploymentID"
-    )
-
-  dep_no_obs_ids <- dep_no_obs$deploymentID
-  n_dep_no_obs <- length(dep_no_obs_ids)
-
-  if (n_dep_no_obs > 0) {
-    max_print <- 20
-    # Suppress long messages
-    if (length(dep_no_obs_ids) > max_print) {
-      options_to_print <- c(dep_no_obs_ids[1:max_print], "others..")
-    } else {
-      options_to_print <- dep_no_obs_ids
-    }
-    message(glue::glue(
-      "There are {n_dep_no_obs} deployments without observations: ",
-      glue::glue_collapse(options_to_print, sep = ", ", last = " and ")
-    ))
-  }
-  return(dep_no_obs)
 }
 
 #' Calculate daily effort for start or end day
@@ -248,27 +289,39 @@ calc_daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
       edge = dplyr::if_else(
         !is.null(calc_start), 
         .data$deploymentStart, .data$deploymentEnd
-        ),
+      ),
       edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
     )
   deploy_df %>%
     # calculate the duration of the start/end day (edge day)
     dplyr::mutate(
       edge_day_duration =
-        lubridate::as.duration(lubridate::as_datetime(.data$edge_day) +
-          lubridate::ddays(1) -
-          lubridate::as_datetime(.data$edge_day))
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) + 
+            lubridate::ddays(1) -
+            lubridate::as_datetime(.data$edge_day)
+        )
     ) %>%
     # calculate the duration of the active part of the start/end day
     dplyr::mutate(active_edge_day_duration = dplyr::if_else(
       !is.null(calc_start),
       # start day
-      .data$edge_day_duration - lubridate::as.duration(.data$edge - lubridate::as_datetime(.data$edge_day)),
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          .data$edge - lubridate::as_datetime(.data$edge_day)
+        ),
       # end day
-      .data$edge_day_duration - lubridate::as.duration(lubridate::as_datetime(.data$edge_day) + lubridate::ddays(1) - .data$edge)
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) +
+            lubridate::ddays(1) -
+            .data$edge
+        )
     )) %>%
     # calculate the fraction of the duration of the active part
-    dplyr::mutate(daily_effort = .data$active_edge_day_duration / .data$edge_day_duration) %>%
+    dplyr::mutate(
+      daily_effort = .data$active_edge_day_duration / .data$edge_day_duration
+    ) %>%
     dplyr::pull(.data$daily_effort)
 }
 
@@ -351,37 +404,6 @@ predict_r <- function(mod, rel_x, rel_y) {
   return(res)
 }
 
-#' Map legend title table
-#'
-#' Store legend titles for deployment visualizations: RAI, effort, number of
-#' observations, etc.
-#' Returns a data frame of all titles with the following columns:
-#' - `feature`: Deployment feature to visualize.
-#' - `legend_title`: Legend title.
-#'
-#' @noRd
-#' @usage map_legend_title()
-map_legend_title <- function() dplyr::as_tibble(mapdep_legend_titles)
-
-mapdep_legend_titles <- structure(list(
-  feature = c(
-    "n_species",
-    "n_obs",
-    "n_individuals",
-    "rai",
-    "rai_individuals",
-    "effort"
-  ),
-  legend_title = c(
-    "Number of detected species",
-    "Number of observations",
-    "Number of individuals",
-    "RAI",
-    "RAI (individuals)",
-    "Effort"
-  )
-))
-
 #' Get legend title for deployment visualizations
 #'
 #' @param feature Character, one of:
@@ -392,7 +414,7 @@ mapdep_legend_titles <- structure(list(
 #' @noRd
 get_legend_title <- function(feat) {
   # get all legend titles
-  titles <- map_legend_title()
+  titles <- .mapdep_legend_titles
   # return the legend title we need
   titles %>%
     dplyr::filter(.data$feature == feat) %>%
@@ -409,7 +431,7 @@ get_legend_title <- function(feat) {
 #' @param use_brackets Logical.
 #'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
 #' @noRd
-#' @usage map_legend_title("My title", unit = "day", use_bracket = TRUE)
+#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
 add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
   if (is.null(unit)) {
     title

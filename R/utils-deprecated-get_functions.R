@@ -37,8 +37,9 @@ summarize_deployments_for_deprecated_functions <- function(
     when = "1.0.0",
     what = paste0(function_name, "()"),
     details = glue::glue(
-      "Please use `summarize_deployments(x, group_by = \"deploymentID\")` ",
-      "instead. Notice also that the effort is only returned as a lubridate ",
+      "Please use `summarize_deployments(x, group_by = c(\"deploymentID\", ",
+      "\"latitude\"), \"longitude\"))` instead. ",
+      "Notice also that the effort is only returned as a lubridate ",
       "duration object in column `effort_duration`. The columns `effort` and ",
       "`unit` are not returned anymore."
     )
@@ -133,7 +134,7 @@ summarize_observations_for_deprecated_functions <- function(
     what = paste0(function_name, "()"),
     details = glue::glue(
       "Please use `summarize_observations(x, group_by = c(\"deploymentID\", ",
-      "\"scientificName\")` instead."
+      "\"latitude\"), \"longitude\"), \"scientificName\")` instead."
     )
   )
   

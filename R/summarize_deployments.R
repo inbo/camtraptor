@@ -8,14 +8,16 @@
 #'   [camtrapdp::read_camtrapdp()].
 #' @param group_by Character vector with the names of the columns in
 #'   deployments. At the moment you can choose one or many columns among:
-#'   `c("deploymentID", "locationID", "locationName", "deploymentTags")`.
-#'   Default: `deploymentID`.
+#'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
+#'   "deploymentStart", "deploymentEnd", "deploymentTags")`. Default:
+#'   `c("deploymentID", "latitude", "longitude")`.
 #' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
 #'   `"year"`. The effort is calculated at the interval rate defined in
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
 #'   the deployment is taken into account as a whole.
-#' @return A tibble data frame with the following columns:
-#'   - `group_by` names, e.g. `deploymentID` and `locationName`.
+#' @return A grouped tibble data frame with the following columns:
+#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude` and 
+#'   `locationName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It contains the first
 #'   date of the time interval, e.g. the first day of the month.
 #'   - `effort_duration`: A duration object (duration is a class from lubridate
@@ -26,22 +28,23 @@
 #' @examples
 #' x <- example_dataset()
 #'
-#' # Return effort per `deploymentID` and `locationName`, by day
+#' # Return effort using default `group_by` and no time grouping
+#' summarize_deployments(x)
+#' 
+#' # Return effort using default `group_by` and grouping by year
+#' summarize_deployments(x, group_time_by = "year")
+#' 
+#' # Return effort specifying grouping columns, e.g. `deploymentID` and
+#' # `locationName` and grouping by day
 #' summarize_deployments(
 #'   x,
 #'   group_by = c("deploymentID", "locationName"),
 #'   group_time_by = "day"
 #' )
 #' 
-#' # Return effort per `deploymentID` and `locationName`. No grouping by time.
-#' summarize_deployments(
-#'   x,
-#'   group_by = c("deploymentID", "locationName")
-#' )
-#' 
-#' # Afterwards, you can calculate the total effort over all deployments. You
-#' can also show other information, e.g. the (number of) deployments and
-#' locations.
+#' # Afterwards, you can calculate the total effort over all deployments. You 
+#' # can also show other information, e.g. the (number of) deployments and
+#' # locations.
 #' library(dplyr)
 #' summarize_deployments(
 #'   x,
@@ -55,19 +58,24 @@
 #'   nloc = length(unique(locationName)),
 #'   effort_duration = sum(effort_duration)
 #' )
-summarize_deployments <- function(x,
-                                  group_by = "deploymentID",
-                                  group_time_by = NULL) {
+summarize_deployments <- function(
+    x,
+    group_by = c("deploymentID", "latitude", "longitude"),
+    group_time_by = NULL
+) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`
-  group_bys <- c("deploymentID", "locationID", "locationName", "deploymentTags")
-  check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
+  check_value(
+    group_by,
+    .group_bys_deployments,
+    "group_by",
+    null_allowed = FALSE
+  )
   
   # Check `group_time_by`
-  group_time_bys <- c("day", "week", "month", "year")
-  check_group_time_by(group_time_by, group_time_bys)
+  check_group_time_by(group_time_by, .group_time_bys)
   
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")
@@ -90,9 +98,9 @@ summarize_deployments <- function(x,
       dplyr::across(dplyr::all_of(c(group_by, group_time_by)))
     ) %>%
     dplyr::summarise(
-      effort_duration = sum(.data$effort_duration, na.rm = TRUE)
+      effort_duration = sum(.data$effort_duration, na.rm = TRUE),
+      .groups = "keep"
     ) %>%
-    dplyr::ungroup() %>%
     dplyr::mutate(
       effort_duration = lubridate::as.duration(.data$effort_duration)
     )

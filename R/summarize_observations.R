@@ -1,3 +1,126 @@
+#' Extend observations summary with the groups left out by summarize functions
+#'
+#' The function `summarize_observations()` doesn't include all possible groups.
+#' This is also the normal behavior of dplyr's `summarize()` function. However,
+#' for exploration and visualization purposes, it is sometimes useful to know
+#' which groups are missing. This function extends the summary with the missing
+#' groups. More details are provided in the details section.
+#'
+#' @details
+#' The function works by getting all possible combinations of the grouping
+#' columns of the summary from `observations` and all existent
+#' combinations in `deployments`.
+#' Then, it performs a full join between the provided summary and the complete
+#' set of groups. This ensures that all possible groups are represented in the
+#' final output.
+#' 
+#' @param summary A grouped tibble data frame as returned by
+#'   `summarize_observations()`.
+#' @param x Camera Trap Data Package object.
+#' @return A grouped tibble data frame with the missing groups added. The values
+#'   of the features are set to `0` or `NA`, depending on the feature. See the
+#'   details section for more information.
+#' @noRd
+extend_summary <- function(summary, x) {
+  
+  # Check camera trap data package
+  camtrapdp::check_camtrapdp(x)
+  # Check `summary` is a valid summary
+  check_summary(summary)
+  
+  # Get observations
+  obs <- observations(x)
+  
+  # Get grouping columns from the summary
+  grouping_cols <- dplyr::group_vars(summary)
+  
+  # Grouping cols in observations
+  grouping_cols_obs <- grouping_cols[
+    grouping_cols %in% .group_bys_observations
+  ]
+  
+  # Grouping cols in deployments if any
+  grouping_cols_dep <- grouping_cols[
+    grouping_cols %in% .group_bys_deployments
+  ]
+  
+  # Time grouping column if any
+  time_group_col <- grouping_cols[
+    grouping_cols %in% .group_time_bys
+  ]
+  if (length(time_group_col) == 0) {
+    # Set time_group_col to NULL if not present: it makes easier to handle
+    # later: one if-else statement less
+    time_group_col <- NULL
+  }
+  
+  # Get all deployment/time groups by running `summarize_deployments()` with
+  # the same temporal grouping if any
+  if (length(grouping_cols_dep) > 0) {
+    dep_time_groups <- summarize_deployments(
+      x,
+      group_by = grouping_cols_dep,
+      group_time_by = time_group_col
+    )
+  } else {
+    dep_time_groups <- summarize_deployments(
+      x,
+      group_by = "deploymentID", # "dummy" grouping to get time groups
+      group_time_by = time_group_col
+    )
+  }
+  dep_time_groups <- dep_time_groups %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::any_of(c(grouping_cols_dep, time_group_col))) %>%
+    dplyr::distinct()
+  
+  # Get all possible groups by expanding the deployments-time groups with
+  # observations groups if any
+  if (length(grouping_cols_obs) > 0) {
+    all_groups_obs <- obs %>%
+      # Select only the grouping columns present in observations
+      dplyr::select(dplyr::all_of(grouping_cols_obs)) %>%
+      dplyr::distinct() %>%
+      # Get all unique values per grouping column. This step is needed because
+      # `expand.grid()` considers multiple NAs in a column as separate entities
+      # when creating combinations, leading to duplicate rows in the output.
+      purrr::map(unique) %>%
+      # Create all combinations of grouping columns.
+      expand.grid() %>%
+      dplyr::as_tibble()
+    
+    all_groups <- tidyr::expand_grid(dep_time_groups, all_groups_obs)
+  } else {
+    all_groups <- dep_time_groups
+  }
+  
+  # Extend summary with all possible groups
+  extended_summary <- summary %>%
+    dplyr::full_join(all_groups, by = grouping_cols) %>%
+    # Preserve the order based on grouping columns
+    dplyr::arrange(dplyr::across(dplyr::all_of(grouping_cols)))
+  
+  # NAs must be replaced by `0` except for `n_scientificName` and rai_* columns
+  # when grouping is done only by observations columns.
+  features_zero <- .features_observations[
+    .features_observations != "n_scientificName"
+  ]
+  if (length(grouping_cols_dep) == 0) {
+    features_zero <- features_zero[
+      !features_zero %in% c("rai_observations", "rai_count")
+    ]
+  }
+  extended_summary <- extended_summary %>%
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::all_of(features_zero),
+        ~ tidyr::replace_na(., 0)
+      )
+    )
+  
+  return(extended_summary)
+}
+
 #' Summarize observations information
 #'
 #' Summarizes event-based observations by calculating:
@@ -8,20 +131,38 @@
 #' - Relative Abundance Index (RAI) based on number of observations.
 #' - Relative Abundance Index (RAI) based on individual counts.
 #'
-#' `summarize_observations()` and `summarise_observations()` are synonyms.
+#' @details `summarize_observations()` and `summarise_observations()` are
+#'   synonyms.
+#'
+#' By default (`extend = FALSE`), the function follows the standard behavior of
+#' `dplyr::summarise()`, returning only groups that have observations. This
+#' means deployments or time periods with zero observations for the specified
+#' grouping are excluded from the output.
+#'
+#' When `extend = TRUE`, the summary is extended to include all possible
+#' combinations of grouping variables, even when no observations exist for a
+#' particular group. This is particularly useful for visualisations (`map_summary()`) and analysis as it identifies for example:
+#' - Deployments where a specific species was not observed.
+#' - Time periods when a specific species was not observed.
+#' - Presence/absence patterns across deployments.
+#'
+#' For extended summaries, feature values are set to `0` for groups with no
+#' observations, except for `n_scientificName` which is set to `NA` when no
+#' species are present as `0` is used when only unidentified individuals are
+#' observed.
 #'
 #' @param group_by Character vector with names of columns in deployments and
 #'   observations. At the moment you can choose one or many columns among:
-#'   `c("deploymentID", "locationID", "locationName", "deploymentTags",
-#'   "scientificName", "lifeStage", "sex", "behavior")`. Default:
-#'   `c("deploymentID", "scientificName")`.
-#' @param group_time_by Character, one of `"day"`, `"week"`, `"month"`,
-#'   `"year"`. The features are calculated at the interval rate defined in
-#'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
-#'   the deployment is taken into account as a whole.
+#'   `c("deploymentID", "latitude", "longitude", "locationID", "locationName",
+#'   "deploymentStart", "deploymentEnd", "deploymentTags", "scientificName",
+#'   "lifeStage", "sex", "behavior")`. Default: `c("deploymentID", "latitude",
+#'   "longitude", "scientificName")`.
+#' @param extend Logical. If `TRUE`, the summary is extended with all possible
+#'   groups left out by `summarize_observations()`. See details section for more
+#'   information. Default: `FALSE`.
 #' @inheritParams summarize_deployments
-#' @return A tibble data frame with the following columns:
-#'   - `group_by` names, e.g. `deploymentID` and `locationName`.
+#' @return A grouped tibble data frame with the following columns:
+#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`, and `scientificName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
 #'   containing the first date of the time interval, e.g. the first day of the
 #'   month.
@@ -35,46 +176,46 @@
 #'   (RAI), defined as `100 * (n_observations/effort)` where `n_observations` is
 #'   the number of observations and `effort` is the `effort_duration` as
 #'   returned by `summarize_deployments()` expressed in days.
+#'   - `rai_count`: numeric vector with the Relative Abundance Index (RAI),
+#'   defined as `100 * (sum_count/effort)` where `sum_count` is the sum of
+#'   individual counts and `effort` is the `effort_duration` as returned by
+#'   `summarize_deployments()` expressed in days.
 #' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()
-#' # Summarize observations by `deploymentID` and `scientificName` (default)
+#' # Summarize observations by `deploymentID`, `latitude`, `longitude` and
+#' # `scientificName` (default)
 #' summarize_observations(x)
 #'
-#' # Summarize observations by `deploymentID` and month
+#' # Summarize observations by `locationId`, and `locationName` (summary by
+#' deployment columns only)
+#' summarize_observations(x, group_by = "locationName")
+#'
+#' # Summarize observations by `scientificName` and `sex` (summary by
+#' observation columns only)
+#' summarize_observations(x, group_by = c("scientificName", "sex"))
+#'
+#' # Apply temporal grouping by month
 #' summarize_observations(x, group_time_by = "month")
 #'
-#' # Summarize observations by `locationId`, and `locationName`
-#' summarize_observations(x, group_by = "locationName")
+#' # Extend the summary to include all possible groups
+#' summarize_observations(x, extend = TRUE)
 summarize_observations <- function(
     x,
-    group_by = c("deploymentID", "scientificName"),
-    group_time_by = NULL) {
+    group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
+    group_time_by = NULL,
+    extend = FALSE) {
   # Check camera trap data package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`
-  # Some `group_by` values are deployment related, others obs related
-  group_bys_deployments <- c(
-    "deploymentID",
-    "locationID",
-    "locationName",
-    "deploymentTags"
-  )
-  group_bys_observations <- c(
-    "scientificName",
-    "lifeStage",
-    "sex",
-    "behavior"
-  )
-  group_bys <- c(group_bys_deployments, group_bys_observations)
+  group_bys <- c(.group_bys_deployments, .group_bys_observations)
   check_value(group_by, group_bys, "group_by", null_allowed = FALSE)
-  group_by_deployments <- group_by[group_by %in% group_bys_deployments]
-  group_by_observations <- group_by[group_by %in% group_bys_observations]
+  group_by_deployments <- group_by[group_by %in% .group_bys_deployments]
+  group_by_observations <- group_by[group_by %in% .group_bys_observations]
   # Check `group_time_by`
-  group_time_bys <- c("day", "week", "month", "year")
-  check_group_time_by(group_time_by, group_time_bys)
+  check_group_time_by(group_time_by, .group_time_bys)
   # Use event-based observations only
   x <- x %>%
     filter_observations(.data$observationLevel == "event")
@@ -180,7 +321,7 @@ summarize_observations <- function(
       group_by = group_by_deployments,
       group_time_by = group_time_by
     )
-    summary %>%
+    summary <- summary %>%
       dplyr::left_join(effort_df,
         by = c(group_by_deployments, group_time_by)
       ) %>%
@@ -198,13 +339,23 @@ summarize_observations <- function(
       ) %>%
       dplyr::select(-"effort_duration")
   } else {
-    summary %>%
+    summary <- summary %>%
       dplyr::mutate(
         rai_observations = NA_real_,
         rai_count = NA_real_
       )
   }
+  # Extend summary if required
+  if (isTRUE(extend)) {
+    extend_summary(
+      summary = summary,
+      x = x
+    )
+  } else {
+    summary
+  }
 }
+
 #' @rdname summarize_observations
 #' @export
 summarise_observations <- summarize_observations

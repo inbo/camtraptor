@@ -12,8 +12,9 @@ test_that("summarize_observations() returns error for invalid group_by", {
   expect_error(
     summarize_observations(x, group_by = "invalid"),
     paste0("Invalid value for group_by parameter: invalid.\n",
-           "Valid inputs are: deploymentID, locationID, locationName, ",
-           "deploymentTags, scientificName, lifeStage, sex and behavior"
+           "Valid inputs are: deploymentID, latitude, longitude, locationID, ",
+           "locationName, deploymentStart, deploymentEnd, deploymentTags, ",
+           "scientificName, lifeStage, sex and behavior"
     )
   )
 })
@@ -30,42 +31,56 @@ test_that("summarize_observations() returns error for invalid group_time_by", {
 })
 
 testthat::test_that("summarize_observations() returns correct summary for
-                    grouping by deploymentID and scientificName (default)", {
-      skip_if_offline()
-      x <- example_dataset()  
-      summary <- summarize_observations(x)
-      # Check that the `summary` has the expected columns
-      expect_equal(
-        names(summary),
-        c("deploymentID",
-          "scientificName",
-          "n_scientificName",
-          "n_events",
-          "n_observations",
-          "sum_count",
-          "rai_observations",
-          "rai_count")
-      )
-      # All deployments are present
-      expect_true(all(dplyr::pull(deployments(x), "deploymentID") %in%
-                        summary$deploymentID)
-      )
-      # All scientific names are present
-      x <- x %>% filter_observations(.data$observationLevel == "event")
-      expect_true(all(
-        unique(dplyr::pull(observations(x), "scientificName")) %in%
-          summary$scientificName
-      ))
-      # Correct type of columns
-      expect_true(is.character(summary$deploymentID))
-      expect_true(is.character(summary$scientificName))
-      expect_true(is.integer(summary$n_scientificName))
-      expect_true(is.integer(summary$n_events))
-      expect_true(is.integer(summary$n_observations))
-      expect_true(is.integer(summary$sum_count))
-      expect_true(is.numeric(summary$rai_observations))
-      expect_true(is.numeric(summary$rai_count))
-    })
+                    grouping by deploymentID, lat-lon and scientificName 
+                    (default)", {
+  skip_if_offline()
+  x <- example_dataset()  
+  summary <- summarize_observations(x)
+  # Check that the `summary` has the expected columns
+  expect_equal(
+    names(summary),
+    c("deploymentID",
+      "latitude",
+      "longitude",
+      "scientificName",
+      "n_scientificName",
+      "n_events",
+      "n_observations",
+      "sum_count",
+      "rai_observations",
+      "rai_count")
+  )
+  # All deployments are present
+  expect_identical(
+    dplyr::select(
+      deployments(x),
+      deploymentID,
+      latitude,
+      longitude
+    ),
+    dplyr::distinct(
+      dplyr::ungroup(summary),
+      deploymentID,
+      latitude,
+      longitude
+    )
+  )
+  # All scientific names are present
+  x <- x %>% filter_observations(.data$observationLevel == "event")
+  expect_true(all(
+    unique(dplyr::pull(observations(x), "scientificName")) %in%
+      summary$scientificName
+  ))
+  # Correct type of columns
+  expect_true(is.character(summary$deploymentID))
+  expect_true(is.character(summary$scientificName))
+  expect_true(is.integer(summary$n_scientificName))
+  expect_true(is.integer(summary$n_events))
+  expect_true(is.integer(summary$n_observations))
+  expect_true(is.integer(summary$sum_count))
+  expect_true(is.numeric(summary$rai_observations))
+  expect_true(is.numeric(summary$rai_count))
+})
 
 testthat::test_that(
   "summarize_observations() takes into account only event-based observations", {
@@ -84,123 +99,123 @@ testthat::test_that(
   })
 
 test_that("summarize_observations() returns correct summary for grouping by 
-          deploymentID, i.e. no grouping by observations columns", {
-    skip_if_offline()
-    x <- example_dataset()
-    summary <- summarize_observations(x, group_by = "deploymentID")
-    
-    # The returned summary is of type list
-    expect_type(summary, "list")
-    # The returned summary is a tibble data.frame
-    expect_equal(
-      class(summary),
-      c("tbl_df", "tbl", "data.frame")
-    )
-    # Check that the `summary` has the expected columns
-    expect_equal(names(summary),
-                 c("deploymentID",
-                   "n_scientificName",
-                   "n_events",
-                   "n_observations",
-                   "sum_count",
-                   "rai_observations",
-                   "rai_count")
-    )
-    
-    # Correct type of columns
-    expect_true(is.character(summary$deploymentID))
-    expect_true(is.integer(summary$n_scientificName))
-    expect_true(is.integer(summary$n_events))
-    expect_true(is.integer(summary$n_observations))
-    expect_true(is.integer(summary$sum_count))
-    expect_true(is.numeric(summary$rai_observations))
-    expect_true(is.numeric(summary$rai_count))
-    
-    # Check that the number of returned deployments matches the number of
-    # deployments in the dataset
-    expect_equal(nrow(summary), nrow(deployments(x)))
-    
-    # Correct `deploymentID` values
-    expect_equal(
-      summary$deploymentID,
-      dplyr::pull(deployments(x),"deploymentID")
-    )
-    
-    observations_grouped <- 
+          deploymentID and lat/lon, i.e. no grouping by observations columns", {
+  skip_if_offline()
+  x <- example_dataset()
+  summary <- summarize_observations(x, group_by = "deploymentID")
+  
+  # The returned summary is of type list
+  expect_type(summary, "list")
+  # The returned summary is a tibble data.frame
+  expect_equal(
+    class(summary),
+    c("grouped_df", "tbl_df", "tbl", "data.frame")
+  )
+  # Check that the `summary` has the expected columns
+  expect_equal(names(summary),
+               c("deploymentID",
+                 "n_scientificName",
+                 "n_events",
+                 "n_observations",
+                 "sum_count",
+                 "rai_observations",
+                 "rai_count")
+  )
+  
+  # Correct type of columns
+  expect_true(is.character(summary$deploymentID))
+  expect_true(is.integer(summary$n_scientificName))
+  expect_true(is.integer(summary$n_events))
+  expect_true(is.integer(summary$n_observations))
+  expect_true(is.integer(summary$sum_count))
+  expect_true(is.numeric(summary$rai_observations))
+  expect_true(is.numeric(summary$rai_count))
+  
+  # Check that the number of returned deployments matches the number of
+  # deployments in the dataset
+  expect_equal(nrow(summary), nrow(deployments(x)))
+  
+  # Correct `deploymentID` values
+  expect_equal(
+    summary$deploymentID,
+    dplyr::pull(deployments(x),"deploymentID")
+  )
+  
+  observations_grouped <- 
+    x %>%
+    filter_observations(.data$observationLevel == "event") %>%
+    observations() %>%
+    dplyr::group_by(deploymentID)
+  # Number of scientific names returned is correct
+  n_species_df <- 
+    observations_grouped %>%
+    dplyr::summarise(
+      n_scientificName = dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
+    ) %>%
+    dplyr::ungroup()
+  expect_identical(summary$n_scientificName,
+                   n_species_df$n_scientificName
+  )
+  # Number of events returned is correct
+  n_events_df <- 
+    observations_grouped %>%
+    dplyr::summarise(n_events = dplyr::n_distinct(.data$eventID)) %>%
+    dplyr::ungroup()
+  expect_identical(summary$n_events, n_events_df$n_events)
+  # Number of observations returned is correct
+  n_obs_df <-
+    observations_grouped %>%
+    dplyr::summarise(n_obs = dplyr::n_distinct(.data$observationID)) %>%
+    dplyr::ungroup()
+  expect_identical(summary$n_observations, n_obs_df$n_obs)
+  # Sum of individual counts returned is correct
+  sum_individual_counts_df <- 
+    observations_grouped %>%
+    dplyr::summarise(sum_count = as.integer(
+      sum(.data$count, na.rm = TRUE))
+    ) %>%
+    dplyr::ungroup()
+  expect_identical(summary$sum_count,
+                   sum_individual_counts_df$sum_count
+  )
+  # rai_observations returned is correct
+  rai_observations_df <- n_obs_df %>%
+    dplyr::left_join(
       x %>%
-      filter_observations(.data$observationLevel == "event") %>%
-      observations() %>%
-      dplyr::group_by(deploymentID)
-    # Number of scientific names returned is correct
-    n_species_df <- 
-      observations_grouped %>%
-      dplyr::summarise(
-        n_scientificName = dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
-      ) %>%
-      dplyr::ungroup()
-    expect_identical(summary$n_scientificName,
-                     n_species_df$n_scientificName
+        filter_observations(.data$observationLevel == "event") %>%
+        deployments() %>%
+        dplyr::mutate(effort_duration = lubridate::as.duration(
+          .data$deploymentEnd - .data$deploymentStart
+        )) %>%
+        dplyr::select("deploymentID", "effort_duration"),
+      by = "deploymentID"
+    ) %>%
+    dplyr::mutate(
+      rai_observations = 
+        100 * .data$n_obs / (.data$effort_duration/lubridate::ddays(1))
     )
-    # Number of events returned is correct
-    n_events_df <- 
-      observations_grouped %>%
-      dplyr::summarise(n_events = dplyr::n_distinct(.data$eventID)) %>%
-      dplyr::ungroup()
-    expect_identical(summary$n_events, n_events_df$n_events)
-    # Number of observations returned is correct
-    n_obs_df <-
-      observations_grouped %>%
-      dplyr::summarise(n_obs = dplyr::n_distinct(.data$observationID)) %>%
-      dplyr::ungroup()
-    expect_identical(summary$n_observations, n_obs_df$n_obs)
-    # Sum of individual counts returned is correct
-    sum_individual_counts_df <- 
-      observations_grouped %>%
-      dplyr::summarise(sum_count = as.integer(
-        sum(.data$count, na.rm = TRUE))
-      ) %>%
-      dplyr::ungroup()
-    expect_identical(summary$sum_count,
-                     sum_individual_counts_df$sum_count
+  expect_identical(summary$rai_observations,
+                   rai_observations_df$rai_observations)
+  # rai_count returned is correct
+  rai_sum_count_df <- sum_individual_counts_df %>%
+    dplyr::left_join(
+      x %>%
+        filter_observations(.data$observationLevel == "event") %>%
+        deployments() %>%
+        dplyr::mutate(effort_duration = lubridate::as.duration(
+          .data$deploymentEnd - .data$deploymentStart
+        )) %>%
+        dplyr::select("deploymentID", "effort_duration"),
+      by = "deploymentID"
+    ) %>%
+    dplyr::mutate(
+      rai_count = 
+        100 * .data$sum_count / 
+        (.data$effort_duration / lubridate::ddays(1))
     )
-    # rai_observations returned is correct
-    rai_observations_df <- n_obs_df %>%
-      dplyr::left_join(
-        x %>%
-          filter_observations(.data$observationLevel == "event") %>%
-          deployments() %>%
-          dplyr::mutate(effort_duration = lubridate::as.duration(
-            .data$deploymentEnd - .data$deploymentStart
-          )) %>%
-          dplyr::select("deploymentID", "effort_duration"),
-        by = "deploymentID"
-      ) %>%
-      dplyr::mutate(
-        rai_observations = 
-          100 * .data$n_obs / (.data$effort_duration/lubridate::ddays(1))
-      )
-    expect_identical(summary$rai_observations,
-                     rai_observations_df$rai_observations)
-    # rai_count returned is correct
-    rai_sum_count_df <- sum_individual_counts_df %>%
-      dplyr::left_join(
-        x %>%
-          filter_observations(.data$observationLevel == "event") %>%
-          deployments() %>%
-          dplyr::mutate(effort_duration = lubridate::as.duration(
-            .data$deploymentEnd - .data$deploymentStart
-          )) %>%
-          dplyr::select("deploymentID", "effort_duration"),
-        by = "deploymentID"
-      ) %>%
-      dplyr::mutate(
-        rai_count = 
-          100 * .data$sum_count / 
-          (.data$effort_duration / lubridate::ddays(1))
-      )
-    expect_identical(summary$rai_count,
-                     rai_sum_count_df$rai_count)
-  })
+  expect_identical(summary$rai_count,
+                   rai_sum_count_df$rai_count)
+})
 
 testthat::test_that(
   "Deployments without observations are not included in the summary", {
@@ -224,170 +239,264 @@ testthat::test_that(
 testthat::test_that("summarize_observations() returns correct summary for
                     grouping by lifeStage, i.e. no grouping by deployments
                     columns", {
-      skip_if_offline()
-      x <- example_dataset()
-      summary <- summarize_observations(x, group_by = "lifeStage")
-      # Check that the `summary` has the expected columns
-      expect_equal(
-        names(summary),
-        c("lifeStage",
-          "n_scientificName",
-          "n_events",
-          "n_observations",
-          "sum_count",
-          "rai_observations",
-          "rai_count")
+  skip_if_offline()
+  x <- example_dataset()
+  summary <- summarize_observations(x, group_by = "lifeStage")
+  # Check that the `summary` has the expected columns
+  expect_equal(
+    names(summary),
+    c("lifeStage",
+      "n_scientificName",
+      "n_events",
+      "n_observations",
+      "sum_count",
+      "rai_observations",
+      "rai_count")
+  )
+  # No deployments info is present
+  expect_true(!"deploymentID" %in% names(summary))
+  # All life stages are present
+  x <- x %>% filter_observations(.data$observationLevel == "event")
+  expect_true(all(
+    unique(dplyr::pull(observations(x), "lifeStage")) %in%
+      summary$lifeStage
+  ))
+  
+  # Correct type of columns
+  expect_true(is.factor(summary$lifeStage))
+  expect_true(is.integer(summary$n_scientificName))
+  expect_true(is.integer(summary$n_events))
+  expect_true(is.integer(summary$n_observations))
+  expect_true(is.integer(summary$sum_count))
+  expect_true(is.numeric(summary$rai_observations))
+  expect_true(is.numeric(summary$rai_count))
+  
+  # Sum of n_scientificName in summary is equal or greater than the number
+  # of distinct scientific names in observations.
+  expect_true(
+    sum(summary$n_scientificName) >=
+      dplyr::n_distinct(
+        dplyr::pull(observations(x), "scientificName"),
+        na.rm = TRUE
       )
-      # No deployments info is present
-      expect_true(!"deploymentID" %in% names(summary))
-      # All life stages are present
-      x <- x %>% filter_observations(.data$observationLevel == "event")
-      expect_true(all(
-        unique(dplyr::pull(observations(x), "lifeStage")) %in%
-          summary$lifeStage
-      ))
-      
-      # Correct type of columns
-      expect_true(is.factor(summary$lifeStage))
-      expect_true(is.integer(summary$n_scientificName))
-      expect_true(is.integer(summary$n_events))
-      expect_true(is.integer(summary$n_observations))
-      expect_true(is.integer(summary$sum_count))
-      expect_true(is.numeric(summary$rai_observations))
-      expect_true(is.numeric(summary$rai_count))
-      
-      # Sum of n_scientificName in summary is equal or greater than the number
-      # of distinct scientific names in observations.
-      expect_true(
-        sum(summary$n_scientificName) >=
-          dplyr::n_distinct(
-            dplyr::pull(observations(x), "scientificName"),
-            na.rm = TRUE
-          )
+  )
+  # Sum of number of events in summary is equal or greater than the number
+  # of distinct events in observations = same event can lead to multiple
+  # observations (multiple animals spotted)
+  expect_true(
+    sum(summary$n_events) >=
+      dplyr::n_distinct(
+        dplyr::pull(observations(x), "eventID"),
+        na.rm = TRUE
       )
-      # Sum of number of events in summary is equal or greater than the number
-      # of distinct events in observations = same event can lead to multiple
-      # observations (multiple animals spotted)
-      expect_true(
-        sum(summary$n_events) >=
-        dplyr::n_distinct(
-          dplyr::pull(observations(x), "eventID"),
-          na.rm = TRUE
-        )
-      )
-      # Total number of observations is preserved
-      expect_identical(
-        sum(summary$n_observations),
-        nrow(observations(x))
-      )
-      # Total number of individuals is preserved
-      expect_identical(
-        sum(summary$sum_count),
-        as.integer(sum(dplyr::pull(observations(x), "count"), na.rm = TRUE))
-      )
-      # RAI cannot be calculated without grouping by deployments columns:
-      # rai_observations and rai_count are NA
-      expect_true(all(is.na(summary$rai_observations)))
-      expect_true(all(is.na(summary$rai_count)))
-    })
+  )
+  # Total number of observations is preserved
+  expect_identical(
+    sum(summary$n_observations),
+    nrow(observations(x))
+  )
+  # Total number of individuals is preserved
+  expect_identical(
+    sum(summary$sum_count),
+    as.integer(sum(dplyr::pull(observations(x), "count"), na.rm = TRUE))
+  )
+  # RAI cannot be calculated without grouping by deployments columns:
+  # rai_observations and rai_count are NA
+  expect_true(all(is.na(summary$rai_observations)))
+  expect_true(all(is.na(summary$rai_count)))
+})
 
 testthat::test_that(
   "summarize_observations() returns correct summary when grouping by time", {
+  skip_if_offline()
+  x <- example_dataset()
+  summary <- summarize_observations(x, group_time_by = "day")
+  
+  # Check that the `summary` has the expected columns
+  expect_equal(
+    names(summary),
+    c("deploymentID",
+      "latitude",
+      "longitude",
+      "scientificName",
+      "day",
+      "n_scientificName",
+      "n_events",
+      "n_observations",
+      "sum_count",
+      "rai_observations",
+      "rai_count")
+  )
+  # All dates are present
+  x_events <- x %>% filter_observations(.data$observationLevel == "event")
+  expect_true(all(
+    unique(
+      lubridate::as_datetime(
+        lubridate::as_date(dplyr::pull(observations(x_events), "eventStart"))
+      ) %in%
+        summary$day
+    )
+  ))
+  
+  # Correct type of columns
+  expect_true(is.character(summary$deploymentID))
+  expect_true(is.character(summary$scientificName))
+  expect_true(lubridate::is.timepoint(summary$day))
+  expect_true(is.integer(summary$n_scientificName))
+  expect_true(is.integer(summary$n_events))
+  expect_true(is.integer(summary$n_observations))
+  expect_true(is.integer(summary$sum_count))
+  expect_true(is.numeric(summary$rai_observations))
+  expect_true(is.numeric(summary$rai_count))
+  
+  # Sum of n_scientificName in summary is equal or greater than the number
+  # of distinct scientific names in observations.
+  expect_true(
+    sum(summary$n_scientificName) >=
+      dplyr::n_distinct(
+        dplyr::pull(observations(x_events), "scientificName"),
+        na.rm = TRUE
+      )
+  )
+  # Sum of number of events in summary is equal or greater than the number
+  # of distinct events in observations = same event can lead to multiple
+  # observations (multiple animals spotted)
+  expect_true(
+    sum(summary$n_events) >=
+      dplyr::n_distinct(
+        dplyr::pull(observations(x_events), "eventID"), na.rm = TRUE)
+  )
+  # Total number of observations is preserved
+  expect_true(
+    sum(summary$n_observations) ==
+      nrow(observations(x_events))
+  )
+  # Total number of individuals is preserved
+  expect_true(
+    sum(summary$sum_count) ==
+      sum(dplyr::pull(observations(x_events), "count"), na.rm = TRUE)
+  )
+  # RAI is equal n_observation * 100 for full days (day != deploymentStart,
+  # deploymentEnd of deployment)
+  full_days_summary <- 
+    summary %>%
+    dplyr::left_join(
+      # deployments start and end dates (as datetime objects)
+      deployments(x_events) %>%
+        dplyr::select(deploymentID, deploymentStart, deploymentEnd) %>%
+        dplyr::mutate(
+          deploymentStart = lubridate::as_datetime(
+            lubridate::as_date(deploymentStart)
+          ),
+          deploymentEnd = lubridate::as_datetime(
+            lubridate::as_date(deploymentEnd)
+          )
+        ),
+      by = "deploymentID"
+    ) %>%
+    dplyr::group_by(deploymentID) %>%
+    dplyr::filter(day != deploymentStart & day != deploymentEnd)
+  expect_identical(
+    full_days_summary$rai_observations,
+    full_days_summary$n_observations * 100
+  )
+  expect_identical(
+    full_days_summary$rai_count,
+    full_days_summary$sum_count * 100
+  )
+})
+
+testthat::test_that(
+  "extending summary  works well with observation grouping variables", {
     skip_if_offline()
     x <- example_dataset()
-    summary <- summarize_observations(x, group_time_by = "day")
-    
-    # Check that the `summary` has the expected columns
-    expect_equal(
-      names(summary),
-      c("deploymentID",
-        "scientificName",
-        "day",
-        "n_scientificName",
-        "n_events",
-        "n_observations",
-        "sum_count",
-        "rai_observations",
-        "rai_count")
+    s <- summarize_observations(x, group_by = c("sex", "lifeStage"))
+    s_extended <- summarize_observations(
+      x,
+      group_by = c("sex", "lifeStage"),
+      extend = TRUE
     )
-    # All dates are present
-    x_events <- x %>% filter_observations(.data$observationLevel == "event")
-    expect_true(all(
-      unique(
-        lubridate::as_datetime(
-          lubridate::as_date(dplyr::pull(observations(x_events), "eventStart"))
-        ) %in%
-          summary$day
-      )
-    ))
-    
-    # Correct type of columns
-    expect_true(is.character(summary$deploymentID))
-    expect_true(is.character(summary$scientificName))
-    expect_true(lubridate::is.timepoint(summary$day))
-    expect_true(is.integer(summary$n_scientificName))
-    expect_true(is.integer(summary$n_events))
-    expect_true(is.integer(summary$n_observations))
-    expect_true(is.integer(summary$sum_count))
-    expect_true(is.numeric(summary$rai_observations))
-    expect_true(is.numeric(summary$rai_count))
-    
-    # Sum of n_scientificName in summary is equal or greater than the number
-    # of distinct scientific names in observations.
-    expect_true(
-      sum(summary$n_scientificName) >=
-        dplyr::n_distinct(
-          dplyr::pull(observations(x_events), "scientificName"),
-          na.rm = TRUE
-        )
-    )
-    # Sum of number of events in summary is equal or greater than the number
-    # of distinct events in observations = same event can lead to multiple
-    # observations (multiple animals spotted)
-    expect_true(
-      sum(summary$n_events) >=
-        dplyr::n_distinct(
-          dplyr::pull(observations(x_events), "eventID"), na.rm = TRUE)
-    )
-    # Total number of observations is preserved
-    expect_true(
-      sum(summary$n_observations) ==
-        nrow(observations(x_events))
-    )
-    # Total number of individuals is preserved
-    expect_true(
-      sum(summary$sum_count) ==
-        sum(dplyr::pull(observations(x_events), "count"), na.rm = TRUE)
-    )
-    # RAI is equal n_observation * 100 for full days (day != deploymentStart,
-    # deploymentEnd of deployment)
-    full_days_summary <- 
-      summary %>%
-      dplyr::left_join(
-        # deployments start and end dates (as datetime objects)
-        deployments(x_events) %>%
-          dplyr::select(deploymentID, deploymentStart, deploymentEnd) %>%
-          dplyr::mutate(
-            deploymentStart = lubridate::as_datetime(
-              lubridate::as_date(deploymentStart)
-            ),
-            deploymentEnd = lubridate::as_datetime(
-              lubridate::as_date(deploymentEnd)
-            )
-          ),
-        by = "deploymentID"
-      ) %>%
-      dplyr::group_by(deploymentID) %>%
-      dplyr::filter(day != deploymentStart & day != deploymentEnd)
+    # Extended summary preserves grouping
+    expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+    # Extended summary includes the not extended summary
+    missing_rows <- dplyr::anti_join(s, s_extended)
+    testthat::expect_equal(nrow(missing_rows), 0)
+    # Extended summary has as many rows as all combinations of grouping
+    # variables (valid for grouping variables in observations)
+    sex_values <- unique(dplyr::pull(observations(x), "sex"))
+    life_stage_values <- unique(dplyr::pull(observations(x), "lifeStage"))
     expect_identical(
-      full_days_summary$rai_observations,
-      full_days_summary$n_observations * 100
+      nrow(s_extended),
+      length(sex_values) * length(life_stage_values)
     )
-    expect_identical(
-      full_days_summary$rai_count,
-      full_days_summary$sum_count * 100
+  }
+)
+
+testthat::test_that(
+  "extending summary works well with time grouping and deployments variables", {
+    skip_if_offline()
+    x <- example_dataset()
+    s <- summarize_observations(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week"
     )
-  })
+    s_extended <- summarize_observations(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week",
+      extend = TRUE
+    )
+    # Extended summary preserves grouping
+    expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+    # Extended summary includes the not extended summary
+    missing_rows <- dplyr::anti_join(s, s_extended)
+    testthat::expect_equal(nrow(missing_rows), 0)
+    # Extended summary has as many rows as summarize_deployments() with
+    # time grouping by week
+    summary_deployments <- summarize_deployments(
+      x,
+      group_by = "deploymentID",
+      group_time_by = "week"
+    )
+    expect_identical(nrow(s_extended), nrow(summary_deployments))
+  }
+)
+
+test_that("extending summary works well with dep-obs variables", {
+  skip_if_offline()
+  x <- example_dataset()
+  s <- summarize_observations(
+    x,
+    group_by = c("deploymentID", "sex"),
+    group_time_by = "month"
+  )
+  s_extended <- summarize_observations(
+    x,
+    group_by = c("deploymentID", "sex"),
+    group_time_by = "month",
+    extend = TRUE
+  )
+  # Extended summary preserves grouping
+  expect_identical(dplyr::group_vars(s), dplyr::group_vars(s_extended))
+  # Extended summary includes the not extended summary
+  missing_rows <- dplyr::anti_join(s, s_extended)
+  testthat::expect_equal(nrow(missing_rows), 0)
+  # Extended summary has as many rows as all sex values multiplied by 
+  # number of locations-months in deployments summary
+  n_deployment_month_values <- summarize_deployments(
+    x,
+    group_by = "deploymentID",
+    group_time_by = "month"
+  ) %>%
+    nrow()
+  sex_values <- unique(dplyr::pull(observations(x), "sex"))
+  n_sex_values <- length(sex_values)
+  expect_identical(
+    nrow(s_extended),
+    n_deployment_month_values * n_sex_values
+  )
+})
 
 test_that("get_n_species() and some of its args are deprecated", {
   skip_if_offline()

@@ -1,3 +1,5 @@
+# Test input ####
+
 test_that("Camera operation matrix input, `camOp`, has right format", {
   skip_if_offline()
   x <- example_dataset()
@@ -113,7 +115,7 @@ test_that("Record table input, `recordTable`, has right format", {
 }
 )
 
-test_that("Check species", {
+test_that("Check `species`", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -159,7 +161,7 @@ test_that("Check species", {
   )
 })
 
-test_that("Check output", {
+test_that("Check `output`", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -204,7 +206,7 @@ test_that("Check output", {
   )
 })
 
-test_that("Check occasionLength", {
+test_that("Check `occasionLength`", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -245,7 +247,7 @@ test_that("Check occasionLength", {
   )
 })
 
-test_that("Check minActiveDaysPerOccasion", {
+test_that("Check `minActiveDaysPerOccasion`", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -298,8 +300,7 @@ test_that("Check minActiveDaysPerOccasion", {
   )
 })
 
-# Check `maxNumberDays`
-test_that("maxNumberDays is NULL or an integer of length 1", {
+test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -391,8 +392,7 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
   )
 })
 
-# Check `day1`
-test_that("day1 is equal to `\"station\"` or a valid date", {
+test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -437,8 +437,7 @@ test_that("day1 is equal to `\"station\"` or a valid date", {
   )
 })
 
-# Check `buffer`
-test_that("buffer is NULL or an integer of length 1", {
+test_that("Argument `buffer` is NULL or an integer of length 1", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -556,8 +555,7 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   )
 })
 
-# Check `unmarkedMultFrameInput`
-test_that("unmarkedMultFrameInput is TRUE or FALSE", {
+test_that("Argument `unmarkedMultFrameInput` is TRUE or FALSE", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -589,8 +587,11 @@ test_that("unmarkedMultFrameInput is TRUE or FALSE", {
   )
 })
 
-# Check `unmarkedMultFrameInput`/`day1`
-test_that("day1 must be `\"station\"` if unmarkedMultFrameInput is `TRUE`", {
+test_that(
+  paste(
+    "Argument `day1` must be `\"station\"` if unmarkedMultFrameInput",
+    "is `TRUE`"
+    ), {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -612,8 +613,8 @@ test_that("day1 must be `\"station\"` if unmarkedMultFrameInput is `TRUE`", {
   )
 })
 
-# Test output ####
 
+# Test output ####
 test_that("Output is a list of three matrices", {
   skip_if_offline()
   x <- example_dataset()
@@ -641,7 +642,7 @@ test_that("Output is a list of three matrices", {
   expect_identical(rownames(res$dates), rownames(cam_op))
 })
 
-test_that("detection history dates and effort are output independent", {
+test_that("Detection history dates and effort are output independent", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -675,7 +676,7 @@ test_that("detection history dates and effort are output independent", {
   expect_identical(res_binary$effort, res_n_individuals$effort)
 })
 
-test_that("dates are in the right ISO format (YYY-MM-DD)", {
+test_that("Dates are in the right ISO format (YYY-MM-DD)", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -731,7 +732,7 @@ test_that(
     )
   })
 
-test_that("Test occasionLength > 1", {
+test_that("Test `occasionLength` > 1", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -777,7 +778,7 @@ test_that("Test occasionLength > 1", {
   )
 })
 
-test_that("Test minActiveDaysPerOccasion > 1", {
+test_that("Test `minActiveDaysPerOccasion` > 1", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -829,7 +830,7 @@ test_that("Test minActiveDaysPerOccasion > 1", {
   expect_identical(n_na_per_row_5_det_hist, n_na_per_row_5_dates)
 })
 
-test_that("Test maxNumberDays", {
+test_that("Test `maxNumberDays`", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -909,7 +910,7 @@ test_that("Test maxNumberDays", {
   expect_equal(ncol(res_max_days_6$dates),maxNumberDays / occasionLength)
 })
 
-test_that("Test day1 = specific date", {
+test_that("Test `day1` = specific date", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -1106,39 +1107,27 @@ test_that("Test `buffer`", {
   )
 })
 
-test_that("Test unmarkedMultFrameInput", {
+test_that("Test `unmarkedMultFrameInput`", {
   skip_if_offline()
   x <- example_dataset()
+  species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
-  species <- "Anas platyrhynchos"
   # Create a multi-season camera operation matrix / record table
   x_sessions <- x
-  x_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
-  x_sessions$data$deployments$locationID <- c(
-    x_sessions$data$deployments$locationID[1:2],
-    x_sessions$data$deployments$locationID[1:2]
+  deployments(x_sessions) <- deployments(x_sessions) %>%
+   dplyr::mutate(session = ifelse(
+     stringr::str_starts(.data$locationName, "B_DL_"),
+       "after2020",
+       "before2020"
+   )
   )
-  x_sessions$data$deployments$locationName <- c(
-    x_sessions$data$deployments$locationName[1:2],
-    x_sessions$data$deployments$locationName[1:2]
-  )
-  lubridate::year(x_sessions$data$deployments$start[4]) <- 2021
-  lubridate::year(x_sessions$data$deployments$end[4]) <- 2021
-  lubridate::year(x_sessions$data$observations$timestamp) <- dplyr::if_else(
-    lubridate::year(x_sessions$data$observations$timestamp) == 2019,
-    2021,
-    lubridate::year(x_sessions$data$observations$timestamp)
-  )
-  lubridate::year(x_sessions$data$media$timestamp) <-  dplyr::if_else(
-    lubridate::year(x_sessions$data$media$timestamp) == 2019,
-    2021,
-    lubridate::year(x_sessions$data$media$timestamp)
-  )
-  camOp_sessions <- camtrapR_cameraOperation(x_sessions,
-                                             session_col = "session"
+  camOp_sessions <- camtrapR_cameraOperation(
+   x_sessions,
+   session_col = "session"
   )
   recordTable_sessions <- camtrapR_recordTable(x_sessions)
+  
   # No multi-season detection history (`unmarkedMultFrameInput` = `FALSE`)
   # requested: all stations/seasons returned as they would be different
   # stations.
@@ -1147,6 +1136,7 @@ test_that("Test unmarkedMultFrameInput", {
     camOp_sessions,
     species = species,
     output = output,
+    occasionLength = occasionLength,
     unmarkedMultFrameInput = FALSE
   )
   # Multi-season detection history (`unmarkedMultFrameInput` = `TRUE`)
@@ -1155,6 +1145,7 @@ test_that("Test unmarkedMultFrameInput", {
     camOp_sessions,
     species = species,
     output = output,
+    occasionLength = occasionLength,
     unmarkedMultFrameInput = TRUE
   )
   # Run a standard detection history with basic example dataset
@@ -1164,7 +1155,8 @@ test_that("Test unmarkedMultFrameInput", {
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
-    output = output
+    output = output,
+    occasionLength = occasionLength
   )
   
   # Check output of detection history without taking into account the seasons.

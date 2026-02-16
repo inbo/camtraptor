@@ -32,11 +32,10 @@
 #'   - `year`
 #'   If  `NULL` (default), the effort is returned in hours.
 #' @param cluster Logical value indicating whether using the cluster option
-#'   while visualizing maps.
-#'   Default: `TRUE`.
+#'   while visualizing maps. Default: `TRUE`.
 #' @param hover_columns Character vector of the columns of `df` to show on mouse
-#'   hover. Use `NULL` to disable hovering. Default: all columns in `df` used for
-#'   grouping and the `feature` to visualize.
+#'   hover. Use `NULL` to disable hovering. Default: all columns in `df` used
+#'   for grouping and the `feature` to visualize.
 #' @param palette The palette name or the color function that values will be
 #'   mapped to. Default: `"inferno"`. Typically one of the following:
 #'   - A character vector of RGB or named colors. Examples: `c("#000000",
@@ -67,28 +66,27 @@
 #'   groups (e.g. deployments) with no observations. Used only if `feature` is
 #'   `"n_scientificName"`, ignored otherwise. Use `NULL` if `na_values_show` is
 #'   `FALSE`. Default: 10.
-#' @param relative_scale Logical indicating whether to use a relative color
-#'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
-#'   If absolute scale is used, specify a valid `max_scale`.
-#' @param max_scale Number indicating the max value used to map color
-#'   and radius.
+#' @param relative_scale Logical indicating whether to use a relative color and
+#'   radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale is
+#'   used, specify a valid `max_scale`.
+#' @param max_scale Number indicating the max value used to map color and
+#'   radius.
 #' @param radius_range Vector of length 2 containing the lower and upper limit
-#'   of the circle radius.
-#'   The lower value is used for deployments with zero feature value, e.g. no
-#'   observations, no identified species, zero RAI or zero effort.
-#'   The upper value is used for the deployment(s) with the highest feature
-#'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
-#'   = `FALSE`).
-#'   Default: `c(10, 50)`.
+#'   of the circle radius. The lower value is used for deployments with zero
+#'   feature value, e.g. no observations, no identified species, zero RAI or
+#'   zero effort. The upper value is used for the deployment(s) with the highest
+#'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
+#'   = `FALSE`). Default: `c(10, 50)`.
 #'
-#' @details Deployments with zero values are shown only if they are present
-#' in the summary, `df`. If you want to show deployments with zero values not
-#' present in the summary, be sure to have used `extend` = `TRUE` in `summarize_observations()`. See the examples.
+#' @details Deployments with zero values are shown only if they are present in
+#'   the summary, `df`. If you want to show deployments with zero values not
+#'   present in the summary, be sure to have used `extend` = `TRUE` in
+#'   `summarize_observations()`. See the examples.
 #'
-#' Notice also that the argument `species` is not present anymore. If
-#' you want to visualize a feature only for a specific group of species,
-#' please filter the camera trap data package using [filter_observations()]
-#' before using this function. See the examples.
+#'   Notice also that the argument `species` is not present anymore. If you want
+#'   to visualize a feature only for a specific group of species, please filter
+#'   the camera trap data package using [filter_observations()] before using
+#'   this function. See the examples.
 #'
 #' @return Leaflet map.
 #' @family visualization functions

@@ -38,8 +38,7 @@
 #'   hover. Use `NULL` to disable hovering. Default: all columns in `df` used for
 #'   grouping and the `feature` to visualize.
 #' @param palette The palette name or the color function that values will be
-#'   mapped to.
-#'   Typically one of the following:
+#'   mapped to. Default: `"inferno"`. Typically one of the following:
 #'   - A character vector of RGB or named colors. Examples: `c("#000000",
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or

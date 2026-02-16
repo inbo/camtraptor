@@ -42,7 +42,8 @@
 #'   - A character vector of RGB or named colors. Examples: `c("#000000",
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
-#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`.
+#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`. 
+#'   
 #'   For more options, see parameter `palette` of [leaflet::colorNumeric()].
 #' @param zero_values_show Logical indicating whether to show deployments with
 #'   zero values. Default: `TRUE`. See details.

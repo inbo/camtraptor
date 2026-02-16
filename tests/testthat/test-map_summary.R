@@ -166,21 +166,22 @@ test_that("map_summary() can toggle showing deployments with zero values", {
   skip_if_offline()
   df <- example_dataset() %>%
     summarize_observations()
-  # expect an error when the toggle has length > 1
+  # Expect an error when the toggle has length > 1
   expect_error(
     map_summary(
       df,
       feature = "n_observations",
-      zero_values_show = c(TRUE, TRUE)),
+      zero_values_show = c(TRUE, TRUE)
+    ),
     "zero_values_show must be a logical of length 1: TRUE or FALSE.",
     fixed = TRUE
   )
-  # expect an error when the toggle is not TRUE or FALSE
+  # Expect an error when the toggle is not TRUE or FALSE
   expect_error(
-    map_summary(df, feature = "n_observations",
-                       zero_values_show = "dax"),
-               "zero_values_show must be a logical of length 1: TRUE or FALSE.",
-               fixed = TRUE)
+    map_summary(df, feature = "n_observations", zero_values_show = "dax"),
+    "zero_values_show must be a logical of length 1: TRUE or FALSE.",
+    fixed = TRUE
+  )
   expect_error(
     map_summary(df, feature = "n_observations", zero_values_show = NA),
     "zero_values_show must be a logical of length 1: TRUE or FALSE.",
@@ -191,18 +192,22 @@ test_that("map_summary() can toggle showing deployments with zero values", {
     "zero_values_show must be a logical of length 1: TRUE or FALSE.",
     fixed = TRUE
   )
-  # expect a message when an url/size is provided but the toggle is off
-  suppressMessages(expect_message(
-    map_summary(df, feature = "n_observations", zero_values_show = FALSE),
+  # Expect a message when an url is provided but the toggle is off
+  suppressMessages(
+    expect_message(
+      map_summary(df, feature = "n_observations", zero_values_show = FALSE),
     "`zero_values_icon_url` is ignored because `zero_values_show` is FALSE.",
     fixed = TRUE
-  ))
-  
-  suppressMessages(expect_message(
-    map_summary(df, feature = "n_observations", zero_values_show = FALSE),
-    "`zero_values_icon_size` is ignored because `zero_values_show` is FALSE.",
-    fixed = TRUE
-  ))
+    )
+  )
+  # Expect a message when the size is provided but the toggle is off
+  suppressMessages(
+    expect_message(
+      map_summary(df, feature = "n_observations", zero_values_show = FALSE),
+      "`zero_values_icon_size` is ignored because `zero_values_show` is FALSE.",
+      fixed = TRUE
+    )
+  )
   
   expect_no_message(
     map_summary(df, feature = "n_observations", zero_values_show = TRUE)

@@ -157,6 +157,7 @@
 #' # You can eventually filter the species after summarizing,
 #' # although it could not be the most efficient way for large camtrap data
 #' # packages
+#' library(dplyr)
 #' x %>%
 #'   summarize_observations(
 #'     group_by = c("deploymentID", "latitude", "longitude", "scientificName")

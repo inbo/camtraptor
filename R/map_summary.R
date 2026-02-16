@@ -32,18 +32,17 @@
 #'   - `year`
 #'   If  `NULL` (default), the effort is returned in hours.
 #' @param cluster Logical value indicating whether using the cluster option
-#'   while visualizing maps.
-#'   Default: `TRUE`.
+#'   while visualizing maps. Default: `TRUE`.
 #' @param hover_columns Character vector of the columns of `df` to show on mouse
-#'   hover. Use `NULL` to disable hovering. Default: all columns in `df` used for
-#'   grouping and the `feature` to visualize.
+#'   hover. Use `NULL` to disable hovering. Default: all columns in `df` used
+#'   for grouping and the `feature` to visualize.
 #' @param palette The palette name or the color function that values will be
-#'   mapped to.
-#'   Typically one of the following:
+#'   mapped to. Default: `"inferno"`. Typically one of the following:
 #'   - A character vector of RGB or named colors. Examples: `c("#000000",
 #'   "#0000FF", "#FFFFFF"))`,`topo.colors(10))`.
 #'   - The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
-#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`.
+#'   viridis palette: `"viridis"`, `"magma"`, `"inferno"` or `"plasma"`. 
+#'   
 #'   For more options, see parameter `palette` of [leaflet::colorNumeric()].
 #' @param zero_values_show Logical indicating whether to show deployments with
 #'   zero values. Default: `TRUE`. See details.
@@ -67,28 +66,27 @@
 #'   groups (e.g. deployments) with no observations. Used only if `feature` is
 #'   `"n_scientificName"`, ignored otherwise. Use `NULL` if `na_values_show` is
 #'   `FALSE`. Default: 10.
-#' @param relative_scale Logical indicating whether to use a relative color
-#'   and radius scale (`TRUE`) or an absolute scale (`FALSE`).
-#'   If absolute scale is used, specify a valid `max_scale`.
-#' @param max_scale Number indicating the max value used to map color
-#'   and radius.
+#' @param relative_scale Logical indicating whether to use a relative color and
+#'   radius scale (`TRUE`) or an absolute scale (`FALSE`). If absolute scale is
+#'   used, specify a valid `max_scale`.
+#' @param max_scale Number indicating the max value used to map color and
+#'   radius.
 #' @param radius_range Vector of length 2 containing the lower and upper limit
-#'   of the circle radius.
-#'   The lower value is used for deployments with zero feature value, e.g. no
-#'   observations, no identified species, zero RAI or zero effort.
-#'   The upper value is used for the deployment(s) with the highest feature
-#'   value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
-#'   = `FALSE`).
-#'   Default: `c(10, 50)`.
+#'   of the circle radius. The lower value is used for deployments with zero
+#'   feature value, e.g. no observations, no identified species, zero RAI or
+#'   zero effort. The upper value is used for the deployment(s) with the highest
+#'   feature value (`relative_scale` = `TRUE`) or `max_scale` (`relative_scale`
+#'   = `FALSE`). Default: `c(10, 50)`.
 #'
-#' @details Deployments with zero values are shown only if they are present
-#' in the summary, `df`. If you want to show deployments with zero values not
-#' present in the summary, be sure to have used `extend` = `TRUE` in `summarize_observations()`. See the examples.
+#' @details Deployments with zero values are shown only if they are present in
+#'   the summary, `df`. If you want to show deployments with zero values not
+#'   present in the summary, be sure to have used `extend` = `TRUE` in
+#'   `summarize_observations()`. See the examples.
 #'
-#' Notice also that the argument `species` is not present anymore. If
-#' you want to visualize a feature only for a specific group of species,
-#' please filter the camera trap data package using [filter_observations()]
-#' before using this function. See the examples.
+#'   Notice also that the argument `species` is not present anymore. If you want
+#'   to visualize a feature only for a specific group of species, please filter
+#'   the camera trap data package using [filter_observations()] before using
+#'   this function. See the examples.
 #'
 #' @return Leaflet map.
 #' @family visualization functions
@@ -102,10 +100,10 @@
 #'
 #' # Show number of species
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_scientificName")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_scientificName")
 #'
 #' # Show number of species: show deployments with no
 #' # observations (NA icon and size as defaults)
@@ -118,10 +116,10 @@
 #'
 #' # Show total number of observations (all species)
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_observations")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_observations")
 #'
 #' # Show number of observations of Anas platyrhynchos  - show deployments with
 #' # no observations (zero icon and size  as defaults)
@@ -155,64 +153,60 @@
 #'   )
 #'
 #' # You can eventually filter the species after summarizing,
-#' # although it could not be the most efficient way for large camtrap data
-#' # packages
+#' # although it could not be the most efficient way for large Camera Trap Data
+#' # Packages
+#' library(dplyr)
 #' x %>%
-#'  summarize_observations(
-#'    group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
-#'  ) %>%
-#' filter(scientificName == "Anas platyrhynchos") %>%
-#' map_summary("n_scientificName")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude", "scientificName")
+#'   ) %>%
+#'   filter(scientificName == "Anas platyrhynchos") %>%
+#'   map_summary("n_scientificName")
 #'
 #' # Show number of individuals
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("sum_count")
+#'   summarize_observations() %>%
+#'   map_summary("sum_count")
 #'
 #' # Show RAI
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("rai_observations")
+#'   summarize_observations() %>%
+#'   map_summary("rai_observations")
 #'
 #' # Show RAI (individual counts)
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("rai_count")
+#'   summarize_observations() %>%
+#'   map_summary("rai_count")
 #'
 #' # Show effort (hours)
 #' x_anas_p %>%
-#'  summarize_deployments() %>%
-#'  map_summary("effort_duration")
+#'   summarize_deployments() %>%
+#'   map_summary("effort_duration")
 #'
 #' # Show effort (days)
 #' x %>%
-#'  summarize_deployments() %>%
-#'  map_summary("effort_duration", effort_unit = "day")
+#'   summarize_deployments() %>%
+#'   map_summary("effort_duration", effort_unit = "day")
 #'
 #' # Show effort per month
 #' x %>%
-#' summarize_deployments(group_time_by = "month") %>%
-#' map_summary("effort_duration", effort_unit = "day")
-#' 
+#'   summarize_deployments(group_time_by = "month") %>%
+#'   map_summary("effort_duration", effort_unit = "day")
+#'
 #' # Use viridis palette
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = "viridis")
-#'
-#' # Use "BuPu" color palette (RColorBrewer palettes)
-#' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = "BuPu")
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = "viridis")
 #'
 #' # Use a palette defined by color names
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = c("black", "blue", "white"))
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = c("black", "blue", "white"))
 #'
 #' # Use a palette defined by hex colors
 #' x_anas_p %>%
-#'  summarize_observations() %>%
-#'  map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
+#'   summarize_observations() %>%
+#'   map_summary("n_observations", palette = c("#000000", "#0000FF", "#FFFFFF"))
 #'
 #' # Use same icon but a non default color for zero values deployments,
 #' # E.g. red (hex: E74C3C)
@@ -229,7 +223,7 @@
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' # in green (2ECC71)
 #' x_anas_p %>%
-#'   summarize_observations() %>%
+#'   summarize_observations(extend = TRUE) %>%
 #'   map_summary(
 #'     "n_observations",
 #'     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
@@ -238,7 +232,7 @@
 #' # Set size of the icon for zero values deployments
 #' x %>%
 #'   filter_observations(scientificName == "Anas platyrhynchos") %>%
-#'   summarize_observations() %>%
+#'   summarize_observations(extend = TRUE) %>%
 #'   map_summary("n_observations", zero_values_icon_size = 30)
 #'
 #' # Use another icon url/size for visualizing groups with no observations
@@ -256,43 +250,40 @@
 #'
 #' # Disable cluster
 #' x %>%
-#'  summarize_observations(
-#'  group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#'  map_summary("n_observations", cluster = FALSE)
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary("n_observations", cluster = FALSE)
 #'
 #' # Show only number of observations and location name while hovering
 #' x %>%
-#'  summarize_observations(
-#'  group_by = c("deploymentID", "locationName", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_observations",
-#'   hover_columns = c("locationName", "n_observations")
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     "n_observations",
+#'     hover_columns = c("locationName", "n_observations")
 #' )
 #'
 #' # Use absolute scale for colors and radius
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_scientificName",
-#'   relative_scale = FALSE,
-#'   max_scale = 4
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     "n_scientificName",
+#'     relative_scale = FALSE,
+#'     max_scale = 4
 #' )
 #'
 #' # Change max and min size circles
 #' x %>%
-#'  summarize_observations(
-#'   group_by = c("deploymentID", "locationName", "latitude", "longitude")
-#'  ) %>%
-#' map_summary(
-#'   x,
-#'   "n_observations",
-#'   radius_range = c(40, 150)
+#'   summarize_observations(
+#'     group_by = c("deploymentID", "locationName", "latitude", "longitude")
+#'   ) %>%
+#'   map_summary(
+#'     "n_observations",
+#'     radius_range = c(40, 150)
 #' )
 #' }
 map_summary <- function(
@@ -625,7 +616,6 @@ map_summary <- function(
   )
 
   # Define bins for ticks of legend
-  # bins <- ifelse(max_n < 6, as.integer(max_n) + 1, 6)
   bins <- 6
 
   # Define size scale for avoiding too small or too big circles

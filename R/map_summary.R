@@ -155,7 +155,7 @@
 #'   )
 #'
 #' # You can eventually filter the species after summarizing,
-#' # although it could not be the most efficient way for large camtrap data
+#' # although it could not be the most efficient way for large camera trap data
 #' # packages
 #' library(dplyr)
 #' x %>%

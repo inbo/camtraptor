@@ -618,7 +618,6 @@ map_summary <- function(
   )
 
   # Define bins for ticks of legend
-  # bins <- ifelse(max_n < 6, as.integer(max_n) + 1, 6)
   bins <- 6
 
   # Define size scale for avoiding too small or too big circles

@@ -225,7 +225,7 @@
 #' # Use another icon via a different URL, e.g. the character Fry from Futurama
 #' # in green (2ECC71)
 #' x_anas_p %>%
-#'   summarize_observations() %>%
+#'   summarize_observations(extend = TRUE) %>%
 #'   map_summary(
 #'     "n_observations",
 #'     zero_values_icon_url = "https://img.icons8.com/ios-glyphs/30/2ECC71/futurama-fry.png"
@@ -234,7 +234,7 @@
 #' # Set size of the icon for zero values deployments
 #' x %>%
 #'   filter_observations(scientificName == "Anas platyrhynchos") %>%
-#'   summarize_observations() %>%
+#'   summarize_observations(extend = TRUE) %>%
 #'   map_summary("n_observations", zero_values_icon_size = 30)
 #'
 #' # Use another icon url/size for visualizing groups with no observations

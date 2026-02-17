@@ -155,8 +155,8 @@ test_that("Check `species`", {
                           occasionLength = occasionLength),
     paste0("Invalid value for species parameter: not a species.\n",
            "Valid inputs are: Anas platyrhynchos, Anas strepera, Ardea, ",
-           "Ardea cinerea, Castor fiber, Homo sapiens, Martes foina, ",
-           "Mustela putorius and Vulpes vulpes"),
+           "Ardea cinerea, Aves, Martes foina, Mustela putorius, ",
+           "Rattus norvegicus and Vulpes vulpes"),
     fixed = TRUE
   )
 })
@@ -926,9 +926,9 @@ test_that("Test `day1` = specific date", {
                                    output = output,
                                    occasionLength = occasionLength,
                                    day1 = "2020-08-03"),
-    paste0("2 record(s) (out of 4) are removed because they were taken ",
+    paste0("10 record(s) (out of 12) are removed because they were taken ",
            "before `day1` (2020-08-03), e.g.:\n",
-           "B_DL_val 5_beek kleine vijver: 2020-07-31."
+           "B_DL_val 5_beek kleine vijver: 2020-07-29."
     ),
     fixed = TRUE
   )
@@ -946,53 +946,73 @@ test_that("Test `buffer`", {
   species <- "Anas platyrhynchos"
   # Error returned if `buffer` is so big that no occasions are found.
   buffer <- 1000
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station",
-                                     buffer = buffer),
-               paste0("In all stations, the occasions begin after retrieval. ",
-                      "Choose a smaller `buffer` argument.")
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "In all stations, the occasions begin after retrieval. ",
+      "Choose a smaller `buffer` argument."
+    )
   )
   # Error returned if `buffer` is so big that all records for given species are
   # removed.
-  buffer <- 10
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station",
-                                     buffer = buffer),
-               paste0("No more records after removing records before survey ",
-                      "begin. The detection history would be empty.")
+  buffer <- 24
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "No more records after removing records before survey ",
+      "begin. The detection history would be empty."
+    )
   )
   # Right warning returned with number of removed records and an example
   buffer <- 5
   expect_warning(
-    res_with_buffer <- camtrapR_detectionHistory(recordTable = rec_table,
-                                             camOp = cam_op,
-                                             species = species,
-                                             output = output,
-                                             occasionLength = occasionLength,
-                                             day1 = "station",
-                                             buffer = buffer),
-    paste0("2 record(s) (out of 4) are removed because they were taken ",
-           "during the buffer period of 5 day(s), e.g.:\n",
-           "B_DL_val 5_beek kleine vijver: 2020-07-31."
+    res_with_buffer <- camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "6 record(s) (out of 12) are removed because they were taken ",
+      "during the buffer period of 5 day(s), e.g.:\n",
+      "B_DL_val 5_beek kleine vijver: 2020-07-29."
     ),
     fixed = TRUE
   )
   # All dates are more recent than `start` of deployments +
   # `buffer`. We check first row only, the one containing records of Anas platyrhynchos.
   expect_true(
-    all(res_with_buffer$dates[1,] >= "2020-08-03" | 
-          is.na(res_with_buffer$dates[1,])
+    all(
+      res_with_buffer$dates[1,] >= 
+        lubridate::as_date(deployments(x)$deploymentStart[1]) + 
+        lubridate::ddays(buffer) | 
+        is.na(res_with_buffer$dates[1,])
     )
   )
-  
+  expect_true(
+    all(
+      res_with_buffer$dates[2,] >= 
+        lubridate::as_date(deployments(x)$deploymentStart[2]) + 
+        lubridate::ddays(buffer) | 
+        is.na(res_with_buffer$dates[2,])
+    )
+  )
   # Number of columns is reduced by buffer
   res_no_buffer <- camtrapR_detectionHistory(recordTable = rec_table,
                                          camOp = cam_op,

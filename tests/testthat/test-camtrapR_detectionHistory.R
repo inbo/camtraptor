@@ -995,8 +995,8 @@ test_that("Test `buffer`", {
     ),
     fixed = TRUE
   )
-  # All dates are more recent than `start` of deployments +
-  # `buffer`. We check first row only, the one containing records of Anas platyrhynchos.
+  # All dates > `start` of deployments + `buffer`.
+  # We check only the two deployments with observations of Anas platyrhynchos.
   expect_true(
     all(
       res_with_buffer$dates[1,] >= 

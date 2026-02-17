@@ -1,3 +1,46 @@
+#' Assess temporal independence
+#'
+#' Filters observations based on the temporal independence.
+#' It is a helper function for `camtrapR_recordTable()`.
+#'
+#' @param df A data frame.
+#' @param minDeltaTime_dur: Duration, time difference between records of the
+#' same species at the same station to be considered independent.
+#' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
+#'   `"lastRecord"`.
+#'   For two records to be considered independent, must the second one be at
+#'   least `minDeltaTime` minutes after the last independent record of the same
+#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
+#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
+#'   "lastRecord"`)?
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
+#' @noRd
+assess_temporal_independence <- function(
+    df, minDeltaTime_dur, deltaTimeComparedTo) {
+  # just initialization (set correctly at i = 1)
+  last_indep_timestamp <- df$last_timestamp[1]
+  event_start <- df$eventStart[1]
+  for (i in 1:nrow(df)) {
+    if (df$eventStart[i] > last_indep_timestamp | # independent
+        # obs occurring at the same time (called "duplicate) but independent
+        df$eventStart[i] == event_start
+    ) {
+      df$independent[i] <- TRUE
+      event_start <- df$eventStart[i]
+      if (deltaTimeComparedTo == "lastRecord") {
+        last_indep_timestamp <- df$last_timestamp[i]
+      } else {
+        last_indep_timestamp <- df$eventStart[i]
+      }
+      last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
+    }
+  }
+  return(dplyr::tibble(
+    observationID = df$observationID,
+    independent = df$independent
+  ))
+}
+
 #' Get record table
 #'
 #' Calculates the record table from a camera trap data package and so tabulating
@@ -344,47 +387,4 @@ camtrapR_recordTable <- function(x,
       dplyr::select(-"row_number")
   }
   return(record_table)
-}
-
-#' Assess temporal independence
-#'
-#' Filters observations based on the temporal independence.
-#' It is a helper function for `camtrapR_recordTable()`.
-#'
-#' @param df A data frame.
-#' @param minDeltaTime_dur: Duration, time difference between records of the
-#' same species at the same station to be considered independent.
-#' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
-#'   `"lastRecord"`.
-#'   For two records to be considered independent, must the second one be at
-#'   least `minDeltaTime` minutes after the last independent record of the same
-#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
-#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
-#'   "lastRecord"`)?
-#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
-#' @noRd
-assess_temporal_independence <- function(
-    df, minDeltaTime_dur, deltaTimeComparedTo) {
-  # just initialization (set correctly at i = 1)
-  last_indep_timestamp <- df$last_timestamp[1]
-  event_start <- df$eventStart[1]
-  for (i in 1:nrow(df)) {
-    if (df$eventStart[i] > last_indep_timestamp | # independent
-        # obs occurring at the same time (called "duplicate) but independent
-        df$eventStart[i] == event_start
-        ) {
-      df$independent[i] <- TRUE
-      event_start <- df$eventStart[i]
-      if (deltaTimeComparedTo == "lastRecord") {
-        last_indep_timestamp <- df$last_timestamp[i]
-      } else {
-        last_indep_timestamp <- df$eventStart[i]
-      }
-      last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
-    }
-  }
-  return(dplyr::tibble(
-    observationID = df$observationID,
-    independent = df$independent
-  ))
 }

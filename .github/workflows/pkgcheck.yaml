@@ -6,18 +6,14 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_run: # The lines below should be added to prevent the pkgcheck 
-                # action to fail if it completes while other workflows are still running
-    workflows: ["R-CMD-check.yaml", "test-coverage.yaml"]
-    types: [completed]
-    branches: [main, master]
   # Manually trigger the Action under Actions/pkgcheck
   workflow_dispatch:
-  # Run on every push to main
-  push:
-    branches:
-      - main
-      - pkgcheck-action
+  # Run on every push to main, wait for R-CMD-check
+  # and test-coverage to complete, otherwise pkgcheck fails
+  workflow_run:
+    workflows: ["R-CMD-check", "test-coverage"]
+    types: [completed]
+    branches: [main]
 
 jobs:
   pkgcheck:

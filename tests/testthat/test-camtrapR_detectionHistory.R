@@ -378,7 +378,6 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   # `maxNumberDays` is very short: all records are removed as they are taken
   # after `maxNumberDays`
   maxNumberDays <- 1
-  occasionLength <- 1
   x_plus_2 <- x
   observations(x_plus_2) <- observations(x_plus_2) %>%
     dplyr::mutate(
@@ -396,7 +395,6 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
                           camOp = cam_op_plus_2,
                           species = species,
                           output = output,
-                          occasionLength = occasionLength,
                           day1 = "station",
                           maxNumberDays = maxNumberDays),
     paste0("All records removed because they are taken after `maxNumberDays` ",

@@ -16,6 +16,7 @@ badge](https://inbo.r-universe.dev/camtraptor/badges/version)](https://inbo.r-un
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![last
 commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
+[![pkgcheck](https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml)
 <!-- badges: end -->
 
 Camtraptor is an R package to explore and visualize Camera Trap Data

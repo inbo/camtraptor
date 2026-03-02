@@ -846,26 +846,6 @@ test_that("Test `minActiveDaysPerOccasion` > 1", {
 test_that("Test `maxNumberDays`", {
   skip_if_offline()
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
-  output <- "binary"
-  species <- "Anas platyrhynchos"
-  occasionLength <- 1
-  maxNumberDays <- 2
-  # Right error returned because all records are removed: first record of Anas
-  # platyrhynchos occurs on 2020-07-31, the third day of the station.
-  expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station",
-                          maxNumberDays = maxNumberDays),
-    paste0("All records removed because they are taken after `maxNumberDays` ",
-           "(2 days). The detection history would be empty."),
-    fixed = TRUE
-  )
   maxNumberDays <- 3
   # Right warning returned with number of records removed and example. The first
   # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the

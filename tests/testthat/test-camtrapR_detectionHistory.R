@@ -1135,12 +1135,34 @@ test_that("Test `unmarkedMultFrameInput`", {
   occasionLength <- 1
   # Create a multi-season camera operation matrix / record table
   x_sessions <- x
-  deployments(x_sessions) <- deployments(x_sessions) %>%
-   dplyr::mutate(session = ifelse(
-     stringr::str_starts(.data$locationName, "B_DL_"),
-       "after2020",
-       "before2020"
-   )
+  deployments(x_sessions)$session <- c("2020", "2020", "2021", "2021")
+  deployments(x_sessions)$locationID <- c(
+    deployments(x_sessions)$locationID[1:2],
+    deployments(x_sessions)$locationID[1:2]
+  )
+  deployments(x_sessions)$locationName <- c(
+    deployments(x_sessions)$locationName[1:2],
+    deployments(x_sessions)$locationName[1:2]
+  )
+  lubridate::year(deployments(x_sessions)$deploymentStart[3:4]) <- 2021
+  lubridate::year(deployments(x_sessions)$deploymentEnd[3:4]) <- 2021
+  lubridate::year(observations(x_sessions)$eventStart) <- dplyr::if_else(
+    observations(x_sessions)$deploymentID %in% 
+      c("577b543a", "62c200a9"), # The last two deployments with session `2021`
+    2021,
+  lubridate::year(observations(x_sessions)$eventStart)
+  )
+  lubridate::year(observations(x_sessions)$eventEnd) <- dplyr::if_else(
+    observations(x_sessions)$deploymentID %in% 
+      c("577b543a", "62c200a9"), # The last two deployments with session `2021`
+    2021,
+    lubridate::year(observations(x_sessions)$eventEnd)
+  )
+  lubridate::year(media(x_sessions)$timestamp) <-  dplyr::if_else(
+    media(x_sessions)$deploymentID %in% 
+      c("577b543a", "62c200a9"),
+    2021,
+    lubridate::year(media(x_sessions)$timestamp)
   )
   camOp_sessions <- camtrapR_cameraOperation(
    x_sessions,
@@ -1293,22 +1315,26 @@ test_that("Test `unmarkedMultFrameInput`", {
   # Multi-season works with `buffer`
   buffer <- 2
   occasionLength <- 1 # Set back to 1 to test `buffer` independently
-  multi_season <- camtrapR_detectionHistory(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE,
-    occasionLength = occasionLength,
-    buffer = buffer
+  multi_season <- suppressWarnings(
+    camtrapR_detectionHistory(
+      recordTable_sessions,
+      camOp_sessions,
+      species = species,
+      output = output,
+      unmarkedMultFrameInput = TRUE,
+      occasionLength = occasionLength,
+      buffer = buffer
+    )
   )
-  standard <- camtrapR_detectionHistory(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength,
-    buffer = buffer
+  standard <- suppressWarnings(
+      camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      buffer = buffer
+    )
   )
   # Number of rows is equal to the number of stations, which is 2
   expect_equal(nrow(multi_season$detection_history), 2)

@@ -1130,9 +1130,10 @@ test_that("Test `buffer`", {
 test_that("Test `unmarkedMultFrameInput`", {
   skip_if_offline()
   x <- example_dataset()
-  species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
+  species <- "Anas platyrhynchos"
+  
   # Create a multi-season camera operation matrix / record table
   x_sessions <- x
   deployments(x_sessions)$session <- c("2020", "2020", "2021", "2021")
@@ -1165,8 +1166,8 @@ test_that("Test `unmarkedMultFrameInput`", {
     lubridate::year(media(x_sessions)$timestamp)
   )
   camOp_sessions <- camtrapR_cameraOperation(
-   x_sessions,
-   session_col = "session"
+    x_sessions,
+    session_col = "session"
   )
   recordTable_sessions <- camtrapR_recordTable(x_sessions)
   

@@ -1179,7 +1179,6 @@ test_that("Test `unmarkedMultFrameInput`", {
     camOp_sessions,
     species = species,
     output = output,
-    occasionLength = occasionLength,
     unmarkedMultFrameInput = FALSE
   )
   # Multi-season detection history (`unmarkedMultFrameInput` = `TRUE`)
@@ -1188,7 +1187,6 @@ test_that("Test `unmarkedMultFrameInput`", {
     camOp_sessions,
     species = species,
     output = output,
-    occasionLength = occasionLength,
     unmarkedMultFrameInput = TRUE
   )
   # Run a standard detection history with basic example dataset
@@ -1198,8 +1196,7 @@ test_that("Test `unmarkedMultFrameInput`", {
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
-    output = output,
-    occasionLength = occasionLength
+    output = output
   )
   
   # Check output of detection history without taking into account the seasons.

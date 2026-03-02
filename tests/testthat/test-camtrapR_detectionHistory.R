@@ -375,12 +375,25 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
       "of columns of `camOp`."),
     fixed = TRUE
   )
-  # maxNumberDays is very short: all records are removed as they are taken after
+  # `maxNumberDays` is very short: all records are removed as they are taken
+  # after `maxNumberDays`
   maxNumberDays <- 1
   occasionLength <- 1
+  x_plus_2 <- x
+  observations(x_plus_2) <- observations(x_plus_2) %>%
+    dplyr::mutate(
+      eventStart = eventStart + lubridate::ddays(2),
+      eventEnd = eventEnd + lubridate::ddays(2)
+    )
+  deployments(x_plus_2) <- deployments(x_plus_2) %>%
+    dplyr::mutate(deploymentEnd = deploymentEnd + lubridate::ddays(2))
+  media(x_plus_2) <- media(x_plus_2) %>%
+    dplyr::mutate(timestamp = timestamp + lubridate::ddays(2))
+  cam_op_plus_2 <- camtrapR_cameraOperation(x_plus_2)
+  rec_table_plus_2 <- camtrapR_recordTable(x_plus_2)
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
+    camtrapR_detectionHistory(recordTable = rec_table_plus_2,
+                          camOp = cam_op_plus_2,
                           species = species,
                           output = output,
                           occasionLength = occasionLength,

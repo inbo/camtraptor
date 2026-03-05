@@ -183,6 +183,7 @@ test_that("Higher minDeltaTime means less rows returned", {
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {
+  x <- example_dataset()
   # Use `locationName` as Station
   stations <- camtrapR_recordTable(x) %>%
     dplyr::distinct(Station) %>%
@@ -207,6 +208,7 @@ test_that("stations names are equal to values in column passed to StationCOl", {
 })
 
 test_that("Directory and Filename columns are lists", {
+  x <- example_dataset()
   file_values <- camtrapR_recordTable(x) %>%
     dplyr::select(Directory, FileName)
   expect_true(class(file_values$Directory) == "list")
@@ -219,6 +221,7 @@ test_that(
     "media of independent obs"
   ),
   {
+    x <- example_dataset()
     output <- camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
     # add n media, observationID and eventID to record table
     output <- output %>%

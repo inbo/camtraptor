@@ -861,7 +861,7 @@ test_that("Test `maxNumberDays`", {
                           occasionLength = occasionLength,
                           day1 = "station",
                           maxNumberDays = maxNumberDays),
-    paste0("3 record(s) (out of 4) are removed because they were taken ",
+    paste0("7 record(s) (out of 12) are removed because they were taken ",
            "after `maxNumberDays` (3 days) the first day of each station, ",
            "e.g.:\nB_DL_val 5_beek kleine vijver: 2020-08-02."
     ),

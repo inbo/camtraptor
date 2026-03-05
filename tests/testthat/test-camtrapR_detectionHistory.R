@@ -844,6 +844,8 @@ test_that("Test `minActiveDaysPerOccasion` > 1", {
 test_that("Test `maxNumberDays`", {
   skip_if_offline()
   x <- example_dataset()
+  rec_table <- camtrapR_recordTable(x)
+  cam_op <- camtrapR_cameraOperation(x)
   maxNumberDays <- 3
   # Right warning returned with number of records removed and example. The first
   # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the

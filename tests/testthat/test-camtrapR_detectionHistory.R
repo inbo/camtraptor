@@ -870,14 +870,16 @@ test_that("Test `maxNumberDays`", {
   
   # 7 rows returned if `maxNumberDays`: 7 (`occasionLength`  = 1 day)
   maxNumberDays <- 7
-  res_max_days_7 <- camtrapR_detectionHistory(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength,
-    day1 = "station",
-    maxNumberDays = maxNumberDays
+  res_max_days_7 <- suppressWarnings(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      maxNumberDays = maxNumberDays
+    )
   )
   expect_equal(ncol(res_max_days_7$detection_history), maxNumberDays)
   expect_equal(ncol(res_max_days_7$effort),maxNumberDays)

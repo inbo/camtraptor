@@ -846,7 +846,10 @@ test_that("Test `maxNumberDays`", {
   x <- example_dataset()
   rec_table <- camtrapR_recordTable(x)
   cam_op <- camtrapR_cameraOperation(x)
+  species <- "Anas platyrhynchos"
   maxNumberDays <- 3
+  output <- "binary"
+  occasionLength <- 1
   # Right warning returned with number of records removed and example. The first
   # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the
   # station. All the other records are removed.

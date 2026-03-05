@@ -1,11 +1,8 @@
-url: https://inbo.github.io/camtraptor
-
+url: https://inbo.github.io/camtraptor/
 template:
   bootstrap: 5
-
 navbar:
   bg: dark
-
 reference:
 - title: Read data
   contents:

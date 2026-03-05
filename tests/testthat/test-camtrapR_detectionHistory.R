@@ -869,7 +869,6 @@ test_that("Test `maxNumberDays`", {
   )
   
   # 7 rows returned if `maxNumberDays`: 7 (`occasionLength`  = 1 day)
-  occasionLength <- 1
   maxNumberDays <- 7
   res_max_days_7 <- camtrapR_detectionHistory(
     recordTable = rec_table,

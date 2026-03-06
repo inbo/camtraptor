@@ -13,6 +13,8 @@ Read, explore and visualize Camera Trap Data Packages (Camtrap DP). 'Camtrap DP'
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/inbo/camtraptor}
+  \item \url{https://inbo.github.io/camtraptor/}
   \item Report bugs at \url{https://github.com/inbo/camtraptor/issues}
 }
 

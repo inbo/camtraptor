@@ -69,7 +69,8 @@ camtrapR_cameraOperation(x_sessions, session_col = "session")
 
 # Specify column with camera IDs
 x_cameras <- x_sessions
-x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+deployments(x_cameras) <- deployments(x_cameras) \%>\%
+  dplyr::mutate(cameraID = c(1, 2, 3, 4))
 camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
 
 # Specify both session and camera IDs

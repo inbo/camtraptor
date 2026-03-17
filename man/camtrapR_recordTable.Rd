@@ -50,7 +50,7 @@ Some more details about the columns returned:
 defined in parameter \code{stationCol}.
 \item \code{Species}: Character, the scientific name of the observed species.
 \item \code{n}: Numeric, the number of observed individuals (renamed from
-\href{https://camtrap-dp.tdwg.org/data/#observations}{\code{count}} in the
+\href{https://camtrap-dp.tdwg.org/data/#observations.count}{\code{count}} in the
 observations table).
 \item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
 \code{observations}, in UTC format.

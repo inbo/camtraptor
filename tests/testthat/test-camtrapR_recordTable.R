@@ -72,16 +72,33 @@ test_that("if not integer, `minDeltaTime` is set to integer (floor)", {
   expect_identical(record_table_int, record_table_dec)
 })
 
-test_that("warning is returned if some observations have no `eventStart`", {
+test_that("warning is returned if some observations have no `eventStart` or media have no timestamp", {
   skip_if_offline()
   x <- example_dataset()
-  x_no_timestamp <- x
-  o <- observations(x_no_timestamp)
+  x_no_eventStart <- x
+  o <- observations(x_no_eventStart)
   o$eventStart[1] <- NA
-  observations(x_no_timestamp) <- o
+  observations(x_no_eventStart) <- o
+  expect_warning(
+    camtrapR_recordTable(x_no_eventStart),
+    "Some observations have no `eventStart` and will be removed."
+  )
+  expect_identical(
+    nrow(
+      suppressWarnings(
+        camtrapR_recordTable(x_no_eventStart, removeDuplicateRecords = FALSE))
+      ),
+    nrow(camtrapR_recordTable(x, removeDuplicateRecords = FALSE)) - 1L
+  )
+  
+  x_no_timestamp <- x
+  m <- media(x_no_timestamp)
+  # Set timestamp of media with "eventID == "4bb69c45" to NA
+  m$timestamp[m$eventID == "4bb69c45"] <- NA
+  media(x_no_timestamp) <- m
   expect_warning(
     camtrapR_recordTable(x_no_timestamp),
-    "Some observations have no `eventStart` and will be removed."
+    "Some media have no `timestamp` and will be removed."
   )
   expect_identical(
     nrow(

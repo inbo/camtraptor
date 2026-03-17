@@ -91,19 +91,35 @@ obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
 x_dep <- x
 observations(x_dep) <- obs
 
-# Set a minDeltaTime of 100 minutes from last independent record for
-# filtering out not independent observations.
+# Set a minDeltaTime of 100 minutes from last record
 camtrapR_recordTable(
   x_dep,
   minDeltaTime = 100,
+  deltaTimeComparedTo = "lastRecord"
+)
+
+# Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
+# `"lastIndependentRecord"`
+obs <- observations(x)
+obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime("2020-08-02 05:10:20")
+
+med <- media(x) 
+rows_to_update <- which(med$eventID == "02ae9f43") 
+med[rows_to_update, "timestamp"] <- lubridate::as_datetime("2020-08-02 05:10:20") 
+
+x_modified <- x
+observations(x_modified) <- obs
+media(x_modified) <- med
+
+rec_last_indep <- camtrapR_recordTable(
+  x_modified,
+  minDeltaTime = 10,
   deltaTimeComparedTo = "lastIndependentRecord"
 )
 
-# Set a minDeltaTime of 100 minutes from last record for filtering out not
-# independent observations.
-camtrapR_recordTable(
-  x_dep,
-  minDeltaTime = 100,
+rec_last <- camtrapR_recordTable(
+  x_modified,
+  minDeltaTime = 10,
   deltaTimeComparedTo = "lastRecord"
 )
 

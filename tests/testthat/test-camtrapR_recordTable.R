@@ -199,6 +199,41 @@ test_that("Higher minDeltaTime means less rows returned", {
   expect_lt(nrow_delta_100000, nrow_delta_10000)
 })
 
+test_that("Values lastIndependentRecord and lastRecord can return different number of rows", {
+  skip_if_offline()
+  x <- example_dataset()
+  obs <- observations(x)
+  obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime(
+    "2020-08-02 05:10:20"
+  )
+  
+  med <- media(x) 
+  rows_to_update <- which(med$eventID == "02ae9f43") 
+  med[rows_to_update, "timestamp"] <- lubridate::as_datetime(
+    "2020-08-02 05:10:20"
+  ) 
+  x_modified <- x
+  observations(x_modified) <- obs
+  media(x_modified) <- med
+  
+  rec_last_indep <- camtrapR_recordTable(
+    x_modified,
+    minDeltaTime = 10,
+    deltaTimeComparedTo = "lastIndependentRecord"
+  )
+  
+  rec_last <- suppressMessages(
+    camtrapR_recordTable(
+      x_modified, minDeltaTime = 10,
+      deltaTimeComparedTo = "lastRecord"
+    )
+  )
+  # Same columns
+  expect_identical(names(rec_last_indep), names(rec_last))
+  # One row less
+  expect_identical(nrow(rec_last), nrow(rec_last_indep) - 1L)
+})
+
 test_that("stations names are equal to values in column passed to StationCOl", {
   x <- example_dataset()
   # Use `locationName` as Station

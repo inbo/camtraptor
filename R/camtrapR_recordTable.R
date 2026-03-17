@@ -68,8 +68,9 @@ assess_temporal_independence <- function(
 #'   "lastRecord"`).
 #'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be `NULL` (default).
 #' @param removeDuplicateRecords Logical. If there are several records of the
-#'   same species (but different `sex` or `lifeStage`) at the same station at
-#'   exactly the same time, show only one? Default: `TRUE`.
+#'   same species, but e.g. different `sex` or `lifeStage`, at the same station
+#'   at exactly the same time, show only one? Default: `TRUE`. Duplicates are
+#'   removed by keeping only the first observation in the observation table.
 #' @inheritParams summarize_deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as

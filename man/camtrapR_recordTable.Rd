@@ -36,8 +36,9 @@ species (\code{deltaTimeComparedTo = "lastIndependentRecord"}), or
 If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (default).}
 
 \item{removeDuplicateRecords}{Logical. If there are several records of the
-same species (but different \code{sex} or \code{lifeStage}) at the same station at
-exactly the same time, show only one? Default: \code{TRUE}.}
+same species, but e.g. different \code{sex} or \code{lifeStage}, at the same station
+at exactly the same time, show only one? Default: \code{TRUE}. Duplicates are
+removed by keeping only the first observation in the observation table.}
 }
 \value{
 A tibble data frame containing species records and additional

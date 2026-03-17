@@ -79,6 +79,9 @@ assess_temporal_independence <- function(
 #'   - `Station`: Character, station names, as found in the deployment column
 #'   defined in parameter `stationCol`.
 #'   - `Species`: Character, the scientific name of the observed species.
+#'   - `n`: Numeric, the number of observed individuals (renamed from 
+#'   [`count`](https://camtrap-dp.tdwg.org/data/#observations.count) in the 
+#'   observations table).
 #'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
 #'   `observations`, in UTC format.
 #'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.

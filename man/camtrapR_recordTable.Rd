@@ -49,6 +49,9 @@ Some more details about the columns returned:
 \item \code{Station}: Character, station names, as found in the deployment column
 defined in parameter \code{stationCol}.
 \item \code{Species}: Character, the scientific name of the observed species.
+\item \code{n}: Numeric, the number of observed individuals (renamed from
+\href{https://camtrap-dp.tdwg.org/data/#observations}{\code{count}} in the
+observations table).
 \item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
 \code{observations}, in UTC format.
 \item \code{Date}: Date object, the date part of \code{DateTimeOriginal}, in UTC format.

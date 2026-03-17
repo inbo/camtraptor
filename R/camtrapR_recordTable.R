@@ -230,6 +230,12 @@ camtrapR_recordTable <- function(x,
       filter_observations(!is.na(eventStart))
   }
   
+  # Remove media without `timestamp` and returns a warning message
+  if (any(is.na(purrr::pluck(media(x), "timestamp")))) {
+    warning("Some media have no `timestamp` and will be removed.")
+    x <- x %>%
+      filter_media(!is.na(timestamp))
+  }
   
   # Add coordinates to observations
   x <- add_coordinates(x)

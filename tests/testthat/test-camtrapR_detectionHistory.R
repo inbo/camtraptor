@@ -626,7 +626,7 @@ test_that(
 
 
 # Test output ####
-test_that("Output is a list of three matrices", {
+test_that("Output is a list of three matrices of right types", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
@@ -634,23 +634,62 @@ test_that("Output is a list of three matrices", {
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_bin <- camtrapR_detectionHistory(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
-                               output = output,
+                               output = "binary",
                                occasionLength = occasionLength,
                                day1 = "station")
-  expect_type(res, "list")
-  expect_length(res, 3)
-  expect_true(is.matrix(res$detection_history))
-  expect_true(is.matrix(res$effort))
-  expect_true(is.matrix(res$dates))
-  expect_type(res$detection_history, "double")
-  expect_type(res$effort, "double")
-  expect_type(res$dates, "character")
-  expect_identical(rownames(res$detection_history),rownames(cam_op))
-  expect_identical(rownames(res$effort),rownames(cam_op))
-  expect_identical(rownames(res$dates), rownames(cam_op))
+  expect_type(res_bin, "list")
+  expect_length(res_bin, 3)
+  expect_true(is.matrix(res_bin$detection_history))
+  expect_true(is.matrix(res_bin$effort))
+  expect_true(is.matrix(res_bin$dates))
+  expect_type(res_bin$detection_history, "integer")
+  expect_type(res_bin$effort, "double")
+  expect_type(res_bin$dates, "character")
+  expect_identical(rownames(res_bin$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_bin$effort),rownames(cam_op))
+  expect_identical(rownames(res_bin$dates), rownames(cam_op))
+  
+  res_n_obs <- camtrapR_detectionHistory(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_observations",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_obs, "list")
+  expect_length(res_n_obs, 3)
+  expect_true(is.matrix(res_n_obs$detection_history))
+  expect_true(is.matrix(res_n_obs$effort))
+  expect_true(is.matrix(res_n_obs$dates))
+  expect_type(res_n_obs$detection_history, "integer")
+  expect_type(res_n_obs$effort, "double")
+  expect_type(res_n_obs$dates, "character")
+  expect_identical(rownames(res_n_obs$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$dates), rownames(cam_op))
+  
+  res_n_ind <- camtrapR_detectionHistory(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_individuals",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_ind, "list")
+  expect_length(res_n_ind, 3)
+  expect_true(is.matrix(res_n_ind$detection_history))
+  expect_true(is.matrix(res_n_ind$effort))
+  expect_true(is.matrix(res_n_ind$dates))
+  expect_type(res_n_ind$detection_history, "integer")
+  expect_type(res_n_ind$effort, "double")
+  expect_type(res_n_ind$dates, "character")
+  expect_identical(rownames(res_n_ind$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$dates), rownames(cam_op))
+  
 })
 
 test_that("Detection history dates and effort are output independent", {

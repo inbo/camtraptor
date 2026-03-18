@@ -631,9 +631,9 @@ camtrapR_detectionHistory <- function(recordTable,
         floor(as.numeric(.data$Date - .data$first_day)/occasionLength)
     ) %>%
     dplyr::group_by(.data$Station, .data$period_start) %>%
-    dplyr::summarize(z = 1,
-                     n_obs = dplyr::n(),
-                     n_ind = sum(.data$n),
+    dplyr::summarize(z = 1L,
+                     n_obs = as.integer(dplyr::n()),
+                     n_ind = as.integer(sum(.data$n)),
                      .groups = "drop")
   
   # Transform camera operation matrix, `camOp` to a long format (tibble)
@@ -799,8 +799,13 @@ camtrapR_detectionHistory <- function(recordTable,
             # Dates are characters
             out %>% purrr::flatten_chr()
           } else {
-            # Detection history and effort are numbers
-            out %>% purrr::flatten_dbl()
+            # Detection history is integer
+            if (type == "detection_history") {
+              out %>% purrr::flatten_int()
+            } else {
+              # Effort is numeric (decimals allowed)
+              out %>% purrr::flatten_dbl()
+            }
           }
         })
         

@@ -88,8 +88,9 @@ If the camera operation matrix (\code{camOp}) was created for a multi-season stu
 }
 \examples{
 library(dplyr)
-x <- example_dataset()
+library(stringr)
 
+x <- example_dataset()
 camOp <- camtrapR_cameraOperation(x)
 recordTable <- camtrapR_recordTable(x)
 
@@ -167,8 +168,8 @@ camtrapR_detectionHistory(
 
 x_sessions <- x
 deployments(x_sessions) <- deployments(x_sessions) \%>\%
-  dplyr::mutate(session = ifelse(
-    stringr::str_starts(.data$locationName, "B_DL_"),
+  mutate(session = ifelse(
+    str_starts(.data$locationName, "B_DL_"),
       "after2020",
       "before2020"
   )

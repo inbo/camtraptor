@@ -131,3 +131,17 @@ test_that("Right output with non default column names", {
   names(output_default) <- as.character(1:length(names(output_default)))
   expect_equal(output, output_default)
 })
+
+test_that("calc_anima_pos() is deprecated and calls calculate_individual_radius_angle()", {
+  lifecycle::expect_deprecated(
+    calc_animal_pos(animal_positions, calibration_models),
+    "was deprecated in camtraptor 1.0.0.",
+    fixed = TRUE
+  )
+  suppressWarnings({
+    expect_equal(
+      calc_animal_pos(animal_positions, calibration_models),
+      calculate_individual_radius_angle(animal_positions, calibration_models)
+    )
+  })
+})

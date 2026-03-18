@@ -251,11 +251,16 @@ test_that("output matrix has all deployment days as colnames", {
   expect_identical(colnames(cam_op_matrix), days_activity)
 })
 
-test_that("daily effort is > 0 for fully active days, NA for inactive days", {
+test_that(
+  "effort is > 0 for fully active days, NA for inactive days and 0.x", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  location <- purrr::pluck(deployments(x), "locationName", 4)
+  location <- purrr::pluck(deployments(x), "locationName", 3)
+  start <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentStart", 3))
+  )
+  end <- as.character(as.Date(purrr::pluck(deployments(x), "deploymentEnd", 3)))
   deployment_start <- deployments(x) %>%
     dplyr::filter(locationName == location) %>%
     dplyr::pull(deploymentStart)
@@ -273,50 +278,39 @@ test_that("daily effort is > 0 for fully active days, NA for inactive days", {
     by = "days"
   )
   cols_inactivity <- as.character(cols_inactivity)
-  expect_true(all(cam_op_matrix[4, cols_activity] > 0))
-  expect_true(all(is.na(cam_op_matrix[4, cols_inactivity])))
-})
-
-test_that("daily effort is > 0 and < 1 for partial active days (start/end)", {
-  skip_if_offline()
-  x <- example_dataset()
-  cam_op_matrix <- camtrapR_cameraOperation(x)
-  location <- purrr::pluck(deployments(x), "locationName", 4)
-  start <- as.character(
-    as.Date(purrr::pluck(deployments(x), "deploymentStart", 4))
-  )
-  end <- as.character(
-    as.Date(purrr::pluck(deployments(x), "deploymentEnd", 4))
-  )
-  expect_gt(cam_op_matrix[4, start], 0)
-  expect_lt(cam_op_matrix[4, start],1)
-  expect_gt(cam_op_matrix[4, end], 0)
-  expect_lt(cam_op_matrix[4, end], 1)
+  expect_true(all(cam_op_matrix[3, cols_activity] > 0))
+  expect_true(all(is.na(cam_op_matrix[3, cols_inactivity])))
+  expect_gt(cam_op_matrix[3, start], 0)
+  expect_lt(cam_op_matrix[3, start],1)
+  expect_gt(cam_op_matrix[3, end], 0)
+  expect_lt(cam_op_matrix[3, end], 1)
 })
 
 test_that(
-  "effort is > 1 for locations with multiple deployments active at same time",
+  "effort is 2 for locations with two deployments active full day at same time",
   {
     skip_if_offline()
     x <- example_dataset()
     x1 <- x
-    x1$data$deployments$deploymentStart[2] <- lubridate::as_datetime("2020-07-30 21:00:00")
-    x1$data$deployments$deploymentEnd[2] <- lubridate::as_datetime("2020-08-07 21:00:00")
-    x1$data$deployments$locationName[2] <- deployments(x1)$locationName[1]
+    x1$data$deployments$deploymentStart[2] <- 
+      x1$data$deployments$deploymentStart[1]
+    x1$data$deployments$deploymentEnd[2] <- 
+      x1$data$deployments$deploymentEnd[1]
+    x1$data$deployments$locationName[2] <- x1$data$deployments$locationName[1]
     cam_op_matrix <- camtrapR_cameraOperation(x1)
 
     first_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$deploymentStart[2]) + lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentStart[1]) + lubridate::ddays(1)
     )
     last_full_day_two_deps <- as.character(
-      as.Date(deployments(x1)$deploymentEnd[2]) - lubridate::ddays(1)
+      as.Date(deployments(x1)$deploymentEnd[1]) - lubridate::ddays(1)
     )
     # as many rows as locations
     expect_true(
       nrow(cam_op_matrix) == length(unique(deployments(x1)$locationName))
     )
-    expect_gt(cam_op_matrix[1, first_full_day_two_deps], 1)
-    expect_gt(cam_op_matrix[1, last_full_day_two_deps], 1)
+    expect_identical(cam_op_matrix[1, first_full_day_two_deps], 2)
+    expect_identical(cam_op_matrix[1, last_full_day_two_deps], 2)
   }
 )
 

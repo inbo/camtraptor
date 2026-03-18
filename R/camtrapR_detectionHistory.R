@@ -59,10 +59,17 @@
 #' @export
 #' @examples
 #' library(dplyr)
+#' library(stringr)
+#' 
 #' x <- example_dataset()
-#'
 #' camOp <- camtrapR_cameraOperation(x)
 #' recordTable <- camtrapR_recordTable(x)
+#' # More observations of the same species on the same day at the same station
+#' # are left.
+#' recordTable_mulitple <- camtrapR_recordTable(
+#'   x,
+#'   removeDuplicatedRecords = FALSE
+#' )
 #' 
 #' # Binary output
 #' camtrapR_detectionHistory(
@@ -72,14 +79,24 @@
 #'   output = "binary"
 #' )
 #' 
-#' # Number of observations output
+#' # Number of observations output: same as binary with default
+#' # `camtrapR_recordTable(x)`
 #' camtrapR_detectionHistory(
 #'  recordTable,
 #'  camOp,
 #'  species = "Anas platyrhynchos",
 #'  output = "n_observations"
 #' )
-#'  
+#' 
+#' # Number of observations output: more than 1 if more than 1 observation of
+#' # the species on the same day at the same station
+#' camtrapR_detectionHistory(
+#'  recordTable_mulitple,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_observations"
+#' )
+#'
 #' # Number of individuals output
 #' camtrapR_detectionHistory(
 #'  recordTable,
@@ -87,7 +104,7 @@
 #'  species = "Anas platyrhynchos",
 #'  output = "n_individuals"
 #' )
-#' 
+#'
 #' # Occasion length of 7 days
 #' camtrapR_detectionHistory(
 #'  recordTable,
@@ -135,38 +152,19 @@
 #' )
 #' 
 #' # Multi-season detection history
-#' 
-#' # Create a multi-season camera operation matrix / record table
-#' mica_sessions <- mica
-#' mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
-#' mica_sessions$data$deployments$locationID <- c(
-#'   mica_sessions$data$deployments$locationID[1:2],
-#'   mica_sessions$data$deployments$locationID[1:2]
-#' )
-#' mica_sessions$data$deployments$locationName <- c(
-#'   mica_sessions$data$deployments$locationName[1:2],
-#'   mica_sessions$data$deployments$locationName[1:2]
-#' )
-#' delta <- lubridate::duration(2, units = "years")
-#' mica_sessions$data$deployments$start[4] <- mica_sessions$data$deployments$start[4] + delta
-#' mica_sessions$data$deployments$end[4] <- mica_sessions$data$deployments$end[4] + delta
-#' mica_sessions$data$observations <- mica_sessions$data$observations %>%
-#' dplyr::mutate(timestamp = dplyr::if_else(
-#'   deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
-#'   timestamp + delta,
-#'   timestamp
+#' x_sessions <- x
+#' deployments(x_sessions) <- deployments(x_sessions) %>%
+#'   mutate(session = ifelse(
+#'     str_starts(.data$locationName, "B_DL_"),
+#'       "after2020",
+#'       "before2020"
 #'   )
 #' )
-#' mica_sessions$data$media <- mica_sessions$data$media %>%
-#' dplyr::mutate(
-#'  timestamp = dplyr::if_else(
-#'  deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
-#'  timestamp + delta,
-#'  timestamp
-#'  )
+#' camOp_sessions <- camtrapR_cameraOperation(
+#'   x_sessions,
+#'   session_col = "session"
 #' )
-#' camOp_sessions <- camtrapR_cameraOperation(mica_sessions, session_col = "session")
-#' recordTable_sessions <- camtrapR_recordTable(mica_sessions)
+#' recordTable_sessions <- camtrapR_recordTable(x_sessions)
 #' 
 #' # Create a multi-season detection history
 #' camtrapR_detectionHistory(

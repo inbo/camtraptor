@@ -57,7 +57,7 @@ camtrapR_cameraOperation(x, station_col = "locationID")
 
 # Specify column with session IDs
 x_sessions <- x
-x_sessions$data$deployments <- deployments(x_sessions) \%>\%
+deployments(x_sessions) <- deployments(x_sessions) \%>\%
   dplyr::mutate(session = ifelse(
     stringr::str_starts(.data$locationName, "B_DL_"),
       "after2020",
@@ -68,7 +68,8 @@ camtrapR_cameraOperation(x_sessions, session_col = "session")
 
 # Specify column with camera IDs
 x_cameras <- x_sessions
-x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
+deployments(x_cameras) <- deployments(x_cameras) \%>\%
+  dplyr::mutate(cameraID = c(1, 2, 3, 4))
 camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
 
 # Specify both session and camera IDs

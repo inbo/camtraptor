@@ -1,19 +1,61 @@
+#' Assess temporal independence
+#'
+#' Filters observations based on the temporal independence.
+#' It is a helper function for `camtrapR_recordTable()`.
+#'
+#' @param df A data frame.
+#' @param minDeltaTime_dur: Duration, time difference between records of the
+#' same species at the same station to be considered independent.
+#' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
+#'   `"lastRecord"`.
+#'   For two records to be considered independent, must the second one be at
+#'   least `minDeltaTime` minutes after the last independent record of the same
+#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
+#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
+#'   "lastRecord"`)?
+#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
+#' @noRd
+assess_temporal_independence <- function(
+    df, minDeltaTime_dur, deltaTimeComparedTo) {
+  # just initialization (set correctly at i = 1)
+  last_indep_timestamp <- df$last_timestamp[1]
+  event_start <- df$eventStart[1]
+  for (i in 1:nrow(df)) {
+    if (df$eventStart[i] > last_indep_timestamp | # independent
+        # obs occurring at the same time (called "duplicate) but independent
+        df$eventStart[i] == event_start
+    ) {
+      df$independent[i] <- TRUE
+      event_start <- df$eventStart[i]
+      if (deltaTimeComparedTo == "lastRecord") {
+        last_indep_timestamp <- df$last_timestamp[i]
+      } else {
+        last_indep_timestamp <- df$eventStart[i]
+      }
+      last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
+    }
+  }
+  return(dplyr::tibble(
+    observationID = df$observationID,
+    independent = df$independent
+  ))
+}
+
 #' Get record table
 #'
 #' Calculates the record table from a camera trap data package and so tabulating
-#' species records.
-#' The record table is a concept developed within the camtrapR package, see
-#' [this article](
-#' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html).
-#' See also the function documentation for [camtrapR::recordTable()](
+#' species records. Only event-based observations and their corresponding media
+#' are taken into account. The record table is a concept developed within the
+#' camtrapR package, see [this article](
+#' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html). See also the
+#' function documentation for [camtrapR::recordTable()](
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' **Note**: All dates and times are expressed in UTC format.
 #'
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
-#' @param exclude Character vector of species names (scientific names or
-#'   vernacular names) to be excluded from the record table.
-#'   Default: `NULL`.
+#' @param exclude Character vector of scientific names to be excluded from the
+#'   record table. Default: `NULL`.
 #' @param minDeltaTime Time difference between records of the same
 #'   species at the same station to be considered independent (in minutes).
 #'   Default: 0.
@@ -25,9 +67,10 @@
 #'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
 #'   "lastRecord"`).
 #'   If `minDeltaTime` is 0, `deltaTimeComparedTo` must be `NULL` (default).
-#' @param removeDuplicateRecords Logical.
-#'   If there are several records of the same species at the same station at
-#'   exactly the same time, show only one?
+#' @param removeDuplicateRecords Logical. If there are several records of the
+#'   same species, but e.g. different `sex` or `lifeStage`, at the same station
+#'   at exactly the same time, show only one? Default: `TRUE`. Duplicates are
+#'   removed by keeping only the first observation in the observation table.
 #' @inheritParams summarize_deployments
 #' @return A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
@@ -37,6 +80,9 @@
 #'   - `Station`: Character, station names, as found in the deployment column
 #'   defined in parameter `stationCol`.
 #'   - `Species`: Character, the scientific name of the observed species.
+#'   - `n`: Numeric, the number of observed individuals (renamed from 
+#'   [`count`](https://camtrap-dp.tdwg.org/data/#observations.count) in the 
+#'   observations table).
 #'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
 #'   `observations`, in UTC format.
 #'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.
@@ -63,60 +109,57 @@
 #' x <- example_dataset()
 #' camtrapR_recordTable(x)
 #'
-#' # Set a minDeltaTime of 20 minutes from last independent record for filtering
-#' # out not independent observations
-#' x_dependent <- x
-#' x_dependent$data$observations[4, "timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+#' # Create a new camera trap data package with dependent observations only for
+#' # demonstration.
+#' obs <- observations(x)
+#' obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
+#' x_dep <- x
+#' observations(x_dep) <- obs
+#' 
+#' # Set a minDeltaTime of 100 minutes from last record
 #' camtrapR_recordTable(
-#'   x_dependent,
-#'   minDeltaTime = 20,
+#'   x_dep,
+#'   minDeltaTime = 100,
+#'   deltaTimeComparedTo = "lastRecord"
+#' )
+#' 
+#' # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
+#' # `"lastIndependentRecord"`
+#' obs <- observations(x)
+#' obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime("2020-08-02 05:10:20")
+#' 
+#' med <- media(x) 
+#' rows_to_update <- which(med$eventID == "02ae9f43") 
+#' med[rows_to_update, "timestamp"] <- lubridate::as_datetime("2020-08-02 05:10:20") 
+#' 
+#' x_modified <- x
+#' observations(x_modified) <- obs
+#' media(x_modified) <- med
+#' 
+#' rec_last_indep <- camtrapR_recordTable(
+#'   x_modified,
+#'   minDeltaTime = 10,
 #'   deltaTimeComparedTo = "lastIndependentRecord"
 #' )
-#'
-#' # Set a minDeltaTime of 20 minutes from last record for filtering out not
-#' # independent observations
-#' camtrapR_recordTable(
-#'   x_dependent,
-#'   minDeltaTime = 20,
+#' 
+#' rec_last <- camtrapR_recordTable(
+#'   x_modified,
+#'   minDeltaTime = 10,
 #'   deltaTimeComparedTo = "lastRecord"
 #' )
 #'
-#' # Exclude observations of mallard
-#' # Exclude is case insensitive and vernacular names are allowed
-#' camtrapR_recordTable(x, exclude = "wilde eend")
+#' # Exclude observations of Anas platyrhynchos.
+#' camtrapR_recordTable(x, exclude = "Anas platyrhynchos")
 #'
 #' # Specify column to pass station names
+#' camtrapR_recordTable(x, stationCol = "locationID")
+#'
+#' # Include "duplicates", i.e. records of same species at same time, but
+#' # different attributes, such as life stage or sex.
 #' camtrapR_recordTable(
-#'   x,
-#'   stationCol = "locationID",
-#'   minDeltaTime = 20,
-#'   deltaTimeComparedTo = "lastRecord"
+#'  x,
+#'  removeDuplicateRecords = FALSE
 #' )
-#'
-#' # How to deal with duplicates
-#' x_dup <- x
-#' # create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-#' x_dup$data$observations[4, "sequenceID"] <- purrr::pluck(
-#'   observations(x_dup),
-#'   "sequenceID",
-#'   3
-#' )
-#' x_dup$data$observations[4, "deploymentID"] <- purrr::pluck(
-#'   observations(x_dup),
-#'   "deploymentID",
-#'   3
-#' )
-#' x_dup$data$observations[4, "timestamp"] <- purrr::pluck(
-#'   observations(x_dup),
-#'   "timestamp",
-#'   3
-#' )
-#'
-#' # duplicates are removed by default by camtrapR_recordTable()
-#' camtrapR_recordTable(x_dup)
-#'
-#' # duplicate not removed
-#' camtrapR_recordTable(x_dup, removeDuplicateRecords = FALSE)
 camtrapR_recordTable <- function(x,
                                  stationCol = "locationName",
                                  exclude = NULL,
@@ -137,7 +180,19 @@ camtrapR_recordTable <- function(x,
 
   # Check scientific names of species to be excluded
   if (!is.null(exclude)) {
-    exclude <- check_species(x, species = exclude, arg_name = "exclude")
+    all_taxa <- taxa(x)
+    not_found <- exclude[!exclude %in% all_taxa$scientificName]
+    assertthat::assert_that(
+      all(exclude %in% all_taxa$scientificName),
+      msg = glue::glue(
+        "The following species in `exclude` argument are not present in the ",
+        "camera trap data package: ",
+        glue::glue_collapse(
+          glue::backtick(not_found), sep = ", ", last = " and "
+        ),
+        "."
+      )
+    )
   }
 
   # Check `minDeltaTime`
@@ -175,23 +230,35 @@ camtrapR_recordTable <- function(x,
     msg = "removeDuplicateRecords must be a logical: TRUE or FALSE."
   )
 
+  # Use event-based observations only
+  x <- x %>%
+    filter_observations(.data$observationLevel == "event")
+  
+  # Remove observations of unidentified individuals and species to be excluded
+  x <- x %>%
+    filter_observations(!is.na(scientificName),
+                        !.data$scientificName %in% exclude)
+  
+  # Remove observations without `eventStart` and returns a warning message
+  if (any(is.na(purrr::pluck(observations(x), "eventStart")))) {
+    warning("Some observations have no `eventStart` and will be removed.")
+    x <- x %>%
+      filter_observations(!is.na(eventStart))
+  }
+  
+  # Remove media without `timestamp` and returns a warning message
+  if (any(is.na(purrr::pluck(media(x), "timestamp")))) {
+    warning("Some media have no `timestamp` and will be removed.")
+    x <- x %>%
+      filter_media(!is.na(timestamp))
+  }
+  
   # Add coordinates to observations
   x <- add_coordinates(x)
   
-  # Remove observations of unidentified individuals
-  obs <- observations(x) %>%
-    dplyr::filter(!is.na(.data$scientificName))
-
-  # Remove observations of species to be excluded
-  obs <- obs %>%
-    dplyr::filter(!.data$scientificName %in% exclude)
-
-  # Extract deployments
+  # Extract observations and deployments
+  obs <- observations(x)
   deployments <- deployments(x)
-
-  # remove observations from filtered out deployments
-  obs <- obs %>%
-    dplyr::filter(.data$deploymentID %in% deployments$deploymentID)
 
   # Add station column from deployments to observations
   obs <- obs %>%
@@ -205,12 +272,12 @@ camtrapR_recordTable <- function(x,
   grouped_media_info <-
     media(x) %>%
     dplyr::select(
-      "sequenceID",
+      "eventID",
       "filePath",
       "fileName",
       "timestamp"
     ) %>%
-    dplyr::group_by(.data$sequenceID) %>%
+    dplyr::group_by(.data$eventID) %>%
     dplyr::summarise(
       filePath = list(.data$filePath),
       fileName = list(.data$fileName),
@@ -219,20 +286,21 @@ camtrapR_recordTable <- function(x,
     )
   # Add needed media info from media to observations
   obs <- obs %>%
-    dplyr::left_join(grouped_media_info,
-      by = "sequenceID"
+    dplyr::left_join(
+      grouped_media_info,
+      by = "eventID"
     )
 
   # Get record table
   record_table <-
     obs %>%
     dplyr::mutate(
-      Date = lubridate::date(.data$timestamp),
-      Time = format(.data$timestamp, format = "%H:%M:%S")
+      Date = lubridate::date(.data$eventStart),
+      Time = format(.data$eventStart, format = "%H:%M:%S")
     ) %>%
     dplyr::group_by(.data$scientificName, !!rlang::sym(stationCol)) %>%
     dplyr::arrange(
-      .data$scientificName, !!rlang::sym(stationCol), .data$timestamp
+      .data$scientificName, !!rlang::sym(stationCol), .data$eventStart
     )
   if (minDeltaTime == 0) {
     # Observations are by default independent
@@ -272,7 +340,7 @@ camtrapR_recordTable <- function(x,
   # Get time between obs of two individuals of same species at same location
   record_table <- record_table %>%
     dplyr::mutate(
-      delta.time = .data$timestamp - dplyr::lag(.data$timestamp)
+      delta.time = .data$eventStart - dplyr::lag(.data$eventStart)
     ) %>%
     dplyr::mutate(delta.time.secs = as.numeric(.data$delta.time)) %>%
     dplyr::mutate(delta.time.mins = .data$delta.time.secs / 60) %>%
@@ -286,20 +354,23 @@ camtrapR_recordTable <- function(x,
 
   # Add clock time in radians
   record_table <- record_table %>%
-    dplyr::mutate(clock = activity::gettime(.data$timestamp))
+    dplyr::mutate(clock = activity::gettime(.data$eventStart))
   # Add solar time in radians
   matrix_coords <- matrix(c(record_table$longitude, record_table$latitude),
                           ncol = 2)
   record_table <- record_table %>%
-    dplyr::mutate(solar = overlap::sunTime(.data$clock,
-                                           .data$timestamp,
-                                           matrix_coords))
+    dplyr::mutate(solar = overlap::sunTime(
+      clockTime = .data$clock,
+      Dates = .data$eventStart,
+      Coords = matrix_coords
+      )
+    )
   
   # Finalize `record_table`
   record_table <- record_table %>%
     dplyr::rename(Station := !!stationCol,
       Species = "scientificName",
-      DateTimeOriginal = "timestamp",
+      DateTimeOriginal = "eventStart",
       Directory = "filePath",
       FileName = "fileName",
       n = "count"
@@ -316,7 +387,11 @@ camtrapR_recordTable <- function(x,
       "delta.time.hours",
       "delta.time.days",
       "Directory",
-      "FileName"
+      "FileName",
+      "latitude",
+      "longitude",
+      "clock",
+      "solar"
     )
   
   # Remove duplicates if needed
@@ -332,49 +407,10 @@ camtrapR_recordTable <- function(x,
         .data$FileName
       ) %>%
       dplyr::mutate(row_number = dplyr::row_number()) %>%
-      dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs) &
-        .data$row_number == max(.data$row_number)) %>%
+      dplyr::filter(.data$delta.time.secs == max(.data$delta.time.secs)) %>%
+      dplyr::filter(.data$row_number == max(.data$row_number)) %>%
       dplyr::ungroup() %>%
       dplyr::select(-"row_number")
   }
   return(record_table)
-}
-
-#' Assess temporal independence
-#'
-#' Filters observations based on the temporal independence.
-#' It is a helper function for `camtrapR_recordTable()`.
-#'
-#' @param df A data frame.
-#' @param minDeltaTime_dur: Duration, time difference between records of the
-#' same species at the same station to be considered independent.
-#' @param deltaTimeComparedTo: Character, `"lastIndependentRecord"` or
-#'   `"lastRecord"`.
-#'   For two records to be considered independent, must the second one be at
-#'   least `minDeltaTime` minutes after the last independent record of the same
-#'   species (`deltaTimeComparedTo = "lastIndependentRecord"`), or
-#'   `minDeltaTime` minutes after the last record (`deltaTimeComparedTo =
-#'   "lastRecord"`)?
-#'   If `minDeltaTime` is 0, `deltaTimeComparedTo` should be NULL.
-#' @noRd
-assess_temporal_independence <- function(
-    df, minDeltaTime_dur, deltaTimeComparedTo) {
-  # just initialization (set correctly at i = 1)
-  last_indep_timestamp <- df$last_timestamp[1]
-
-  for (i in 1:nrow(df)) {
-    if (df$timestamp[i] > last_indep_timestamp | i == 1) {
-      df$independent[i] <- TRUE
-      if (deltaTimeComparedTo == "lastRecord") {
-        last_indep_timestamp <- df$last_timestamp[i]
-      } else {
-        last_indep_timestamp <- df$timestamp[i]
-      }
-      last_indep_timestamp <- last_indep_timestamp + minDeltaTime_dur
-    }
-  }
-  return(dplyr::tibble(
-    observationID = df$observationID,
-    independent = df$independent
-  ))
 }

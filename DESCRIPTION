@@ -22,6 +22,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-5034-5416", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Nele", "Mullens", role = "ctb",
            comment = c(ORCID = "0000-0002-3054-9665", affiliation = "University of Antwerp")),
+    person("Wolf", "Missotten", role = "ctb",
+           comment = c(ORCID = "0009-0006-4069-0685", affiliation = "Ghent University")),    
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("Research Foundation - Flanders", role = "fnd",

@@ -64,6 +64,12 @@
 #' x <- example_dataset()
 #' camOp <- camtrapR_cameraOperation(x)
 #' recordTable <- camtrapR_recordTable(x)
+#' # More observations of the same species on the same day at the same station
+#' # are left.
+#' recordTable_mulitple <- camtrapR_recordTable(
+#'   x,
+#'   removeDuplicatedRecords = FALSE
+#' )
 #' 
 #' # Binary output
 #' camtrapR_detectionHistory(
@@ -73,14 +79,24 @@
 #'   output = "binary"
 #' )
 #' 
-#' # Number of observations output
+#' # Number of observations output: same as binary with default
+#' # `camtrapR_recordTable(x)`
 #' camtrapR_detectionHistory(
 #'  recordTable,
 #'  camOp,
 #'  species = "Anas platyrhynchos",
 #'  output = "n_observations"
 #' )
-#'  
+#' 
+#' # Number of observations output: more than 1 if more than 1 observation of
+#' # the species on the same day at the same station
+#' camtrapR_detectionHistory(
+#'  recordTable_mulitple,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_observations"
+#' )
+#'
 #' # Number of individuals output
 #' camtrapR_detectionHistory(
 #'  recordTable,
@@ -88,7 +104,7 @@
 #'  species = "Anas platyrhynchos",
 #'  output = "n_individuals"
 #' )
-#' 
+#'
 #' # Occasion length of 7 days
 #' camtrapR_detectionHistory(
 #'  recordTable,
@@ -136,7 +152,6 @@
 #' )
 #' 
 #' # Multi-season detection history
-#' 
 #' x_sessions <- x
 #' deployments(x_sessions) <- deployments(x_sessions) %>%
 #'   mutate(session = ifelse(

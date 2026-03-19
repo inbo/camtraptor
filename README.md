@@ -11,12 +11,13 @@ status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project
 [![Release](https://img.shields.io/github/v/release/inbo/camtraptor.svg)](https://github.com/inbo/camtraptor/releases)
 [![camtraptor status
 badge](https://inbo.r-universe.dev/camtraptor/badges/version)](https://inbo.r-universe.dev/camtraptor)
-[![codecov](https://codecov.io/gh/inbo/camtraptor/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![last
 commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 [![pkgcheck](https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor)
 <!-- badges: end -->
 
 Camtraptor is an R package to explore and visualize Camera Trap Data

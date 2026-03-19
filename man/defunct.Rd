@@ -18,6 +18,7 @@
 \alias{check_species}
 \alias{get_scientific_name}
 \alias{read_wi}
+\alias{write_dwc}
 \title{Defunct functions}
 \usage{
 # Deprecated in 1.0.0 -------------------------------------
@@ -53,6 +54,8 @@ check_species(x, species, arg_name)
 get_scientific_name(x)
 
 read_wi(x)
+
+write_dwc(x)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

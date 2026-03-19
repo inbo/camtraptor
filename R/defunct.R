@@ -112,3 +112,9 @@ get_scientific_name <- function(x) {
 read_wi <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "read_wi()")
 }
+
+#' @export
+#' @rdname defunct
+write_dwc <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "write_dwc()")
+}

@@ -66,7 +66,7 @@
 #' - `feature`: Deployment feature to visualize.
 #' - `legend_title`: Legend title.
 #' @keywords internal
-.mapdep_legend_titles <- dplyr::tibble(
+.map_summary_legend_titles <- dplyr::tibble(
   feature = c(
     "n_scientificName",
     "n_observations",

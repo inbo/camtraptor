@@ -115,12 +115,16 @@ read_wi <- function(x) {
 
 #' @export
 #' @rdname defunct
+#' @description `write_dwc()` has been moved to camtrapdp. Check
+#' [camtrapdp::write_dwc()] for more information.
 write_dwc <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "write_dwc()")
 }
 
 #' @export
 #' @rdname defunct
+#' @description `round_coordinates()` has been moved to camtrapdp. Check
+#' [camtrapdp::round_coordinates()] for more information.
 round_coordinates <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "round_coordinates()")
 }

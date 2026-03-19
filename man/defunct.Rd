@@ -65,5 +65,11 @@ round_coordinates(x)
 
 These functions are not supported anymore. If there's a known replacement,
 calling the function will tell you about it.
+
+\code{write_dwc()} has been moved to camtrapdp. Check
+\code{\link[camtrapdp:write_dwc]{camtrapdp::write_dwc()}} for more information.
+
+\code{round_coordinates()} has been moved to camtrapdp. Check
+\code{\link[camtrapdp:round_coordinates]{camtrapdp::round_coordinates()}} for more information.
 }
 \keyword{internal}

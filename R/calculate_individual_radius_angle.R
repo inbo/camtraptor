@@ -1,3 +1,23 @@
+
+#' Predict radial distance
+#'
+#' Predict radial distance from camera given pixel positions.
+#'
+#' @param mod Site calibration model (`depcal` object), produced using
+#'   `cal.site()`).
+#' @param relx x Pixel position relative to the centre line.
+#' @param rely y Pixel position relative to the top edge.
+#' @return Vector numeric radii.
+#' @noRd
+#' @note Units depend on the units of pole height above ground used to calibrate
+#'   the site model.
+predict_radial_distance <- function(mod, rel_x, rel_y) {
+  new_data <- data.frame(relx = rel_x, rely = rel_y)
+  res <- stats::predict(mod, newdata = new_data)
+  res[res < 0] <- Inf
+  return(res)
+}
+
 #' Calculate animal position
 #'
 #' Calculates the position of animal relative to a camera based on image pixel

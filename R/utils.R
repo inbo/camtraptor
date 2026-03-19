@@ -353,23 +353,6 @@ predict_radial_distance <- function(mod, rel_x, rel_y) {
   return(res)
 }
 
-#' Get legend title for deployment visualizations
-#'
-#' @param feature Character, one of:
-#'   - `n_species`
-#'   - `n_obs`
-#'   - `rai`
-#'   - `effort`
-#' @noRd
-get_legend_title <- function(feat) {
-  # get all legend titles
-  titles <- .map_summary_legend_titles
-  # return the legend title we need
-  titles %>%
-    dplyr::filter(.data$feature == feat) %>%
-    dplyr::pull(.data$legend_title)
-}
-
 #' Add unit to legend title
 #'
 #' This function is useful when a unit (e.g. temporal unit) should be added to

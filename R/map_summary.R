@@ -1,3 +1,20 @@
+#' Get legend title for deployment visualizations
+#'
+#' @param feature Character, one of:
+#'   - `n_species`
+#'   - `n_obs`
+#'   - `rai`
+#'   - `effort`
+#' @noRd
+get_legend_title <- function(feat) {
+  # get all legend titles
+  titles <- .map_summary_legend_titles
+  # return the legend title we need
+  titles %>%
+    dplyr::filter(.data$feature == feat) %>%
+    dplyr::pull(.data$legend_title)
+}
+
 #' Custom label format function
 #'
 #' Add "+" to last label of legend while using absolute scale. At the moment

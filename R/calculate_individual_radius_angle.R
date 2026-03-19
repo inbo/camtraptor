@@ -121,7 +121,7 @@ calculate_individual_radius_angle <- function(
     sm <- calibration_models[[d]]$model
     rel_x <- dt[[x]] / dt[[image_width]] - 0.5
     rel_y <- dt[[y]] / dt[[image_height]]
-    r <- predict_r(sm, rel_x, rel_y)
+    r <- predict_radial_distance(sm, rel_x, rel_y)
     a <- cm$APratio * (dt[[x]] / dt[[image_width]] - 0.5)
     dplyr::tibble(
       dt,

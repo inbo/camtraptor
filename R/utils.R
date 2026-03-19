@@ -397,7 +397,7 @@ calendar_ceiling_date <- function(my_date, period) {
 #' @noRd
 #' @note Units depend on the units of pole height above ground used to calibrate
 #'   the site model.
-predict_r <- function(mod, rel_x, rel_y) {
+predict_radial_distance <- function(mod, rel_x, rel_y) {
   new_data <- data.frame(relx = rel_x, rely = rel_y)
   res <- stats::predict(mod, newdata = new_data)
   res[res < 0] <- Inf

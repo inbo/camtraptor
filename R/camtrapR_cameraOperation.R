@@ -1,3 +1,59 @@
+#' Calculate daily effort for start or end day
+#'
+#' While assessing the camera operation matrix, start and end day are edge
+#' case. The daily effort is a real number between 0 and 1 as and is defined as
+#' the fraction of the day the camera was on.
+#'
+#' @noRd
+daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
+  # check calc_start or calc_end are passed
+  assertthat::assert_that(
+    (is.null(calc_start) & !is.null(calc_end)) |
+      (!is.null(calc_start) & is.null(calc_end)),
+    msg = "Either calc_start or calc_end must be defined."
+  )
+  deploy_df <-
+    deploy_df %>%
+    dplyr::mutate(
+      edge = dplyr::if_else(
+        !is.null(calc_start), 
+        .data$deploymentStart, .data$deploymentEnd
+      ),
+      edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
+    )
+  deploy_df %>%
+    # calculate the duration of the start/end day (edge day)
+    dplyr::mutate(
+      edge_day_duration =
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) + 
+            lubridate::ddays(1) -
+            lubridate::as_datetime(.data$edge_day)
+        )
+    ) %>%
+    # calculate the duration of the active part of the start/end day
+    dplyr::mutate(active_edge_day_duration = dplyr::if_else(
+      !is.null(calc_start),
+      # start day
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          .data$edge - lubridate::as_datetime(.data$edge_day)
+        ),
+      # end day
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) +
+            lubridate::ddays(1) -
+            .data$edge
+        )
+    )) %>%
+    # calculate the fraction of the duration of the active part
+    dplyr::mutate(
+      daily_effort = .data$active_edge_day_duration / .data$edge_day_duration
+    ) %>%
+    dplyr::pull(.data$daily_effort)
+}
+
 #' Get camera operation matrix
 #'
 #' Returns the [camera operation matrix](
@@ -202,8 +258,8 @@ camtrapR_cameraOperation <- function(x,
       deploy_df <-
         deploys %>%
         dplyr::filter(.data$deploymentID == x)
-      daily_effort_start <- calc_daily_effort(deploy_df, calc_start = TRUE)
-      daily_effort_end <- calc_daily_effort(deploy_df, calc_end = TRUE)
+      daily_effort_start <- daily_effort(deploy_df, calc_start = TRUE)
+      daily_effort_end <- daily_effort(deploy_df, calc_end = TRUE)
       operational[days_operations == start_day] <- daily_effort_start
       operational[days_operations == end_day] <- daily_effort_end
       operational <- dplyr::as_tibble(operational)

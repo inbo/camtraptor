@@ -19,6 +19,7 @@
 \alias{get_scientific_name}
 \alias{read_wi}
 \alias{write_dwc}
+\alias{round_coordinates}
 \title{Defunct functions}
 \usage{
 # Deprecated in 1.0.0 -------------------------------------
@@ -56,6 +57,8 @@ get_scientific_name(x)
 read_wi(x)
 
 write_dwc(x)
+
+round_coordinates(x)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

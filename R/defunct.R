@@ -118,3 +118,9 @@ read_wi <- function(x) {
 write_dwc <- function(x) {
   lifecycle::deprecate_stop("1.0.0", "write_dwc()")
 }
+
+#' @export
+#' @rdname defunct
+round_coordinates <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "round_coordinates()")
+}

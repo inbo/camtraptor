@@ -15,6 +15,28 @@ get_legend_title <- function(feat) {
     dplyr::pull(.data$legend_title)
 }
 
+#' Add unit to legend title
+#'
+#' This function is useful when a unit (e.g. temporal unit) should be added to
+#' legend title.
+#'
+#' @param title A character with legend title.
+#' @param unit Character with unit to add to `title`.
+#' @param use_brackets Logical.
+#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
+#' @noRd
+#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
+add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
+  if (is.null(unit)) {
+    title
+  } else {
+    if (use_brackets == TRUE) {
+      unit <- paste0("(", unit, ")")
+    }
+    paste(title, unit)
+  }
+}
+
 #' Custom label format function
 #'
 #' Add "+" to last label of legend while using absolute scale. At the moment

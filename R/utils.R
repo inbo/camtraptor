@@ -353,28 +353,6 @@ predict_radial_distance <- function(mod, rel_x, rel_y) {
   return(res)
 }
 
-#' Add unit to legend title
-#'
-#' This function is useful when a unit (e.g. temporal unit) should be added to
-#' legend title.
-#'
-#' @param title A character with legend title.
-#' @param unit Character with unit to add to `title`.
-#' @param use_brackets Logical.
-#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
-#' @noRd
-#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
-add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
-  if (is.null(unit)) {
-    title
-  } else {
-    if (use_brackets == TRUE) {
-      unit <- paste0("(", unit, ")")
-    }
-    paste(title, unit)
-  }
-}
-
 #' Create date series based on a deployment start/end and the time grouping
 #' 
 #' This function creates start/end date series for a given deployment, based on

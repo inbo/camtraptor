@@ -2,8 +2,10 @@
 #'
 #' @param feature Character, one of:
 #'   - `n_species`
+#'   - `n_events`
 #'   - `n_obs`
-#'   - `rai`
+#'   - `rai_observations`
+#'   - `rai_count`
 #'   - `effort`
 #' @noRd
 get_legend_title <- function(feat) {

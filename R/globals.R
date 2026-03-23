@@ -69,6 +69,7 @@
 .map_summary_legend_titles <- dplyr::tibble(
   feature = c(
     "n_scientificName",
+    "n_events",
     "n_observations",
     "sum_count",
     "rai_observations",
@@ -77,6 +78,7 @@
   ),
   legend_title = c(
     "Number of detected species",
+    "Number of events",
     "Number of observations",
     "Sum of individual counts",
     "RAI",

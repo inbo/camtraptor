@@ -53,7 +53,7 @@ defined in parameter \code{stationCol}.
 \item \code{n}: Numeric, the number of observed individuals (renamed from
 \href{https://camtrap-dp.tdwg.org/data/#observations.count}{\code{count}} in the
 observations table).
-\item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
+\item \code{DateTimeOriginal}: Datetime object, as found in column \code{eventStart} of
 \code{observations}, in UTC format.
 \item \code{Date}: Date object, the date part of \code{DateTimeOriginal}, in UTC format.
 \item \code{Time}: Character, the time part of \code{DateTimeOriginal} in UTC format.

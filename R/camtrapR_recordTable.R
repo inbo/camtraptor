@@ -83,7 +83,7 @@ assess_temporal_independence <- function(
 #'   - `n`: Numeric, the number of observed individuals (renamed from 
 #'   [`count`](https://camtrap-dp.tdwg.org/data/#observations.count) in the 
 #'   observations table).
-#'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
+#'   - `DateTimeOriginal`: Datetime object, as found in column `eventStart` of
 #'   `observations`, in UTC format.
 #'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.
 #'   - `Time`: Character, the time part of `DateTimeOriginal` in UTC format.

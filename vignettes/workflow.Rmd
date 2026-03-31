@@ -1,0 +1,135 @@
+---
+title: "Intended workflow of the package"
+author: "Wolf Missotten"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intended workflow of the package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Camtraptor is an R package to **read**, **explore**, **filter**, **summarize** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the intended workflow of the package.
+
+> **Note:** Coming from `camtraptor` version 0.xx? Check out `NEWS.md` to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+
+## Setup
+
+Load the package:
+
+```{r setup}
+library(camtraptor)
+```
+
+## Workflow
+
+### Reading data
+
+To start your data analysis you of course first need data.
+
+Here, the function `example_dataset()` is used to load an example Camera Trap Data Package dataset that is included in the `camtraptor` package. This dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+To read your own locally stored dataset, use `read_camtrapdp()`:
+
+```{r read_own_data, eval = FALSE}
+x <- read_camtrapdp("path/to/datapackage.json")
+```
+In this vignette the example dataset will be used.
+
+### Exploring data
+
+Now that you read in your data, you can start exploring it. A Camtrap DP dataset consists of three tables: `deployments`, `media` and `observations`. For more details on the data structure, see the [Camtrap DP website](https://camtrap-dp.tdwg.org/data/). You can access each table directly by using `deployments()`, `media()` and `observations()`. Let's take a look at the deployments table: 
+
+```{r deployments}
+deployments(x)
+```
+To get a quick overview of which species were recorded, use `taxa()`:
+
+```{r taxa}
+taxa(x)
+```
+
+### Filtering data
+
+Now that you have explored the dataset, you can start filtering. Use `filter_deployments()` to select specific deployment locations and `filter_observations()` to select specific species. For example, filtering for two specific locations and mallard (*Anas platyrhynchos*):
+
+```{r filter_mallard_location}
+x_filtered <- x %>%
+  filter_deployments(
+    locationName == c(
+      "B_HS_val 2_processiepark",
+      "B_DM_val 4_'t WAD"
+      )
+    ) %>%
+  filter_observations(scientificName == "Anas platyrhynchos")
+```
+
+`filter_deployments()` filters the deployments table to the two selected locations, and automatically removes any associated observations and media that do not belong to these deployments. `filter_observations()` then filters the remaining observations to only keep mallard (*Anas platyrhynchos*) observations.
+
+You can also filter using `filter_media()`, but this wil not be discussed in this vignette.
+
+### Summarizing data
+
+Before visualizing, the data first needs to be summarized.
+
+Use `summarize_observations()` to get an overview of the observations per deployment:
+
+```{r summarize_observations}
+summ_obs_filtered <- summarize_observations(x_filtered)
+summ_obs_filtered
+```
+
+Use `summarize_deployments()` to get an overview of the deployments:
+
+```{r summarize_deployments}
+summ_depl_filtered <- summarize_deployments(x_filtered)
+summ_depl_filtered
+```
+
+### Visualizing data
+
+Use `map_summary()` to visualize a summary on a map.
+
+
+Visualize the number of mallard observations per deployment:
+
+```{r map_observations}
+map_summary(summ_obs_filtered, feature = "n_observations")
+```
+As you can see, there is only one of the two deployments we filtered for observed mallard.
+
+
+Visualize the daily effort per deployment:
+
+```{r map_effort}
+map_summary(summ_depl_filtered, feature = "effort_duration")
+```
+
+### Putting it all together
+
+In practice you'd chain everything into a single pipeline, e.g.:
+
+```{r full_pipeline}
+x %>%
+  filter_observations(scientificName == "Anas platyrhynchos") %>%
+  filter_deployments(
+    locationName == c(
+      "B_HS_val 2_processiepark",
+      "B_DM_val 4_'t WAD"
+      )
+    ) %>%
+  summarize_observations() %>%
+  map_summary(feature = "n_observations")
+```
+

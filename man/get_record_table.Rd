@@ -81,6 +81,8 @@ as defined in column \code{fileName} of \code{media}.
 This function is deprecated. Please use \code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}} instead.
 }
 \examples{
+libary(lubridate)
+
 x <- example_dataset()
 camtrapR_recordTable(x)
 
@@ -101,11 +103,11 @@ camtrapR_recordTable(
 # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
 # `"lastIndependentRecord"`
 obs <- observations(x)
-obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime("2020-08-02 05:10:20")
+obs[obs$eventID == "02ae9f43", "eventStart"] <- as_datetime("2020-08-02 05:10:20")
 
 med <- media(x) 
 rows_to_update <- which(med$eventID == "02ae9f43") 
-med[rows_to_update, "timestamp"] <- lubridate::as_datetime("2020-08-02 05:10:20") 
+med[rows_to_update, "timestamp"] <- as_datetime("2020-08-02 05:10:20") 
 
 x_modified <- x
 observations(x_modified) <- obs

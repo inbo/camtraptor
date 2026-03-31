@@ -123,6 +123,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   - `day`
 #'   - `month`
 #'   - `year`
+#'   
 #'   If  `NULL` (default), the effort is returned in hours.
 #' @param cluster Logical value indicating whether using the cluster option
 #'   while visualizing maps. Default: `TRUE`.

@@ -34,9 +34,9 @@ authors:
   email: pieter.huybrechts@inbo.be
   orcid: https://orcid.org/0000-0002-6658-6062
   affiliation: Research Institute for Nature and Forest (INBO)
+repository: https://inbo.r-universe.dev/bin/windows/contrib/4.4
 repository-code: https://github.com/inbo/camtraptor
-url: https://inbo.github.io/camtraptor/
-date-released: '2026-04-07'
+url: https://github.com/inbo/camtraptor
 contact:
 - family-names: Oldoni
   given-names: Damiano
@@ -59,18 +59,8 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2026'
+  year: '2024'
   version: '>= 3.5.0'
-- type: software
-  title: activity
-  abstract: 'activity: Animal Activity Statistics'
-  notes: Imports
-  repository: https://CRAN.R-project.org/package=activity
-  authors:
-  - family-names: Rowcliffe
-    given-names: Marcus
-  year: '2026'
-  doi: 10.32614/CRAN.package.activity
 - type: software
   title: assertthat
   abstract: 'assertthat: Easy Pre and Post Assertions'
@@ -80,14 +70,14 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@rstudio.com
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.assertthat
 - type: software
   title: camtrapdp
   abstract: 'camtrapdp: Read and Manipulate Camera Trap Data Packages'
   notes: Imports
   url: https://inbo.github.io/camtrapdp/
-  repository: https://CRAN.R-project.org/package=camtrapdp
+  repository: https://inbo.r-universe.dev/bin/windows/contrib/4.4
   authors:
   - family-names: Desmet
     given-names: Peter
@@ -109,7 +99,7 @@ references:
     email: damiano.oldoni@inbo.be
     orcid: https://orcid.org/0000-0003-3445-7562
     affiliation: Research Institute for Nature and Forest (INBO)
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.camtrapdp
 - type: software
   title: dplyr
@@ -134,7 +124,7 @@ references:
     given-names: Davis
     email: davis@posit.co
     orcid: https://orcid.org/0000-0003-4777-038X
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.dplyr
   version: '>= 1.1.0'
 - type: software
@@ -151,7 +141,7 @@ references:
   - family-names: Jones
     given-names: Matthew B.
     orcid: https://orcid.org/0000-0003-0077-4738
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.EML
 - type: software
   title: memoise
@@ -174,7 +164,7 @@ references:
   - family-names: Cook
     given-names: Daniel
     email: danielecook@gmail.com
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.memoise
 - type: software
   title: glue
@@ -190,7 +180,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.glue
 - type: software
   title: htmltools
@@ -219,7 +209,7 @@ references:
     email: yihui@posit.co
   - family-names: Allen
     given-names: Jeff
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.htmltools
 - type: software
   title: leaflet
@@ -240,11 +230,7 @@ references:
     given-names: Bhaskar
   - family-names: Xie
     given-names: Yihui
-  - family-names: Aden-Buie
-    given-names: Garrick
-    email: garrick@posit.co
-    orcid: https://orcid.org/0000-0002-7111-0077
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.leaflet
 - type: software
   title: lifecycle
@@ -260,14 +246,14 @@ references:
     given-names: Hadley
     email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.lifecycle
 - type: software
   title: lubridate
   abstract: 'lubridate: Make Dealing with Dates a Little Easier'
   notes: Imports
   url: https://lubridate.tidyverse.org
-  repository: https://CRAN.R-project.org/package=lubridate
+  repository: https://inbo.r-universe.dev
   authors:
   - family-names: Spinu
     given-names: Vitalie
@@ -276,25 +262,8 @@ references:
     given-names: Garrett
   - family-names: Wickham
     given-names: Hadley
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.lubridate
-- type: software
-  title: overlap
-  abstract: 'overlap: Estimates of Coefficient of Overlapping for Animal Activity
-    Patterns'
-  notes: Imports
-  repository: https://CRAN.R-project.org/package=overlap
-  authors:
-  - family-names: Meredith
-    given-names: Mike
-  - family-names: Ridout
-    given-names: Martin
-  - family-names: Campbell
-    given-names: Liz A.D.
-    email: lizadcampbell@gmail.com
-    orcid: https://orcid.org/0000-0002-8302-7430
-  year: '2026'
-  doi: 10.32614/CRAN.package.overlap
 - type: software
   title: purrr
   abstract: 'purrr: Functional Programming Tools'
@@ -304,12 +273,12 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@posit.co
+    email: hadley@rstudio.com
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: Henry
     given-names: Lionel
-    email: lionel@posit.co
-  year: '2026'
+    email: lionel@rstudio.com
+  year: '2024'
   doi: 10.32614/CRAN.package.purrr
 - type: software
   title: RColorBrewer
@@ -320,7 +289,7 @@ references:
   - family-names: Neuwirth
     given-names: Erich
     email: erich.neuwirth@univie.ac.at
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.RColorBrewer
 - type: software
   title: readr
@@ -338,7 +307,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.readr
 - type: software
   title: rlang
@@ -353,32 +322,8 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.rlang
-- type: software
-  title: reshape2
-  abstract: 'reshape2: Flexibly Reshape Data: A Reboot of the Reshape Package'
-  notes: Imports
-  url: https://github.com/hadley/reshape
-  repository: https://CRAN.R-project.org/package=reshape2
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  year: '2026'
-  doi: 10.32614/CRAN.package.reshape2
-- type: software
-  title: snakecase
-  abstract: 'snakecase: Convert Strings into any Case'
-  notes: Imports
-  url: https://github.com/Tazinho/snakecase
-  repository: https://CRAN.R-project.org/package=snakecase
-  authors:
-  - family-names: Grosser
-    given-names: Malte
-    email: malte.grosser@gmail.com
-  year: '2026'
-  doi: 10.32614/CRAN.package.snakecase
 - type: software
   title: stringr
   abstract: 'stringr: Simple, Consistent Wrappers for Common String Operations'
@@ -389,7 +334,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.stringr
 - type: software
   title: tidyr
@@ -406,7 +351,7 @@ references:
     email: davis@posit.co
   - family-names: Girlich
     given-names: Maximilian
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.tidyr
 - type: software
   title: tools
@@ -417,7 +362,7 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2026'
+  year: '2024'
 - type: software
   title: utils
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -427,7 +372,7 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2026'
+  year: '2024'
 - type: software
   title: uuid
   abstract: 'uuid: Tools for Generating and Handling of UUIDs'
@@ -442,7 +387,7 @@ references:
   - family-names: Ts'o
     given-names: Theodore
     email: tytso@thunk.org
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.uuid
 - type: software
   title: covr
@@ -454,7 +399,7 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.f.hester@gmail.com
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.covr
 - type: software
   title: knitr
@@ -467,7 +412,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: rmarkdown
@@ -511,7 +456,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: testthat
@@ -523,51 +468,23 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
-- type: software
-  title: unmarked
-  abstract: 'unmarked: Models for Data from Unmarked Animals'
-  notes: Suggests
-  url: https://groups.google.com/d/forum/unmarked
-  repository: https://CRAN.R-project.org/package=unmarked
-  authors:
-  - family-names: Chandler
-    given-names: Richard
-  - family-names: Kellner
-    given-names: Ken
-    email: contact@kenkellner.com
-  - family-names: Fiske
-    given-names: Ian
-  - family-names: Miller
-    given-names: David
-  - family-names: Royle
-    given-names: Andy
-  - family-names: Hostetler
-    given-names: Jeff
-  - family-names: Hutchinson
-    given-names: Rebecca
-  - family-names: Smith
-    given-names: Adam
-  - family-names: Pautrel
-    given-names: Lea
-  year: '2026'
-  doi: 10.32614/CRAN.package.unmarked
 - type: software
   title: xml2
   abstract: 'xml2: Parse XML'
   notes: Suggests
-  url: https://xml2.r-lib.org
+  url: https://xml2.r-lib.org/
   repository: https://CRAN.R-project.org/package=xml2
   authors:
   - family-names: Wickham
     given-names: Hadley
+    email: hadley@posit.co
   - family-names: Hester
     given-names: Jim
   - family-names: Ooms
     given-names: Jeroen
-    email: jeroenooms@gmail.com
-  year: '2026'
+  year: '2024'
   doi: 10.32614/CRAN.package.xml2
 

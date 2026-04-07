@@ -54,7 +54,7 @@ after station setup. \code{buffer} can be used only in combination with \code{da
 \code{"station"}. Default: \code{NULL}. A warning is returned if some records are
 removed because taken during the buffer period.}
 
-\item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return the input for multi-season occupancy models in unmarked R package (argument \code{y} in \code{\link[unmarked:unmarkedMultFrame]{unmarked::unmarkedMultFrame()}}). Default: \code{FALSE}.}
+\item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return the input for multi-season occupancy models in unmarked R package (argument \code{y} in \href{https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame}{unmarked::unmarkedMultFrame()}). Default: \code{FALSE}.}
 }
 \value{
 A list with three elements:

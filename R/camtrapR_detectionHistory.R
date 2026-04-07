@@ -40,7 +40,7 @@
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are
 #'   removed because taken during the buffer period.
-#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()]). Default: `FALSE`.
+#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)). Default: `FALSE`.
 #' @return A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix

@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Camtraptor is an R package to **read**, **explore**, **filter**, **summarize** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the intended workflow of the package.
+Camtraptor is an R package to **read**, **explore** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the intended workflow of the package.
 
-> **Note:** Coming from `camtraptor` version 0.xx? Check out `NEWS.md` to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+> **Note:** Coming from `camtraptor` version 0.xx? Check out [News](https://inbo.github.io/camtraptor/news/index.html) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
 
 ## Setup
 
@@ -34,7 +34,7 @@ library(camtraptor)
 
 To start your data analysis you of course first need data.
 
-Here, the function `example_dataset()` is used to load an example Camera Trap Data Package dataset that is included in the `camtraptor` package. This dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+Here, the function `example_dataset()` is used to load an example Camera Trap Data Package dataset that is included in the camtraptor package. This dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()

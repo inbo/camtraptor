@@ -1,6 +1,6 @@
 ---
 title: "Record table"
-author: "Damiano Oldoni"
+author: "Damiano Oldoni, Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a _species record table_ as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a Camera Trap Data Package object.
+This vignette shows how to get a **species record table** as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a Camera Trap Data Package object.
 
 ## Setup
 
@@ -27,7 +27,7 @@ library(camtraptor)
 library(lubridate)
 ```
 
-For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object. The dataset is derived from a study on detecting invasive muskrat and coypu populations in Belgium.
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()

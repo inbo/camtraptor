@@ -34,7 +34,7 @@ library(camtraptor)
 library(dplyr)
 ```
 
-For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object assigned to `x`. The dataset is derived from a study on detecting invasive muskrat and coypu populations in Belgium.
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object assigned to `x`. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()

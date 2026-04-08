@@ -22,7 +22,7 @@ coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.co
 <!-- badges: end -->
 
 Camtraptor is an R package to **read**, **explore** and **visualize**
-[Camera Trap Data Package](https://camtrap-dp.tdwg.org) (Camtrap DP)
+[Camera Trap Data Packages](https://camtrap-dp.tdwg.org) (Camtrap DP)
 datasets. Camtrap DP is a community developed data exchange format for
 camera trap data. With camtraptor you can create overviews of observed
 species, relative abundance or effort, and plot these data on a map.
@@ -107,11 +107,11 @@ x %>%
 ## Relationship to other camera trap packages available in R
 
 Camtraptor aims to become a useful toolkit for camera trap data analysis
-by gradually including functionality from other R packages such as
+by including functionality from other R packages such as
 [camtrapR](https://cran.r-project.org/package=camtrapR) and
 [activity](https://cran.r-project.org/package=activity), while following
-the Camtrap DP standard. Functions prefixed with `camtrapR_` produce
-outputs as returned by camtrapR functions.
+the Camtrap DP exchange format. Functions prefixed with `camtrapR_`
+produce outputs as returned by camtrapR functions.
 
 ## Meta
 

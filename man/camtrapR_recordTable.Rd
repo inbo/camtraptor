@@ -84,7 +84,7 @@ function documentation for \href{https://jniedballa.github.io/camtrapR/reference
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
-libary(lubridate)
+library(lubridate)
 
 x <- example_dataset()
 camtrapR_recordTable(x)

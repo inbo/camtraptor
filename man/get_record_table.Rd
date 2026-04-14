@@ -81,7 +81,7 @@ as defined in column \code{fileName} of \code{media}.
 This function is deprecated. Please use \code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}} instead.
 }
 \examples{
-libary(lubridate)
+library(lubridate)
 
 x <- example_dataset()
 camtrapR_recordTable(x)

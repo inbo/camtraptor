@@ -27,6 +27,7 @@ Authors:
   \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
   \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
   \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Wolf Missotten \email{wolfmissotten@gmail.com} (\href{https://orcid.org/0009-0006-4069-0685}{ORCID}) (Ghent University)
 }
 
 Other contributors:
@@ -37,7 +38,6 @@ Other contributors:
   \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (University of Antwerp) [contributor]
-  \item Wolf Missotten (\href{https://orcid.org/0009-0006-4069-0685}{ORCID}) (Ghent University) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
   \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }

@@ -106,7 +106,7 @@ assess_temporal_independence <- function(
 #' @family camtrapR-derived functions
 #' @export
 #' @examples
-#' libary(lubridate)
+#' library(lubridate)
 #' 
 #' x <- example_dataset()
 #' camtrapR_recordTable(x)

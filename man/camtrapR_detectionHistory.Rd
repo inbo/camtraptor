@@ -97,7 +97,7 @@ recordTable <- camtrapR_recordTable(x)
 # are left.
 recordTable_mulitple <- camtrapR_recordTable(
   x,
-  removeDuplicatedRecords = FALSE
+  removeDuplicateRecords = FALSE
 )
 
 # Binary output

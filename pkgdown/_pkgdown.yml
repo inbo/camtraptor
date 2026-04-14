@@ -3,6 +3,16 @@ template:
   bootstrap: 5
 navbar:
   bg: dark
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - workflow
+  - visualize-deployment-features
+  - record-table
+  - camera-operation-matrix
+  - detection-history-matrix
+  - calculate-animal-position
 reference:
 - title: Read data
   contents:

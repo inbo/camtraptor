@@ -16,21 +16,14 @@
 #' - `rai`: numeric vector with the relative abundance index.
 #' @export
 #' @examples
+#' x <- example_dataset()
+#' 
 #' # Calculate RAI for all species
 #' get_rai(x) # species = "all" by default, so equivalent of
 #' get_rai(x, species = "all")
 #'
 #' # Selected species
 #' get_rai(x, species = c("Anas platyrhynchos", "Martes foina"))
-#'
-#' # With vernacular names, even mixing languages
-#' get_rai(x, species = c("mallard", "steenmarter"))
-#'
-#' # Mixed scientific and vernacular names
-#' get_rai(x, species = c("Anas platyrhynchos", "steenmarter"))
-#'
-#' # Species parameter is case insensitive
-#' get_rai(x, species = c("ANAS plAtyRhynChOS"))
 get_rai <- function(x,
                     ...,
                     species = "all",

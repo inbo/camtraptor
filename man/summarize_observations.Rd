@@ -100,11 +100,11 @@ x <- example_dataset()
 summarize_observations(x)
 
 # Summarize observations by `locationId`, and `locationName` (summary by
-deployment columns only)
+# deployment columns only)
 summarize_observations(x, group_by = "locationName")
 
 # Summarize observations by `scientificName` and `sex` (summary by
-observation columns only)
+# observation columns only)
 summarize_observations(x, group_by = c("scientificName", "sex"))
 
 # Apply temporal grouping by month

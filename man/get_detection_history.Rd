@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_detection_history.R
 \name{get_detection_history}
 \alias{get_detection_history}
-\title{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\title{Get detection history}
 \usage{
 get_detection_history(
   recordTable,
@@ -65,6 +65,8 @@ A list with three elements:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 This function is deprecated. Please use \code{\link[=camtrapR_detectionHistory]{camtrapR_detectionHistory()}}
 instead.
 }

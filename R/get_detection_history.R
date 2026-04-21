@@ -1,3 +1,6 @@
+#' Get detection history
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' This function is deprecated. Please use [camtrapR_detectionHistory()]

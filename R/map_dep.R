@@ -90,8 +90,8 @@ map_dep <- function(
   )
   # Add new features to the possible features
   features <- c(
-    setdiff(camtraptor:::.features_observations, features),
-    setdiff(camtraptor:::.features_deployments, features),
+    setdiff(.features_observations, features),
+    setdiff(.features_deployments, features),
     features
   )
   

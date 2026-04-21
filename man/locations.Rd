@@ -2,7 +2,7 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{locations}
 \alias{locations}
-\title{Get or set locations}
+\title{Get locations}
 \usage{
 locations(x)
 }

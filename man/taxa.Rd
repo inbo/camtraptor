@@ -2,7 +2,7 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{taxa}
 \alias{taxa}
-\title{Get or set taxa}
+\title{Get taxa}
 \usage{
 taxa(x)
 }

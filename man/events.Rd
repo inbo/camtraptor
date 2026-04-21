@@ -2,7 +2,7 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{events}
 \alias{events}
-\title{Get or set events}
+\title{Get events}
 \usage{
 events(x)
 }

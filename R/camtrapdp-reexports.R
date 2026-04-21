@@ -77,7 +77,7 @@ observations <- camtrapdp::observations
 #' @export
 `observations<-` <- camtrapdp::`observations<-`
 
-#' Get or set events
+#' Get events
 #'
 #' Re-export of [camtrapdp::events()]. See that function for full
 #' documentation.
@@ -87,7 +87,7 @@ observations <- camtrapdp::observations
 #' @export
 events <- camtrapdp::events
 
-#' Get or set taxa
+#' Get taxa
 #'
 #' Re-export of [camtrapdp::taxa()]. See that function for full
 #' documentation.
@@ -97,7 +97,7 @@ events <- camtrapdp::events
 #' @export
 taxa <- camtrapdp::taxa
 
-#' Get or set locations
+#' Get locations
 #'
 #' Re-export of [camtrapdp::locations()]. See that function for full
 #' documentation.

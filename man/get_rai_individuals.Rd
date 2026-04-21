@@ -42,12 +42,14 @@ A tibble data frame with the following columns:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
 using 100 days deployment activity. In other words: \code{RAI = 100 * (n/effort)}
 where \code{n} is the sum of individual counts related to event-based observations
 and \code{effort} is the effort duration in days.
-}
-\details{
+
 It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
 instead.
 }

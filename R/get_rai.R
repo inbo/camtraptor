@@ -45,6 +45,8 @@ get_rai <- function(x,
 }
 
 #' Get Relative Abundance Index (RAI) based on the sum of individual counts
+#' 
+#' `r lifecycle::badge("deprecated")`
 #'
 #' Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
 #' using 100 days deployment activity. In other words: `RAI = 100 * (n/effort)`

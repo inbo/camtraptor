@@ -1,5 +1,6 @@
 #' Define internal vectors with possible `group_by` values, to be used in
 #' `summarize_observations()`, `summarize_deployments()` and check functions.
+#' @keywords internal
 .group_bys_deployments <- c(
   "deploymentID",
   "latitude",
@@ -20,6 +21,7 @@
 
 #' Features returned by `summarize_observations()`. Useful to check output of
 #' the function and other check functions.
+#' @keywords internal
 .features_observations <- c(
   "n_scientificName",
   "n_events",
@@ -30,6 +32,7 @@
 )
 #' Features returned by `summarize_deployments()`. Useful to check output of
 #' the function and other check functions.
+#' @keywords internal
 .features_deployments <- c(
   "effort_duration"
 )

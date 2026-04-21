@@ -43,3 +43,15 @@ instead.
 x <- example_dataset()
 get_effort(x)
 }
+\seealso{
+Other exploration functions: 
+\code{\link{get_custom_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{summarize_deployments}()},
+\code{\link{summarize_observations}()}
+}
+\concept{exploration functions}

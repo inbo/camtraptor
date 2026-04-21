@@ -283,7 +283,7 @@ x \%>\%
   map_summary("n_observations", zero_values_icon_size = 30)
 
 # Use another icon url/size for visualizing groups with no observations
-(NA, only for `n_scientificName` feature)
+# (NA, only for `n_scientificName` feature)
 x \%>\%
   filter_observations(deploymentID != "00a2c20d") \%>\%
   summarize_observations(
@@ -333,5 +333,9 @@ x \%>\%
     radius_range = c(40, 150)
 )
 }
+}
+\seealso{
+Other visualization functions: 
+\code{\link{map_dep}()}
 }
 \concept{visualization functions}

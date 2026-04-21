@@ -30,6 +30,7 @@
 #'   dimension of each image. Default: `"imageHeight"`. Notice that the pixel y
 #'   dimension must be consistent for each deployment.
 #' @inherit calculate_individual_radius_angle return
+#' @family density estimation functions
 #' @export
 #' @examples
 #' calc_animal_pos(animal_positions, calibration_models)

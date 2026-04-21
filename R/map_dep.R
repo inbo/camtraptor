@@ -8,6 +8,7 @@
 #'   [camtrapdp::read_camtrapdp()].
 #' @inheritParams get_n_obs
 #' @inherit map_summary
+#' @family visualization functions
 #' @export
 map_dep <- function(
     x,

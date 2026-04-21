@@ -62,4 +62,8 @@ positions and site calibration models.
 # Use default values
 calculate_individual_radius_angle(animal_positions, calibration_models)
 }
+\seealso{
+Other density estimation functions: 
+\code{\link{calc_animal_pos}()}
+}
 \concept{density estimation functions}

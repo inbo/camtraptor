@@ -4,6 +4,7 @@
 #' instead.
 #' 
 #' @inherit camtrapR_detectionHistory
+#' @family camtrapR-derived functions
 #' @export
 get_detection_history <- function(recordTable,
                                   camOp,

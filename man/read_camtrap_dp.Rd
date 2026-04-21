@@ -20,3 +20,8 @@ Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (
 
 This function is deprecated. Please use \code{\link[=read_camtrapdp]{read_camtrapdp()}} instead.
 }
+\seealso{
+Other read functions: 
+\code{\link{read_camtrapdp}()}
+}
+\concept{read functions}

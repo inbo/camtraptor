@@ -67,3 +67,8 @@ positions and site calibration models.
 \examples{
 calc_animal_pos(animal_positions, calibration_models)
 }
+\seealso{
+Other density estimation functions: 
+\code{\link{calculate_individual_radius_angle}()}
+}
+\concept{density estimation functions}

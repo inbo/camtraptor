@@ -69,3 +69,15 @@ get_n_obs(x, sex = "female")
 # Specify life stage
 get_n_obs(x, life_stage = c("subadult", "adult"))
 }
+\seealso{
+Other exploration functions: 
+\code{\link{get_custom_effort}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai}()},
+\code{\link{get_rai_individuals}()},
+\code{\link{summarize_deployments}()},
+\code{\link{summarize_observations}()}
+}
+\concept{exploration functions}

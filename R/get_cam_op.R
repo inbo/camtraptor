@@ -6,6 +6,7 @@
 #' This function is deprecated. Please use [camtrapR_cameraOperation()] instead.
 #' 
 #' @inherit camtrapR_cameraOperation
+#' @family camtrapR-derived functions
 #' @export
 get_cam_op <- function(x,
                        station_col = "locationName",

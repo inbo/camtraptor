@@ -16,3 +16,4 @@ If no error, \code{TRUE}.
 \description{
 Check a data frame is output of \code{summarize_observations()}.
 }
+\keyword{internal}

@@ -24,4 +24,4 @@ Other sample data:
 \code{\link{calibration_models}}
 }
 \concept{sample data}
-\keyword{datasets}
+\keyword{internal}

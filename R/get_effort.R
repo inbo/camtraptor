@@ -12,6 +12,7 @@
 #' @inheritParams summarize_deployments
 #' @inheritParams get_n_obs
 #' @inherit summarize_deployments return
+#' @family exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

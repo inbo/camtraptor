@@ -13,7 +13,7 @@ read_camtrapdp <- camtrapdp::read_camtrapdp
 #' Re-export of [camtrapdp::example_dataset()]. See that function for full
 #' documentation.
 #' 
-#' @family sample data functions
+#' @family read sample data functions
 #' @export
 example_dataset <- camtrapdp::example_dataset
 

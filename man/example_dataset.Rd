@@ -10,4 +10,4 @@ example_dataset()
 Re-export of \code{\link[camtrapdp:example_dataset]{camtrapdp::example_dataset()}}. See that function for full
 documentation.
 }
-\concept{sample data functions}
+\concept{read sample data functions}

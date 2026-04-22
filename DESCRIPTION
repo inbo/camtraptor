@@ -43,6 +43,7 @@ Imports:
     activity,
     assertthat,
     camtrapdp,
+    cli,
     dplyr (>= 1.1.0),
     EML,
     memoise,
@@ -65,6 +66,7 @@ Imports:
     uuid
 Suggests:
     covr,
+    frictionless,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),

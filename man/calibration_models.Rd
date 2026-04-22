@@ -20,4 +20,4 @@ Other sample data:
 \code{\link{animal_positions}}
 }
 \concept{sample data}
-\keyword{internal}
+\keyword{datasets}

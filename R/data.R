@@ -7,7 +7,6 @@
 #' - `imageWidth` and `imageHeight`: The image dimensions.
 #'
 #' @family sample data
-#' @keywords internal
 "animal_positions"
 
 #' Sample of deployment calibration models
@@ -17,5 +16,4 @@
 #' The deployment names are used as names.
 #'
 #' @family sample data
-#' @keywords internal
 "calibration_models"

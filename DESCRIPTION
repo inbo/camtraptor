@@ -45,8 +45,6 @@ Imports:
     camtrapdp,
     cli,
     dplyr (>= 1.1.0),
-    EML,
-    memoise,
     glue,
     htmltools,
     leaflet,
@@ -60,10 +58,7 @@ Imports:
     reshape2,
     snakecase,
     stringr,
-    tidyr,
-    tools,
-    utils,
-    uuid
+    tidyr
 Suggests:
     covr,
     frictionless,

@@ -17,7 +17,7 @@
 #'   `[summarize_deployments()]`.
 #' @inheritParams get_effort
 #' @inherit summarize_deployments return
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

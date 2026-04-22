@@ -20,7 +20,6 @@ Other accessor functions:
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
-\code{\link{get_species}()},
 \code{\link{locations}()},
 \code{\link{media}()},
 \code{\link{media<-}()},

@@ -32,7 +32,7 @@
 #' - `scientificName`: Scientific name of the species.
 #'   This column is omitted if parameter `species = NULL`.
 #' - `n`: Number of observations.
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

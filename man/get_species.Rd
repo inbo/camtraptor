@@ -22,17 +22,4 @@ It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=taxa]{taxa()}} 
 x <- example_dataset()
 get_species(x)
 }
-\seealso{
-Other accessor functions: 
-\code{\link{add_coordinates}()},
-\code{\link{deployments}()},
-\code{\link{deployments<-}()},
-\code{\link{events}()},
-\code{\link{locations}()},
-\code{\link{media}()},
-\code{\link{media<-}()},
-\code{\link{observations}()},
-\code{\link{observations<-}()},
-\code{\link{taxa}()}
-}
-\concept{accessor functions}
+\concept{deprecated accessor functions}

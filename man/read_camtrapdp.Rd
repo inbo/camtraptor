@@ -13,8 +13,4 @@ read_camtrapdp(file)
 Re-export of \code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}. See that function for full
 documentation.
 }
-\seealso{
-Other read functions: 
-\code{\link{read_camtrap_dp}()}
-}
 \concept{read functions}

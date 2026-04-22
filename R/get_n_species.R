@@ -10,7 +10,7 @@
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

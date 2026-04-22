@@ -205,11 +205,8 @@ camtrapR_detectionHistory(
 )
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{camtrapR_cameraOperation}()},
-\code{\link{camtrapR_detectionHistory}()},
-\code{\link{camtrapR_recordTable}()},
+Other deprecated camtrapR-derived functions: 
 \code{\link{get_cam_op}()},
 \code{\link{get_record_table}()}
 }
-\concept{camtrapR-derived functions}
+\concept{deprecated camtrapR-derived functions}

@@ -6,7 +6,7 @@
 #' This function is deprecated. Please use [camtrapR_recordTable()] instead.
 #' 
 #' @inherit camtrapR_recordTable
-#' @family camtrapR-derived functions
+#' @family deprecated camtrapR-derived functions
 #' @export
 get_record_table <- function(x,
                              stationCol = "locationName",

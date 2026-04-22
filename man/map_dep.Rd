@@ -353,8 +353,4 @@ x \%>\%
 )
 }
 }
-\seealso{
-Other visualization functions: 
-\code{\link{map_summary}()}
-}
-\concept{visualization functions}
+\concept{deprecated visualization functions}

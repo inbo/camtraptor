@@ -14,7 +14,7 @@
 #' - `deploymentID`: character vector with the deployment unique identifiers.
 #' - `scientificName`: character vector with the scientific name.
 #' - `rai`: numeric vector with the relative abundance index.
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()
@@ -61,7 +61,7 @@ get_rai <- function(x,
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `scientificName`: Scientific name.
 #'   - `rai`: Relative abundance index.
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

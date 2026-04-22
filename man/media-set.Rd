@@ -21,7 +21,6 @@ Other accessor functions:
 \code{\link{deployments}()},
 \code{\link{deployments<-}()},
 \code{\link{events}()},
-\code{\link{get_species}()},
 \code{\link{locations}()},
 \code{\link{media}()},
 \code{\link{observations}()},

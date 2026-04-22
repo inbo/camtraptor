@@ -9,7 +9,7 @@
 #'
 #' @inheritParams camtrapdp::read_camtrapdp
 #' @return Camera Trap Data Package object.
-#' @family read functions
+#' @family deprecated read functions
 #' @export
 read_camtrap_dp <- function(file) {
   .Deprecated(new = "read_camtrapdp", package = "camtraptor")

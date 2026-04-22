@@ -17,27 +17,42 @@ reference:
 - title: Read data
   contents:
   - has_concept("read functions")
+- subtitle: Deprecated
+  contents:
+  - has_concept("deprecated read functions")
+- title: Read sample data
+  contents:
+  - has_concept("read sample data functions")
 - title: Filter data
   contents:
   - has_concept("filter functions")
 - title: Explore data
   contents:
   - has_concept("exploration functions")
+- subtitle: Deprecated
+  contents:
+  - has_concept("deprecated exploration functions")
 - title: Visualize data
   contents:
   - has_concept("visualization functions")
-- title: Validate data
+- subtitle: Deprecated
   contents:
-  - has_concept("validation functions")
+  - has_concept("deprecated visualization functions")
 - title: camtrapR-derived data
   contents:
   - has_concept("camtrapR-derived functions")
+- subtitle: Deprecated
+  contents:
+  - has_concept("deprecated camtrapR-derived functions")
 - title: Estimate density
   contents:
   - has_concept("density estimation functions")
-- title: Sample data
+- subtitle: Deprecated
   contents:
-  - has_concept("sample data functions")
+  - has_concept("deprecated density estimation functions")
 - title: Accessor functions
   contents:
   - has_concept("accessor functions")
+- subtitle: Deprecated
+  contents:
+  - has_concept("deprecated accessor functions")

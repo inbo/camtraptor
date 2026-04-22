@@ -9,7 +9,7 @@
 #'
 #' @inheritParams get_n_obs
 #' @inherit get_n_obs return
-#' @family exploration functions
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

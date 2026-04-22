@@ -63,14 +63,12 @@ get_rai(x, species = "all")
 get_rai(x, species = c("Anas platyrhynchos", "Martes foina"))
 }
 \seealso{
-Other exploration functions: 
+Other deprecated exploration functions: 
 \code{\link{get_custom_effort}()},
 \code{\link{get_effort}()},
 \code{\link{get_n_individuals}()},
 \code{\link{get_n_obs}()},
 \code{\link{get_n_species}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{summarize_deployments}()},
-\code{\link{summarize_observations}()}
+\code{\link{get_rai_individuals}()}
 }
-\concept{exploration functions}
+\concept{deprecated exploration functions}

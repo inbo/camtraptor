@@ -334,8 +334,4 @@ x \%>\%
 )
 }
 }
-\seealso{
-Other visualization functions: 
-\code{\link{map_dep}()}
-}
 \concept{visualization functions}

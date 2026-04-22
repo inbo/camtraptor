@@ -34,13 +34,13 @@ library(camtraptor)
 library(dplyr)
 ```
 
-For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object assigned to `x`. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package dataset. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()
 ```
 
-Before making a visualisation with `map_summary()`, the Camera Trap Data Package object should be transformed to a grouped data frame. This can be done by using the function `summarize_observations()` or `summarize_deployments()`, depending on what aspect of the dataset you want to visualize. Both are demonstrated in this example.
+Before making a visualisation with `map_summary()`, the Camera Trap Data Package dataset should be transformed to a grouped data frame. This can be done by using the function `summarize_observations()` or `summarize_deployments()`, depending on what aspect of the dataset you want to visualize. Both are demonstrated in this example.
 
 ```{r summarize_to_df}
 summ_obs <- x %>%
@@ -50,9 +50,9 @@ summ_depl <- x %>%
   summarize_deployments(group_by = c("deploymentID", "latitude", "longitude"))
 ```
 
-Let's also create a Camera Trap Data Package object that is filtered for a specific species.
+Let's also create a Camera Trap Data Package dataset that is filtered for a specific species.
 
-To do so, you can first inspect which species have been detected. The function `taxa()` gives you an overview of the unique scientific names within the Camera Trap Data Package object:
+To do so, you can first inspect which species have been detected. The function `taxa()` gives you an overview of the unique scientific names within the Camera Trap Data Package dataset:
 
 ```{r species_list}
 taxa(x)

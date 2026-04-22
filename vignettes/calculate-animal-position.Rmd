@@ -4,7 +4,7 @@ author: "Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{calculate-animal-position}
+  %\VignetteIndexEntry{Calculate animal position}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

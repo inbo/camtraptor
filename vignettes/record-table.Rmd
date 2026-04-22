@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a **species record table** as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a Camera Trap Data Package object.
+This vignette shows how to get a **species record table** as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a Camera Trap Data Package dataset.
 
 ## Setup
 
@@ -27,7 +27,7 @@ library(camtraptor)
 library(lubridate)
 ```
 
-For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package dataset. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()
@@ -77,7 +77,7 @@ Again, as for `recordTable()`, an argument is provided, `deltaTimeComparedTo`, t
 For each event there are generally multiple media files, as many camera traps use bursts. Setting `deltaTimeComparedTo` to `"lastIndependentRecord"` returns only records taken `minDeltaTime` minutes after the first photo of the last independent record (i.e., `eventStart`). Setting `deltaTimeComparedTo` to `"lastRecord"` returns only records taken `minDeltaTime` minutes after the last photo of the last independent record (i.e., the last `timestamp` in the event's media).
 
 
-Let's first modify the temporal data of the Camera Trap Data Package object to create a dependent observation, solely for demonstration purposes.
+Let's first modify the temporal data of the Camera Trap Data Package dataset to create a dependent observation, solely for demonstration purposes.
 
 ```{r dummy_data_example}
 obs <- observations(x)

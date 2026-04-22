@@ -1,10 +1,10 @@
 ---
-title: "Intended workflow of the package"
+title: "Workflow of the package"
 author: "Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Intended workflow of the package}
+  %\VignetteIndexEntry{Workflow of the package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Camtraptor is an R package to **read**, **explore** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the intended workflow of the package.
+Camtraptor is an R package to **read**, **explore** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
 
 > **Note:** Coming from `camtraptor` version 0.xx? Check out [News](https://inbo.github.io/camtraptor/news/index.html) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
 
@@ -77,7 +77,8 @@ x_filtered <- x %>%
 
 `filter_deployments()` filters the deployments table to the two selected locations, and automatically removes any associated observations and media that do not belong to these deployments. `filter_observations()` then filters the remaining observations to only keep mallard (*Anas platyrhynchos*) observations.
 
-You can also filter using `filter_media()`, but this wil not be discussed in this vignette.
+> **Note:** Want to filter out timelapse observations? Use `filter_out_timelapse()` as a shortcut for `filter_observations(x, captureMethod != "timelapse")`.
+
 
 ### Summarizing data
 
@@ -100,7 +101,6 @@ summ_depl_filtered
 ### Visualizing data
 
 Use `map_summary()` to visualize a summary on a map.
-
 
 Visualize the number of mallard observations per deployment:
 
@@ -133,3 +133,4 @@ x %>%
   map_summary(feature = "n_observations")
 ```
 
+  > **For more information about visualization, checkout [the next vignette about visualizing](visualize-deployments-features.html)**

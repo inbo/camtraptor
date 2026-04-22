@@ -4,7 +4,7 @@ author: "Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Detection history}
+  %\VignetteIndexEntry{Detection history matrix}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a **detection history matrix** from a Camera Trap Data Package object, equivalent to the matrix returned by camtrapR's function [detectionHistory](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
+This vignette shows how to get a **detection history matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function [detectionHistory](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
 
 ## Setup
 
@@ -29,13 +29,13 @@ library(dplyr)
 library(stringr)
 ```
 
-For this example the function `example_dataset()` is used to load an example Camera Trap Data Package object. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package dataset. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()
 ```
 
-The detection history is calculated based on a camera operation matrix and a record table. Both are derived from the Camera Trap Data Package object:
+The detection history is calculated based on a camera operation matrix and a record table. Both are derived from the Camera Trap Data Package dataset:
 
 ```{r build_inputs}
 cam_op <- camtrapR_cameraOperation(x)

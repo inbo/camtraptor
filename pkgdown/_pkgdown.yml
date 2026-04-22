@@ -4,14 +4,20 @@ template:
 navbar:
   bg: dark
 articles:
-- title: Articles
-  navbar: ~
+- title: Basics
+  navbar: Basics
   contents:
   - workflow
   - visualize-deployment-features
+- title: CamtrapR-derived functions
+  navbar: CamtrapR-derived functions
+  contents: 
   - record-table
   - camera-operation-matrix
   - detection-history-matrix
+- title: Other
+  navbar: Other
+  contents: 
   - calculate-animal-position
 reference:
 - title: Read data

@@ -46,6 +46,7 @@
 #' - `info`: all valid grouping columns (deployments or observations) and features.
 #' - `prefix`: Prefix to use.
 #' @keywords internal
+#' @importFrom snakecase to_sentence_case
 .prefixes_for_hover_info <- dplyr::tibble(
   info = c(.group_bys_deployments,
            .group_bys_observations,

@@ -79,9 +79,9 @@ the species was not detected. The function also returns the effort matrix,
 which contains the number of days that each station was active on each
 occasion, and the dates matrix, which contains the dates of the occasions.
 
-This function doesn't take as input a camera trap data package object, but a
+This function doesn't take as input a Camera Trap Data Package object, but a
 camera operation matrix and a record table, which are both calculated based
-on a camera trap data package object. For more information, see the
+on a Camera Trap Data Package object. For more information, see the
 \code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}} and \code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}} functions.
 
 If the camera operation matrix (\code{camOp}) was created for a multi-season study (via argument \code{session_col} in \code{camtrapR_cameraOperation()}), the session will be detected automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B}, \code{o2_SESS_B}, etc.

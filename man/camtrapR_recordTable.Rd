@@ -76,7 +76,7 @@ as defined in column \code{fileName} of \code{media}.
 }
 }
 \description{
-Calculates the record table from a camera trap data package and so tabulating
+Calculates the record table from a Camera Trap Data Package and so tabulating
 species records. Only event-based observations and their corresponding media
 are taken into account. The record table is a concept developed within the
 camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
@@ -89,7 +89,7 @@ library(lubridate)
 x <- example_dataset()
 camtrapR_recordTable(x)
 
-# Create a new camera trap data package with dependent observations only for
+# Create a new Camera Trap Data Package with dependent observations only for
 # demonstration.
 obs <- observations(x)
 obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"

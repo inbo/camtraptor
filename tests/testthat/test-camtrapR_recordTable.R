@@ -18,7 +18,7 @@ test_that("inputs of camtrapR_recordTable are correct", {
   expect_error(
     camtrapR_recordTable(x, exclude = c("rattussss", "Rattus norvegicus")),
     paste0("The following species in `exclude` argument ",
-           "are not present in the camera trap data package: `rattussss`."
+           "are not present in the Camera Trap Data Package: `rattussss`."
     ),
     fixed = TRUE
   )

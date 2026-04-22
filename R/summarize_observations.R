@@ -23,7 +23,7 @@
 #' @noRd
 extend_summary <- function(summary, x) {
   
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
   # Check `summary` is a valid summary
   check_summary(summary)
@@ -206,7 +206,7 @@ summarize_observations <- function(
     group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
     group_time_by = NULL,
     extend = FALSE) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`

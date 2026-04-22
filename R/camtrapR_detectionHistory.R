@@ -47,9 +47,9 @@
 #' - `dates`: the dates matrix
 #' 
 #' @details
-#' This function doesn't take as input a camera trap data package object, but a
+#' This function doesn't take as input a Camera Trap Data Package object, but a
 #' camera operation matrix and a record table, which are both calculated based
-#' on a camera trap data package object. For more information, see the
+#' on a Camera Trap Data Package object. For more information, see the
 #' [camtrapR_cameraOperation()] and [camtrapR_recordTable()] functions.
 #' 
 #' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `camtrapR_cameraOperation()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.

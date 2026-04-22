@@ -86,7 +86,7 @@ library(lubridate)
 x <- example_dataset()
 camtrapR_recordTable(x)
 
-# Create a new camera trap data package with dependent observations only for
+# Create a new Camera Trap Data Package with dependent observations only for
 # demonstration.
 obs <- observations(x)
 obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"

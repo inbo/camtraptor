@@ -220,7 +220,7 @@ summarize_deployments <- function(
     group_by = c("deploymentID", "latitude", "longitude"),
     group_time_by = NULL
 ) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`

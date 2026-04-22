@@ -43,7 +43,7 @@ assess_temporal_independence <- function(
 
 #' Get record table
 #'
-#' Calculates the record table from a camera trap data package and so tabulating
+#' Calculates the record table from a Camera Trap Data Package and so tabulating
 #' species records. Only event-based observations and their corresponding media
 #' are taken into account. The record table is a concept developed within the
 #' camtrapR package, see [this article](
@@ -111,7 +111,7 @@ assess_temporal_independence <- function(
 #' x <- example_dataset()
 #' camtrapR_recordTable(x)
 #'
-#' # Create a new camera trap data package with dependent observations only for
+#' # Create a new Camera Trap Data Package with dependent observations only for
 #' # demonstration.
 #' obs <- observations(x)
 #' obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
@@ -168,7 +168,7 @@ camtrapR_recordTable <- function(x,
                                  minDeltaTime = 0,
                                  deltaTimeComparedTo = NULL,
                                  removeDuplicateRecords = TRUE) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `stationCol` is a valid column name
@@ -188,7 +188,7 @@ camtrapR_recordTable <- function(x,
       all(exclude %in% all_taxa$scientificName),
       msg = glue::glue(
         "The following species in `exclude` argument are not present in the ",
-        "camera trap data package: ",
+        "Camera Trap Data Package: ",
         glue::glue_collapse(
           glue::backtick(not_found), sep = ", ", last = " and "
         ),

@@ -179,7 +179,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #'
 #'   Notice also that the argument `species` is not present anymore. If you want
 #'   to visualize a feature only for a specific group of species, please filter
-#'   the camera trap data package using [filter_observations()] before using
+#'   the Camera Trap Data Package using [filter_observations()] before using
 #'   this function. See the examples.
 #'
 #' @return Leaflet map.

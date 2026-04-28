@@ -62,3 +62,6 @@ reference:
 - subtitle: Deprecated
   contents:
   - has_concept("deprecated accessor functions")
+- title: Sample data
+  contents:
+  - has_concept("sample data")

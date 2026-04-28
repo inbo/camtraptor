@@ -72,7 +72,10 @@ test_that("if not integer, `minDeltaTime` is set to integer (floor)", {
   expect_identical(record_table_int, record_table_dec)
 })
 
-test_that("warning is returned if some observations have no `eventStart` or media have no timestamp", {
+test_that(paste0(
+  "warning is returned if some observations have no `eventStart` ",
+  "or media have no timestamp"
+), {
   skip_if_offline()
   x <- example_dataset()
   x_no_eventStart <- x
@@ -199,7 +202,10 @@ test_that("Higher minDeltaTime means less rows returned", {
   expect_lt(nrow_delta_100000, nrow_delta_10000)
 })
 
-test_that("Values lastIndependentRecord and lastRecord can return different number of rows", {
+test_that(paste0(
+  "Values lastIndependentRecord and lastRecord can ",
+  "return different number of rows"
+), {
   skip_if_offline()
   x <- example_dataset()
   obs <- observations(x)

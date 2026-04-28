@@ -39,8 +39,10 @@ are:
 \item \code{n_events}: Number of events observed.
 \item \code{n_observations}: Number of observations.
 \item \code{sum_count}: Number of individuals observed.
-\item \code{rai_observations}: RAI calculated using the number of observations (\code{n_observations}).
-\item \code{rai_count}: RAI calculated using the number of observed individuals (\code{sum_count}).
+\item \code{rai_observations}: RAI calculated using the number
+of observations (\code{n_observations}).
+\item \code{rai_count}: RAI calculated using the number
+of observed individuals (\code{sum_count}).
 }
 
 Possible values present in output of \code{\link[=summarize_deployments]{summarize_deployments()}} are:
@@ -48,20 +50,22 @@ Possible values present in output of \code{\link[=summarize_deployments]{summari
 \item \code{effort_duration}: Deployment effort duration.
 }}
 
-\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.
-Common names are not supported anymore as of camtraptor 1.0.0. Please, check
-\code{filter_observations()} to know how to filter by \code{scientificName}.
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific
+names. Common names are not supported anymore as of camtraptor 1.0.0.
+Please, check \code{filter_observations()} to know how to filter by
+\code{scientificName}.
 If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
 
-\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex class to filter on, e.g. \code{"female"} or
-\code{c("male", "unknown")}.
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex
+class to filter on, e.g. \code{"female"} or \code{c("male", "unknown")}.
 If \code{NULL} (default) all observations of all sex classes are taken into
 account. Please, check
 \code{filter_observations()} to know how to filter by \code{sex}.}
 
-\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector
+defining the life stage class to filter on,
+e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account. Please, check \code{filter_observations()} to know how to filter
 by \code{lifeStage}.}

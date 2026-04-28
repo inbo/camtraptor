@@ -19,7 +19,11 @@ daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
         !is.null(calc_start), 
         .data$deploymentStart, .data$deploymentEnd
       ),
-      edge_day = dplyr::if_else(!is.null(calc_start), .data$start_day, .data$end_day)
+      edge_day = dplyr::if_else(
+        !is.null(calc_start),
+        .data$start_day,
+        .data$end_day
+      )
     )
   deploy_df %>%
     # calculate the duration of the start/end day (edge day)

@@ -141,7 +141,8 @@ extend_summary <- function(summary, x) {
 #'
 #' When `extend = TRUE`, the summary is extended to include all possible
 #' combinations of grouping variables, even when no observations exist for a
-#' particular group. This is particularly useful for visualisations (`map_summary()`) and analysis as it identifies for example:
+#' particular group. This is particularly useful for visualisations 
+#' (`map_summary()`) and analysis as it identifies for example:
 #' - Deployments where a specific species was not observed.
 #' - Time periods when a specific species was not observed.
 #' - Presence/absence patterns across deployments.
@@ -162,7 +163,8 @@ extend_summary <- function(summary, x) {
 #'   information. Default: `FALSE`.
 #' @inheritParams summarize_deployments
 #' @return A grouped tibble data frame with the following columns:
-#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`, and `scientificName`.
+#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`,
+#'     and `scientificName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
 #'   containing the first date of the time interval, e.g. the first day of the
 #'   month.

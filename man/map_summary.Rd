@@ -37,8 +37,10 @@ are:
 \item \code{n_events}: Number of events observed.
 \item \code{n_observations}: Number of observations.
 \item \code{sum_count}: Number of individuals observed.
-\item \code{rai_observations}: RAI calculated using the number of observations (\code{n_observations}).
-\item \code{rai_count}: RAI calculated using the number of observed individuals (\code{sum_count}).
+\item \code{rai_observations}: RAI calculated using the number
+of observations (\code{n_observations}).
+\item \code{rai_count}: RAI calculated using the number
+of observed individuals (\code{sum_count}).
 }
 
 Possible values present in output of \code{\link[=summarize_deployments]{summarize_deployments()}} are:

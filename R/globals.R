@@ -43,7 +43,8 @@
 #' deployment with the mouse.
 #'
 #' A data.frame of all prefixes with the following columns:
-#' - `info`: all valid grouping columns (deployments or observations) and features.
+#' - `info`: all valid grouping columns (deployments or observations) 
+#' and features.
 #' - `prefix`: Prefix to use.
 #' @keywords internal
 #' @importFrom snakecase to_sentence_case
@@ -57,7 +58,10 @@
   prefix = snakecase::to_sentence_case(info) %>%
     stringr::str_c(": ") %>%
     # Add `"s"` to `"N scientific name"`
-    stringr::str_replace(pattern = "N scientific name", replacement = "N scientific names") %>%
+    stringr::str_replace(
+      pattern = "N scientific name",
+      replacement = "N scientific names"
+    ) %>%
     # Replace `"count"` with `individual counts"`
     stringr::str_replace(pattern = "count", replacement = "individual counts")
 )

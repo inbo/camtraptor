@@ -4,21 +4,23 @@
 #' 
 #' Gets the number of event-based observations per deployment.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_observations()]
-#' instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use
+#' [summarize_observations()] instead.
 #'
-#' @param species `r lifecycle::badge("deprecated")` Character with scientific names.
-#' Common names are not supported anymore as of camtraptor 1.0.0. Please, check
-#' `filter_observations()` to know how to filter by `scientificName`.
+#' @param species `r lifecycle::badge("deprecated")` Character with scientific 
+#'   names. Common names are not supported anymore as of camtraptor 1.0.0.
+#'   Please, check `filter_observations()` to know how to filter by 
+#'   `scientificName`.
 #'   If `"all"` (default) all scientific names are automatically selected.
 #'   If `NULL` all observations of all species are taken into account.
-#' @param sex `r lifecycle::badge("deprecated")` Character defining the sex class to filter on, e.g. `"female"` or
-#'   `c("male", "unknown")`.
+#' @param sex `r lifecycle::badge("deprecated")` Character defining the sex 
+#'   class to filter on, e.g. `"female"` or `c("male", "unknown")`.
 #'   If `NULL` (default) all observations of all sex classes are taken into
 #'   account. Please, check
-#' `filter_observations()` to know how to filter by `sex`.
-#' @param life_stage `r lifecycle::badge("deprecated")` Character vector defining the life stage class to filter
-#'   on, e.g. `"adult"` or `c("subadult", "adult")`.
+#'   `filter_observations()` to know how to filter by `sex`.
+#' @param life_stage `r lifecycle::badge("deprecated")` Character vector
+#'   defining the life stage class to filter on,
+#'   e.g. `"adult"` or `c("subadult", "adult")`.
 #'   If `NULL` (default) all observations of all life stage classes are taken
 #'   into account. Please, check `filter_observations()` to know how to filter
 #'   by `lifeStage`.

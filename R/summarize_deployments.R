@@ -113,7 +113,8 @@ create_date_series <- function(deployment_id, deployments, group_time_by) {
       )
     )
   }
-  # Return a tibble dataframe with the deployment ID and the start/end date series
+  # Return a tibble dataframe with the deployment ID
+  # and the start/end date series
   dplyr::tibble(
     start = start_date_series,
     end = end_date_series,

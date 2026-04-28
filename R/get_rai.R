@@ -4,10 +4,11 @@
 #' 
 #' Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
 #' using 100 days deployment activity. In other words: 
-#' `RAI = 100 * (n/effort)` where `n` is the number of event-based observations and `effort` is the effort duration in days.
+#' `RAI = 100 * (n/effort)` where `n` is the number of event-based observations 
+#' and `effort` is the effort duration in days.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_observations()]
-#' instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use
+#' [summarize_observations()]instead.
 #'
 #' @inheritParams get_n_obs
 #' @return A tibble data frame with the following columns: 
@@ -53,8 +54,8 @@ get_rai <- function(x,
 #' where `n` is the sum of individual counts related to event-based observations
 #' and `effort` is the effort duration in days.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_observations()]
-#' instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use
+#' [summarize_observations()] instead.
 #'
 #' @inheritParams get_n_obs
 #' @return A tibble data frame with the following columns:

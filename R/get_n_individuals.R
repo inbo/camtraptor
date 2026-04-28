@@ -4,8 +4,8 @@
 #' 
 #' Gets the number of individuals per deployment.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_observations()]
-#' instead.
+#' It is deprecated as of camtraptor 1.0.0. Please use 
+#' [summarize_observations()] instead.
 #'
 #' @inheritParams get_n_obs
 #' @inherit get_n_obs return

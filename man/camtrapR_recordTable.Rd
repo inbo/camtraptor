@@ -69,10 +69,14 @@ independent record of a given species at a certain location.
 as defined in column \code{filePath} of \code{media}.
 \item \code{Filename}: List, file names of the images linked to the given record,
 as defined in column \code{fileName} of \code{media}.
-\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID} of the observations.
-\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID} of the observations.
+\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID}
+of the observations.
+\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID}
+of the observations.
 \item \code{clock}: Numeric, clock time in radians.
-\item \code{solar}: Numeric, solar time in radians. Calculated using \code{overlap::sunTime}, which essentially uses the approach described in \href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
+\item \code{solar}: Numeric, solar time in radians. Calculated using
+\code{overlap::sunTime}, which essentially uses the approach described in
+\href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
 }
 }
 \description{
@@ -106,7 +110,8 @@ camtrapR_recordTable(
 # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
 # `"lastIndependentRecord"`
 obs <- observations(x)
-obs[obs$eventID == "02ae9f43", "eventStart"] <- as_datetime("2020-08-02 05:10:20")
+obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+  as_datetime("2020-08-02 05:10:20")
 
 med <- media(x) 
 rows_to_update <- which(med$eventID == "02ae9f43") 

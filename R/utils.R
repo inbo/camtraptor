@@ -174,8 +174,8 @@ check_summary <- function(grouped_df) {
 #' This helper functions returns the version of a Camera Trap Data Package by
 #' applying a regex to its `profile`.
 #' 
-#' The regex rule extracts the version by detecting a sequence of digits and dots.
-#' If no dots are detected or `"camtrap-dp-profile.json"` is not part of
+#' The regex rule extracts the version by detecting a sequence of digits and 
+#' dots. If no dots are detected or `"camtrap-dp-profile.json"` is not part of
 #' `profile`, the entire `profile` is returned.
 #' 
 #' @param profile Character containing the profile of the data package.
@@ -187,8 +187,10 @@ get_version <- function(profile) {
     string = profile, 
     pattern = pattern_regex
   )
-  if (stringr::str_detect(string = profile, 
-                          pattern = stringr::fixed("camtrap-dp-profile.json")) & 
+  if (stringr::str_detect(
+        string = profile, 
+        pattern = stringr::fixed("camtrap-dp-profile.json")
+      ) & 
       !is.na(extracted_version)) {
     extracted_version
   } else {

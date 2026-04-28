@@ -110,8 +110,10 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   - `n_events`: Number of events observed.
 #'   - `n_observations`: Number of observations.
 #'   - `sum_count`: Number of individuals observed.
-#'   - `rai_observations`: RAI calculated using the number of observations (`n_observations`).
-#'   - `rai_count`: RAI calculated using the number of observed individuals (`sum_count`).
+#'   - `rai_observations`: RAI calculated using the number 
+#'   of observations (`n_observations`).
+#'   - `rai_count`: RAI calculated using the number
+#'    of observed individuals (`sum_count`).
 #'
 #'   Possible values present in output of [summarize_deployments()] are:
 #'   - `effort_duration`: Deployment effort duration.
@@ -639,8 +641,8 @@ map_summary <- function(
   feat_df <- feat_df %>%
     dplyr::mutate(n = .data[[feature]])
   
-  # Order the data frame by feature: this will help in plotting the small circles
-  # above the big ones
+  # Order the data frame by feature: this will help in plotting
+  # the small circles above the big ones
   feat_df <- feat_df %>% dplyr::arrange(.data$n)
   
   # Define title legend

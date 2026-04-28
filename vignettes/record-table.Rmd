@@ -81,7 +81,9 @@ Let's first modify the temporal data of the Camera Trap Data Package dataset to 
 
 ```{r dummy_data_example}
 obs <- observations(x)
-obs[obs$eventID == "02ae9f43", "eventStart"] <- as_datetime("2020-08-02 05:10:20")
+obs[obs$eventID == "02ae9f43", "eventStart"] <- as_datetime(
+  "2020-08-02 05:10:20"
+)
  
 med <- media(x) 
 rows_to_update <- which(med$eventID == "02ae9f43") 

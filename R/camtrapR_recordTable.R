@@ -99,10 +99,14 @@ assess_temporal_independence <- function(
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
-#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
-#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
+#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` 
+#'   of the observations.
+#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID`
+#'    of the observations.
 #'   - `clock`: Numeric, clock time in radians.
-#'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
+#'   - `solar`: Numeric, solar time in radians. Calculated using 
+#'   `overlap::sunTime`, which essentially uses the approach described in
+#'   [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
 #' @family camtrapR-derived functions
 #' @export
 #' @examples
@@ -128,7 +132,8 @@ assess_temporal_independence <- function(
 #' # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
 #' # `"lastIndependentRecord"`
 #' obs <- observations(x)
-#' obs[obs$eventID == "02ae9f43", "eventStart"] <- as_datetime("2020-08-02 05:10:20")
+#' obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+#'   as_datetime("2020-08-02 05:10:20")
 #' 
 #' med <- media(x) 
 #' rows_to_update <- which(med$eventID == "02ae9f43") 

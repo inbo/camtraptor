@@ -40,7 +40,10 @@
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are
 #'   removed because taken during the buffer period.
-#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)). Default: `FALSE`.
+#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return 
+#' the input for multi-season occupancy models in unmarked
+#' R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)).
+#' Default: `FALSE`.
 #' @return A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
@@ -52,7 +55,13 @@
 #' on a Camera Trap Data Package object. For more information, see the
 #' [camtrapR_cameraOperation()] and [camtrapR_recordTable()] functions.
 #' 
-#' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `camtrapR_cameraOperation()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
+#' If the camera operation matrix (`camOp`) was created for a multi-season study
+#' (via argument `session_col` in `camtrapR_cameraOperation()`), the session
+#' will be detected automatically. You can then set
+#' `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection
+#' history. Each row corresponds to a site, and the columns are in season-major,
+#' occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`,
+#' `o2_SESS_B`, etc.
 #' 
 #' @family camtrapR-derived functions
 #' @importFrom dplyr .data %>%
@@ -329,8 +338,8 @@ camtrapR_detectionHistory <- function(recordTable,
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
         stop(paste0(
-          "Invalid `day1`. Must be equal to 'station' or a string representing ",
-          "a valid date in ISO 8601 format."
+          "Invalid `day1`. Must be equal to 'station' or a string ",
+          "representing a valid date in ISO 8601 format."
           ),
           call. = FALSE
         )

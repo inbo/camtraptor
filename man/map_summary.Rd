@@ -141,7 +141,6 @@ the Camera Trap Data Package using \code{\link[=filter_observations]{filter_obse
 this function. See the examples.
 }
 \examples{
-\dontrun{
 x <- example_dataset()
 # Filter a data package to get only the data of Anas platyrhynchos
 x_anas_p <- x \%>\%
@@ -334,6 +333,5 @@ x \%>\%
     "n_observations",
     radius_range = c(40, 150)
 )
-}
 }
 \concept{visualization functions}

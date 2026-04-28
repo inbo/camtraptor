@@ -188,7 +188,6 @@ labelFormat_scale <- function(max_scale = NULL,
 #' @family visualization functions
 #' @export
 #' @examples
-#' \dontrun{
 #' x <- example_dataset()
 #' # Filter a data package to get only the data of Anas platyrhynchos
 #' x_anas_p <- x %>%
@@ -381,7 +380,6 @@ labelFormat_scale <- function(max_scale = NULL,
 #'     "n_observations",
 #'     radius_range = c(40, 150)
 #' )
-#' }
 map_summary <- function(
   df,
   feature,

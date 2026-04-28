@@ -130,8 +130,8 @@ test_that("Right output with non default column names", {
     image_height = "image_height"
   )
   # content is the same (column names are different)
-  names(output) <- as.character(1:length(names(output)))
-  names(output_default) <- as.character(1:length(names(output_default)))
+  names(output) <- as.character(seq_along(names(output)))
+  names(output_default) <- as.character(seq_along(names(output_default)))
   expect_equal(output, output_default)
 })
 

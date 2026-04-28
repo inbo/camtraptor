@@ -20,7 +20,7 @@ assess_temporal_independence <- function(
   # just initialization (set correctly at i = 1)
   last_indep_timestamp <- df$last_timestamp[1]
   event_start <- df$eventStart[1]
-  for (i in 1:nrow(df)) {
+  for (i in seq_len(nrow(df))) {
     if (df$eventStart[i] > last_indep_timestamp | # independent
         # obs occurring at the same time (called "duplicate) but independent
         df$eventStart[i] == event_start

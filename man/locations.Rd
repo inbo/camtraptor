@@ -9,9 +9,23 @@ locations(x)
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with the locations, containing the
+following columns:
+\itemize{
+\item \code{locationID}
+\item \code{locationName}
+\item \code{latitude}
+\item \code{longitude}
+\item \code{coordinateUncertainty}
+}
+}
 \description{
-Re-export of \code{\link[camtrapdp:locations]{camtrapdp::locations()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:locations]{camtrapdp::locations()}}.
+}
+\examples{
+x <- example_dataset()
+locations(x)
 }
 \seealso{
 Other accessor functions: 

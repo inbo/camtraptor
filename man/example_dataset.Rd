@@ -6,8 +6,13 @@
 \usage{
 example_dataset()
 }
+\value{
+Camera Trap Data Package object.
+}
 \description{
-Re-export of \code{\link[camtrapdp:example_dataset]{camtrapdp::example_dataset()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:example_dataset]{camtrapdp::example_dataset()}}.
+}
+\examples{
+example_dataset()
 }
 \concept{read sample data functions}

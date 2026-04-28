@@ -11,9 +11,19 @@ deployments(x) <- value
 
 \item{value}{A data frame to assign as deployments.}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with deployments.
+}
 \description{
-Re-export of \code{\link[camtrapdp:deployments]{camtrapdp::deployments<-()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:deployments]{camtrapdp::deployments<-()}}.
+}
+\examples{
+x <- example_dataset()
+# Get deployments
+deployments(x)
+
+# Set deployments (not recommended outside a function)
+deployments(x) <- head(deployments(x), 1)
 }
 \seealso{
 Other accessor functions: 

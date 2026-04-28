@@ -11,9 +11,19 @@ observations(x) <- value
 
 \item{value}{A data frame to assign as observations.}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with observations.
+}
 \description{
-Re-export of \code{\link[camtrapdp:observations]{camtrapdp::observations<-()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:observations]{camtrapdp::observations<-()}}.
+}
+\examples{
+x <- example_dataset()
+# Get the observations
+observations(x)
+
+# Set observations (not recommended outside a function)
+observations(x) <- head(observations(x), 1)
 }
 \seealso{
 Other accessor functions: 

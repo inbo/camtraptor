@@ -9,9 +9,19 @@ media(x)
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with media.
+}
 \description{
-Re-export of \code{\link[camtrapdp:media]{camtrapdp::media()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:media]{camtrapdp::media()}}.
+}
+\examples{
+x <- example_dataset()
+# Get media
+media(x)
+
+# Set media (not recommended outside a function)
+media(x) <- head(media(x), 1)
 }
 \seealso{
 Other accessor functions: 

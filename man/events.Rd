@@ -9,9 +9,22 @@ events(x)
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with the events, containing the
+following columns:
+\itemize{
+\item \code{deploymentID}
+\item \code{eventID}
+\item \code{eventStart}
+\item \code{eventEnd}
+}
+}
 \description{
-Re-export of \code{\link[camtrapdp:events]{camtrapdp::events()}}. See that function for full
-documentation.
+Re-export of \code{\link[camtrapdp:events]{camtrapdp::events()}}.
+}
+\examples{
+x <- example_dataset()
+events(x)
 }
 \seealso{
 Other accessor functions: 

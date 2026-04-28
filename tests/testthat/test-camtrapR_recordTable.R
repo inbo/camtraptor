@@ -235,6 +235,7 @@ test_that("Values lastIndependentRecord and lastRecord can return different numb
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {
+  skip_if_offline()
   x <- example_dataset()
   # Use `locationName` as Station
   stations <- camtrapR_recordTable(x) %>%
@@ -260,6 +261,7 @@ test_that("stations names are equal to values in column passed to StationCOl", {
 })
 
 test_that("Directory and Filename columns are lists", {
+  skip_if_offline()
   x <- example_dataset()
   file_values <- camtrapR_recordTable(x) %>%
     dplyr::select(Directory, FileName)
@@ -273,6 +275,7 @@ test_that(
     "media of independent obs"
   ),
   {
+    skip_if_offline()
     x <- example_dataset()
     output <- camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
     # add n media, observationID and eventID to record table

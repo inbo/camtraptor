@@ -13,7 +13,6 @@
 #' @return If no error, `TRUE`.
 #' @noRd
 #' @examples
-#' \dontrun{
 #' # Valid inputs for species
 #' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")
 #'
@@ -25,7 +24,6 @@
 #'   "wilde eend"
 #' )
 #' check_value(values, c("Anas strepera", "wilde eend"), "species")
-#' }
 check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   max_print <- 20
   

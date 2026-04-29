@@ -241,7 +241,8 @@ test_that("output matrix has all deployment days as colnames", {
   skip_if_offline()
   x <- example_dataset()
   cam_op_matrix <- camtrapR_cameraOperation(x)
-  days_activity <- seq(as.Date(min(purrr::pluck(deployments(x), "deploymentStart"))),
+  days_activity <- seq(
+    as.Date(min(purrr::pluck(deployments(x),"deploymentStart"))),
     as.Date(max(purrr::pluck(deployments(x), "deploymentEnd"))),
     by = "days"
   )
@@ -314,46 +315,47 @@ test_that(
   }
 )
 
-test_that(
-  "0<effort<=1 for locations with multiple deployments not simultaneously active",
-  {
-    skip_if_offline()
-    x <- example_dataset()
-    x1 <- x
-    x1$data$deployments$locationName[2] <- purrr::pluck(
-      deployments(x1),
-      "locationName",
-      1
-    )
-    cam_op_matrix1 <- camtrapR_cameraOperation(x1)
-    cam_op_matrix <- camtrapR_cameraOperation(x)
-    start_date1 <- as.character(
-      as.Date(purrr::pluck(deployments(x), "deploymentStart", 1))
-    )
-    start_date2 <- as.character(
-      as.Date(purrr::pluck(deployments(x), "deploymentStart", 2))
-    )
-    end_date1 <- as.character(
-      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 1))
-    )
-    end_date2 <- as.character(
-      as.Date(purrr::pluck(deployments(x), "deploymentEnd", 2))
-    )
-    col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
-    col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
-    col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)
-    col_idx_end2 <- which(colnames(cam_op_matrix1) == end_date2)
+test_that(paste0(
+  "0<effort<=1 for locations with multiple deployments", 
+  "not simultaneously active"
+), {
+  skip_if_offline()
+  x <- example_dataset()
+  x1 <- x
+  x1$data$deployments$locationName[2] <- purrr::pluck(
+    deployments(x1),
+    "locationName",
+    1
+  )
+  cam_op_matrix1 <- camtrapR_cameraOperation(x1)
+  cam_op_matrix <- camtrapR_cameraOperation(x)
+  start_date1 <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentStart", 1))
+  )
+  start_date2 <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentStart", 2))
+  )
+  end_date1 <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentEnd", 1))
+  )
+  end_date2 <- as.character(
+    as.Date(purrr::pluck(deployments(x), "deploymentEnd", 2))
+  )
+  col_idx_start1 <- which(colnames(cam_op_matrix1) == start_date1)
+  col_idx_end1 <- which(colnames(cam_op_matrix1) == end_date1)
+  col_idx_start2 <- which(colnames(cam_op_matrix1) == start_date2)
+  col_idx_end2 <- which(colnames(cam_op_matrix1) == end_date2)
 
-    # all values are greater than 0 (not allowed at the moment) and less or
-    # equal 1
-    expect_true(all(cam_op_matrix1[1, ] <= 1, na.rm = TRUE))
+  # all values are greater than 0 (not allowed at the moment) and less or
+  # equal 1
+  expect_true(all(cam_op_matrix1[1, ] <= 1, na.rm = TRUE))
 
-    # the non NAs values are exactly the same as the ones in the matrix with two
-    # deployments apart
-    expect_true(all(cam_op_matrix1[1, col_idx_start1:col_idx_end1] ==
-      cam_op_matrix[1, col_idx_start1:col_idx_end1]))
-    expect_true(all(cam_op_matrix1[1, col_idx_start2:col_idx_end2] ==
-      cam_op_matrix[2, col_idx_start2:col_idx_end2]))
+  # the non NAs values are exactly the same as the ones in the matrix with two
+  # deployments apart
+  expect_true(all(cam_op_matrix1[1, col_idx_start1:col_idx_end1] ==
+    cam_op_matrix[1, col_idx_start1:col_idx_end1]))
+  expect_true(all(cam_op_matrix1[1, col_idx_start2:col_idx_end2] ==
+    cam_op_matrix[2, col_idx_start2:col_idx_end2]))
   }
 )
 

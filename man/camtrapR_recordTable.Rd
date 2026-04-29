@@ -53,7 +53,7 @@ defined in parameter \code{stationCol}.
 \item \code{n}: Numeric, the number of observed individuals (renamed from
 \href{https://camtrap-dp.tdwg.org/data/#observations.count}{\code{count}} in the
 observations table).
-\item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
+\item \code{DateTimeOriginal}: Datetime object, as found in column \code{eventStart} of
 \code{observations}, in UTC format.
 \item \code{Date}: Date object, the date part of \code{DateTimeOriginal}, in UTC format.
 \item \code{Time}: Character, the time part of \code{DateTimeOriginal} in UTC format.
@@ -69,14 +69,18 @@ independent record of a given species at a certain location.
 as defined in column \code{filePath} of \code{media}.
 \item \code{Filename}: List, file names of the images linked to the given record,
 as defined in column \code{fileName} of \code{media}.
-\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID} of the observations.
-\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID} of the observations.
+\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID}
+of the observations.
+\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID}
+of the observations.
 \item \code{clock}: Numeric, clock time in radians.
-\item \code{solar}: Numeric, solar time in radians. Calculated using \code{overlap::sunTime}, which essentially uses the approach described in \href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
+\item \code{solar}: Numeric, solar time in radians. Calculated using
+\code{overlap::sunTime}, which essentially uses the approach described in
+\href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
 }
 }
 \description{
-Calculates the record table from a camera trap data package and so tabulating
+Calculates the record table from a Camera Trap Data Package and so tabulating
 species records. Only event-based observations and their corresponding media
 are taken into account. The record table is a concept developed within the
 camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
@@ -84,10 +88,12 @@ function documentation for \href{https://jniedballa.github.io/camtrapR/reference
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
+library(lubridate)
+
 x <- example_dataset()
 camtrapR_recordTable(x)
 
-# Create a new camera trap data package with dependent observations only for
+# Create a new Camera Trap Data Package with dependent observations only for
 # demonstration.
 obs <- observations(x)
 obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
@@ -104,11 +110,12 @@ camtrapR_recordTable(
 # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
 # `"lastIndependentRecord"`
 obs <- observations(x)
-obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime("2020-08-02 05:10:20")
+obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+  as_datetime("2020-08-02 05:10:20")
 
 med <- media(x) 
 rows_to_update <- which(med$eventID == "02ae9f43") 
-med[rows_to_update, "timestamp"] <- lubridate::as_datetime("2020-08-02 05:10:20") 
+med[rows_to_update, "timestamp"] <- as_datetime("2020-08-02 05:10:20") 
 
 x_modified <- x
 observations(x_modified) <- obs

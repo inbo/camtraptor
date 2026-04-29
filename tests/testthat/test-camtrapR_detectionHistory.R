@@ -8,38 +8,49 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = NULL,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = NULL,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = "not a matrix",
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = "not a matrix",
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = dplyr::as_tibble(cam_op),
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = dplyr::as_tibble(cam_op),
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
   # All rownames of camOp must be with or without `__SESS_`. No mixed names
   rownames(cam_op)[1] <- stringr::str_c(rownames(cam_op)[1], "__SESS_A")
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
     paste0(
       "No prefix `__SESS_` found in row names of the camera operation ",
       "matrix. If sessions are used, they must be indicated in all ",
@@ -53,11 +64,13 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
   rownames(cam_op) <- stringr::str_c(rownames(cam_op), "__SESS_")
   rownames(cam_op)[1:2] <- stringr::str_c(rownames(cam_op)[1:2], "A")
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
     paste0(
       "No session found in some row names of the camera operation matrix. ",
       "Be sure that all row names contain a valid string after prefix ",
@@ -75,45 +88,55 @@ test_that("Record table input, `recordTable`, has right format", {
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
-  expect_error(camtrapR_detectionHistory(recordTable = NULL,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",,
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = NULL,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`recordTable` must be a tibble data.frame.",,
+    fixed = TRUE
   )
-  expect_error(camtrapR_detectionHistory(recordTable = "not a tibble",
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",,
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = "not a tibble",
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`recordTable` must be a tibble data.frame.",,
+    fixed = TRUE
   )
-  expect_error(camtrapR_detectionHistory(recordTable = as.matrix(rec_table),
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = as.matrix(rec_table),
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength),
+    "`recordTable` must be a tibble data.frame.",
+    fixed = TRUE
   )
   
   rec_table_no_n <- rec_table
   rec_table_no_n$n <- NULL
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table_no_n,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength),
-    paste0("Invalid record table. Must contain at least the columns: ",
-           "`Station`, `Date`, `Species` and `n`."),
+    camtrapR_detectionHistory(
+      recordTable = rec_table_no_n,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    paste0(
+      "Invalid record table. Must contain at least the columns: ",
+      "`Station`, `Date`, `Species` and `n`."),
     fixed = TRUE
   )
-}
-)
+})
 
 test_that("Check `species`", {
   skip_if_offline()
@@ -122,41 +145,48 @@ test_that("Check `species`", {
   rec_table <- camtrapR_recordTable(x)
   output <- "binary"
   occasionLength <- 1
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = NULL,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`species` must be a character vector of lenght 1.",
-               fixed = TRUE
-  )
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = 1,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`species` must be a character vector of lenght 1.",
-               fixed = TRUE
-  )
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = c("Anas platyrhynchos", "Anas strepera"),
-                          output = output,
-                          occasionLength = occasionLength),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = NULL,
+      output = output,
+      occasionLength = occasionLength),
     "`species` must be a character vector of lenght 1.",
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = "not a species",
-                          output = output,
-                          occasionLength = occasionLength),
-    paste0("Invalid value for species parameter: not a species.\n",
-           "Valid inputs are: Anas platyrhynchos, Anas strepera, Ardea, ",
-           "Ardea cinerea, Aves, Martes foina, Mustela putorius, ",
-           "Rattus norvegicus and Vulpes vulpes"),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = 1,
+      output = output,
+      occasionLength = occasionLength),
+    "`species` must be a character vector of lenght 1.",
+    fixed = TRUE
+  )
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = c("Anas platyrhynchos", "Anas strepera"),
+      output = output,
+      occasionLength = occasionLength),
+    "`species` must be a character vector of lenght 1.",
+    fixed = TRUE
+  )
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "not a species",
+      output = output,
+      occasionLength = occasionLength),
+    paste0(
+      "Invalid value for species parameter: not a species.\n",
+      "Valid inputs are: Anas platyrhynchos, Anas strepera, Ardea, ",
+      "Ardea cinerea, Aves, Martes foina, Mustela putorius, ",
+      "Rattus norvegicus and Vulpes vulpes"),
     fixed = TRUE
   )
 })
@@ -169,24 +199,28 @@ test_that("Check `output`", {
   species <- "Anas platyrhynchos"
   output <- 5
   occasionLength <- 1
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = "Anas platyrhynchos",
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "`output` must be a character vector of lenght 1.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "`output` must be a character vector of lenght 1.",
+    fixed = TRUE
   )
   output <- c(5,2)
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = "Anas platyrhynchos",
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "`output` must be a character vector of lenght 1.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "`output` must be a character vector of lenght 1.",
+    fixed = TRUE
   )
   cam_op <- camtrapR_cameraOperation(x)
   rec_table <- camtrapR_recordTable(x)
@@ -194,12 +228,13 @@ test_that("Check `output`", {
   output <- "wrong"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = "Anas platyrhynchos",
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station"),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
     paste0("Invalid value for output parameter: wrong.\n",
            "Valid inputs are: binary, n_observations and n_individuals"),
     fixed = TRUE
@@ -215,35 +250,39 @@ test_that("Check `occasionLength`", {
   output <- "binary"
   occasionLength <- "not an integer"
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station"),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
     "Invalid `occasionLength`. Must be an integer vector of length 1.",
     fixed = TRUE
   )
   occasionLength <- c(1,2)
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station"),
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
     "Invalid `occasionLength`. Must be an integer vector of length 1.",
     fixed = TRUE
   )
   occasionLength <- -1
-  expect_error(camtrapR_detectionHistory(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "Invalid `occasionLength`. Must be greater than 0.",
-               fixed = TRUE
+  expect_error(
+    camtrapR_detectionHistory(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "Invalid `occasionLength`. Must be greater than 0.",
+    fixed = TRUE
   )
 })
 
@@ -626,31 +665,69 @@ test_that(
 
 
 # Test output ####
-test_that("Output is a list of three matrices", {
+test_that("Output is a list of three matrices of right types", {
   skip_if_offline()
   x <- example_dataset()
   cam_op <- camtrapR_cameraOperation(x)
   rec_table <- camtrapR_recordTable(x)
-  output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_bin <- camtrapR_detectionHistory(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
-                               output = output,
+                               output = "binary",
                                occasionLength = occasionLength,
                                day1 = "station")
-  expect_type(res, "list")
-  expect_length(res, 3)
-  expect_true(is.matrix(res$detection_history))
-  expect_true(is.matrix(res$effort))
-  expect_true(is.matrix(res$dates))
-  expect_type(res$detection_history, "double")
-  expect_type(res$effort, "double")
-  expect_type(res$dates, "character")
-  expect_identical(rownames(res$detection_history),rownames(cam_op))
-  expect_identical(rownames(res$effort),rownames(cam_op))
-  expect_identical(rownames(res$dates), rownames(cam_op))
+  expect_type(res_bin, "list")
+  expect_length(res_bin, 3)
+  expect_true(is.matrix(res_bin$detection_history))
+  expect_true(is.matrix(res_bin$effort))
+  expect_true(is.matrix(res_bin$dates))
+  expect_type(res_bin$detection_history, "integer")
+  expect_type(res_bin$effort, "double")
+  expect_type(res_bin$dates, "character")
+  expect_identical(rownames(res_bin$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_bin$effort),rownames(cam_op))
+  expect_identical(rownames(res_bin$dates), rownames(cam_op))
+  
+  res_n_obs <- camtrapR_detectionHistory(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_observations",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_obs, "list")
+  expect_length(res_n_obs, 3)
+  expect_true(is.matrix(res_n_obs$detection_history))
+  expect_true(is.matrix(res_n_obs$effort))
+  expect_true(is.matrix(res_n_obs$dates))
+  expect_type(res_n_obs$detection_history, "integer")
+  expect_type(res_n_obs$effort, "double")
+  expect_type(res_n_obs$dates, "character")
+  expect_identical(rownames(res_n_obs$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$dates), rownames(cam_op))
+  
+  res_n_ind <- camtrapR_detectionHistory(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_individuals",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_ind, "list")
+  expect_length(res_n_ind, 3)
+  expect_true(is.matrix(res_n_ind$detection_history))
+  expect_true(is.matrix(res_n_ind$effort))
+  expect_true(is.matrix(res_n_ind$dates))
+  expect_type(res_n_ind$detection_history, "integer")
+  expect_type(res_n_ind$effort, "double")
+  expect_type(res_n_ind$dates, "character")
+  expect_identical(rownames(res_n_ind$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$dates), rownames(cam_op))
+  
 })
 
 test_that("Detection history dates and effort are output independent", {

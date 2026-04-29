@@ -1,9 +1,13 @@
+#' Get detection history
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' This function is deprecated. Please use [camtrapR_detectionHistory()]
 #' instead.
 #' 
 #' @inherit camtrapR_detectionHistory
+#' @family deprecated camtrapR-derived functions
 #' @export
 get_detection_history <- function(recordTable,
                                   camOp,

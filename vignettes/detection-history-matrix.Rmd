@@ -1,0 +1,221 @@
+---
+title: "Detection history matrix"
+author: "Wolf Missotten"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Detection history matrix}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows how to get a **detection history matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function [detectionHistory](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
+
+## Setup
+
+Load packages:
+
+```{r load_pkgs}
+library(camtraptor)
+library(lubridate)
+library(dplyr)
+library(stringr)
+```
+
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package dataset. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
+
+```{r load_dataset}
+x <- example_dataset()
+```
+
+The detection history is calculated based on a camera operation matrix and a record table. Both are derived from the Camera Trap Data Package dataset:
+
+```{r build_inputs}
+cam_op <- camtrapR_cameraOperation(x)
+recordTable <- camtrapR_recordTable(x)
+```
+
+See the vignettes [Camera operation matrix](camera-operation-matrix.html) and [Record table](record-table.html) for details on how to build these inputs.
+
+## Detection history
+
+### Output types
+
+`camtrapR_detectionHistory()` returns a list with three elements: `detection_history`, `effort`, and `dates`. The `output` argument controls what the detection history matrix contains. Three options are available:
+
+**Binary** (`output = "binary"`): 1 if the species was detected at a station during an occasion, 0 if not:
+
+```{r binary}
+camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary"
+)
+```
+
+**Number of observations** (`output = "n_observations"`): the number of records per station per occasion. With the default `camtrapR_recordTable()` settings, duplicate records on the same day at the same station are removed, so this is equivalent to `"binary"` in most cases:
+
+```{r n_obs}
+det_hist_n_obs <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "n_observations"
+)
+```
+
+For readability, only the `detection_history` element is shown here:
+
+```{r n_obs_visualize}
+det_hist_n_obs$detection_history
+```
+
+
+To allow counts above 1 for `"n_observations"`, build a record table without removing duplicates:
+
+```{r n_obs_multiple}
+recordTable_multiple <- camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
+
+det_hist_n_obs_multiple <- camtrapR_detectionHistory(
+  recordTable_multiple,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "n_observations"
+)
+det_hist_n_obs_multiple$detection_history
+```
+
+**Number of individuals** (`output = "n_individuals"`): the number of individuals detected per station per occasion, summed across records:
+
+```{r n_ind}
+det_hist_n_ind <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "n_individuals"
+)
+det_hist_n_ind$detection_history
+```
+
+### Occasion length
+
+By default, each column in the detection history represents a single day (`occasionLength = 1`). Use `occasionLength` to aggregate records into longer periods. The example below uses weekly occasions:
+
+```{r occasion_length}
+det_hist_weekly <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  occasionLength = 7
+)
+det_hist_weekly$detection_history
+```
+
+### Minimum active days per occasion
+
+Occasions with few active trap days may be unreliable. Use `minActiveDaysPerOccasion` to set a minimum: occasions with fewer active days are replaced by `NA`. The argument must be smaller than or equal to `occasionLength`:
+
+```{r min_active_days}
+det_hist_min_active <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  occasionLength = 7,
+  minActiveDaysPerOccasion = 5
+)
+det_hist_min_active$detection_history
+```
+
+### Maximum number of days
+
+Use `maxNumberDays` to limit the detection history to a fixed number of trap days per station, counted from the first active day of each station. Stations with more active days are truncated:
+
+```{r max_number_days}
+det_hist_max_days <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  maxNumberDays = 30
+)
+det_hist_max_days$detection_history
+```
+
+### Start date
+
+By default, occasions begin on the first active day of each station (`day1 = "station"`). You can instead specify a fixed start date shared across all stations. Records before this date are excluded and a warning is raised if any are removed:
+
+```{r day1}
+det_hist_day1 <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  day1 = "2020-06-22"
+)
+det_hist_day1$detection_history
+```
+
+### Buffer
+
+Use `buffer` to exclude a number of days at the start of each station's deployment from the detection history. This can be useful to exclude a settling-in period after camera setup. `buffer` can only be used in combination with `day1 = "station"`. A warning is raised if any records fall within the buffer period:
+
+```{r buffer}
+det_hist_buffer <- camtrapR_detectionHistory(
+  recordTable,
+  cam_op,
+  species = "Anas platyrhynchos",
+  output = "binary",
+  buffer = 7
+)
+det_hist_buffer$detection_history
+```
+
+## Multi-season detection history
+
+If the camera operation matrix was built with a session column (via `session_col` in `camtrapR_cameraOperation()`), the session structure is detected automatically. Set `unmarkedMultFrameInput = TRUE` to reshape the output for use as the `y` argument in [`unmarked::unmarkedMultFrame()`](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame).
+
+First, add a session column to the deployments and rebuild the inputs:
+
+```{r sessions_setup}
+x_sessions <- x
+deployments(x_sessions) <- deployments(x_sessions) %>%
+  mutate(session = ifelse(
+    str_starts(.data$locationName, "B_DL_"),
+    "after2020",
+    "before2020"
+  ))
+
+cam_op_sessions <- camtrapR_cameraOperation(x_sessions, session_col = "session")
+recordTable_sessions <- camtrapR_recordTable(x_sessions)
+```
+
+Then generate the multi-season detection history:
+
+```{r multi_season}
+det_hist_sessions <- camtrapR_detectionHistory(
+  recordTable_sessions,
+  cam_op_sessions,
+  species = "Anas platyrhynchos",
+  output = "n_individuals",
+  unmarkedMultFrameInput = TRUE
+)
+```
+
+For readability, only the `detection_history` element and the first 8 columns are shown here:
+
+```{r multi_season_visualize}
+det_hist_sessions$detection_history[, 1:8]
+```
+
+Each row corresponds to a site. Columns are in season-major, occasion-minor order: `o1__SESS_before2020`, `o2__SESS_before2020`, `o1__SESS_after2020`, etc. Note that `unmarkedMultFrameInput = TRUE` is only compatible with `day1 = "station"` (the default).

@@ -26,6 +26,14 @@ add_coordinates(x) \%>\% observations()
 }
 \seealso{
 Other accessor functions: 
-\code{\link{reexports}}
+\code{\link{deployments}()},
+\code{\link{deployments<-}()},
+\code{\link{events}()},
+\code{\link{locations}()},
+\code{\link{media}()},
+\code{\link{media<-}()},
+\code{\link{observations}()},
+\code{\link{observations<-}()},
+\code{\link{taxa}()}
 }
 \concept{accessor functions}

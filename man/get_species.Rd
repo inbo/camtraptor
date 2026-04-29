@@ -22,3 +22,4 @@ It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=taxa]{taxa()}} 
 x <- example_dataset()
 get_species(x)
 }
+\concept{deprecated accessor functions}

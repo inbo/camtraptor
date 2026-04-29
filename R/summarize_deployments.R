@@ -1,3 +1,161 @@
+#' Find date of the begin of the given calendar period
+#' 
+#' This function calculates the date of the calendar start based on the
+#' time period defined in `group_time_by`.
+#' 
+#' @param my_date A datetime object.
+#' @param period `NULL` or character, one of:
+#'  - `day`
+#'  - `week`
+#'  - `month`
+#'  - `year`
+#' @return A date object with the calendar start of the time group.
+#' @noRd
+calendar_floor_date <- function(my_date, period) {
+  if (is.null(period)) {
+    my_date
+  } else if (period == "day") {
+    lubridate::floor_date(my_date, unit = "day")
+  } else if (period == "week") {
+    lubridate::floor_date(my_date, unit = "week")
+  } else if (period == "month") {
+    lubridate::floor_date(my_date, unit = "month")
+  } else if (period == "year") {
+    lubridate::floor_date(my_date, unit = "year")
+  }
+  else {
+    stop(glue::glue("Unknown period value: {period}."))
+  }
+}
+
+#' Find date of the end of the given calendar period
+#' 
+#' This function calculates the date of the calendar end based on the
+#' time period defined in `group_time_by`.
+#' 
+#' @param my_date A datetime object.
+#' @param period `NULL` or character, one of:
+#'  - `day`
+#'  - `week`
+#'  - `month`
+#'  - `year`
+#' @return A date object with the calendar end of the time period.
+#' @noRd
+calendar_ceiling_date <- function(my_date, period) {
+  if (is.null(period)) {
+    my_date
+  } else if (period == "day") {
+    lubridate::ceiling_date(my_date, unit = "day")
+  } else if (period == "week") {
+    lubridate::ceiling_date(my_date, unit = "week")
+  } else if (period == "month") {
+    lubridate::ceiling_date(my_date, unit = "month")
+  } else if (period == "year") {
+    lubridate::ceiling_date(my_date, unit = "year")
+  }
+  else {
+    stop(glue::glue("Unknown period value: {period}"))
+  }
+}
+
+#' Create date series based on a deployment start/end and the time grouping
+#' 
+#' This function creates start/end date series for a given deployment, based on
+#' the `deploymentStart`, `deploymentEnd` and the given time grouping.
+#' 
+#' @param deployment_id Character, deployment ID.
+#' @param deployments A tibble data frame with deployments.
+#' @param group_time_by `NULL` or character, one of:
+#'  - `NULL`: No grouping, return the deployment start/end dates.
+#'  - `day`: Group by day.
+#'  - `week`: Group by week.
+#'  - `month`: Group by month.
+#'  - `year`: Group by year.
+#' @return A tibble data frame with three columns:
+#' - `start`: start dates.
+#' - `end`: end dates.
+#' - `deploymentID`: the ID of the deployment.
+#' @noRd
+create_date_series <- function(deployment_id, deployments, group_time_by) {
+  # Select the deployment by ID
+  deployment <- deployments %>%
+    dplyr::filter(.data$deploymentID == deployment_id)
+  # Get start datetimes of the deployment
+  start_date <- deployment %>%
+    dplyr::pull("deploymentStart")
+  # Calculate floor/ceiling start dates, based on the time grouping
+  start_floor_date <- calendar_floor_date(start_date, group_time_by)
+  start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
+  # Get end datetimes of the deployment
+  end_date <- deployments %>%
+    dplyr::filter(.data$deploymentID == deployment_id) %>%
+    dplyr::pull("deploymentEnd")
+  # Calculate floor/ceiling end dates, based on the time grouping
+  end_floor_date <- calendar_floor_date(end_date, group_time_by)
+  end_ceiling_date <- calendar_ceiling_date(end_date, group_time_by)
+  # Create a vector with all datetimes the time groups start and end
+  if (is.null(group_time_by)) {
+    start_date_series <- start_date
+    end_date_series <- end_date
+  } else {
+    start_date_series <- lubridate::as_datetime(
+      seq.Date(
+        from = lubridate::date(start_floor_date),
+        to = lubridate::date(end_floor_date),
+        by = group_time_by
+      )
+    )
+    end_date_series <- lubridate::as_datetime(
+      seq.Date(
+        from = lubridate::date(start_ceiling_date),
+        to = lubridate::date(end_ceiling_date),
+        by = group_time_by
+      )
+    )
+  }
+  # Return a tibble dataframe with the deployment ID
+  # and the start/end date series
+  dplyr::tibble(
+    start = start_date_series,
+    end = end_date_series,
+    deploymentID = deployment_id
+  )
+}
+
+#' Enrich deployment information with date series
+#'
+#' This function enriches the information about one deployment with date series
+#' based on its `deploymentStart`, `deploymentEnd` and the given time grouping.
+#' This function uses `create_date_series()` for creating the date series.
+#' 
+#' @param group_by A character vector of deployment column names to add to
+#'   the date series.
+#' @inheritParams create_date_series
+#' @return A tibble data frame with start/end dates, the deployment ID and the
+#'   deployments columns in `group_by`.
+#' @noRd
+enrich_deployment <- function(deployment_id,
+                              deployments,
+                              group_by,
+                              group_time_by) {
+  create_date_series(
+    deployments = deployments,
+    deployment_id = deployment_id,
+    group_time_by = group_time_by
+  ) %>%
+    # Add needed deployments columns
+    dplyr::left_join(
+      deployments %>%
+        dplyr::select(
+          "deploymentID",
+          "deploymentStart",
+          "deploymentEnd",
+          dplyr::any_of(group_by)
+        ),
+      by = "deploymentID"
+    )
+}
+
 #' Summarize deployments information
 #' 
 #' Summarizes deployments information, more specifically the duration effort.
@@ -50,20 +208,20 @@
 #'   x,
 #'   group_by = c("deploymentID", "locationName"),
 #'   group_time_by = "month"
-#'   ) %>%
-#' dplyr::group_by(month) %>%
-#' dplyr::summarise(
-#'   deploymentIDs = list(deploymentID),
-#'   ndep = length(unique(deploymentID)),
-#'   nloc = length(unique(locationName)),
-#'   effort_duration = sum(effort_duration)
-#' )
+#' ) %>%
+#'   group_by(month) %>%
+#'   summarise(
+#'     deploymentIDs = list(deploymentID),
+#'     ndep = length(unique(deploymentID)),
+#'     nloc = length(unique(locationName)),
+#'     effort_duration = sum(effort_duration)
+#'   )
 summarize_deployments <- function(
     x,
     group_by = c("deploymentID", "latitude", "longitude"),
     group_time_by = NULL
 ) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`

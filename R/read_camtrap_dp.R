@@ -7,8 +7,9 @@
 #' 
 #' This function is deprecated. Please use [read_camtrapdp()] instead.
 #'
-#' @inheritParams camtrapdp::read_camtrapdp
+#' @inherit camtrapdp::read_camtrapdp
 #' @return Camera Trap Data Package object.
+#' @family deprecated read functions
 #' @export
 read_camtrap_dp <- function(file) {
   .Deprecated(new = "read_camtrapdp", package = "camtraptor")

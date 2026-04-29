@@ -7,6 +7,7 @@
 #'
 #' @inheritParams summarize_deployments
 #' @return A tibble data frame with taxonomic information.
+#' @family deprecated accessor functions
 #' @export
 #' @examples
 #' x <- example_dataset()

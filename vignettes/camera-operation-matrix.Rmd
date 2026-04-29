@@ -1,6 +1,6 @@
 ---
 title: "Camera operation matrix"
-author: "Damiano Oldoni"
+author: "Damiano Oldoni, Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a *camera trap station operability matrix*, shortly called *camera operation matrix* as returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+This vignette shows how to get a **camera operation matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 
 ## Setup
 
@@ -25,118 +25,137 @@ Load packages:
 ```{r load_pkgs}
 library(camtraptor)
 library(lubridate)
+library(dplyr)
 ```
 
-We can load a camera trap data package, `x`:
+For this example the function `example_dataset()` is used to load an example Camera Trap Data Package dataset. The dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
 ```{r load_dataset}
 x <- example_dataset()
 ```
 
-It contains camera trap data about musk rat and coypu. We will use this variable from now on.
+## Generating the camera operation matrix
 
-
-## Camera operation matrix
-
-You can create a camera operation matrix by passing a camera trap data package:
+The camera operation matrix can be generated with `camtrapR_cameraOperation()`:
 
 ```{r basic_usage}
-camtrapR_cameraOperation(x)
+cam_op <- camtrapR_cameraOperation(x)
+```
+ 
+For readability, let's only print the first 45 columns of the camera operation matrix (i.e. the first 45 days) instead of all 324:
+
+```{r basic_usage_visualize}
+cam_op[, 1:45]
 ```
 
-The function will read the `deployments` slot of the data package to create the matrix.
+To build this matrix, the function reads the `deployments` slot of the Camera Trap Data Package. Row names are station names, by default taken from the `locationName` column of `deployments`. Column names are dates. The matrix values represent the daily effort:
 
-The matrix rows are the location names, by default the values of field `locationName` of `deployments`. Column names are dates. The matrix values are: 0 if station is not active, an integer (1 or more) if one or more deployments linked to the same station are fully active during the whole day and a decimal value for partially active stations.
+- `NA`: the camera was not set up on that day.
+- `1`: the camera was fully active for the entire day.
+- A decimal between 0 and 1: the camera was partially active (e.g. on the first or last day of a deployment).
+- Greater than `1`: multiple deployments at the same location were active on that day.
 
-In the example above there was a one-to-one relation between deployments and locations: the daily effort is between 0 and 1.
-
-In the example below we show what happens if all four deployments are set to the same location (`B_DL_val 5_beek kleine vijver`) and they are active during the same days:
+In the example above, no location has overlapping deployments, so no values greater than 1 occur in the matrix. To demonstrate the scenario where values are greater than `1`, the example below assigns all four deployments to the same location (`B_HS_val 2_processiepark`):
 
 ```{r four_deploys_same_start_end_for_one_location}
 x1 <- x
-x1$data$deployments$locationName <- deployments(x1) %>% 
-  purrr::pluck("locationName", 1)
-x1$data$deployments$start <- deployments(x1) %>% 
-  purrr::pluck("deploymentStart", 1)
-x1$data$deployments$end <- deployments(x1) %>% purrr::pluck("deploymentEnd", 1)
-multiple_deploys_matrix <- camtrapR_cameraOperation(x1)
-multiple_deploys_matrix
+# Assigning all four deployments to the first location
+deployments(x1)$locationName[] <- deployments(x1)$locationName[1]
+deployments(x1)$deploymentStart[] <- deployments(x1)$deploymentStart[1]
+deployments(x1)$deploymentEnd[] <- deployments(x1)$deploymentEnd[1]
+# Visualize camera operation matrix
+camtrapR_cameraOperation(x1)
 ```
-
-In the example below we simulate a location (`B_DM_val 4_'t WAD`) linked to two deployments active in two different periods:
+To demonstrate the scenario where a single location is linked to multiple (non-overlapping) deployments, the example below assigns location `B_HS_val 2_processiepark` to two separate deployments:
 
 ```{r two_deploys_two_periods}
 x2 <- x
-x2$data$deployments$locationName[4] <- deployments(x2) %>% 
-  purrr::pluck("locationName", 3)
-x2$data$deployments$deploymentStart[4] <- deployments(x2) %>% 
-  purrr::pluck("deploymentEnd", 3) + ddays(5)
-x2$data$deployments$deploymentEnd[4] <- deployments(x2) %>% 
-  purrr::pluck("deploymentStart", 4) + ddays(5)
-deployments(x2) %>% dplyr::select(locationName, deploymentStart, deploymentEnd)
-```
+# Assigning the first location to two separate deployments
+deployments(x2)$locationName[2] <- deployments(x2)$locationName[1]
+deployments(x2)$deploymentStart[2] <- deployments(x2)$deploymentEnd[1] + 
+  ddays(5)
+deployments(x2)$deploymentEnd[2] <- deployments(x2)$deploymentStart[2] + 
+  ddays(5)
+# Visualize deployments
+deployments(x2) %>% select(locationName, deploymentStart, deploymentEnd)
 
-This results in the following camera operation matrix:
-
-```{r camOp_two_deploys_two_periods}
-two_deploys_two_periods_matrix <- camtrapR_cameraOperation(x2)
-days_to_show <- seq(as.Date(deployments(x2)$deploymentStart[3]),
-                    as.Date(deployments(x2)$deploymentEnd[4]),
-                    by = "days"
-)
-two_deploys_two_periods_matrix[3,as.character(days_to_show)]
+# Visualize camera operation matrix
+camtrapR_cameraOperation(x2)[1, 1:45]
 ```
 
 ### Station names
 
-You can specify the column containing the station names instead of using the default `locationName`. In the example below we use the column `locationID`. A small preview of the matrix is shown:
+By default, row names are taken from the `locationName` column of `deployments`. You can specify a different column of `deployments` using `station_col`. The example below uses `locationID`:
 
 ```{r cam_op_with_locationID}
 cam_op_with_locationID <- camtrapR_cameraOperation(
   x,
   station_col = "locationID"
 )
-cam_op_with_locationID[1:4, 1:2]
-```
-
-You can also decide to use prefix `"Station"` in the station names as done by camtrapR's `cameraOperation()` by setting `use_prefix = TRUE`. A small preview of the entire matrix is shown:
-
-```{r use_prefix}
-cam_op_with_prefix <- camtrapR_cameraOperation(x, use_prefix = TRUE)
-cam_op_with_prefix[1:4,1:2]
+# Since the full matrix would be too wide to display here, we only inspect
+# the row names:
+row.names(cam_op_with_locationID)
 ```
 
 ### Session and camera IDs
 
-You can specify the column containing the camera IDs to be added to the station names following the camtrapR's convention: `Station__CAM_CameraID`. Only the row names are shown:
+Let's first extend the dataset so `deployments` contains a column for `cameraID` and `sessionID`.
 
-```{r add_camera_IDs}
-x_cameras <- x
-x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-cam_op_with_camera_ids <- camtrapR_cameraOperation(
-  x_cameras,
-  camera_col = "cameraID"
-)
-row.names(cam_op_with_camera_ids)
+```{r extend_dataset}
+x_extended <- x
+
+deployments(x_extended) <- deployments(x) %>% 
+  mutate(sessionID = c(1, 2, 3, 4)) %>% 
+  mutate(cameraID = c(1, 2, 3, 4))
 ```
 
-You cans also add the session IDs using `session_col` argument, following the camtrapR's convention: `Station__SESS_sessionID`:
+You can specify the column containing the session IDs to be added to the station names using the `session_col` argument. The sessionID will be displayed following camtrapR's convention: `Station__SESS_sessionID`:
 
 ```{r add_session_IDs}
-x_sessions <- x
-x_sessions$data$deployments$session <- c(1, 2, 3, 4)
-cam_op_with_session_ids <- camtrapR_cameraOperation(x_sessions, session_col = "session")
+cam_op_with_session_ids <- camtrapR_cameraOperation(
+  x_extended,
+  session_col = "sessionID"
+)
+# Since the full matrix would be too wide to display here, we only inspect
+# the row names:
 row.names(cam_op_with_session_ids)
+```
+
+You can also specify the column containing the camera IDs to be added to the station names following camtrapR's convention: `Station__CAM_CameraID` using the `camera_col` argument:
+
+```{r add_camera_IDs}
+cam_op_with_camera_ids <- camtrapR_cameraOperation(
+  x_extended,
+  camera_col = "cameraID"
+)
+# Since the full matrix would be too wide to display here, we only inspect
+# the row names:
+row.names(cam_op_with_camera_ids)
 ```
 
 To use both camera and session IDs, the camtrapR's convention `Station__SESS_SessionID__CAM_CameraID` is followed:
 
 ```{r add_session_camera_IDs}
-x_sessions$data$deployments$cameraID <- c(1, 2, 3, 4)
 cam_op_with_session_and_camera_ids <- camtrapR_cameraOperation(
-  x_sessions, 
+  x_extended,
   camera_col = "cameraID",
-  session_col = "session"
+  session_col = "sessionID"
 )
+# Since the full matrix would be too wide to display here, we only inspect
+# the row names:
 row.names(cam_op_with_session_and_camera_ids)
+```
+
+You can also use the prefix `"Station"` in the station names as done by camtrapR's `cameraOperation()` by setting `use_prefix = TRUE`:
+
+```{r use_prefix}
+cam_op_with_session_and_camera_ids_prefix <- camtrapR_cameraOperation(
+  x_extended,
+  camera_col = "cameraID",
+  session_col = "sessionID",
+  use_prefix = TRUE
+)
+# Since the full matrix would be too wide to display here, we only inspect
+# the row names:
+row.names(cam_op_with_session_and_camera_ids_prefix)
 ```

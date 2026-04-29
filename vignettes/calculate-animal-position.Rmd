@@ -1,0 +1,70 @@
+---
+title: "Calculate animal position"
+author: "Wolf Missotten"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calculate animal position}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette shows how to calculate the **radial distance and angular position** of animals relative to a camera using `calculate_individual_radius_angle()`.
+
+## Setup
+
+Load packages:
+```{r load_pkgs}
+library(camtraptor)
+```
+
+The package includes two built-in example datasets used throughout this vignette: `animal_positions` and `calibration_models`.
+
+`animal_positions` is a data frame containing digitized pixel positions of animals in camera trap images:
+```{r show_animal_positions}
+animal_positions
+```
+
+`calibration_models` is a named list of site calibration models, where each element corresponds to a deployment:
+```{r show_calibration_models}
+names(calibration_models)
+```
+
+## Calculate radius and angle
+
+The function `calculate_individual_radius_angle()` takes the digitized pixel positions and the calibration models and returns the radial distance and angular position of each animal relative to the camera:
+```{r basic_usage}
+calculate_individual_radius_angle(animal_positions, calibration_models)
+```
+
+The function returns the original `animal_positions` data frame with three
+additional columns:
+
+column name | description
+--- | ---
+`radius` | Radial distance from the camera. Units depend on the units used during site calibration.
+`angle` | Angular distance from the camera centre line.
+`frame_count` | Order of the frame within each sequence (event).
+
+## Specifying column names
+
+By default, the function expects specific column names in `animal_positions` (`deploymentID`, `eventID`, `x`, `y`, `imageWidth`, `imageHeight`). If your data uses different column names, these can be specified explicitly:
+```{r custom_columns, eval = FALSE}
+calculate_individual_radius_angle(
+  animal_positions,
+  calibration_models,
+  deployment_id = "deploymentID",
+  event_id = "eventID",
+  x = "x",
+  y = "y",
+  image_width = "imageWidth",
+  image_height = "imageHeight"
+)
+```

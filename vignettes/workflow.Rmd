@@ -107,10 +107,10 @@ Visualize the number of mallard observations per deployment:
 ```{r map_observations}
 map_summary(summ_obs_filtered, feature = "n_observations")
 ```
-As you can see, there is only one of the two deployments we filtered for observed mallard.
+As you can see, in only one of the two deployment was mallard observed.
 
 
-Visualize the daily effort per deployment:
+You can also visualize the daily effort per deployment:
 
 ```{r map_effort}
 map_summary(summ_depl_filtered, feature = "effort_duration")
@@ -133,4 +133,4 @@ x %>%
   map_summary(feature = "n_observations")
 ```
 
-  > **For more information about visualization, checkout [the next vignette about visualizing](visualize-deployments-features.html)**
+  > **Note**: For more information about visualization, checkout [the next vignette about visualizing](visualize-deployments-features.html)

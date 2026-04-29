@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to use the function `map_summary()` to visualize important features for each deployment on an interactive leaflet map such as:
+This vignette shows you how to use the function `map_summary()` to visualize important features for each deployment on an interactive leaflet map such as:
 
 -   number of detected species
 -   number of events observed
@@ -139,7 +139,7 @@ summ_obs_anas_p %>%
 
 #### RAI (observations)
 
-**Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
+> **Note:** Notice that in this package the RAI is normalized over a deployment activity period of 100 days.
 
 To visualize the Relative Abundance Index (RAI) for a given species (e.g. Anas platyrhynchos), set `feature = "rai_observations"`. This RAI is based on the number of observations, see the next section on how to calculate the RAI on the number of detected individuals.
 
@@ -150,7 +150,7 @@ summ_obs_anas_p %>%
 
 #### RAI (individuals)
 
-**Notice that in this package the RAI is normalized over a deployment activity period of 100 days.**
+> **Note:** Notice that in this package the RAI is normalized over a deployment activity period of 100 days.
 
 You can also visualize the RAI based on the number of detected individuals instead of the number of observations (see previous section). Set `feature = "rai_count"`:
 

@@ -6,11 +6,9 @@
 #' "timelapse")`.
 #' 
 #' @inheritParams summarize_deployments
-#'
 #' @return `x` filtered.
 #' @family filter functions
 #' @export
-#'
 #' @examples
 #' x <- example_dataset()
 #' 

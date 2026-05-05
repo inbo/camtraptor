@@ -348,7 +348,7 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   species <- "Anas platyrhynchos"
   occasionLength <- 1
   # `maxNumberDays` is a character, not right class
-  maxNumberDays = "blablabla"
+  maxNumberDays <- "blablabla"
   expect_error(
     camtrapR_detectionHistory(recordTable = rec_table,
                           camOp = cam_op,

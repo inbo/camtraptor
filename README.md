@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# camtraptor <a href="https://inbo.github.io/camtraptor"><img src="man/figures/logo.png" align="right" height="137" alt="camtraptor website" /></a>
+# camtraptor <a href="https://inbo.github.io/camtraptor/"><img src="man/figures/logo.png" align="right" height="137" alt="camtraptor website" /></a>
 
 <!-- badges: start -->
 

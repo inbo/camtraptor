@@ -4,11 +4,11 @@
 \name{camtraptor-package}
 \alias{camtraptor}
 \alias{camtraptor-package}
-\title{camtraptor: Read, Explore and Visualize Camera Trap Data Packages}
+\title{camtraptor: Read, Explore and Visualize Camera Trap Data Package Datasets}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Read, explore and visualize Camera Trap Data Packages (Camtrap DP). 'Camtrap DP' (\url{https://camtrap-dp.tdwg.org}) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
+Read, explore and visualize Camera Trap Data Package (Camtrap DP) datasets. 'Camtrap DP' (\url{https://camtrap-dp.tdwg.org}) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
 }
 \seealso{
 Useful links:

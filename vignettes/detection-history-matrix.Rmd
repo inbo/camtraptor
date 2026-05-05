@@ -20,7 +20,7 @@ This vignette shows how to get a **detection history matrix** from a Camera Trap
 
 ## Setup
 
-Load packages:
+Load the packages that will be used in this example:
 
 ```{r load_pkgs}
 library(camtraptor)

@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette shows how to get a **species record table** as returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html) starting from a Camera Trap Data Package dataset.
+This vignette shows how to get a **species record table** from a Camera Trap Data Package dataset, equivalent to the record table returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 
 ## Setup
 
-Load packages:
+Load the packages that will be used in this example:
 
 ```{r load_pkgs}
 library(camtraptor)
@@ -66,7 +66,7 @@ The following remarks are both valid for camtrapR's function  `recordTable()` an
 
 1. observations are grouped by station and species
 2. observations of unidentified animals are removed
-2. the elapsed time of the first observation (record) of a species at a certain station is set to 0 by default
+3. the elapsed time of the first observation (record) of a species at a certain station is set to 0 by default
 
 ### Temporal independence
 
@@ -96,7 +96,7 @@ media(x_modified) <- med
 
 Example with `minDeltaTime = 10` and `deltaTimeComparedTo = "lastIndependentRecord"`:
 
-```{r example_lastIndependetRecord}
+```{r example_lastIndependentRecord}
 camtrapR_recordTable(
   x_modified,
   minDeltaTime = 10,
@@ -127,7 +127,7 @@ camtrapR_recordTable(x, exclude = c("Anas platyrhynchos", "Vulpes vulpes"))
 
 ### Station names
 
-The column containing the station names can also be defined by the user if the default value, `"locationName"`, is not the correct one. It has to be a valid column of  `deployments`. Here below, `locationID` is used:
+The column containing the station names can also be defined by the user if the default value, `"locationName"`, is not the correct one. It has to be a valid column of  `deployments`. Below, `locationID` is used:
 
 ```{r example_stationCol}
 camtrapR_recordTable(x, stationCol = "locationID")
@@ -151,7 +151,7 @@ With duplicates:
 camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
 ```
 
-Row 10 differs between the two outputs (among others). When `removeDuplicateRecords = FALSE`, there are two records with`DateTimeOriginal = 2020-06-06 04:11:07` one on row 9 and one on row 10.
+Row 10 differs between the two outputs (among others). When `removeDuplicateRecords = FALSE`, there are two records with `DateTimeOriginal = 2020-06-06 04:11:07` one on row 9 and one on row 10.
 
 ### Other arguments needed?
 

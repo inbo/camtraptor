@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Camtraptor is an R package to **read**, **explore** and  **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
+Camtraptor is an R package to **read**, **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
 
 > **Note:** Coming from `camtraptor` version 0.xx? Check out [News](https://inbo.github.io/camtraptor/news/index.html) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
 
@@ -32,7 +32,7 @@ library(camtraptor)
 
 ### Reading data
 
-To start your data analysis you of course first need data.
+To start your data analysis you first need data.
 
 Here, the function `example_dataset()` is used to load an example Camera Trap Data Package dataset that is included in the camtraptor package. This dataset is derived from a study on detecting invasive muskrat and coypu populations using camera traps.
 
@@ -107,7 +107,7 @@ Visualize the number of mallard observations per deployment:
 ```{r map_observations}
 map_summary(summ_obs_filtered, feature = "n_observations")
 ```
-As you can see, in only one of the two deployment was mallard observed.
+As you can see, in only one of the two deployments was mallard observed.
 
 
 You can also visualize the daily effort per deployment:
@@ -122,15 +122,15 @@ In practice you'd chain everything into a single pipeline, e.g.:
 
 ```{r full_pipeline}
 x %>%
-  filter_observations(scientificName == "Anas platyrhynchos") %>%
   filter_deployments(
     locationName == c(
       "B_HS_val 2_processiepark",
       "B_DM_val 4_'t WAD"
       )
     ) %>%
+  filter_observations(scientificName == "Anas platyrhynchos") %>%
   summarize_observations() %>%
   map_summary(feature = "n_observations")
 ```
 
-  > **Note**: For more information about visualization, checkout [the next vignette about visualizing](visualize-deployments-features.html)
+  > **Note**: For more information about visualization, check out [the next vignette about visualizing](visualize-deployment-features.html)

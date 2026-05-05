@@ -40,7 +40,7 @@ For this example the function `example_dataset()` is used to load an example Cam
 x <- example_dataset()
 ```
 
-Before making a visualisation with `map_summary()`, the Camera Trap Data Package dataset should be transformed to a grouped data frame. This can be done by using the function `summarize_observations()` or `summarize_deployments()`, depending on what aspect of the dataset you want to visualize. Both are demonstrated in this example.
+Before making a visualization with `map_summary()`, the Camera Trap Data Package dataset should be transformed to a grouped data frame. This can be done by using the function `summarize_observations()` or `summarize_deployments()`, depending on what aspect of the dataset you want to visualize. Both are demonstrated in this example.
 
 ```{r summarize_to_df}
 summ_obs <- x %>%
@@ -177,7 +177,7 @@ summ_depl %>%
 
 ### Visualize deployments without detected animals
 
-It can happen that some deployments didn't detected any recognizable animal (`scientificName` = `NA`) or didn't observe anything at all (deployments with no observations). While visualizing the number of species, these two situations are shown by default as black and red multiplication symbols `×` respectively:
+It can happen that some deployments didn't detect any recognizable animal (`scientificName` = `NA`) or didn't observe anything at all (deployments with no observations). While visualizing the number of species, these two situations are shown by default as black and red multiplication symbols `×` respectively:
 
 ```{r show_deployments_without_observations_or_without_known_species}
 # Create a data package demonstrating two scenarios:
@@ -246,7 +246,7 @@ summ_obs %>%
   map_summary(feature = "n_observations", palette = "BuPu")
 ```
 
-Another easy way to specify a palette is to create it by passing a vector of colors as names or hex colors, e.g. `c("black", "blue", "#A3675F")`:
+Another easy way to specify a palette is to create it by passing a vector of colors as names or hex color codes, e.g. `c("black", "blue", "#A3675F")`:
 
 ```{r use_black_blue_red}
 summ_obs %>% 
@@ -258,7 +258,7 @@ summ_obs %>%
 
 #### Use a specific icon and color for zero values
 
-You can customise the icon shown for zero-value deployments by passing an icon URL to `zero_values_icon_url` and its size in pixels to `zero_values_icon_size`. Many free icon libraries are available online, such as [icons8](https://icons8.com/). The following example uses a custom icon with a size of 50 pixels:
+You can customize the icon shown for zero-value deployments by passing an icon URL to `zero_values_icon_url` and its size in pixels to `zero_values_icon_size`. Many free icon libraries are available online, such as [icons8](https://icons8.com/). The following example uses a custom icon with a size of 50 pixels:
 
 ```{r specify_zero_icon}
 x_anas_p %>%

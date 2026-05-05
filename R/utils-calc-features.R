@@ -230,4 +230,3 @@ enrich_observations <- function(deployment_id,
     NULL
   }
 }
-

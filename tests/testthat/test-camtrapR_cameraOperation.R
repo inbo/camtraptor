@@ -370,4 +370,3 @@ test_that("output of get_cam_op() is the same as camtrapR_cameraOperation()", {
   x <- example_dataset()
   expect_identical(suppressWarnings(get_cam_op(x)), camtrapR_cameraOperation(x))
 })
-

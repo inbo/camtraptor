@@ -1,5 +1,5 @@
 Package: camtraptor
-Title: Read, Explore and Visualize Camera Trap Data Packages
+Title: Read, Explore and Visualize Camera Trap Data Package Datasets
 Version: 1.0.0
 Authors@R: c(
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = c("aut", "cre"),

@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Read, explore and visualize Camera Trap Data Package (Camtrap DP) datasets. 'Camtrap DP' (\url{https://camtrap-dp.tdwg.org}) is a community developed data exchange format for this type of data. With camtraptor you can read and filter data, create overviews of observed species, relative abundance or effort, and plot these data on a map.
+Read, explore and visualize camera trap data following the Camtrap DP (Camera Trap Data Package, \url{https://camtrap-dp.tdwg.org/}) data exchange format. With camtraptor you can read and filter data, get summaries of observed species and deployment information, and visualize these summaries on an interactive map.
 }
 \seealso{
 Useful links:
@@ -38,7 +38,7 @@ Other contributors:
   \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (University of Antwerp) [contributor]
-  \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
+  \item Research Institute for Nature and Forest (INBO) (\href{https://ror.org/00j54wy13}{ROR}) [copyright holder]
   \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }
 

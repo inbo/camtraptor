@@ -20,7 +20,7 @@ assess_temporal_independence <- function(
   # just initialization (set correctly at i = 1)
   last_indep_timestamp <- df$last_timestamp[1]
   event_start <- df$eventStart[1]
-  for (i in 1:nrow(df)) {
+  for (i in seq_len(nrow(df))) {
     if (df$eventStart[i] > last_indep_timestamp | # independent
         # obs occurring at the same time (called "duplicate) but independent
         df$eventStart[i] == event_start
@@ -43,7 +43,7 @@ assess_temporal_independence <- function(
 
 #' Get record table
 #'
-#' Calculates the record table from a camera trap data package and so tabulating
+#' Calculates the record table from a Camera Trap Data Package and so tabulating
 #' species records. Only event-based observations and their corresponding media
 #' are taken into account. The record table is a concept developed within the
 #' camtrapR package, see [this article](
@@ -83,7 +83,7 @@ assess_temporal_independence <- function(
 #'   - `n`: Numeric, the number of observed individuals (renamed from 
 #'   [`count`](https://camtrap-dp.tdwg.org/data/#observations.count) in the 
 #'   observations table).
-#'   - `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
+#'   - `DateTimeOriginal`: Datetime object, as found in column `eventStart` of
 #'   `observations`, in UTC format.
 #'   - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC format.
 #'   - `Time`: Character, the time part of `DateTimeOriginal` in UTC format.
@@ -99,17 +99,23 @@ assess_temporal_independence <- function(
 #'   as defined in column `filePath` of `media`.
 #'   - `Filename`: List, file names of the images linked to the given record,
 #'   as defined in column `fileName` of `media`.
-#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` of the observations.
-#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID` of the observations.
+#'   - `Latitude`: Numeric, latitude of the station, based on `deploymentID` 
+#'   of the observations.
+#'   - `Longitude`: Numeric, longitude of the station, based on `deploymentID`
+#'    of the observations.
 #'   - `clock`: Numeric, clock time in radians.
-#'   - `solar`: Numeric, solar time in radians. Calculated using `overlap::sunTime`, which essentially uses the approach described in [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
+#'   - `solar`: Numeric, solar time in radians. Calculated using 
+#'   `overlap::sunTime`, which essentially uses the approach described in
+#'   [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
 #' @family camtrapR-derived functions
 #' @export
 #' @examples
+#' library(lubridate)
+#' 
 #' x <- example_dataset()
 #' camtrapR_recordTable(x)
 #'
-#' # Create a new camera trap data package with dependent observations only for
+#' # Create a new Camera Trap Data Package with dependent observations only for
 #' # demonstration.
 #' obs <- observations(x)
 #' obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
@@ -126,11 +132,12 @@ assess_temporal_independence <- function(
 #' # Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
 #' # `"lastIndependentRecord"`
 #' obs <- observations(x)
-#' obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime("2020-08-02 05:10:20")
+#' obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+#'   as_datetime("2020-08-02 05:10:20")
 #' 
 #' med <- media(x) 
 #' rows_to_update <- which(med$eventID == "02ae9f43") 
-#' med[rows_to_update, "timestamp"] <- lubridate::as_datetime("2020-08-02 05:10:20") 
+#' med[rows_to_update, "timestamp"] <- as_datetime("2020-08-02 05:10:20") 
 #' 
 #' x_modified <- x
 #' observations(x_modified) <- obs
@@ -166,7 +173,7 @@ camtrapR_recordTable <- function(x,
                                  minDeltaTime = 0,
                                  deltaTimeComparedTo = NULL,
                                  removeDuplicateRecords = TRUE) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `stationCol` is a valid column name
@@ -186,7 +193,7 @@ camtrapR_recordTable <- function(x,
       all(exclude %in% all_taxa$scientificName),
       msg = glue::glue(
         "The following species in `exclude` argument are not present in the ",
-        "camera trap data package: ",
+        "Camera Trap Data Package: ",
         glue::glue_collapse(
           glue::backtick(not_found), sep = ", ", last = " and "
         ),

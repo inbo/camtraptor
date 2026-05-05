@@ -18,7 +18,7 @@ test_that("inputs of camtrapR_recordTable are correct", {
   expect_error(
     camtrapR_recordTable(x, exclude = c("rattussss", "Rattus norvegicus")),
     paste0("The following species in `exclude` argument ",
-           "are not present in the camera trap data package: `rattussss`."
+           "are not present in the Camera Trap Data Package: `rattussss`."
     ),
     fixed = TRUE
   )
@@ -72,7 +72,10 @@ test_that("if not integer, `minDeltaTime` is set to integer (floor)", {
   expect_identical(record_table_int, record_table_dec)
 })
 
-test_that("warning is returned if some observations have no `eventStart` or media have no timestamp", {
+test_that(paste0(
+  "warning is returned if some observations have no `eventStart` ",
+  "or media have no timestamp"
+), {
   skip_if_offline()
   x <- example_dataset()
   x_no_eventStart <- x
@@ -199,7 +202,10 @@ test_that("Higher minDeltaTime means less rows returned", {
   expect_lt(nrow_delta_100000, nrow_delta_10000)
 })
 
-test_that("Values lastIndependentRecord and lastRecord can return different number of rows", {
+test_that(paste0(
+  "Values lastIndependentRecord and lastRecord can ",
+  "return different number of rows"
+), {
   skip_if_offline()
   x <- example_dataset()
   obs <- observations(x)
@@ -235,6 +241,7 @@ test_that("Values lastIndependentRecord and lastRecord can return different numb
 })
 
 test_that("stations names are equal to values in column passed to StationCOl", {
+  skip_if_offline()
   x <- example_dataset()
   # Use `locationName` as Station
   stations <- camtrapR_recordTable(x) %>%
@@ -260,6 +267,7 @@ test_that("stations names are equal to values in column passed to StationCOl", {
 })
 
 test_that("Directory and Filename columns are lists", {
+  skip_if_offline()
   x <- example_dataset()
   file_values <- camtrapR_recordTable(x) %>%
     dplyr::select(Directory, FileName)
@@ -273,6 +281,7 @@ test_that(
     "media of independent obs"
   ),
   {
+    skip_if_offline()
     x <- example_dataset()
     output <- camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
     # add n media, observationID and eventID to record table

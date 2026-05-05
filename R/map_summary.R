@@ -1,3 +1,96 @@
+#' Get legend title for deployment visualizations
+#'
+#' @param feature Character, one of:
+#'   - `n_species`
+#'   - `n_events`
+#'   - `n_obs`
+#'   - `rai_observations`
+#'   - `rai_count`
+#'   - `effort`
+#' @noRd
+get_legend_title <- function(feat) {
+  # get all legend titles
+  titles <- .map_summary_legend_titles
+  # return the legend title we need
+  titles %>%
+    dplyr::filter(.data$feature == feat) %>%
+    dplyr::pull(.data$legend_title)
+}
+
+#' Add unit to legend title
+#'
+#' This function is useful when a unit (e.g. temporal unit) should be added to
+#' legend title.
+#'
+#' @param title A character with legend title.
+#' @param unit Character with unit to add to `title`.
+#' @param use_brackets Logical.
+#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
+#' @noRd
+#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
+add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
+  if (is.null(unit)) {
+    title
+  } else {
+    if (use_brackets == TRUE) {
+      unit <- paste0("(", unit, ")")
+    }
+    paste(title, unit)
+  }
+}
+
+#' Custom label format function
+#'
+#' Add "+" to last label of legend while using absolute scale. At the moment
+#' only numeric scale is needed and therefore implemented.
+#'
+#' @source based on leaflet's
+#'   [labelFormat()](https://github.com/rstudio/leaflet/commit/bb3ab964486b357ddc160a7032cfdce6cd8fbe35)
+#'    function
+#'
+#' @param max_scale a number indicating the maximum value of the absolute scale
+#'   (`NULL` if relative scale is used, default)
+#' @param prefix a prefix of legend labels
+#' @param suffix a suffix of legend labels
+#' @param digits the number of digits of numeric values in labels
+#' @param big.mark the thousand separator
+#' @param transform a function to transform the label value
+#' @noRd
+labelFormat_scale <- function(max_scale = NULL,
+                              prefix = "",
+                              suffix = "",
+                              digits = 3,
+                              big.mark = ",",
+                              transform = identity) {
+  formatNum <- function(x, max_scale) {
+    cuts_chrs <- format(
+      round(transform(x), digits),
+      trim = TRUE,
+      scientific = FALSE,
+      big.mark = big.mark
+    )
+    if (!is.null(max_scale)) {
+      n <- length(x)
+      if (x[n] == max_scale) {
+        cuts_chrs[n] <- paste0(cuts_chrs[n], "+")
+      }
+    }
+    return(cuts_chrs)
+  }
+  
+  function(type, ...) {
+    switch(
+      type,
+      numeric = (
+        function(cuts) {
+          paste0(prefix, formatNum(cuts, max_scale), suffix)
+        }
+      )(...)
+    )
+  }
+}
+
+
 #' Visualize deployments features
 #'
 #' This function visualizes deployments features such as number of detected
@@ -17,8 +110,10 @@
 #'   - `n_events`: Number of events observed.
 #'   - `n_observations`: Number of observations.
 #'   - `sum_count`: Number of individuals observed.
-#'   - `rai_observations`: RAI calculated using the number of observations (`n_observations`).
-#'   - `rai_count`: RAI calculated using the number of observed individuals (`sum_count`).
+#'   - `rai_observations`: RAI calculated using the number 
+#'   of observations (`n_observations`).
+#'   - `rai_count`: RAI calculated using the number
+#'    of observed individuals (`sum_count`).
 #'
 #'   Possible values present in output of [summarize_deployments()] are:
 #'   - `effort_duration`: Deployment effort duration.
@@ -30,6 +125,7 @@
 #'   - `day`
 #'   - `month`
 #'   - `year`
+#'   
 #'   If  `NULL` (default), the effort is returned in hours.
 #' @param cluster Logical value indicating whether using the cluster option
 #'   while visualizing maps. Default: `TRUE`.
@@ -85,14 +181,13 @@
 #'
 #'   Notice also that the argument `species` is not present anymore. If you want
 #'   to visualize a feature only for a specific group of species, please filter
-#'   the camera trap data package using [filter_observations()] before using
+#'   the Camera Trap Data Package using [filter_observations()] before using
 #'   this function. See the examples.
 #'
 #' @return Leaflet map.
 #' @family visualization functions
 #' @export
 #' @examples
-#' \dontrun{
 #' x <- example_dataset()
 #' # Filter a data package to get only the data of Anas platyrhynchos
 #' x_anas_p <- x %>%
@@ -236,7 +331,7 @@
 #'   map_summary("n_observations", zero_values_icon_size = 30)
 #'
 #' # Use another icon url/size for visualizing groups with no observations
-#' (NA, only for `n_scientificName` feature)
+#' # (NA, only for `n_scientificName` feature)
 #' x %>%
 #'   filter_observations(deploymentID != "00a2c20d") %>%
 #'   summarize_observations(
@@ -285,7 +380,6 @@
 #'     "n_observations",
 #'     radius_range = c(40, 150)
 #' )
-#' }
 map_summary <- function(
   df,
   feature,
@@ -545,8 +639,8 @@ map_summary <- function(
   feat_df <- feat_df %>%
     dplyr::mutate(n = .data[[feature]])
   
-  # Order the data frame by feature: this will help in plotting the small circles
-  # above the big ones
+  # Order the data frame by feature: this will help in plotting
+  # the small circles above the big ones
   feat_df <- feat_df %>% dplyr::arrange(.data$n)
   
   # Define title legend

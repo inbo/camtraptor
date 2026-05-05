@@ -33,6 +33,8 @@ filter_out_timelapse(x)
 }
 \seealso{
 Other filter functions: 
-\code{\link{reexports}}
+\code{\link{filter_deployments}()},
+\code{\link{filter_media}()},
+\code{\link{filter_observations}()}
 }
 \concept{filter functions}

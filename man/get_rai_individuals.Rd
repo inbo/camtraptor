@@ -15,20 +15,22 @@ on deployments are not supported anymore and an error is returned. Anything
 else throws a deprecation warning and will be ignored. Please use
 \code{filter_deployments()} to filter on deployments.}
 
-\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific names.
-Common names are not supported anymore as of camtraptor 1.0.0. Please, check
-\code{filter_observations()} to know how to filter by \code{scientificName}.
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific
+names. Common names are not supported anymore as of camtraptor 1.0.0.
+Please, check \code{filter_observations()} to know how to filter by
+\code{scientificName}.
 If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
 
-\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex class to filter on, e.g. \code{"female"} or
-\code{c("male", "unknown")}.
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex
+class to filter on, e.g. \code{"female"} or \code{c("male", "unknown")}.
 If \code{NULL} (default) all observations of all sex classes are taken into
 account. Please, check
 \code{filter_observations()} to know how to filter by \code{sex}.}
 
-\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector
+defining the life stage class to filter on,
+e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
 into account. Please, check \code{filter_observations()} to know how to filter
 by \code{lifeStage}.}
@@ -42,14 +44,16 @@ A tibble data frame with the following columns:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Gets the RAI (Relative Abundance Index) per deployment. The RAI is normalized
 using 100 days deployment activity. In other words: \code{RAI = 100 * (n/effort)}
 where \code{n} is the sum of individual counts related to event-based observations
 and \code{effort} is the effort duration in days.
-}
-\details{
-It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
-instead.
+
+It is deprecated as of camtraptor 1.0.0. Please use
+\code{\link[=summarize_observations]{summarize_observations()}} instead.
 }
 \examples{
 x <- example_dataset()
@@ -64,3 +68,13 @@ get_rai_individuals(
   species = c("Anas platyrhynchos", "Martes foina")
 )
 }
+\seealso{
+Other deprecated exploration functions: 
+\code{\link{get_custom_effort}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai}()}
+}
+\concept{deprecated exploration functions}

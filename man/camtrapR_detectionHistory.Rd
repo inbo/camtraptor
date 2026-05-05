@@ -54,7 +54,10 @@ after station setup. \code{buffer} can be used only in combination with \code{da
 \code{"station"}. Default: \code{NULL}. A warning is returned if some records are
 removed because taken during the buffer period.}
 
-\item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return the input for multi-season occupancy models in unmarked R package (argument \code{y} in \code{\link[unmarked:unmarkedMultFrame]{unmarked::unmarkedMultFrame()}}). Default: \code{FALSE}.}
+\item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return
+the input for multi-season occupancy models in unmarked
+R package (argument \code{y} in \href{https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame}{unmarked::unmarkedMultFrame()}).
+Default: \code{FALSE}.}
 }
 \value{
 A list with three elements:
@@ -79,12 +82,18 @@ the species was not detected. The function also returns the effort matrix,
 which contains the number of days that each station was active on each
 occasion, and the dates matrix, which contains the dates of the occasions.
 
-This function doesn't take as input a camera trap data package object, but a
+This function doesn't take as input a Camera Trap Data Package object, but a
 camera operation matrix and a record table, which are both calculated based
-on a camera trap data package object. For more information, see the
+on a Camera Trap Data Package object. For more information, see the
 \code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}} and \code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}} functions.
 
-If the camera operation matrix (\code{camOp}) was created for a multi-season study (via argument \code{session_col} in \code{camtrapR_cameraOperation()}), the session will be detected automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B}, \code{o2_SESS_B}, etc.
+If the camera operation matrix (\code{camOp}) was created for a multi-season study
+(via argument \code{session_col} in \code{camtrapR_cameraOperation()}), the session
+will be detected automatically. You can then set
+\code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection
+history. Each row corresponds to a site, and the columns are in season-major,
+occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B},
+\code{o2_SESS_B}, etc.
 }
 \examples{
 library(dplyr)
@@ -93,6 +102,12 @@ library(stringr)
 x <- example_dataset()
 camOp <- camtrapR_cameraOperation(x)
 recordTable <- camtrapR_recordTable(x)
+# More observations of the same species on the same day at the same station
+# are left.
+recordTable_mulitple <- camtrapR_recordTable(
+  x,
+  removeDuplicateRecords = FALSE
+)
 
 # Binary output
 camtrapR_detectionHistory(
@@ -102,14 +117,24 @@ camtrapR_detectionHistory(
   output = "binary"
 )
 
-# Number of observations output
+# Number of observations output: same as binary with default
+# `camtrapR_recordTable(x)`
 camtrapR_detectionHistory(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
  output = "n_observations"
 )
- 
+
+# Number of observations output: more than 1 if more than 1 observation of
+# the species on the same day at the same station
+camtrapR_detectionHistory(
+ recordTable_mulitple,
+ camOp,
+ species = "Anas platyrhynchos",
+ output = "n_observations"
+)
+
 # Number of individuals output
 camtrapR_detectionHistory(
  recordTable,
@@ -165,7 +190,6 @@ camtrapR_detectionHistory(
 )
 
 # Multi-season detection history
-
 x_sessions <- x
 deployments(x_sessions) <- deployments(x_sessions) \%>\%
   mutate(session = ifelse(

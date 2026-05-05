@@ -159,7 +159,8 @@ test_that(
     
     # Check that the `summary` has the expected columns
     expect_equal(
-      c("deploymentID", "latitude", "longitude", "day", "effort_duration"), names(summary)
+      c("deploymentID", "latitude", "longitude", "day", "effort_duration"),
+      names(summary)
     )
     
     # Check that `effort_duration` is a duration object from lubridate
@@ -210,7 +211,9 @@ test_that(
     )
     summary_effort_start <- summary %>%
       dplyr::filter(.data$deploymentID == deployment_id) %>%
-      dplyr::filter(.data$day == lubridate::floor_date(start, unit = "days")) %>%
+      dplyr::filter(
+        .data$day == lubridate::floor_date(start, unit = "days")
+      ) %>%
       dplyr::pull(effort_duration)
     testthat::expect_identical(effort_start_day,
                                summary_effort_start)

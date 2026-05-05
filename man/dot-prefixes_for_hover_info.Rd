@@ -17,7 +17,8 @@ deployment with the mouse.
 \details{
 A data.frame of all prefixes with the following columns:
 \itemize{
-\item \code{info}: all valid grouping columns (deployments or observations) and features.
+\item \code{info}: all valid grouping columns (deployments or observations)
+and features.
 \item \code{prefix}: Prefix to use.
 }
 }

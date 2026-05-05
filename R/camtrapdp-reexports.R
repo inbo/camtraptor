@@ -1,69 +1,125 @@
-#' @importFrom camtrapdp read_camtrapdp
-#' @export
+#' Read a Camera Trap Data Package
+#' 
+#' Re-export of [camtrapdp::read_camtrapdp()]. 
+#'
+#' @inherit camtrapdp::read_camtrapdp
 #' @family read functions
-camtrapdp::read_camtrapdp
-
-#' @importFrom camtrapdp example_dataset
 #' @export
-#' @family sample data functions
-example_dataset <- memoise::memoise(camtrapdp::example_dataset)
+read_camtrapdp <- camtrapdp::read_camtrapdp
 
-#' @importFrom camtrapdp deployments
+#' Read the Camtrap DP example dataset
+#'
+#' Re-export of [camtrapdp::example_dataset()]. 
+#' 
+#' @inherit camtrapdp::example_dataset return examples
+#' @family read sample data functions
 #' @export
+example_dataset <- camtrapdp::example_dataset
+
+#' Get or set deployments
+#'
+#' Re-export of [camtrapdp::deployments()]. 
+#' 
+#' @inherit camtrapdp::deployments
 #' @family accessor functions
-camtrapdp::deployments
-
-#' @importFrom camtrapdp `deployments<-`
 #' @export
+deployments <- camtrapdp::deployments
+
+#' Get or set deployments
+#'
+#' Re-export of [camtrapdp::deployments<-()]. 
+#' 
+#' @inherit camtrapdp::`deployments<-`
 #' @family accessor functions
-camtrapdp::`deployments<-`
-
-#' @importFrom camtrapdp media
 #' @export
+`deployments<-` <- camtrapdp::`deployments<-`
+
+#' Get or set media
+#'
+#' Re-export of [camtrapdp::media()]. 
+#' 
+#' @inherit camtrapdp::media
 #' @family accessor functions
-camtrapdp::media
-
-#' @importFrom camtrapdp `media<-`
 #' @export
+media <- camtrapdp::media
+
+#' Get or set media
+#'
+#' Re-export of [camtrapdp::media<-()]. 
+#' 
+#' @inherit camtrapdp::`media<-`
 #' @family accessor functions
-camtrapdp::`media<-`
-
-#' @importFrom camtrapdp observations
 #' @export
+`media<-` <- camtrapdp::`media<-`
+
+#' Get or set observations
+#'
+#' Re-export of [camtrapdp::observations()]. 
+#'
+#' @inherit camtrapdp::observations
 #' @family accessor functions
-camtrapdp::observations
-
-#' @importFrom camtrapdp `observations<-`
 #' @export
+observations <- camtrapdp::observations
+
+#' Get or set observations
+#'
+#' Re-export of [camtrapdp::observations<-()]. 
+#'
+#' @inherit camtrapdp::`observations<-`
 #' @family accessor functions
-camtrapdp::`observations<-`
-
-#' @importFrom camtrapdp events
 #' @export
+`observations<-` <- camtrapdp::`observations<-`
+
+#' Get events
+#'
+#' Re-export of [camtrapdp::events()]. 
+#'
+#' @inherit camtrapdp::events
 #' @family accessor functions
-camtrapdp::events
-
-#' @importFrom camtrapdp taxa
 #' @export
+events <- camtrapdp::events
+
+#' Get taxa
+#'
+#' Re-export of [camtrapdp::taxa()]. 
+#'
+#' @inherit camtrapdp::taxa
 #' @family accessor functions
-camtrapdp::taxa
-
-#' @importFrom camtrapdp locations
 #' @export
+taxa <- camtrapdp::taxa
+
+#' Get locations
+#'
+#' Re-export of [camtrapdp::locations()]. 
+#'
+#' @inherit camtrapdp::locations
 #' @family accessor functions
-camtrapdp::locations
-
-#' @importFrom camtrapdp filter_deployments
 #' @export
+locations <- camtrapdp::locations
+
+#' Filter deployments
+#'
+#' Re-export of [camtrapdp::filter_deployments()]. 
+#'
+#' @inherit camtrapdp::filter_deployments
 #' @family filter functions
-camtrapdp::filter_deployments
-
-#' @importFrom camtrapdp filter_media
 #' @export
-#' @family filter functions
-camtrapdp::filter_media
+filter_deployments <- camtrapdp::filter_deployments
 
-#' @importFrom camtrapdp filter_observations
-#' @export
+#' Filter media
+#'
+#' Re-export of [camtrapdp::filter_media()]. 
+#'
+#' @inherit camtrapdp::filter_media
 #' @family filter functions
-camtrapdp::filter_observations
+#' @export
+filter_media <- camtrapdp::filter_media
+
+#' Filter observations
+#'
+#' Re-export of [camtrapdp::filter_observations()]. 
+#'
+#' @inherit camtrapdp::filter_observations
+#' @family filter functions
+#' @export
+filter_observations <- camtrapdp::filter_observations

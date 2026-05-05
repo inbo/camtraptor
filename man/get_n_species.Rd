@@ -25,7 +25,8 @@ A tibble data frame with the following columns:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_observations]{summarize_observations()}}
+It is deprecated as of camtraptor 1.0.0. Please use
+\code{\link[=summarize_observations]{summarize_observations()}}
 instead.
 }
 \examples{
@@ -33,3 +34,13 @@ x <- example_dataset()
 # Get number of species
 get_n_species(x)
 }
+\seealso{
+Other deprecated exploration functions: 
+\code{\link{get_custom_effort}()},
+\code{\link{get_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_rai}()},
+\code{\link{get_rai_individuals}()}
+}
+\concept{deprecated exploration functions}

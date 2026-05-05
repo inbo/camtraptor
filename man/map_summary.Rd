@@ -37,8 +37,10 @@ are:
 \item \code{n_events}: Number of events observed.
 \item \code{n_observations}: Number of observations.
 \item \code{sum_count}: Number of individuals observed.
-\item \code{rai_observations}: RAI calculated using the number of observations (\code{n_observations}).
-\item \code{rai_count}: RAI calculated using the number of observed individuals (\code{sum_count}).
+\item \code{rai_observations}: RAI calculated using the number
+of observations (\code{n_observations}).
+\item \code{rai_count}: RAI calculated using the number
+of observed individuals (\code{sum_count}).
 }
 
 Possible values present in output of \code{\link[=summarize_deployments]{summarize_deployments()}} are:
@@ -55,8 +57,9 @@ duration. Ignored if \code{feature} is not \code{"effort_duration"}. One of:
 \item \code{day}
 \item \code{month}
 \item \code{year}
-If  \code{NULL} (default), the effort is returned in hours.
-}}
+}
+
+If  \code{NULL} (default), the effort is returned in hours.}
 
 \item{cluster}{Logical value indicating whether using the cluster option
 while visualizing maps. Default: \code{TRUE}.}
@@ -134,11 +137,10 @@ present in the summary, be sure to have used \code{extend} = \code{TRUE} in
 
 Notice also that the argument \code{species} is not present anymore. If you want
 to visualize a feature only for a specific group of species, please filter
-the camera trap data package using \code{\link[=filter_observations]{filter_observations()}} before using
+the Camera Trap Data Package using \code{\link[=filter_observations]{filter_observations()}} before using
 this function. See the examples.
 }
 \examples{
-\dontrun{
 x <- example_dataset()
 # Filter a data package to get only the data of Anas platyrhynchos
 x_anas_p <- x \%>\%
@@ -282,7 +284,7 @@ x \%>\%
   map_summary("n_observations", zero_values_icon_size = 30)
 
 # Use another icon url/size for visualizing groups with no observations
-(NA, only for `n_scientificName` feature)
+# (NA, only for `n_scientificName` feature)
 x \%>\%
   filter_observations(deploymentID != "00a2c20d") \%>\%
   summarize_observations(
@@ -331,6 +333,5 @@ x \%>\%
     "n_observations",
     radius_range = c(40, 150)
 )
-}
 }
 \concept{visualization functions}

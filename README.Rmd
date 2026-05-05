@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 # camtraptor <a href="https://inbo.github.io/camtraptor/"><img src="man/figures/logo.png" align="right" height="137" alt="camtraptor website" /></a>
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/camtraptor)](https://CRAN.R-project.org/package=camtraptor)
 [![R-CMD-check](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml)
 [![Release](https://img.shields.io/github/v/release/inbo/camtraptor.svg)](https://github.com/inbo/camtraptor/releases)
 [![camtraptor status badge](https://inbo.r-universe.dev/camtraptor/badges/version)](https://inbo.r-universe.dev/camtraptor)

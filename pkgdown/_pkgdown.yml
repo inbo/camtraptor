@@ -23,10 +23,8 @@ reference:
 - title: Read data
   contents:
   - has_concept("read functions")
-  - has_concept("deprecated read functions")
-- title: Read sample data
-  contents:
   - has_concept("read sample data functions")
+  - has_concept("deprecated read functions")
 - title: Filter data
   contents:
   - has_concept("filter functions")
@@ -55,4 +53,5 @@ reference:
   - has_concept("transformation functions")
 - title: Sample data
   contents:
+  - has_concept("read sample data functions")
   - has_concept("sample data")

@@ -2,12 +2,17 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{media}
 \alias{media}
+\alias{media<-}
 \title{Get or set media}
 \usage{
 media(x)
+
+media(x) <- value
 }
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
+
+\item{value}{A data frame to assign as media.}
 }
 \value{
 A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with media.
@@ -27,12 +32,17 @@ media(x) <- head(media(x), 1)
 Other accessor functions: 
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
-\code{\link{deployments<-}()},
 \code{\link{events}()},
 \code{\link{locations}()},
-\code{\link{media<-}()},
 \code{\link{observations}()},
-\code{\link{observations<-}()},
+\code{\link{taxa}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()},
+\code{\link{deployments}()},
+\code{\link{events}()},
+\code{\link{locations}()},
+\code{\link{observations}()},
 \code{\link{taxa}()}
 }
 \concept{accessor functions}

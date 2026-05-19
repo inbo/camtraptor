@@ -25,12 +25,8 @@ example_dataset <- camtrapdp::example_dataset
 #' @export
 deployments <- camtrapdp::deployments
 
-#' Get or set deployments
-#'
-#' Re-export of [camtrapdp::deployments<-()]. 
-#' 
+#' @rdname deployments
 #' @inherit camtrapdp::`deployments<-`
-#' @family accessor functions
 #' @export
 `deployments<-` <- camtrapdp::`deployments<-`
 
@@ -43,10 +39,7 @@ deployments <- camtrapdp::deployments
 #' @export
 media <- camtrapdp::media
 
-#' Get or set media
-#'
-#' Re-export of [camtrapdp::media<-()]. 
-#' 
+#' @rdname media
 #' @inherit camtrapdp::`media<-`
 #' @family accessor functions
 #' @export
@@ -61,10 +54,7 @@ media <- camtrapdp::media
 #' @export
 observations <- camtrapdp::observations
 
-#' Get or set observations
-#'
-#' Re-export of [camtrapdp::observations<-()]. 
-#'
+#' @rdname observations
 #' @inherit camtrapdp::`observations<-`
 #' @family accessor functions
 #' @export

@@ -24,12 +24,9 @@ taxa(x)
 Other accessor functions: 
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
-\code{\link{deployments<-}()},
 \code{\link{events}()},
 \code{\link{locations}()},
 \code{\link{media}()},
-\code{\link{media<-}()},
-\code{\link{observations}()},
-\code{\link{observations<-}()}
+\code{\link{observations}()}
 }
 \concept{accessor functions}

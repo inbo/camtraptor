@@ -2,12 +2,17 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{observations}
 \alias{observations}
+\alias{observations<-}
 \title{Get or set observations}
 \usage{
 observations(x)
+
+observations(x) <- value
 }
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
+
+\item{value}{A data frame to assign as observations.}
 }
 \value{
 A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with observations.
@@ -27,12 +32,17 @@ observations(x) <- head(observations(x), 1)
 Other accessor functions: 
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
-\code{\link{deployments<-}()},
 \code{\link{events}()},
 \code{\link{locations}()},
 \code{\link{media}()},
-\code{\link{media<-}()},
-\code{\link{observations<-}()},
+\code{\link{taxa}()}
+
+Other accessor functions: 
+\code{\link{add_coordinates}()},
+\code{\link{deployments}()},
+\code{\link{events}()},
+\code{\link{locations}()},
+\code{\link{media}()},
 \code{\link{taxa}()}
 }
 \concept{accessor functions}

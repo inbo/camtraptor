@@ -30,12 +30,9 @@ events(x)
 Other accessor functions: 
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
-\code{\link{deployments<-}()},
 \code{\link{locations}()},
 \code{\link{media}()},
-\code{\link{media<-}()},
 \code{\link{observations}()},
-\code{\link{observations<-}()},
 \code{\link{taxa}()}
 }
 \concept{accessor functions}

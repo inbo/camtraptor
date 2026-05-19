@@ -2,12 +2,17 @@
 % Please edit documentation in R/camtrapdp-reexports.R
 \name{deployments}
 \alias{deployments}
+\alias{deployments<-}
 \title{Get or set deployments}
 \usage{
 deployments(x)
+
+deployments(x) <- value
 }
 \arguments{
 \item{x}{Camera Trap Data Package object, as returned by \code{\link[camtrapdp:read_camtrapdp]{read_camtrapdp()}}.}
+
+\item{value}{A data frame to assign as deployments.}
 }
 \value{
 A \code{\link[tibble:tibble]{tibble::tibble()}} data frame with deployments.
@@ -26,13 +31,10 @@ deployments(x) <- head(deployments(x), 1)
 \seealso{
 Other accessor functions: 
 \code{\link{add_coordinates}()},
-\code{\link{deployments<-}()},
 \code{\link{events}()},
 \code{\link{locations}()},
 \code{\link{media}()},
-\code{\link{media<-}()},
 \code{\link{observations}()},
-\code{\link{observations<-}()},
 \code{\link{taxa}()}
 }
 \concept{accessor functions}

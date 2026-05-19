@@ -31,12 +31,9 @@ locations(x)
 Other accessor functions: 
 \code{\link{add_coordinates}()},
 \code{\link{deployments}()},
-\code{\link{deployments<-}()},
 \code{\link{events}()},
 \code{\link{media}()},
-\code{\link{media<-}()},
 \code{\link{observations}()},
-\code{\link{observations<-}()},
 \code{\link{taxa}()}
 }
 \concept{accessor functions}

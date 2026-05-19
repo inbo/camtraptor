@@ -30,7 +30,6 @@ media(x) <- head(media(x), 1)
 }
 \seealso{
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
@@ -40,7 +39,6 @@ Other accessor functions:
 \code{\link{taxa}()}
 
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},

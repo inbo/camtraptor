@@ -24,15 +24,4 @@ x <- example_dataset()
 # Add coordinates to observations
 add_coordinates(x) \%>\% observations()
 }
-\seealso{
-Other accessor functions: 
-\code{\link{contributors}()},
-\code{\link{deployments}()},
-\code{\link{events}()},
-\code{\link{individuals}()},
-\code{\link{locations}()},
-\code{\link{media}()},
-\code{\link{observations}()},
-\code{\link{taxa}()}
-}
-\concept{accessor functions}
+\concept{transformation functions}

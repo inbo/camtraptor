@@ -30,7 +30,6 @@ deployments(x) <- head(deployments(x), 1)
 }
 \seealso{
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{contributors}()},
 \code{\link{events}()},
 \code{\link{individuals}()},

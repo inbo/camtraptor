@@ -43,7 +43,6 @@ contributors(x) <- head(contributors(x), 1)
 }
 \seealso{
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
 \code{\link{individuals}()},
@@ -53,7 +52,6 @@ Other accessor functions:
 \code{\link{taxa}()}
 
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
 \code{\link{individuals}()},

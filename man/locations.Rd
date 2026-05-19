@@ -29,7 +29,6 @@ locations(x)
 }
 \seealso{
 Other accessor functions: 
-\code{\link{add_coordinates}()},
 \code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},

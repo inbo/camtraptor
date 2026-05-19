@@ -5,7 +5,7 @@ navbar:
   bg: dark
 articles:
 - title: Basics
-  navbar: Basics
+  navbar: ~
   contents:
   - workflow
   - visualize-deployment-features

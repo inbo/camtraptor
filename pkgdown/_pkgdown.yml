@@ -50,6 +50,9 @@ reference:
   contents:
   - has_concept("accessor functions")
   - has_concept("deprecated accessor functions")
+- title: Transformation functions
+  contents:
+  - has_concept("transformation functions")
 - title: Sample data
   contents:
   - has_concept("sample data")

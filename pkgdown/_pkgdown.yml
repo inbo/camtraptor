@@ -9,8 +9,8 @@ articles:
   contents:
   - workflow
   - visualize-deployment-features
-- title: CamtrapR-derived functions
-  navbar: CamtrapR-derived functions
+- title: Create outputs for camtrapR
+  navbar: Create outputs for camtrapR
   contents: 
   - record-table
   - camera-operation-matrix

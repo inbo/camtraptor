@@ -24,8 +24,4 @@ x <- example_dataset()
 # Add coordinates to observations
 add_coordinates(x) \%>\% observations()
 }
-\seealso{
-Other accessor functions: 
-\code{\link{reexports}}
-}
-\concept{accessor functions}
+\concept{transformation functions}

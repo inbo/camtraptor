@@ -39,7 +39,8 @@ information. Default: \code{FALSE}.}
 \value{
 A grouped tibble data frame with the following columns:
 \itemize{
-\item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude}, and \code{scientificName}.
+\item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude},
+and \code{scientificName}.
 \item \code{group_time_by} name if provided, e.g. \code{month}. It is a datetime column
 containing the first date of the time interval, e.g. the first day of the
 month.
@@ -81,7 +82,8 @@ grouping are excluded from the output.
 
 When \code{extend = TRUE}, the summary is extended to include all possible
 combinations of grouping variables, even when no observations exist for a
-particular group. This is particularly useful for visualisations (\code{map_summary()}) and analysis as it identifies for example:
+particular group. This is particularly useful for visualisations
+(\code{map_summary()}) and analysis as it identifies for example:
 \itemize{
 \item Deployments where a specific species was not observed.
 \item Time periods when a specific species was not observed.
@@ -100,11 +102,11 @@ x <- example_dataset()
 summarize_observations(x)
 
 # Summarize observations by `locationId`, and `locationName` (summary by
-deployment columns only)
+# deployment columns only)
 summarize_observations(x, group_by = "locationName")
 
 # Summarize observations by `scientificName` and `sex` (summary by
-observation columns only)
+# observation columns only)
 summarize_observations(x, group_by = c("scientificName", "sex"))
 
 # Apply temporal grouping by month

@@ -43,3 +43,13 @@ instead.
 x <- example_dataset()
 get_effort(x)
 }
+\seealso{
+Other deprecated exploration functions: 
+\code{\link{get_custom_effort}()},
+\code{\link{get_n_individuals}()},
+\code{\link{get_n_obs}()},
+\code{\link{get_n_species}()},
+\code{\link{get_rai}()},
+\code{\link{get_rai_individuals}()}
+}
+\concept{deprecated exploration functions}

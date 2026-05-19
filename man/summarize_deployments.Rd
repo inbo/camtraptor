@@ -74,14 +74,14 @@ summarize_deployments(
   x,
   group_by = c("deploymentID", "locationName"),
   group_time_by = "month"
-  ) \%>\%
-dplyr::group_by(month) \%>\%
-dplyr::summarise(
-  deploymentIDs = list(deploymentID),
-  ndep = length(unique(deploymentID)),
-  nloc = length(unique(locationName)),
-  effort_duration = sum(effort_duration)
-)
+) \%>\%
+  group_by(month) \%>\%
+  summarise(
+    deploymentIDs = list(deploymentID),
+    ndep = length(unique(deploymentID)),
+    nloc = length(unique(locationName)),
+    effort_duration = sum(effort_duration)
+  )
 }
 \seealso{
 Other exploration functions: 

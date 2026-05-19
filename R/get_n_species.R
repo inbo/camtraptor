@@ -3,13 +3,15 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_observations()]
+#' It is deprecated as of camtraptor 1.0.0. Please use
+#' [summarize_observations()]
 #' instead.
 #'
 #' @inheritParams get_n_obs
 #' @return A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
+#' @family deprecated exploration functions
 #' @export
 #' @examples
 #' x <- example_dataset()

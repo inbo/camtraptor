@@ -1,5 +1,6 @@
 #' Define internal vectors with possible `group_by` values, to be used in
 #' `summarize_observations()`, `summarize_deployments()` and check functions.
+#' @keywords internal
 .group_bys_deployments <- c(
   "deploymentID",
   "latitude",
@@ -20,6 +21,7 @@
 
 #' Features returned by `summarize_observations()`. Useful to check output of
 #' the function and other check functions.
+#' @keywords internal
 .features_observations <- c(
   "n_scientificName",
   "n_events",
@@ -30,6 +32,7 @@
 )
 #' Features returned by `summarize_deployments()`. Useful to check output of
 #' the function and other check functions.
+#' @keywords internal
 .features_deployments <- c(
   "effort_duration"
 )
@@ -40,9 +43,11 @@
 #' deployment with the mouse.
 #'
 #' A data.frame of all prefixes with the following columns:
-#' - `info`: all valid grouping columns (deployments or observations) and features.
+#' - `info`: all valid grouping columns (deployments or observations) 
+#' and features.
 #' - `prefix`: Prefix to use.
 #' @keywords internal
+#' @importFrom snakecase to_sentence_case
 .prefixes_for_hover_info <- dplyr::tibble(
   info = c(.group_bys_deployments,
            .group_bys_observations,
@@ -53,7 +58,10 @@
   prefix = snakecase::to_sentence_case(info) %>%
     stringr::str_c(": ") %>%
     # Add `"s"` to `"N scientific name"`
-    stringr::str_replace(pattern = "N scientific name", replacement = "N scientific names") %>%
+    stringr::str_replace(
+      pattern = "N scientific name",
+      replacement = "N scientific names"
+    ) %>%
     # Replace `"count"` with `individual counts"`
     stringr::str_replace(pattern = "count", replacement = "individual counts")
 )
@@ -66,9 +74,10 @@
 #' - `feature`: Deployment feature to visualize.
 #' - `legend_title`: Legend title.
 #' @keywords internal
-.mapdep_legend_titles <- dplyr::tibble(
+.map_summary_legend_titles <- dplyr::tibble(
   feature = c(
     "n_scientificName",
+    "n_events",
     "n_observations",
     "sum_count",
     "rai_observations",
@@ -77,6 +86,7 @@
   ),
   legend_title = c(
     "Number of detected species",
+    "Number of events",
     "Number of observations",
     "Sum of individual counts",
     "RAI",

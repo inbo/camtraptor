@@ -23,7 +23,7 @@
 #' @noRd
 extend_summary <- function(summary, x) {
   
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
   # Check `summary` is a valid summary
   check_summary(summary)
@@ -141,7 +141,8 @@ extend_summary <- function(summary, x) {
 #'
 #' When `extend = TRUE`, the summary is extended to include all possible
 #' combinations of grouping variables, even when no observations exist for a
-#' particular group. This is particularly useful for visualisations (`map_summary()`) and analysis as it identifies for example:
+#' particular group. This is particularly useful for visualisations 
+#' (`map_summary()`) and analysis as it identifies for example:
 #' - Deployments where a specific species was not observed.
 #' - Time periods when a specific species was not observed.
 #' - Presence/absence patterns across deployments.
@@ -162,7 +163,8 @@ extend_summary <- function(summary, x) {
 #'   information. Default: `FALSE`.
 #' @inheritParams summarize_deployments
 #' @return A grouped tibble data frame with the following columns:
-#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`, and `scientificName`.
+#'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`,
+#'     and `scientificName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column
 #'   containing the first date of the time interval, e.g. the first day of the
 #'   month.
@@ -189,11 +191,11 @@ extend_summary <- function(summary, x) {
 #' summarize_observations(x)
 #'
 #' # Summarize observations by `locationId`, and `locationName` (summary by
-#' deployment columns only)
+#' # deployment columns only)
 #' summarize_observations(x, group_by = "locationName")
 #'
 #' # Summarize observations by `scientificName` and `sex` (summary by
-#' observation columns only)
+#' # observation columns only)
 #' summarize_observations(x, group_by = c("scientificName", "sex"))
 #'
 #' # Apply temporal grouping by month
@@ -206,7 +208,7 @@ summarize_observations <- function(
     group_by = c("deploymentID", "latitude", "longitude", "scientificName"),
     group_time_by = NULL,
     extend = FALSE) {
-  # Check camera trap data package
+  # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
 
   # Check `group_by`

@@ -18,6 +18,8 @@
 \alias{check_species}
 \alias{get_scientific_name}
 \alias{read_wi}
+\alias{write_dwc}
+\alias{round_coordinates}
 \title{Defunct functions}
 \usage{
 # Deprecated in 1.0.0 -------------------------------------
@@ -53,11 +55,21 @@ check_species(x, species, arg_name)
 get_scientific_name(x)
 
 read_wi(x)
+
+write_dwc(x)
+
+round_coordinates(x)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
 These functions are not supported anymore. If there's a known replacement,
 calling the function will tell you about it.
+
+\code{write_dwc()} has been moved to camtrapdp. Check
+\code{\link[camtrapdp:write_dwc]{camtrapdp::write_dwc()}} for more information.
+
+\code{round_coordinates()} has been moved to camtrapdp. Check
+\code{\link[camtrapdp:round_coordinates]{camtrapdp::round_coordinates()}} for more information.
 }
 \keyword{internal}

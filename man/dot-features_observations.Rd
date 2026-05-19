@@ -15,4 +15,4 @@ An object of class \code{character} of length 6.
 Features returned by \code{summarize_observations()}. Useful to check output of
 the function and other check functions.
 }
-\keyword{datasets}
+\keyword{internal}

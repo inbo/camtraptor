@@ -40,19 +40,28 @@
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are
 #'   removed because taken during the buffer period.
-#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()]). Default: `FALSE`.
+#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return 
+#' the input for multi-season occupancy models in unmarked
+#' R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)).
+#' Default: `FALSE`.
 #' @return A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
 #' - `dates`: the dates matrix
 #' 
 #' @details
-#' This function doesn't take as input a camera trap data package object, but a
+#' This function doesn't take as input a Camera Trap Data Package object, but a
 #' camera operation matrix and a record table, which are both calculated based
-#' on a camera trap data package object. For more information, see the
+#' on a Camera Trap Data Package object. For more information, see the
 #' [camtrapR_cameraOperation()] and [camtrapR_recordTable()] functions.
 #' 
-#' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `camtrapR_cameraOperation()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
+#' If the camera operation matrix (`camOp`) was created for a multi-season study
+#' (via argument `session_col` in `camtrapR_cameraOperation()`), the session
+#' will be detected automatically. You can then set
+#' `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection
+#' history. Each row corresponds to a site, and the columns are in season-major,
+#' occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`,
+#' `o2_SESS_B`, etc.
 #' 
 #' @family camtrapR-derived functions
 #' @importFrom dplyr .data %>%
@@ -68,7 +77,7 @@
 #' # are left.
 #' recordTable_mulitple <- camtrapR_recordTable(
 #'   x,
-#'   removeDuplicatedRecords = FALSE
+#'   removeDuplicateRecords = FALSE
 #' )
 #' 
 #' # Binary output
@@ -329,8 +338,8 @@ camtrapR_detectionHistory <- function(recordTable,
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
         stop(paste0(
-          "Invalid `day1`. Must be equal to 'station' or a string representing ",
-          "a valid date in ISO 8601 format."
+          "Invalid `day1`. Must be equal to 'station' or a string ",
+          "representing a valid date in ISO 8601 format."
           ),
           call. = FALSE
         )
@@ -631,9 +640,9 @@ camtrapR_detectionHistory <- function(recordTable,
         floor(as.numeric(.data$Date - .data$first_day)/occasionLength)
     ) %>%
     dplyr::group_by(.data$Station, .data$period_start) %>%
-    dplyr::summarize(z = 1,
-                     n_obs = dplyr::n(),
-                     n_ind = sum(.data$n),
+    dplyr::summarize(z = 1L,
+                     n_obs = as.integer(dplyr::n()),
+                     n_ind = as.integer(sum(.data$n)),
                      .groups = "drop")
   
   # Transform camera operation matrix, `camOp` to a long format (tibble)
@@ -799,8 +808,13 @@ camtrapR_detectionHistory <- function(recordTable,
             # Dates are characters
             out %>% purrr::flatten_chr()
           } else {
-            # Detection history and effort are numbers
-            out %>% purrr::flatten_dbl()
+            # Detection history is integer
+            if (type == "detection_history") {
+              out %>% purrr::flatten_int()
+            } else {
+              # Effort is numeric (decimals allowed)
+              out %>% purrr::flatten_dbl()
+            }
           }
         })
         

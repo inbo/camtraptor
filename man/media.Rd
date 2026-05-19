@@ -31,16 +31,20 @@ media(x) <- head(media(x), 1)
 \seealso{
 Other accessor functions: 
 \code{\link{add_coordinates}()},
+\code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
+\code{\link{individuals}()},
 \code{\link{locations}()},
 \code{\link{observations}()},
 \code{\link{taxa}()}
 
 Other accessor functions: 
 \code{\link{add_coordinates}()},
+\code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
+\code{\link{individuals}()},
 \code{\link{locations}()},
 \code{\link{observations}()},
 \code{\link{taxa}()}

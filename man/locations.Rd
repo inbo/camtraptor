@@ -30,8 +30,10 @@ locations(x)
 \seealso{
 Other accessor functions: 
 \code{\link{add_coordinates}()},
+\code{\link{contributors}()},
 \code{\link{deployments}()},
 \code{\link{events}()},
+\code{\link{individuals}()},
 \code{\link{media}()},
 \code{\link{observations}()},
 \code{\link{taxa}()}

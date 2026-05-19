@@ -29,7 +29,9 @@ events(x)
 \seealso{
 Other accessor functions: 
 \code{\link{add_coordinates}()},
+\code{\link{contributors}()},
 \code{\link{deployments}()},
+\code{\link{individuals}()},
 \code{\link{locations}()},
 \code{\link{media}()},
 \code{\link{observations}()},

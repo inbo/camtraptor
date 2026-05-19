@@ -87,6 +87,30 @@ taxa <- camtrapdp::taxa
 #' @export
 locations <- camtrapdp::locations
 
+#' Get individuals
+#'
+#' Re-export of [camtrapdp::individuals()]. 
+#'
+#' @inherit camtrapdp::individuals
+#' @family accessor functions
+#' @export
+individuals <- camtrapdp::individuals
+
+#' Get or set contributors
+#'
+#' Re-export of [camtrapdp::contributors()]. 
+#'
+#' @inherit camtrapdp::contributors
+#' @family accessor functions
+#' @export
+contributors <- camtrapdp::contributors
+
+#' @rdname contributors
+#' @inherit camtrapdp::`contributors<-`
+#' @family accessor functions
+#' @export
+`contributors<-` <- camtrapdp::`contributors<-`
+
 #' Filter deployments
 #'
 #' Re-export of [camtrapdp::filter_deployments()]. 

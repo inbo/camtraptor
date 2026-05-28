@@ -105,8 +105,7 @@ produce outputs as returned by camtrapR functions.
 
 - We welcome [contributions](.github/CONTRIBUTING.md) including bug
   reports.
-- License: [MIT](https://opensource.org/license/mit) + file
-  [LICENSE](https://inbo.github.io/camtraptor/LICENSE-text.html)
+- License: MIT
 - Get citation information for camtraptor in R with
   `citation("camtraptor")`.
 - Please note that this project is released with a [Contributor Code of

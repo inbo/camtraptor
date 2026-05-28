@@ -76,6 +76,6 @@ Camtraptor aims to become a useful toolkit for camera trap data analysis by incl
 ## Meta
 
 - We welcome [contributions](.github/CONTRIBUTING.md) including bug reports.
-- License: [MIT](https://opensource.org/license/mit) + file [LICENSE](https://inbo.github.io/camtraptor/LICENSE-text.html)
+- License: MIT
 - Get citation information for camtraptor in R with `citation("camtraptor")`.
 - Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.

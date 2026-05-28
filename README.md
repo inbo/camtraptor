@@ -19,7 +19,7 @@ coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.co
 [![test-coverage](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
-Camtraptor is an R package to **read**, **explore** and **visualize**
+camtraptor is an R package to **read**, **explore** and **visualize**
 [Camera Trap Data Package](https://camtrap-dp.tdwg.org) (Camtrap DP)
 datasets. Camtrap DP is a community developed data exchange format for
 camera trap data. With camtraptor you can create overviews of observed
@@ -85,7 +85,7 @@ x %>%
   filter_observations(
     scientificName == "Anas platyrhynchos",
     sex == "female"
-    ) %>%
+  ) %>%
   summarize_observations() %>%
   map_summary(feature = "sum_count")
 ```

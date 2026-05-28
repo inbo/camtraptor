@@ -44,23 +44,13 @@ To get started, see:
 
 ## Installation
 
-You can install the stable version of **camtraptor** from the INBO
-R-universe:
-
-``` r
-install.packages("camtraptor", repos = "https://inbo.r-universe.dev")
-```
-
 You can install the development version of camtraptor from
-[GitHub](https://github.com/inbo/camtraptor) with:
+[GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("inbo/camtraptor")
+# install.packages("pak")
+pak::pak("inbo/camtraptor")
 ```
-
-While we support older versions of R up to 3.5, we recommend using R
-4.0.0 or higher.
 
 ## Example
 

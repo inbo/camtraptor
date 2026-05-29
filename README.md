@@ -19,7 +19,7 @@ coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.co
 [![test-coverage](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
-Camtraptor is an R package to **read**, **explore** and **visualize**
+camtraptor is an R package to **read**, **explore** and **visualize**
 [Camera Trap Data Package](https://camtrap-dp.tdwg.org) (Camtrap DP)
 datasets. Camtrap DP is a community developed data exchange format for
 camera trap data. With camtraptor you can create overviews of observed
@@ -44,23 +44,13 @@ To get started, see:
 
 ## Installation
 
-You can install the stable version of **camtraptor** from the INBO
-R-universe:
-
-``` r
-install.packages("camtraptor", repos = "https://inbo.r-universe.dev")
-```
-
 You can install the development version of camtraptor from
-[GitHub](https://github.com/inbo/camtraptor) with:
+[GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("inbo/camtraptor")
+# install.packages("pak")
+pak::pak("inbo/camtraptor")
 ```
-
-While we support older versions of R up to 3.5, we recommend using R
-4.0.0 or higher.
 
 ## Example
 
@@ -95,7 +85,7 @@ x %>%
   filter_observations(
     scientificName == "Anas platyrhynchos",
     sex == "female"
-    ) %>%
+  ) %>%
   summarize_observations() %>%
   map_summary(feature = "sum_count")
 ```
@@ -115,8 +105,7 @@ produce outputs as returned by camtrapR functions.
 
 - We welcome [contributions](.github/CONTRIBUTING.md) including bug
   reports.
-- License: [MIT](https://opensource.org/license/mit) + file
-  [LICENSE](https://inbo.github.io/camtraptor/LICENSE-text.html)
+- License: MIT
 - Get citation information for camtraptor in R with
   `citation("camtraptor")`.
 - Please note that this project is released with a [Contributor Code of

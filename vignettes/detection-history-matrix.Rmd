@@ -42,7 +42,7 @@ cam_op <- camtrapR_cameraOperation(x)
 recordTable <- camtrapR_recordTable(x)
 ```
 
-See the vignettes [Camera operation matrix](camera-operation-matrix.html) and [Record table](record-table.html) for details on how to build these inputs.
+See the vignettes `vignette("camera-operation-matrix")` and `vignette("record-table")` for details on how to build these inputs.
 
 ## Detection history
 

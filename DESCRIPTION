@@ -68,9 +68,9 @@ Suggests:
     xml2
 VignetteBuilder:
     knitr
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0

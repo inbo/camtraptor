@@ -19,11 +19,11 @@ coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.co
 [![test-coverage](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
-camtraptor is an R package to **read**, **explore** and **visualize**
-[Camera Trap Data Package](https://camtrap-dp.tdwg.org) (Camtrap DP)
-datasets. Camtrap DP is a community developed data exchange format for
-camera trap data. With camtraptor you can create overviews of observed
-species, relative abundance or effort, and plot these data on a map.
+camtraptor is an R package to **explore** and **visualize** Camera Trap
+Data Packages ([Camtrap DP](https://camtrap-dp.tdwg.org/). Camtrap DP is
+a community developed data exchange format for camera trap data. With
+camtraptor you can create overviews of observed species, relative
+abundance or effort, and plot these data on a map.
 
 > **Note:** [camtraptor
 > v1.0](https://github.com/inbo/camtraptor/milestone/3) has updated the
@@ -59,6 +59,11 @@ Package dataset included in the camtraptor package:
 
 ``` r
 library(camtraptor)
+#> 
+#> Attaching package: 'camtraptor'
+#> The following object is masked from 'package:base':
+#> 
+#>     contributors
 x <- example_dataset()
 taxa(x)
 #> # A tibble: 10 × 5

@@ -21,8 +21,8 @@ Re-export of \code{\link[camtrapdp:filter_deployments]{camtrapdp::filter_deploym
 x <- example_dataset()
 
 # Filtering returns x, so pipe with deployments() to see the result
-x \%>\%
-  filter_deployments(deploymentID == "62c200a9") \%>\%
+x |>
+  filter_deployments(deploymentID == "62c200a9") |>
   deployments()
 
 # Filtering on deployments also affects associated media and observations
@@ -31,23 +31,27 @@ media(x_filtered)
 observations(x_filtered)
 
 # Filtering on multiple conditions (combined with &)
-x \%>\%
-  filter_deployments(latitude > 51.0, longitude > 5.0) \%>\%
+x |>
+  filter_deployments(latitude > 51.0, longitude > 5.0) |>
   deployments()
 
 # Filtering on dates is easiest with lubridate
 library(lubridate, warn.conflicts = FALSE)
-x \%>\%
+x |>
+  filter_deployments(lubridate::year(deploymentStart) == 2020) |>
+  deployments()
+
+x |>
   filter_deployments(
     deploymentStart >= lubridate::as_date("2020-06-19"),
     deploymentEnd <= lubridate::as_date("2020-08-30")
-  ) \%>\%
+  ) |>
   deployments()
 }
 \seealso{
-Other filter functions: 
-\code{\link{filter_media}()},
-\code{\link{filter_observations}()},
-\code{\link{filter_out_timelapse}()}
+Other filter functions:
+\code{\link[=filter_media]{filter_media()}},
+\code{\link[=filter_observations]{filter_observations()}},
+\code{\link[=filter_out_timelapse]{filter_out_timelapse()}}
 }
 \concept{filter functions}

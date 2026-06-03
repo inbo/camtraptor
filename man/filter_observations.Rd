@@ -21,45 +21,49 @@ Re-export of \code{\link[camtrapdp:filter_observations]{camtrapdp::filter_observ
 x <- example_dataset()
 
 # Filtering returns x, so pipe with observations() to see the result
-x \%>\%
-  filter_observations(observationType == "animal") \%>\%
+x |>
+  filter_observations(observationType == "animal") |>
   observations()
 
 # Filtering on observations also affects associated media, but not deployments
-x \%>\%
+x |>
   filter_observations(
     scientificName == "Vulpes vulpes",
     observationLevel == "event"
-  ) \%>\%
+  ) |>
   media()
-x \%>\%
+x |>
   filter_observations(
     scientificName == "Vulpes vulpes",
     observationLevel == "media"
-  ) \%>\%
+  ) |>
   media()
 
 # Filtering on multiple conditions (combined with &)
-x \%>\%
+x |>
   filter_observations(
     deploymentID == "577b543a",
     scientificName \%in\% c("Martes foina", "Mustela putorius")
-  ) \%>\%
+  ) |>
   observations()
 
 # Filtering on datetimes is easiest with lubridate
 library(lubridate, warn.conflicts = FALSE)
-x \%>\%
+x |>
+  filter_observations(lubridate::year(eventStart) == 2020) |>
+  observations()
+
+x |>
   filter_observations(
     eventStart >= lubridate::as_datetime("2020-06-19 22:00:00"),
     eventEnd <= lubridate::as_datetime("2020-06-19 22:10:00")
-  ) \%>\%
+  ) |>
   observations()
 }
 \seealso{
-Other filter functions: 
-\code{\link{filter_deployments}()},
-\code{\link{filter_media}()},
-\code{\link{filter_out_timelapse}()}
+Other filter functions:
+\code{\link[=filter_deployments]{filter_deployments()}},
+\code{\link[=filter_media]{filter_media()}},
+\code{\link[=filter_out_timelapse]{filter_out_timelapse()}}
 }
 \concept{filter functions}

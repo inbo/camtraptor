@@ -84,7 +84,7 @@ summarize_deployments(
   )
 }
 \seealso{
-Other exploration functions: 
-\code{\link{summarize_observations}()}
+Other exploration functions:
+\code{\link[=summarize_observations]{summarize_observations()}}
 }
 \concept{exploration functions}

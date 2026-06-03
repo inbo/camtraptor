@@ -87,8 +87,8 @@ camtrapR_cameraOperation(
 camtrapR_cameraOperation(x, use_prefix = TRUE)
 }
 \seealso{
-Other deprecated camtrapR-derived functions: 
-\code{\link{get_detection_history}()},
-\code{\link{get_record_table}()}
+Other deprecated camtrapR-derived functions:
+\code{\link[=get_detection_history]{get_detection_history()}},
+\code{\link[=get_record_table]{get_record_table()}}
 }
 \concept{deprecated camtrapR-derived functions}

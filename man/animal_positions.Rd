@@ -20,7 +20,7 @@ A tibble data frame with the following columns:
 }
 }
 \seealso{
-Other sample data: 
+Other sample data:
 \code{\link{calibration_models}}
 }
 \concept{sample data}

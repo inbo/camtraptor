@@ -78,12 +78,12 @@ get_custom_effort(x, group_by = "year") \%>\%
   )
 }
 \seealso{
-Other deprecated exploration functions: 
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()}
+Other deprecated exploration functions:
+\code{\link[=get_effort]{get_effort()}},
+\code{\link[=get_n_individuals]{get_n_individuals()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_n_species]{get_n_species()}},
+\code{\link[=get_rai]{get_rai()}},
+\code{\link[=get_rai_individuals]{get_rai_individuals()}}
 }
 \concept{deprecated exploration functions}

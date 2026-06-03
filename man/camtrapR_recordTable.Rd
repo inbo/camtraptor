@@ -147,8 +147,8 @@ camtrapR_recordTable(
 )
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{camtrapR_cameraOperation}()},
-\code{\link{camtrapR_detectionHistory}()}
+Other camtrapR-derived functions:
+\code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}},
+\code{\link[=camtrapR_detectionHistory]{camtrapR_detectionHistory()}}
 }
 \concept{camtrapR-derived functions}

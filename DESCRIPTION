@@ -1,5 +1,5 @@
 Package: camtraptor
-Title: Read, Explore and Visualize Camera Trap Data Package Datasets
+Title: Explore and Visualize Camera Trap Data Packages
 Version: 1.0.0
 Authors@R: c(
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = c("aut", "cre"),
@@ -29,11 +29,10 @@ Authors@R: c(
     person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be")
   )
-Description: Read, explore and visualize camera trap data following the
-    Camtrap DP (Camera Trap Data Package, <https://camtrap-dp.tdwg.org/>)
-    data exchange format. With camtraptor you can read and filter data,
-    get summaries of observed species and deployment information, and
-    visualize these summaries on an interactive map.
+Description: Explore and visualize Camera Trap Data Packages (Camtrap DP
+    <https://camtrap-dp.tdwg.org/>). With camtraptor you can get summaries
+    of observed species and deployment information, and visualize these
+    summaries on an interactive map.
 License: MIT + file LICENSE
 URL: https://github.com/inbo/camtraptor,
     https://inbo.github.io/camtraptor/

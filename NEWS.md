@@ -80,6 +80,8 @@ x %>%
 
 The benefit of having just two functions to generate summary tables is that they can be easily extended in the future to include more features, grouping variables and temporal levels. Before, you needed to run many `get_*()` functions, such as `get_n_obs()`, `get_n_individuals()` or `get_rai()`, and then joining the results if you wanted an overview of all features. Also, the new workflow is more consistent with the tidyverse style of data manipulation and visualization, which makes it easier to learn for users familiar with this style.
 
+More details about the new workflow in the vignette `vignette("workflow")`
+
 ### New functions
 
 - New `summarize_deployments()` calculates the duration effort (#366). It is possible to group by one or more deployment fields: `deploymentID`, `locationID`, `locationName` and `deploymentTags`. The duration effort can be calculated at daily, weekly, monthly or yearly level.

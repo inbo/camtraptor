@@ -2,7 +2,7 @@
 % Please edit documentation in R/camtrapR_cameraOperation.R
 \name{camtrapR_cameraOperation}
 \alias{camtrapR_cameraOperation}
-\title{Get camera operation matrix}
+\title{Get the camera operation matrix}
 \usage{
 camtrapR_cameraOperation(
   x,
@@ -36,7 +36,7 @@ A matrix. Row names always indicate the station ID. Column names are
 dates.
 }
 \description{
-Returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
+Creates the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
 returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 }
 \details{

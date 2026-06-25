@@ -1,6 +1,6 @@
 #' Get the detection history of a species
 #'
-#' This function creates a detection history matrix for a species based on the
+#' Creates the detection history matrix of a species based on the
 #' record table and the camera operation matrix. 
 #' The record table is a concept developed within the camtrapR package, see the
 #' function documentation for [camtrapR::detectionHistory()](

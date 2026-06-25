@@ -58,9 +58,9 @@ daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
     dplyr::pull(.data$daily_effort)
 }
 
-#' Get camera operation matrix
+#' Get the camera operation matrix
 #'
-#' Returns the [camera operation matrix](
+#' Creates the [camera operation matrix](
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) as
 #' returned by [camtrapR::cameraOperation()](
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).

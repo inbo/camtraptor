@@ -30,7 +30,7 @@ abundance or effort, and plot these data on a map.
 > internal data model to Camtrap DP 1.0 and has dropped support for
 > Camtrap DP 0.1.6. This is a breaking change that is accompanied by a
 > number of other major changes. See
-> [News](https://inbo.github.io/camtraptor/news/index.html).
+> [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100).
 
 ## Get started
 

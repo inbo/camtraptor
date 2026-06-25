@@ -55,7 +55,7 @@ pak::pak("inbo/camtraptor")
 ## Example
 
 Get an overview of the species detected in an example Camera Trap Data
-Package dataset included in the camtraptor package:
+Package dataset:
 
 ``` r
 library(camtraptor)

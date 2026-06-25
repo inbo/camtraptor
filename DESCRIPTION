@@ -32,7 +32,8 @@ Authors@R: c(
 Description: Explore and visualize Camera Trap Data Packages (Camtrap DP
     <https://camtrap-dp.tdwg.org/>). With camtraptor you can get summaries
     of observed species and deployment information, and visualize these
-    summaries on an interactive map.
+    summaries on an interactive map. Create also camera operation
+    matrices, record tables and detection histories.
 License: MIT + file LICENSE
 URL: https://github.com/inbo/camtraptor,
     https://inbo.github.io/camtraptor/

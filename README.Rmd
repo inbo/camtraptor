@@ -71,7 +71,18 @@ x %>%
 
 ## Relationship to other camera trap packages available in R
 
-Camtraptor aims to become a useful toolkit for camera trap data analysis by including functionality from other R packages such as [camtrapR](https://cran.r-project.org/package=camtrapR) and [activity](https://cran.r-project.org/package=activity), while following the Camtrap DP exchange format. Functions prefixed with `camtrapR_` produce outputs as returned by camtrapR functions.
+Camtraptor aims to become a useful toolkit for camera trap data analysis by
+including some functionalities from other R packages such as
+[camtrapR](https://cran.r-project.org/package=camtrapR) and
+[activity](https://cran.r-project.org/package=activity), while following the
+Camtrap DP exchange format. Such outputs can then be further processed using
+those two packages. Functions prefixed with `camtrapR_` produce outputs as
+returned by camtrapR functions:
+
+- `camtrapR_cameraOperation()` returns a camera operation matrix
+- `camtrapR_recordTable()` returns a record table
+- `camtrapR_detectionHistory()` returns a detection history matrix
+
 
 ## Meta
 

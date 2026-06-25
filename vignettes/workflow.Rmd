@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 Camtraptor is an R package to **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
 
-> **Note:** Coming from `camtraptor` version 0.28 or earlier? Check out [News](https://inbo.github.io/camtraptor/news/index.html) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+> **Note:** Coming from `camtraptor` version 0.28 or earlier? Check out [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
 
 ## Setup
 

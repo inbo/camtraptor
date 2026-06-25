@@ -1,4 +1,4 @@
-# camtraptor 1.0
+# camtraptor 1.0.0
 
 This major release updates the internal data model of camtraptor to Camtrap DP 1.0, drops support for Camtrap DP 0.1.6 and facilitates a step-by-step exploration workflow with new functions.
 

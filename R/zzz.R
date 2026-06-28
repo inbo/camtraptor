@@ -175,6 +175,8 @@ labelFormat_scale <- function(max_scale = NULL,
 #'
 #' @param package Camera trap data package object, as returned by
 #'   `read_camtrap_dp()`.
+#' @param verbose Show (`TRUE`) or not (`FALSE`) the deployments 
+#'    without observations.
 #' @param datapkg Deprecated. Use `package` instead.
 #' @param ... Filter predicates for filtering on deployments
 #' @return A tibble data frame with deployments not linked to any observations.
@@ -185,6 +187,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #' get_dep_no_obs(mica)
 get_dep_no_obs <- function(package = NULL,
                            ...,
+                           verbose = TRUE,
                            datapkg = lifecycle::deprecated()) {
 
   # check input camera trap data package
@@ -208,7 +211,7 @@ get_dep_no_obs <- function(package = NULL,
   dep_no_obs_ids <- dep_no_obs$deploymentID
   n_dep_no_obs <- length(dep_no_obs_ids)
 
-  if (n_dep_no_obs > 0) {
+  if (n_dep_no_obs > 0 && verbose) {
     max_print <- 20
     # Suppress long messages
     if (length(dep_no_obs_ids) > max_print) {

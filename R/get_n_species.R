@@ -41,7 +41,8 @@ get_n_species <- function(package = NULL,
   # get deployments without observations among the filtered deployments
   deployments_no_obs <- get_dep_no_obs(
     package,
-    pred_in("deploymentID", deployments$deploymentID)
+    pred_in("deploymentID", deployments$deploymentID),
+    verbose = FALSE
   )
 
   # get species detected by each deployment after filtering

@@ -8,7 +8,7 @@
 #' instead.
 #'
 #' @inheritParams get_n_obs
-#' @return A tibble data frame with the following columns:
+#' @returns A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `n`: Number of observed and identified species.
 #' @family deprecated exploration functions

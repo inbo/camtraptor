@@ -17,7 +17,7 @@
 #' @param summary A grouped tibble data frame as returned by
 #'   `summarize_observations()`.
 #' @param x Camera Trap Data Package object.
-#' @return A grouped tibble data frame with the missing groups added. The values
+#' @returns A grouped tibble data frame with the missing groups added. The values
 #'   of the features are set to `0` or `NA`, depending on the feature. See the
 #'   details section for more information.
 #' @noRd
@@ -162,7 +162,7 @@ extend_summary <- function(summary, x) {
 #'   groups left out by `summarize_observations()`. See details section for more
 #'   information. Default: `FALSE`.
 #' @inheritParams summarize_deployments
-#' @return A grouped tibble data frame with the following columns:
+#' @returns A grouped tibble data frame with the following columns:
 #'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude`,
 #'     and `scientificName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It is a datetime column

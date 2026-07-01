@@ -9,7 +9,7 @@
 #'  - `week`
 #'  - `month`
 #'  - `year`
-#' @return A date object with the calendar start of the time group.
+#' @returns A date object with the calendar start of the time group.
 #' @noRd
 calendar_floor_date <- function(my_date, period) {
   if (is.null(period)) {
@@ -39,7 +39,7 @@ calendar_floor_date <- function(my_date, period) {
 #'  - `week`
 #'  - `month`
 #'  - `year`
-#' @return A date object with the calendar end of the time period.
+#' @returns A date object with the calendar end of the time period.
 #' @noRd
 calendar_ceiling_date <- function(my_date, period) {
   if (is.null(period)) {
@@ -71,7 +71,7 @@ calendar_ceiling_date <- function(my_date, period) {
 #'  - `week`: Group by week.
 #'  - `month`: Group by month.
 #'  - `year`: Group by year.
-#' @return A tibble data frame with three columns:
+#' @returns A tibble data frame with three columns:
 #' - `start`: start dates.
 #' - `end`: end dates.
 #' - `deploymentID`: the ID of the deployment.
@@ -131,7 +131,7 @@ create_date_series <- function(deployment_id, deployments, group_time_by) {
 #' @param group_by A character vector of deployment column names to add to
 #'   the date series.
 #' @inheritParams create_date_series
-#' @return A tibble data frame with start/end dates, the deployment ID and the
+#' @returns A tibble data frame with start/end dates, the deployment ID and the
 #'   deployments columns in `group_by`.
 #' @noRd
 enrich_deployment <- function(deployment_id,
@@ -173,7 +173,7 @@ enrich_deployment <- function(deployment_id,
 #'   `"year"`. The effort is calculated at the interval rate defined in
 #'   `group_time_by`. Default: `NULL`, no grouping, i.e. the entire duration of
 #'   the deployment is taken into account as a whole.
-#' @return A grouped tibble data frame with the following columns:
+#' @returns A grouped tibble data frame with the following columns:
 #'   - `group_by` names, e.g. `deploymentID`, `latitude`, `longitude` and 
 #'   `locationName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It contains the first
@@ -281,7 +281,7 @@ summarise_deployments <- summarize_deployments
 #'   `group_time_by` argument.
 #' @param group_time_by A character string indicating the time unit to group the
 #'   results by. If `NULL`, no time grouping is applied.
-#' @return A tibble data frame with the following columns:
+#' @returns A tibble data frame with the following columns:
 #'   - `deploymentID`: The ID of the deployment.
 #'   - `group_by` names, e.g. `locationName`.
 #'   - `group_time_by` name if provided, e.g. `month`. It contains the first

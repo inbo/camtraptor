@@ -87,7 +87,7 @@ daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
 #'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #'   Default: `FALSE`.
 #' @inheritParams summarize_deployments
-#' @return A matrix. Row names always indicate the station ID. Column names are
+#' @returns A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
 #' @family camtrapR-derived functions
 #' @export

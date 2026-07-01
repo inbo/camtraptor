@@ -184,7 +184,7 @@ labelFormat_scale <- function(max_scale = NULL,
 #'   the Camera Trap Data Package using [filter_observations()] before using
 #'   this function. See the examples.
 #'
-#' @return Leaflet map.
+#' @returns Leaflet map.
 #' @family visualization functions
 #' @export
 #' @examples

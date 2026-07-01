@@ -22,7 +22,7 @@
 #' @param formula_per_deployment A formula to calculate the feature per
 #'   deployment.
 #' @param formula_total A formula to calculate the feature over all deployments.
-#' @return A tibble data frame.
+#' @returns A tibble data frame.
 #' @noRd
 calc_obs_feature <- function(deployment_ids,
                              deployments,
@@ -191,7 +191,7 @@ calc_obs_feature_per_deployment <- function(deployment_id,
 #' @param col_obs_for_feature A character vector of observation columns to add
 #'  to the date series.
 #' @inheritParams enrich_deployment
-#' @return A tibble data frame with start/end dates, the deployment ID, the
+#' @returns A tibble data frame with start/end dates, the deployment ID, the
 #'   columns in `group_by` and the observations columns. If `deployment_id` not
 #'   in `observations`, `NULL` is returned.
 #' @noRd

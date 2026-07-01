@@ -44,7 +44,7 @@
 #' the input for multi-season occupancy models in unmarked
 #' R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)).
 #' Default: `FALSE`.
-#' @return A list with three elements:
+#' @returns A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
 #' - `dates`: the dates matrix

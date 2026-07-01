@@ -7,7 +7,7 @@
 #'   `cal.site()`).
 #' @param relx x Pixel position relative to the centre line.
 #' @param rely y Pixel position relative to the top edge.
-#' @return Vector numeric radii.
+#' @returns Vector numeric radii.
 #' @noRd
 #' @note Units depend on the units of pole height above ground used to calibrate
 #'   the site model.
@@ -44,7 +44,7 @@ predict_radial_distance <- function(mod, rel_x, rel_y) {
 #' @param image_height Column in `animal_positions` containing the pixel y
 #'   dimension of each image. Default: `"imageHeight"`. Notice that the pixel y
 #'   dimension must be consistent for each deployment.
-#' @return Original tibble data frame as passed via `animal_positions` with
+#' @returns Original tibble data frame as passed via `animal_positions` with
 #'   additional columns:
 #'   - `radius`: Radial distance from camera.
 #'   - `angle`: Angular distance from camera.

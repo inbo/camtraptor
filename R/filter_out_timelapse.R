@@ -6,7 +6,7 @@
 #' "timelapse")`.
 #' 
 #' @inheritParams summarize_deployments
-#' @return `x` filtered.
+#' @returns `x` filtered.
 #' @family filter functions
 #' @export
 #' @examples

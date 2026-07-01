@@ -98,23 +98,24 @@ x %>%
   ) %>%
   summarize_observations() %>%
   map_summary(feature = "sum_count")
+#> PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" alt="" width="100%" />
 
-## Relationship to other camera trap packages available in R
+## Relation to other R packages
 
-Camtraptor aims to become a useful toolkit for camera trap data analysis
-by including some functionalities from other R packages such as
-[camtrapR](https://cran.r-project.org/package=camtrapR) and
-[activity](https://cran.r-project.org/package=activity), while following
-the Camtrap DP exchange format. Such outputs can then be further
-processed using those two packages. Functions prefixed with `camtrapR_`
-produce outputs as returned by camtrapR functions:
-
-- `camtrapR_cameraOperation()` returns a camera operation matrix
-- `camtrapR_recordTable()` returns a record table
-- `camtrapR_detectionHistory()` returns a detection history matrix
+- [camtrapdp](https://cran.r-project.org/package=camtrapdp) is a core R
+  package to read and manipulate Camtrap DPs. camtraptor depends on
+  camtrapdp and re-exports a number of functions so that users don’t
+  need to load both packages.
+- [camtrapR](https://cran.r-project.org/package=camtrapR) is an analysis
+  R package for camera trap data. camtraptor offers a number of
+  `camtrapR_` functions to transform Camtrap DPs to outputs compatible
+  with camtrapR.
+- [camtrapDensity](https://github.com/MarcusRowcliffe/camtrapDensity) is
+  a development R package to run single species random encounter models
+  to estimate animal density. camtraptor is a dependency.
 
 ## Meta
 

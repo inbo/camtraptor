@@ -11,7 +11,7 @@
 #' [summarize_observations()]instead.
 #'
 #' @inheritParams get_n_obs
-#' @return A tibble data frame with the following columns: 
+#' @returns A tibble data frame with the following columns: 
 #' - `deploymentID`: character vector with the deployment unique identifiers.
 #' - `scientificName`: character vector with the scientific name.
 #' - `rai`: numeric vector with the relative abundance index.
@@ -58,7 +58,7 @@ get_rai <- function(x,
 #' [summarize_observations()] instead.
 #'
 #' @inheritParams get_n_obs
-#' @return A tibble data frame with the following columns:
+#' @returns A tibble data frame with the following columns:
 #'   - `deploymentID`: Deployment unique identifier.
 #'   - `scientificName`: Scientific name.
 #'   - `rai`: Relative abundance index.

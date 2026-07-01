@@ -72,12 +72,12 @@ get_n_individuals(x, sex = "female")
 get_n_individuals(x, life_stage = c("subadult", "adult"))
 }
 \seealso{
-Other deprecated exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()}
+Other deprecated exploration functions:
+\code{\link[=get_custom_effort]{get_custom_effort()}},
+\code{\link[=get_effort]{get_effort()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_n_species]{get_n_species()}},
+\code{\link[=get_rai]{get_rai()}},
+\code{\link[=get_rai_individuals]{get_rai_individuals()}}
 }
 \concept{deprecated exploration functions}

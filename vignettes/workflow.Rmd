@@ -1,10 +1,10 @@
 ---
-title: "Workflow of the package"
+title: "Workflow"
 author: "Wolf Missotten"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Workflow of the package}
+  %\VignetteIndexEntry{Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Camtraptor is an R package to **read**, **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
+Camtraptor is an R package to **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
 
-> **Note:** Coming from `camtraptor` version 0.xx? Check out [News](https://inbo.github.io/camtraptor/news/index.html) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+> **Note:** Coming from `camtraptor` version 0.28 or earlier? Check out [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
 
 ## Setup
 
@@ -45,6 +45,7 @@ To read your own locally stored dataset, use `read_camtrapdp()`:
 ```{r read_own_data, eval = FALSE}
 x <- read_camtrapdp("path/to/datapackage.json")
 ```
+
 In this vignette the example dataset will be used.
 
 ### Exploring data
@@ -54,6 +55,7 @@ Now that you read in your data, you can start exploring it. A Camtrap DP dataset
 ```{r deployments}
 deployments(x)
 ```
+
 To get a quick overview of which species were recorded, use `taxa()`:
 
 ```{r taxa}
@@ -107,6 +109,7 @@ Visualize the number of mallard observations per deployment:
 ```{r map_observations}
 map_summary(summ_obs_filtered, feature = "n_observations")
 ```
+
 As you can see, in only one of the two deployments was mallard observed.
 
 
@@ -133,5 +136,5 @@ x %>%
   map_summary(feature = "n_observations")
 ```
 
-  > **Note**: For more information about visualization, check out [the next vignette about visualizing](visualize-deployment-features.html)
+> **Note**: For more information about visualization, check out the vignette `vignette("visualize-deployment-features")`.
   

@@ -4,7 +4,7 @@
 #' `deploymentID`.
 #'
 #' @inheritParams summarize_deployments 
-#' @return Camera trap data package object, where `observations` is updated by
+#' @returns Camera trap data package object, where `observations` is updated by
 #'   appending two new columns: `latitude` and `longitude`
 #' @family transformation functions
 #' @export

@@ -6,7 +6,7 @@
 #' It is deprecated as of camtraptor 1.0.0. Please use [taxa()] instead.
 #'
 #' @inheritParams summarize_deployments
-#' @return A tibble data frame with taxonomic information.
+#' @returns A tibble data frame with taxonomic information.
 #' @family deprecated accessor functions
 #' @export
 #' @examples

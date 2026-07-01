@@ -10,7 +10,7 @@
 #'   to test.
 #' @param null_allowed Logical (`TRUE`, the default, or `FALSE`).
 #'   Are NULL values allowed?
-#' @return If no error, `TRUE`.
+#' @returns If no error, `TRUE`.
 #' @noRd
 #' @examples
 #' # Valid inputs for species
@@ -86,7 +86,7 @@ check_group_time_by <- function(group_time_by, group_time_bys) {
 #' 
 #' @param grouped_df A grouped tibble data frame as returned by
 #'   `summarize_observations()`.
-#' @return If no error, `TRUE`.
+#' @returns If no error, `TRUE`.
 #' @keywords internal
 check_summary <- function(grouped_df) {
   # Check input is a data frame
@@ -177,7 +177,7 @@ check_summary <- function(grouped_df) {
 #' `profile`, the entire `profile` is returned.
 #' 
 #' @param profile Character containing the profile of the data package.
-#' @return Character containing the data package version.
+#' @returns Character containing the data package version.
 #' @noRd
 get_version <- function(profile) {
   pattern_regex <- "\\d+(\\.\\d+){1,2}" # a sequence of digits and dots (max 2)
@@ -204,7 +204,7 @@ get_version <- function(profile) {
 #' 
 #' @param df Data.frame.
 #' @param df_name Character with name of the data.frame passed to `df`.
-#' @return Data.frame containing the issues as returned by `readr::problems()`.
+#' @returns Data.frame containing the issues as returned by `readr::problems()`.
 #' @noRd
 check_reading_issues <- function(df, df_name) {
   # get problems

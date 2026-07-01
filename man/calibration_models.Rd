@@ -16,7 +16,7 @@ calibration models (\code{depcal}).
 The deployment names are used as names.
 }
 \seealso{
-Other sample data: 
+Other sample data:
 \code{\link{animal_positions}}
 }
 \concept{sample data}

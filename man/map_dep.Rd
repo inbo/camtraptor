@@ -93,7 +93,7 @@ for grouping and the \code{feature} to visualize.}
 \item{palette}{The palette name or the color function that values will be
 mapped to. Default: \code{"inferno"}. Typically one of the following:
 \itemize{
-\item A character vector of RGB or named colors. Examples: \verb{c("#000000",   "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
+\item A character vector of RGB or named colors. Examples: \verb{c("#000000", "#0000FF", "#FFFFFF"))},\verb{topo.colors(10))}.
 \item The full name of a RColorBrewer palette, e.g. "BuPu" or "Greens", or
 viridis palette: \code{"viridis"}, \code{"magma"}, \code{"inferno"} or \code{"plasma"}.
 }

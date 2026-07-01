@@ -116,7 +116,7 @@ summarize_observations(x, group_time_by = "month")
 summarize_observations(x, extend = TRUE)
 }
 \seealso{
-Other exploration functions: 
-\code{\link{summarize_deployments}()}
+Other exploration functions:
+\code{\link[=summarize_deployments]{summarize_deployments()}}
 }
 \concept{exploration functions}

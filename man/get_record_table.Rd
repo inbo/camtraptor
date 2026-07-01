@@ -144,8 +144,8 @@ camtrapR_recordTable(
 )
 }
 \seealso{
-Other deprecated camtrapR-derived functions: 
-\code{\link{get_cam_op}()},
-\code{\link{get_detection_history}()}
+Other deprecated camtrapR-derived functions:
+\code{\link[=get_cam_op]{get_cam_op()}},
+\code{\link[=get_detection_history]{get_detection_history()}}
 }
 \concept{deprecated camtrapR-derived functions}

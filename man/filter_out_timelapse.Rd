@@ -32,9 +32,9 @@ observations(x) <- obs
 filter_out_timelapse(x)
 }
 \seealso{
-Other filter functions: 
-\code{\link{filter_deployments}()},
-\code{\link{filter_media}()},
-\code{\link{filter_observations}()}
+Other filter functions:
+\code{\link[=filter_deployments]{filter_deployments()}},
+\code{\link[=filter_media]{filter_media()}},
+\code{\link[=filter_observations]{filter_observations()}}
 }
 \concept{filter functions}

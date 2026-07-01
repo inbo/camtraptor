@@ -2,7 +2,7 @@
 % Please edit documentation in R/camtrapR_recordTable.R
 \name{camtrapR_recordTable}
 \alias{camtrapR_recordTable}
-\title{Get record table}
+\title{Get the record table}
 \usage{
 camtrapR_recordTable(
   x,
@@ -80,7 +80,7 @@ of the observations.
 }
 }
 \description{
-Calculates the record table from a Camera Trap Data Package and so tabulating
+Creates the record table from a Camera Trap Data Package and so tabulating
 species records. Only event-based observations and their corresponding media
 are taken into account. The record table is a concept developed within the
 camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
@@ -147,8 +147,8 @@ camtrapR_recordTable(
 )
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{camtrapR_cameraOperation}()},
-\code{\link{camtrapR_detectionHistory}()}
+Other camtrapR-derived functions:
+\code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}},
+\code{\link[=camtrapR_detectionHistory]{camtrapR_detectionHistory()}}
 }
 \concept{camtrapR-derived functions}

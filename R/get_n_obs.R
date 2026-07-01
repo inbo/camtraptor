@@ -29,7 +29,7 @@
 #'   else throws a deprecation warning and will be ignored. Please use
 #'   `filter_deployments()` to filter on deployments.
 #' @inheritParams summarize_deployments
-#' @return A tibble data frame with the following columns:
+#' @returns A tibble data frame with the following columns:
 #' - `deploymentID`: Deployment unique identifier.
 #' - `scientificName`: Scientific name of the species.
 #'   This column is omitted if parameter `species = NULL`.

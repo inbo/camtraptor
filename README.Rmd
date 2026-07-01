@@ -26,9 +26,11 @@ knitr::opts_chunk$set(
 [![test-coverage](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
-camtraptor is an R package to **read**, **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org) (Camtrap DP) datasets. Camtrap DP is a community developed data exchange format for camera trap data. With camtraptor you can create overviews of observed species, relative abundance or effort, and plot these data on a map.
+camtraptor is an R package to explore and visualize Camera Trap Data Packages ([Camtrap DP](https://camtrap-dp.tdwg.org/)). It offers a step-by-step workflow to read Camtrap DP files, filter data of interest, summarize information (e.g. number of observed species) and visualize this per deployment on an interactive map. You can also use it to transform data for analysis in [camtrapR](https://cran.r-project.org/package=camtrapR).
 
-> **Note:** [camtraptor v1.0](https://github.com/inbo/camtraptor/milestone/3) has updated the internal data model to Camtrap DP 1.0 and has dropped support for Camtrap DP 0.1.6. This is a breaking change that is accompanied by a number of other major changes. See [News](https://inbo.github.io/camtraptor/news/index.html).
+::: {.callout-note}
+camtraptor 1.0 updates the internal data model to Camtrap DP 1.0 and drops support for Camtrap DP 0.1.6. This breaking change is accompanied by a number of other major changes. See the [changelog](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100) for details.
+:::
 
 ## Get started
 
@@ -49,7 +51,7 @@ pak::pak("inbo/camtraptor")
 
 ## Example
 
-Get an overview of the species detected in an example Camera Trap Data Package dataset included in the camtraptor package:
+Get an overview of the species detected in an example Camera Trap Data Package dataset:
 
 ```{r}
 library(camtraptor)
@@ -69,9 +71,11 @@ x %>%
   map_summary(feature = "sum_count")
 ```
 
-## Relationship to other camera trap packages available in R
+## Relation to other R packages
 
-Camtraptor aims to become a useful toolkit for camera trap data analysis by including functionality from other R packages such as [camtrapR](https://cran.r-project.org/package=camtrapR) and [activity](https://cran.r-project.org/package=activity), while following the Camtrap DP exchange format. Functions prefixed with `camtrapR_` produce outputs as returned by camtrapR functions.
+- [camtrapdp](https://cran.r-project.org/package=camtrapdp) is a core R package to read and manipulate Camtrap DPs. camtraptor depends on camtrapdp and re-exports a number of functions so that users don't need to load both packages.
+- [camtrapR](https://cran.r-project.org/package=camtrapR) is an analysis R package for camera trap data. camtraptor offers a number of `camtrapR_` functions to transform Camtrap DPs to outputs compatible with camtrapR.
+- [camtrapDensity](https://github.com/MarcusRowcliffe/camtrapDensity) is a development R package to run single species random encounter models to estimate animal density. camtraptor is a dependency.
 
 ## Meta
 

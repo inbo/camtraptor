@@ -41,9 +41,9 @@ assess_temporal_independence <- function(
   ))
 }
 
-#' Get record table
+#' Get the record table
 #'
-#' Calculates the record table from a Camera Trap Data Package and so tabulating
+#' Creates the record table from a Camera Trap Data Package and so tabulating
 #' species records. Only event-based observations and their corresponding media
 #' are taken into account. The record table is a concept developed within the
 #' camtrapR package, see [this article](
@@ -72,7 +72,7 @@ assess_temporal_independence <- function(
 #'   at exactly the same time, show only one? Default: `TRUE`. Duplicates are
 #'   removed by keeping only the first observation in the observation table.
 #' @inheritParams summarize_deployments
-#' @return A tibble data frame containing species records and additional
+#' @returns A tibble data frame containing species records and additional
 #'   information about stations, date, time and further metadata, such as
 #'   filenames and directories of the images (media) linked to the species
 #'   records.

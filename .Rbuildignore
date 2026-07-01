@@ -8,3 +8,5 @@
 ^README\.Rmd$
 ^CITATION\.cff$
 ^LICENSE\.md$
+^\.positai$
+^\.claude$

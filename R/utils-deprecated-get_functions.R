@@ -8,7 +8,7 @@
 #' @param func_name Character, name of the deprecated function that is called.
 #'   One of `get_effort()`, `get_custom_effort()`. Default: `NULL`.
 #' @inheritParams get_custom_effort
-#' @return A tibble data frame with summarized deployment info as returned by
+#' @returns A tibble data frame with summarized deployment info as returned by
 #'   `summarize_deployments()`.
 #' @noRd
 summarize_deployments_for_deprecated_functions <- function(
@@ -103,7 +103,7 @@ summarize_deployments_for_deprecated_functions <- function(
 #'   One of `get_n_obs()`, `get_n_individuals()`, `get_rai()` or
 #'   `get_rai_individuals()`. Default: `NULL`.
 #' @inheritParams get_n_obs
-#' @return A tibble data frame with summarized observations as returned by
+#' @returns A tibble data frame with summarized observations as returned by
 #'   `summarize_observations()`.
 #' @noRd
 summarize_observations_for_deprecated_functions <- function(
@@ -222,7 +222,7 @@ summarize_observations_for_deprecated_functions <- function(
 #' of the given functions.
 #' 
 #' @inheritParams get_custom_effort
-#' @return Lifecycle deprecation warning or assertion error if ellipses are
+#' @returns Lifecycle deprecation warning or assertion error if ellipses are
 #'   passed.
 #' @noRd
 handle_filter_predicates <- function(function_name = NULL, ...) {

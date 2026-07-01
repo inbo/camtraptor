@@ -69,12 +69,12 @@ get_rai_individuals(
 )
 }
 \seealso{
-Other deprecated exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()}
+Other deprecated exploration functions:
+\code{\link[=get_custom_effort]{get_custom_effort()}},
+\code{\link[=get_effort]{get_effort()}},
+\code{\link[=get_n_individuals]{get_n_individuals()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_n_species]{get_n_species()}},
+\code{\link[=get_rai]{get_rai()}}
 }
 \concept{deprecated exploration functions}

@@ -4,11 +4,11 @@
 \name{camtraptor-package}
 \alias{camtraptor}
 \alias{camtraptor-package}
-\title{camtraptor: Read, Explore and Visualize Camera Trap Data Package Datasets}
+\title{camtraptor: Explore and Visualize Camera Trap Data Packages}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Read, explore and visualize camera trap data following the Camtrap DP (Camera Trap Data Package, \url{https://camtrap-dp.tdwg.org/}) data exchange format. With camtraptor you can read and filter data, get summaries of observed species and deployment information, and visualize these summaries on an interactive map.
+Explore and visualize Camera Trap Data Packages (Camtrap DP \url{https://camtrap-dp.tdwg.org/}). With camtraptor you can get summaries of observed species and deployment information, and visualize these summaries on an interactive map. Create also camera operation matrices, record tables and detection histories.
 }
 \seealso{
 Useful links:
@@ -20,24 +20,25 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (Research Institute for Nature and Forest (INBO))
+\strong{Maintainer}: Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
 
 Authors:
 \itemize{
-  \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
-  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
-  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (Research Institute for Nature and Forest (INBO))
-  \item Wolf Missotten \email{wolfmissotten@gmail.com} (\href{https://orcid.org/0009-0006-4069-0685}{ORCID}) (Ghent University)
+  \item Damiano Oldoni \email{damiano.oldoni@inbo.be} (\href{https://orcid.org/0000-0003-3445-7562}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
+  \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
+  \item Pieter Huybrechts \email{pieter.huybrechts@inbo.be} (\href{https://orcid.org/0000-0002-6658-6062}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
+  \item Wolf Missotten \email{wolfmissotten@gmail.com} (\href{https://orcid.org/0009-0006-4069-0685}{ORCID}) (affiliation: Ghent University)
 }
 
 Other contributors:
 \itemize{
-  \item Martijn Bollen \email{martijn.bollen@inbo.be} (\href{https://orcid.org/0000-0002-1621-6258}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Martijn Bollen \email{martijn.bollen@inbo.be} (\href{https://orcid.org/0000-0002-1621-6258}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
   \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-1020}{ORCID}) [contributor]
-  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
-  \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
-  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
-  \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (University of Antwerp) [contributor]
+  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (affiliation: University of Antwerp) [contributor]
   \item Research Institute for Nature and Forest (INBO) (\href{https://ror.org/00j54wy13}{ROR}) [copyright holder]
   \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }

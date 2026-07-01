@@ -68,7 +68,7 @@ A list with three elements:
 }
 }
 \description{
-This function creates a detection history matrix for a species based on the
+Creates the detection history matrix of a species based on the
 record table and the camera operation matrix.
 The record table is a concept developed within the camtrapR package, see the
 function documentation for \href{https://jniedballa.github.io/camtrapR/reference/detectionHistory.html}{camtrapR::detectionHistory()}.
@@ -214,8 +214,8 @@ camtrapR_detectionHistory(
 )
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{camtrapR_cameraOperation}()},
-\code{\link{camtrapR_recordTable}()}
+Other camtrapR-derived functions:
+\code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}},
+\code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}}
 }
 \concept{camtrapR-derived functions}

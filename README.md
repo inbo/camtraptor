@@ -25,12 +25,15 @@ a community developed data exchange format for camera trap data. With
 camtraptor you can create overviews of observed species, relative
 abundance or effort, and plot these data on a map.
 
-> **Note:** [camtraptor
-> v1.0](https://github.com/inbo/camtraptor/milestone/3) has updated the
-> internal data model to Camtrap DP 1.0 and has dropped support for
-> Camtrap DP 0.1.6. This is a breaking change that is accompanied by a
-> number of other major changes. See
-> [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100).
+<div class="callout-note">
+
+camtraptor 1.0 updates the internal data model to Camtrap DP 1.0 and
+drops support for Camtrap DP 0.1.6. This breaking change is accompanied
+by a number of other major changes. See the
+[changelog](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100)
+for details.
+
+</div>
 
 ## Get started
 

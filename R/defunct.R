@@ -123,6 +123,14 @@ write_dwc <- function(x) {
 
 #' @export
 #' @rdname defunct
+#' @description `write_eml()` has been moved to camtrapdp. Check
+#' [camtrapdp::write_eml()] for more information.
+write_eml <- function(x) {
+  lifecycle::deprecate_stop("1.0.0", "write_eml()")
+}
+
+#' @export
+#' @rdname defunct
 #' @description `round_coordinates()` has been moved to camtrapdp. Check
 #' [camtrapdp::round_coordinates()] for more information.
 round_coordinates <- function(x) {

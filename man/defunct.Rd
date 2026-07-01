@@ -19,6 +19,7 @@
 \alias{get_scientific_name}
 \alias{read_wi}
 \alias{write_dwc}
+\alias{write_eml}
 \alias{round_coordinates}
 \title{Defunct functions}
 \usage{
@@ -58,6 +59,8 @@ read_wi(x)
 
 write_dwc(x)
 
+write_eml(x)
+
 round_coordinates(x)
 }
 \description{
@@ -68,6 +71,9 @@ calling the function will tell you about it.
 
 \code{write_dwc()} has been moved to camtrapdp. Check
 \code{\link[camtrapdp:write_dwc]{camtrapdp::write_dwc()}} for more information.
+
+\code{write_eml()} has been moved to camtrapdp. Check
+\code{\link[camtrapdp:write_eml]{camtrapdp::write_eml()}} for more information.
 
 \code{round_coordinates()} has been moved to camtrapdp. Check
 \code{\link[camtrapdp:round_coordinates]{camtrapdp::round_coordinates()}} for more information.

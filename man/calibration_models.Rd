@@ -17,7 +17,10 @@ The deployment names are used as names.
 }
 \seealso{
 Other sample data:
-\code{\link{animal_positions}}
+\code{\link{animal_pos}},
+\code{\link{animal_positions}},
+\code{\link{calib_models}},
+\code{\link{mica}}
 }
 \concept{sample data}
 \keyword{datasets}

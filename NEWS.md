@@ -84,7 +84,9 @@ The following functions still work for now, but **will be removed in a future ve
 
 Before  | Now
 --- | ---
+`animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#402, #242)
 `calc_animal_pos()` | `calculate_individual_radius_angle()` (#242)
+`calib_models` | `calibration_models` (#402, #242)
 `get_cam_op()` | `camtrapR_cameraOperation()` (#239)
 `get_custom_effort()` | `summarize_deployments()`, column `"effort_duration"` (#366)
 `get_detection_history()` | `camtrapR_detectionHistory()` (#365)
@@ -97,6 +99,7 @@ Before  | Now
 `get_record_table()` | `camtrapR_recordTable()` (#240)
 `get_species()` | `taxa()` (#343)
 `map_dep()` | `map_summary()` (#231, #91)
+`mica` | `example_dataset()` (#402)
 `read_camtrap_dp()` | `read_camtrapdp()` (without underscore) (#298)
 
 The following functions and objects **no longer work**:
@@ -104,11 +107,8 @@ The following functions and objects **no longer work**:
 Before | Now
 --- | ---
 `apply_filter_predicate()` | This helper function is no longer needed (#316)
-`animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#242)
-`calib_models` | `calibration_models` (#242)
 `check_species()` | `taxa()` to return all taxa (#235)
 `get_scientific_name()` | `taxa()` to return all taxa (#235)
-`mica` | `example_dataset()`
 `pred()` | `filter_deployments(locationID == "e254a13c")` (#316)
 `pred_not()` | `filter_deployments(locationID != "e254a13c")` (#316)
 `pred_gt()` | `filter_deployments(x, latitude > 51)` (#316)

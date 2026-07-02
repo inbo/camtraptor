@@ -17,7 +17,8 @@ The deployment names are used as names.
 }
 \seealso{
 Other sample data:
-\code{\link{animal_positions}}
+\code{\link{animal_positions}},
+\code{\link{camtraptor-deprecated}}
 }
 \concept{sample data}
 \keyword{datasets}

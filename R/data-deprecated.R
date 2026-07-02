@@ -1,7 +1,7 @@
 #' Deprecated datasets in camtraptor
 #'
 #' `r lifecycle::badge("deprecated")`
-#' -   The `mica` dataset was a Camtrap DP 0.1.6 data package and it is not
+#' - The `mica` dataset was a Camtrap DP 0.1.6 data package and it is not
 #' supported anymore. Replaced by [example_dataset()].
 #' - The sample of animal position digitization data `animal_pos` is deprecated.
 #' Use [`animal_positions`] instead. The column `"sequenceID"` has been renamed to `"eventID"`.

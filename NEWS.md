@@ -98,17 +98,17 @@ Before  | Now
 `get_species()` | `taxa()` (#343)
 `map_dep()` | `map_summary()` (#231, #91)
 `read_camtrap_dp()` | `read_camtrapdp()` (without underscore) (#298)
+`mica` | `example_dataset()` (#402)
+`animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#402, #242)
+`calib_models` | `calibration_models` (#402, #242)
 
 The following functions and objects **no longer work**:
 
 Before | Now
 --- | ---
 `apply_filter_predicate()` | This helper function is no longer needed (#316)
-`animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#242)
-`calib_models` | `calibration_models` (#242)
 `check_species()` | `taxa()` to return all taxa (#235)
 `get_scientific_name()` | `taxa()` to return all taxa (#235)
-`mica` | `example_dataset()`
 `pred()` | `filter_deployments(locationID == "e254a13c")` (#316)
 `pred_not()` | `filter_deployments(locationID != "e254a13c")` (#316)
 `pred_gt()` | `filter_deployments(x, latitude > 51)` (#316)

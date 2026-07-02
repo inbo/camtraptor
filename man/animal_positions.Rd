@@ -21,8 +21,10 @@ A tibble data frame with the following columns:
 }
 \seealso{
 Other sample data:
+\code{\link{animal_pos}},
+\code{\link{calib_models}},
 \code{\link{calibration_models}},
-\code{\link{camtraptor-deprecated}}
+\code{\link{mica}}
 }
 \concept{sample data}
 \keyword{datasets}

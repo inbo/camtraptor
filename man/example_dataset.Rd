@@ -15,4 +15,8 @@ Re-export of \code{\link[camtrapdp:example_dataset]{camtrapdp::example_dataset()
 \examples{
 example_dataset()
 }
+\seealso{
+Other read sample data functions:
+\code{\link{mica}}
+}
 \concept{read sample data functions}

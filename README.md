@@ -22,7 +22,7 @@ coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.co
 camtraptor is an R package to explore and visualize Camera Trap Data
 Packages ([Camtrap DP](https://camtrap-dp.tdwg.org/)). It offers a
 step-by-step workflow to read Camtrap DP files, filter data of interest,
-summarize information (e.g. number of observed species) and visualize
+summarize information (e.g. number of observed species) and visualize
 this per deployment on an interactive map. You can also use it to
 transform data for analysis in
 [camtrapR](https://cran.r-project.org/package=camtrapR).
@@ -98,7 +98,6 @@ x %>%
   ) %>%
   summarize_observations() %>%
   map_summary(feature = "sum_count")
-#> PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" alt="" width="100%" />

@@ -1,8 +1,8 @@
 #' Find date of the begin of the given calendar period
-#' 
+#'
 #' This function calculates the date of the calendar start based on the
 #' time period defined in `group_time_by`.
-#' 
+#'
 #' @param my_date A datetime object.
 #' @param period `NULL` or character, one of:
 #'  - `day`
@@ -22,17 +22,16 @@ calendar_floor_date <- function(my_date, period) {
     lubridate::floor_date(my_date, unit = "month")
   } else if (period == "year") {
     lubridate::floor_date(my_date, unit = "year")
-  }
-  else {
+  } else {
     stop(glue::glue("Unknown period value: {period}."))
   }
 }
 
 #' Find date of the end of the given calendar period
-#' 
+#'
 #' This function calculates the date of the calendar end based on the
 #' time period defined in `group_time_by`.
-#' 
+#'
 #' @param my_date A datetime object.
 #' @param period `NULL` or character, one of:
 #'  - `day`
@@ -52,17 +51,16 @@ calendar_ceiling_date <- function(my_date, period) {
     lubridate::ceiling_date(my_date, unit = "month")
   } else if (period == "year") {
     lubridate::ceiling_date(my_date, unit = "year")
-  }
-  else {
+  } else {
     stop(glue::glue("Unknown period value: {period}"))
   }
 }
 
 #' Create date series based on a deployment start/end and the time grouping
-#' 
+#'
 #' This function creates start/end date series for a given deployment, based on
 #' the `deploymentStart`, `deploymentEnd` and the given time grouping.
-#' 
+#'
 #' @param deployment_id Character, deployment ID.
 #' @param deployments A tibble data frame with deployments.
 #' @param group_time_by `NULL` or character, one of:
@@ -127,7 +125,7 @@ create_date_series <- function(deployment_id, deployments, group_time_by) {
 #' This function enriches the information about one deployment with date series
 #' based on its `deploymentStart`, `deploymentEnd` and the given time grouping.
 #' This function uses `create_date_series()` for creating the date series.
-#' 
+#'
 #' @param group_by A character vector of deployment column names to add to
 #'   the date series.
 #' @inheritParams create_date_series
@@ -157,11 +155,11 @@ enrich_deployment <- function(deployment_id,
 }
 
 #' Summarize deployments information
-#' 
+#'
 #' Summarizes deployments information, more specifically the duration effort.
-#' 
+#'
 #' `summarize_deployments()` and `summarise_deployments()` are synonyms.
-#' 
+#'
 #' @param x Camera trap data package object, as returned by
 #'   [camtrapdp::read_camtrapdp()].
 #' @param group_by Character vector with the names of the columns in
@@ -188,10 +186,10 @@ enrich_deployment <- function(deployment_id,
 #'
 #' # Return effort using default `group_by` and no time grouping
 #' summarize_deployments(x)
-#' 
+#'
 #' # Return effort using default `group_by` and grouping by year
 #' summarize_deployments(x, group_time_by = "year")
-#' 
+#'
 #' # Return effort specifying grouping columns, e.g. `deploymentID` and
 #' # `locationName` and grouping by day
 #' summarize_deployments(
@@ -199,7 +197,7 @@ enrich_deployment <- function(deployment_id,
 #'   group_by = c("deploymentID", "locationName"),
 #'   group_time_by = "day"
 #' )
-#' 
+#'
 #' # Afterwards, you can calculate the total effort over all deployments. You 
 #' # can also show other information, e.g. the (number of) deployments and
 #' # locations.
@@ -231,10 +229,10 @@ summarize_deployments <- function(
     "group_by",
     null_allowed = FALSE
   )
-  
+
   # Check `group_time_by`
   check_group_time_by(group_time_by, .group_time_bys)
-  
+
   deployments <- deployments(x)
   deployment_ids <- purrr::pluck(deployments, "deploymentID")
 
@@ -268,10 +266,10 @@ summarize_deployments <- function(
 summarise_deployments <- summarize_deployments
 
 #' Summarize deployment information
-#' 
+#'
 #' Summarizes the deployments information for a given deployment.
 #' It is the core function used in `summarize_deployments()`.
-#' 
+#'
 #' @param deployment_id The deployment ID to summarize.
 #' @param deployments A data frame containing deployment information, including
 #'   `deploymentID`, `deploymentStart`, and `deploymentEnd`.
@@ -298,19 +296,20 @@ summarize_deployment <- function(deployment_id,
     deployment_id = deployment_id,
     deployments = deployments,
     group_by = group_by,
-    group_time_by = group_time_by) %>%
-  # Calculate effort duration for each time group
-  dplyr::mutate(effort_duration = lubridate::as.duration(
-    pmin(.data$end, .data$deploymentEnd) -
-      pmax(.data$start, .data$deploymentStart)
-  )) %>%
-  dplyr::select(
-    dplyr::any_of(c(group_by, "start", "effort_duration"))
-  )
-if (!is.null(group_time_by)) {
-  effort_per_deploy_df %>%
-    dplyr::rename(!!group_time_by := start)
-} else {
-  effort_per_deploy_df
-}
+    group_time_by = group_time_by
+  ) %>%
+    # Calculate effort duration for each time group
+    dplyr::mutate(effort_duration = lubridate::as.duration(
+      pmin(.data$end, .data$deploymentEnd) -
+        pmax(.data$start, .data$deploymentStart)
+    )) %>%
+    dplyr::select(
+      dplyr::any_of(c(group_by, "start", "effort_duration"))
+    )
+  if (!is.null(group_time_by)) {
+    effort_per_deploy_df %>%
+      dplyr::rename(!!group_time_by := start)
+  } else {
+    effort_per_deploy_df
+  }
 }

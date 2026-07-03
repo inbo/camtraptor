@@ -14,3 +14,22 @@ test_that("add_coordinates returns the expected data.frame", {
     c(colnames(original_obs), "latitude", "longitude")
   )
 })
+
+test_that("add_coordinates doesn't add coordinates if already present", {
+  skip_if_offline()
+  x <- example_dataset()
+  # Add coordinates twice and check that the result is identical
+  expect_identical(
+    add_coordinates(x),
+    suppressWarnings(
+      add_coordinates(x) %>%
+        add_coordinates()
+    )
+  )
+  
+  expect_warning(
+    add_coordinates(x) %>% add_coordinates(),
+    regexp = "Coordinates already present in observations. Returning x.",
+    fixed = TRUE
+  )
+})

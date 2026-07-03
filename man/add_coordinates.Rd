@@ -18,6 +18,11 @@ appending two new columns: \code{latitude} and \code{longitude}
 This function adds deployment coordinates to \code{observations} based on
 \code{deploymentID}.
 }
+\details{
+When the \code{latitude} and \code{longitude} columns are already present in
+\code{observations}, a warning is issued and the original object is returned
+unchanged.
+}
 \examples{
 x <- example_dataset()
 

@@ -35,7 +35,7 @@
 #'   group_by(year) %>% 
 #'   summarise(
 #'     deploymentIDs = list(deploymentID),
-#'     ndep = n_distinct(deploymentID),,
+#'     ndep = n_distinct(deploymentID),
 #'     effort_duration = sum(effort_duration)
 #'   )
 get_custom_effort <- function(x,

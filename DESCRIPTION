@@ -30,11 +30,11 @@ Authors@R: c(
            comment = "https://lifewatch.be")
   )
 Description: Explore and visualize Camera Trap Data Packages (Camtrap DP,
-    <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step workflow 
-    to read Camtrap DP files, filter data of interest, summarize information 
-    (e.g. number of observed species) and visualize this per deployment on an 
-    interactive map. You can also use it to transform data for analysis in
-    'camtrapR'.
+    <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step
+    workflow to read Camtrap DP files, filter data of interest, summarize
+    information (e.g. number of observed species) and visualize this per
+    deployment on an interactive map. You can also use it to transform
+    data for analysis in 'camtrapR'.
 License: MIT + file LICENSE
 URL: https://github.com/inbo/camtraptor,
     https://inbo.github.io/camtraptor/

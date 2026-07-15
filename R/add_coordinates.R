@@ -3,7 +3,7 @@
 #' This function adds deployment coordinates to `observations` based on
 #' `deploymentID`.
 #'
-#' When the `latitude` and `longitude` columns are already present in
+#' When the `latitude` and/or the `longitude` columns are already present in
 #' `observations`, a warning is issued and the original object is returned
 #' unchanged.
 #'

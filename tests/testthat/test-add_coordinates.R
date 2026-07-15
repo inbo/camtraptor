@@ -27,6 +27,7 @@ test_that("add_coordinates doesn't add coordinates if already present", {
     )
   )
   
+  # Check the warning message
   expect_warning(
     add_coordinates(x) %>% add_coordinates(),
     regexp = "Coordinates are not added because they already present in observations.",

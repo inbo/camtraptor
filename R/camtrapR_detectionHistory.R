@@ -226,7 +226,7 @@ camtrapR_detectionHistory <- function(recordTable,
   # Sessions present in all rownames of camera operation matrix or not at all
   stations_cam_op <- rownames(camOp)
   stations_without_sess <- stations_cam_op[
-    !stringr::str_detect(stations_cam_op, "SESS_")
+    !stringr::str_detect(stations_cam_op, stringr::fixed("SESS_"))
   ]
   assertthat::assert_that(
     length(stations_without_sess) == 0 | 

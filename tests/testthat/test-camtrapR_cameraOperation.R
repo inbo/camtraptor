@@ -96,7 +96,7 @@ test_that("output matrix has sessions addded to locations as rownames", {
   x_sessions <- x
   x_sessions$data$deployments <- deployments(x_sessions) %>%
     dplyr::mutate(session = ifelse(
-      stringr::str_starts(.data$locationName, "B_DL_"),
+      stringr::str_starts(.data$locationName, stringr::fixed("B_DL_")),
       "after2020",
       "before2020"
    )

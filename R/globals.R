@@ -70,11 +70,14 @@ utils::globalVariables(c("deploymentID", "x", "y"))
     stringr::str_c(": ") %>%
     # Add `"s"` to `"N scientific name"`
     stringr::str_replace(
-      pattern = "N scientific name",
+      pattern = stringr::fixed("N scientific name"),
       replacement = "N scientific names"
     ) %>%
     # Replace `"count"` with `individual counts"`
-    stringr::str_replace(pattern = "count", replacement = "individual counts")
+    stringr::str_replace(
+      pattern = stringr::fixed("count"),
+      replacement = "individual counts"
+    )
 )
 
 #' Map legend title table

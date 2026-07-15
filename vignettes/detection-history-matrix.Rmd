@@ -191,7 +191,7 @@ First, add a session column to the deployments and rebuild the inputs:
 x_sessions <- x
 deployments(x_sessions) <- deployments(x_sessions) %>%
   mutate(session = ifelse(
-    str_starts(.data$locationName, "B_DL_"),
+    str_starts(.data$locationName, stringr::fixed("B_DL_")),
     "after2020",
     "before2020"
   ))

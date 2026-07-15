@@ -243,21 +243,21 @@ camtrapR_recordTable <- function(x,
   
   # Remove observations of unidentified individuals and species to be excluded
   x <- x %>%
-    filter_observations(!is.na(scientificName),
+    filter_observations(!is.na(.data$scientificName),
                         !.data$scientificName %in% exclude)
   
   # Remove observations without `eventStart` and returns a warning message
   if (any(is.na(purrr::pluck(observations(x), "eventStart")))) {
     warning("Some observations have no `eventStart` and will be removed.")
     x <- x %>%
-      filter_observations(!is.na(eventStart))
+      filter_observations(!is.na(.data$eventStart))
   }
   
   # Remove media without `timestamp` and returns a warning message
   if (any(is.na(purrr::pluck(media(x), "timestamp")))) {
     warning("Some media have no `timestamp` and will be removed.")
     x <- x %>%
-      filter_media(!is.na(timestamp))
+      filter_media(!is.na(.data$timestamp))
   }
   
   # Add coordinates to observations
@@ -375,12 +375,13 @@ camtrapR_recordTable <- function(x,
   
   # Finalize `record_table`
   record_table <- record_table %>%
-    dplyr::rename(Station := !!stationCol,
-      Species = "scientificName",
-      DateTimeOriginal = "eventStart",
-      Directory = "filePath",
-      FileName = "fileName",
-      n = "count"
+    dplyr::rename(
+      "Station" := !!stationCol,
+      "Species" = "scientificName",
+      "DateTimeOriginal" = "eventStart",
+      "Directory" = "filePath",
+      "FileName" = "fileName",
+      "n" = "count"
     ) %>%
     dplyr::select(
       "Station",

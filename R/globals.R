@@ -1,3 +1,13 @@
+# Define global variables to avoid R CMD check notes `no visible binding for
+# global variable`. Notice that we try to avoid using `utils::globalVariables()`
+# where possible, but in some cases it is necessary, e.g. when using
+# `dplyr::join_by()`. Reason: `join_by()` uses a domain-specific language where
+# column names are treated as symbols rather than evaluated through data-masking
+# via `.data$`. For packages the only solution at the moment is to declare those
+# variables with `utils::globalVariables()`.
+utils::globalVariables(c("deploymentID", "x", "y"))
+
+
 #' Define internal vectors with possible `group_by` values, to be used in
 #' `summarize_observations()`, `summarize_deployments()` and check functions.
 #' @keywords internal

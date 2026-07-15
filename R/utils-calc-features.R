@@ -170,7 +170,7 @@ calc_obs_feature_per_deployment <- function(deployment_id,
   }
   if (!is.null(group_time_by)) {
     feat_one_deploy_df %>%
-      dplyr::rename(!!group_time_by := start)
+      dplyr::rename(!!group_time_by := "start")
   } else {
     feat_one_deploy_df
   }

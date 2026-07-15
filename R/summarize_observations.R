@@ -227,11 +227,11 @@ summarize_observations <- function(
   deployment_ids <- purrr::pluck(deployments, "deploymentID")
   # Define the formula for the number of scientific names per deployment
   formula_n_species_per_dep <- rlang::expr(
-    n_scientificName := dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
+    "n_scientificName" := dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
   )
   # Define the formula for the total number of scientific names
   formula_n_species <- rlang::expr(
-    n_scientificName := sum(.data$n_scientificName, na.rm = TRUE)
+    "n_scientificName" := sum(.data$n_scientificName, na.rm = TRUE)
   )
   # Calculate n_scientificName
   n_species_df <- calc_obs_feature(
@@ -247,11 +247,11 @@ summarize_observations <- function(
   )
   # Define the formula for the number of events per deployment
   formula_n_events_per_dep <- rlang::expr(
-    n_events := dplyr::n_distinct(.data$eventID, na.rm = TRUE)
+    "n_events" := dplyr::n_distinct(.data$eventID, na.rm = TRUE)
   )
   # Define the formula for the total number of events
   formula_n_events <- rlang::expr(
-    n_events := sum(.data$n_events, na.rm = TRUE)
+    "n_events" := sum(.data$n_events, na.rm = TRUE)
   )
   # Calculate n_events
   n_events_df <- calc_obs_feature(
@@ -267,11 +267,11 @@ summarize_observations <- function(
   )
   # Define the formula for the number of observations per deployment
   formula_n_obs_per_dep <- rlang::expr(
-    n_observations := dplyr::n_distinct(.data$observationID)
+    "n_observations" := dplyr::n_distinct(.data$observationID)
   )
   # Define the formula for the total number of observations
   formula_n_obs <- rlang::expr(
-    n_observations := sum(.data$n_observations, na.rm = TRUE)
+    "n_observations" := sum(.data$n_observations, na.rm = TRUE)
   )
   # Calculate n_observations
   n_obs_df <- calc_obs_feature(
@@ -288,11 +288,11 @@ summarize_observations <- function(
 
   # Define the formula for the sum of individual counts per deployment
   formula_sum_count_per_dep <- rlang::expr(
-    sum_count := as.integer(sum(.data$count, na.rm = TRUE))
+    "sum_count" := as.integer(sum(.data$count, na.rm = TRUE))
   )
   # Calculate sum_count (sum of individual counts)
   formula_sum_count <- rlang::expr(
-    sum_count := sum(.data$sum_count, na.rm = TRUE)
+    "sum_count" := sum(.data$sum_count, na.rm = TRUE)
   )
   sum_count_df <- calc_obs_feature(
     deployment_ids = deployment_ids,

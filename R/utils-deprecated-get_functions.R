@@ -190,7 +190,7 @@ summarize_observations_for_deprecated_functions <- function(
         "use `filter_observations()` to filter by `lifeStage`."
       )
     )
-    x <- filter_observations(x, lifeStage %in% life_stage)
+    x <- filter_observations(x, .data$lifeStage %in% life_stage)
   }
   
   # Filter by `species`
@@ -206,7 +206,7 @@ summarize_observations_for_deprecated_functions <- function(
           "use `filter_observations()` to filter by `scientificName`."
         )
       )
-      x <- filter_observations(x, scientificName %in% species)
+      x <- filter_observations(x, .data$scientificName %in% species)
     }
     summary <- summarize_observations(
       x,

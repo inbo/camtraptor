@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Explore and visualize Camera Trap Data Packages (Camtrap DP, \url{https://camtrap-dp.tdwg.org/}). camtraptor offers a step-by-step workflow to read Camtrap DP files, filter data of interest, summarize information (e.g. number of observed species) and visualize this per deployment on an interactive map. You can also use it to transform data for analysis in 'camtrapR'.
+Explore and visualize Camera Trap Data Packages ('Camtrap DP', \url{https://camtrap-dp.tdwg.org/}). camtraptor offers a step-by-step workflow to read Camtrap DP files, filter data of interest, summarize information (e.g. number of observed species) and visualize this per deployment on an interactive map. You can also use it to transform data for analysis in 'camtrapR'.
 }
 \seealso{
 Useful links:

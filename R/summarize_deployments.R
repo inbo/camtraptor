@@ -308,7 +308,7 @@ summarize_deployment <- function(deployment_id,
     )
   if (!is.null(group_time_by)) {
     effort_per_deploy_df %>%
-      dplyr::rename(!!group_time_by := start)
+      dplyr::rename(!!group_time_by := "start")
   } else {
     effort_per_deploy_df
   }

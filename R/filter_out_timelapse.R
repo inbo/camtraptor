@@ -27,7 +27,9 @@ filter_out_timelapse <- function(x) {
   
   if ("captureMethod" %in% names(observations(x))) {
     x %>%
-      filter_observations(captureMethod != "timelapse" | is.na(captureMethod))
+      filter_observations(
+        .data$captureMethod != "timelapse" | is.na(.data$captureMethod)
+      )
   } else {
     x
   }

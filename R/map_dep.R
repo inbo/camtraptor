@@ -64,7 +64,7 @@ map_dep <- function(
         "with the condition on `lifeStage` instead."
       )
     )
-    x <- filter_observations(x, lifeStage %in% life_stage)
+    x <- filter_observations(x, .data$lifeStage %in% life_stage)
   }
   
   # Throw a warning if `species` is not NULL and filter observations
@@ -77,7 +77,7 @@ map_dep <- function(
         "with the condition on `scientificName` instead."
       )
     )
-    x <- filter_observations(x, scientificName %in% species)
+    x <- filter_observations(x, .data$scientificName %in% species)
   }
   
   # Map deprecated feature values to new ones

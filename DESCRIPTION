@@ -29,7 +29,7 @@ Authors@R: c(
     person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be")
   )
-Description: Explore and visualize Camera Trap Data Packages (Camtrap DP,
+Description: Explore and visualize Camera Trap Data Packages ('Camtrap DP',
     <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step
     workflow to read Camtrap DP files, filter data of interest, summarize
     information (e.g. number of observed species) and visualize this per

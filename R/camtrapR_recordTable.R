@@ -106,7 +106,7 @@ assess_temporal_independence <- function(
 #'   - `clock`: Numeric, clock time in radians.
 #'   - `solar`: Numeric, solar time in radians. Calculated using 
 #'   `overlap::sunTime`, which essentially uses the approach described in
-#'   [Nouvellet et al. (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
+#'   Nouvellet et al. (2012) \doi{10.1111/j.1469-7998.2011.00864.x}.
 #' @family camtrapR-derived functions
 #' @export
 #' @examples

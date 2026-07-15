@@ -24,7 +24,7 @@ add_coordinates <- function(x) {
   
   # If coordinates are already present, warn and return x
   if (all(c("latitude", "longitude") %in% colnames(observations(x)))) {
-    warning("Coordinates already present in observations. Returning x.")
+    warning("Coordinates are not added because they already present in observations.")
     return(x)
   }
   

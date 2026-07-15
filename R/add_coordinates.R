@@ -19,6 +19,9 @@
 #' add_coordinates(x) %>% observations()
 add_coordinates <- function(x) {
   
+  # Check Camera Trap Data Package
+  camtrapdp::check_camtrapdp(x)
+  
   # If coordinates are already present, warn and return x
   if (all(c("latitude", "longitude") %in% colnames(observations(x)))) {
     warning("Coordinates already present in observations. Returning x.")

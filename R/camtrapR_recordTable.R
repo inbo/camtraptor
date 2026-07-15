@@ -247,14 +247,14 @@ camtrapR_recordTable <- function(x,
                         !.data$scientificName %in% exclude)
   
   # Remove observations without `eventStart` and returns a warning message
-  if (any(is.na(purrr::pluck(observations(x), "eventStart")))) {
+  if (anyNA(purrr::pluck(observations(x), "eventStart"))) {
     warning("Some observations have no `eventStart` and will be removed.")
     x <- x %>%
       filter_observations(!is.na(.data$eventStart))
   }
   
   # Remove media without `timestamp` and returns a warning message
-  if (any(is.na(purrr::pluck(media(x), "timestamp")))) {
+  if (anyNA(purrr::pluck(media(x), "timestamp"))) {
     warning("Some media have no `timestamp` and will be removed.")
     x <- x %>%
       filter_media(!is.na(.data$timestamp))

@@ -337,10 +337,9 @@ camtrapR_detectionHistory <- function(recordTable,
     tryCatch(
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
-        stop(paste0(
+        stop(
           "Invalid `day1`. Must be equal to 'station' or a string ",
-          "representing a valid date in ISO 8601 format."
-          ),
+          "representing a valid date in ISO 8601 format.",
           call. = FALSE
         )
       }

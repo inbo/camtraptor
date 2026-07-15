@@ -33,3 +33,27 @@ test_that("add_coordinates doesn't add coordinates if already present", {
     fixed = TRUE
   )
 })
+
+test_that("add_coordinates doesn't add coordinates if one is already present", {
+  x <- example_dataset()
+  # Add coordinates and remove the `longitude` column from the observations
+  x_with_obs_lat <- x %>%
+    add_coordinates()
+  observations(x_with_obs_lat) <- observations(x_with_obs_lat) %>%
+    dplyr::select(-"longitude")
+  
+  # Add coordinates again and check that the result is identical
+  expect_identical(
+    x_with_obs_lat,
+    suppressWarnings(
+      add_coordinates(x_with_obs_lat)
+    )
+  )
+  
+  # Check the warning message
+  expect_warning(
+    add_coordinates(x_with_obs_lat),
+    regexp = "Coordinates are not added because latitude is already present in observations.",
+    fixed = TRUE
+  )
+})

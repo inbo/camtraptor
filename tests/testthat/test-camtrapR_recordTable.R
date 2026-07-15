@@ -271,8 +271,8 @@ test_that("Directory and Filename columns are lists", {
   x <- example_dataset()
   file_values <- camtrapR_recordTable(x) %>%
     dplyr::select(Directory, FileName)
-  expect_true(class(file_values$Directory) == "list")
-  expect_true(class(file_values$FileName) == "list")
+  expect_true(inherits(file_values$Directory, "list"))
+  expect_true(inherits(file_values$FileName, "list"))
 })
 
 test_that(

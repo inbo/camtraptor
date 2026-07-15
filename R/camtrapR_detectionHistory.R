@@ -198,7 +198,7 @@ camtrapR_detectionHistory <- function(recordTable,
                           msg = "`recordTable` must be a tibble data.frame."
   )
   assertthat::assert_that(
-    "tbl_df" %in% class(recordTable),
+    inherits(recordTable, "tbl_df"),
     msg = "`recordTable` must be a tibble data.frame."
   )
   assertthat::assert_that(

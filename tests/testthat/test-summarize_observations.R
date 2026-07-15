@@ -254,7 +254,7 @@ testthat::test_that("summarize_observations() returns correct summary for
       "rai_count")
   )
   # No deployments info is present
-  expect_true(!"deploymentID" %in% names(summary))
+  expect_false("deploymentID" %in% names(summary))
   # All life stages are present
   x <- x %>% filter_observations(.data$observationLevel == "event")
   expect_true(all(

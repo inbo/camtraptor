@@ -28,7 +28,7 @@ add_coordinates <- function(x) {
     return(x)
   }
   
-  # add coordinates to observations
+  # Add coordinates to observations
   observations(x) <- observations(x) %>%
     dplyr::left_join(deployments(x) %>% 
                        dplyr::select("deploymentID", "latitude", "longitude"),

@@ -147,9 +147,9 @@ camtrapR_cameraOperation <- function(x,
   )
   
   # Check that `station_col` doesn't contain empty values (NA)
-  n_na <- deployments(x) %>%
-    dplyr::filter(is.na(.data[[station_col]])) %>%
-    nrow()
+  na_df <- deployments(x) %>%
+    dplyr::filter(is.na(.data[[station_col]]))
+  n_na <- nrow(na_df)
   assertthat::assert_that(
     n_na == 0,
     msg = glue::glue(

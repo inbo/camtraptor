@@ -333,9 +333,9 @@ camtrapR_recordTable <- function(x,
   }
 
   # Remove not independent observations
-  n_dependent_obs <- record_table %>%
-    dplyr::filter(.data$independent == FALSE) %>%
-    nrow()
+  dependent_obs_df <- record_table %>%
+    dplyr::filter(.data$independent == FALSE)
+  n_dependent_obs <- nrow(dependent_obs_df)
   if (n_dependent_obs > 0) {
     message(glue::glue(
       "Number of not independent observations to be removed: {n_dependent_obs}"

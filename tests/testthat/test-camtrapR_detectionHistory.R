@@ -96,7 +96,7 @@ test_that("Record table input, `recordTable`, has right format", {
       output = output,
       occasionLength = occasionLength
     ),
-    "`recordTable` must be a tibble data.frame.",,
+    "`recordTable` must be a tibble data.frame.",
     fixed = TRUE
   )
   expect_error(
@@ -107,7 +107,7 @@ test_that("Record table input, `recordTable`, has right format", {
       output = output,
       occasionLength = occasionLength
     ),
-    "`recordTable` must be a tibble data.frame.",,
+    "`recordTable` must be a tibble data.frame.",
     fixed = TRUE
   )
   expect_error(

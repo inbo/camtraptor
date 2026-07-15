@@ -4,7 +4,8 @@
 # `dplyr::join_by()`. Reason: `join_by()` uses a domain-specific language where
 # column names are treated as symbols rather than evaluated through data-masking
 # via `.data$`. For packages the only solution at the moment is to declare those
-# variables with `utils::globalVariables()`.
+# variables with `utils::globalVariables()`. More information can be found at
+# https://dplyr.tidyverse.org/articles/in-packages.html#join-helpers.
 utils::globalVariables(c("deploymentID", "x", "y"))
 
 

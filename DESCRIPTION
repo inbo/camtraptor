@@ -61,6 +61,7 @@ Imports:
     tidyr,
     utils
 Suggests:
+    cli,
     covr,
     knitr,
     rmarkdown,

@@ -375,6 +375,18 @@ references:
   year: '2026'
   doi: 10.32614/R.manuals
 - type: software
+  title: cli
+  abstract: 'cli: Helpers for Developing Command Line Interfaces'
+  notes: Suggests
+  url: https://cli.r-lib.org
+  repository: https://CRAN.R-project.org/package=cli
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: gabor@posit.co
+  year: '2026'
+  doi: 10.32614/CRAN.package.cli
+- type: software
   title: covr
   abstract: 'covr: Test Coverage for Packages'
   notes: Suggests

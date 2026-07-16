@@ -119,6 +119,18 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "covr",
       "name": "covr",
       "provider": {
@@ -398,7 +410,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1708.014KB",
+  "fileSize": "1708.024KB",
   "releaseNotes": "https://github.com/inbo/camtraptor/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/camtraptor/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml", "https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml", "https://app.codecov.io/gh/inbo/camtraptor", "https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml"],

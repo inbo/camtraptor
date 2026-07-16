@@ -10,7 +10,7 @@ license: MIT
 title: 'camtraptor: Explore and Visualize Camera Trap Data Packages'
 version: 1.0.0
 doi: 10.32614/CRAN.package.camtraptor
-abstract: Explore and visualize Camera Trap Data Packages (Camtrap DP, <https://camtrap-dp.tdwg.org/>).
+abstract: Explore and visualize Camera Trap Data Packages ('Camtrap DP', <https://camtrap-dp.tdwg.org/>).
   camtraptor offers a step-by-step workflow to read Camtrap DP files, filter data
   of interest, summarize information (e.g. number of observed species) and visualize
   this per deployment on an interactive map. You can also use it to transform data
@@ -41,7 +41,7 @@ authors:
   email: wolfmissotten@gmail.com
   orcid: https://orcid.org/0009-0006-4069-0685
   affiliation: Ghent University
-repository: https://inbo.r-universe.dev/
+repository: https://inbo.r-universe.dev/src/contrib/camtraptor_0.28.0.tar.gz?sha256=0599a6cf24575856d191ab596e931f057c2a9bb862aab42822f53a45936f229e&file=
 repository-code: https://github.com/inbo/camtraptor
 url: https://inbo.github.io/camtraptor/
 contact:
@@ -121,18 +121,6 @@ references:
     affiliation: Research Institute for Nature and Forest (INBO)
   year: '2026'
   doi: 10.32614/CRAN.package.camtrapdp
-- type: software
-  title: cli
-  abstract: 'cli: Helpers for Developing Command Line Interfaces'
-  notes: Imports
-  url: https://cli.r-lib.org
-  repository: https://CRAN.R-project.org/package=cli
-  authors:
-  - family-names: Csárdi
-    given-names: Gábor
-    email: gabor@posit.co
-  year: '2026'
-  doi: 10.32614/CRAN.package.cli
 - type: software
   title: dplyr
   abstract: 'dplyr: A Grammar of Data Manipulation'
@@ -392,6 +380,19 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.tidyr
 - type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+    website: https://ror.org/02zz1nj61
+  institution:
+    name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
+    address: Vienna, Austria
+  year: '2026'
+  doi: 10.32614/R.manuals
+- type: software
   title: covr
   abstract: 'covr: Test Coverage for Packages'
   notes: Suggests
@@ -408,7 +409,7 @@ references:
   abstract: 'frictionless: Read and Write Frictionless Data Packages'
   notes: Suggests
   url: https://docs.ropensci.org/frictionless/
-  repository: https://inbo.r-universe.dev/
+  repository: https://inbo.r-universe.dev/src/contrib/frictionless_1.2.1.9000.tar.gz?sha256=95c8d55d5471cfd9613364ca895b74515ec851536993e24d846d31f3d9ea66af&file=
   authors:
   - family-names: Desmet
     given-names: Peter

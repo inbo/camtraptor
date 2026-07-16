@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "camtraptor",
-  "description": "Explore and visualize Camera Trap Data Packages (Camtrap DP, <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step workflow to read Camtrap DP files, filter data of interest, summarize information (e.g. number of observed species) and visualize this per deployment on an interactive map. You can also use it to transform data for analysis in 'camtrapR'.",
+  "description": "Explore and visualize Camera Trap Data Packages ('Camtrap DP', <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step workflow to read Camtrap DP files, filter data of interest, summarize information (e.g. number of observed species) and visualize this per deployment on an interactive map. You can also use it to transform data for analysis in 'camtrapR'.",
   "name": "camtraptor: Explore and Visualize Camera Trap Data Packages",
   "relatedLink": "https://inbo.github.io/camtraptor/",
   "codeRepository": "https://github.com/inbo/camtraptor",
@@ -236,18 +236,6 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "cli",
-      "name": "cli",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=cli"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
       "version": ">= 1.1.0",
@@ -259,7 +247,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "glue",
       "name": "glue",
@@ -271,7 +259,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=glue"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "htmltools",
       "name": "htmltools",
@@ -283,7 +271,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=htmltools"
     },
-    "9": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "leaflet",
       "name": "leaflet",
@@ -295,7 +283,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=leaflet"
     },
-    "10": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "lifecycle",
       "name": "lifecycle",
@@ -307,7 +295,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=lifecycle"
     },
-    "11": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "lubridate",
       "name": "lubridate",
@@ -319,7 +307,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=lubridate"
     },
-    "12": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "overlap",
       "name": "overlap",
@@ -331,7 +319,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=overlap"
     },
-    "13": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
@@ -343,7 +331,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
-    "14": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "RColorBrewer",
       "name": "RColorBrewer",
@@ -355,7 +343,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=RColorBrewer"
     },
-    "15": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "readr",
       "name": "readr",
@@ -367,7 +355,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=readr"
     },
-    "16": {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "reshape2",
       "name": "reshape2",
@@ -379,7 +367,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reshape2"
     },
-    "17": {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -391,7 +379,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "18": {
+    "17": {
       "@type": "SoftwareApplication",
       "identifier": "snakecase",
       "name": "snakecase",
@@ -403,7 +391,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=snakecase"
     },
-    "19": {
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "stringr",
       "name": "stringr",
@@ -415,7 +403,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=stringr"
     },
-    "20": {
+    "19": {
       "@type": "SoftwareApplication",
       "identifier": "tidyr",
       "name": "tidyr",
@@ -427,9 +415,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyr"
     },
+    "20": {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "1713.137KB",
+  "fileSize": "1714.643KB",
   "releaseNotes": "https://github.com/inbo/camtraptor/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/camtraptor/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml", "https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml", "https://app.codecov.io/gh/inbo/camtraptor", "https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml"],

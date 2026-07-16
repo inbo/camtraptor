@@ -45,7 +45,6 @@ Imports:
     activity,
     assertthat,
     camtrapdp,
-    cli,
     dplyr (>= 1.1.0),
     glue,
     htmltools,

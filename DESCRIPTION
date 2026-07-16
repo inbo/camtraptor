@@ -54,7 +54,6 @@ Imports:
     overlap,
     purrr,
     RColorBrewer,
-    readr,
     reshape2,
     rlang,
     snakecase,

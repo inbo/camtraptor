@@ -294,24 +294,6 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.RColorBrewer
 - type: software
-  title: readr
-  abstract: 'readr: Read Rectangular Text Data'
-  notes: Imports
-  url: https://readr.tidyverse.org
-  repository: https://CRAN.R-project.org/package=readr
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  - family-names: Hester
-    given-names: Jim
-  - family-names: Bryan
-    given-names: Jennifer
-    email: jenny@posit.co
-    orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2026'
-  doi: 10.32614/CRAN.package.readr
-- type: software
   title: reshape2
   abstract: 'reshape2: Flexibly Reshape Data: A Reboot of the Reshape Package'
   notes: Imports

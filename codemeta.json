@@ -345,18 +345,6 @@
     },
     "14": {
       "@type": "SoftwareApplication",
-      "identifier": "readr",
-      "name": "readr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=readr"
-    },
-    "15": {
-      "@type": "SoftwareApplication",
       "identifier": "reshape2",
       "name": "reshape2",
       "provider": {
@@ -367,7 +355,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=reshape2"
     },
-    "16": {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -379,7 +367,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "17": {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "snakecase",
       "name": "snakecase",
@@ -391,7 +379,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=snakecase"
     },
-    "18": {
+    "17": {
       "@type": "SoftwareApplication",
       "identifier": "stringr",
       "name": "stringr",
@@ -403,7 +391,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=stringr"
     },
-    "19": {
+    "18": {
       "@type": "SoftwareApplication",
       "identifier": "tidyr",
       "name": "tidyr",
@@ -415,14 +403,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyr"
     },
-    "20": {
+    "19": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1714.643KB",
+  "fileSize": "1714.631KB",
   "releaseNotes": "https://github.com/inbo/camtraptor/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/camtraptor/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml", "https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml", "https://app.codecov.io/gh/inbo/camtraptor", "https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml"],

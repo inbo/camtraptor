@@ -62,7 +62,6 @@ Imports:
     utils
 Suggests:
     covr,
-    frictionless,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),

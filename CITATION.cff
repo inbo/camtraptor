@@ -387,35 +387,6 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.covr
 - type: software
-  title: frictionless
-  abstract: 'frictionless: Read and Write Frictionless Data Packages'
-  notes: Suggests
-  url: https://docs.ropensci.org/frictionless/
-  repository: https://inbo.r-universe.dev/src/contrib/frictionless_1.2.1.9000.tar.gz?sha256=95c8d55d5471cfd9613364ca895b74515ec851536993e24d846d31f3d9ea66af&file=
-  authors:
-  - family-names: Desmet
-    given-names: Peter
-    email: peter.desmet@inbo.be
-    orcid: https://orcid.org/0000-0002-8442-8025
-    affiliation: Research Institute for Nature and Forest (INBO)
-  - family-names: Oldoni
-    given-names: Damiano
-    email: damiano.oldoni@inbo.be
-    orcid: https://orcid.org/0000-0003-3445-7562
-    affiliation: Research Institute for Nature and Forest (INBO)
-  - family-names: Huybrechts
-    given-names: Pieter
-    email: pieter.huybrechts@inbo.be
-    orcid: https://orcid.org/0000-0002-6658-6062
-    affiliation: Research Institute for Nature and Forest (INBO)
-  - family-names: Govaert
-    given-names: Sanne
-    email: sanne.govaert@inbo.be
-    orcid: https://orcid.org/0000-0002-8939-1305
-    affiliation: Research Institute for Nature and Forest (INBO)
-  year: '2026'
-  doi: 10.32614/CRAN.package.frictionless
-- type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
   notes: Suggests

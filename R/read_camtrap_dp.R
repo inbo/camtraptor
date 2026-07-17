@@ -12,6 +12,6 @@
 #' @family deprecated read functions
 #' @export
 read_camtrap_dp <- function(file) {
-  .Deprecated(new = "read_camtrapdp", package = "camtraptor")
+  lifecycle::deprecate_warn(when = "1.0.0", what = "read_camtrap_dp()", with = "read_camtrapdp()")
   read_camtrapdp(file)
 }

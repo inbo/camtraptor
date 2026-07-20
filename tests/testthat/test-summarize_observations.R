@@ -498,12 +498,14 @@ test_that("extending summary works well with dep-obs variables", {
   )
 })
 
-test_that("get_n_species() and some of its args are deprecated", {
+test_that("get_n_species() and some of its args are deprecated or invalid", {
   skip_if_offline()
   x <- example_dataset()
   # Single deprecation without ellipses
-  lifecycle::expect_deprecated(get_n_species(x),
-                               regex = "was deprecated in camtraptor 1.0.0.")
+  lifecycle::expect_deprecated(
+    get_n_species(x),
+    regex = "was deprecated in camtraptor 1.0.0."
+  )
   # Check double deprecation when ellipses are used
   lifecycle::expect_deprecated(
     lifecycle::expect_deprecated(
@@ -522,6 +524,35 @@ test_that("get_n_species() and some of its args are deprecated", {
       regex = "was deprecated in camtraptor 1.0.0"
     ),
     "was deprecated in camtraptor 1.0.0 and is now defunct"
+  )
+  # Check error when sex, life_stage or species arguments are used as
+  # `get_n_species()` has never supported these arguments
+  expect_error(
+    suppressWarnings(get_n_species(x, sex = "female")),
+    paste0(
+      "Arguments `species`, `sex` and `life_stage` are not supported by ",
+      "`get_n_species()`. Please use `filter_observations()` to filter on ",
+      "these variables."
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    suppressWarnings(get_n_species(x, life_stage = "adult")),
+    paste0(
+      "Arguments `species`, `sex` and `life_stage` are not supported by ",
+      "`get_n_species()`. Please use `filter_observations()` to filter on ",
+      "these variables."
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    suppressWarnings(get_n_species(x, species = "Anas platyrhynchos")),
+    paste0(
+      "Arguments `species`, `sex` and `life_stage` are not supported by ",
+      "`get_n_species()`. Please use `filter_observations()` to filter on ",
+      "these variables."
+    ),
+    fixed = TRUE
   )
 })
 

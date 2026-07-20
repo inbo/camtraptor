@@ -213,6 +213,7 @@ summarize_observations_for_deprecated_functions <- function(
       group_by = c("deploymentID", "scientificName")
     )
   }
+  return(summary)
 }
 
 

@@ -162,6 +162,29 @@ test_that("map_summary() returns a leaflet with the right title", {
   )
 })
 
+test_that("map_summary() returns an empty leaflet with right title if summary is empty", {
+  skip_if_offline()
+  df <- dplyr::tibble(
+    deploymentID = character(),
+    latitude = numeric(),
+    longitude = numeric(),
+    n_observations = integer()) %>%
+    dplyr::group_by(deploymentID, latitude, longitude)
+  expect_message(
+    map_summary(df, feature = "n_observations"),
+    "No data to show"
+  )
+  m <- suppressMessages(map_summary(df, feature = "n_observations"))
+  expect_equal(
+    m$x$calls[[2]]$args[[1]],
+    "<b>Number of observations</b>"
+  )
+  # No data (`NULL`)
+  expect_null(
+    m$x$calls[[2]]$args[[3]]
+  )
+})
+
 test_that("map_summary() can toggle showing deployments with zero values", {
   skip_if_offline()
   df <- example_dataset() %>%

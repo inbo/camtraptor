@@ -193,7 +193,7 @@ summarize_observations_for_deprecated_functions <- function(
     x <- filter_observations(x, .data$lifeStage %in% life_stage)
   }
   
-  # Filter by `species`
+  # Filter by `species` and deprecate it if needed
   if (is.null(species)) {
     summary <- summarize_observations(x, group_by = "deploymentID")
   } else {
@@ -226,8 +226,8 @@ summarize_observations_for_deprecated_functions <- function(
 #'   passed.
 #' @noRd
 handle_filter_predicates <- function(function_name = NULL, ...) {
-  # If filtering predicates are passed via `...`, they return error as they are
-  # defunct. This will trigger an error if `...` contains filtering predicates
+  # If filtering predicates are passed via `...`, they return error if `...`
+  # contains filtering predicates
   preds <- list(...)
   # Return warning if ellipses are used and are not filtering predicates
   if (length(preds) > 0) {

@@ -430,16 +430,6 @@ map_summary <- function(
       dplyr::filter(!is.na(.data$latitude) & !is.na(.data$longitude))
   }
 
-  # Return informative message and empty map if there is no data to plot
-  if (nrow(df) == 0) {
-    message("No data to show.")
-    leaflet_map <-
-      leaflet::leaflet() %>%
-      leaflet::addTiles() %>%
-      leaflet::addControl(htmltools::tags$b(title), position = "bottomright")
-    return(leaflet_map)
-  }
-
   # Check that `feature` is a character of length 1
   assertthat::assert_that(
     assertthat::is.string(feature),
@@ -624,25 +614,15 @@ map_summary <- function(
       effort_unit <- "hour"
     }
     # Convert `effort_duration` to the desired unit
-    feat_df <- df %>%
+    df <- df %>%
       dplyr::mutate(
         effort_duration = lubridate::time_length(
           .data$effort_duration,
           unit = effort_unit
         )
       )
-  } else {
-    feat_df <- df
   }
 
-  # Add copy of feature column as `n` for easier handling
-  feat_df <- feat_df %>%
-    dplyr::mutate(n = .data[[feature]])
-  
-  # Order the data frame by feature: this will help in plotting
-  # the small circles above the big ones
-  feat_df <- feat_df %>% dplyr::arrange(.data$n)
-  
   # Define title legend
   title <- get_legend_title(feature)
   # Add unit to legend title (for effort)
@@ -651,7 +631,25 @@ map_summary <- function(
     unit = effort_unit,
     use_brackets = TRUE
   )
-
+  
+  # Return informative message and empty map if there is no data to plot
+  if (nrow(df) == 0) {
+    message("No data to show.")
+    leaflet_map <-
+      leaflet::leaflet() %>%
+      leaflet::addTiles() %>%
+      leaflet::addControl(htmltools::tags$b(title), position = "bottomright")
+    return(leaflet_map)
+  }
+  
+  # Add copy of feature column as `n` for easier handling
+  df <- df %>%
+    dplyr::mutate(n = .data[[feature]])
+  
+  # Order the data frame by feature: this will help in plotting
+  # the small circles above the big ones
+  df <- df %>% dplyr::arrange(.data$n)
+  
   # Add info while hovering
   if (!is.null(hover_columns)) {
     hover_info_df <- .prefixes_for_hover_info %>%
@@ -662,7 +660,7 @@ map_summary <- function(
     hover_infos <-
       dplyr::as_tibble(
         purrr::map2(hover_info_df$prefix, hover_info_df$info, function(x, y) {
-          info <- feat_df[[y]]
+          info <- df[[y]]
           if (lubridate::is.POSIXt(info)) {
             info <- format(info)
           }
@@ -678,18 +676,18 @@ map_summary <- function(
       dplyr::mutate(hover_info = paste0("<p>", .data$hover_info, "</p>"))
     hover_infos$hover_info <-
       purrr::map(hover_infos$hover_info, ~ htmltools::HTML(.))
-    feat_df <-
-      feat_df %>%
+    df <-
+      df %>%
       dplyr::bind_cols(hover_infos)
   } else {
-    feat_df$hover_info <- NA
+    df$hover_info <- NA
   }
 
   # Set upper limit if absolute value is used and it is lower than some values
   if (relative_scale == FALSE) {
     # Set all n > max_scale to max_scale
-    feat_df <-
-      feat_df %>%
+    df <-
+      df %>%
       dplyr::mutate(
         n = ifelse(.data$n > max_scale, max_scale, .data$n)
       )
@@ -699,7 +697,7 @@ map_summary <- function(
   # in case absolute scale is used) to set number of ticks in legend
   max_n <- ifelse(
     is.null(max_scale),
-    ifelse(!all(is.na(feat_df$n)), max(feat_df$n, na.rm = TRUE), 0),
+    ifelse(!all(is.na(df$n)), max(df$n, na.rm = TRUE), 0),
     max_scale
   )
 
@@ -725,11 +723,11 @@ map_summary <- function(
   legend_values <- seq(from = 0, to = max_n, length.out = bins)
 
   # Non zero values deploys (n > 0 and is not NA)
-  non_zero_values <- feat_df %>% dplyr::filter(.data$n > 0)
+  non_zero_values <- df %>% dplyr::filter(.data$n > 0)
   # Zero values
-  zero_values <- feat_df %>% dplyr::filter(.data$n == 0)
+  zero_values <- df %>% dplyr::filter(.data$n == 0)
   # NA values (only returned by n_species)
-  na_values <- feat_df %>% dplyr::filter(is.na(.data$n))
+  na_values <- df %>% dplyr::filter(is.na(.data$n))
   # Make basic start map
   leaflet_map <-
     leaflet::leaflet() %>%

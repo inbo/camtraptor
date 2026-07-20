@@ -18,6 +18,16 @@
 #' # Get number of species
 #' get_n_species(x)
 get_n_species <- function(x, ...) {
+  # Return error if species, life_stage or sex are in the ellipses as 
+  # `get_n_species()` has never supported these arguments.
+  assertthat::assert_that(
+    !any(c("species", "sex", "life_stage") %in% names(list(...))),
+    msg = glue::glue(
+      "Arguments `species`, `sex` and `life_stage` are not supported by ",
+      "`get_n_species()`. Please use `filter_observations()` to filter on ",
+      "these variables."
+    )
+  )
   # Return deprecation warning for function and filtering predicates in ellipses
   summarize_observations_for_deprecated_functions(
     x,
@@ -26,8 +36,7 @@ get_n_species <- function(x, ...) {
     sex = NULL,
     life_stage = NULL,
     function_name = deparse(sys.call()[[1]])
-  )
-  summarize_observations(x, group_by = "deploymentID") %>%
+  ) %>%
     dplyr::rename("n" = "n_scientificName") %>%
     dplyr::select("deploymentID", "n")
 }

@@ -34,11 +34,11 @@ Authors:
 Other contributors:
 \itemize{
   \item Martijn Bollen \email{martijn.bollen@inbo.be} (\href{https://orcid.org/0000-0002-1621-6258}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
-  \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-1020}{ORCID}) [contributor]
-  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
   \item Jim Casaer \email{jim.casaer@inbo.be} (\href{https://orcid.org/0000-0001-6788-5876}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
-  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
   \item Nele Mullens (\href{https://orcid.org/0000-0002-3054-9665}{ORCID}) (affiliation: University of Antwerp) [contributor]
+  \item Raphaël Nussbaumer \email{rafnuss@gmail.com} (\href{https://orcid.org/0000-0002-8185-1020}{ORCID}) (affilication: Swiss Ornithological Institute) [contributor]
+  \item Thierry Onkelinx \email{thierry.onkelinx@inbo.be} (\href{https://orcid.org/0000-0001-8804-4216}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
+  \item Lynn Pallemaerts \email{lynn.pallemaerts@inbo.be} (\href{https://orcid.org/0000-0002-5034-5416}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO)) [contributor]
   \item Research Institute for Nature and Forest (INBO) (\href{https://ror.org/00j54wy13}{ROR}) [copyright holder]
   \item Research Foundation - Flanders (https://lifewatch.be) [funder]
 }

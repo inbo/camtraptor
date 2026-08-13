@@ -15,7 +15,7 @@ Authors@R: c(
     person("Martijn", "Bollen", , "martijn.bollen@inbo.be", role = "ctb",
            comment = c(ORCID = "0000-0002-1621-6258", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = "ctb",
-           comment = c(ORCID = "0000-0002-8185-1020")),
+           comment = c(ORCID = "0000-0002-8185-1020", affilication = "Swiss Ornithological Institute")),
     person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "ctb",
            comment = c(ORCID = "0000-0001-8804-4216", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Jim", "Casaer", , "jim.casaer@inbo.be", role = "ctb",

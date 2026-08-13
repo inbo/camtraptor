@@ -10,6 +10,4 @@
 ^LICENSE\.md$
 ^\.positai$
 ^\.claude$
-^\.github/CONTRIBUTING\.md$
-^\.github/CODE_OF_CONDUCT\.md$
 ^codemeta\.json$

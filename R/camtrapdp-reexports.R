@@ -26,7 +26,7 @@ example_dataset <- camtrapdp::example_dataset
 deployments <- camtrapdp::deployments
 
 #' @rdname deployments
-#' @inherit camtrapdp::`deployments<-`
+#' @inherit camtrapdp::deployments
 #' @export
 `deployments<-` <- camtrapdp::`deployments<-`
 
@@ -40,7 +40,7 @@ deployments <- camtrapdp::deployments
 media <- camtrapdp::media
 
 #' @rdname media
-#' @inherit camtrapdp::`media<-`
+#' @inherit camtrapdp::media
 #' @family accessor functions
 #' @export
 `media<-` <- camtrapdp::`media<-`
@@ -55,7 +55,7 @@ media <- camtrapdp::media
 observations <- camtrapdp::observations
 
 #' @rdname observations
-#' @inherit camtrapdp::`observations<-`
+#' @inherit camtrapdp::observations
 #' @family accessor functions
 #' @export
 `observations<-` <- camtrapdp::`observations<-`
@@ -106,7 +106,7 @@ individuals <- camtrapdp::individuals
 contributors <- camtrapdp::contributors
 
 #' @rdname contributors
-#' @inherit camtrapdp::`contributors<-`
+#' @inherit camtrapdp::contributors
 #' @family accessor functions
 #' @export
 `contributors<-` <- camtrapdp::`contributors<-`

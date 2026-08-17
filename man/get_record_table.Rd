@@ -98,7 +98,7 @@ package camtrapR supports Camera Trap Data Packages, see the function
 library(lubridate)
 
 x <- example_dataset()
-get_cam_op(x)
+get_record_table(x)
 
 # Create a new Camera Trap Data Package with dependent observations only for
 # demonstration.
@@ -108,7 +108,7 @@ x_dep <- x
 observations(x_dep) <- obs
 
 # Set a minDeltaTime of 100 minutes from last record
-get_cam_op(
+get_record_table(
   x_dep,
   minDeltaTime = 100,
   deltaTimeComparedTo = "lastRecord"
@@ -128,27 +128,27 @@ x_modified <- x
 observations(x_modified) <- obs
 media(x_modified) <- med
 
-rec_last_indep <- get_cam_op(
+rec_last_indep <- get_record_table(
   x_modified,
   minDeltaTime = 10,
   deltaTimeComparedTo = "lastIndependentRecord"
 )
 
-rec_last <- get_cam_op(
+rec_last <- get_record_table(
   x_modified,
   minDeltaTime = 10,
   deltaTimeComparedTo = "lastRecord"
 )
 
 # Exclude observations of Anas platyrhynchos.
-get_cam_op(x, exclude = "Anas platyrhynchos")
+get_record_table(x, exclude = "Anas platyrhynchos")
 
 # Specify column to pass station names
-get_cam_op(x, stationCol = "locationID")
+get_record_table(x, stationCol = "locationID")
 
 # Include "duplicates", i.e. records of same species at same time, but
 # different attributes, such as life stage or sex.
-get_cam_op(
+get_record_table(
  x,
  removeDuplicateRecords = FALSE
 )

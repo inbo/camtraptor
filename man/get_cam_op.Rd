@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_cam_op.R
 \name{get_cam_op}
 \alias{get_cam_op}
-\title{Get camera operation matrix}
+\title{Get the camera operation matrix}
 \usage{
 get_cam_op(
   x,
@@ -38,9 +38,13 @@ dates.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function is deprecated. Please use \code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}} instead.
-}
-\details{
+Creates the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
+returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+
+This function is deprecated. Please use \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}. The
+package camtrapR supports Camera Trap Data Packages, see the function
+\code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
+
 The deployment data are by default grouped by \code{locationName} (station ID in
 camtrapR jargon) or another column specified by the user via the
 \code{station_col} argument. If multiple deployments are linked to same location,
@@ -54,10 +58,10 @@ library(dplyr)
 library(stringr)
 
 x <- example_dataset()
-camtrapR_cameraOperation(x)
+get_cam_op(x)
 
 # Specify column with station names
-camtrapR_cameraOperation(x, station_col = "locationID")
+get_cam_op(x, station_col = "locationID")
 
 # Specify column with session IDs
 x_sessions <- x
@@ -68,23 +72,23 @@ deployments(x_sessions) <- deployments(x_sessions) \%>\%
     "before2020"
   ))
   
-camtrapR_cameraOperation(x_sessions, session_col = "session")
+get_cam_op(x_sessions, session_col = "session")
 
 # Specify column with camera IDs
 x_cameras <- x_sessions
 deployments(x_cameras) <- deployments(x_cameras) \%>\%
   mutate(cameraID = c(1, 2, 3, 4))
-camtrapR_cameraOperation(x_cameras, camera_col = "cameraID")
+get_cam_op(x_cameras, camera_col = "cameraID")
 
 # Specify both session and camera IDs
-camtrapR_cameraOperation(
+get_cam_op(
   x_cameras,
   camera_col = "cameraID",
   session_col = "session"
 )
 
 # Use prefix Station as in camtrapR's camera operation matrix
-camtrapR_cameraOperation(x, use_prefix = TRUE)
+get_cam_op(x, use_prefix = TRUE)
 }
 \seealso{
 Other deprecated camtrapR-derived functions:

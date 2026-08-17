@@ -54,7 +54,7 @@ assess_temporal_independence <- function(
 #' function documentation for [camtrapR::recordTable()](
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' 
-#' This function is deprecated. Please use [camtrapR::cameraOperation()]. The
+#' This function is deprecated. Please use [camtrapR::recordTable()]. The
 #' package camtrapR supports Camera Trap Data Packages, see the function
 #' [camtrapR::readCamtrapDP()].
 #' 

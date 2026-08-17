@@ -38,8 +38,8 @@ dates.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Creates the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
-returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+Creates the camera operation matrix as returned by
+\href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
 
 This function is deprecated. Please use \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}. The
 package camtrapR supports Camera Trap Data Packages, see the function

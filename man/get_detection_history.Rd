@@ -68,20 +68,26 @@ A list with three elements:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Creates the detection history matrix of a species based on the
 record table and the camera operation matrix.
-The record table is a concept developed within the camtrapR package, see the
-function documentation for \href{https://jniedballa.github.io/camtrapR/reference/detectionHistory.html}{camtrapR::detectionHistory()}.
+The detection history is a concept developed within the camtrapR package, see
+the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/detectionHistory.html}{camtrapR::detectionHistory()}.
+
+#' This function is deprecated. Please use \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
+The package camtrapR supports Camera Trap Data Packages, see the function
+\code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
+
+The detection history matrix is a binary matrix where rows represent camera
+stations and columns represent occasions. The matrix is filled with 1s and
+0s, where 1 indicates that the species was detected at a station on a given
+occasion and 0 indicates that the species was not detected. The function also
+returns the effort matrix, which contains the number of days that each
+station was active on each occasion, and the dates matrix, which contains the
+dates of the occasions.
 }
 \details{
-The detection history matrix is
-a binary matrix where rows represent camera stations and columns represent
-occasions. The matrix is filled with 1s and 0s, where 1 indicates that the
-species was detected at a station on a given occasion and 0 indicates that
-the species was not detected. The function also returns the effort matrix,
-which contains the number of days that each station was active on each
-occasion, and the dates matrix, which contains the dates of the occasions.
-
 This function doesn't take as input a Camera Trap Data Package object, but a
 camera operation matrix and a record table, which are both calculated based
 on a Camera Trap Data Package object. For more information, see the

@@ -9,7 +9,7 @@
 #' the function documentation for [camtrapR::detectionHistory()](
 #' https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
 #' 
-#' #' This function is deprecated. Please use [camtrapR::detectionHistory()].
+#' This function is deprecated. Please use [camtrapR::detectionHistory()].
 #' The package camtrapR supports Camera Trap Data Packages, see the function
 #' [camtrapR::readCamtrapDP()].
 #'

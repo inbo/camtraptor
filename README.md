@@ -109,9 +109,9 @@ x %>%
   camtrapdp and re-exports a number of functions so that users don’t
   need to load both packages.
 - [camtrapR](https://cran.r-project.org/package=camtrapR) is an analysis
-  R package for camera trap data. camtraptor offers a number of
-  `camtrapR_` functions to transform Camtrap DPs to outputs compatible
-  with camtrapR.
+  R package for camera trap data. camtraptor still offers a number of
+  (deprecated) functions to transform Camtrap DPs to outputs compatible
+  with camtrapR. Notice that Camtrap DPs is 
 - [camtrapDensity](https://github.com/MarcusRowcliffe/camtrapDensity) is
   a development R package to run single species random encounter models
   to estimate animal density. camtraptor is a dependency.

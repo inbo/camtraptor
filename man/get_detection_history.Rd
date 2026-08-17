@@ -75,7 +75,7 @@ record table and the camera operation matrix.
 The detection history is a concept developed within the camtrapR package, see
 the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/detectionHistory.html}{camtrapR::detectionHistory()}.
 
-#' This function is deprecated. Please use \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
+This function is deprecated. Please use \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
 The package camtrapR supports Camera Trap Data Packages, see the function
 \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
 

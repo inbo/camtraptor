@@ -88,7 +88,7 @@ are taken into account. The record table is a concept developed within the
 camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
 function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
 
-This function is deprecated. Please use \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}. The
+This function is deprecated. Please use \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}. The
 package camtrapR supports Camera Trap Data Packages, see the function
 \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
 

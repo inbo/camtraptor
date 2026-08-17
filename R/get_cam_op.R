@@ -63,9 +63,8 @@ daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Creates the [camera operation matrix](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) as
-#' returned by [camtrapR::cameraOperation()](
+#' Creates the camera operation matrix as returned by
+#' [camtrapR::cameraOperation()](
 #' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
 #' 
 #' This function is deprecated. Please use [camtrapR::cameraOperation()]. The

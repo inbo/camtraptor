@@ -1,18 +1,25 @@
 #' Get the detection history of a species
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
 #' Creates the detection history matrix of a species based on the
 #' record table and the camera operation matrix. 
-#' The record table is a concept developed within the camtrapR package, see the
-#' function documentation for [camtrapR::detectionHistory()](
+#' The detection history is a concept developed within the camtrapR package, see
+#' the function documentation for [camtrapR::detectionHistory()](
 #' https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
 #' 
-#' The detection history matrix is
-#' a binary matrix where rows represent camera stations and columns represent
-#' occasions. The matrix is filled with 1s and 0s, where 1 indicates that the
-#' species was detected at a station on a given occasion and 0 indicates that
-#' the species was not detected. The function also returns the effort matrix,
-#' which contains the number of days that each station was active on each
-#' occasion, and the dates matrix, which contains the dates of the occasions.
+#' #' This function is deprecated. Please use [camtrapR::detectionHistory()].
+#' The package camtrapR supports Camera Trap Data Packages, see the function
+#' [camtrapR::readCamtrapDP()].
+#'
+#' The detection history matrix is a binary matrix where rows represent camera
+#' stations and columns represent occasions. The matrix is filled with 1s and
+#' 0s, where 1 indicates that the species was detected at a station on a given
+#' occasion and 0 indicates that the species was not detected. The function also
+#' returns the effort matrix, which contains the number of days that each
+#' station was active on each occasion, and the dates matrix, which contains the
+#' dates of the occasions.
 #' @param recordTable A data frame with the camera trap records. The data frame
 #'   should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station'
 #'   is the camera station ID, 'Date' is the date of the record, 'Species' is

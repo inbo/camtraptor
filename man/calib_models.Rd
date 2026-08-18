@@ -5,13 +5,13 @@
 \title{Deprecated datasets in camtraptor}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+These datasets are deprecated:
 \itemize{
-\item The \code{mica} dataset was a Camtrap DP 0.1.6 data package and it is not
-supported anymore. Replaced by \code{\link[=example_dataset]{example_dataset()}}.
-\item The sample of animal position digitization data \code{animal_pos} is deprecated.
-Use \code{\link{animal_positions}} instead. The column \code{"sequenceID"} has been renamed to \code{"eventID"}.
-\item The sample of deployment calibration models \code{calib_models} is deprecated.
-Use \code{\link{calibration_models}} instead.
+\item Use \code{\link[=example_dataset]{example_dataset()}} instead of \code{mica}.
+\item Use \code{animal_positions} instead of \code{animal_pos}. Note that the column
+\code{"sequenceID"} has been renamed to \code{"eventID"}.
+\item Use \code{calibration_models} instead of \code{calib_models}.
 }
 }
 \seealso{

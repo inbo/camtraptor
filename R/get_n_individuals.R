@@ -1,11 +1,11 @@
 #' Get number of individuals for each deployment
-#'
+#' 
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Gets the number of individuals per deployment.
+#' This function is deprecated. Use [summarize_observations()] instead.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use 
-#' [summarize_observations()] instead.
+#' Gets the number of individuals per deployment.
 #'
 #' @inheritParams get_n_obs
 #' @inherit get_n_obs return

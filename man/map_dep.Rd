@@ -148,7 +148,7 @@ Leaflet map.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function is deprecated. Please use \code{\link[=map_summary]{map_summary()}} instead.
+This function is deprecated. Use \code{\link[=map_summary]{map_summary()}} instead.
 }
 \details{
 Deployments with zero values are shown only if they are present in the

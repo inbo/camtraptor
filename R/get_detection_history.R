@@ -8,10 +8,10 @@
 #' The detection history is a concept developed within the camtrapR package, see
 #' the function documentation for [camtrapR::detectionHistory()](
 #' https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
+#' This function is deprecated because camtrapR now supports Camera Trap Data
+#' Packages. Use [camtrapR::readCamtrapDP()] and then
+#' [camtrapR::detectionHistory()] instead.
 #' 
-#' This function is deprecated. Please use [camtrapR::detectionHistory()].
-#' The package camtrapR supports Camera Trap Data Packages, see the function
-#' [camtrapR::readCamtrapDP()].
 #'
 #' The detection history matrix is a binary matrix where rows represent camera
 #' stations and columns represent occasions. The matrix is filled with 1s and

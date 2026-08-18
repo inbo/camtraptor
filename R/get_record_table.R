@@ -3,6 +3,10 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
+#' This function is deprecated because camtrapR now supports Camera Trap Data
+#' Packages. Use [camtrapR::readCamtrapDP()] and then [camtrapR::recordTable()]
+#' instead.
+#' 
 #' Creates the record table from a Camera Trap Data Package and so tabulating
 #' species records. Only event-based observations and their corresponding media
 #' are taken into account. The record table is a concept developed within the
@@ -11,9 +15,6 @@
 #' function documentation for [camtrapR::recordTable()](
 #' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 #' 
-#' This function is deprecated. Please use [camtrapR::recordTable()]. The
-#' package camtrapR supports Camera Trap Data Packages, see the function
-#' [camtrapR::readCamtrapDP()].
 #' 
 #' **Note**: All dates and times are expressed in UTC format.
 #'

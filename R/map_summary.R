@@ -1,96 +1,3 @@
-#' Get legend title for deployment visualizations
-#'
-#' @param feature Character, one of:
-#'   - `n_species`
-#'   - `n_events`
-#'   - `n_obs`
-#'   - `rai_observations`
-#'   - `rai_count`
-#'   - `effort`
-#' @noRd
-get_legend_title <- function(feat) {
-  # get all legend titles
-  titles <- .map_summary_legend_titles
-  # return the legend title we need
-  titles %>%
-    dplyr::filter(.data$feature == feat) %>%
-    dplyr::pull(.data$legend_title)
-}
-
-#' Add unit to legend title
-#'
-#' This function is useful when a unit (e.g. temporal unit) should be added to
-#' legend title.
-#'
-#' @param title A character with legend title.
-#' @param unit Character with unit to add to `title`.
-#' @param use_brackets Logical.
-#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
-#' @noRd
-#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
-add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
-  if (is.null(unit)) {
-    title
-  } else {
-    if (use_brackets == TRUE) {
-      unit <- paste0("(", unit, ")")
-    }
-    paste(title, unit)
-  }
-}
-
-#' Custom label format function
-#'
-#' Add "+" to last label of legend while using absolute scale. At the moment
-#' only numeric scale is needed and therefore implemented.
-#'
-#' @source based on leaflet's
-#'   [labelFormat()](https://github.com/rstudio/leaflet/commit/bb3ab964486b357ddc160a7032cfdce6cd8fbe35)
-#'    function
-#'
-#' @param max_scale a number indicating the maximum value of the absolute scale
-#'   (`NULL` if relative scale is used, default)
-#' @param prefix a prefix of legend labels
-#' @param suffix a suffix of legend labels
-#' @param digits the number of digits of numeric values in labels
-#' @param big.mark the thousand separator
-#' @param transform a function to transform the label value
-#' @noRd
-labelFormat_scale <- function(max_scale = NULL,
-                              prefix = "",
-                              suffix = "",
-                              digits = 3,
-                              big.mark = ",",
-                              transform = identity) {
-  formatNum <- function(x, max_scale) {
-    cuts_chrs <- format(
-      round(transform(x), digits),
-      trim = TRUE,
-      scientific = FALSE,
-      big.mark = big.mark
-    )
-    if (!is.null(max_scale)) {
-      n <- length(x)
-      if (x[n] == max_scale) {
-        cuts_chrs[n] <- paste0(cuts_chrs[n], "+")
-      }
-    }
-    return(cuts_chrs)
-  }
-  
-  function(type, ...) {
-    switch(
-      type,
-      numeric = (
-        function(cuts) {
-          paste0(prefix, formatNum(cuts, max_scale), suffix)
-        }
-      )(...)
-    )
-  }
-}
-
-
 #' Visualize deployments features
 #'
 #' This function visualizes deployments features such as number of detected
@@ -813,4 +720,96 @@ map_summary <- function(
       )
   }
   leaflet_map
+}
+
+#' Get legend title for deployment visualizations
+#'
+#' @param feature Character, one of:
+#'   - `n_species`
+#'   - `n_events`
+#'   - `n_obs`
+#'   - `rai_observations`
+#'   - `rai_count`
+#'   - `effort`
+#' @noRd
+get_legend_title <- function(feat) {
+  # get all legend titles
+  titles <- .map_summary_legend_titles
+  # return the legend title we need
+  titles %>%
+    dplyr::filter(.data$feature == feat) %>%
+    dplyr::pull(.data$legend_title)
+}
+
+#' Add unit to legend title
+#'
+#' This function is useful when a unit (e.g. temporal unit) should be added to
+#' legend title.
+#'
+#' @param title A character with legend title.
+#' @param unit Character with unit to add to `title`.
+#' @param use_brackets Logical.
+#'   If `TRUE` (default) `unit` is wrapped between brackets, e.g. `(days)`.
+#' @noRd
+#' @usage add_unit_to_legend_title("My title", unit = "day", use_bracket = TRUE)
+add_unit_to_legend_title <- function(title, unit = NULL, use_brackets = TRUE) {
+  if (is.null(unit)) {
+    title
+  } else {
+    if (use_brackets == TRUE) {
+      unit <- paste0("(", unit, ")")
+    }
+    paste(title, unit)
+  }
+}
+
+#' Custom label format function
+#'
+#' Add "+" to last label of legend while using absolute scale. At the moment
+#' only numeric scale is needed and therefore implemented.
+#'
+#' @source based on leaflet's
+#'   [labelFormat()](https://github.com/rstudio/leaflet/commit/bb3ab964486b357ddc160a7032cfdce6cd8fbe35)
+#'    function
+#'
+#' @param max_scale a number indicating the maximum value of the absolute scale
+#'   (`NULL` if relative scale is used, default)
+#' @param prefix a prefix of legend labels
+#' @param suffix a suffix of legend labels
+#' @param digits the number of digits of numeric values in labels
+#' @param big.mark the thousand separator
+#' @param transform a function to transform the label value
+#' @noRd
+labelFormat_scale <- function(max_scale = NULL,
+                              prefix = "",
+                              suffix = "",
+                              digits = 3,
+                              big.mark = ",",
+                              transform = identity) {
+  formatNum <- function(x, max_scale) {
+    cuts_chrs <- format(
+      round(transform(x), digits),
+      trim = TRUE,
+      scientific = FALSE,
+      big.mark = big.mark
+    )
+    if (!is.null(max_scale)) {
+      n <- length(x)
+      if (x[n] == max_scale) {
+        cuts_chrs[n] <- paste0(cuts_chrs[n], "+")
+      }
+    }
+    return(cuts_chrs)
+  }
+  
+  function(type, ...) {
+    switch(
+      type,
+      numeric = (
+        function(cuts) {
+          paste0(prefix, formatNum(cuts, max_scale), suffix)
+        }
+      )(...)
+    )
+  }
 }

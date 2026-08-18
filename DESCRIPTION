@@ -61,12 +61,14 @@ Imports:
     tidyr,
     utils
 Suggests:
+    camtrapR,
     cli,
     covr,
     frictionless,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
+    unmarked,
     xml2
 VignetteBuilder:
     knitr

@@ -8,17 +8,16 @@
 #' [camtrapR::cameraOperation()] instead.
 #' 
 #' Creates the camera operation matrix as returned by
-#' [camtrapR::cameraOperation()](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#' [camtrapR::cameraOperation()].
 #' 
+#' @details
 #' The deployment data are by default grouped by `locationName` (station ID in
 #' camtrapR jargon) or another column specified by the user via the 
-#' `station_col` argument. If multiple deployments are linked to same location, 
-#' daily efforts higher than 1 occur.
+#' `station_col` argument. If multiple deployments are linked to the same 
+#' location, daily efforts higher than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment, result
-#' in decimal effort values as in [camtrapR::cameraOperation()](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#' in decimal effort values as in [camtrapR::cameraOperation()].
 #'
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
@@ -29,8 +28,7 @@
 #'   histories.
 #' @param use_prefix Logical (`TRUE` or `FALSE`). If `TRUE` the returned row
 #'   names will start with prefix `"Station"` as returned by
-#'   [camtrapR::cameraOperation()](
-#'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#'   [camtrapR::cameraOperation()].
 #'   Default: `FALSE`.
 #' @inheritParams summarize_deployments
 #' @returns A matrix. Row names always indicate the station ID. Column names are

@@ -12,9 +12,7 @@
 #' are taken into account. The record table is a concept developed within the
 #' camtrapR package, see [this article](
 #' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html). See also the
-#' function documentation for [camtrapR::recordTable()](
-#' https://jniedballa.github.io/camtrapR/reference/recordTable.html).
-#' 
+#' function documentation for [camtrapR::recordTable()].
 #' 
 #' **Note**: All dates and times are expressed in UTC format.
 #'

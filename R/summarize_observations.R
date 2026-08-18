@@ -131,8 +131,8 @@ extend_summary <- function(summary, x) {
 #' - Relative Abundance Index (RAI) based on number of observations.
 #' - Relative Abundance Index (RAI) based on individual counts.
 #'
-#' @details `summarize_observations()` and `summarise_observations()` are
-#'   synonyms.
+#' @details
+#' `summarize_observations()` and `summarise_observations()` are synonyms.
 #'
 #' By default (`extend = FALSE`), the function follows the standard behavior of
 #' `dplyr::summarise()`, returning only groups that have observations. This

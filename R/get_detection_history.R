@@ -3,15 +3,14 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Creates the detection history matrix of a species based on the
-#' record table and the camera operation matrix. 
-#' The detection history is a concept developed within the camtrapR package, see
-#' the function documentation for [camtrapR::detectionHistory()](
-#' https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
 #' This function is deprecated because camtrapR now supports Camera Trap Data
 #' Packages. Use [camtrapR::readCamtrapDP()] and then
 #' [camtrapR::detectionHistory()] instead.
 #' 
+#' Creates the detection history matrix of a species based on the
+#' record table and the camera operation matrix. The detection history is a 
+#' concept developed within the camtrapR package, see the function documentation 
+#' for [camtrapR::detectionHistory()].
 #'
 #' The detection history matrix is a binary matrix where rows represent camera
 #' stations and columns represent occasions. The matrix is filled with 1s and
@@ -20,6 +19,20 @@
 #' returns the effort matrix, which contains the number of days that each
 #' station was active on each occasion, and the dates matrix, which contains the
 #' dates of the occasions.
+#' 
+#' @details
+#' This function doesn't take as input a Camera Trap Data Package object, but a
+#' camera operation matrix and a record table, which are both calculated based
+#' on a Camera Trap Data Package object. For more information, see the
+#' [get_cam_op()] and [get_record_table()] functions.
+#' 
+#' If the camera operation matrix (`camOp`) was created for a multi-season study
+#' (via argument `session_col` in `get_cam_op()`), the session will be detected
+#' automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate
+#' a multi-season detection history. Each row corresponds to a site, and the
+#' columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`,
+#' `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
+#' 
 #' @param recordTable A data frame with the camera trap records. The data frame
 #'   should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station'
 #'   is the camera station ID, 'Date' is the date of the record, 'Species' is
@@ -49,26 +62,12 @@
 #'   removed because taken during the buffer period.
 #' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return 
 #' the input for multi-season occupancy models in unmarked
-#' R package (argument `y` in [unmarked::unmarkedMultFrame()](https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame)).
+#' R package (argument `y` in [unmarked::unmarkedMultFrame()]).
 #' Default: `FALSE`.
 #' @returns A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
-#' - `dates`: the dates matrix
-#' 
-#' @details
-#' This function doesn't take as input a Camera Trap Data Package object, but a
-#' camera operation matrix and a record table, which are both calculated based
-#' on a Camera Trap Data Package object. For more information, see the
-#' [get_cam_op()] and [get_record_table()] functions.
-#' 
-#' If the camera operation matrix (`camOp`) was created for a multi-season study
-#' (via argument `session_col` in `get_cam_op()`), the session will be detected
-#' automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate
-#' a multi-season detection history. Each row corresponds to a site, and the
-#' columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`,
-#' `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
-#' 
+#' - `dates`: the dates matrix 
 #' @family deprecated camtrapR-derived functions
 #' @importFrom dplyr .data %>%
 #' @export

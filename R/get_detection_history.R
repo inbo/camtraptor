@@ -3,8 +3,8 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' This function is deprecated because camtrapR now supports Camera Trap Data
-#' Packages. Use [camtrapR::readCamtrapDP()] and then
+#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::detectionHistory()] instead.
 #' 
 #' Creates the detection history matrix of a species based on the

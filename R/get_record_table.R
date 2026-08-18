@@ -3,8 +3,8 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' This function is deprecated because camtrapR now supports Camera Trap Data
-#' Packages. Use [camtrapR::readCamtrapDP()] and then [camtrapR::recordTable()]
+#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' Data Packages. Use [camtrapR::readCamtrapDP()] and [camtrapR::recordTable()]
 #' instead.
 #' 
 #' Creates the record table from a Camera Trap Data Package and so tabulating

@@ -1,3 +1,13 @@
+test_that("get_record_table() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  lifecycle::expect_deprecated(
+    get_record_table(x),
+    "was deprecated in camtraptor 1.0.0.",
+    fixed = TRUE
+  )
+})
+
 test_that("inputs of get_record_table are correct", {
   # Check `x`
   rlang::local_options(lifecycle_verbosity = "quiet")
@@ -386,14 +396,4 @@ test_that("solar is always in the range [0, 2*pi]", {
     dplyr::pull(solar)
   expect_true(all(solar_values >= 0))
   expect_true(all(solar_values <= 2 * pi))
-})
-
-test_that("get_record_table() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  lifecycle::expect_deprecated(
-    get_record_table(x),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE
-  )
 })

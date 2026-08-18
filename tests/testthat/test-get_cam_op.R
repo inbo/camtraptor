@@ -1,3 +1,12 @@
+test_that("get_cam_op() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  lifecycle::expect_deprecated(
+    get_cam_op(x),
+    "was deprecated in camtraptor 1.0.0.",
+    fixed = TRUE)
+})
+
 test_that("input camtrap dp is checked properly", {
   skip_if_offline()
   rlang::local_options(lifecycle_verbosity = "quiet")
@@ -372,12 +381,3 @@ test_that(paste0(
     cam_op_matrix[2, col_idx_start2:col_idx_end2]))
   }
 )
-
-test_that("get_cam_op() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  lifecycle::expect_deprecated(
-    get_cam_op(x),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE)
-})

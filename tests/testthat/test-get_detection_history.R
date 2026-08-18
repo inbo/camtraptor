@@ -1,4 +1,23 @@
-# Test input ####
+test_that("get_detection_history() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  rec_table <- suppressWarnings(get_record_table(x))
+  cam_op <- suppressWarnings(get_cam_op(x))
+  species <- "Anas platyrhynchos"
+  output <- "binary"
+  occasionLength <- 1
+  lifecycle::expect_deprecated(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "was deprecated in camtraptor 1.0.0.",
+    fixed = TRUE
+  )
+})
 
 test_that("Camera operation matrix input, `camOp`, has right format", {
   skip_if_offline()
@@ -1219,26 +1238,5 @@ test_that("Test `buffer`", {
   )
   expect_equal(ncol(res_max_buffer$dates),
                (maxNumberDays - buffer) / occasionLength
-  )
-})
-
-test_that("get_detection_history() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  rec_table <- suppressWarnings(get_record_table(x))
-  cam_op <- suppressWarnings(get_cam_op(x))
-  species <- "Anas platyrhynchos"
-  output <- "binary"
-  occasionLength <- 1
-  lifecycle::expect_deprecated(
-    get_detection_history(
-      recordTable = rec_table,
-      camOp = cam_op,
-      species = species,
-      output = output,
-      occasionLength = occasionLength
-      ),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE
   )
 })

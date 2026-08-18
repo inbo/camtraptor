@@ -102,9 +102,6 @@ Before  | Now
 `mica` | `example_dataset()` (#402)
 `read_camtrap_dp()` | `read_camtrapdp()` (without underscore) (#298)
 
-The functions `get_cam_op()`, `get_detection_history()` and `get_record_table()` were written to create respectively the camera operation matrix, the detection history and the record table from a Camera Trap Data Package. These outputs were conceived within the camtrapR package. 
-However, they are not needed anymore as the package `camtrapR` supports the Camera Trap DP format, see the function `camtrapR::readCamtrapDP()`.
-
 The following functions and objects **no longer work**:
 
 Before | Now

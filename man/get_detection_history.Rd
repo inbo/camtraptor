@@ -56,7 +56,7 @@ removed because taken during the buffer period.}
 
 \item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return
 the input for multi-season occupancy models in unmarked
-R package (argument \code{y} in \href{https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame}{unmarked::unmarkedMultFrame()}).
+R package (argument \code{y} in \code{\link[unmarked:unmarkedMultFrame]{unmarked::unmarkedMultFrame()}}).
 Default: \code{FALSE}.}
 }
 \value{
@@ -70,14 +70,14 @@ A list with three elements:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Creates the detection history matrix of a species based on the
-record table and the camera operation matrix.
-The detection history is a concept developed within the camtrapR package, see
-the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/detectionHistory.html}{camtrapR::detectionHistory()}.
+This function is deprecated because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
+\code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}} instead.
 
-This function is deprecated. Please use \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
-The package camtrapR supports Camera Trap Data Packages, see the function
-\code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
+Creates the detection history matrix of a species based on the
+record table and the camera operation matrix. The detection history is a
+concept developed within the camtrapR package, see the function documentation
+for \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
 
 The detection history matrix is a binary matrix where rows represent camera
 stations and columns represent occasions. The matrix is filled with 1s and

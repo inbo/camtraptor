@@ -151,15 +151,15 @@ Leaflet map.
 This function is deprecated. Please use \code{\link[=map_summary]{map_summary()}} instead.
 }
 \details{
-Deployments with zero values are shown only if they are present in
-the summary, \code{df}. If you want to show deployments with zero values not
-present in the summary, be sure to have used \code{extend} = \code{TRUE} in
+Deployments with zero values are shown only if they are present in the
+summary, \code{df}. If you want to show deployments with zero values not present
+in the summary, be sure to have used \code{extend} = \code{TRUE} in
 \code{summarize_observations()}. See the examples.
 
 Notice also that the argument \code{species} is not present anymore. If you want
 to visualize a feature only for a specific group of species, please filter
-the Camera Trap Data Package using \code{\link[=filter_observations]{filter_observations()}} before using
-this function. See the examples.
+the Camera Trap Data Package using \code{\link[=filter_observations]{filter_observations()}} before using this
+function. See the examples.
 }
 \examples{
 x <- example_dataset()

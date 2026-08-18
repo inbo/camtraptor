@@ -82,15 +82,15 @@ Nouvellet et al. (2012) \doi{10.1111/j.1469-7998.2011.00864.x}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
+This function is deprecated because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}
+instead.
+
 Creates the record table from a Camera Trap Data Package and so tabulating
 species records. Only event-based observations and their corresponding media
 are taken into account. The record table is a concept developed within the
 camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
-function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
-
-This function is deprecated. Please use \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}. The
-package camtrapR supports Camera Trap Data Packages, see the function
-\code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
+function documentation for \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}.
 
 \strong{Note}: All dates and times are expressed in UTC format.
 }

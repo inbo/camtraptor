@@ -28,7 +28,7 @@ histories.}
 
 \item{use_prefix}{Logical (\code{TRUE} or \code{FALSE}). If \code{TRUE} the returned row
 names will start with prefix \code{"Station"} as returned by
-\href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
 Default: \code{FALSE}.}
 }
 \value{
@@ -38,20 +38,21 @@ dates.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
+This function is deprecated because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}} instead.
+
 Creates the camera operation matrix as returned by
-\href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
-
-This function is deprecated. Please use \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}. The
-package camtrapR supports Camera Trap Data Packages, see the function
-\code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}}.
-
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
+}
+\details{
 The deployment data are by default grouped by \code{locationName} (station ID in
 camtrapR jargon) or another column specified by the user via the
-\code{station_col} argument. If multiple deployments are linked to same location,
-daily efforts higher than 1 occur.
+\code{station_col} argument. If multiple deployments are linked to the same
+location, daily efforts higher than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment, result
-in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+in decimal effort values as in \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
 }
 \examples{
 library(dplyr)

@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 
 Camtraptor is an R package to **explore** and **visualize** [Camera Trap Data Package](https://camtrap-dp.tdwg.org/) (Camtrap DP) datasets. This vignette walks you through the workflow of the package.
 
-> **Note:** Coming from `camtraptor` version 0.28 or earlier? Check out [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+::: {.callout-note}
+Coming from `camtraptor` version 0.28 or earlier? Check out [News](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100) to see what changed. Deprecated functions will throw a warning pointing you towards their replacements.
+:::
 
 ## Setup
 
@@ -79,7 +81,9 @@ x_filtered <- x %>%
 
 `filter_deployments()` filters the deployments table to the two selected locations, and automatically removes any associated observations and media that do not belong to these deployments. `filter_observations()` then filters the remaining observations to only keep mallard (*Anas platyrhynchos*) observations.
 
-> **Note:** Want to filter out timelapse observations? Use `filter_out_timelapse()` as a shortcut for `filter_observations(x, captureMethod != "timelapse")`.
+::: {.callout-note}
+ Want to filter out timelapse observations? Use `filter_out_timelapse()` as a shortcut for `filter_observations(x, captureMethod != "timelapse")`.
+:::
 
 
 ### Summarizing data
@@ -136,5 +140,6 @@ x %>%
   map_summary(feature = "n_observations")
 ```
 
-> **Note**: For more information about visualization, check out the vignette `vignette("visualize-deployment-features")`.
-  
+::: {.callout-note}
+For more information about visualization, check out the vignette `vignette("visualize-deployment-features")`.
+:::

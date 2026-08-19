@@ -1,12 +1,12 @@
 #' Get custom effort
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Gets the effort for each deployment and a specific time interval such as day,
-#' week, month or year. 
+#' This function is deprecated. Use [summarize_deployments()] instead.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_deployments()]
-#' instead.
+#' Gets the effort for each deployment and a specific time interval such as day,
+#' week, month or year.
 #'
 #' @param start `r lifecycle::badge("deprecated")` if not `NULL `. Not supported
 #'   anymore. Use `filter_deployments()` to filter out deployments.

@@ -1,15 +1,35 @@
-# Test input ####
+test_that("get_detection_history() is deprecated", {
+  skip_if_offline()
+  x <- example_dataset()
+  rec_table <- suppressWarnings(get_record_table(x))
+  cam_op <- suppressWarnings(get_cam_op(x))
+  species <- "Anas platyrhynchos"
+  output <- "binary"
+  occasionLength <- 1
+  lifecycle::expect_deprecated(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "was deprecated in camtraptor 1.0.0.",
+    fixed = TRUE
+  )
+})
 
 test_that("Camera operation matrix input, `camOp`, has right format", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  rec_table <- camtrapR_recordTable(x)
-  cam_op <- camtrapR_cameraOperation(x)
+  rec_table <- get_record_table(x)
+  cam_op <- get_cam_op(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = NULL,
       species = species,
@@ -20,7 +40,7 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = "not a matrix",
       species = species,
@@ -31,7 +51,7 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = dplyr::as_tibble(cam_op),
       species = species,
@@ -44,7 +64,7 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
   # All rownames of camOp must be with or without `__SESS_`. No mixed names
   rownames(cam_op)[1] <- stringr::str_c(rownames(cam_op)[1], "__SESS_A")
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -60,11 +80,11 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
   )
   # Sessions are used, but not all rownames have the session after prefix
   # `__SESS_`.
-  cam_op <- camtrapR_cameraOperation(x)
+  cam_op <- get_cam_op(x)
   rownames(cam_op) <- stringr::str_c(rownames(cam_op), "__SESS_")
   rownames(cam_op)[1:2] <- stringr::str_c(rownames(cam_op)[1:2], "A")
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -82,14 +102,15 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
 
 test_that("Record table input, `recordTable`, has right format", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = NULL,
       camOp = cam_op,
       species = species,
@@ -100,7 +121,7 @@ test_that("Record table input, `recordTable`, has right format", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = "not a tibble",
       camOp = cam_op,
       species = species,
@@ -111,7 +132,7 @@ test_that("Record table input, `recordTable`, has right format", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = as.matrix(rec_table),
       camOp = cam_op,
       species = species,
@@ -124,7 +145,7 @@ test_that("Record table input, `recordTable`, has right format", {
   rec_table_no_n <- rec_table
   rec_table_no_n$n <- NULL
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table_no_n,
       camOp = cam_op,
       species = species,
@@ -140,13 +161,14 @@ test_that("Record table input, `recordTable`, has right format", {
 
 test_that("Check `species`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = NULL,
@@ -156,7 +178,7 @@ test_that("Check `species`", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = 1,
@@ -166,7 +188,7 @@ test_that("Check `species`", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = c("Anas platyrhynchos", "Anas strepera"),
@@ -176,7 +198,7 @@ test_that("Check `species`", {
     fixed = TRUE
   )
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = "not a species",
@@ -193,14 +215,15 @@ test_that("Check `species`", {
 
 test_that("Check `output`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- 5
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = "Anas platyrhynchos",
@@ -212,7 +235,7 @@ test_that("Check `output`", {
   )
   output <- c(5,2)
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = "Anas platyrhynchos",
@@ -222,13 +245,13 @@ test_that("Check `output`", {
     "`output` must be a character vector of lenght 1.",
     fixed = TRUE
   )
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "wrong"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = "Anas platyrhynchos",
@@ -243,14 +266,15 @@ test_that("Check `output`", {
 
 test_that("Check `occasionLength`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- "not an integer"
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -262,7 +286,7 @@ test_that("Check `occasionLength`", {
   )
   occasionLength <- c(1,2)
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -274,7 +298,7 @@ test_that("Check `occasionLength`", {
   )
   occasionLength <- -1
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -288,15 +312,16 @@ test_that("Check `occasionLength`", {
 
 test_that("Check `minActiveDaysPerOccasion`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 5
   minActiveDaysPerOccasion <- "not an integer"
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -311,7 +336,7 @@ test_that("Check `minActiveDaysPerOccasion`", {
   )
   minActiveDaysPerOccasion <- c(1,2)
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -326,7 +351,7 @@ test_that("Check `minActiveDaysPerOccasion`", {
   )
   minActiveDaysPerOccasion <- -1
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -341,16 +366,17 @@ test_that("Check `minActiveDaysPerOccasion`", {
 
 test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   species <- "Anas platyrhynchos"
   occasionLength <- 1
   # `maxNumberDays` is a character, not right class
   maxNumberDays <- "blablabla"
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -363,7 +389,7 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   # `maxNumberDays` is a vector with length > 1
   maxNumberDays <- c(1, 2, 4)
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -376,7 +402,7 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   # `maxNumberDays` is negative
   maxNumberDays <- -1
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -389,7 +415,7 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   maxNumberDays <- 1
   occasionLength <- 7
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -403,7 +429,7 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   # matrix
   maxNumberDays <- 1000
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -427,10 +453,10 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
     dplyr::mutate(deploymentEnd = deploymentEnd + lubridate::ddays(2))
   media(x_plus_2) <- media(x_plus_2) %>%
     dplyr::mutate(timestamp = timestamp + lubridate::ddays(2))
-  cam_op_plus_2 <- camtrapR_cameraOperation(x_plus_2)
-  rec_table_plus_2 <- camtrapR_recordTable(x_plus_2)
+  cam_op_plus_2 <- get_cam_op(x_plus_2)
+  rec_table_plus_2 <- get_record_table(x_plus_2)
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table_plus_2,
+    get_detection_history(recordTable = rec_table_plus_2,
                           camOp = cam_op_plus_2,
                           species = species,
                           output = output,
@@ -444,14 +470,15 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
 
 test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -463,7 +490,7 @@ test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
   )
   # `day1` is too late
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -475,7 +502,7 @@ test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
   )
   # `day1` is too early
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -489,15 +516,16 @@ test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
 
 test_that("Argument `buffer` is NULL or an integer of length 1", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # `buffer` is a character, not right class
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -508,7 +536,7 @@ test_that("Argument `buffer` is NULL or an integer of length 1", {
   )
   # `buffer` is a vector with length > 1 
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -519,7 +547,7 @@ test_that("Argument `buffer` is NULL or an integer of length 1", {
   )
   # `buffer` is negative
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -531,9 +559,10 @@ test_that("Argument `buffer` is NULL or an integer of length 1", {
 
 test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -544,7 +573,7 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   # For all stations first day (`day1`: 2021-04-01) > last day (latest date is
   # 2021-03-29 = 2021-03-27  + `maxNumberDays` - 1).
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -566,7 +595,7 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   # 2020-08-03 (2020-07-29 + `buffer`) and the last day is 2020-07-31
   # (2020-07-29 + `maxNumberDays`).
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -589,7 +618,7 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   # first day of the station is 2020-08-03 (`day1`) and the last day is
   # 2020-07-31 (2020-07-29 -> `maxNumberDays`).
   expect_error(
-    suppressWarnings(camtrapR_detectionHistory(recordTable = rec_table,
+    suppressWarnings(get_detection_history(recordTable = rec_table,
                                            camOp = cam_op,
                                            species = species,
                                            output = output,
@@ -607,15 +636,16 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
 
 test_that("Argument `unmarkedMultFrameInput` is TRUE or FALSE", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # `unmarkedMultFrameInput` is a character, not right class
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -626,7 +656,7 @@ test_that("Argument `unmarkedMultFrameInput` is TRUE or FALSE", {
   )
   # `unmarkedMultFrameInput` is a vector with length > 1
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -643,14 +673,15 @@ test_that(
     "is `TRUE`"
     ), {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   species <- "Anas platyrhynchos"
   occasionLength <- 1
   expect_error(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -667,12 +698,13 @@ test_that(
 # Test output ####
 test_that("Output is a list of three matrices of right types", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res_bin <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_bin <- get_detection_history(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
                                output = "binary",
@@ -690,7 +722,7 @@ test_that("Output is a list of three matrices of right types", {
   expect_identical(rownames(res_bin$effort),rownames(cam_op))
   expect_identical(rownames(res_bin$dates), rownames(cam_op))
   
-  res_n_obs <- camtrapR_detectionHistory(
+  res_n_obs <- get_detection_history(
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
@@ -709,7 +741,7 @@ test_that("Output is a list of three matrices of right types", {
   expect_identical(rownames(res_n_obs$effort),rownames(cam_op))
   expect_identical(rownames(res_n_obs$dates), rownames(cam_op))
   
-  res_n_ind <- camtrapR_detectionHistory(
+  res_n_ind <- get_detection_history(
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
@@ -732,27 +764,28 @@ test_that("Output is a list of three matrices of right types", {
 
 test_that("Detection history dates and effort are output independent", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res_binary <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_binary <- get_detection_history(recordTable = rec_table,
                                       camOp = cam_op,
                                       species = species,
                                       output = output,
                                       occasionLength = occasionLength,
                                       day1 = "station")
   output <- "n_observations"
-  res_n_observations <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_n_observations <- get_detection_history(recordTable = rec_table,
                                               camOp = cam_op,
                                               species = species,
                                               output = output,
                                               occasionLength = occasionLength,
                                               day1 = "station")
   output <- "n_individuals"
-  res_n_individuals <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_n_individuals <- get_detection_history(recordTable = rec_table,
                                              camOp = cam_op,
                                              species = species,
                                              output = output,
@@ -766,13 +799,14 @@ test_that("Detection history dates and effort are output independent", {
 
 test_that("Dates are in the right ISO format (YYY-MM-DD)", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res <- camtrapR_detectionHistory(recordTable = rec_table,
+  res <- get_detection_history(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
                                output = output,
@@ -783,7 +817,7 @@ test_that("Dates are in the right ISO format (YYY-MM-DD)", {
   
   # It is the same also with occasionLength > 1
   occasionLength <- 2
-  res <- camtrapR_detectionHistory(recordTable = rec_table,
+  res <- get_detection_history(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
                                output = output,
@@ -798,15 +832,16 @@ test_that(
          "with at least one value not NA (occasionLength = 1)"), 
   {
     skip_if_offline()
+    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
-    cam_op <- camtrapR_cameraOperation(x)
+    cam_op <- get_cam_op(x)
     # Remove columns with NAs only
     cam_op_without_na <- cam_op[, colSums(is.na(cam_op)) != nrow(cam_op)]
-    rec_table <- camtrapR_recordTable(x)
+    rec_table <- get_record_table(x)
     output <- "binary"
     occasionLength <- 1
     species <- "Anas platyrhynchos"
-    res <- camtrapR_detectionHistory(recordTable = rec_table,
+    res <- get_detection_history(recordTable = rec_table,
                                  camOp = cam_op,
                                  species = species,
                                  output = output,
@@ -822,13 +857,14 @@ test_that(
 
 test_that("Test `occasionLength` > 1", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res_1 <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_1 <- get_detection_history(recordTable = rec_table,
                                  camOp = cam_op,
                                  species = species,
                                  output = output,
@@ -836,7 +872,7 @@ test_that("Test `occasionLength` > 1", {
                                  day1 = "station")
   n_occasions_1 <- ncol(res_1$detection_history)
   occasionLength <- 7
-  res_7 <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_7 <- get_detection_history(recordTable = rec_table,
                                  camOp = cam_op,
                                  species = species,
                                  output = output,
@@ -868,13 +904,14 @@ test_that("Test `occasionLength` > 1", {
 
 test_that("Test `minActiveDaysPerOccasion` > 1", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "n_observations"
   occasionLength <- 7
   species <- "Anas platyrhynchos"
-  res_1 <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_1 <- get_detection_history(recordTable = rec_table,
                                  camOp = cam_op,
                                  species = species,
                                  output = output,
@@ -888,7 +925,7 @@ test_that("Test `minActiveDaysPerOccasion` > 1", {
   n_na_per_row_1_dates <- rowSums(is.na(res_1$dates))
   
   minActiveDaysPerOccasion <- 5 # less than `occasionLength`
-  res_5 <- camtrapR_detectionHistory(
+  res_5 <- get_detection_history(
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
@@ -920,9 +957,10 @@ test_that("Test `minActiveDaysPerOccasion` > 1", {
 
 test_that("Test `maxNumberDays`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  rec_table <- camtrapR_recordTable(x)
-  cam_op <- camtrapR_cameraOperation(x)
+  rec_table <- get_record_table(x)
+  cam_op <- get_cam_op(x)
   species <- "Anas platyrhynchos"
   maxNumberDays <- 3
   output <- "binary"
@@ -931,7 +969,7 @@ test_that("Test `maxNumberDays`", {
   # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the
   # station. All the other records are removed.
   expect_warning(
-    camtrapR_detectionHistory(recordTable = rec_table,
+    get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
                           species = species,
                           output = output,
@@ -948,7 +986,7 @@ test_that("Test `maxNumberDays`", {
   # 7 rows returned if `maxNumberDays`: 7 (`occasionLength`  = 1 day)
   maxNumberDays <- 7
   res_max_days_7 <- suppressWarnings(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -967,7 +1005,7 @@ test_that("Test `maxNumberDays`", {
   occasionLength <- 2
   maxNumberDays <- 6
   res_max_days_6 <- suppressWarnings(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -986,15 +1024,16 @@ test_that("Test `maxNumberDays`", {
 
 test_that("Test `day1` = specific date", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # Right warning returned with number of records removed and example
   expect_warning(
-    res_1 <- camtrapR_detectionHistory(recordTable = rec_table,
+    res_1 <- get_detection_history(recordTable = rec_table,
                                    camOp = cam_op,
                                    species = species,
                                    output = output,
@@ -1012,16 +1051,17 @@ test_that("Test `day1` = specific date", {
 
 test_that("Test `buffer`", {
   skip_if_offline()
+  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "n_observations"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # Error returned if `buffer` is so big that no occasions are found.
   buffer <- 1000
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1038,7 +1078,7 @@ test_that("Test `buffer`", {
   # removed.
   buffer <- 24
   expect_error(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1054,7 +1094,7 @@ test_that("Test `buffer`", {
   # Right warning returned with number of removed records and an example
   buffer <- 5
   expect_warning(
-    res_with_buffer <- camtrapR_detectionHistory(
+    res_with_buffer <- get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1088,7 +1128,7 @@ test_that("Test `buffer`", {
     )
   )
   # Number of columns is reduced by buffer
-  res_no_buffer <- camtrapR_detectionHistory(recordTable = rec_table,
+  res_no_buffer <- get_detection_history(recordTable = rec_table,
                                          camOp = cam_op,
                                          species = species,
                                          output = output,
@@ -1117,7 +1157,7 @@ test_that("Test `buffer`", {
   # have one occasion less.
   occasionLength <- 3
   expect_warning(
-    res_buffer_occasion_length <- camtrapR_detectionHistory(
+    res_buffer_occasion_length <- get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1127,7 +1167,7 @@ test_that("Test `buffer`", {
       buffer = occasionLength
     )
   )
-  res_no_buffer_occasion_length <- camtrapR_detectionHistory(
+  res_no_buffer_occasion_length <- get_detection_history(
     recordTable = rec_table,
     camOp = cam_op,
     species = species,
@@ -1158,7 +1198,7 @@ test_that("Test `buffer`", {
   maxNumberDays <- 5
   occasionLength <- 1
   res_max_buffer <- suppressWarnings(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1179,7 +1219,7 @@ test_that("Test `buffer`", {
   maxNumberDays <- 6
   buffer <- 2
   res_max_buffer <- suppressWarnings(
-    camtrapR_detectionHistory(
+    get_detection_history(
       recordTable = rec_table,
       camOp = cam_op,
       species = species,
@@ -1198,241 +1238,5 @@ test_that("Test `buffer`", {
   )
   expect_equal(ncol(res_max_buffer$dates),
                (maxNumberDays - buffer) / occasionLength
-  )
-})
-
-test_that("Test `unmarkedMultFrameInput`", {
-  skip_if_offline()
-  x <- example_dataset()
-  output <- "binary"
-  occasionLength <- 1
-  species <- "Anas platyrhynchos"
-  
-  # Create a multi-season camera operation matrix / record table
-  x_sessions <- x
-  deployments(x_sessions)$session <- c("2020", "2020", "2021", "2021")
-  deployments(x_sessions)$locationID <- c(
-    deployments(x_sessions)$locationID[1:2],
-    deployments(x_sessions)$locationID[1:2]
-  )
-  deployments(x_sessions)$locationName <- c(
-    deployments(x_sessions)$locationName[1:2],
-    deployments(x_sessions)$locationName[1:2]
-  )
-  lubridate::year(deployments(x_sessions)$deploymentStart[3:4]) <- 2021
-  lubridate::year(deployments(x_sessions)$deploymentEnd[3:4]) <- 2021
-  lubridate::year(observations(x_sessions)$eventStart) <- dplyr::if_else(
-    observations(x_sessions)$deploymentID %in% 
-      c("577b543a", "62c200a9"), # The last two deployments with session `2021`
-    2021,
-  lubridate::year(observations(x_sessions)$eventStart)
-  )
-  lubridate::year(observations(x_sessions)$eventEnd) <- dplyr::if_else(
-    observations(x_sessions)$deploymentID %in% 
-      c("577b543a", "62c200a9"), # The last two deployments with session `2021`
-    2021,
-    lubridate::year(observations(x_sessions)$eventEnd)
-  )
-  lubridate::year(media(x_sessions)$timestamp) <-  dplyr::if_else(
-    media(x_sessions)$deploymentID %in% 
-      c("577b543a", "62c200a9"),
-    2021,
-    lubridate::year(media(x_sessions)$timestamp)
-  )
-  camOp_sessions <- camtrapR_cameraOperation(
-    x_sessions,
-    session_col = "session"
-  )
-  recordTable_sessions <- camtrapR_recordTable(x_sessions)
-  
-  # No multi-season detection history (`unmarkedMultFrameInput` = `FALSE`)
-  # requested: all stations/seasons returned as they would be different
-  # stations.
-  no_multi_season <- camtrapR_detectionHistory(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = FALSE
-  )
-  # Multi-season detection history (`unmarkedMultFrameInput` = `TRUE`)
-  multi_season <- camtrapR_detectionHistory(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE
-  )
-  # Run a standard detection history with basic example dataset
-  cam_op <- camtrapR_cameraOperation(x)
-  rec_table <- camtrapR_recordTable(x)
-  standard <- camtrapR_detectionHistory(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output
-  )
-  
-  # Check output of detection history without taking into account the seasons.
-  # Rownames are the same as the camera operation matrix
-  expect_identical(
-    rownames(no_multi_season$detection_history),
-    rownames(camOp_sessions)
-  )
-  expect_identical(
-    rownames(no_multi_season$effort),
-    rownames(camOp_sessions)
-  )
-  expect_identical(
-    rownames(no_multi_season$dates),
-    rownames(camOp_sessions)
-  )
-  # Content of detection history and effort is the same as the standard
-  # detection history and correspondent effort. The dates are the same only for
-  # the first two rows by construction.
-  expect_identical(
-    unname(no_multi_season$detection_history),
-    unname(standard$detection_history)
-  )
-  expect_identical(
-    unname(no_multi_season$effort),
-    unname(standard$effort)
-  )
-  expect_identical(
-    unname(no_multi_season$dates[1:2,]),
-    unname(standard$dates[1:2,])
-  )
-  # Check output of detection history taking into account the seasons.
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
-  )
-  # Output of second half of columns is equal to the second two rows of output
-  expect_identical(
-    unname(
-      multi_season$detection_history[, (n_cols_standard + 1):n_cols]
-    ),
-    unname(standard$detection_history[3:4, ])
-  )
-  
-  # Multi-season works with `occasionLength` > 1
-  occasionLength <- 2
-  multi_season <- camtrapR_detectionHistory(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE,
-    occasionLength = occasionLength
-  )
-  standard <- camtrapR_detectionHistory(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength
-  )
-  # Number of rows is equal to the number of stations, which is 2
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
-  )
-  
-  # Multi-season works with `buffer`
-  buffer <- 2
-  occasionLength <- 1 # Set back to 1 to test `buffer` independently
-  multi_season <- suppressWarnings(
-    camtrapR_detectionHistory(
-      recordTable_sessions,
-      camOp_sessions,
-      species = species,
-      output = output,
-      unmarkedMultFrameInput = TRUE,
-      occasionLength = occasionLength,
-      buffer = buffer
-    )
-  )
-  standard <- suppressWarnings(
-      camtrapR_detectionHistory(
-      recordTable = rec_table,
-      camOp = cam_op,
-      species = species,
-      output = output,
-      occasionLength = occasionLength,
-      buffer = buffer
-    )
-  )
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
   )
 })

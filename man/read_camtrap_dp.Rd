@@ -14,11 +14,10 @@ Camera Trap Data Package object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-}
-\details{
-Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
 
-This function is deprecated. Please use \code{\link[=read_camtrapdp]{read_camtrapdp()}} instead.
+This function is deprecated. Use \code{\link[=read_camtrapdp]{read_camtrapdp()}} instead.
+
+Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
 }
 \section{Older versions}{
 

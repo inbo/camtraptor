@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_detection_history.R
 \name{get_detection_history}
 \alias{get_detection_history}
-\title{Get detection history}
+\title{Get the detection history of a species}
 \usage{
 get_detection_history(
   recordTable,
@@ -56,7 +56,7 @@ removed because taken during the buffer period.}
 
 \item{unmarkedMultFrameInput}{Logical. If \code{TRUE}, the function will return
 the input for multi-season occupancy models in unmarked
-R package (argument \code{y} in \href{https://www.rdocumentation.org/packages/unmarked/versions/1.5.1/topics/unmarkedMultFrame}{unmarked::unmarkedMultFrame()}).
+R package (argument \code{y} in \code{\link[unmarked:unmarkedMultFrame]{unmarked::unmarkedMultFrame()}}).
 Default: \code{FALSE}.}
 }
 \value{
@@ -70,47 +70,52 @@ A list with three elements:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function is deprecated. Please use \code{\link[=camtrapR_detectionHistory]{camtrapR_detectionHistory()}}
-instead.
+This function is deprecated because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
+\code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}} instead.
+
+Creates the detection history matrix of a species based on the
+record table and the camera operation matrix. The detection history is a
+concept developed within the camtrapR package, see the function documentation
+for \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
+
+The detection history matrix is a binary matrix where rows represent camera
+stations and columns represent occasions. The matrix is filled with 1s and
+0s, where 1 indicates that the species was detected at a station on a given
+occasion and 0 indicates that the species was not detected. The function also
+returns the effort matrix, which contains the number of days that each
+station was active on each occasion, and the dates matrix, which contains the
+dates of the occasions.
 }
 \details{
-The detection history matrix is
-a binary matrix where rows represent camera stations and columns represent
-occasions. The matrix is filled with 1s and 0s, where 1 indicates that the
-species was detected at a station on a given occasion and 0 indicates that
-the species was not detected. The function also returns the effort matrix,
-which contains the number of days that each station was active on each
-occasion, and the dates matrix, which contains the dates of the occasions.
-
 This function doesn't take as input a Camera Trap Data Package object, but a
 camera operation matrix and a record table, which are both calculated based
 on a Camera Trap Data Package object. For more information, see the
-\code{\link[=camtrapR_cameraOperation]{camtrapR_cameraOperation()}} and \code{\link[=camtrapR_recordTable]{camtrapR_recordTable()}} functions.
+\code{\link[=get_cam_op]{get_cam_op()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
 
 If the camera operation matrix (\code{camOp}) was created for a multi-season study
-(via argument \code{session_col} in \code{camtrapR_cameraOperation()}), the session
-will be detected automatically. You can then set
-\code{unmarkedMultFrameInput} = \code{TRUE} to generate a multi-season detection
-history. Each row corresponds to a site, and the columns are in season-major,
-occasion-minor order, e.g. \code{o1_SESS_A}, \code{o2_SESS_A}, \code{o1_SESS_B},
-\code{o2_SESS_B}, etc.
+(via argument \code{session_col} in \code{get_cam_op()}), the session will be detected
+automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate
+a multi-season detection history. Each row corresponds to a site, and the
+columns are in season-major, occasion-minor order, e.g. \code{o1_SESS_A},
+\code{o2_SESS_A}, \code{o1_SESS_B}, \code{o2_SESS_B}, etc.
 }
 \examples{
 library(dplyr)
 library(stringr)
 
 x <- example_dataset()
-camOp <- camtrapR_cameraOperation(x)
-recordTable <- camtrapR_recordTable(x)
+camOp <- get_cam_op(x)
+recordTable <- get_record_table(x)
 # More observations of the same species on the same day at the same station
 # are left.
-recordTable_mulitple <- camtrapR_recordTable(
+recordTable_mulitple <- get_record_table(
   x,
   removeDuplicateRecords = FALSE
 )
 
 # Binary output
-camtrapR_detectionHistory(
+get_detection_history(
   recordTable,
   camOp,
   species = "Anas platyrhynchos",
@@ -118,8 +123,8 @@ camtrapR_detectionHistory(
 )
 
 # Number of observations output: same as binary with default
-# `camtrapR_recordTable(x)`
-camtrapR_detectionHistory(
+# `get_record_table(x)`
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -128,7 +133,7 @@ camtrapR_detectionHistory(
 
 # Number of observations output: more than 1 if more than 1 observation of
 # the species on the same day at the same station
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable_mulitple,
  camOp,
  species = "Anas platyrhynchos",
@@ -136,7 +141,7 @@ camtrapR_detectionHistory(
 )
 
 # Number of individuals output
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -144,7 +149,7 @@ camtrapR_detectionHistory(
 )
 
 # Occasion length of 7 days
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -153,7 +158,7 @@ camtrapR_detectionHistory(
 )
 
 # Use a `minActiveDaysPerOccasion` of 5 days
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -163,7 +168,7 @@ camtrapR_detectionHistory(
 )
 
 # Use a `maxNumberDays` of 5 days
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -172,7 +177,7 @@ camtrapR_detectionHistory(
 )
 
 # Specify start date via `day1`
-camtrapR_detectionHistory(
+get_detection_history(
   recordTable,
   camOp,
   species = "Anas platyrhynchos",
@@ -181,7 +186,7 @@ camtrapR_detectionHistory(
 )
 
 # Use a `buffer` of 2 days
-camtrapR_detectionHistory(
+get_detection_history(
  recordTable,
  camOp,
  species = "Anas platyrhynchos",
@@ -198,14 +203,14 @@ deployments(x_sessions) <- deployments(x_sessions) \%>\%
       "before2020"
   )
 )
-camOp_sessions <- camtrapR_cameraOperation(
+camOp_sessions <- get_cam_op(
   x_sessions,
   session_col = "session"
 )
-recordTable_sessions <- camtrapR_recordTable(x_sessions)
+recordTable_sessions <- get_record_table(x_sessions)
 
 # Create a multi-season detection history
-camtrapR_detectionHistory(
+get_detection_history(
   recordTable_sessions,
   camOp_sessions,
   species = "Anas platyrhynchos",

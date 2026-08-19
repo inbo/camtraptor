@@ -14,7 +14,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+rlang::local_options(lifecycle_verbosity = "quiet")
 ```
+
+::: {.callout-note}
+This functionality has been deprecated because camtrapR supports reading Camera Trap Data Packages, see the function `camtrapR::readCamtrapDP()`.
+:::
 
 This vignette shows how to get a **species record table** from a Camera Trap Data Package dataset, equivalent to the record table returned by camtrapR's function [recordTable](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
 
@@ -38,7 +43,7 @@ x <- example_dataset()
 The camtrapR function `recordTable()` generates a record table from camera trap images or videos. In a Camera Trap Data Package, `media` (e.g. images) are already aggregated into `observations` to a certain extent. If all observations are considered independent, the record table can be generated simply with:
 
 ```{r basic_usage}
-camtrapR_recordTable(x)
+get_record_table(x)
 ```
 
 The function returns the same columns as the camtrapR's function `recordTable()` except for column `n`. The following mapping is applied:
@@ -62,7 +67,7 @@ column name output | description
 `clock` | the clock time in radians
 `solar` | the solar time in radians
 
-The following remarks are both valid for camtrapR's function  `recordTable()` and the function  `camtrapR_recordTable()` of this package:
+The following remarks are both valid for camtrapR's function  `recordTable()` and the function  `get_record_table()` of this package:
 
 1. observations are grouped by station and species
 2. observations of unidentified animals are removed
@@ -97,7 +102,7 @@ media(x_modified) <- med
 Example with `minDeltaTime = 10` and `deltaTimeComparedTo = "lastIndependentRecord"`:
 
 ```{r example_lastIndependentRecord}
-camtrapR_recordTable(
+get_record_table(
   x_modified,
   minDeltaTime = 10,
   deltaTimeComparedTo = "lastIndependentRecord"
@@ -107,7 +112,7 @@ camtrapR_recordTable(
 Example with `minDeltaTime = 10` and `deltaTimeComparedTo = "lastRecord"`:
 
 ```{r example_lastRecord}
-camtrapR_recordTable(
+get_record_table(
   x_modified,
   minDeltaTime = 10,
   deltaTimeComparedTo = "lastRecord"
@@ -119,10 +124,10 @@ This difference arises because event `45ee3031` spans a 51-second burst. `lastRe
 
 ### Exclude some species
 
-Similar to `recordTable()`, the function `camtrapR_recordTable()` allows you also to exclude species. Only scientific names are allowed:
+Similar to `recordTable()`, the function `get_record_table()` allows you also to exclude species. Only scientific names are allowed:
 
 ```{r example_exclude}
-camtrapR_recordTable(x, exclude = c("Anas platyrhynchos", "Vulpes vulpes"))
+get_record_table(x, exclude = c("Anas platyrhynchos", "Vulpes vulpes"))
 ```
 
 ### Station names
@@ -130,7 +135,7 @@ camtrapR_recordTable(x, exclude = c("Anas platyrhynchos", "Vulpes vulpes"))
 The column containing the station names can also be defined by the user if the default value, `"locationName"`, is not the correct one. It has to be a valid column of  `deployments`. Below, `locationID` is used:
 
 ```{r example_stationCol}
-camtrapR_recordTable(x, stationCol = "locationID")
+get_record_table(x, stationCol = "locationID")
 ```
 
 ### Remove duplicates
@@ -142,17 +147,17 @@ To illustrate the difference, compare the two record tables below.
 Without duplicates (default):
 
 ```{r no_duplicates}
-camtrapR_recordTable(x)
+get_record_table(x)
 ```
 
 With duplicates:
 
 ```{r duplicates_allowed}
-camtrapR_recordTable(x, removeDuplicateRecords = FALSE)
+get_record_table(x, removeDuplicateRecords = FALSE)
 ```
 
 Row 10 differs between the two outputs (among others). When `removeDuplicateRecords = FALSE`, there are two records with `DateTimeOriginal = 2020-06-06 04:11:07` one on row 9 and one on row 10.
 
 ### Other arguments needed?
 
-Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `camtrapR_recordTable()`, please let us know by posting an [issue](https://github.com/inbo/camtraptor/issues)!
+Are there other arguments of camtrapR's function `recordTable()` you think should be relevant to add to `get_record_table()`, please let us know by posting an [issue](https://github.com/inbo/camtraptor/issues)!

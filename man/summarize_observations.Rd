@@ -72,8 +72,7 @@ Summarizes event-based observations by calculating:
 }
 }
 \details{
-\code{summarize_observations()} and \code{summarise_observations()} are
-synonyms.
+\code{summarize_observations()} and \code{summarise_observations()} are synonyms.
 
 By default (\code{extend = FALSE}), the function follows the standard behavior of
 \code{dplyr::summarise()}, returning only groups that have observations. This

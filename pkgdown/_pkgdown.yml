@@ -37,8 +37,10 @@ reference:
   - has_concept("visualization functions")
   - has_concept("deprecated visualization functions")
 - title: Create outputs for camtrapR
+  desc: >
+    These functions are deprecated because camtrapR now supports reading Camera 
+    Trap Data Packages.
   contents:
-  - has_concept("camtrapR-derived functions")
   - has_concept("deprecated camtrapR-derived functions")
 - title: Estimate density
   contents:

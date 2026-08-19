@@ -49,13 +49,11 @@ package). Duration is always recorded as a fixed number of seconds. See
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-}
-\details{
+
+This function is deprecated. Use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+
 Gets the effort for each deployment and a specific time interval such as day,
 week, month or year.
-
-It is deprecated as of camtraptor 1.0.0. Please use \code{\link[=summarize_deployments]{summarize_deployments()}}
-instead.
 }
 \examples{
 x <- example_dataset()

@@ -3,7 +3,8 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' This function is deprecated. Please use [map_summary()] instead.
+#' This function is deprecated. Use [map_summary()] instead.
+#' 
 #' @param x Camera trap data package object, as returned by
 #'   [camtrapdp::read_camtrapdp()].
 #' @inheritParams get_n_obs

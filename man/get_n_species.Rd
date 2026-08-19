@@ -25,9 +25,7 @@ A tibble data frame with the following columns:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-It is deprecated as of camtraptor 1.0.0. Please use
-\code{\link[=summarize_observations]{summarize_observations()}}
-instead.
+This function is deprecated. Use \code{\link[=summarize_observations]{summarize_observations()}} instead.
 }
 \examples{
 x <- example_dataset()

@@ -1,9 +1,10 @@
 #' Calculate animal position
 #' 
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' It is deprecated as of camtraptor 1.0.0. Please use
-#' [calculate_individual_radius_angle()] instead.
+#'
+#' This function is deprecated. Use [calculate_individual_radius_angle()]
+#' instead.
 #' 
 #' Calculates the position of animal relative to a camera based on image pixel
 #' positions and site calibration models.

@@ -14,9 +14,14 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+rlang::local_options(lifecycle_verbosity = "quiet")
 ```
 
-This vignette shows how to get a **camera operation matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function [cameraOperation](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+::: {.callout-note}
+This functionality has been deprecated because camtrapR supports reading Camera Trap Data Packages, see the function `camtrapR::readCamtrapDP()`.
+:::
+
+This vignette shows how to get a **camera operation matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function `camtrapR::cameraOperation()`.
 
 ## Setup
 
@@ -36,10 +41,10 @@ x <- example_dataset()
 
 ## Generating the camera operation matrix
 
-The camera operation matrix can be generated with `camtrapR_cameraOperation()`:
+The camera operation matrix can be generated with `get_cam_op()`:
 
 ```{r basic_usage}
-cam_op <- camtrapR_cameraOperation(x)
+cam_op <- get_cam_op(x)
 ```
  
 For readability, let's only print the first 45 columns of the camera operation matrix (i.e. the first 45 days) instead of all 324:
@@ -64,7 +69,7 @@ deployments(x1)$locationName[] <- deployments(x1)$locationName[1]
 deployments(x1)$deploymentStart[] <- deployments(x1)$deploymentStart[1]
 deployments(x1)$deploymentEnd[] <- deployments(x1)$deploymentEnd[1]
 # Visualize camera operation matrix
-camtrapR_cameraOperation(x1)
+get_cam_op(x1)
 ```
 To demonstrate the scenario where a single location is linked to multiple (non-overlapping) deployments, the example below assigns location `B_HS_val 2_processiepark` to two separate deployments:
 
@@ -80,7 +85,7 @@ deployments(x2)$deploymentEnd[2] <- deployments(x2)$deploymentStart[2] +
 deployments(x2) %>% select(locationName, deploymentStart, deploymentEnd)
 
 # Visualize camera operation matrix
-camtrapR_cameraOperation(x2)[1, 1:45]
+get_cam_op(x2)[1, 1:45]
 ```
 
 ### Station names
@@ -88,7 +93,7 @@ camtrapR_cameraOperation(x2)[1, 1:45]
 By default, row names are taken from the `locationName` column of `deployments`. You can specify a different column of `deployments` using `station_col`. The example below uses `locationID`:
 
 ```{r cam_op_with_locationID}
-cam_op_with_locationID <- camtrapR_cameraOperation(
+cam_op_with_locationID <- get_cam_op(
   x,
   station_col = "locationID"
 )
@@ -112,7 +117,7 @@ deployments(x_extended) <- deployments(x) %>%
 You can specify the column containing the session IDs to be added to the station names using the `session_col` argument. The sessionID will be displayed following camtrapR's convention: `Station__SESS_sessionID`:
 
 ```{r add_session_IDs}
-cam_op_with_session_ids <- camtrapR_cameraOperation(
+cam_op_with_session_ids <- get_cam_op(
   x_extended,
   session_col = "sessionID"
 )
@@ -124,7 +129,7 @@ row.names(cam_op_with_session_ids)
 You can also specify the column containing the camera IDs to be added to the station names following camtrapR's convention: `Station__CAM_CameraID` using the `camera_col` argument:
 
 ```{r add_camera_IDs}
-cam_op_with_camera_ids <- camtrapR_cameraOperation(
+cam_op_with_camera_ids <- get_cam_op(
   x_extended,
   camera_col = "cameraID"
 )
@@ -136,7 +141,7 @@ row.names(cam_op_with_camera_ids)
 To use both camera and session IDs, the camtrapR's convention `Station__SESS_SessionID__CAM_CameraID` is followed:
 
 ```{r add_session_camera_IDs}
-cam_op_with_session_and_camera_ids <- camtrapR_cameraOperation(
+cam_op_with_session_and_camera_ids <- get_cam_op(
   x_extended,
   camera_col = "cameraID",
   session_col = "sessionID"
@@ -149,7 +154,7 @@ row.names(cam_op_with_session_and_camera_ids)
 You can also use the prefix `"Station"` in the station names as done by camtrapR's `cameraOperation()` by setting `use_prefix = TRUE`:
 
 ```{r use_prefix}
-cam_op_with_session_and_camera_ids_prefix <- camtrapR_cameraOperation(
+cam_op_with_session_and_camera_ids_prefix <- get_cam_op(
   x_extended,
   camera_col = "cameraID",
   session_col = "sessionID",

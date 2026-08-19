@@ -1,11 +1,11 @@
 #' Get effort
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Gets the effort (deployment duration) per deployment.
+#' This function is deprecated. Use [summarize_deployments()] instead.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use [summarize_deployments()]
-#' instead.
+#' Gets the effort (deployment duration) per deployment.
 #'
 #' @param unit `r lifecycle::badge("deprecated")` The unit used to quantify the
 #'   effort. Ignored as the effort is returned only as a duration object.

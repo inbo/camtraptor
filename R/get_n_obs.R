@@ -1,11 +1,11 @@
 #' Get number of observations for each deployment
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' Gets the number of event-based observations per deployment.
+#' This function is deprecated. Use [summarize_observations()] instead.
 #' 
-#' It is deprecated as of camtraptor 1.0.0. Please use
-#' [summarize_observations()] instead.
+#' Gets the number of event-based observations per deployment.
 #'
 #' @param species `r lifecycle::badge("deprecated")` Character with scientific 
 #'   names. Common names are not supported anymore as of camtraptor 1.0.0.

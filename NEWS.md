@@ -1,3 +1,7 @@
+# camtraptor 0.28.1
+
+- set upper bound for frictionless dependency in `DESCRIPTION`: use frictionless 1.2.1 as frictionless 1.3.0 doesn't convert lists to vectors while reading (metadata) fields with multiple values.
+
 # camtraptor 0.28.0
 
 - `get_detection_history()` calculates the detection history based on a record table and a camera operation matrix. Some analogies with the `camtrapR::detectionHistory` function (#360).

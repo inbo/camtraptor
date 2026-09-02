@@ -38,7 +38,7 @@ reference:
   - has_concept("deprecated visualization functions")
 - title: Create outputs for camtrapR
   desc: >
-    These functions are deprecated because camtrapR now supports reading Camera 
+    These functions are superseded because camtrapR now supports reading Camera 
     Trap Data Packages.
   contents:
   - has_concept("deprecated camtrapR-derived functions")

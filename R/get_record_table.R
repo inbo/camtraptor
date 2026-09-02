@@ -1,9 +1,9 @@
 #' Get the record table
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("superseded")`
 #' 
-#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR now supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and [camtrapR::recordTable()]
 #' instead.
 #' 
@@ -137,12 +137,6 @@ get_record_table <- function(x,
                        minDeltaTime = 0,
                        deltaTimeComparedTo = NULL,
                        removeDuplicateRecords = TRUE) {
-  lifecycle::deprecate_warn(
-    when = "1.0.0",
-    what = "get_record_table()",
-    with = "camtrapR::recordTable()"
-  )
-  
   # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
   

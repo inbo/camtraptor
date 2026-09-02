@@ -1,9 +1,9 @@
 #' Get the camera operation matrix
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("superseded")`
 #' 
-#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR now supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::cameraOperation()] instead.
 #' 
@@ -76,12 +76,6 @@ get_cam_op <- function(x,
                        camera_col = NULL,
                        session_col = NULL,
                        use_prefix = FALSE) {
-  lifecycle::deprecate_warn(
-    when = "1.0.0",
-    what = "get_cam_op()",
-    with = "camtrapR::cameraOperation()"
-  )
-  
   # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
   

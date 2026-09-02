@@ -1,15 +1,5 @@
-test_that("get_cam_op() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  lifecycle::expect_deprecated(
-    get_cam_op(x),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE)
-})
-
 test_that("input camtrap dp is checked properly", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   # Character instead of datapackage
   expect_error(get_cam_op("aaa"))
@@ -87,7 +77,6 @@ test_that("input camtrap dp is checked properly", {
 
 test_that("output is a matrix", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x)
   expect_true(is.matrix(cam_op_matrix))
@@ -95,7 +84,6 @@ test_that("output is a matrix", {
 
 test_that("output matrix has locations as rownames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x)
   locations <- purrr::pluck(deployments(x), "locationName")
@@ -106,7 +94,6 @@ test_that("output matrix has locations as rownames", {
 
 test_that("output matrix has sessions addded to locations as rownames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   x_sessions <- x
   x_sessions$data$deployments <- deployments(x_sessions) %>%
@@ -128,7 +115,6 @@ test_that("output matrix has sessions addded to locations as rownames", {
 
 test_that("output matrix has camera IDs addded to locations as rownames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   x_cameras <- x
   x_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
@@ -145,7 +131,6 @@ test_that("output matrix has camera IDs addded to locations as rownames", {
 test_that(
   "output matrix has sessions and cameras addded to locations as rownames", {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     x_sess_cam <- x
     x_sess_cam$data$deployments$cameraID <- c(1, 2, 3, 4)
@@ -169,7 +154,6 @@ test_that(
   "__SESS_ is a reserved word not used in station, session and camera columns",
   {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     x_sess <- x
     x_sess$data$deployments$session <- c("1__SESS_1")
@@ -203,7 +187,6 @@ test_that(
   "__CAM_ is a reserved word not used in station, session and camera columns",
   {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     x_cam <- x
     x_cam$data$deployments$session <- paste0(c(1,2,3,4), "__CAM_")
@@ -235,7 +218,6 @@ test_that(
 
 test_that("output matrix has Station prefix in rownames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x, use_prefix = TRUE)
   locations <- paste0("Station", purrr::pluck(deployments(x), "locationName"))
@@ -246,7 +228,6 @@ test_that("output matrix has Station prefix in rownames", {
 
 test_that("output matrix has specified location column as rownames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x, station_col = "locationID")
   locations <- purrr::pluck(deployments(x), "locationID")
@@ -258,7 +239,6 @@ test_that("output matrix has specified location column as rownames", {
 
 test_that("output matrix has all deployment days as colnames", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x)
   days_activity <- seq(
@@ -275,7 +255,6 @@ test_that("output matrix has all deployment days as colnames", {
 test_that(
   "effort is > 0 for fully active days, NA for inactive days and 0.x", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op_matrix <- get_cam_op(x)
   location <- purrr::pluck(deployments(x), "locationName", 3)
@@ -312,7 +291,6 @@ test_that(
   "effort is 2 for locations with two deployments active full day at same time",
   {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     x1 <- x
     x1$data$deployments$deploymentStart[2] <- 
@@ -342,7 +320,6 @@ test_that(paste0(
   "not simultaneously active"
 ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   x1 <- x
   x1$data$deployments$locationName[2] <- purrr::pluck(

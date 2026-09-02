@@ -1,27 +1,5 @@
-test_that("get_detection_history() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  rec_table <- suppressWarnings(get_record_table(x))
-  cam_op <- suppressWarnings(get_cam_op(x))
-  species <- "Anas platyrhynchos"
-  output <- "binary"
-  occasionLength <- 1
-  lifecycle::expect_deprecated(
-    get_detection_history(
-      recordTable = rec_table,
-      camOp = cam_op,
-      species = species,
-      output = output,
-      occasionLength = occasionLength
-    ),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE
-  )
-})
-
 test_that("Camera operation matrix input, `camOp`, has right format", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   rec_table <- get_record_table(x)
   cam_op <- get_cam_op(x)
@@ -102,7 +80,6 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
 
 test_that("Record table input, `recordTable`, has right format", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -161,7 +138,6 @@ test_that("Record table input, `recordTable`, has right format", {
 
 test_that("Check `species`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -215,7 +191,6 @@ test_that("Check `species`", {
 
 test_that("Check `output`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -266,7 +241,6 @@ test_that("Check `output`", {
 
 test_that("Check `occasionLength`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -312,7 +286,6 @@ test_that("Check `occasionLength`", {
 
 test_that("Check `minActiveDaysPerOccasion`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -366,7 +339,6 @@ test_that("Check `minActiveDaysPerOccasion`", {
 
 test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -470,7 +442,6 @@ test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
 
 test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -516,7 +487,6 @@ test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
 
 test_that("Argument `buffer` is NULL or an integer of length 1", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -559,7 +529,6 @@ test_that("Argument `buffer` is NULL or an integer of length 1", {
 
 test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -636,7 +605,6 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
 
 test_that("Argument `unmarkedMultFrameInput` is TRUE or FALSE", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -673,7 +641,6 @@ test_that(
     "is `TRUE`"
     ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -698,7 +665,6 @@ test_that(
 # Test output ####
 test_that("Output is a list of three matrices of right types", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -764,7 +730,6 @@ test_that("Output is a list of three matrices of right types", {
 
 test_that("Detection history dates and effort are output independent", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -799,7 +764,6 @@ test_that("Detection history dates and effort are output independent", {
 
 test_that("Dates are in the right ISO format (YYY-MM-DD)", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -832,7 +796,6 @@ test_that(
          "with at least one value not NA (occasionLength = 1)"), 
   {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     cam_op <- get_cam_op(x)
     # Remove columns with NAs only
@@ -857,7 +820,6 @@ test_that(
 
 test_that("Test `occasionLength` > 1", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -904,7 +866,6 @@ test_that("Test `occasionLength` > 1", {
 
 test_that("Test `minActiveDaysPerOccasion` > 1", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -957,7 +918,6 @@ test_that("Test `minActiveDaysPerOccasion` > 1", {
 
 test_that("Test `maxNumberDays`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   rec_table <- get_record_table(x)
   cam_op <- get_cam_op(x)
@@ -1024,7 +984,6 @@ test_that("Test `maxNumberDays`", {
 
 test_that("Test `day1` = specific date", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)
@@ -1051,7 +1010,6 @@ test_that("Test `day1` = specific date", {
 
 test_that("Test `buffer`", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   cam_op <- get_cam_op(x)
   rec_table <- get_record_table(x)

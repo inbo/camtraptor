@@ -1,9 +1,9 @@
 #' Get the detection history of a species
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("superseded")`
 #' 
-#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR now supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::detectionHistory()] instead.
 #' 
@@ -198,12 +198,6 @@ get_detection_history <- function(recordTable,
                                   day1 = "station",
                                   buffer = NULL,
                                   unmarkedMultFrameInput = FALSE) {
-  lifecycle::deprecate_warn(
-    when = "1.0.0",
-    what = "get_detection_history()",
-    with = "camtrapR::detectionHistory()"
-  )
-  
   # Check record table, `recordTable`
   assertthat::assert_that(is.data.frame(recordTable),
                           msg = "`recordTable` must be a tibble data.frame."

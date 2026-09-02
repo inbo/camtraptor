@@ -78,25 +78,32 @@ The following functions are reexported from `{camtrapdp}`:
 - Assign data functions: `deployments<-`, `media<-`, `observations<-`, `contributors<-`. They assign a data frame back to the data package and should be used with care, as it can invalidate a data package (#328).
 - Example data: `example_dataset()`. It returns a minimal example data package (from the Camtrap DP standard) and replaces the `mica` dataset.
 
+## Superseded functionality
+
+The following functions will continue to work, but are superseded in favour of equivalent `{camtrapR}` functions:
+
+Before | Now
+--- | ---
+`get_cam_op()` | `camtrapR::readCamtrapDP()` and `camtrapR::cameraOperation()` (#419)
+`get_detection_history()` | `camtrapR::readCamtrapDP()` and `camtrapR::detectionHistory()` (#419)
+`get_record_table()` | `camtrapR::readCamtrapDP()` and `camtrapR::recordTable()` (#419)
+
 ## Deprecated functionality
 
 The following functions still work for now, but **will be removed in a future version**:
 
-Before  | Now
+Before | Now
 --- | ---
 `animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#402, #242)
 `calc_animal_pos()` | `calculate_individual_radius_angle()` (#242)
 `calib_models` | `calibration_models` (#402, #242)
-`get_cam_op()` | `camtrapR::cameraOperation()` (#414)
 `get_custom_effort()` | `summarize_deployments()`, column `"effort_duration"` (#366)
-`get_detection_history()` | `camtrapR::detectionHistory()` (#414)
 `get_effort()` | `summarize_deployments()`, column `"effort_duration"` (#366)
 `get_n_individuals()` | `summarize_observations()`, column `"sum_count"` (#367)
 `get_n_obs()` | `summarize_observations()`, column `"n_observations"` (#367)
 `get_n_species()` | `summarize_observations()`, column `"n_scientificName"` (#243)
 `get_rai()` | `summarize_observations()`, column `"rai_observations"` (#243)
 `get_rai_individuals()` | `summarize_observations()`, column `"rai_count"` (#243)
-`get_record_table()` | `camtrapR::recordTable()` (#414)
 `get_species()` | `taxa()` (#343)
 `map_dep()` | `map_summary()` (#231, #91)
 `mica` | `example_dataset()` (#402)

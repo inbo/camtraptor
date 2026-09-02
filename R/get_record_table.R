@@ -137,12 +137,6 @@ get_record_table <- function(x,
                        minDeltaTime = 0,
                        deltaTimeComparedTo = NULL,
                        removeDuplicateRecords = TRUE) {
-  lifecycle::deprecate_warn(
-    when = "1.0.0",
-    what = "get_record_table()",
-    with = "camtrapR::recordTable()"
-  )
-  
   # Check Camera Trap Data Package
   camtrapdp::check_camtrapdp(x)
   

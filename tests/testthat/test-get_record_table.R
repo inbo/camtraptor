@@ -1,10 +1,9 @@
 test_that("inputs of get_record_table are correct", {
   # Check `x`
-  rlang::local_options(lifecycle_verbosity = "quiet")
+  
   expect_error(get_record_table("aaa"))
   expect_error(get_record_table(1))
   skip_if_offline()
-  
   # Check `stationCol`
   x <- example_dataset()
   expect_error(
@@ -49,7 +48,6 @@ test_that("inputs of get_record_table are correct", {
 
 test_that("if not integer, `minDeltaTime` is set to integer (floor)", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   expect_message(
     get_record_table(
@@ -79,7 +77,6 @@ test_that(paste0(
   "or media have no timestamp"
 ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   x_no_eventStart <- x
   o <- observations(x_no_eventStart)
@@ -119,7 +116,6 @@ test_that(paste0(
 
 test_that("Right columns are returned", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   expect_named(
     get_record_table(x),
@@ -149,7 +145,6 @@ test_that(paste(
   "duplicates are allowed"
   ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   nrow_output <- get_record_table(
     x,
@@ -170,7 +165,6 @@ test_that(paste(
 
 test_that("Species in `exclude` are not present in output", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   species_to_exclude <- c("Anas platyrhynchos", "Anas strepera", "Ardea")
   species_in_output <- x %>%
@@ -193,7 +187,6 @@ test_that("Species in `exclude` are not present in output", {
 
 test_that("Higher minDeltaTime means less rows returned", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   nrow_delta_0 <- get_record_table(x) %>% nrow()
   nrow_delta_10000 <- suppressMessages(
@@ -221,7 +214,6 @@ test_that(paste0(
   "return different number of rows"
 ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   obs <- observations(x)
   obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime(
@@ -258,7 +250,6 @@ test_that(paste0(
 
 test_that("stations names are equal to values in column passed to StationCOl", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   # Use `locationName` as Station
   stations <- get_record_table(x) %>%
@@ -285,7 +276,6 @@ test_that("stations names are equal to values in column passed to StationCOl", {
 
 test_that("Directory and Filename columns are lists", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   file_values <- get_record_table(x) %>%
     dplyr::select(Directory, FileName)
@@ -300,7 +290,6 @@ test_that(
   ),
   {
     skip_if_offline()
-    rlang::local_options(lifecycle_verbosity = "quiet")
     x <- example_dataset()
     output <- get_record_table(x, removeDuplicateRecords = FALSE)
     # add n media, observationID and eventID to record table
@@ -342,7 +331,6 @@ test_that(paste(
   "same time, but structure output remains the same"
 ), {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   rec_table <- get_record_table(x)
   rec_table_dup <- get_record_table(x, removeDuplicateRecords = FALSE)
@@ -370,7 +358,6 @@ test_that(paste(
 
 test_that("clock is always in the range [0, 2*pi]", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   clock_values <- get_record_table(x) %>%
     dplyr::pull(clock)
@@ -380,7 +367,6 @@ test_that("clock is always in the range [0, 2*pi]", {
 
 test_that("solar is always in the range [0, 2*pi]", {
   skip_if_offline()
-  rlang::local_options(lifecycle_verbosity = "quiet")
   x <- example_dataset()
   solar_values <- get_record_table(x) %>%
     dplyr::pull(solar)

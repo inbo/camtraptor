@@ -1,3 +1,7 @@
+# camtraptor 0.28.1
+
+- camtraptor now relies on {frictionless} <= 1.2.1. Later versions of frictionless break downgrading to Camtrap DP 0.1.6 (#420).
+
 # camtraptor 0.28.0
 
 - `get_detection_history()` calculates the detection history based on a record table and a camera operation matrix. Some analogies with the `camtrapR::detectionHistory` function (#360).

@@ -72,14 +72,14 @@ testthat::test_that("summarize_observations() returns correct summary for
       summary$scientificName
   ))
   # Correct type of columns
-  expect_true(is.character(summary$deploymentID))
-  expect_true(is.character(summary$scientificName))
-  expect_true(is.integer(summary$n_scientificName))
-  expect_true(is.integer(summary$n_events))
-  expect_true(is.integer(summary$n_observations))
-  expect_true(is.integer(summary$sum_count))
-  expect_true(is.numeric(summary$rai_observations))
-  expect_true(is.numeric(summary$rai_count))
+  expect_type(summary$deploymentID, "character")
+  expect_type(summary$scientificName, "character")
+  expect_type(summary$n_scientificName, "integer")
+  expect_type(summary$n_events, "integer")
+  expect_type(summary$n_observations, "integer")
+  expect_type(summary$sum_count, "integer")
+  expect_type(summary$rai_observations, "double")
+  expect_type(summary$rai_count, "double")
 })
 
 testthat::test_that(
@@ -123,13 +123,13 @@ test_that("summarize_observations() returns correct summary for grouping by
   )
   
   # Correct type of columns
-  expect_true(is.character(summary$deploymentID))
-  expect_true(is.integer(summary$n_scientificName))
-  expect_true(is.integer(summary$n_events))
-  expect_true(is.integer(summary$n_observations))
-  expect_true(is.integer(summary$sum_count))
-  expect_true(is.numeric(summary$rai_observations))
-  expect_true(is.numeric(summary$rai_count))
+  expect_type(summary$deploymentID, "character")
+  expect_type(summary$n_scientificName, "integer")
+  expect_type(summary$n_events, "integer")
+  expect_type(summary$n_observations, "integer")
+  expect_type(summary$sum_count, "integer")
+  expect_type(summary$rai_observations, "double")
+  expect_type(summary$rai_count, "double")
   
   # Check that the number of returned deployments matches the number of
   # deployments in the dataset
@@ -263,13 +263,14 @@ testthat::test_that("summarize_observations() returns correct summary for
   ))
   
   # Correct type of columns
-  expect_true(is.factor(summary$lifeStage))
-  expect_true(is.integer(summary$n_scientificName))
-  expect_true(is.integer(summary$n_events))
-  expect_true(is.integer(summary$n_observations))
-  expect_true(is.integer(summary$sum_count))
-  expect_true(is.numeric(summary$rai_observations))
-  expect_true(is.numeric(summary$rai_count))
+  expect_type(summary$lifeStage, "integer")
+  expect_s3_class(summary$lifeStage, "factor")
+  expect_type(summary$n_scientificName, "integer")
+  expect_type(summary$n_events, "integer")
+  expect_type(summary$n_observations, "integer")
+  expect_type(summary$sum_count, "integer")
+  expect_type(summary$rai_observations, "double")
+  expect_type(summary$rai_count, "double")
   
   # Sum of n_scientificName in summary is equal or greater than the number
   # of distinct scientific names in observations.
@@ -339,15 +340,15 @@ testthat::test_that(
   ))
   
   # Correct type of columns
-  expect_true(is.character(summary$deploymentID))
-  expect_true(is.character(summary$scientificName))
+  expect_type(summary$deploymentID, "character")
+  expect_type(summary$scientificName, "character")
   expect_true(lubridate::is.timepoint(summary$day))
-  expect_true(is.integer(summary$n_scientificName))
-  expect_true(is.integer(summary$n_events))
-  expect_true(is.integer(summary$n_observations))
-  expect_true(is.integer(summary$sum_count))
-  expect_true(is.numeric(summary$rai_observations))
-  expect_true(is.numeric(summary$rai_count))
+  expect_type(summary$n_scientificName, "integer")
+  expect_type(summary$n_events, "integer")
+  expect_type(summary$n_observations, "integer")
+  expect_type(summary$sum_count, "integer")
+  expect_type(summary$rai_observations, "double")
+  expect_type(summary$rai_count, "double")
   
   # Sum of n_scientificName in summary is equal or greater than the number
   # of distinct scientific names in observations.
@@ -567,8 +568,8 @@ test_that("get_n_species() returns the right output", {
     c("deploymentID", "n")
   )
   # Right types
-  expect_true(is.character(summary_n_species$deploymentID))
-  expect_true(is.integer(summary_n_species$n))
+  expect_type(summary_n_species$deploymentID, "character")
+  expect_type(summary_n_species$n, "integer")
   # Same output as summary_observations() with grouping by deploymentID
   expect_identical(
     summary_n_species,
@@ -643,9 +644,9 @@ test_that("get_n_obs() returns the right output", {
     c("deploymentID", "scientificName", "n")
   )
   # Right types
-  expect_true(is.character(summary_n_obs$deploymentID))
-  expect_true(is.character(summary_n_obs$scientificName))
-  expect_true(is.integer(summary_n_obs$n))
+  expect_type(summary_n_obs$deploymentID, "character")
+  expect_type(summary_n_obs$scientificName, "character")
+  expect_type(summary_n_obs$n, "integer")
   # Same output as summary_observations() with grouping by deploymentID and
   # scientificName
   expect_identical(
@@ -752,9 +753,9 @@ test_that("get_n_individuals() returns the right output", {
     c("deploymentID", "scientificName", "n")
   )
   # Right types
-  expect_true(is.character(summary_n_individuals$deploymentID))
-  expect_true(is.character(summary_n_individuals$scientificName))
-  expect_true(is.integer(summary_n_individuals$n))
+  expect_type(summary_n_individuals$deploymentID, "character")
+  expect_type(summary_n_individuals$scientificName, "character")
+  expect_type(summary_n_individuals$n, "integer")
   # Same output as summary_observations() with grouping by deploymentID and
   # scientificName
   expect_identical(
@@ -864,9 +865,9 @@ test_that("get_rai() returns the right output", {
     c("deploymentID", "scientificName", "rai")
   )
   # Right types
-  expect_true(is.character(summary_ray$deploymentID))
-  expect_true(is.character(summary_ray$scientificName))
-  expect_true(is.numeric(summary_ray$rai))
+  expect_type(summary_ray$deploymentID, "character")
+  expect_type(summary_ray$scientificName, "character")
+  expect_type(summary_ray$rai, "double")
   # Same output as summary_observations() with grouping by deploymentID and
   # scientificName
   expect_identical(
@@ -970,9 +971,9 @@ test_that("get_rai_individuals() returns the right output", {
     c("deploymentID", "scientificName", "rai")
   )
   # Right types
-  expect_true(is.character(summary_rai_individuals$deploymentID))
-  expect_true(is.character(summary_rai_individuals$scientificName))
-  expect_true(is.numeric(summary_rai_individuals$rai))
+  expect_type(summary_rai_individuals$deploymentID, "character")
+  expect_type(summary_rai_individuals$scientificName, "character")
+  expect_type(summary_rai_individuals$rai, "double")
   # Same output as summary_observations() with grouping by deploymentID and
   # scientificName
   expect_identical(

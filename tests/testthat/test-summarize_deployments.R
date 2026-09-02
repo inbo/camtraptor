@@ -58,11 +58,9 @@ test_that(
       purrr::pluck(deployments(x),"deploymentID")
     )
     # Check that `deploymentID` is a character
-    expect_true(is.character(summary$deploymentID))
+    expect_type(summary$deploymentID, "character")
     # Check that `effort_duration` is a duration object from lubridate
-    expect_true(
-      class(summary$effort_duration) == class(lubridate::duration(1))
-    )
+    expect_true(lubridate::is.duration(summary$effort_duration))
     
     # Effort is equal to `end` - `start`
     starts <- purrr::pluck(deployments(x), "deploymentStart")
@@ -164,9 +162,7 @@ test_that(
     )
     
     # Check that `effort_duration` is a duration object from lubridate
-    expect_true(
-      class(summary$effort_duration) == class(lubridate::duration(1))
-    )
+    expect_true(lubridate::is.duration(summary$effort_duration))
     
     # Column `day` contains only dates between deployment start and end
     # Check for one deployment
@@ -279,7 +275,7 @@ test_that("get_effort() returns the right output", {
     c("deploymentID", "effort_duration")
   )
   # Right types
-  expect_true(is.character(summary_effort$deploymentID))
+  expect_type(summary_effort$deploymentID, "character")
   expect_true(lubridate::is.duration(summary_effort$effort_duration))
   # Same output as summary_deployments() with grouping by deploymentID
   expect_identical(
@@ -345,7 +341,7 @@ test_that("get_custom_effort() returns the right output", {
     c("deploymentID", "month", "effort_duration")
   )
   # Right types
-  expect_true(is.character(summary_custom_effort$deploymentID))
+  expect_type(summary_custom_effort$deploymentID, "character")
   expect_true(lubridate::is.timepoint(summary_custom_effort$month))
   expect_true(lubridate::is.duration(summary_custom_effort$effort_duration))
   # Same output as summary_deployments() with grouping by deploymentID and

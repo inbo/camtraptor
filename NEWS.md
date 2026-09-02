@@ -1,6 +1,6 @@
 # camtraptor 0.28.1
 
-- set upper bound for frictionless dependency in `DESCRIPTION`: use frictionless 1.2.1 as frictionless 1.3.0 doesn't convert lists to vectors while reading (metadata) fields with multiple values.
+- camtraptor now relies on {frictionless} <= 1.2.1. Later versions of frictionless break downgrading to Camtrap DP 0.1.6 (#420).
 
 # camtraptor 0.28.0
 

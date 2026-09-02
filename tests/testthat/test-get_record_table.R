@@ -1,13 +1,3 @@
-test_that("get_record_table() is deprecated", {
-  skip_if_offline()
-  x <- example_dataset()
-  lifecycle::expect_deprecated(
-    get_record_table(x),
-    "was deprecated in camtraptor 1.0.0.",
-    fixed = TRUE
-  )
-})
-
 test_that("inputs of get_record_table are correct", {
   # Check `x`
   rlang::local_options(lifecycle_verbosity = "quiet")

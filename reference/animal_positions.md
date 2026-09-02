@@ -4,7 +4,7 @@ A tibble data frame with the following columns:
 
 - `deploymentID`
 
-- `sequenceID`
+- `eventID`
 
 - `x` and `y`: The coordinates.
 
@@ -24,5 +24,7 @@ rows and 6 columns.
 ## See also
 
 Other sample data:
-[`dep_calib_models`](https://inbo.github.io/camtraptor/reference/dep_calib_models.md),
+[`animal_pos`](https://inbo.github.io/camtraptor/reference/animal_pos.md),
+[`calib_models`](https://inbo.github.io/camtraptor/reference/calib_models.md),
+[`calibration_models`](https://inbo.github.io/camtraptor/reference/calibration_models.md),
 [`mica`](https://inbo.github.io/camtraptor/reference/mica.md)

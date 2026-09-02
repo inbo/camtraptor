@@ -1,30 +1,20 @@
 # camtraptor
 
-Camtraptor is an R package to read, explore and visualize Camera Trap
-Data Packages (Camtrap DP). [Camtrap DP](https://camtrap-dp.tdwg.org) is
-a community developed data exchange format for this type of data. With
-camtraptor you can read and filter data, create overviews of observed
-species, relative abundance or effort, and plot these data on a map.
+camtraptor is an R package to explore and visualize Camera Trap Data
+Packages ([Camtrap DP](https://camtrap-dp.tdwg.org/)). It offers a
+step-by-step workflow to read Camtrap DP files, filter data of interest,
+summarize information (e.g. number of observed species) and visualize
+this per deployment on an interactive map. You can also use it to
+transform data for analysis in
+[camtrapR](https://cran.r-project.org/package=camtrapR).
 
-## Camtrap DP
+camtraptor 1.0 updates the internal data model to Camtrap DP 1.0 and
+drops support for Camtrap DP 0.1.6. This breaking change is accompanied
+by a number of other major changes. See the
+[changelog](https://inbo.github.io/camtraptor/news/index.html#camtraptor-100)
+for details.
 
-Camtraptor currently uses the legacy Camtrap DP 0.1.6 for its internal
-data model.
-[`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md)
-will automatically down-convert Camtrap DP 1.0 datasets to that legacy
-model to avoid introducing breaking changes. The downside is that some
-newer properties like `deployments.cameraDepth`, `media.filePublic` and
-`observations.eventEnd` are removed when reading data.
-
-The upcoming [camtraptor
-v1.0](https://github.com/inbo/camtraptor/milestone/3) will update the
-internal data model to Camtrap DP 1.0 and drop support for Camtrap DP
-0.1.6. This is a breaking change that will be accompanied by a number of
-other major changes. Future versions of camtraptor will always use the
-latest version of Camtrap DP and up-convert legacy datasets to that
-model.
-
-## Get Started
+## Get started
 
 To get started, see:
 
@@ -36,180 +26,227 @@ To get started, see:
 
 ## Installation
 
-You can install the stable version of **camtraptor** from the INBO R
-universe:
-
-``` r
-install.packages("trias", repos = "https://inbo.r-universe.dev")
-```
-
 You can install the development version of camtraptor from
-[GitHub](https://github.com/inbo/camtraptor) with:
+[GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("inbo/camtraptor")
-```
 
-While we support older versions of R up to 3.5, we recommend using R
-4.0.0 or higher.
+# install.packages("pak")
+pak::pak("inbo/camtraptor")
+```
 
 ## Example
 
-Get the taxonomic coverage for an example Camera Trap Data Package
-`mica`:
+Get an overview of the species detected in an example Camera Trap Data
+Package dataset:
 
 ``` r
+
 library(camtraptor)
-get_species(mica)
-#> # A tibble: 9 × 5
-#>   taxonID taxonIDReference  scientificName vernacularNames.en vernacularNames.nl
-#>   <chr>   <chr>             <chr>          <chr>              <chr>             
-#> 1 DGP6    https://www.cata… Anas platyrhy… mallard            wilde eend        
-#> 2 DGPL    https://www.cata… Anas strepera  gadwall            krakeend          
-#> 3 32FH    https://www.cata… Ardea          great herons       reigers           
-#> 4 GCHS    https://www.cata… Ardea cinerea  grey heron         blauwe reiger     
-#> 5 RQPW    https://www.cata… Castor fiber   Eurasian beaver    bever             
-#> 6 6MB3T   https://www.cata… Homo sapiens   human              mens              
-#> 7 3Y9VW   https://www.cata… Martes foina   beech marten       steenmarter       
-#> 8 44QYC   https://www.cata… Mustela putor… European polecat   bunzing           
-#> 9 5BSG3   https://www.cata… Vulpes vulpes  red fox            vos
+#> 
+#> Attaching package: 'camtraptor'
+#> The following object is masked from 'package:base':
+#> 
+#>     contributors
+x <- example_dataset()
+taxa(x)
+#> # A tibble: 10 × 5
+#>    scientificName     taxonID  taxonRank vernacularNames.eng vernacularNames.nld
+#>    <chr>              <chr>    <chr>     <chr>               <chr>              
+#>  1 Anas platyrhynchos https:/… species   mallard             wilde eend         
+#>  2 Anas strepera      https:/… species   gadwall             krakeend           
+#>  3 Ardea              https:/… genus     great herons        reigers            
+#>  4 Ardea cinerea      https:/… species   grey heron          blauwe reiger      
+#>  5 Aves               https:/… class     bird sp.            vogel              
+#>  6 Homo sapiens       https:/… species   human               mens               
+#>  7 Martes foina       https:/… species   beech marten        steenmarter        
+#>  8 Mustela putorius   https:/… species   European polecat    bunzing            
+#>  9 Rattus norvegicus  https:/… species   brown rat           bruine rat         
+#> 10 Vulpes vulpes      https:/… species   red fox             vos
 ```
 
-Filter observations in `mica` on female mallards and map the number of
-individuals per deployment location:
+Filter the observations in the dataset on female mallards (Anas
+platyrhynchos) and map the number of recorded individuals for each
+deployment location:
 
 ``` r
-map_dep(
-  mica,
-  feature = "n_individuals",
-  species = "Anas platyrhynchos",
-  sex = "female"
-)
-#> There are 4 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
+
+x %>%
+  filter_observations(
+    scientificName == "Anas platyrhynchos",
+    sex == "female"
+  ) %>%
+  summarize_observations() %>%
+  map_summary(feature = "sum_count")
 ```
 
 ![](reference/figures/README-unnamed-chunk-3-1.png)
 
-## camtraptor vs camtrapR and activity
+## Relation to other R packages
 
-Camtraptor provides and bundles much needed functionality to read,
-explore and visualize Camera Trap Data Packages. Over time we hope to
-include some or all of this functionality in widely used R packages such
-as [camtrapR](https://cran.r-project.org/package=camtrapR) and
-[activity](https://cran.r-project.org/package=activity).
+- [camtrapdp](https://cran.r-project.org/package=camtrapdp) is a core R
+  package to read and manipulate Camtrap DPs. camtraptor depends on
+  camtrapdp and re-exports a number of functions so that users don’t
+  need to load both packages.
+- [camtrapR](https://cran.r-project.org/package=camtrapR) is an analysis
+  R package for camera trap data. camtraptor initially offered a number
+  of functions to transform Camtrap DPs to outputs compatible with
+  camtrapR. These have been superseded, because camtrapR now supports
+  reading Camtrap DPs.
+- [camtrapDensity](https://github.com/MarcusRowcliffe/camtrapDensity) is
+  a development R package to run single species random encounter models
+  to estimate animal density. camtraptor is a dependency.
 
 ## Meta
 
 - We welcome
-  [contributions](https://inbo.github.io/camtraptor/CONTRIBUTING.md)
+  [contributions](https://inbo.github.io/camtraptor/CONTRIBUTING.html)
   including bug reports.
 - License: MIT
-- Get citation information for camtraptor in R doing
+- Get citation information for camtraptor in R with
   `citation("camtraptor")`.
 - Please note that this project is released with a [Contributor Code of
-  Conduct](https://inbo.github.io/camtraptor/CODE_OF_CONDUCT.md). By
+  Conduct](https://inbo.github.io/camtraptor/CODE_OF_CONDUCT.html). By
   participating in this project you agree to abide by its terms.
 
 # Package index
 
 ## Read data
 
+- [`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+  : Read a Camera Trap Data Package
+- [`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md)
+  : Read the Camtrap DP example dataset
+- [`mica`](https://inbo.github.io/camtraptor/reference/mica.md)
+  **\[deprecated\]** : Deprecated datasets in camtraptor
 - [`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md)
-  : Read a Camtrap DP
-- [`read_wi()`](https://inbo.github.io/camtraptor/reference/read_wi.md)
-  : Read a Wildlife Insights export
+  **\[deprecated\]** : Read a Camera Trap Data Package
 
 ## Filter data
 
-- [`apply_filter_predicate()`](https://inbo.github.io/camtraptor/reference/apply_filter_predicate.md)
-  : Intermediate function to apply filter predicates on a data frame
-- [`pred()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_not()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_gt()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_gte()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_lt()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_lte()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_in()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_notin()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_na()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_notna()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_and()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  [`pred_or()`](https://inbo.github.io/camtraptor/reference/filter_predicate.md)
-  : Filter predicate
+- [`filter_deployments()`](https://inbo.github.io/camtraptor/reference/filter_deployments.md)
+  : Filter deployments
+- [`filter_media()`](https://inbo.github.io/camtraptor/reference/filter_media.md)
+  : Filter media
+- [`filter_observations()`](https://inbo.github.io/camtraptor/reference/filter_observations.md)
+  : Filter observations
+- [`filter_out_timelapse()`](https://inbo.github.io/camtraptor/reference/filter_out_timelapse.md)
+  : Filter out timelapse observations
 
 ## Explore data
 
+- [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md)
+  [`summarise_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md)
+  : Summarize deployments information
+- [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md)
+  [`summarise_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md)
+  : Summarize observations information
 - [`get_custom_effort()`](https://inbo.github.io/camtraptor/reference/get_custom_effort.md)
-  : Get custom effort
+  **\[deprecated\]** : Get custom effort
 - [`get_effort()`](https://inbo.github.io/camtraptor/reference/get_effort.md)
-  : Get effort
+  **\[deprecated\]** : Get effort
 - [`get_n_individuals()`](https://inbo.github.io/camtraptor/reference/get_n_individuals.md)
-  : Get number of individuals for each deployment
+  **\[deprecated\]** : Get number of individuals for each deployment
 - [`get_n_obs()`](https://inbo.github.io/camtraptor/reference/get_n_obs.md)
-  : Get number of observations for each deployment
+  **\[deprecated\]** : Get number of observations for each deployment
 - [`get_n_species()`](https://inbo.github.io/camtraptor/reference/get_n_species.md)
-  : Get number of identified species for each deployment
+  **\[deprecated\]** : Get number of identified species for each
+  deployment
 - [`get_rai()`](https://inbo.github.io/camtraptor/reference/get_rai.md)
-  : Get Relative Abundance Index (RAI)
+  **\[deprecated\]** : Get Relative Abundance Index (RAI)
 - [`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md)
-  : Get Relative Abundance Index (RAI) based on number of individuals
-- [`get_scientific_name()`](https://inbo.github.io/camtraptor/reference/get_scientific_name.md)
-  : Get scientific name for vernacular name
-- [`get_species()`](https://inbo.github.io/camtraptor/reference/get_species.md)
-  : Get species
+  **\[deprecated\]** : Get Relative Abundance Index (RAI) based on the
+  sum of individual counts
 
 ## Visualize data
 
-- [`map_dep()`](https://inbo.github.io/camtraptor/reference/map_dep.md)
+- [`map_summary()`](https://inbo.github.io/camtraptor/reference/map_summary.md)
   : Visualize deployments features
+- [`map_dep()`](https://inbo.github.io/camtraptor/reference/map_dep.md)
+  **\[deprecated\]** : Visualize deployments features
 
-## Validate data
+## Create outputs for camtrapR
 
-- [`check_species()`](https://inbo.github.io/camtraptor/reference/check_species.md)
-  : Check scientific or vernacular name(s)
-
-## Publish data
-
-- [`round_coordinates()`](https://inbo.github.io/camtraptor/reference/round_coordinates.md)
-  : Round coordinates to generalize camera trap locations
-- [`write_dwc()`](https://inbo.github.io/camtraptor/reference/write_dwc.md)
-  : Transform Camtrap DP data to Darwin Core
-- [`write_eml()`](https://inbo.github.io/camtraptor/reference/write_eml.md)
-  : Transform Camtrap DP metadata to EML
-
-## camtrapR-derived data
+These functions are deprecated because camtrapR now supports reading
+Camera Trap Data Packages.
 
 - [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md)
-  : Get camera operation matrix
+  **\[superseded\]** : Get the camera operation matrix
 - [`get_detection_history()`](https://inbo.github.io/camtraptor/reference/get_detection_history.md)
-  : Get the detection history of a species
+  **\[superseded\]** : Get the detection history of a species
 - [`get_record_table()`](https://inbo.github.io/camtraptor/reference/get_record_table.md)
-  : Get record table
+  **\[superseded\]** : Get the record table
 
 ## Estimate density
 
-- [`calc_animal_pos()`](https://inbo.github.io/camtraptor/reference/calc_animal_pos.md)
+- [`calculate_individual_radius_angle()`](https://inbo.github.io/camtraptor/reference/calculate_individual_radius_angle.md)
   : Calculate animal position
+- [`calc_animal_pos()`](https://inbo.github.io/camtraptor/reference/calc_animal_pos.md)
+  **\[deprecated\]** : Calculate animal position
+
+## Accessor (and assignment) functions
+
+- [`contributors()`](https://inbo.github.io/camtraptor/reference/contributors.md)
+  [`` `contributors<-`() ``](https://inbo.github.io/camtraptor/reference/contributors.md)
+  : Get or set contributors
+- [`deployments()`](https://inbo.github.io/camtraptor/reference/deployments.md)
+  [`` `deployments<-`() ``](https://inbo.github.io/camtraptor/reference/deployments.md)
+  : Get or set deployments
+- [`events()`](https://inbo.github.io/camtraptor/reference/events.md) :
+  Get events
+- [`individuals()`](https://inbo.github.io/camtraptor/reference/individuals.md)
+  : Get individuals
+- [`locations()`](https://inbo.github.io/camtraptor/reference/locations.md)
+  : Get locations
+- [`media()`](https://inbo.github.io/camtraptor/reference/media.md)
+  [`` `media<-`() ``](https://inbo.github.io/camtraptor/reference/media.md)
+  : Get or set media
+- [`observations()`](https://inbo.github.io/camtraptor/reference/observations.md)
+  [`` `observations<-`() ``](https://inbo.github.io/camtraptor/reference/observations.md)
+  : Get or set observations
+- [`taxa()`](https://inbo.github.io/camtraptor/reference/taxa.md) : Get
+  taxa
+- [`get_species()`](https://inbo.github.io/camtraptor/reference/get_species.md)
+  **\[deprecated\]** : Get species
+
+## Transformation functions
+
+- [`add_coordinates()`](https://inbo.github.io/camtraptor/reference/add_coordinates.md)
+  : Add deployment coordinates to observations
 
 ## Sample data
 
+- [`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md)
+  : Read the Camtrap DP example dataset
+- [`mica`](https://inbo.github.io/camtraptor/reference/mica.md)
+  **\[deprecated\]** : Deprecated datasets in camtraptor
+- [`animal_pos`](https://inbo.github.io/camtraptor/reference/animal_pos.md)
+  **\[deprecated\]** : Deprecated datasets in camtraptor
 - [`animal_positions`](https://inbo.github.io/camtraptor/reference/animal_positions.md)
   : Sample of animal position digitization data
-- [`dep_calib_models`](https://inbo.github.io/camtraptor/reference/dep_calib_models.md)
+- [`calib_models`](https://inbo.github.io/camtraptor/reference/calib_models.md)
+  **\[deprecated\]** : Deprecated datasets in camtraptor
+- [`calibration_models`](https://inbo.github.io/camtraptor/reference/calibration_models.md)
   : Sample of deployment calibration models
-- [`mica`](https://inbo.github.io/camtraptor/reference/mica.md) : Sample
-  of Camtrap DP formatted data
 
 # Articles
 
-### All vignettes
+### Basics
 
-- [Camera operation
-  matrix](https://inbo.github.io/camtraptor/articles/camera-operation-matrix.md):
-- [Filter
-  predicates](https://inbo.github.io/camtraptor/articles/filter-predicates.md):
-- [Record
-  table](https://inbo.github.io/camtraptor/articles/record-table.md):
+- [Workflow](https://inbo.github.io/camtraptor/articles/workflow.md):
 - [Visualize deployment
   features](https://inbo.github.io/camtraptor/articles/visualize-deployment-features.md):
+
+### Create outputs for camtrapR
+
+- [Record
+  table](https://inbo.github.io/camtraptor/articles/record-table.md):
+- [Camera operation
+  matrix](https://inbo.github.io/camtraptor/articles/camera-operation-matrix.md):
+- [Detection history
+  matrix](https://inbo.github.io/camtraptor/articles/detection-history-matrix.md):
+
+### Other
+
+- [Calculate animal
+  position](https://inbo.github.io/camtraptor/articles/calculate-animal-position.md):

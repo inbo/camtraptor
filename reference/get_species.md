@@ -1,55 +1,45 @@
 # Get species
 
-Gets all identified species.
+**\[deprecated\]**
+
+It is deprecated as of camtraptor 1.0.0. Please use
+[`taxa()`](https://inbo.github.io/camtraptor/reference/taxa.md) instead.
 
 ## Usage
 
 ``` r
-get_species(package = NULL, datapkg = lifecycle::deprecated())
+get_species(x)
 ```
 
 ## Arguments
 
-- package:
+- x:
 
   Camera trap data package object, as returned by
-  [`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md).
-
-- datapkg:
-
-  Deprecated. Use `package` instead.
+  [`camtrapdp::read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html).
 
 ## Value
 
-A tibble data frame with all scientific names and vernacular names of
-the identified species.
-
-## See also
-
-Other exploration functions:
-[`get_custom_effort()`](https://inbo.github.io/camtraptor/reference/get_custom_effort.md),
-[`get_effort()`](https://inbo.github.io/camtraptor/reference/get_effort.md),
-[`get_n_individuals()`](https://inbo.github.io/camtraptor/reference/get_n_individuals.md),
-[`get_n_obs()`](https://inbo.github.io/camtraptor/reference/get_n_obs.md),
-[`get_n_species()`](https://inbo.github.io/camtraptor/reference/get_n_species.md),
-[`get_rai()`](https://inbo.github.io/camtraptor/reference/get_rai.md),
-[`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md),
-[`get_scientific_name()`](https://inbo.github.io/camtraptor/reference/get_scientific_name.md)
+A tibble data frame with taxonomic information.
 
 ## Examples
 
 ``` r
-get_species(mica)
-#> # A tibble: 9 × 5
-#>   taxonID taxonIDReference  scientificName vernacularNames.en vernacularNames.nl
-#>   <chr>   <chr>             <chr>          <chr>              <chr>             
-#> 1 DGP6    https://www.cata… Anas platyrhy… mallard            wilde eend        
-#> 2 DGPL    https://www.cata… Anas strepera  gadwall            krakeend          
-#> 3 32FH    https://www.cata… Ardea          great herons       reigers           
-#> 4 GCHS    https://www.cata… Ardea cinerea  grey heron         blauwe reiger     
-#> 5 RQPW    https://www.cata… Castor fiber   Eurasian beaver    bever             
-#> 6 6MB3T   https://www.cata… Homo sapiens   human              mens              
-#> 7 3Y9VW   https://www.cata… Martes foina   beech marten       steenmarter       
-#> 8 44QYC   https://www.cata… Mustela putor… European polecat   bunzing           
-#> 9 5BSG3   https://www.cata… Vulpes vulpes  red fox            vos               
+x <- example_dataset()
+get_species(x)
+#> Warning: `get_species()` was deprecated in camtraptor 1.0.0.
+#> ℹ Please use `taxa()` instead.
+#> # A tibble: 10 × 5
+#>    scientificName     taxonID  taxonRank vernacularNames.eng vernacularNames.nld
+#>    <chr>              <chr>    <chr>     <chr>               <chr>              
+#>  1 Anas platyrhynchos https:/… species   mallard             wilde eend         
+#>  2 Anas strepera      https:/… species   gadwall             krakeend           
+#>  3 Ardea              https:/… genus     great herons        reigers            
+#>  4 Ardea cinerea      https:/… species   grey heron          blauwe reiger      
+#>  5 Aves               https:/… class     bird sp.            vogel              
+#>  6 Homo sapiens       https:/… species   human               mens               
+#>  7 Martes foina       https:/… species   beech marten        steenmarter        
+#>  8 Mustela putorius   https:/… species   European polecat    bunzing            
+#>  9 Rattus norvegicus  https:/… species   brown rat           bruine rat         
+#> 10 Vulpes vulpes      https:/… species   red fox             vos                
 ```

@@ -1,15 +1,18 @@
-# Read a Camtrap DP
+# Read a Camera Trap Data Package
 
-Reads files from a [Camera Trap Data
-Package](https://camtrap-dp.tdwg.org) into memory. All datetime
-information is automatically transformed to Coordinated Universal Time
-(UTC). Vernacular names found in the metadata (`package$taxonomic`) are
-added to the `observations` data frame.
+**\[deprecated\]**
+
+This function is deprecated. Use
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+instead.
+
+Reads files from a [Camera Trap Data Package (Camtrap
+DP)](https://camtrap-dp.tdwg.org) into memory.
 
 ## Usage
 
 ``` r
-read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
+read_camtrap_dp(file)
 ```
 
 ## Arguments
@@ -18,59 +21,90 @@ read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
 
   Path or URL to a `datapackage.json` file.
 
-- media:
-
-  If `TRUE` (default), read media records into memory. If `FALSE`,
-  ignore media file to speed up reading larger Camtrap DP packages.
-
-- path:
-
-  Path to the directory containing the datapackage. Use `file` with path
-  or URL to a `datapackage.json` file instead.
-
 ## Value
 
-List describing a Data Package (as returned by
-[`frictionless::read_package()`](https://docs.ropensci.org/frictionless/reference/read_package.html))
-containing the original metadata, as well as a property `data`
-containing the data as three data frames:
+Camera Trap Data Package object.
 
-1.  `deployments`
+## Older versions
 
-2.  `media`
+The
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+function supports older versions of Camtrap DP and will automatically
+**upgrade** such datasets to the latest version of the standard. It
+currently supports versions 1.0, 1.0.1 and 1.0.2 (latest).
 
-3.  `observations`
+## Events
 
-## See also
+Observations can contain classifications at two levels:
 
-Other read functions:
-[`read_wi()`](https://inbo.github.io/camtraptor/reference/read_wi.md)
+- **Media-based** observations (`observationLevel = "media"`) are based
+  on a single media file and are directly linked to it via `mediaID`.
+
+- **Event-based** observations (`observationLevel = "event"`) are based
+  on an event, defined as a combination of `eventID`, `eventStart` and
+  `eventEnd`. This event can consist of one or more media files, but is
+  not directly linked to these.
+
+The
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+function **will automatically assign `eventID`s to media**, using
+`media.deploymentID = observations.deploymentID` and
+`observations.eventStart <= media.timestamp <= observations.eventEnd`.
+Note that this can result in media being linked to multiple events (and
+thus being duplicated), for example when events and sub-events were
+defined.
+
+## Taxonomic information
+
+Camtrap DP metadata has a `taxonomic` property that can contain extra
+information for each `scientificName` found in observations. Such
+information can include higher taxonomy (`family`, `order`, etc.) and
+vernacular names in multiple languages.
+
+The
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+function **will automatically include this taxonomic information in
+observations**, as extra columns starting with `taxon.`. It will then
+update the `taxonomic` scope in the metadata to the unique
+[`taxa()`](https://inbo.github.io/camtrapdp/reference/taxa.html) found
+in the data.
+
+## Spatial/temporal coverage
+
+Camtrap DP metadata has a `spatial` and `temporal` property that
+contains the spatial and temporal coverage of the package respectively.
+
+The
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+function **will automatically update (or create) the spatial and
+temporal scopes** in the metadata based on the data. It also does this
+for the taxonomic scope (see higher).
+
+## Additional resources
+
+A Camtrap DP can contain Data Resources not described by the standard.
+Those are listed with the tables supported by the standard (i.e.
+deployments, media, observations) in the `resources` property.
+
+The
+[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
+function will **ignore these additional resources** and only read the
+tables described by the standard. Additional resources can be read with
+[`frictionless::read_resource()`](https://docs.ropensci.org/frictionless/reference/read_resource.html)
+if they are tabular.
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Read Camtrap DP package
-camtrap_dp_file <- system.file(
-  "extdata", "mica", "datapackage.json", 
-  package = "camtraptor"
-)
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
-
-# Read Camtrap DP package and ignore media file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-
-# If parsing issues while reading deployments, observations or media arise,
-# use readr::problems()
-camtrap_dp_file_with_issues <- system.file(
-  "extdata",
-  "mica_parsing_issues",
-  "datapackage_for_parsing_issues.json",
-  package = "camtraptor"
-)
-muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-readr::problems(muskrat_coypu_with_issues$data$deployments)
-readr::problems(muskrat_coypu_with_issues$data$observations)
-readr::problems(muskrat_coypu_with_issues$data$media)
-} # }
+file <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.2/example/datapackage.json"
+x <- read_camtrapdp(file)
+x
+#> A Camera Trap Data Package "camtrap-dp-example-dataset" with 3 tables:
+#> • deployments: 4 rows
+#> • media: 423 rows
+#> • observations: 549 rows
+#> 
+#> And 1 additional resource:
+#> • individuals
+#> Use `unclass()` to print the Data Package as a list.
 ```

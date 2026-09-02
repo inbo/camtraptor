@@ -1,54 +1,59 @@
 # Get number of observations for each deployment
 
-Gets the number of observations (of a subset of species) per deployment.
-The number of observations is defined as the number of distinct
-sequences (`sequenceID`).
+**\[deprecated\]**
+
+This function is deprecated. Use
+[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md)
+instead.
+
+Gets the number of event-based observations per deployment.
 
 ## Usage
 
 ``` r
-get_n_obs(
-  package = NULL,
-  ...,
-  species = "all",
-  sex = NULL,
-  life_stage = NULL,
-  datapkg = lifecycle::deprecated()
-)
+get_n_obs(x, ..., species = "all", sex = NULL, life_stage = NULL)
 ```
 
 ## Arguments
 
-- package:
+- x:
 
   Camera trap data package object, as returned by
-  [`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md).
+  [`camtrapdp::read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html).
 
 - ...:
 
-  Filter predicates for filtering on deployments
+  **\[deprecated\]** filter predicates for filtering on deployments are
+  not supported anymore and an error is returned. Anything else throws a
+  deprecation warning and will be ignored. Please use
+  [`filter_deployments()`](https://inbo.github.io/camtraptor/reference/filter_deployments.md)
+  to filter on deployments.
 
 - species:
 
-  Character with scientific names or common names (case insensitive). If
-  `"all"` (default) all scientific names are automatically selected. If
-  `NULL` all observations of all species are taken into account.
+  **\[deprecated\]** Character with scientific names. Common names are
+  not supported anymore as of camtraptor 1.0.0. Please, check
+  [`filter_observations()`](https://inbo.github.io/camtraptor/reference/filter_observations.md)
+  to know how to filter by `scientificName`. If `"all"` (default) all
+  scientific names are automatically selected. If `NULL` all
+  observations of all species are taken into account.
 
 - sex:
 
-  Character defining the sex class to filter on, e.g. `"female"` or
-  `c("male", "unknown")`. If `NULL` (default) all observations of all
-  sex classes are taken into account.
+  **\[deprecated\]** Character defining the sex class to filter on, e.g.
+  `"female"` or `c("male", "unknown")`. If `NULL` (default) all
+  observations of all sex classes are taken into account. Please, check
+  [`filter_observations()`](https://inbo.github.io/camtraptor/reference/filter_observations.md)
+  to know how to filter by `sex`.
 
 - life_stage:
 
-  Character vector defining the life stage class to filter on, e.g.
-  `"adult"` or `c("subadult", "adult")`. If `NULL` (default) all
-  observations of all life stage classes are taken into account.
-
-- datapkg:
-
-  Deprecated. Use `package` instead.
+  **\[deprecated\]** Character vector defining the life stage class to
+  filter on, e.g. `"adult"` or `c("subadult", "adult")`. If `NULL`
+  (default) all observations of all life stage classes are taken into
+  account. Please, check
+  [`filter_observations()`](https://inbo.github.io/camtraptor/reference/filter_observations.md)
+  to know how to filter by `lifeStage`.
 
 ## Value
 
@@ -63,166 +68,102 @@ A tibble data frame with the following columns:
 
 ## See also
 
-Other exploration functions:
+Other deprecated exploration functions:
 [`get_custom_effort()`](https://inbo.github.io/camtraptor/reference/get_custom_effort.md),
 [`get_effort()`](https://inbo.github.io/camtraptor/reference/get_effort.md),
 [`get_n_individuals()`](https://inbo.github.io/camtraptor/reference/get_n_individuals.md),
 [`get_n_species()`](https://inbo.github.io/camtraptor/reference/get_n_species.md),
 [`get_rai()`](https://inbo.github.io/camtraptor/reference/get_rai.md),
-[`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md),
-[`get_scientific_name()`](https://inbo.github.io/camtraptor/reference/get_scientific_name.md),
-[`get_species()`](https://inbo.github.io/camtraptor/reference/get_species.md)
+[`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md)
 
 ## Examples
 
 ``` r
+x <- example_dataset()
+
 # Get number of observations for each species
-get_n_obs(mica)
-#> # A tibble: 36 × 3
-#>    deploymentID                         scientificName         n
-#>    <chr>                                <chr>              <int>
-#>  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          3
-#>  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     4
-#>  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0
-#>  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0
-#>  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0
-#>  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0
-#>  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0
-#>  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0
-#>  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0
-#> 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0
-#> # ℹ 26 more rows
+get_n_obs(x)
+#> Warning: `get_n_obs()` was deprecated in camtraptor 1.0.0.
+#> ℹ Please use `summarize_observations(x, group_by = c("deploymentID",
+#>   "latitude"), "longitude"), "scientificName")` instead.
+#> ℹ The deprecated feature was likely used in the camtraptor package.
+#>   Please report the issue at <https://github.com/inbo/camtraptor/issues>.
+#> # A tibble: 15 × 3
+#> # Groups:   deploymentID, scientificName [15]
+#>    deploymentID scientificName         n
+#>    <chr>        <chr>              <int>
+#>  1 00a2c20d     Anas platyrhynchos     9
+#>  2 00a2c20d     Ardea cinerea          1
+#>  3 00a2c20d     Rattus norvegicus      2
+#>  4 00a2c20d     NA                     2
+#>  5 29b7d356     Anas platyrhynchos     6
+#>  6 29b7d356     Anas strepera          2
+#>  7 29b7d356     Aves                   1
+#>  8 29b7d356     NA                     2
+#>  9 577b543a     Martes foina           1
+#> 10 577b543a     Mustela putorius       3
+#> 11 577b543a     Vulpes vulpes          1
+#> 12 577b543a     NA                     1
+#> 13 62c200a9     Ardea                  2
+#> 14 62c200a9     Aves                   1
+#> 15 62c200a9     NA                     2
 
 # Get number of obs of all species, not identified individuals as well
-get_n_obs(mica, species = NULL)
+get_n_obs(x, species = NULL)
 #> # A tibble: 4 × 2
-#>   deploymentID                             n
-#>   <chr>                                <int>
-#> 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8    10
-#> 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372     9
-#> 3 62c200a9-0e03-4495-bcd8-032944f6f5a1     5
-#> 4 7ca633fa-64f8-4cfc-a628-6b0c419056d7     3
-
-# Get number of observations of Anas platyrhynchos (scientific name)
-get_n_obs(mica, species = "Anas platyrhynchos")
-#> There are 3 deployments without observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 4 × 3
-#>   deploymentID                         scientificName         n
-#>   <chr>                                <chr>              <int>
-#> 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     4
-#> 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0
-#> 3 62c200a9-0e03-4495-bcd8-032944f6f5a1 Anas platyrhynchos     0
-#> 4 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Anas platyrhynchos     0
-
-# Get number of observations of eurasian beaver (vernacular names)
-get_n_obs(mica, species = "eurasian beaver")
-#> Scientific name of eurasian beaver: Castor fiber
-#> There are 3 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 4 × 3
-#>   deploymentID                         scientificName     n
-#>   <chr>                                <chr>          <int>
-#> 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber       0
-#> 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber       1
-#> 3 62c200a9-0e03-4495-bcd8-032944f6f5a1 Castor fiber       0
-#> 4 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Castor fiber       0
-
-# Case insensitive
-get_n_obs(mica, species = "Anas plaTYrhYnchoS")
-#> There are 3 deployments without observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 4 × 3
-#>   deploymentID                         scientificName         n
-#>   <chr>                                <chr>              <int>
-#> 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     4
-#> 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0
-#> 3 62c200a9-0e03-4495-bcd8-032944f6f5a1 Anas platyrhynchos     0
-#> 4 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Anas platyrhynchos     0
-get_n_obs(mica, species = "EUrasian beavER")
-#> Scientific name of EUrasian beavER: Castor fiber
-#> There are 3 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 4 × 3
-#>   deploymentID                         scientificName     n
-#>   <chr>                                <chr>          <int>
-#> 1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber       0
-#> 2 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber       1
-#> 3 62c200a9-0e03-4495-bcd8-032944f6f5a1 Castor fiber       0
-#> 4 7ca633fa-64f8-4cfc-a628-6b0c419056d7 Castor fiber       0
-
-# Specify life stage
-get_n_obs(mica, life_stage = "subadult")
-#> There are 3 deployments without observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 36 × 3
-#>    deploymentID                         scientificName         n
-#>    <chr>                                <chr>              <int>
-#>  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          2
-#>  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     3
-#>  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0
-#>  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0
-#>  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0
-#>  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0
-#>  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0
-#>  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0
-#>  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0
-#> 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0
-#> # ℹ 26 more rows
+#> # Groups:   deploymentID [4]
+#>   deploymentID     n
+#>   <chr>        <int>
+#> 1 00a2c20d        14
+#> 2 29b7d356        11
+#> 3 577b543a         6
+#> 4 62c200a9         5
+ 
+# Get number of observations of Anas platyrhynchos
+get_n_obs(x, species = "Anas platyrhynchos")
+#> Warning: The `species` argument of `get_n_obs()` is deprecated as of camtraptor 1.0.0.
+#> ℹ Argument `species` is deprecated as of camtraptor 1.0.0. Please, use
+#>   `filter_observations()` to filter by `scientificName`.
+#> ℹ The deprecated feature was likely used in the camtraptor package.
+#>   Please report the issue at <https://github.com/inbo/camtraptor/issues>.
+#> # A tibble: 2 × 3
+#> # Groups:   deploymentID, scientificName [2]
+#>   deploymentID scientificName         n
+#>   <chr>        <chr>              <int>
+#> 1 00a2c20d     Anas platyrhynchos     9
+#> 2 29b7d356     Anas platyrhynchos     6
 
 # Specify sex
-get_n_obs(mica, sex = "female")
-#> There are 3 deployments without observations: 577b543a-2cf1-4b23-b6d2-cda7e2eac372, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 36 × 3
-#>    deploymentID                         scientificName         n
-#>    <chr>                                <chr>              <int>
-#>  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          1
-#>  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     0
-#>  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0
-#>  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0
-#>  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0
-#>  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0
-#>  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0
-#>  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0
-#>  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0
-#> 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0
-#> # ℹ 26 more rows
+get_n_obs(x, sex = "female")
+#> Warning: The `sex` argument of `get_n_obs()` is deprecated as of camtraptor 1.0.0.
+#> ℹ Argument `sex` is deprecated as of camtraptor 1.0.0. Please, use
+#>   `filter_observations()` to filter by `sex`.
+#> ℹ The deprecated feature was likely used in the camtraptor package.
+#>   Please report the issue at <https://github.com/inbo/camtraptor/issues>.
+#> # A tibble: 2 × 3
+#> # Groups:   deploymentID, scientificName [2]
+#>   deploymentID scientificName         n
+#>   <chr>        <chr>              <int>
+#> 1 00a2c20d     Anas platyrhynchos     4
+#> 2 29b7d356     Anas platyrhynchos     3
 
-# Specify both sex and life stage
-get_n_obs(mica, sex = "unknown", life_stage = "adult")
-#> There are 3 deployments without observations: 29b7d356-4bb4-4ec4-b792-2af5cc32efa8, 62c200a9-0e03-4495-bcd8-032944f6f5a1 and 7ca633fa-64f8-4cfc-a628-6b0c419056d7
-#> # A tibble: 36 × 3
-#>    deploymentID                         scientificName         n
-#>    <chr>                                <chr>              <int>
-#>  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0
-#>  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0
-#>  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0
-#>  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0
-#>  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     0
-#>  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          0
-#>  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0
-#>  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0
-#>  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0
-#> 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber           1
-#> # ℹ 26 more rows
-
-# Applying filter(s), e.g. deployments with latitude >= 51.18
-get_n_obs(mica, pred_gte("latitude", 51.18))
-#> df %>% dplyr::filter((latitude >= 51.18))
-#> # A tibble: 18 × 3
-#>    deploymentID                         scientificName         n
-#>    <chr>                                <chr>              <int>
-#>  1 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas strepera          3
-#>  2 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Anas platyrhynchos     4
-#>  3 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Castor fiber           0
-#>  4 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Mustela putorius       0
-#>  5 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Vulpes vulpes          0
-#>  6 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Martes foina           0
-#>  7 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea cinerea          0
-#>  8 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Ardea                  0
-#>  9 29b7d356-4bb4-4ec4-b792-2af5cc32efa8 Homo sapiens           0
-#> 10 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas strepera          0
-#> 11 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Anas platyrhynchos     0
-#> 12 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Castor fiber           1
-#> 13 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Mustela putorius       3
-#> 14 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Vulpes vulpes          1
-#> 15 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Martes foina           1
-#> 16 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea cinerea          0
-#> 17 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Ardea                  0
-#> 18 577b543a-2cf1-4b23-b6d2-cda7e2eac372 Homo sapiens           0
+# Specify life stage
+get_n_obs(x, life_stage = c("subadult", "adult"))
+#> Warning: The `life_stage` argument of `get_n_obs()` is deprecated as of camtraptor
+#> 1.0.0.
+#> ℹ Argument `life_stage` is deprecated as of camtraptor 1.0.0. Please, use
+#>   `filter_observations()` to filter by `lifeStage`.
+#> ℹ The deprecated feature was likely used in the camtraptor package.
+#>   Please report the issue at <https://github.com/inbo/camtraptor/issues>.
+#> # A tibble: 7 × 3
+#> # Groups:   deploymentID, scientificName [7]
+#>   deploymentID scientificName         n
+#>   <chr>        <chr>              <int>
+#> 1 00a2c20d     Anas platyrhynchos     7
+#> 2 00a2c20d     Ardea cinerea          1
+#> 3 29b7d356     Anas platyrhynchos     6
+#> 4 29b7d356     Anas strepera          2
+#> 5 577b543a     Martes foina           1
+#> 6 577b543a     Mustela putorius       3
+#> 7 577b543a     Vulpes vulpes          1
 ```

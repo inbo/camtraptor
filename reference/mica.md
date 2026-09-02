@@ -1,50 +1,25 @@
-# Sample of Camtrap DP formatted data
+# Deprecated datasets in camtraptor
 
-A sample [Camera Trap Data Package](https://camtrap-dp.tdwg.org) as read
-by
-[`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md).
-The source data are derived from the [Camtrap DP example
-dataset](https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example)
-and are saved in `inst/extdata/mica`.
+**\[deprecated\]**
 
-## Usage
+These datasets are deprecated:
 
-``` r
-mica
-```
+- Use
+  [`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md)
+  instead of `mica`.
 
-## Format
+- Use `animal_positions` instead of `animal_pos`. Note that the column
+  `"sequenceID"` has been renamed to `"eventID"`.
 
-An object of class `datapackage` (inherits from `list`) of length 16.
-
-## Source
-
-<https://github.com/tdwg/camtrap-dp/tree/ad0278ef86ef518dacfb306c598dce97667cfb81/example>
-
-## Details
-
-A larger dataset is available in `inst/extdata/mica_zenodo_5590881`. It
-is derived from a dataset on
-[Zenodo](https://zenodo.org/record/5590881), but excludes `media.csv`.
+- Use `calibration_models` instead of `calib_models`.
 
 ## See also
 
 Other sample data:
+[`animal_pos`](https://inbo.github.io/camtraptor/reference/animal_pos.md),
 [`animal_positions`](https://inbo.github.io/camtraptor/reference/animal_positions.md),
-[`dep_calib_models`](https://inbo.github.io/camtraptor/reference/dep_calib_models.md)
+[`calib_models`](https://inbo.github.io/camtraptor/reference/calib_models.md),
+[`calibration_models`](https://inbo.github.io/camtraptor/reference/calibration_models.md)
 
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-# mica.rda was created with the code below.
-mica <- read_camtrap_dp(
-  system.file(
-    "extdata/mica",
-    "datapackage.json",
-    package = "camtraptor"
-  )
-)
-save(mica, file = "data/mica.rda")
-} # }
-```
+Other read sample data functions:
+[`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md)

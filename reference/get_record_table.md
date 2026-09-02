@@ -1,38 +1,43 @@
-# Get record table
+# Get the record table
 
-Calculates the record table from a camera trap data package and so
-tabulating species records. The record table is a concept developed
-within the camtrapR package, see [this
+**\[superseded\]**
+
+This function is superseded because camtrapR now supports reading Camera
+Trap Data Packages. Use
+[`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
+and
+[`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html)
+instead.
+
+Creates the record table from a Camera Trap Data Package and so
+tabulating species records. Only event-based observations and their
+corresponding media are taken into account. The record table is a
+concept developed within the camtrapR package, see [this
 article](https://jniedballa.github.io/camtrapR/articles/camtrapr3.html).
 See also the function documentation for
-[camtrapR::recordTable()](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
+[`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
+
 **Note**: All dates and times are expressed in UTC format.
 
 ## Usage
 
 ``` r
 get_record_table(
-  package = NULL,
-  ...,
+  x,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL,
-  removeDuplicateRecords = TRUE,
-  datapkg = lifecycle::deprecated()
+  removeDuplicateRecords = TRUE
 )
 ```
 
 ## Arguments
 
-- package:
+- x:
 
   Camera trap data package object, as returned by
-  [`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md).
-
-- ...:
-
-  Filter predicates for filtering on deployments
+  [`camtrapdp::read_camtrapdp()`](https://inbo.github.io/camtrapdp/reference/read_camtrapdp.html).
 
 - stationCol:
 
@@ -41,8 +46,8 @@ get_record_table(
 
 - exclude:
 
-  Character vector of species names (scientific names or vernacular
-  names) to be excluded from the record table. Default: `NULL`.
+  Character vector of scientific names to be excluded from the record
+  table. Default: `NULL`.
 
 - minDeltaTime:
 
@@ -61,12 +66,10 @@ get_record_table(
 
 - removeDuplicateRecords:
 
-  Logical. If there are several records of the same species at the same
-  station at exactly the same time, show only one?
-
-- datapkg:
-
-  Deprecated. Use `package` instead.
+  Logical. If there are several records of the same species, but e.g.
+  different `sex` or `lifeStage`, at the same station at exactly the
+  same time, show only one? Default: `TRUE`. Duplicates are removed by
+  keeping only the first observation in the observation table.
 
 ## Value
 
@@ -80,10 +83,12 @@ records. Some more details about the columns returned:
 
 - `Species`: Character, the scientific name of the observed species.
 
-- `n`: Numeric, the number of individuals of the observed species.
+- `n`: Numeric, the number of observed individuals (renamed from
+  [`count`](https://camtrap-dp.tdwg.org/data/#observations.count) in the
+  observations table).
 
-- `DateTimeOriginal`: Datetime object, as found in column `timestamp` of
-  `observations`, in UTC format.
+- `DateTimeOriginal`: Datetime object, as found in column `eventStart`
+  of `observations`, in UTC format.
 
 - `Date`: Date object, the date part of `DateTimeOriginal`, in UTC
   format.
@@ -118,239 +123,164 @@ records. Some more details about the columns returned:
 
 - `solar`: Numeric, solar time in radians. Calculated using
   [`overlap::sunTime`](https://rdrr.io/pkg/overlap/man/sunTime.html),
-  which essentially uses the approach described in [Nouvellet et al.
-  (2012)](https://doi.org/10.1111/j.1469-7998.2011.00864.x).
+  which essentially uses the approach described in Nouvellet et
+  al. (2012)
+  [doi:10.1111/j.1469-7998.2011.00864.x](https://doi.org/10.1111/j.1469-7998.2011.00864.x)
+  .
 
 ## See also
 
-Other camtrapR-derived functions:
+Other deprecated camtrapR-derived functions:
 [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md),
 [`get_detection_history()`](https://inbo.github.io/camtraptor/reference/get_detection_history.md)
 
 ## Examples
 
 ``` r
-get_record_table(mica)
-#> # A tibble: 17 × 16
+library(lubridate)
+
+x <- example_dataset()
+get_record_table(x)
+#> # A tibble: 26 × 16
 #>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
 #>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-07-30 04:29:31 2020-07-30 04:2…           81763
-#>  7 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          520350
-#>  8 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  9 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#> 10 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 11 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 12 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 13 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 14 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 15 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 16 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 17 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
+#>  1 B_DL_val … Anas p…     2 2020-07-29 05:46:48 2020-07-29 05:4…               0
+#>  2 B_DL_val … Anas p…     2 2020-07-30 04:29:31 2020-07-30 04:2…           81763
+#>  3 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…           87242
+#>  4 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
+#>  5 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
+#>  6 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
+#>  7 B_HS_val … Anas p…     1 2020-05-30 02:57:37 2020-05-30 02:5…               0
+#>  8 B_HS_val … Anas p…     2 2020-05-31 04:05:10 2020-05-31 04:0…           90453
+#>  9 B_HS_val … Anas p…     1 2020-06-06 04:11:07 2020-06-06 04:1…          518757
+#> 10 B_HS_val … Anas p…     4 2020-06-09 03:16:11 2020-06-09 03:1…          255904
+#> # ℹ 16 more rows
 #> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
 #> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
 #> #   longitude <dbl>, clock <dbl>, solar <dbl>
 
-# Set a minDeltaTime of 20 minutes from last independent record for filtering
-# out not independent observations
-mica_dependent <- mica
-mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
-get_record_table(
-  mica_dependent,
-  minDeltaTime = 20,
-  deltaTimeComparedTo = "lastIndependentRecord"
-)
-#> Number of not independent observations to be removed: 1
-#> # A tibble: 16 × 16
-#>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
-#>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          602113
-#>  7 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  8 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#>  9 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 10 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 11 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 12 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 13 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 14 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 15 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 16 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
-#> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
-#> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
-#> #   longitude <dbl>, clock <dbl>, solar <dbl>
+# Create a new Camera Trap Data Package with dependent observations only for
+# demonstration.
+obs <- observations(x)
+obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
+x_dep <- x
+observations(x_dep) <- obs
 
-# Set a minDeltaTime of 20 minutes from last record for filtering out not
-# independent observations
+# Set a minDeltaTime of 100 minutes from last record
 get_record_table(
-  mica_dependent,
-  minDeltaTime = 20,
+  x_dep,
+  minDeltaTime = 100,
   deltaTimeComparedTo = "lastRecord"
 )
 #> Number of not independent observations to be removed: 1
-#> # A tibble: 16 × 16
+#> # A tibble: 25 × 16
 #>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
 #>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          602113
-#>  7 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  8 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#>  9 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 10 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 11 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 12 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 13 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 14 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 15 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 16 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
+#>  1 B_DL_val … Anas p…     2 2020-07-29 05:46:48 2020-07-29 05:4…               0
+#>  2 B_DL_val … Anas p…     2 2020-07-30 04:29:31 2020-07-30 04:2…           81763
+#>  3 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…           87242
+#>  4 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
+#>  5 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
+#>  6 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
+#>  7 B_HS_val … Anas p…     1 2020-05-30 02:57:37 2020-05-30 02:5…               0
+#>  8 B_HS_val … Anas p…     2 2020-05-31 04:05:10 2020-05-31 04:0…           90453
+#>  9 B_HS_val … Anas p…     1 2020-06-06 04:11:07 2020-06-06 04:1…          518757
+#> 10 B_HS_val … Anas p…     4 2020-06-09 03:16:11 2020-06-09 03:1…          255904
+#> # ℹ 15 more rows
 #> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
 #> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
 #> #   longitude <dbl>, clock <dbl>, solar <dbl>
 
-# Exclude observations of mallard
-# Exclude is case insensitive and vernacular names are allowed
-get_record_table(mica, exclude = "wilde eend")
-#> Scientific name of wilde eend: Anas platyrhynchos
-#> # A tibble: 13 × 16
+# Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
+# `"lastIndependentRecord"`
+obs <- observations(x)
+obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+  as_datetime("2020-08-02 05:10:20")
+
+med <- media(x) 
+rows_to_update <- which(med$eventID == "02ae9f43") 
+med[rows_to_update, "timestamp"] <- as_datetime("2020-08-02 05:10:20") 
+
+x_modified <- x
+observations(x_modified) <- obs
+media(x_modified) <- med
+
+rec_last_indep <- get_record_table(
+  x_modified,
+  minDeltaTime = 10,
+  deltaTimeComparedTo = "lastIndependentRecord"
+)
+
+rec_last <- get_record_table(
+  x_modified,
+  minDeltaTime = 10,
+  deltaTimeComparedTo = "lastRecord"
+)
+#> Number of not independent observations to be removed: 1
+
+# Exclude observations of Anas platyrhynchos.
+get_record_table(x, exclude = "Anas platyrhynchos")
+#> # A tibble: 14 × 16
 #>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
 #>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  2 B_DL_val … Anas s…     1 2020-07-30 04:29:31 2020-07-30 04:2…           81763
-#>  3 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          520350
-#>  4 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  5 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#>  6 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#>  7 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#>  8 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#>  9 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 10 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 11 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 12 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 13 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
+#>  1 B_DL_val … Anas s…     3 2020-07-29 05:46:48 2020-07-29 05:4…               0
+#>  2 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          602113
+#>  3 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
+#>  4 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
+#>  5 B_HS_val … Ardea …     1 2020-06-12 04:04:29 2020-06-12 04:0…               0
+#>  6 B_DL_val … Aves        1 2020-08-08 04:20:35 2020-08-08 04:2…               0
+#>  7 B_DM_val … Aves        1 2021-03-27 20:38:18 2021-03-27 20:3…               0
+#>  8 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
+#>  9 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
+#> 10 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
+#> 11 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
+#> 12 B_HS_val … Rattus…     1 2020-05-31 20:06:43 2020-05-31 20:0…               0
+#> 13 B_HS_val … Rattus…     1 2020-06-27 01:19:06 2020-06-27 01:1…         2265143
+#> 14 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
 #> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
 #> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
 #> #   longitude <dbl>, clock <dbl>, solar <dbl>
 
 # Specify column to pass station names
+get_record_table(x, stationCol = "locationID")
+#> # A tibble: 26 × 16
+#>    Station  Species       n DateTimeOriginal    Date       Time  delta.time.secs
+#>    <chr>    <chr>     <dbl> <dttm>              <date>     <chr>           <dbl>
+#>  1 2df5259b Anas pla…     2 2020-07-29 05:46:48 2020-07-29 05:4…               0
+#>  2 2df5259b Anas pla…     2 2020-07-30 04:29:31 2020-07-30 04:2…           81763
+#>  3 2df5259b Anas pla…     2 2020-07-31 04:43:33 2020-07-31 04:4…           87242
+#>  4 2df5259b Anas pla…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
+#>  5 2df5259b Anas pla…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
+#>  6 2df5259b Anas pla…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
+#>  7 e254a13c Anas pla…     1 2020-05-30 02:57:37 2020-05-30 02:5…               0
+#>  8 e254a13c Anas pla…     2 2020-05-31 04:05:10 2020-05-31 04:0…           90453
+#>  9 e254a13c Anas pla…     1 2020-06-06 04:11:07 2020-06-06 04:1…          518757
+#> 10 e254a13c Anas pla…     4 2020-06-09 03:16:11 2020-06-09 03:1…          255904
+#> # ℹ 16 more rows
+#> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
+#> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
+#> #   longitude <dbl>, clock <dbl>, solar <dbl>
+
+# Include "duplicates", i.e. records of same species at same time, but
+# different attributes, such as life stage or sex.
 get_record_table(
-  mica,
-  stationCol = "locationID",
-  minDeltaTime = 20,
-  deltaTimeComparedTo = "lastRecord"
+ x,
+ removeDuplicateRecords = FALSE
 )
-#> # A tibble: 17 × 16
+#> # A tibble: 29 × 16
 #>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
 #>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 2df5259b-… Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 2df5259b-… Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 2df5259b-… Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 2df5259b-… Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 2df5259b-… Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 2df5259b-… Anas s…     1 2020-07-30 04:29:31 2020-07-30 04:2…           81763
-#>  7 2df5259b-… Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          520350
-#>  8 ce943ced-… Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  9 ce943ced-… Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#> 10 ce943ced-… Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 11 ff1535c0-… Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 12 3232bcfd-… Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 13 ff1535c0-… Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 14 ff1535c0-… Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 15 ff1535c0-… Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 16 ff1535c0-… Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 17 ff1535c0-… Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
-#> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
-#> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
-#> #   longitude <dbl>, clock <dbl>, solar <dbl>
-
-# How to deal with duplicates
-mica_dup <- mica
-# create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
-mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
-mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
-
-# duplicates are removed by default by get_record_table()
-get_record_table(mica_dup)
-#> # A tibble: 16 × 16
-#>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
-#>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     1 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          602113
-#>  7 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  8 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#>  9 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 10 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 11 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 12 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 13 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 14 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 15 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 16 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
-#> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
-#> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
-#> #   longitude <dbl>, clock <dbl>, solar <dbl>
-
-# duplicate not removed
-get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-#> # A tibble: 17 × 16
-#>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
-#>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  7 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          602113
-#>  8 B_DM_val … Ardea       1 2021-04-05 19:08:33 2021-04-05 19:0…               0
-#>  9 B_DM_val … Ardea       1 2021-04-11 19:43:09 2021-04-11 19:4…          520476
-#> 10 B_DM_val … Ardea …     1 2021-03-27 20:38:18 2021-03-27 20:3…               0
-#> 11 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#> 12 Mica Viane Homo s…     2 2019-10-23 10:19:44 2019-10-23 10:1…               0
-#> 13 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 14 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 15 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 16 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 17 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
-#> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
-#> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
-#> #   longitude <dbl>, clock <dbl>, solar <dbl>
-
-# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-get_record_table(mica, pred_gte("latitude", 51.18))
-#> df %>% dplyr::filter((latitude >= 51.18))
-#> # A tibble: 13 × 16
-#>    Station    Species     n DateTimeOriginal    Date       Time  delta.time.secs
-#>    <chr>      <chr>   <dbl> <dttm>              <date>     <chr>           <dbl>
-#>  1 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…               0
-#>  2 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
-#>  3 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
-#>  4 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
-#>  5 B_DL_val … Anas s…     4 2020-07-29 05:46:48 2020-07-29 05:4…               0
-#>  6 B_DL_val … Anas s…     1 2020-07-30 04:29:31 2020-07-30 04:2…           81763
-#>  7 B_DL_val … Anas s…     1 2020-08-05 05:02:01 2020-08-05 05:0…          520350
-#>  8 B_DL_val … Castor…     1 2020-06-19 22:05:55 2020-06-19 22:0…               0
-#>  9 B_DL_val … Martes…     1 2020-06-28 22:01:12 2020-06-28 22:0…               0
-#> 10 B_DL_val … Mustel…     1 2020-06-19 22:31:51 2020-06-19 22:3…               0
-#> 11 B_DL_val … Mustel…     1 2020-06-23 23:33:53 2020-06-23 23:3…          349322
-#> 12 B_DL_val … Mustel…     1 2020-06-28 23:33:16 2020-06-28 23:3…          431963
-#> 13 B_DL_val … Vulpes…     1 2020-06-26 02:09:25 2020-06-26 02:0…               0
+#>  1 B_DL_val … Anas p…     2 2020-07-29 05:46:48 2020-07-29 05:4…               0
+#>  2 B_DL_val … Anas p…     2 2020-07-30 04:29:31 2020-07-30 04:2…           81763
+#>  3 B_DL_val … Anas p…     2 2020-07-31 04:43:33 2020-07-31 04:4…           87242
+#>  4 B_DL_val … Anas p…     5 2020-08-02 05:00:14 2020-08-02 05:0…          173801
+#>  5 B_DL_val … Anas p…     3 2020-08-03 05:09:12 2020-08-03 05:0…           86938
+#>  6 B_DL_val … Anas p…     3 2020-08-04 05:04:09 2020-08-04 05:0…           86097
+#>  7 B_HS_val … Anas p…     1 2020-05-30 02:57:37 2020-05-30 02:5…               0
+#>  8 B_HS_val … Anas p…     2 2020-05-31 04:05:10 2020-05-31 04:0…           90453
+#>  9 B_HS_val … Anas p…     1 2020-06-06 04:11:07 2020-06-06 04:1…          518757
+#> 10 B_HS_val … Anas p…     9 2020-06-06 04:11:07 2020-06-06 04:1…               0
+#> # ℹ 19 more rows
 #> # ℹ 9 more variables: delta.time.mins <dbl>, delta.time.hours <dbl>,
 #> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
 #> #   longitude <dbl>, clock <dbl>, solar <dbl>

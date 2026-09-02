@@ -6,9 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Camera operation matrix • camtraptor</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Camera operation matrix">
 </head>
@@ -20,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">camtraptor</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.28.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,10 +38,16 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/camera-operation-matrix.html">Camera operation matrix</a></li>
-    <li><a class="dropdown-item" href="../articles/filter-predicates.html">Filter predicates</a></li>
-    <li><a class="dropdown-item" href="../articles/record-table.html">Record table</a></li>
+<li><a class="dropdown-item" href="../articles/workflow.html">Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/visualize-deployment-features.html">Visualize deployment features</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Create outputs for camtrapR</h6></li>
+    <li><a class="dropdown-item" href="../articles/record-table.html">Record table</a></li>
+    <li><a class="dropdown-item" href="../articles/camera-operation-matrix.html">Camera operation matrix</a></li>
+    <li><a class="dropdown-item" href="../articles/detection-history-matrix.html">Detection history matrix</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Other</h6></li>
+    <li><a class="dropdown-item" href="../articles/calculate-animal-position.html">Calculate animal position</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -59,26 +70,37 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Camera operation matrix</h1>
-                        <h4 data-toc-skip class="author">Damiano
-Oldoni</h4>
+                        <h4 data-toc-skip class="author">Damiano Oldoni,
+Wolf Missotten</h4>
             
-            <h4 data-toc-skip class="date">2026-04-28</h4>
+            <h4 data-toc-skip class="date">2026-09-02</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/main/vignettes/camera-operation-matrix.Rmd" class="external-link"><code>vignettes/camera-operation-matrix.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/superseded/vignettes/camera-operation-matrix.Rmd" class="external-link"><code>vignettes/camera-operation-matrix.Rmd</code></a></small>
       <div class="d-none name"><code>camera-operation-matrix.Rmd</code></div>
     </div>
 
     
     
-<p>This vignette shows how to get a <em>camera trap station operability
-matrix</em>, shortly called <em>camera operation matrix</em> as returned
-by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/reference/cameraOperation.html" class="external-link">cameraOperation</a>.</p>
+<div class="callout-note">
+<p>This functionality has been superseded because camtrapR supports
+reading Camera Trap Data Packages, see the function
+<code><a href="https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html" class="external-link">camtrapR::readCamtrapDP()</a></code>.</p>
+</div>
+<p>This vignette shows how to get a <strong>camera operation
+matrix</strong> from a Camera Trap Data Package dataset, equivalent to
+the matrix returned by camtrapR’s function
+<code><a href="https://jniedballa.github.io/camtrapR/reference/cameraOperation.html" class="external-link">camtrapR::cameraOperation()</a></code>.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>Load packages:</p>
+<p>Load the packages that will be used in this example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">camtraptor</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/camtraptor" class="external-link">camtraptor</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'camtraptor'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     contributors</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
@@ -94,846 +116,256 @@ by camtrapR’s function <a href="https://jniedballa.github.io/camtrapR/referenc
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<p>By loading package <code>camtraptor</code>, a camera trap data
-package called <code>mica</code> is made available. This data package
-contains camera trap data of musk rats and coypus. We will use this
-variable from now on.</p>
+<p>For this example the function <code><a href="../reference/example_dataset.html">example_dataset()</a></code> is used
+to load an example Camera Trap Data Package dataset. The dataset is
+derived from a study on detecting invasive muskrat and coypu populations
+using camera traps.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/example_dataset.html">example_dataset</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="camera-operation-matrix">Camera operation matrix<a class="anchor" aria-label="anchor" href="#camera-operation-matrix"></a>
+<h2 id="generating-the-camera-operation-matrix">Generating the camera operation matrix<a class="anchor" aria-label="anchor" href="#generating-the-camera-operation-matrix"></a>
 </h2>
-<p>You can create a camera operation matrix by passing a camera trap
-data package:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                               2019-10-09 2019-10-10 2019-10-11 2019-10-12</span></span>
+<p>The camera operation matrix can be generated with
+<code><a href="../reference/get_cam_op.html">get_cam_op()</a></code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cam_op</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<p>For readability, let’s only print the first 45 columns of the camera
+operation matrix (i.e. the first 45 days) instead of all 324:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cam_op</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">45</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                               2020-05-30 2020-05-31 2020-06-01 2020-06-02</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark       0.8766551          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                     0.5290856          1          1          1</span></span>
-<span><span class="co">#&gt;                               2019-10-13 2019-10-14 2019-10-15 2019-10-16</span></span>
+<span><span class="co">#&gt;                               2020-06-03 2020-06-04 2020-06-05 2020-06-06</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                             1          1          1          1</span></span>
-<span><span class="co">#&gt;                               2019-10-17 2019-10-18 2019-10-19 2019-10-20</span></span>
+<span><span class="co">#&gt;                               2020-06-07 2020-06-08 2020-06-09 2020-06-10</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                             1          1          1          1</span></span>
-<span><span class="co">#&gt;                               2019-10-21 2019-10-22 2019-10-23 2019-10-24</span></span>
+<span><span class="co">#&gt;                               2020-06-11 2020-06-12 2020-06-13 2020-06-14</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                             1          1  0.4168519         NA</span></span>
-<span><span class="co">#&gt;                               2019-10-25 2019-10-26 2019-10-27 2019-10-28</span></span>
+<span><span class="co">#&gt;                               2020-06-15 2020-06-16 2020-06-17 2020-06-18</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-10-29 2019-10-30 2019-10-31 2019-11-01</span></span>
+<span><span class="co">#&gt;                               2020-06-19 2020-06-20 2020-06-21 2020-06-22</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark           1.000          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom              0.125          1          1          1</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-02 2019-11-03 2019-11-04 2019-11-05</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-06 2019-11-07 2019-11-08 2019-11-09</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-10 2019-11-11 2019-11-12 2019-11-13</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-14 2019-11-15 2019-11-16 2019-11-17</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-18 2019-11-19 2019-11-20 2019-11-21</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-22 2019-11-23 2019-11-24 2019-11-25</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-26 2019-11-27 2019-11-28 2019-11-29</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-11-30 2019-12-01 2019-12-02 2019-12-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-04 2019-12-05 2019-12-06 2019-12-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-08 2019-12-09 2019-12-10 2019-12-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-12 2019-12-13 2019-12-14 2019-12-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-16 2019-12-17 2019-12-18 2019-12-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-20 2019-12-21 2019-12-22 2019-12-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-24 2019-12-25 2019-12-26 2019-12-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2019-12-28 2019-12-29 2019-12-30 2019-12-31</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-01 2020-01-02 2020-01-03 2020-01-04</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-05 2020-01-06 2020-01-07 2020-01-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-09 2020-01-10 2020-01-11 2020-01-12</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-13 2020-01-14 2020-01-15 2020-01-16</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-17 2020-01-18 2020-01-19 2020-01-20</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-21 2020-01-22 2020-01-23 2020-01-24</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-25 2020-01-26 2020-01-27 2020-01-28</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-01-29 2020-01-30 2020-01-31 2020-02-01</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-02 2020-02-03 2020-02-04 2020-02-05</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-06 2020-02-07 2020-02-08 2020-02-09</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-10 2020-02-11 2020-02-12 2020-02-13</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-14 2020-02-15 2020-02-16 2020-02-17</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-18 2020-02-19 2020-02-20 2020-02-21</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-22 2020-02-23 2020-02-24 2020-02-25</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-02-26 2020-02-27 2020-02-28 2020-02-29</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-01 2020-03-02 2020-03-03 2020-03-04</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-05 2020-03-06 2020-03-07 2020-03-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-09 2020-03-10 2020-03-11 2020-03-12</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-13 2020-03-14 2020-03-15 2020-03-16</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-17 2020-03-18 2020-03-19 2020-03-20</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-21 2020-03-22 2020-03-23 2020-03-24</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-25 2020-03-26 2020-03-27 2020-03-28</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-03-29 2020-03-30 2020-03-31 2020-04-01</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-02 2020-04-03 2020-04-04 2020-04-05</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-06 2020-04-07 2020-04-08 2020-04-09</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-10 2020-04-11 2020-04-12 2020-04-13</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-14 2020-04-15 2020-04-16 2020-04-17</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-18 2020-04-19 2020-04-20 2020-04-21</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-22 2020-04-23 2020-04-24 2020-04-25</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-26 2020-04-27 2020-04-28 2020-04-29</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-04-30 2020-05-01 2020-05-02 2020-05-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-04 2020-05-05 2020-05-06 2020-05-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-08 2020-05-09 2020-05-10 2020-05-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-12 2020-05-13 2020-05-14 2020-05-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-16 2020-05-17 2020-05-18 2020-05-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-20 2020-05-21 2020-05-22 2020-05-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-24 2020-05-25 2020-05-26 2020-05-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-05-28 2020-05-29 2020-05-30 2020-05-31</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-01 2020-06-02 2020-06-03 2020-06-04</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-05 2020-06-06 2020-06-07 2020-06-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-09 2020-06-10 2020-06-11 2020-06-12</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-13 2020-06-14 2020-06-15 2020-06-16</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-17 2020-06-18 2020-06-19 2020-06-20</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA      0.125          1</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-21 2020-06-22 2020-06-23 2020-06-24</span></span>
+<span><span class="co">#&gt;                               2020-06-23 2020-06-24 2020-06-25 2020-06-26</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom                  1          1          1          1</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-25 2020-06-26 2020-06-27 2020-06-28</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                  1          1          1  0.9815046</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-06-29 2020-06-30 2020-07-01 2020-07-02</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-03 2020-07-04 2020-07-05 2020-07-06</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-07 2020-07-08 2020-07-09 2020-07-10</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-11 2020-07-12 2020-07-13 2020-07-14</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-15 2020-07-16 2020-07-17 2020-07-18</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-19 2020-07-20 2020-07-21 2020-07-22</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-23 2020-07-24 2020-07-25 2020-07-26</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-27 2020-07-28 2020-07-29 2020-07-30</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA  0.7710532          1</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-07-31 2020-08-01 2020-08-02 2020-08-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          1          1          1          1</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-04 2020-08-05 2020-08-06 2020-08-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          1          1          1          1</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-08 2020-08-09 2020-08-10 2020-08-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver  0.1810185         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-12 2020-08-13 2020-08-14 2020-08-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-16 2020-08-17 2020-08-18 2020-08-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-20 2020-08-21 2020-08-22 2020-08-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-24 2020-08-25 2020-08-26 2020-08-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-08-28 2020-08-29 2020-08-30 2020-08-31</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-01 2020-09-02 2020-09-03 2020-09-04</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-05 2020-09-06 2020-09-07 2020-09-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-09 2020-09-10 2020-09-11 2020-09-12</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-13 2020-09-14 2020-09-15 2020-09-16</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-17 2020-09-18 2020-09-19 2020-09-20</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-21 2020-09-22 2020-09-23 2020-09-24</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-25 2020-09-26 2020-09-27 2020-09-28</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-09-29 2020-09-30 2020-10-01 2020-10-02</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-03 2020-10-04 2020-10-05 2020-10-06</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-07 2020-10-08 2020-10-09 2020-10-10</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-11 2020-10-12 2020-10-13 2020-10-14</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-15 2020-10-16 2020-10-17 2020-10-18</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-19 2020-10-20 2020-10-21 2020-10-22</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-23 2020-10-24 2020-10-25 2020-10-26</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-27 2020-10-28 2020-10-29 2020-10-30</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-10-31 2020-11-01 2020-11-02 2020-11-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-04 2020-11-05 2020-11-06 2020-11-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-08 2020-11-09 2020-11-10 2020-11-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-12 2020-11-13 2020-11-14 2020-11-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-16 2020-11-17 2020-11-18 2020-11-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-20 2020-11-21 2020-11-22 2020-11-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-24 2020-11-25 2020-11-26 2020-11-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-11-28 2020-11-29 2020-11-30 2020-12-01</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-02 2020-12-03 2020-12-04 2020-12-05</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-06 2020-12-07 2020-12-08 2020-12-09</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-10 2020-12-11 2020-12-12 2020-12-13</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-14 2020-12-15 2020-12-16 2020-12-17</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-18 2020-12-19 2020-12-20 2020-12-21</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-22 2020-12-23 2020-12-24 2020-12-25</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-26 2020-12-27 2020-12-28 2020-12-29</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2020-12-30 2020-12-31 2021-01-01 2021-01-02</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-03 2021-01-04 2021-01-05 2021-01-06</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-07 2021-01-08 2021-01-09 2021-01-10</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-11 2021-01-12 2021-01-13 2021-01-14</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-15 2021-01-16 2021-01-17 2021-01-18</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-19 2021-01-20 2021-01-21 2021-01-22</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-23 2021-01-24 2021-01-25 2021-01-26</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-27 2021-01-28 2021-01-29 2021-01-30</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-01-31 2021-02-01 2021-02-02 2021-02-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-04 2021-02-05 2021-02-06 2021-02-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-08 2021-02-09 2021-02-10 2021-02-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-12 2021-02-13 2021-02-14 2021-02-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-16 2021-02-17 2021-02-18 2021-02-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-20 2021-02-21 2021-02-22 2021-02-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-24 2021-02-25 2021-02-26 2021-02-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-02-28 2021-03-01 2021-03-02 2021-03-03</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-04 2021-03-05 2021-03-06 2021-03-07</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-08 2021-03-09 2021-03-10 2021-03-11</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-12 2021-03-13 2021-03-14 2021-03-15</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-16 2021-03-17 2021-03-18 2021-03-19</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-20 2021-03-21 2021-03-22 2021-03-23</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-24 2021-03-25 2021-03-26 2021-03-27</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA  0.1400694</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-03-28 2021-03-29 2021-03-30 2021-03-31</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1          1          1          1</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-04-01 2021-04-02 2021-04-03 2021-04-04</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1          1          1          1</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-04-05 2021-04-06 2021-04-07 2021-04-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1          1          1          1</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-04-09 2021-04-10 2021-04-11 2021-04-12</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1          1          1          1</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-04-13 2021-04-14 2021-04-15 2021-04-16</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1          1          1          1</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA         NA         NA</span></span>
-<span><span class="co">#&gt;                               2021-04-17 2021-04-18</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA</span></span>
-<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA</span></span>
-<span><span class="co">#&gt; B_DM_val 4_'t WAD                      1  0.8923611</span></span>
-<span><span class="co">#&gt; Mica Viane                            NA         NA</span></span></code></pre></div>
-<p>The function will read the <code>deployments</code> slot of the data
-package to create the matrix.</p>
-<p>The matrix rows are the location names, by default the values of
-field <code>locationName</code> of <code>deployments</code>. Column
-names are dates. The matrix values are: 0 if station is not active, an
-integer (1 or more) if one or more deployments linked to the same
-station are fully active during the whole day and a decimal value for
-partially active stations.</p>
-<p>In the example above there was a one-to-one relation between
-deployments and locations: the daily effort is between 0 and 1.</p>
-<p>In the example below we show what happens if all four deployments are
-set to the same location (<code>B_DL_val 5_beek kleine vijver</code>)
-and they are active during the same days:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mica1</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
-<span><span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span> <span class="op">&lt;-</span> <span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">start</span> <span class="op">&lt;-</span> <span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">end</span> <span class="op">&lt;-</span> <span class="va">mica1</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">multiple_deploys_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica1</span><span class="op">)</span></span>
-<span><span class="va">multiple_deploys_matrix</span></span>
-<span><span class="co">#&gt;                               2020-07-29 2020-07-30 2020-07-31 2020-08-01</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver   3.084213          4          4          4</span></span>
-<span><span class="co">#&gt;                               2020-08-02 2020-08-03 2020-08-04 2020-08-05</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          4          4          4          4</span></span>
-<span><span class="co">#&gt;                               2020-08-06 2020-08-07 2020-08-08</span></span>
-<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver          4          4  0.7240741</span></span></code></pre></div>
-<p>In the example below we simulate a location
-(<code>B_DM_val 4_'t WAD</code>) linked to two deployments active in two
-different periods:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mica2</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
-<span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
-<span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">locationName</span>, <span class="va">start</span>, <span class="va">end</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
-<span><span class="co">#&gt;   locationName                  start               end                </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B_DL_val 5_beek kleine vijver 2020-07-29 <span style="color: #949494;">05:29:41</span> 2020-08-08 <span style="color: #949494;">04:20:40</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B_DL_val 3_dikke boom         2020-06-19 <span style="color: #949494;">21:00:00</span> 2020-06-28 <span style="color: #949494;">23:33:22</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B_DM_val 4_'t WAD             2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-04-18 <span style="color: #949494;">21:25:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> B_DM_val 4_'t WAD             2021-04-23 <span style="color: #949494;">21:25:00</span> 2021-04-28 <span style="color: #949494;">21:25:00</span></span></span></code></pre></div>
-<p>This results in the following camera operation matrix:</p>
+<span><span class="co">#&gt;                               2020-06-27 2020-06-28 2020-06-29 2020-06-30</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark               1  1.0000000          1          1</span></span>
+<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom                  1  0.9815046         NA         NA</span></span>
+<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt;                               2020-07-01 2020-07-02 2020-07-03 2020-07-04</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark       0.4039468         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt;                               2020-07-05 2020-07-06 2020-07-07 2020-07-08</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark              NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt;                               2020-07-09 2020-07-10 2020-07-11 2020-07-12</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark              NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA         NA         NA         NA</span></span>
+<span><span class="co">#&gt;                               2020-07-13</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark              NA</span></span>
+<span><span class="co">#&gt; B_DL_val 5_beek kleine vijver         NA</span></span>
+<span><span class="co">#&gt; B_DL_val 3_dikke boom                 NA</span></span>
+<span><span class="co">#&gt; B_DM_val 4_'t WAD                     NA</span></span></code></pre></div>
+<p>To build this matrix, the function reads the <code>deployments</code>
+slot of the Camera Trap Data Package. Row names are station names, by
+default taken from the <code>locationName</code> column of
+<code>deployments</code>. Column names are dates. The matrix values
+represent the daily effort:</p>
+<ul>
+<li>
+<code>NA</code>: the camera was not set up on that day.</li>
+<li>
+<code>1</code>: the camera was fully active for the entire day.</li>
+<li>A decimal between 0 and 1: the camera was partially active (e.g. on
+the first or last day of a deployment).</li>
+<li>Greater than <code>1</code>: multiple deployments at the same
+location were active on that day.</li>
+</ul>
+<p>In the example above, no location has overlapping deployments, so no
+values greater than 1 occur in the matrix. To demonstrate the scenario
+where values are greater than <code>1</code>, the example below assigns
+all four deployments to the same location
+(<code>B_HS_val 2_processiepark</code>):</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">two_deploys_two_periods_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica2</span><span class="op">)</span></span>
-<span><span class="va">days_to_show</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                    <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">mica2</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>                    by <span class="op">=</span> <span class="st">"days"</span><span class="op">)</span></span>
-<span><span class="va">two_deploys_two_periods_matrix</span><span class="op">[</span><span class="fl">3</span>,<span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">days_to_show</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt; 2021-03-27 2021-03-28 2021-03-29 2021-03-30 2021-03-31 2021-04-01 2021-04-02 </span></span>
-<span><span class="co">#&gt;  0.1400694  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
-<span><span class="co">#&gt; 2021-04-03 2021-04-04 2021-04-05 2021-04-06 2021-04-07 2021-04-08 2021-04-09 </span></span>
+<code class="sourceCode R"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
+<span><span class="co"># Assigning all four deployments to the first location</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentStart</span><span class="op">[</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentStart</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentEnd</span><span class="op">[</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentEnd</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co"># Visualize camera operation matrix</span></span>
+<span><span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                          2020-05-30 2020-05-31 2020-06-01 2020-06-02 2020-06-03</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark    3.50662          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-04 2020-06-05 2020-06-06 2020-06-07 2020-06-08</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-09 2020-06-10 2020-06-11 2020-06-12 2020-06-13</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-14 2020-06-15 2020-06-16 2020-06-17 2020-06-18</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-19 2020-06-20 2020-06-21 2020-06-22 2020-06-23</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-24 2020-06-25 2020-06-26 2020-06-27 2020-06-28</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4          4          4          4</span></span>
+<span><span class="co">#&gt;                          2020-06-29 2020-06-30 2020-07-01</span></span>
+<span><span class="co">#&gt; B_HS_val 2_processiepark          4          4   1.615787</span></span></code></pre></div>
+<p>To demonstrate the scenario where a single location is linked to
+multiple (non-overlapping) deployments, the example below assigns
+location <code>B_HS_val 2_processiepark</code> to two separate
+deployments:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
+<span><span class="co"># Assigning the first location to two separate deployments</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">locationName</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentStart</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentEnd</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentEnd</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">deploymentStart</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://lubridate.tidyverse.org/reference/duration.html" class="external-link">ddays</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co"># Visualize deployments</span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">locationName</span>, <span class="va">deploymentStart</span>, <span class="va">deploymentEnd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   locationName             deploymentStart     deploymentEnd      </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> B_HS_val 2_processiepark 2020-05-30 <span style="color: #949494;">02:57:37</span> 2020-07-01 <span style="color: #949494;">09:41:41</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> B_HS_val 2_processiepark 2020-07-06 <span style="color: #949494;">09:41:41</span> 2020-07-11 <span style="color: #949494;">09:41:41</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B_DL_val 3_dikke boom    2020-06-19 <span style="color: #949494;">21:00:00</span> 2020-06-28 <span style="color: #949494;">23:33:22</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> B_DM_val 4_'t WAD        2021-03-27 <span style="color: #949494;">20:38:18</span> 2021-04-18 <span style="color: #949494;">21:25:00</span></span></span>
+<span></span>
+<span><span class="co"># Visualize camera operation matrix</span></span>
+<span><span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">45</span><span class="op">]</span></span>
+<span><span class="co">#&gt; 2020-05-30 2020-05-31 2020-06-01 2020-06-02 2020-06-03 2020-06-04 2020-06-05 </span></span>
+<span><span class="co">#&gt;  0.8766551  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
+<span><span class="co">#&gt; 2020-06-06 2020-06-07 2020-06-08 2020-06-09 2020-06-10 2020-06-11 2020-06-12 </span></span>
 <span><span class="co">#&gt;  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
-<span><span class="co">#&gt; 2021-04-10 2021-04-11 2021-04-12 2021-04-13 2021-04-14 2021-04-15 2021-04-16 </span></span>
+<span><span class="co">#&gt; 2020-06-13 2020-06-14 2020-06-15 2020-06-16 2020-06-17 2020-06-18 2020-06-19 </span></span>
 <span><span class="co">#&gt;  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
-<span><span class="co">#&gt; 2021-04-17 2021-04-18 2021-04-19 2021-04-20 2021-04-21 2021-04-22 2021-04-23 </span></span>
-<span><span class="co">#&gt;  1.0000000  0.8923611         NA         NA         NA         NA  0.1076389 </span></span>
-<span><span class="co">#&gt; 2021-04-24 2021-04-25 2021-04-26 2021-04-27 2021-04-28 </span></span>
-<span><span class="co">#&gt;  1.0000000  1.0000000  1.0000000  1.0000000  0.8923611</span></span></code></pre></div>
+<span><span class="co">#&gt; 2020-06-20 2020-06-21 2020-06-22 2020-06-23 2020-06-24 2020-06-25 2020-06-26 </span></span>
+<span><span class="co">#&gt;  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
+<span><span class="co">#&gt; 2020-06-27 2020-06-28 2020-06-29 2020-06-30 2020-07-01 2020-07-02 2020-07-03 </span></span>
+<span><span class="co">#&gt;  1.0000000  1.0000000  1.0000000  1.0000000  0.4039468         NA         NA </span></span>
+<span><span class="co">#&gt; 2020-07-04 2020-07-05 2020-07-06 2020-07-07 2020-07-08 2020-07-09 2020-07-10 </span></span>
+<span><span class="co">#&gt;         NA         NA  0.5960532  1.0000000  1.0000000  1.0000000  1.0000000 </span></span>
+<span><span class="co">#&gt; 2020-07-11 2020-07-12 2020-07-13 </span></span>
+<span><span class="co">#&gt;  0.4039468         NA         NA</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="station-names">Station names<a class="anchor" aria-label="anchor" href="#station-names"></a>
 </h3>
-<p>You can specify the column containing the station names instead of
-using the default <code>locationName</code>. In the example below we use
-the column <code>locationID</code>. A small preview of the matrix is
-shown:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cam_op_with_locationID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span>, station_col <span class="op">=</span> <span class="st">"locationID"</span><span class="op">)</span></span>
-<span><span class="va">cam_op_with_locationID</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
-<span><span class="co">#&gt;                                      2019-10-09 2019-10-10</span></span>
-<span><span class="co">#&gt; 2df5259b-b4b4-4f43-8cf7-effcced06d6f         NA         NA</span></span>
-<span><span class="co">#&gt; ff1535c0-6b5d-44be-b3ef-c4d4204dad74         NA         NA</span></span>
-<span><span class="co">#&gt; ce943ced-1bcf-4140-9a2e-e8ee5e8c10e6         NA         NA</span></span>
-<span><span class="co">#&gt; 3232bcfd-5dfa-496e-b7ab-14593bb1b7f1  0.5290856          1</span></span></code></pre></div>
-<p>You can also decide to use prefix <code>"Station"</code> in the
-station names as done by camtrapR’s <code>cameraOperation()</code> by
-setting <code>use_prefix = TRUE</code>. A small preview of the entire
-matrix is shown:</p>
+<p>By default, row names are taken from the <code>locationName</code>
+column of <code>deployments</code>. You can specify a different column
+of <code>deployments</code> using <code>station_col</code>. The example
+below uses <code>locationID</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cam_op_with_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica</span>, use_prefix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">cam_op_with_prefix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
-<span><span class="co">#&gt;                                      2019-10-09 2019-10-10</span></span>
-<span><span class="co">#&gt; StationB_DL_val 5_beek kleine vijver         NA         NA</span></span>
-<span><span class="co">#&gt; StationB_DL_val 3_dikke boom                 NA         NA</span></span>
-<span><span class="co">#&gt; StationB_DM_val 4_'t WAD                     NA         NA</span></span>
-<span><span class="co">#&gt; StationMica Viane                     0.5290856          1</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cam_op_with_locationID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  station_col <span class="op">=</span> <span class="st">"locationID"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># Since the full matrix would be too wide to display here, we only inspect</span></span>
+<span><span class="co"># the row names:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_locationID</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "e254a13c" "2df5259b" "ff1535c0" "ce943ced"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="session-and-camera-ids">Session and camera IDs<a class="anchor" aria-label="anchor" href="#session-and-camera-ids"></a>
 </h3>
-<p>You can specify the column containing the camera IDs to be added to
-the station names following the camtrapR’s convention:
-<code>Station__CAM_CameraID</code>. Only the row names are shown:</p>
+<p>Let’s first extend the dataset so <code>deployments</code> contains a
+column for <code>cameraID</code> and <code>sessionID</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mica_cameras</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
-<span><span class="va">mica_cameras</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">cameraID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">cam_op_with_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica_cameras</span>, camera_col <span class="op">=</span> <span class="st">"cameraID"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_camera_ids</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__CAM_1"</span></span>
-<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__CAM_2"        </span></span>
-<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__CAM_3"            </span></span>
-<span><span class="co">#&gt; [4] "Mica Viane__CAM_4"</span></span></code></pre></div>
-<p>You cans also add the session IDs using <code>session_col</code>
-argument, following the camtrapR’s convention:
+<code class="sourceCode R"><span><span class="va">x_extended</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x_extended</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deployments.html">deployments</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sessionID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cameraID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You can specify the column containing the session IDs to be added to
+the station names using the <code>session_col</code> argument. The
+sessionID will be displayed following camtrapR’s convention:
 <code>Station__SESS_sessionID</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mica_sessions</span> <span class="op">&lt;-</span> <span class="va">mica</span></span>
-<span><span class="va">mica_sessions</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">session</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">cam_op_with_session_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span><span class="va">mica_sessions</span>, session_col <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cam_op_with_session_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">x_extended</span>,</span>
+<span>  session_col <span class="op">=</span> <span class="st">"sessionID"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># Since the full matrix would be too wide to display here, we only inspect</span></span>
+<span><span class="co"># the row names:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_session_ids</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__SESS_1"</span></span>
-<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__SESS_2"        </span></span>
-<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__SESS_3"            </span></span>
-<span><span class="co">#&gt; [4] "Mica Viane__SESS_4"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "B_HS_val 2_processiepark__SESS_1"     </span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 5_beek kleine vijver__SESS_2"</span></span>
+<span><span class="co">#&gt; [3] "B_DL_val 3_dikke boom__SESS_3"        </span></span>
+<span><span class="co">#&gt; [4] "B_DM_val 4_'t WAD__SESS_4"</span></span></code></pre></div>
+<p>You can also specify the column containing the camera IDs to be added
+to the station names following camtrapR’s convention:
+<code>Station__CAM_CameraID</code> using the <code>camera_col</code>
+argument:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cam_op_with_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">x_extended</span>,</span>
+<span>  camera_col <span class="op">=</span> <span class="st">"cameraID"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># Since the full matrix would be too wide to display here, we only inspect</span></span>
+<span><span class="co"># the row names:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_camera_ids</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "B_HS_val 2_processiepark__CAM_1"     </span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 5_beek kleine vijver__CAM_2"</span></span>
+<span><span class="co">#&gt; [3] "B_DL_val 3_dikke boom__CAM_3"        </span></span>
+<span><span class="co">#&gt; [4] "B_DM_val 4_'t WAD__CAM_4"</span></span></code></pre></div>
 <p>To use both camera and session IDs, the camtrapR’s convention
 <code>Station__SESS_SessionID__CAM_CameraID</code> is followed:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mica_sessions</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">deployments</span><span class="op">$</span><span class="va">cameraID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">cam_op_with_session_and_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
-<span>  <span class="va">mica_sessions</span>, </span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cam_op_with_session_and_camera_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">x_extended</span>,</span>
 <span>  camera_col <span class="op">=</span> <span class="st">"cameraID"</span>,</span>
-<span>  session_col <span class="op">=</span> <span class="st">"session"</span></span>
+<span>  session_col <span class="op">=</span> <span class="st">"sessionID"</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co"># Since the full matrix would be too wide to display here, we only inspect</span></span>
+<span><span class="co"># the row names:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_session_and_camera_ids</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "B_DL_val 5_beek kleine vijver__SESS_1__CAM_1"</span></span>
-<span><span class="co">#&gt; [2] "B_DL_val 3_dikke boom__SESS_2__CAM_2"        </span></span>
-<span><span class="co">#&gt; [3] "B_DM_val 4_'t WAD__SESS_3__CAM_3"            </span></span>
-<span><span class="co">#&gt; [4] "Mica Viane__SESS_4__CAM_4"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "B_HS_val 2_processiepark__SESS_1__CAM_1"     </span></span>
+<span><span class="co">#&gt; [2] "B_DL_val 5_beek kleine vijver__SESS_2__CAM_2"</span></span>
+<span><span class="co">#&gt; [3] "B_DL_val 3_dikke boom__SESS_3__CAM_3"        </span></span>
+<span><span class="co">#&gt; [4] "B_DM_val 4_'t WAD__SESS_4__CAM_4"</span></span></code></pre></div>
+<p>You can also use the prefix <code>"Station"</code> in the station
+names as done by camtrapR’s <code>cameraOperation()</code> by setting
+<code>use_prefix = TRUE</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cam_op_with_session_and_camera_ids_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_cam_op.html">get_cam_op</a></span><span class="op">(</span></span>
+<span>  <span class="va">x_extended</span>,</span>
+<span>  camera_col <span class="op">=</span> <span class="st">"cameraID"</span>,</span>
+<span>  session_col <span class="op">=</span> <span class="st">"sessionID"</span>,</span>
+<span>  use_prefix <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co"># Since the full matrix would be too wide to display here, we only inspect</span></span>
+<span><span class="co"># the row names:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cam_op_with_session_and_camera_ids_prefix</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "StationB_HS_val 2_processiepark__SESS_1__CAM_1"     </span></span>
+<span><span class="co">#&gt; [2] "StationB_DL_val 5_beek kleine vijver__SESS_2__CAM_2"</span></span>
+<span><span class="co">#&gt; [3] "StationB_DL_val 3_dikke boom__SESS_3__CAM_3"        </span></span>
+<span><span class="co">#&gt; [4] "StationB_DM_val 4_'t WAD__SESS_4__CAM_4"</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -943,11 +375,11 @@ argument, following the camtrapR’s convention:
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Damiano Oldoni, Peter Desmet, Pieter Huybrechts, Research Foundation - Flanders.</p>
+  <p>Developed by Damiano Oldoni, Peter Desmet, Sanne Govaert, Pieter Huybrechts, Wolf Missotten, Research Foundation - Flanders.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

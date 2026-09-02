@@ -77,7 +77,7 @@ improve it is very welcome!
 #### The website
 
 [This website](https://inbo.github.io/camtraptor) is generated with
-[`pkgdown`](http://pkgdown.r-lib.org/). That means we don’t have to
+[`pkgdown`](https://pkgdown.r-lib.org/). That means we don’t have to
 write any html: content is pulled together from documentation in the
 code, vignettes,
 [Markdown](https://guides.github.com/features/mastering-markdown/)

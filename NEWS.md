@@ -92,13 +92,12 @@ camtraptor | camtrapR
 
 The following functions still work for now, but **will be removed in a future version**:
 
-Before  | Now
+Before | Now
 --- | ---
 `animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` (#402, #242)
 `calc_animal_pos()` | `calculate_individual_radius_angle()` (#242)
 `calib_models` | `calibration_models` (#402, #242)
 `get_custom_effort()` | `summarize_deployments()`, column `"effort_duration"` (#366)
-
 `get_effort()` | `summarize_deployments()`, column `"effort_duration"` (#366)
 `get_n_individuals()` | `summarize_observations()`, column `"sum_count"` (#367)
 `get_n_obs()` | `summarize_observations()`, column `"n_observations"` (#367)

@@ -5,10 +5,9 @@
 #'
 #' These datasets are deprecated:
 #' - Use [example_dataset()] instead of `mica`.
-#' - Use `animal_positions` instead of `animal_pos`. Note that the column 
+#' - Use `animal_positions` instead of `animal_pos`. Note that the column
 #'   `"sequenceID"` has been renamed to `"eventID"`.
 #' - Use `calibration_models` instead of `calib_models`.
-#' 
 #' @name mica
 #' @family sample data
 #' @family read sample data functions
@@ -33,11 +32,12 @@ NULL
 #' @noRd
 deprecated_object <- function(name, new_name, ns) {
   pkgname <- getNamespaceName(ns)
-  
-  if (exists(name, envir = ns, inherits = FALSE) && !bindingIsActive(name, ns)) {
+  if (exists(name, envir = ns, inherits = FALSE) &&
+        !bindingIsActive(name, ns)) {
     rm(list = name, envir = ns)
   }
-  if (!exists(name, envir = ns, inherits = FALSE) || !bindingIsActive(name, ns)) {
+  if (!exists(name, envir = ns, inherits = FALSE) ||
+        !bindingIsActive(name, ns)) {
     makeActiveBinding(name, function() {
       target <- tryCatch(
         getExportedValue(pkgname, new_name),

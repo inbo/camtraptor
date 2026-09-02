@@ -14,11 +14,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-rlang::local_options(lifecycle_verbosity = "quiet")
 ```
 
 ::: {.callout-note}
-This functionality has been deprecated because camtrapR supports reading Camera Trap Data Packages, see the function `camtrapR::readCamtrapDP()`.
+This functionality has been superseded because camtrapR supports reading Camera Trap Data Packages, see the function `camtrapR::readCamtrapDP()`.
 :::
 
 This vignette shows how to get a **detection history matrix** from a Camera Trap Data Package dataset, equivalent to the matrix returned by camtrapR's function `camtrapR::detectionHistory()`.

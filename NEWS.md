@@ -80,13 +80,13 @@ The following functions are reexported from `{camtrapdp}`:
 
 ## Superseded functionality
 
-The following functions still work, but are superseded in favor of correspondent `{camtrapR}` functions:
+The following functions will continue to work, but are superseded in favour of equivalent `{camtrapR}` functions:
 
-camtraptor | camtrapR
+Before | Now
 --- | ---
-`get_cam_op()` | `camtrapR::cameraOperation()` (#419)
-`get_detection_history()` | `camtrapR::detectionHistory()` (#419)
-`get_record_table()` | `camtrapR::recordTable()` (#419)
+`get_cam_op()` | `camtrapR::readCamtrapDP()` and `camtrapR::cameraOperation()` (#419)
+`get_detection_history()` | `camtrapR::readCamtrapDP()` and `camtrapR::detectionHistory()` (#419)
+`get_record_table()` | `camtrapR::readCamtrapDP()` and `camtrapR::recordTable()` (#419)
 
 ## Deprecated functionality
 

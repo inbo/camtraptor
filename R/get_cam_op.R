@@ -1,9 +1,9 @@
 #' Get the camera operation matrix
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("superseded")`
 #' 
-#' This function is deprecated because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR now supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::cameraOperation()] instead.
 #' 

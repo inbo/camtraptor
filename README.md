@@ -57,7 +57,7 @@ You can install the stable version of **camtraptor** from the INBO R
 universe:
 
 ``` r
-install.packages("trias", repos = "https://inbo.r-universe.dev")
+install.packages("camtraptor", repos = "https://inbo.r-universe.dev")
 ```
 
 You can install the development version of camtraptor from

@@ -58,7 +58,7 @@ Noticed a typo on the website? Think a function could use a better example? Good
 
 #### Function documentation
 
-Functions are described as comments near their code and translated to documentation using [`roxygen2`](https://klutometis.github.io/roxygen/). If you want to improve a function description:
+Functions are described as comments near their code and translated to documentation using [`roxygen2`](https://roxygen2.r-lib.org/). If you want to improve a function description:
 
 1. Go to `R/` directory in the [code repository][repo].
 2. Look for the file with the name of the function.
@@ -73,7 +73,7 @@ Care to fix bugs or implement new functionality for camtraptor? Awesome! 👏 Ha
 We try to follow the [GitHub flow](https://guides.github.com/introduction/flow/) for development.
 
 1. Fork [this repo][repo] and clone it to your computer. To learn more about this process, see [this guide](https://guides.github.com/activities/forking/).
-2. If you have forked and cloned the project before and it has been a while since you worked on it, [pull changes from the original repo](https://help.github.com/articles/merging-an-upstream-repository-into-your-fork/) to your clone by using `git pull upstream master`.
+2. If you have forked and cloned the project before and it has been a while since you worked on it, [pull changes from the original repo](https://help.github.com/articles/merging-an-upstream-repository-into-your-fork/) to your clone by using `git pull upstream main`.
 3. Open the RStudio project file (`.Rproj`).
 5. Make your changes:
     * Write your code.

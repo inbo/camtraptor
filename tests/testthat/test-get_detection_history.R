@@ -1,40 +1,54 @@
 test_that("Camera operation matrix input, `camOp`, has right format", {
-  rec_table <- get_record_table(mica)
-  cam_op <- get_cam_op(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  rec_table <- get_record_table(x)
+  cam_op <- get_cam_op(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = NULL,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = NULL,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = "not a matrix",
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = "not a matrix",
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = dplyr::as_tibble(cam_op),
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`camOp` must be a matrix.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = dplyr::as_tibble(cam_op),
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`camOp` must be a matrix.",
+    fixed = TRUE
   )
   # All rownames of camOp must be with or without `__SESS_`. No mixed names
   rownames(cam_op)[1] <- stringr::str_c(rownames(cam_op)[1], "__SESS_A")
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
     paste0(
       "No prefix `__SESS_` found in row names of the camera operation ",
       "matrix. If sessions are used, they must be indicated in all ",
@@ -44,15 +58,17 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
   )
   # Sessions are used, but not all rownames have the session after prefix
   # `__SESS_`.
-  cam_op <- get_cam_op(mica)
+  cam_op <- get_cam_op(x)
   rownames(cam_op) <- stringr::str_c(rownames(cam_op), "__SESS_")
   rownames(cam_op)[1:2] <- stringr::str_c(rownames(cam_op)[1:2], "A")
   expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength),
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
     paste0(
       "No session found in some row names of the camera operation matrix. ",
       "Be sure that all row names contain a valid string after prefix ",
@@ -63,179 +79,216 @@ test_that("Camera operation matrix input, `camOp`, has right format", {
 )
 
 test_that("Record table input, `recordTable`, has right format", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 1
-  expect_error(get_detection_history(recordTable = NULL,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",,
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = NULL,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`recordTable` must be a tibble data.frame.",
+    fixed = TRUE
   )
-  expect_error(get_detection_history(recordTable = "not a tibble",
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",,
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = "not a tibble",
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    "`recordTable` must be a tibble data.frame.",
+    fixed = TRUE
   )
-  expect_error(get_detection_history(recordTable = as.matrix(rec_table),
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`recordTable` must be a tibble data.frame.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = as.matrix(rec_table),
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength),
+    "`recordTable` must be a tibble data.frame.",
+    fixed = TRUE
   )
   
   rec_table_no_n <- rec_table
   rec_table_no_n$n <- NULL
   expect_error(
-    get_detection_history(recordTable = rec_table_no_n,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength),
-    paste0("Invalid record table. Must contain at least the columns: ",
-           "`Station`, `Date`, `Species` and `n`."),
-    fixed = TRUE
-  )
-}
-)
-
-test_that("Check species", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
-  output <- "binary"
-  occasionLength <- 1
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = NULL,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`species` must be a character vector of lenght 1.",
-               fixed = TRUE
-  )
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = 1,
-                                     output = output,
-                                     occasionLength = occasionLength),
-               "`species` must be a character vector of lenght 1.",
-               fixed = TRUE
-  )
-  expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = c("Anas platyrhynchos", "Anas strepera"),
-                          output = output,
-                          occasionLength = occasionLength),
-    "`species` must be a character vector of lenght 1.",
-    fixed = TRUE
-  )
-  expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = "not a species",
-                          output = output,
-                          occasionLength = occasionLength),
-    paste0("Invalid value for species parameter: not a species.\n",
-           "Valid inputs are: Anas platyrhynchos, Anas strepera, Ardea, ",
-           "Ardea cinerea, Castor fiber, Homo sapiens, Martes foina, ",
-           "Mustela putorius and Vulpes vulpes"),
+    get_detection_history(
+      recordTable = rec_table_no_n,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength
+    ),
+    paste0(
+      "Invalid record table. Must contain at least the columns: ",
+      "`Station`, `Date`, `Species` and `n`."),
     fixed = TRUE
   )
 })
 
-test_that("Check output", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Check `species`", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
+  output <- "binary"
+  occasionLength <- 1
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = NULL,
+      output = output,
+      occasionLength = occasionLength),
+    "`species` must be a character vector of lenght 1.",
+    fixed = TRUE
+  )
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = 1,
+      output = output,
+      occasionLength = occasionLength),
+    "`species` must be a character vector of lenght 1.",
+    fixed = TRUE
+  )
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = c("Anas platyrhynchos", "Anas strepera"),
+      output = output,
+      occasionLength = occasionLength),
+    "`species` must be a character vector of lenght 1.",
+    fixed = TRUE
+  )
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "not a species",
+      output = output,
+      occasionLength = occasionLength),
+    paste0(
+      "Invalid value for species parameter: not a species.\n",
+      "Valid inputs are: Anas platyrhynchos, Anas strepera, Ardea, ",
+      "Ardea cinerea, Aves, Martes foina, Mustela putorius, ",
+      "Rattus norvegicus and Vulpes vulpes"),
+    fixed = TRUE
+  )
+})
+
+test_that("Check `output`", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- 5
   occasionLength <- 1
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = "Anas platyrhynchos",
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "`output` must be a character vector of lenght 1.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "`output` must be a character vector of lenght 1.",
+    fixed = TRUE
   )
   output <- c(5,2)
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = "Anas platyrhynchos",
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "`output` must be a character vector of lenght 1.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "`output` must be a character vector of lenght 1.",
+    fixed = TRUE
   )
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "wrong"
   occasionLength <- 1
   expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = "Anas platyrhynchos",
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station"),
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = "Anas platyrhynchos",
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
     paste0("Invalid value for output parameter: wrong.\n",
            "Valid inputs are: binary, n_observations and n_individuals"),
     fixed = TRUE
   )
 })
 
-test_that("Check occasionLength", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Check `occasionLength`", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- "not an integer"
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "Invalid `occasionLength`. Must be an integer vector of length 1.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "Invalid `occasionLength`. Must be an integer vector of length 1.",
+    fixed = TRUE
   )
   occasionLength <- c(1,2)
   expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station"),
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
     "Invalid `occasionLength`. Must be an integer vector of length 1.",
     fixed = TRUE
   )
   occasionLength <- -1
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station"),
-               "Invalid `occasionLength`. Must be greater than 0.",
-               fixed = TRUE
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station"),
+    "Invalid `occasionLength`. Must be greater than 0.",
+    fixed = TRUE
   )
 })
 
-test_that("Check minActiveDaysPerOccasion", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Check `minActiveDaysPerOccasion`", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   species <- "Anas platyrhynchos"
   output <- "binary"
   occasionLength <- 5
@@ -284,15 +337,16 @@ test_that("Check minActiveDaysPerOccasion", {
   )
 })
 
-# Check `maxNumberDays`
-test_that("maxNumberDays is NULL or an integer of length 1", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Argument `maxNumberDays` is NULL or an integer of length 1", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   species <- "Anas platyrhynchos"
   occasionLength <- 1
   # `maxNumberDays` is a character, not right class
-  maxNumberDays = "blablabla"
+  maxNumberDays <- "blablabla"
   expect_error(
     get_detection_history(recordTable = rec_table,
                           camOp = cam_op,
@@ -358,15 +412,26 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
       "of columns of `camOp`."),
     fixed = TRUE
   )
-  # maxNumberDays is very short: all records are removed as they are taken after
+  # `maxNumberDays` is very short: all records are removed as they are taken
+  # after `maxNumberDays`
   maxNumberDays <- 1
-  occasionLength <- 1
+  x_plus_2 <- x
+  observations(x_plus_2) <- observations(x_plus_2) %>%
+    dplyr::mutate(
+      eventStart = eventStart + lubridate::ddays(2),
+      eventEnd = eventEnd + lubridate::ddays(2)
+    )
+  deployments(x_plus_2) <- deployments(x_plus_2) %>%
+    dplyr::mutate(deploymentEnd = deploymentEnd + lubridate::ddays(2))
+  media(x_plus_2) <- media(x_plus_2) %>%
+    dplyr::mutate(timestamp = timestamp + lubridate::ddays(2))
+  cam_op_plus_2 <- get_cam_op(x_plus_2)
+  rec_table_plus_2 <- get_record_table(x_plus_2)
   expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
+    get_detection_history(recordTable = rec_table_plus_2,
+                          camOp = cam_op_plus_2,
                           species = species,
                           output = output,
-                          occasionLength = occasionLength,
                           day1 = "station",
                           maxNumberDays = maxNumberDays),
     paste0("All records removed because they are taken after `maxNumberDays` ",
@@ -375,10 +440,11 @@ test_that("maxNumberDays is NULL or an integer of length 1", {
   )
 })
 
-# Check `day1`
-test_that("day1 is equal to `\"station\"` or a valid date", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Argument `day1` is equal to `\"station\"` or a valid date", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -419,10 +485,11 @@ test_that("day1 is equal to `\"station\"` or a valid date", {
   )
 })
 
-# Check `buffer`
-test_that("buffer is NULL or an integer of length 1", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Argument `buffer` is NULL or an integer of length 1", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -434,8 +501,8 @@ test_that("buffer is NULL or an integer of length 1", {
                           output = output,
                           occasionLength = occasionLength,
                           buffer = "blablabla"),
-  paste0("Invalid `buffer`. If defined, ",
-         "it must be an integer of length 1.")
+    paste0("Invalid `buffer`. If defined, ",
+           "it must be an integer of length 1.")
   )
   # `buffer` is a vector with length > 1 
   expect_error(
@@ -461,8 +528,10 @@ test_that("buffer is NULL or an integer of length 1", {
 })
 
 test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -494,14 +563,15 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   # Right error returned: all records removed as first day of the station is
   # 2020-08-03 (2020-07-29 + `buffer`) and the last day is 2020-07-31
   # (2020-07-29 + `maxNumberDays`).
-  expect_error(get_detection_history(recordTable = rec_table,
-                                           camOp = cam_op,
-                                           species = species,
-                                           output = output,
-                                           occasionLength = occasionLength,
-                                           day1 = day1,
-                                           maxNumberDays = maxNumberDays,
-                                           buffer = buffer),
+  expect_error(
+    get_detection_history(recordTable = rec_table,
+                          camOp = cam_op,
+                          species = species,
+                          output = output,
+                          occasionLength = occasionLength,
+                          day1 = day1,
+                          maxNumberDays = maxNumberDays,
+                          buffer = buffer),
     paste0("In all stations, the occasions begin after retrieval. ",
            "Choose a smaller `buffer` argument or a larger `maxNumberDays` ",
            "argument."),
@@ -533,10 +603,11 @@ test_that("Test combination of `day1`/`buffer` and `maxNumberDays`", {
   )
 })
 
-# Check `unmarkedMultFrameInput`
-test_that("unmarkedMultFrameInput is TRUE or FALSE", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Argument `unmarkedMultFrameInput` is TRUE or FALSE", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -564,10 +635,15 @@ test_that("unmarkedMultFrameInput is TRUE or FALSE", {
   )
 })
 
-# Check `unmarkedMultFrameInput`/`day1`
-test_that("day1 must be `\"station\"` if unmarkedMultFrameInput is `TRUE`", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that(
+  paste(
+    "Argument `day1` must be `\"station\"` if unmarkedMultFrameInput",
+    "is `TRUE`"
+    ), {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   species <- "Anas platyrhynchos"
   occasionLength <- 1
@@ -585,36 +661,78 @@ test_that("day1 must be `\"station\"` if unmarkedMultFrameInput is `TRUE`", {
   )
 })
 
-# Test output ####
 
-test_that("Output is a list of three matrices", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
-  output <- "binary"
+# Test output ####
+test_that("Output is a list of three matrices of right types", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   occasionLength <- 1
   species <- "Anas platyrhynchos"
-  res <- get_detection_history(recordTable = rec_table,
+  res_bin <- get_detection_history(recordTable = rec_table,
                                camOp = cam_op,
                                species = species,
-                               output = output,
+                               output = "binary",
                                occasionLength = occasionLength,
                                day1 = "station")
-  expect_type(res, "list")
-  expect_length(res, 3)
-  expect_true(is.matrix(res$detection_history))
-  expect_true(is.matrix(res$effort))
-  expect_true(is.matrix(res$dates))
-  expect_type(res$detection_history, "double")
-  expect_type(res$effort, "double")
-  expect_type(res$dates, "character")
-  expect_identical(rownames(res$detection_history),rownames(cam_op))
-  expect_identical(rownames(res$effort),rownames(cam_op))
-  expect_identical(rownames(res$dates), rownames(cam_op))
+  expect_type(res_bin, "list")
+  expect_length(res_bin, 3)
+  expect_true(is.matrix(res_bin$detection_history))
+  expect_true(is.matrix(res_bin$effort))
+  expect_true(is.matrix(res_bin$dates))
+  expect_type(res_bin$detection_history, "integer")
+  expect_type(res_bin$effort, "double")
+  expect_type(res_bin$dates, "character")
+  expect_identical(rownames(res_bin$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_bin$effort),rownames(cam_op))
+  expect_identical(rownames(res_bin$dates), rownames(cam_op))
+  
+  res_n_obs <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_observations",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_obs, "list")
+  expect_length(res_n_obs, 3)
+  expect_true(is.matrix(res_n_obs$detection_history))
+  expect_true(is.matrix(res_n_obs$effort))
+  expect_true(is.matrix(res_n_obs$dates))
+  expect_type(res_n_obs$detection_history, "integer")
+  expect_type(res_n_obs$effort, "double")
+  expect_type(res_n_obs$dates, "character")
+  expect_identical(rownames(res_n_obs$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_obs$dates), rownames(cam_op))
+  
+  res_n_ind <- get_detection_history(
+    recordTable = rec_table,
+    camOp = cam_op,
+    species = species,
+    output = "n_individuals",
+    occasionLength = occasionLength,
+    day1 = "station")
+  expect_type(res_n_ind, "list")
+  expect_length(res_n_ind, 3)
+  expect_true(is.matrix(res_n_ind$detection_history))
+  expect_true(is.matrix(res_n_ind$effort))
+  expect_true(is.matrix(res_n_ind$dates))
+  expect_type(res_n_ind$detection_history, "integer")
+  expect_type(res_n_ind$effort, "double")
+  expect_type(res_n_ind$dates, "character")
+  expect_identical(rownames(res_n_ind$detection_history),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$effort),rownames(cam_op))
+  expect_identical(rownames(res_n_ind$dates), rownames(cam_op))
+  
 })
 
-test_that("detection history dates and effort are output independent", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Detection history dates and effort are output independent", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -644,9 +762,11 @@ test_that("detection history dates and effort are output independent", {
   expect_identical(res_binary$effort, res_n_individuals$effort)
 })
 
-test_that("dates are in the right ISO format (YYY-MM-DD)", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Dates are in the right ISO format (YYY-MM-DD)", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -675,10 +795,12 @@ test_that(
   paste0("dates are the same as the colnames of camera operation matrix ",
          "with at least one value not NA (occasionLength = 1)"), 
   {
-    cam_op <- get_cam_op(mica)
+    skip_if_offline()
+    x <- example_dataset()
+    cam_op <- get_cam_op(x)
     # Remove columns with NAs only
     cam_op_without_na <- cam_op[, colSums(is.na(cam_op)) != nrow(cam_op)]
-    rec_table <- get_record_table(mica)
+    rec_table <- get_record_table(x)
     output <- "binary"
     occasionLength <- 1
     species <- "Anas platyrhynchos"
@@ -694,11 +816,13 @@ test_that(
           sort(colnames(cam_op_without_na))
       )
     )
-})
+  })
 
-test_that("Test occasionLength > 1", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Test `occasionLength` > 1", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -740,9 +864,11 @@ test_that("Test occasionLength > 1", {
   )
 })
 
-test_that("Test minActiveDaysPerOccasion > 1", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Test `minActiveDaysPerOccasion` > 1", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "n_observations"
   occasionLength <- 7
   species <- "Anas platyrhynchos"
@@ -790,28 +916,15 @@ test_that("Test minActiveDaysPerOccasion > 1", {
   expect_identical(n_na_per_row_5_det_hist, n_na_per_row_5_dates)
 })
 
-test_that("Test maxNumberDays", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
-  output <- "binary"
+test_that("Test `maxNumberDays`", {
+  skip_if_offline()
+  x <- example_dataset()
+  rec_table <- get_record_table(x)
+  cam_op <- get_cam_op(x)
   species <- "Anas platyrhynchos"
-  occasionLength <- 1
-  maxNumberDays <- 2
-  # Right error returned because all records are removed: first record of Anas
-  # platyrhynchos occurs on 2020-07-31, the third day of the station.
-  expect_error(
-    get_detection_history(recordTable = rec_table,
-                          camOp = cam_op,
-                          species = species,
-                          output = output,
-                          occasionLength = occasionLength,
-                          day1 = "station",
-                          maxNumberDays = maxNumberDays),
-    paste0("All records removed because they are taken after `maxNumberDays` ",
-           "(2 days). The detection history would be empty."),
-    fixed = TRUE
-  )
   maxNumberDays <- 3
+  output <- "binary"
+  occasionLength <- 1
   # Right warning returned with number of records removed and example. The first
   # record of Anas platyrhynchos occurs on 2020-07-31, the third day of the
   # station. All the other records are removed.
@@ -823,7 +936,7 @@ test_that("Test maxNumberDays", {
                           occasionLength = occasionLength,
                           day1 = "station",
                           maxNumberDays = maxNumberDays),
-    paste0("3 record(s) (out of 4) are removed because they were taken ",
+    paste0("7 record(s) (out of 12) are removed because they were taken ",
            "after `maxNumberDays` (3 days) the first day of each station, ",
            "e.g.:\nB_DL_val 5_beek kleine vijver: 2020-08-02."
     ),
@@ -831,16 +944,17 @@ test_that("Test maxNumberDays", {
   )
   
   # 7 rows returned if `maxNumberDays`: 7 (`occasionLength`  = 1 day)
-  occasionLength <- 1
   maxNumberDays <- 7
-  res_max_days_7 <- get_detection_history(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength,
-    day1 = "station",
-    maxNumberDays = maxNumberDays
+  res_max_days_7 <- suppressWarnings(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      maxNumberDays = maxNumberDays
+    )
   )
   expect_equal(ncol(res_max_days_7$detection_history), maxNumberDays)
   expect_equal(ncol(res_max_days_7$effort),maxNumberDays)
@@ -868,9 +982,11 @@ test_that("Test maxNumberDays", {
   expect_equal(ncol(res_max_days_6$dates),maxNumberDays / occasionLength)
 })
 
-test_that("Test day1 = specific date", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+test_that("Test `day1` = specific date", {
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "binary"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
@@ -882,9 +998,9 @@ test_that("Test day1 = specific date", {
                                    output = output,
                                    occasionLength = occasionLength,
                                    day1 = "2020-08-03"),
-    paste0("2 record(s) (out of 4) are removed because they were taken ",
-    "before `day1` (2020-08-03), e.g.:\n",
-    "B_DL_val 5_beek kleine vijver: 2020-07-31."
+    paste0("10 record(s) (out of 12) are removed because they were taken ",
+           "before `day1` (2020-08-03), e.g.:\n",
+           "B_DL_val 5_beek kleine vijver: 2020-07-29."
     ),
     fixed = TRUE
   )
@@ -893,60 +1009,82 @@ test_that("Test day1 = specific date", {
 })
 
 test_that("Test `buffer`", {
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
+  skip_if_offline()
+  x <- example_dataset()
+  cam_op <- get_cam_op(x)
+  rec_table <- get_record_table(x)
   output <- "n_observations"
   occasionLength <- 1
   species <- "Anas platyrhynchos"
   # Error returned if `buffer` is so big that no occasions are found.
   buffer <- 1000
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station",
-                                     buffer = buffer),
-    paste0("In all stations, the occasions begin after retrieval. ",
-           "Choose a smaller `buffer` argument.")
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "In all stations, the occasions begin after retrieval. ",
+      "Choose a smaller `buffer` argument."
+    )
   )
   # Error returned if `buffer` is so big that all records for given species are
   # removed.
-  buffer <- 10
-  expect_error(get_detection_history(recordTable = rec_table,
-                                     camOp = cam_op,
-                                     species = species,
-                                     output = output,
-                                     occasionLength = occasionLength,
-                                     day1 = "station",
-                                     buffer = buffer),
-               paste0("No more records after removing records before survey ",
-                      "begin. The detection history would be empty.")
+  buffer <- 24
+  expect_error(
+    get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "No more records after removing records before survey ",
+      "begin. The detection history would be empty."
+    )
   )
   # Right warning returned with number of removed records and an example
   buffer <- 5
   expect_warning(
-    res_with_buffer <- get_detection_history(recordTable = rec_table,
-                                   camOp = cam_op,
-                                   species = species,
-                                   output = output,
-                                   occasionLength = occasionLength,
-                                   day1 = "station",
-                                   buffer = buffer),
-    paste0("2 record(s) (out of 4) are removed because they were taken ",
-           "during the buffer period of 5 day(s), e.g.:\n",
-           "B_DL_val 5_beek kleine vijver: 2020-07-31."
+    res_with_buffer <- get_detection_history(
+      recordTable = rec_table,
+      camOp = cam_op,
+      species = species,
+      output = output,
+      occasionLength = occasionLength,
+      day1 = "station",
+      buffer = buffer),
+    paste0(
+      "6 record(s) (out of 12) are removed because they were taken ",
+      "during the buffer period of 5 day(s), e.g.:\n",
+      "B_DL_val 5_beek kleine vijver: 2020-07-29."
     ),
     fixed = TRUE
   )
-  # All dates are more recent than `start` of deployments +
-  # `buffer`. We check first row only, the one containing records of Anas platyrhynchos.
+  # All dates > `start` of deployments + `buffer`.
+  # We check only the two deployments with observations of Anas platyrhynchos.
   expect_true(
-    all(res_with_buffer$dates[1,] >= "2020-08-03" | 
-          is.na(res_with_buffer$dates[1,])
+    all(
+      res_with_buffer$dates[1,] >= 
+        lubridate::as_date(deployments(x)$deploymentStart[1]) + 
+        lubridate::ddays(buffer) | 
+        is.na(res_with_buffer$dates[1,])
     )
   )
-  
+  expect_true(
+    all(
+      res_with_buffer$dates[2,] >= 
+        lubridate::as_date(deployments(x)$deploymentStart[2]) + 
+        lubridate::ddays(buffer) | 
+        is.na(res_with_buffer$dates[2,])
+    )
+  )
   # Number of columns is reduced by buffer
   res_no_buffer <- get_detection_history(recordTable = rec_table,
                                          camOp = cam_op,
@@ -1059,222 +1197,4 @@ test_that("Test `buffer`", {
   expect_equal(ncol(res_max_buffer$dates),
                (maxNumberDays - buffer) / occasionLength
   )
-})
-
-test_that("Test unmarkedMultFrameInput", {
-  output <- "binary"
-  occasionLength <- 1
-  species <- "Anas platyrhynchos"
-  # Create a multi-season camera operation matrix / record table
-  mica_sessions <- mica
-  mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
-  mica_sessions$data$deployments$locationID <- c(
-    mica_sessions$data$deployments$locationID[1:2],
-    mica_sessions$data$deployments$locationID[1:2]
-  )
-  mica_sessions$data$deployments$locationName <- c(
-   mica_sessions$data$deployments$locationName[1:2],
-   mica_sessions$data$deployments$locationName[1:2]
-  )
-  lubridate::year(mica_sessions$data$deployments$start[4]) <- 2021
-  lubridate::year(mica_sessions$data$deployments$end[4]) <- 2021
-  lubridate::year(mica_sessions$data$observations$timestamp) <- dplyr::if_else(
-    lubridate::year(mica_sessions$data$observations$timestamp) == 2019,
-    2021,
-    lubridate::year(mica_sessions$data$observations$timestamp)
-  )
-  lubridate::year(mica_sessions$data$media$timestamp) <-  dplyr::if_else(
-    lubridate::year(mica_sessions$data$media$timestamp) == 2019,
-    2021,
-    lubridate::year(mica_sessions$data$media$timestamp)
-  )
-  camOp_sessions <- get_cam_op(mica_sessions, session_col = "session")
-  recordTable_sessions <- get_record_table(mica_sessions)
-  # No multi-season detection history (`unmarkedMultFrameInput` = `FALSE`)
-  # requested: all stations/seasons returned as they would be different
-  # stations.
-  no_multi_season <- get_detection_history(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = FALSE
-  )
-  # Multi-season detection history (`unmarkedMultFrameInput` = `TRUE`)
-  multi_season <- get_detection_history(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE
-  )
-  # Run a standard detection history with basic example dataset
-  cam_op <- get_cam_op(mica)
-  rec_table <- get_record_table(mica)
-  standard <- get_detection_history(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output
-  )
-  
-  # Check output of detection history without taking into account the seasons.
-  # Rownames are the same as the camera operation matrix
-  expect_identical(
-    rownames(no_multi_season$detection_history),
-    rownames(camOp_sessions)
-  )
-  expect_identical(
-    rownames(no_multi_season$effort),
-    rownames(camOp_sessions)
-  )
-  expect_identical(
-    rownames(no_multi_season$dates),
-    rownames(camOp_sessions)
-  )
-  # Content of detection history and effort is the same as the standard
-  # detection history and correspondent effort. The dates are the same only for
-  # the first two rows by construction.
-  expect_identical(
-    unname(no_multi_season$detection_history),
-    unname(standard$detection_history)
-  )
-  expect_identical(
-    unname(no_multi_season$effort),
-    unname(standard$effort)
-  )
-  expect_identical(
-    unname(no_multi_season$dates[1:2,]),
-    unname(standard$dates[1:2,])
-  )
-  # Check output of detection history taking into account the seasons.
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
-  )
-  # Output of second half of columns is equal to the second two rows of output
-  expect_identical(
-    unname(
-      multi_season$detection_history[, (n_cols_standard + 1):n_cols]
-    ),
-    unname(standard$detection_history[3:4, ])
-  )
-  
-  # Multi-season works with `occasionLength` > 1
-  occasionLength <- 2
-  multi_season <- get_detection_history(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE,
-    occasionLength = occasionLength
-  )
-  standard <- get_detection_history(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength
-  )
-  # Number of rows is equal to the number of stations, which is 2
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
-  )
-  
-  # Multi-season works with `buffer`
-  buffer <- 2
-  occasionLength <- 1 # Set back to 1 to test `buffer` independently
-  multi_season <- get_detection_history(
-    recordTable_sessions,
-    camOp_sessions,
-    species = species,
-    output = output,
-    unmarkedMultFrameInput = TRUE,
-    occasionLength = occasionLength,
-    buffer = buffer
-  )
-  standard <- get_detection_history(
-    recordTable = rec_table,
-    camOp = cam_op,
-    species = species,
-    output = output,
-    occasionLength = occasionLength,
-    buffer = buffer
-  )
-  # Number of rows is equal to the number of stations, which is 2
-  expect_equal(nrow(multi_season$detection_history), 2)
-  expect_equal(nrow(multi_season$effort), 2)
-  expect_equal(nrow(multi_season$dates), 2)
-  # Number of columns is equal to the highest number of days of a
-  # station/season multiplied by number of seasons, which is 2.
-  n_cols_standard <- ncol(standard$detection_history)
-  n_cols <- n_cols_standard * 2
-  expect_equal(ncol(multi_season$detection_history), n_cols)
-  expect_equal(ncol(multi_season$effort), n_cols)
-  expect_equal(ncol(multi_season$dates), n_cols)
-  # Output of first half of columns is equal to first two rows of output without
-  # season.
-  expect_identical(
-    unname(
-      multi_season$detection_history[, 1:n_cols_standard]
-    ),
-    unname(standard$detection_history[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$effort[, 1:n_cols_standard]),
-    unname(standard$effort[1:2, ])
-  )
-  expect_identical(
-    unname(multi_season$dates[, 1:n_cols_standard]),
-    unname(standard$dates[1:2, ])
-  )
-  
 })

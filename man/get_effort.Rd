@@ -4,63 +4,50 @@
 \alias{get_effort}
 \title{Get effort}
 \usage{
-get_effort(
-  package = NULL,
-  ...,
-  unit = "hour",
-  datapkg = lifecycle::deprecated()
-)
+get_effort(x, ..., unit = "hour")
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{...}{filter predicates}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
 
-\item{unit}{Time unit to use while returning deployment effort (duration).
-One of:
-\itemize{
-\item \code{second}
-\item \code{minute}
-\item \code{hour}
-\item \code{day}
-\item \code{month}
-\item \code{year}
-}}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+\item{unit}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The unit used to quantify the
+effort. Ignored as the effort is returned only as a duration object.}
 }
 \value{
-A tibble data frame with following columns:
+A grouped tibble data frame with the following columns:
 \itemize{
-\item \code{deploymentID}: Deployment unique identifier.
-\item \code{effort}: Effort expressed in the unit passed by parameter \code{unit}.
-\item \code{unit}: The unit used to express the effort.
-One of the values available for parameter \code{unit}.
+\item \code{group_by} names, e.g. \code{deploymentID}, \code{latitude}, \code{longitude} and
+\code{locationName}.
+\item \code{group_time_by} name if provided, e.g. \code{month}. It contains the first
+date of the time interval, e.g. the first day of the month.
 \item \code{effort_duration}: A duration object (duration is a class from lubridate
-package).
+package). Duration is always recorded as a fixed number of seconds. See
+\code{\link[lubridate:duration]{lubridate::duration()}}.
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Use \code{\link[=summarize_deployments]{summarize_deployments()}} instead.
+
 Gets the effort (deployment duration) per deployment.
 }
 \examples{
-# Efforts expressed in hours
-get_effort(mica)
-
-# Effort expressed as days
-get_effort(mica, unit = "day")
+x <- example_dataset()
+get_effort(x)
 }
 \seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+Other deprecated exploration functions:
+\code{\link[=get_custom_effort]{get_custom_effort()}},
+\code{\link[=get_n_individuals]{get_n_individuals()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_n_species]{get_n_species()}},
+\code{\link[=get_rai]{get_rai()}},
+\code{\link[=get_rai_individuals]{get_rai_individuals()}}
 }
-\concept{exploration functions}
+\concept{deprecated exploration functions}

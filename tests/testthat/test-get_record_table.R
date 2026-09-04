@@ -1,45 +1,70 @@
-test_that("input of get_record_table, camtrap dp, is checked properly", {
+test_that("inputs of get_record_table are correct", {
+  # Check `x`
+  
   expect_error(get_record_table("aaa"))
   expect_error(get_record_table(1))
-})
-
-test_that("input of get_record_table, stationCol, is checked properly", {
-  expect_error(get_record_table(mica, stationCol = "aaa"))
-})
-
-test_that("input of get_record_table, exclude, is checked properly", {
-  expect_error(get_record_table(mica, exclude = "rattus not existing"))
-})
-
-test_that("input of get_record_table, minDeltaTime, is checked properly", {
+  skip_if_offline()
+  # Check `stationCol`
+  x <- example_dataset()
   expect_error(
-    get_record_table(mica, minDeltaTime = "1"),
+    get_record_table(x, stationCol = "aaa"),
+    paste0("Station column name `aaa` not valid: ",
+           "It must be one of the deployments column names."
+    ),
+    fixed = TRUE
+  )
+  
+  # Check `exclude`
+  expect_error(
+    get_record_table(x, exclude = c("rattussss", "Rattus norvegicus")),
+    paste0("The following species in `exclude` argument ",
+           "are not present in the Camera Trap Data Package: `rattussss`."
+    ),
+    fixed = TRUE
+  )
+  
+  # Check `minDeltaTime`
+  expect_error(
+    get_record_table(x, minDeltaTime = "1"),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
   expect_error(
-    get_record_table(mica, minDeltaTime = -10),
+    get_record_table(x, minDeltaTime = -10),
     "`minDeltaTime` must be a number greater or equal to 0."
   )
+  
+  # Check `deltaTimeComparedTo`
+  expect_error(
+    get_record_table(x, minDeltaTime = 100, deltaTimeComparedTo = NULL)
+  )
+  expect_error(
+    get_record_table(x, minDeltaTime = 100, deltaTimeComparedTo = "not valid")
+  )
+  
+  # Check `removeDuplicateRecords`
+  expect_error(get_record_table(x, removeDuplicateRecords = 5))
+  expect_error(get_record_table(x, removeDuplicateRecords = NA))
 })
 
-test_that("input of get_record_table, deltaTimeComparedTo, is checked properly", {
-  expect_error(get_record_table(mica,
-    minDeltaTime = 100,
-    deltaTimeComparedTo = NULL
-  ))
-  expect_error(get_record_table(mica,
-    minDeltaTime = 100,
-    deltaTimeComparedTo = "not valid"
-  ))
-})
-
-test_that("if not integer, minDeltaTime is set to integer (floor)", {
-  record_table_int <- get_record_table(mica,
+test_that("if not integer, `minDeltaTime` is set to integer (floor)", {
+  skip_if_offline()
+  x <- example_dataset()
+  expect_message(
+    get_record_table(
+      x,
+      minDeltaTime = 1.2,
+      deltaTimeComparedTo = "lastRecord"
+    ),
+    "`minDeltaTime` has to be an integer. Set to `1`."
+  )
+  record_table_int <- get_record_table(
+    x,
     minDeltaTime = 1000,
     deltaTimeComparedTo = "lastRecord"
   )
   record_table_dec <- suppressMessages(
-    get_record_table(mica,
+    get_record_table(
+      x,
       minDeltaTime = 1000.7,
       deltaTimeComparedTo = "lastRecord"
     )
@@ -47,27 +72,53 @@ test_that("if not integer, minDeltaTime is set to integer (floor)", {
   expect_identical(record_table_int, record_table_dec)
 })
 
-test_that("input of get_record_table, removeDuplicateRecords, is checked properly", {
-  # only TRUE or FALSE are allowed
-  expect_error(get_record_table(mica,
-    removeDuplicateRecords = 5
-  ))
-  expect_error(get_record_table(mica,
-    removeDuplicateRecords = NA
-  ))
-})
-test_that("warning is returned if some observations have no timestamp", {
-  mica_no_timestamp <- mica
-  mica_no_timestamp$data$observations$timestamp[3:5] <- NA
+test_that(paste0(
+  "warning is returned if some observations have no `eventStart` ",
+  "or media have no timestamp"
+), {
+  skip_if_offline()
+  x <- example_dataset()
+  x_no_eventStart <- x
+  o <- observations(x_no_eventStart)
+  o$eventStart[1] <- NA
+  observations(x_no_eventStart) <- o
   expect_warning(
-    get_record_table(mica_no_timestamp),
-    "Some observations have no timestamp and will be removed."
+    get_record_table(x_no_eventStart),
+    "Some observations have no `eventStart` and will be removed."
+  )
+  expect_identical(
+    nrow(
+      suppressWarnings(
+        get_record_table(x_no_eventStart, removeDuplicateRecords = FALSE)
+      )
+    ),
+    nrow(get_record_table(x, removeDuplicateRecords = FALSE)) - 1L
+  )
+  
+  x_no_timestamp <- x
+  m <- media(x_no_timestamp)
+  # Set timestamp of media with "eventID == "4bb69c45" to NA
+  m$timestamp[m$eventID == "4bb69c45"] <- NA
+  media(x_no_timestamp) <- m
+  expect_warning(
+    get_record_table(x_no_timestamp),
+    "Some media have no `timestamp` and will be removed."
+  )
+  expect_identical(
+    nrow(
+      suppressWarnings(
+        get_record_table(x_no_timestamp, removeDuplicateRecords = FALSE)
+      )
+    ),
+    nrow(get_record_table(x, removeDuplicateRecords = FALSE)) - 1L
   )
 })
 
-test_that("right columns are returned", {
+test_that("Right columns are returned", {
+  skip_if_offline()
+  x <- example_dataset()
   expect_named(
-    get_record_table(mica),
+    get_record_table(x),
     c(
       "Station",
       "Species",
@@ -89,72 +140,147 @@ test_that("right columns are returned", {
   )
 })
 
-test_that("nrows = n obs of identified individuals if minDeltaTime is 0", {
-  nrow_output <- get_record_table(mica, minDeltaTime = 0) %>% nrow()
+test_that(paste(
+  "nrows = n event-bsed obs of identified individuals if minDeltaTime is 0 and",
+  "duplicates are allowed"
+  ), {
+  skip_if_offline()
+  x <- example_dataset()
+  nrow_output <- get_record_table(
+    x,
+    minDeltaTime = 0,
+    removeDuplicateRecords = FALSE
+  ) %>%
+    nrow()
   expect_identical(
     nrow_output,
-    mica$data$observations %>%
-      dplyr::filter(!is.na(scientificName)) %>% nrow()
+    x %>%
+      filter_observations(
+        !is.na(scientificName) & observationLevel == "event"
+      ) %>%
+      observations() %>%
+      nrow()
   )
 })
 
-test_that("nrows = n obs of red foxes if all other species are excluded", {
-  species_to_exclude <- c(
-    "Anas platyrhynchos",
-    "Anas strepera",
-    "Ardea",
-    "Ardea cinerea",
-    "Castor fiber",
-    "Homo sapiens",
-    "Martes foina",
-    "Mustela putorius"
-  )
-  nrow_foxes <- get_record_table(mica, exclude = species_to_exclude) %>%
-    nrow()
-  expect_identical(
-    nrow_foxes,
-    mica$data$observations %>%
-      dplyr::filter(scientificName == "Vulpes vulpes") %>% nrow()
+test_that("Species in `exclude` are not present in output", {
+  skip_if_offline()
+  x <- example_dataset()
+  species_to_exclude <- c("Anas platyrhynchos", "Anas strepera", "Ardea")
+  species_in_output <- x %>%
+    filter_observations(
+      observationLevel == "event",
+      !is.na(.data$scientificName),
+      !scientificName %in% species_to_exclude
+    ) %>%
+    observations() %>%
+    dplyr::distinct(.data$scientificName) %>%
+    dplyr::arrange(.data$scientificName) %>%
+    dplyr::pull(.data$scientificName)
+  expect_equal(get_record_table(x, exclude = species_to_exclude) %>%
+      dplyr::distinct(Species) %>%
+      dplyr::arrange(Species) %>%
+      dplyr::pull(Species),
+    species_in_output
   )
 })
 
 test_that("Higher minDeltaTime means less rows returned", {
-  nrow_delta_0 <- get_record_table(mica) %>% nrow()
-  nrow_delta_10000 <- suppressMessages(get_record_table(mica,
-    minDeltaTime = 10000,
-    deltaTimeComparedTo = "lastRecord"
-  )) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  nrow_delta_0 <- get_record_table(x) %>% nrow()
+  nrow_delta_10000 <- suppressMessages(
+    get_record_table(
+      x,
+      minDeltaTime = 10000,
+      deltaTimeComparedTo = "lastRecord"
+    )
+  ) %>%
     nrow()
-  nrow_delta_100000 <- suppressMessages(get_record_table(mica,
-    minDeltaTime = 100000,
-    deltaTimeComparedTo = "lastRecord"
-  )) %>%
+  nrow_delta_100000 <- suppressMessages(
+    get_record_table(
+      x,
+      minDeltaTime = 100000,
+      deltaTimeComparedTo = "lastRecord"
+    )
+  ) %>%
     nrow()
   expect_lt(nrow_delta_10000, nrow_delta_0)
   expect_lt(nrow_delta_100000, nrow_delta_10000)
 })
 
-test_that("stations names are equal to values in column passed to StationCOl", {
-  # use locationName as Station
-  stations <- get_record_table(mica) %>%
-    dplyr::distinct(Station) %>%
-    dplyr::pull()
-  location_names <- unique(mica$data$deployments$locationName)
-  expect_true(all(stations %in% location_names))
+test_that(paste0(
+  "Values lastIndependentRecord and lastRecord can ",
+  "return different number of rows"
+), {
+  skip_if_offline()
+  x <- example_dataset()
+  obs <- observations(x)
+  obs[obs$eventID == "02ae9f43", "eventStart"] <- lubridate::as_datetime(
+    "2020-08-02 05:10:20"
+  )
+  
+  med <- media(x) 
+  rows_to_update <- which(med$eventID == "02ae9f43") 
+  med[rows_to_update, "timestamp"] <- lubridate::as_datetime(
+    "2020-08-02 05:10:20"
+  ) 
+  x_modified <- x
+  observations(x_modified) <- obs
+  media(x_modified) <- med
+  
+  rec_last_indep <- get_record_table(
+    x_modified,
+    minDeltaTime = 10,
+    deltaTimeComparedTo = "lastIndependentRecord"
+  )
+  
+  rec_last <- suppressMessages(
+    get_record_table(
+      x_modified,
+      minDeltaTime = 10,
+      deltaTimeComparedTo = "lastRecord"
+    )
+  )
+  # Same columns
+  expect_identical(names(rec_last_indep), names(rec_last))
+  # One row less
+  expect_identical(nrow(rec_last), nrow(rec_last_indep) - 1L)
+})
 
-  # use locationID as Station
-  stations <- get_record_table(mica, stationCol = "locationID") %>%
+test_that("stations names are equal to values in column passed to StationCOl", {
+  skip_if_offline()
+  x <- example_dataset()
+  # Use `locationName` as Station
+  stations <- get_record_table(x) %>%
     dplyr::distinct(Station) %>%
+    dplyr::arrange(Station) %>%
     dplyr::pull()
-  location_ids <- unique(mica$data$deployments$locationID)
-  expect_true(all(stations %in% location_ids))
+  location_names <- deployments(x) %>%
+    dplyr::distinct(locationName) %>%
+    dplyr::arrange(locationName) %>%
+    dplyr::pull()
+  expect_equal(stations, location_names)
+
+  # Use `locationID` as Station
+  stations <- get_record_table(x, stationCol = "locationID") %>%
+    dplyr::distinct(Station) %>%
+    dplyr::arrange(Station) %>%
+    dplyr::pull()
+  location_ids <- deployments(x) %>%
+    dplyr::distinct(locationID) %>%
+    dplyr::arrange(locationID) %>%
+    dplyr::pull()
+  expect_equal(stations, location_ids)
 })
 
 test_that("Directory and Filename columns are lists", {
-  file_values <- get_record_table(mica) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  file_values <- get_record_table(x) %>%
     dplyr::select(Directory, FileName)
-  expect_true(class(file_values$Directory) == "list")
-  expect_true(class(file_values$FileName) == "list")
+  expect_true(inherits(file_values$Directory, "list"))
+  expect_true(inherits(file_values$FileName, "list"))
 })
 
 test_that(
@@ -163,95 +289,87 @@ test_that(
     "media of independent obs"
   ),
   {
-    output <- get_record_table(mica)
-    # add n media, observationID and sequenceID to record table
+    skip_if_offline()
+    x <- example_dataset()
+    output <- get_record_table(x, removeDuplicateRecords = FALSE)
+    # add n media, observationID and eventID to record table
     output <- output %>%
       dplyr::mutate(len = purrr::map_dbl(Directory, function(x) length(x))) %>%
       dplyr::left_join(
-        mica$data$observations %>%
+        x %>%
+          filter_observations(
+            !is.na(scientificName),
+            observationLevel == "event"
+          ) %>%
+        observations() %>%
           dplyr::select(
             observationID,
-            timestamp,
+            eventStart,
             scientificName,
-            sequenceID
+            eventID
           ),
         by = c(
-          "DateTimeOriginal" = "timestamp",
+          "DateTimeOriginal" = "eventStart",
           "Species" = "scientificName"
-        )
+        ),
+        relationship = "many-to-many"
       )
     n_media <-
-      mica$data$media %>%
-      dplyr::group_by(.data$sequenceID) %>%
+      media(x) %>%
+      dplyr::group_by(.data$eventID) %>%
       dplyr::count() %>%
       dplyr::rename(n_media = n)
     output <- output %>%
       dplyr::left_join(n_media,
-        by = "sequenceID"
+        by = "eventID"
       )
     expect_equal(output$len, output$n_media)
-  }
-)
+})
 
 test_that(paste(
-  "removeDuplicateRecords allows removing duplicates,",
-  "but structure output remains the same"
+  "`removeDuplicateRecords` allows removing observations of same species at",
+  "same time, but structure output remains the same"
 ), {
-  mica_dup <- mica
-  # create duplicates at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-  # use 3rd observation as the first two are unknown or blank (= no animal)
-  mica_dup$data$observations[,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
-  mica_dup$data$observations[, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
-  mica_dup$data$observations[, "timestamp"] <- mica_dup$data$observations$timestamp[3]
-  mica_dup$data$observations[, "scientificName"] <- mica_dup$data$observations$scientificName[3]
-  
-  rec_table <- get_record_table(mica_dup)
-  rec_table_dup <- get_record_table(mica_dup,
-    removeDuplicateRecords = FALSE
-  )
-  expect_identical(nrow(rec_table), 1L)
-  expect_identical(
-    rec_table$DateTimeOriginal, mica$data$observations$timestamp[3]
-  )
-  expect_identical(rec_table$delta.time.secs, 0)
+  skip_if_offline()
+  x <- example_dataset()
+  rec_table <- get_record_table(x)
+  rec_table_dup <- get_record_table(x, removeDuplicateRecords = FALSE)
+  n_obs_no_dup <- x %>%
+    filter_observations(
+      !is.na(scientificName),
+      observationLevel == "event"
+    ) %>%
+    observations() %>%
+    dplyr::distinct(scientificName, deploymentID, eventStart) %>%
+    nrow()
+  expect_identical(nrow(rec_table), n_obs_no_dup)
+  expect_gt(nrow(rec_table_dup), nrow(rec_table))
   expect_identical(names(rec_table_dup), names(rec_table))
   expect_identical(
     nrow(rec_table_dup),
-    nrow(mica_dup$data$observations)
+    nrow(observations(x) %>%
+      dplyr::filter(
+        !is.na(.data$scientificName),
+        .data$observationLevel == "event"
+      )
+    )
   )
 })
 
 test_that("clock is always in the range [0, 2*pi]", {
-  clock_values <- get_record_table(mica) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  clock_values <- get_record_table(x) %>%
     dplyr::pull(clock)
   expect_true(all(clock_values >= 0))
   expect_true(all(clock_values <= 2 * pi))
 })
 
 test_that("solar is always in the range [0, 2*pi]", {
-  solar_values <- get_record_table(mica) %>%
+  skip_if_offline()
+  x <- example_dataset()
+  solar_values <- get_record_table(x) %>%
     dplyr::pull(solar)
   expect_true(all(solar_values >= 0))
   expect_true(all(solar_values <= 2 * pi))
-})
-
-test_that("filtering predicates are allowed and work well", {
-  stations <- unique(
-    suppressMessages(get_record_table(mica, pred_lt("longitude", 4.0)))$Station
-  )
-  stations_calculate <- mica$data$deployments %>%
-    dplyr::filter(longitude < 4.0) %>%
-    dplyr::pull(locationName)
-  expect_identical(stations, stations_calculate)
-})
-
-test_that("Argument datapkg is deprecated: warning returned", {
-  expect_warning(
-    rlang::with_options(
-      lifecycle_verbosity = "warning",
-      get_record_table(datapkg = mica)
-    ),
-    "The `datapkg` argument of `get_record_table()` is deprecated as of camtraptor 0.16.0.",
-    fixed = TRUE
-  )
 })

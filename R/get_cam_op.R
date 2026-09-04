@@ -1,21 +1,24 @@
-#' Get camera operation matrix
+#' Get the camera operation matrix
 #'
-#' Returns the [camera operation matrix](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) as
-#' returned by [camtrapR::cameraOperation()](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
-#'
+#' @description
+#' `r lifecycle::badge("superseded")`
+#' 
+#' This function is superseded because camtrapR now supports reading Camera Trap
+#' Data Packages. Use [camtrapR::readCamtrapDP()] and
+#' [camtrapR::cameraOperation()] instead.
+#' 
+#' Creates the camera operation matrix as returned by
+#' [camtrapR::cameraOperation()].
+#' 
+#' @details
 #' The deployment data are by default grouped by `locationName` (station ID in
 #' camtrapR jargon) or another column specified by the user via the 
-#' `station_col` argument. If multiple deployments are linked to same location, 
-#' daily efforts higher than 1 occur.
+#' `station_col` argument. If multiple deployments are linked to the same 
+#' location, daily efforts higher than 1 occur.
 #'
 #' Partially active days, e.g. the first or the last day of a deployment, result
-#' in decimal effort values as in [camtrapR::cameraOperation()](
-#' https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#' in decimal effort values as in [camtrapR::cameraOperation()].
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
 #' @param station_col Column name to use for identifying the stations. Default:
 #'   `"locationName"`.
 #' @param camera_col Column name of the column specifying Camera ID. Default:
@@ -25,66 +28,62 @@
 #'   histories.
 #' @param use_prefix Logical (`TRUE` or `FALSE`). If `TRUE` the returned row
 #'   names will start with prefix `"Station"` as returned by
-#'   [camtrapR::cameraOperation()](
-#'   https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+#'   [camtrapR::cameraOperation()].
 #'   Default: `FALSE`.
-#' @param datapkg Deprecated. Use `package` instead.
-#' @param ... filter predicates for filtering on deployments.
-#' @return A matrix. Row names always indicate the station ID. Column names are
+#' @inheritParams summarize_deployments
+#' @returns A matrix. Row names always indicate the station ID. Column names are
 #'   dates.
-#' @family camtrapR-derived functions
-#' @importFrom dplyr %>% .data
-#' @importFrom rlang !! :=
+#' @family deprecated camtrapR-derived functions
 #' @export
 #' @examples
 #' library(dplyr)
-#' get_cam_op(mica)
-#'
-#' # Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-#' get_cam_op(mica, pred_gte("latitude", 51.18))
+#' library(stringr)
+#' 
+#' x <- example_dataset()
+#' get_cam_op(x)
 #'
 #' # Specify column with station names
-#' get_cam_op(mica, station_col = "locationID")
+#' get_cam_op(x, station_col = "locationID")
 #'
 #' # Specify column with session IDs
-#' mica_sessions <- mica
-#' mica_sessions$data$deployments <- mica_sessions$data$deployments %>%
-#'   dplyr::mutate(session = ifelse(
-#'     stringr::str_starts(.data$locationName, "B_DL_"),
-#'       "after2020",
-#'       "before2020"
-#'   )
-#' )
-#' get_cam_op(mica_sessions, session_col = "session")
+#' x_sessions <- x
+#' deployments(x_sessions) <- deployments(x_sessions) %>%
+#'   mutate(session = ifelse(
+#'     str_starts(.data$locationName, "B_DL_"),
+#'     "after2020",
+#'     "before2020"
+#'   ))
+#'   
+#' get_cam_op(x_sessions, session_col = "session")
 #'
 #' # Specify column with camera IDs
-#' mica_cameras <- mica_sessions
-#' mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-#' get_cam_op(mica_cameras, camera_col = "cameraID")
+#' x_cameras <- x_sessions
+#' deployments(x_cameras) <- deployments(x_cameras) %>%
+#'   mutate(cameraID = c(1, 2, 3, 4))
+#' get_cam_op(x_cameras, camera_col = "cameraID")
 #'
 #' # Specify both session and camera IDs
-#' get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
+#' get_cam_op(
+#'   x_cameras,
+#'   camera_col = "cameraID",
+#'   session_col = "session"
+#' )
 #' 
 #' # Use prefix Station as in camtrapR's camera operation matrix
-#' get_cam_op(mica, use_prefix = TRUE)
-get_cam_op <- function(package = NULL,
-                       ...,
+#' get_cam_op(x, use_prefix = TRUE)
+get_cam_op <- function(x,
                        station_col = "locationName",
                        camera_col = NULL,
                        session_col = NULL,
-                       use_prefix = FALSE,
-                       datapkg = lifecycle::deprecated()) {
-  # check camera trap data package
-  check_package(package, datapkg, "get_cam_op")
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
+                       use_prefix = FALSE) {
+  # Check Camera Trap Data Package
+  camtrapdp::check_camtrapdp(x)
   
   # Check that station_col is a single string
   assertthat::assert_that(assertthat::is.string(station_col))
   # Check that station_col is one of the columns in deployments
   assertthat::assert_that(
-    station_col %in% names(package$data$deployments),
+    station_col %in% names(deployments(x)),
     msg = glue::glue(
       "Station column name (`{station_col}`) is not valid: ",
       "it must be one of the deployments column names."
@@ -92,9 +91,9 @@ get_cam_op <- function(package = NULL,
   )
   
   # Check that `station_col` doesn't contain empty values (NA)
-  n_na <- package$data$deployments %>%
-    dplyr::filter(is.na(.data[[station_col]])) %>%
-    nrow()
+  na_df <- deployments(x) %>%
+    dplyr::filter(is.na(.data[[station_col]]))
+  n_na <- nrow(na_df)
   assertthat::assert_that(
     n_na == 0,
     msg = glue::glue(
@@ -107,7 +106,7 @@ get_cam_op <- function(package = NULL,
   # "__CAM_" (no need to remove NAs beforehand as station_col must not contain
   # any NA, see previous check)
   assertthat::assert_that(
-    all(!stringr::str_detect(string = package$data$deployments[[station_col]],
+    all(!stringr::str_detect(string = deployments(x)[[station_col]],
                              pattern = "__SESS_|__CAM_")),
     msg = glue::glue(
       "Station column name (`{station_col}`) must not contain any of the ",
@@ -120,13 +119,13 @@ get_cam_op <- function(package = NULL,
   if (!is.null(session_col)) {
     assertthat::assert_that(assertthat::is.string(session_col))
     assertthat::assert_that(
-      session_col %in% names(package$data$deployments),
+      session_col %in% names(deployments(x)),
       msg = glue::glue(
         "Session column name (`{session_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    session_values <- package$data$deployments[[session_col]]
+    session_values <- deployments(x)[[session_col]]
     session_values <- session_values[!is.na(session_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = session_values,
@@ -143,17 +142,17 @@ get_cam_op <- function(package = NULL,
   if (!is.null(camera_col)) {
     assertthat::assert_that(assertthat::is.string(camera_col))
     assertthat::assert_that(
-      camera_col %in% names(package$data$deployments),
+      camera_col %in% names(deployments(x)),
       msg = glue::glue(
         "Camera column name (`{camera_col}`) is not valid: ",
         "it must be one of the deployments column names."
       )
     )
-    camera_values <- package$data$deployments[[camera_col]]
+    camera_values <- deployments(x)[[camera_col]]
     camera_values <- camera_values[!is.na(camera_values)]
     assertthat::assert_that(
       all(!stringr::str_detect(string = camera_values,
-                           pattern = "__SESS_|__CAM_")),
+                               pattern = "__SESS_|__CAM_")),
       msg = glue::glue(
         "Camera column name (`{camera_col}`) must not contain any of the ",
         "reserved words: \"__SESS_\", \"__CAM_\"."
@@ -165,19 +164,15 @@ get_cam_op <- function(package = NULL,
     use_prefix %in% c(TRUE, FALSE),
     msg = "use_prefix must be TRUE or FALSE."
   )
-
-  # extract and apply filtering on deployments
-  deploys <- apply_filter_predicate(
-    df = package$data$deployments,
-    verbose = TRUE,
-    ...
-  )
-
+  
+  # Extract the deployments
+  deploys <- deployments(x)
+  
   # very first day among all stations
-  first_day <- min(deploys$start)
+  first_day <- min(deploys$deploymentStart)
   # very last day among all stations
-  last_day <- max(deploys$end)
-
+  last_day <- max(deploys$deploymentEnd)
+  
   # get sequence with all days from very first day to very last day
   days_operations <- seq(
     lubridate::date(first_day),
@@ -192,10 +187,10 @@ get_cam_op <- function(package = NULL,
   deploys <-
     deploys %>%
     dplyr::mutate(
-      start_day = lubridate::date(.data$start),
-      end_day = lubridate::date(.data$end)
+      start_day = lubridate::date(.data$deploymentStart),
+      end_day = lubridate::date(.data$deploymentEnd)
     )
-
+  
   # make a operation table per deployment
   deployment_operational <- purrr::map(
     deploys$deploymentID,
@@ -214,8 +209,8 @@ get_cam_op <- function(package = NULL,
       deploy_df <-
         deploys %>%
         dplyr::filter(.data$deploymentID == x)
-      daily_effort_start <- calc_daily_effort(deploy_df, calc_start = TRUE)
-      daily_effort_end <- calc_daily_effort(deploy_df, calc_end = TRUE)
+      daily_effort_start <- daily_effort(deploy_df, calc_start = TRUE)
+      daily_effort_end <- daily_effort(deploy_df, calc_end = TRUE)
       operational[days_operations == start_day] <- daily_effort_start
       operational[days_operations == end_day] <- daily_effort_end
       operational <- dplyr::as_tibble(operational)
@@ -229,8 +224,8 @@ get_cam_op <- function(package = NULL,
   if (!is.null(session_col)) {
     deploys <- deploys %>%
       dplyr::mutate(!!station_col := paste(.data[[station_col]], 
-                                         .data[[session_col]],
-                                         sep = "__SESS_")
+                                           .data[[session_col]],
+                                           sep = "__SESS_")
       )
   }
   
@@ -279,4 +274,64 @@ get_cam_op <- function(package = NULL,
   rownames(camOps) <- days_operations_string
   # transpose to get location name as rows and days as columns and return
   t(camOps)
+}
+
+#' Calculate daily effort for start or end day
+#'
+#' While assessing the camera operation matrix, start and end day are edge
+#' case. The daily effort is a real number between 0 and 1 as and is defined as
+#' the fraction of the day the camera was on.
+#'
+#' @noRd
+daily_effort <- function(deploy_df, calc_start = NULL, calc_end = NULL) {
+  # check calc_start or calc_end are passed
+  assertthat::assert_that(
+    (is.null(calc_start) & !is.null(calc_end)) |
+      (!is.null(calc_start) & is.null(calc_end)),
+    msg = "Either calc_start or calc_end must be defined."
+  )
+  deploy_df <-
+    deploy_df %>%
+    dplyr::mutate(
+      edge = dplyr::if_else(
+        !is.null(calc_start), 
+        .data$deploymentStart, .data$deploymentEnd
+      ),
+      edge_day = dplyr::if_else(
+        !is.null(calc_start),
+        .data$start_day,
+        .data$end_day
+      )
+    )
+  deploy_df %>%
+    # calculate the duration of the start/end day (edge day)
+    dplyr::mutate(
+      edge_day_duration =
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) + 
+            lubridate::ddays(1) -
+            lubridate::as_datetime(.data$edge_day)
+        )
+    ) %>%
+    # calculate the duration of the active part of the start/end day
+    dplyr::mutate(active_edge_day_duration = dplyr::if_else(
+      !is.null(calc_start),
+      # start day
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          .data$edge - lubridate::as_datetime(.data$edge_day)
+        ),
+      # end day
+      .data$edge_day_duration -
+        lubridate::as.duration(
+          lubridate::as_datetime(.data$edge_day) +
+            lubridate::ddays(1) -
+            .data$edge
+        )
+    )) %>%
+    # calculate the fraction of the duration of the active part
+    dplyr::mutate(
+      daily_effort = .data$active_edge_day_duration / .data$edge_day_duration
+    ) %>%
+    dplyr::pull(.data$daily_effort)
 }

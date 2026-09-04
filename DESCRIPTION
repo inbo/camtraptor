@@ -1,45 +1,51 @@
 Package: camtraptor
-Title: Read, Explore and Visualize Camera Trap Data Packages
-Version: 0.28.0
+Title: Explore and Visualize Camera Trap Data Packages
+Version: 1.0.0
 Authors@R: c(
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-3445-7562")),
+           comment = c(ORCID = "0000-0003-3445-7562", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = "aut",
-           comment = c(ORCID = "0000-0002-8442-8025")),
+           comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Sanne", "Govaert", , "sanne.govaert@inbo.be", role = "aut",
+           comment = c(ORCID = "0000-0002-8939-1305", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = "aut",
-           comment = c(ORCID = "0000-0002-6658-6062")),
+           comment = c(ORCID = "0000-0002-6658-6062", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Wolf", "Missotten", , "wolfmissotten@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0006-4069-0685", affiliation = "Ghent University")),
     person("Martijn", "Bollen", , "martijn.bollen@inbo.be", role = "ctb",
-           comment = c(ORCID = "0000-0002-1621-6258")),
-    person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = "ctb",
-           comment = c(ORCID = "0000-0002-8185-1020")),
-    person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "ctb",
-           comment = c(ORCID = "0000-0001-8804-4216")),
+           comment = c(ORCID = "0000-0002-1621-6258", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Jim", "Casaer", , "jim.casaer@inbo.be", role = "ctb",
-           comment = c(ORCID = "0000-0001-6788-5876")),
-    person("Lynn", "Pallemaerts", , "lynn.pallemaerts@inbo.be", role = "ctb",
-           comment = c(ORCID = "0000-0002-5034-5416")),
+           comment = c(ORCID = "0000-0001-6788-5876", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Nele", "Mullens", role = "ctb",
-           comment = c(ORCID = "0000-0002-3054-9665")),
+           comment = c(ORCID = "0000-0002-3054-9665", affiliation = "Regionaal Landschap Dijleland vzw")),
+    person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = "ctb",
+           comment = c(ORCID = "0000-0002-8185-1020", affilication = "Swiss Ornithological Institute")),
+    person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "ctb",
+           comment = c(ORCID = "0000-0001-8804-4216", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Lynn", "Pallemaerts", , "lynn.pallemaerts@inbo.be", role = "ctb",
+           comment = c(ORCID = "0000-0002-5034-5416", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
-           comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+           comment = c(ROR = "00j54wy13")),
     person("Research Foundation - Flanders", role = "fnd",
            comment = "https://lifewatch.be")
   )
-Description: Read, explore and visualize Camera Trap Data Packages (Camtrap DP).
-    'Camtrap DP' (<https://camtrap-dp.tdwg.org>) is a community developed 
-    data exchange format for this type of data. With camtraptor you can read and 
-    filter data, create overviews of observed species, relative abundance or 
-    effort, and plot these data on a map.
+Description: Explore and visualize Camera Trap Data Packages ('Camtrap
+    DP', <https://camtrap-dp.tdwg.org/>). camtraptor offers a step-by-step
+    workflow to read Camtrap DP files, filter data of interest, summarize
+    information (e.g. number of observed species) and visualize this per
+    deployment on an interactive map. You can also use it to transform
+    data for analysis in 'camtrapR'.
 License: MIT + file LICENSE
+URL: https://github.com/inbo/camtraptor,
+    https://inbo.github.io/camtraptor/
 BugReports: https://github.com/inbo/camtraptor/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     activity,
     assertthat,
+    camtrapdp,
     dplyr (>= 1.1.0),
-    EML,
-    frictionless,
     glue,
     htmltools,
     leaflet,
@@ -48,25 +54,27 @@ Imports:
     overlap,
     purrr,
     RColorBrewer,
-    readr,
-    rlang,
     reshape2,
+    rlang,
+    snakecase,
     stringr,
     tidyr,
-    tools,
-    utils,
-    uuid
+    utils
 Suggests:
+    camtrapR,
+    cli,
     covr,
+    frictionless,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
+    unmarked,
     xml2
 VignetteBuilder:
     knitr
+Config/roxygen2/version: 8.1.0
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
-Config/testthat/edition: 3

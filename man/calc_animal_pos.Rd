@@ -8,7 +8,7 @@ calc_animal_pos(
   animal_pos,
   calib_models,
   dep_tag = "deploymentID",
-  sequence_id = "sequenceID",
+  sequence_id = "eventID",
   x = "x",
   y = "y",
   image_width = "imageWidth",
@@ -16,37 +16,37 @@ calc_animal_pos(
 )
 }
 \arguments{
-\item{animal_pos}{Data frame (tibble) of animal position digitization data.
-It must contain (at least) the columns defined in args \code{dep_tag},
-\code{sequence_id}, \code{x}, \code{y}, \code{image_width} and \code{image_height}.}
+\item{animal_pos}{Data frame (tibble) of animal position digitization
+data. It must contain (at least) the columns defined in arguments
+\code{deployment_id}, \code{sequence_id}, \code{x}, \code{y}, \code{image_width} and \code{image_height}.}
 
-\item{calib_models}{Named list of deployment calibration models or site calibration
-models (\code{calibs} objects), produced using \code{cal.site()} (not yet included in
-this package). The deployment names are used as names.}
+\item{calib_models}{Named list of deployment calibration models or site
+calibration models (\code{calibs} objects), produced using \code{cal.site()} (not yet
+included in this package). The deployment names are used as names.}
 
-\item{dep_tag}{Column in \code{animal_pos} against which
-names of the elements can be matched to apply the right deployment
-calibration models. Default: \code{"deploymentID"}.}
+\item{dep_tag}{Column in \code{animal_pos} against which names of the
+elements can be matched to apply the right deployment calibration models.
+Default: \code{"deploymentID"}.}
 
-\item{sequence_id}{Column in \code{animal_pos} containing
-the sequence ID the images belong to. Default: \code{"sequenceID"}.}
+\item{sequence_id}{Column in \code{animal_pos} containing the sequence ID the
+images belong to. Default: \code{"sequenceID"}.}
 
-\item{x}{Column in \code{animal_pos} containing x pixel
-positions for each digitised point. Default: \code{"x"}.}
+\item{x}{Column in \code{animal_pos} containing x pixel positions for each
+digitised point. Default: \code{"x"}.}
 
-\item{y}{Column in \code{animal_pos} containing y pixel
-positions for each digitised point. Default: \code{"y"}.}
+\item{y}{Column in \code{animal_pos} containing y pixel positions for each
+digitised point. Default: \code{"y"}.}
 
-\item{image_width}{Column in \code{animal_pos} containing the pixel x dimension of
-each image. Default: \code{"imageWidth"}. Notice that the pixel x dimension must
-be consistent for each deployment.}
+\item{image_width}{Column in \code{animal_pos} containing the pixel x
+dimension of each image. Default: \code{"imageWidth"}. Notice that the pixel x
+dimension must be consistent for each deployment.}
 
-\item{image_height}{Column in \code{animal_pos} containing the pixel y dimension
-of each image. Default: \code{"imageHeight"}. Notice that the pixel y dimension
-must be consistent for each deployment.}
+\item{image_height}{Column in \code{animal_pos} containing the pixel y
+dimension of each image. Default: \code{"imageHeight"}. Notice that the pixel y
+dimension must be consistent for each deployment.}
 }
 \value{
-Original tibble data frame as passed via \code{animal_pos} with
+Original tibble data frame as passed via \code{animal_positions} with
 additional columns:
 \itemize{
 \item \code{radius}: Radial distance from camera.
@@ -55,11 +55,15 @@ additional columns:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Use \code{\link[=calculate_individual_radius_angle]{calculate_individual_radius_angle()}}
+instead.
+
 Calculates the position of animal relative to a camera based on image pixel
 positions and site calibration models.
 }
 \examples{
-# Use default values
-calc_animal_pos(animal_positions, dep_calib_models)
+calc_animal_pos(animal_positions, calibration_models)
 }
-\concept{density estimation functions}
+\concept{deprecated density estimation functions}

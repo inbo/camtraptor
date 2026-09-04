@@ -1,0 +1,59 @@
+url: https://inbo.github.io/camtraptor/
+template:
+  bootstrap: 5
+navbar:
+  bg: dark
+articles:
+- title: Basics
+  navbar: ~
+  contents:
+  - workflow
+  - visualize-deployment-features
+- title: Create outputs for camtrapR
+  navbar: Create outputs for camtrapR
+  contents: 
+  - record-table
+  - camera-operation-matrix
+  - detection-history-matrix
+- title: Other
+  navbar: Other
+  contents: 
+  - calculate-animal-position
+reference:
+- title: Read data
+  contents:
+  - has_concept("read functions")
+  - has_concept("read sample data functions")
+  - has_concept("deprecated read functions")
+- title: Filter data
+  contents:
+  - has_concept("filter functions")
+- title: Explore data
+  contents:
+  - has_concept("exploration functions")
+  - has_concept("deprecated exploration functions")
+- title: Visualize data
+  contents:
+  - has_concept("visualization functions")
+  - has_concept("deprecated visualization functions")
+- title: Create outputs for camtrapR
+  desc: >
+    These functions are superseded because camtrapR now supports reading Camera 
+    Trap Data Packages.
+  contents:
+  - has_concept("deprecated camtrapR-derived functions")
+- title: Estimate density
+  contents:
+  - has_concept("density estimation functions")
+  - has_concept("deprecated density estimation functions")
+- title: Accessor (and assignment) functions
+  contents:
+  - has_concept("accessor functions")
+  - has_concept("deprecated accessor functions")
+- title: Transformation functions
+  contents:
+  - has_concept("transformation functions")
+- title: Sample data
+  contents:
+  - has_concept("read sample data functions")
+  - has_concept("sample data")

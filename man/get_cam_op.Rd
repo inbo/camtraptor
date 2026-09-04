@@ -2,23 +2,19 @@
 % Please edit documentation in R/get_cam_op.R
 \name{get_cam_op}
 \alias{get_cam_op}
-\title{Get camera operation matrix}
+\title{Get the camera operation matrix}
 \usage{
 get_cam_op(
-  package = NULL,
-  ...,
+  x,
   station_col = "locationName",
   camera_col = NULL,
   session_col = NULL,
-  use_prefix = FALSE,
-  datapkg = lifecycle::deprecated()
+  use_prefix = FALSE
 )
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
-
-\item{...}{filter predicates for filtering on deployments.}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{station_col}{Column name to use for identifying the stations. Default:
 \code{"locationName"}.}
@@ -32,63 +28,72 @@ histories.}
 
 \item{use_prefix}{Logical (\code{TRUE} or \code{FALSE}). If \code{TRUE} the returned row
 names will start with prefix \code{"Station"} as returned by
-\href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
 Default: \code{FALSE}.}
-
-\item{datapkg}{Deprecated. Use \code{package} instead.}
 }
 \value{
 A matrix. Row names always indicate the station ID. Column names are
 dates.
 }
 \description{
-Returns the \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camera operation matrix} as
-returned by \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+This function is superseded because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}} instead.
+
+Creates the camera operation matrix as returned by
+\code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
 }
 \details{
 The deployment data are by default grouped by \code{locationName} (station ID in
 camtrapR jargon) or another column specified by the user via the
-\code{station_col} argument. If multiple deployments are linked to same location,
-daily efforts higher than 1 occur.
+\code{station_col} argument. If multiple deployments are linked to the same
+location, daily efforts higher than 1 occur.
 
 Partially active days, e.g. the first or the last day of a deployment, result
-in decimal effort values as in \href{https://jniedballa.github.io/camtrapR/reference/cameraOperation.html}{camtrapR::cameraOperation()}.
+in decimal effort values as in \code{\link[camtrapR:cameraOperation]{camtrapR::cameraOperation()}}.
 }
 \examples{
 library(dplyr)
-get_cam_op(mica)
+library(stringr)
 
-# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-get_cam_op(mica, pred_gte("latitude", 51.18))
+x <- example_dataset()
+get_cam_op(x)
 
 # Specify column with station names
-get_cam_op(mica, station_col = "locationID")
+get_cam_op(x, station_col = "locationID")
 
 # Specify column with session IDs
-mica_sessions <- mica
-mica_sessions$data$deployments <- mica_sessions$data$deployments \%>\%
-  dplyr::mutate(session = ifelse(
-    stringr::str_starts(.data$locationName, "B_DL_"),
-      "after2020",
-      "before2020"
-  )
-)
-get_cam_op(mica_sessions, session_col = "session")
+x_sessions <- x
+deployments(x_sessions) <- deployments(x_sessions) \%>\%
+  mutate(session = ifelse(
+    str_starts(.data$locationName, "B_DL_"),
+    "after2020",
+    "before2020"
+  ))
+  
+get_cam_op(x_sessions, session_col = "session")
 
 # Specify column with camera IDs
-mica_cameras <- mica_sessions
-mica_cameras$data$deployments$cameraID <- c(1, 2, 3, 4)
-get_cam_op(mica_cameras, camera_col = "cameraID")
+x_cameras <- x_sessions
+deployments(x_cameras) <- deployments(x_cameras) \%>\%
+  mutate(cameraID = c(1, 2, 3, 4))
+get_cam_op(x_cameras, camera_col = "cameraID")
 
 # Specify both session and camera IDs
-get_cam_op(mica_cameras, camera_col = "cameraID", session_col = "session")
+get_cam_op(
+  x_cameras,
+  camera_col = "cameraID",
+  session_col = "session"
+)
 
 # Use prefix Station as in camtrapR's camera operation matrix
-get_cam_op(mica, use_prefix = TRUE)
+get_cam_op(x, use_prefix = TRUE)
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{get_detection_history}()},
-\code{\link{get_record_table}()}
+Other deprecated camtrapR-derived functions:
+\code{\link[=get_detection_history]{get_detection_history()}},
+\code{\link[=get_record_table]{get_record_table()}}
 }
-\concept{camtrapR-derived functions}
+\concept{deprecated camtrapR-derived functions}

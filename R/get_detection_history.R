@@ -1,13 +1,38 @@
 #' Get the detection history of a species
 #'
-#' This function creates a detection history matrix for a species based on the
-#' record table and the camera operation matrix. The detection history matrix is
-#' a binary matrix where rows represent camera stations and columns represent
-#' occasions. The matrix is filled with 1s and 0s, where 1 indicates that the
-#' species was detected at a station on a given occasion and 0 indicates that
-#' the species was not detected. The function also returns the effort matrix,
-#' which contains the number of days that each station was active on each
-#' occasion, and the dates matrix, which contains the dates of the occasions.
+#' @description
+#' `r lifecycle::badge("superseded")`
+#' 
+#' This function is superseded because camtrapR now supports reading Camera Trap
+#' Data Packages. Use [camtrapR::readCamtrapDP()] and
+#' [camtrapR::detectionHistory()] instead.
+#' 
+#' Creates the detection history matrix of a species based on the
+#' record table and the camera operation matrix. The detection history is a 
+#' concept developed within the camtrapR package, see the function documentation 
+#' for [camtrapR::detectionHistory()].
+#'
+#' The detection history matrix is a binary matrix where rows represent camera
+#' stations and columns represent occasions. The matrix is filled with 1s and
+#' 0s, where 1 indicates that the species was detected at a station on a given
+#' occasion and 0 indicates that the species was not detected. The function also
+#' returns the effort matrix, which contains the number of days that each
+#' station was active on each occasion, and the dates matrix, which contains the
+#' dates of the occasions.
+#' 
+#' @details
+#' This function doesn't take as input a Camera Trap Data Package object, but a
+#' camera operation matrix and a record table, which are both calculated based
+#' on a Camera Trap Data Package object. For more information, see the
+#' [get_cam_op()] and [get_record_table()] functions.
+#' 
+#' If the camera operation matrix (`camOp`) was created for a multi-season study
+#' (via argument `session_col` in `get_cam_op()`), the session will be detected
+#' automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate
+#' a multi-season detection history. Each row corresponds to a site, and the
+#' columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`,
+#' `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
+#' 
 #' @param recordTable A data frame with the camera trap records. The data frame
 #'   should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station'
 #'   is the camera station ID, 'Date' is the date of the record, 'Species' is
@@ -35,27 +60,30 @@
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are
 #'   removed because taken during the buffer period.
-#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return the input for multi-season occupancy models in unmarked R package (argument `y` in [unmarked::unmarkedMultFrame()]). Default: `FALSE`.
-#' @return A list with three elements:
+#' @param unmarkedMultFrameInput Logical. If `TRUE`, the function will return 
+#' the input for multi-season occupancy models in unmarked
+#' R package (argument `y` in [unmarked::unmarkedMultFrame()]).
+#' Default: `FALSE`.
+#' @returns A list with three elements:
 #' - `detection_history`: the detection history matrix
 #' - `effort`: the effort matrix
-#' - `dates`: the dates matrix
-#' 
-#' @details
-#' This function doesn't take as input a camera trap data package object, but a
-#' camera operation matrix and a record table, which are both calculated based
-#' on a camera trap data package object. For more information, see the
-#' [get_cam_op()] and [get_record_table()] functions.
-#' 
-#' If the camera operation matrix (`camOp`) was created for a multi-season study (via argument `session_col` in `get_cam_op()`), the session will be detected automatically. You can then set `unmarkedMultFrameInput` = `TRUE` to generate a multi-season detection history. Each row corresponds to a site, and the columns are in season-major, occasion-minor order, e.g. `o1_SESS_A`, `o2_SESS_A`, `o1_SESS_B`, `o2_SESS_B`, etc.
-#' 
-#' @family camtrapR-derived functions
+#' - `dates`: the dates matrix 
+#' @family deprecated camtrapR-derived functions
 #' @importFrom dplyr .data %>%
 #' @export
 #' @examples
 #' library(dplyr)
-#' camOp <- get_cam_op(mica)
-#' recordTable <- get_record_table(mica)
+#' library(stringr)
+#' 
+#' x <- example_dataset()
+#' camOp <- get_cam_op(x)
+#' recordTable <- get_record_table(x)
+#' # More observations of the same species on the same day at the same station
+#' # are left.
+#' recordTable_mulitple <- get_record_table(
+#'   x,
+#'   removeDuplicateRecords = FALSE
+#' )
 #' 
 #' # Binary output
 #' get_detection_history(
@@ -65,14 +93,24 @@
 #'   output = "binary"
 #' )
 #' 
-#' # Number of observations output
+#' # Number of observations output: same as binary with default
+#' # `get_record_table(x)`
 #' get_detection_history(
 #'  recordTable,
 #'  camOp,
 #'  species = "Anas platyrhynchos",
 #'  output = "n_observations"
 #' )
-#'  
+#' 
+#' # Number of observations output: more than 1 if more than 1 observation of
+#' # the species on the same day at the same station
+#' get_detection_history(
+#'  recordTable_mulitple,
+#'  camOp,
+#'  species = "Anas platyrhynchos",
+#'  output = "n_observations"
+#' )
+#'
 #' # Number of individuals output
 #' get_detection_history(
 #'  recordTable,
@@ -80,7 +118,7 @@
 #'  species = "Anas platyrhynchos",
 #'  output = "n_individuals"
 #' )
-#' 
+#'
 #' # Occasion length of 7 days
 #' get_detection_history(
 #'  recordTable,
@@ -128,38 +166,19 @@
 #' )
 #' 
 #' # Multi-season detection history
-#' 
-#' # Create a multi-season camera operation matrix / record table
-#' mica_sessions <- mica
-#' mica_sessions$data$deployments$session <- c("2020", "2020", "2021", "2021")
-#' mica_sessions$data$deployments$locationID <- c(
-#'   mica_sessions$data$deployments$locationID[1:2],
-#'   mica_sessions$data$deployments$locationID[1:2]
-#' )
-#' mica_sessions$data$deployments$locationName <- c(
-#'   mica_sessions$data$deployments$locationName[1:2],
-#'   mica_sessions$data$deployments$locationName[1:2]
-#' )
-#' delta <- lubridate::duration(2, units = "years")
-#' mica_sessions$data$deployments$start[4] <- mica_sessions$data$deployments$start[4] + delta
-#' mica_sessions$data$deployments$end[4] <- mica_sessions$data$deployments$end[4] + delta
-#' mica_sessions$data$observations <- mica_sessions$data$observations %>%
-#' dplyr::mutate(timestamp = dplyr::if_else(
-#'   deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
-#'   timestamp + delta,
-#'   timestamp
+#' x_sessions <- x
+#' deployments(x_sessions) <- deployments(x_sessions) %>%
+#'   mutate(session = ifelse(
+#'     str_starts(.data$locationName, "B_DL_"),
+#'       "after2020",
+#'       "before2020"
 #'   )
 #' )
-#' mica_sessions$data$media <- mica_sessions$data$media %>%
-#' dplyr::mutate(
-#'  timestamp = dplyr::if_else(
-#'  deploymentID %in% mica_sessions$data$deployments$deploymentID[4],
-#'  timestamp + delta,
-#'  timestamp
-#'  )
+#' camOp_sessions <- get_cam_op(
+#'   x_sessions,
+#'   session_col = "session"
 #' )
-#' camOp_sessions <- get_cam_op(mica_sessions, session_col = "session")
-#' recordTable_sessions <- get_record_table(mica_sessions)
+#' recordTable_sessions <- get_record_table(x_sessions)
 #' 
 #' # Create a multi-season detection history
 #' get_detection_history(
@@ -184,7 +203,7 @@ get_detection_history <- function(recordTable,
                           msg = "`recordTable` must be a tibble data.frame."
   )
   assertthat::assert_that(
-    "tbl_df" %in% class(recordTable),
+    inherits(recordTable, "tbl_df"),
     msg = "`recordTable` must be a tibble data.frame."
   )
   assertthat::assert_that(
@@ -212,7 +231,7 @@ get_detection_history <- function(recordTable,
   # Sessions present in all rownames of camera operation matrix or not at all
   stations_cam_op <- rownames(camOp)
   stations_without_sess <- stations_cam_op[
-    !stringr::str_detect(stations_cam_op, "SESS_")
+    !stringr::str_detect(stations_cam_op, stringr::fixed("SESS_"))
   ]
   assertthat::assert_that(
     length(stations_without_sess) == 0 | 
@@ -323,10 +342,9 @@ get_detection_history <- function(recordTable,
     tryCatch(
       day1 <- as.character(as.Date(day1)), # Use custom error message
       error = function(e) {
-        stop(paste0(
-          "Invalid `day1`. Must be equal to 'station' or a string representing ",
-          "a valid date in ISO 8601 format."
-          ),
+        stop(
+          "Invalid `day1`. Must be equal to 'station' or a string ",
+          "representing a valid date in ISO 8601 format.",
           call. = FALSE
         )
       }
@@ -626,9 +644,9 @@ get_detection_history <- function(recordTable,
         floor(as.numeric(.data$Date - .data$first_day)/occasionLength)
     ) %>%
     dplyr::group_by(.data$Station, .data$period_start) %>%
-    dplyr::summarize(z = 1,
-                     n_obs = dplyr::n(),
-                     n_ind = sum(.data$n),
+    dplyr::summarize(z = 1L,
+                     n_obs = as.integer(dplyr::n()),
+                     n_ind = as.integer(sum(.data$n)),
                      .groups = "drop")
   
   # Transform camera operation matrix, `camOp` to a long format (tibble)
@@ -794,8 +812,13 @@ get_detection_history <- function(recordTable,
             # Dates are characters
             out %>% purrr::flatten_chr()
           } else {
-            # Detection history and effort are numbers
-            out %>% purrr::flatten_dbl()
+            # Detection history is integer
+            if (type == "detection_history") {
+              out %>% purrr::flatten_int()
+            } else {
+              # Effort is numeric (decimals allowed)
+              out %>% purrr::flatten_dbl()
+            }
           }
         })
         

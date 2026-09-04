@@ -2,31 +2,26 @@
 % Please edit documentation in R/get_record_table.R
 \name{get_record_table}
 \alias{get_record_table}
-\title{Get record table}
+\title{Get the record table}
 \usage{
 get_record_table(
-  package = NULL,
-  ...,
+  x,
   stationCol = "locationName",
   exclude = NULL,
   minDeltaTime = 0,
   deltaTimeComparedTo = NULL,
-  removeDuplicateRecords = TRUE,
-  datapkg = lifecycle::deprecated()
+  removeDuplicateRecords = TRUE
 )
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
-
-\item{...}{Filter predicates for filtering on deployments}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
 \item{stationCol}{Character name of the column containing stations.
 Default: \code{"locationName"}.}
 
-\item{exclude}{Character vector of species names (scientific names or
-vernacular names) to be excluded from the record table.
-Default: \code{NULL}.}
+\item{exclude}{Character vector of scientific names to be excluded from the
+record table. Default: \code{NULL}.}
 
 \item{minDeltaTime}{Time difference between records of the same
 species at the same station to be considered independent (in minutes).
@@ -40,12 +35,10 @@ species (\code{deltaTimeComparedTo = "lastIndependentRecord"}), or
 \code{minDeltaTime} minutes after the last record (\code{deltaTimeComparedTo = "lastRecord"}).
 If \code{minDeltaTime} is 0, \code{deltaTimeComparedTo} must be \code{NULL} (default).}
 
-\item{removeDuplicateRecords}{Logical.
-If there are several records of the same species at the same station at
-exactly the same time, show only one?}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+\item{removeDuplicateRecords}{Logical. If there are several records of the
+same species, but e.g. different \code{sex} or \code{lifeStage}, at the same station
+at exactly the same time, show only one? Default: \code{TRUE}. Duplicates are
+removed by keeping only the first observation in the observation table.}
 }
 \value{
 A tibble data frame containing species records and additional
@@ -57,8 +50,10 @@ Some more details about the columns returned:
 \item \code{Station}: Character, station names, as found in the deployment column
 defined in parameter \code{stationCol}.
 \item \code{Species}: Character, the scientific name of the observed species.
-\item \code{n}: Numeric, the number of individuals of the observed species.
-\item \code{DateTimeOriginal}: Datetime object, as found in column \code{timestamp} of
+\item \code{n}: Numeric, the number of observed individuals (renamed from
+\href{https://camtrap-dp.tdwg.org/data/#observations.count}{\code{count}} in the
+observations table).
+\item \code{DateTimeOriginal}: Datetime object, as found in column \code{eventStart} of
 \code{observations}, in UTC format.
 \item \code{Date}: Date object, the date part of \code{DateTimeOriginal}, in UTC format.
 \item \code{Time}: Character, the time part of \code{DateTimeOriginal} in UTC format.
@@ -74,72 +69,93 @@ independent record of a given species at a certain location.
 as defined in column \code{filePath} of \code{media}.
 \item \code{Filename}: List, file names of the images linked to the given record,
 as defined in column \code{fileName} of \code{media}.
-\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID} of the observations.
-\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID} of the observations.
+\item \code{Latitude}: Numeric, latitude of the station, based on \code{deploymentID}
+of the observations.
+\item \code{Longitude}: Numeric, longitude of the station, based on \code{deploymentID}
+of the observations.
 \item \code{clock}: Numeric, clock time in radians.
-\item \code{solar}: Numeric, solar time in radians. Calculated using \code{overlap::sunTime}, which essentially uses the approach described in \href{https://doi.org/10.1111/j.1469-7998.2011.00864.x}{Nouvellet et al. (2012)}.
+\item \code{solar}: Numeric, solar time in radians. Calculated using
+\code{overlap::sunTime}, which essentially uses the approach described in
+Nouvellet et al. (2012) \doi{10.1111/j.1469-7998.2011.00864.x}.
 }
 }
 \description{
-Calculates the record table from a camera trap data package and so tabulating
-species records.
-The record table is a concept developed within the camtrapR package, see
-\href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}.
-See also the function documentation for \href{https://jniedballa.github.io/camtrapR/reference/recordTable.html}{camtrapR::recordTable()}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+This function is superseded because camtrapR now supports reading Camera Trap
+Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}
+instead.
+
+Creates the record table from a Camera Trap Data Package and so tabulating
+species records. Only event-based observations and their corresponding media
+are taken into account. The record table is a concept developed within the
+camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
+function documentation for \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}.
+
 \strong{Note}: All dates and times are expressed in UTC format.
 }
 \examples{
-get_record_table(mica)
+library(lubridate)
 
-# Set a minDeltaTime of 20 minutes from last independent record for filtering
-# out not independent observations
-mica_dependent <- mica
-mica_dependent$data$observations[4,"timestamp"] <- lubridate::as_datetime("2020-07-29 05:55:00")
+x <- example_dataset()
+get_record_table(x)
+
+# Create a new Camera Trap Data Package with dependent observations only for
+# demonstration.
+obs <- observations(x)
+obs[obs$observationID == "9e191d10",]$scientificName <- "Martes foina"
+x_dep <- x
+observations(x_dep) <- obs
+
+# Set a minDeltaTime of 100 minutes from last record
 get_record_table(
-  mica_dependent,
-  minDeltaTime = 20,
+  x_dep,
+  minDeltaTime = 100,
+  deltaTimeComparedTo = "lastRecord"
+)
+
+# Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
+# `"lastIndependentRecord"`
+obs <- observations(x)
+obs[obs$eventID == "02ae9f43", "eventStart"] <- 
+  as_datetime("2020-08-02 05:10:20")
+
+med <- media(x) 
+rows_to_update <- which(med$eventID == "02ae9f43") 
+med[rows_to_update, "timestamp"] <- as_datetime("2020-08-02 05:10:20") 
+
+x_modified <- x
+observations(x_modified) <- obs
+media(x_modified) <- med
+
+rec_last_indep <- get_record_table(
+  x_modified,
+  minDeltaTime = 10,
   deltaTimeComparedTo = "lastIndependentRecord"
 )
 
-# Set a minDeltaTime of 20 minutes from last record for filtering out not
-# independent observations
-get_record_table(
-  mica_dependent,
-  minDeltaTime = 20,
+rec_last <- get_record_table(
+  x_modified,
+  minDeltaTime = 10,
   deltaTimeComparedTo = "lastRecord"
 )
 
-# Exclude observations of mallard
-# Exclude is case insensitive and vernacular names are allowed
-get_record_table(mica, exclude = "wilde eend")
+# Exclude observations of Anas platyrhynchos.
+get_record_table(x, exclude = "Anas platyrhynchos")
 
 # Specify column to pass station names
+get_record_table(x, stationCol = "locationID")
+
+# Include "duplicates", i.e. records of same species at same time, but
+# different attributes, such as life stage or sex.
 get_record_table(
-  mica,
-  stationCol = "locationID",
-  minDeltaTime = 20,
-  deltaTimeComparedTo = "lastRecord"
+ x,
+ removeDuplicateRecords = FALSE
 )
-
-# How to deal with duplicates
-mica_dup <- mica
-# create a duplicate at 2020-07-29 05:46:48, location: B_DL_val 5_beek kleine vijver
-mica_dup$data$observations[4,"sequenceID"] <- mica_dup$data$observations$sequenceID[3]
-mica_dup$data$observations[4, "deploymentID"] <- mica_dup$data$observations$deploymentID[3]
-mica_dup$data$observations[4, "timestamp"] <- mica_dup$data$observations$timestamp[3]
-
-# duplicates are removed by default by get_record_table()
-get_record_table(mica_dup)
-
-# duplicate not removed
-get_record_table(mica_dup, removeDuplicateRecords = FALSE)
-
-# Applying filter(s) on deployments, e.g. deployments with latitude >= 51.18
-get_record_table(mica, pred_gte("latitude", 51.18))
 }
 \seealso{
-Other camtrapR-derived functions: 
-\code{\link{get_cam_op}()},
-\code{\link{get_detection_history}()}
+Other deprecated camtrapR-derived functions:
+\code{\link[=get_cam_op]{get_cam_op()}},
+\code{\link[=get_detection_history]{get_detection_history()}}
 }
-\concept{camtrapR-derived functions}
+\concept{deprecated camtrapR-derived functions}

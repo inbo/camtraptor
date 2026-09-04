@@ -8,6 +8,12 @@ concurrency:
 on:
   # Manually trigger the Action under Actions/pkgcheck
   workflow_dispatch:
+  # Run on every push to main, wait for R-CMD-check
+  # and test-coverage to complete, otherwise pkgcheck fails
+  workflow_run:
+    workflows: ["R-CMD-check", "test-coverage"]
+    types: [completed]
+    branches: [main]
 
 jobs:
   pkgcheck:
@@ -15,4 +21,4 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: ropensci-review-tools/pkgcheck-action@main
+      - uses: ropensci-review-tools/pkgcheck-action@fa6dc3e9dec0580397ae44ec6fb9e7953947758c # heads/main

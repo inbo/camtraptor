@@ -1,52 +1,22 @@
 #' Get species
 #'
-#' Gets all identified species.
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' It is deprecated as of camtraptor 1.0.0. Please use [taxa()] instead.
 #'
-#' @param package Camera trap data package object, as returned by
-#'   `read_camtrap_dp()`.
-#' @param datapkg Deprecated.
-#'   Use `package` instead.
-#' @return A tibble data frame with all scientific names and vernacular names of
-#'   the identified species.
-#' @family exploration functions
+#' @inheritParams summarize_deployments
+#' @returns A tibble data frame with taxonomic information.
+#' @family deprecated accessor functions
 #' @export
 #' @examples
-#' get_species(mica)
-get_species <- function(package = NULL, datapkg = lifecycle::deprecated()) {
-  # Check camera trap data package
-  check_package(package, datapkg, "get_species", media = FALSE)
-  if (is.null(package) & !is.name(datapkg)) {
-    package <- datapkg
-  }
-  
-  # Get taxonomic information from package metadata
-  if (!"taxonomic" %in% names(package)) {
-    return(NULL)
-  } else {
-    taxonomy <- package$taxonomic
-    if ("vernacularNames" %in% names(taxonomy[[1]])) {
-      # Get all languages used in vernacularNames
-      langs <- purrr::map(taxonomy, function(x) {
-        vernacular_languages <- NULL
-        if ("vernacularNames" %in% names(x)) {
-          vernacular_languages <- names(x$vernacularNames)
-        }
-      })
-      langs <- unique(unlist(langs))
-
-      # Fill empty vernacular names with NA
-      taxonomy <- purrr::map(taxonomy, function(x) {
-        missing_langs <- langs[!langs %in% names(x$vernacularNames)]
-        for (i in missing_langs) {
-          x$vernacularNames[[i]] <- NA_character_
-        }
-        x
-      })
-    }
-    # flatten list and transform to data.frame
-    purrr::map_dfr(taxonomy, function(x) {
-      purrr::list_flatten(x, name_spec = "{outer}.{inner}")
-      }
-    )
-  }
+#' x <- example_dataset()
+#' get_species(x)
+get_species <- function(x) {
+  lifecycle::deprecate_warn(
+    when = "1.0.0",
+    what = "get_species()",
+    with = "taxa()"
+  )
+  taxa(x)
 }

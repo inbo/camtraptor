@@ -1,0 +1,55 @@
+#' Add deployment coordinates to observations
+#'
+#' This function adds deployment coordinates to `observations` based on
+#' `deploymentID`.
+#'
+#' When the `latitude` and/or the `longitude` columns are already present in
+#' `observations`, a warning is issued and the original object is returned
+#' unchanged.
+#'
+#' @inheritParams summarize_deployments
+#' @returns Camera trap data package object, where `observations` is updated by
+#'   appending two new columns: `latitude` and `longitude`
+#' @family transformation functions
+#' @export
+#' @examples
+#' x <- example_dataset()
+#'
+#' # Add coordinates to observations
+#' add_coordinates(x) %>% observations()
+add_coordinates <- function(x) {
+  
+  # Check Camera Trap Data Package
+  camtrapdp::check_camtrapdp(x)
+  
+  # If coordinates are already present, warn and return x
+  if (all(c("latitude", "longitude") %in% colnames(observations(x)))) {
+    warning(
+      "Coordinates are not added because already present in observations."
+    )
+    return(x)
+  }
+
+  # If only one of the coordinates is present, warn and return x
+  if (any(c("latitude", "longitude") %in% colnames(observations(x)))) {
+    present_coord <- ifelse(
+      "latitude" %in% colnames(observations(x)),
+      "latitude",
+      "longitude"
+    )
+    warning(
+      glue::glue(
+        "Coordinates are not added because {present_coord} ",
+        "is already present in observations."
+    ))
+    return(x)
+  }
+  
+  # Add coordinates to observations
+  observations(x) <- observations(x) %>%
+    dplyr::left_join(deployments(x) %>% 
+                       dplyr::select("deploymentID", "latitude", "longitude"),
+                     by = "deploymentID")
+  
+  return(x)
+}

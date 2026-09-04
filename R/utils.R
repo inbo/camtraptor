@@ -70,6 +70,19 @@ check_value <- function(arg, options = NULL, arg_name, null_allowed = TRUE) {
   }
 }
 
+#' Check `group_time_by` parameter
+#'
+#' Checks if the `group_time_by` parameter is valid. If not, an error message is
+#' returned. It is built on top of the `check_value()` function.
+#' @param group_time_by Character containing the input parameter provided by the
+#' user.
+#' @param group_time_bys Character vector of valid inputs for the parameter.
+#' @returns If no error, `TRUE`.
+#' @noRd
+#' @keywords internal
+#' @examples
+#' # Valid inputs for group_time_by
+#' check_group_time_by("day", c("day", "week", "month"))
 check_group_time_by <- function(group_time_by, group_time_bys) {
   assertthat::assert_that(
     is.null(group_time_by) | length(group_time_by) == 1,

@@ -87,6 +87,7 @@ check_group_time_by <- function(group_time_by, group_time_bys) {
 #' @param grouped_df A grouped tibble data frame as returned by
 #'   `summarize_observations()`.
 #' @returns If no error, `TRUE`.
+#' @noRd
 #' @keywords internal
 check_summary <- function(grouped_df) {
   # Check input is a data frame

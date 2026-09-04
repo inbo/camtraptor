@@ -12,6 +12,7 @@
 #'   Are NULL values allowed?
 #' @returns If no error, `TRUE`.
 #' @noRd
+#' @keywords internal
 #' @examples
 #' # Valid inputs for species
 #' check_value("Canis lupus", c("Canis lupus", "Corvus monedula"), "species")

@@ -32,8 +32,8 @@ names will start with prefix \code{"Station"} as returned by
 Default: \code{FALSE}.}
 }
 \value{
-A matrix. Row names always indicate the station ID. Column names are
-dates.
+A matrix. Rows are camera stations and columns are occassions
+(dates). Values indicate whether a camera was operational.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
@@ -46,7 +46,7 @@ Creates a camera operation matrix. See \code{vignette("camera-operation-matrix")
 for more details on how to use this function.
 }
 \details{
-The deployment data are by default grouped by \code{locationName} (station ID in
+The deployment data are by default grouped by \code{locationName} (Station ID in
 camtrapR jargon) or another column specified by the user via the
 \code{station_col} argument. If multiple deployments are linked to the same
 location, daily efforts higher than 1 occur.

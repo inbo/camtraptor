@@ -11,7 +11,7 @@
 #' for more details on how to use this function.
 #' 
 #' @details
-#' The deployment data are by default grouped by `locationName` (station ID in
+#' The deployment data are by default grouped by `locationName` (Station ID in
 #' camtrapR jargon) or another column specified by the user via the 
 #' `station_col` argument. If multiple deployments are linked to the same 
 #' location, daily efforts higher than 1 occur.
@@ -31,8 +31,8 @@
 #'   [camtrapR::cameraOperation()].
 #'   Default: `FALSE`.
 #' @inheritParams summarize_deployments
-#' @returns A matrix. Row names always indicate the station ID. Column names are
-#'   dates.
+#' @returns A matrix. Rows are camera stations and columns are occassions 
+#'   (dates). Values indicate whether a camera was operational.
 #' @family deprecated camtrapR-derived functions
 #' @export
 #' @examples

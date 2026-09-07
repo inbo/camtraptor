@@ -7,8 +7,8 @@
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::cameraOperation()] instead.
 #' 
-#' Creates the camera operation matrix as returned by
-#' [camtrapR::cameraOperation()].
+#' Creates a camera operation matrix. See `vignette("camera-operation-matrix")`
+#' for more details on how to use this function.
 #' 
 #' @details
 #' The deployment data are by default grouped by `locationName` (station ID in

@@ -86,13 +86,8 @@ This function is superseded because camtrapR supports reading Camera Trap
 Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}
 instead.
 
-Creates the record table from a Camera Trap Data Package and so tabulating
-species records. Only event-based observations and their corresponding media
-are taken into account. The record table is a concept developed within the
-camtrapR package, see \href{https://jniedballa.github.io/camtrapR/articles/camtrapr3.html}{this article}. See also the
-function documentation for \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}.
-
-\strong{Note}: All dates and times are expressed in UTC format.
+Creates a record table. All dates and times are expressed in UTC format. See
+\code{vignette("record-table")} for more details on how to use this function.
 }
 \examples{
 library(lubridate)

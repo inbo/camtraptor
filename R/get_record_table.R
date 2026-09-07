@@ -3,19 +3,13 @@
 #' @description
 #' `r lifecycle::badge("superseded")`
 #' 
-#' This function is superseded because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and [camtrapR::recordTable()]
 #' instead.
-#' 
-#' Creates the record table from a Camera Trap Data Package and so tabulating
-#' species records. Only event-based observations and their corresponding media
-#' are taken into account. The record table is a concept developed within the
-#' camtrapR package, see [this article](
-#' https://jniedballa.github.io/camtrapR/articles/camtrapr3.html). See also the
-#' function documentation for [camtrapR::recordTable()].
-#' 
-#' **Note**: All dates and times are expressed in UTC format.
 #'
+#' Creates a record table. All dates and times are expressed in UTC format. See
+#' `vignette("record-table")` for more details on how to use this function.
+#' 
 #' @param stationCol Character name of the column containing stations.
 #'   Default: `"locationName"`.
 #' @param exclude Character vector of scientific names to be excluded from the

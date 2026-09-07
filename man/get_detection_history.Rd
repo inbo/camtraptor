@@ -18,15 +18,9 @@ get_detection_history(
 )
 }
 \arguments{
-\item{recordTable}{A data frame with the camera trap records. The data frame
-should contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station'
-is the camera station ID, 'Date' is the date of the record, 'Species' is
-the species name, 'n' is the number of observations, and 'n_ind' is the
-number of individuals detected.}
+\item{recordTable}{A record table created by \code{get_record_table()}.}
 
-\item{camOp}{A matrix with camera operation data. Rows represent camera
-stations and columns represent occasions. The matrix should contain the
-number of days that each station was active on each occasion.}
+\item{camOp}{A camera operation matrix created by \code{get_cam_op()}.}
 
 \item{species}{Character. The species name.}
 
@@ -70,29 +64,15 @@ A list with three elements:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-This function is superseded because camtrapR now supports reading Camera Trap
+This function is superseded because camtrapR supports reading Camera Trap
 Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
 \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}} instead.
 
-Creates the detection history matrix of a species based on the
-record table and the camera operation matrix. The detection history is a
-concept developed within the camtrapR package, see the function documentation
-for \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}}.
-
-The detection history matrix is a binary matrix where rows represent camera
-stations and columns represent occasions. The matrix is filled with 1s and
-0s, where 1 indicates that the species was detected at a station on a given
-occasion and 0 indicates that the species was not detected. The function also
-returns the effort matrix, which contains the number of days that each
-station was active on each occasion, and the dates matrix, which contains the
-dates of the occasions.
+Creates species detection matrices. See
+\code{vignette("detection-history-matrix")} for more details on how to use
+this function.
 }
 \details{
-This function doesn't take as input a Camera Trap Data Package object, but a
-camera operation matrix and a record table, which are both calculated based
-on a Camera Trap Data Package object. For more information, see the
-\code{\link[=get_cam_op]{get_cam_op()}} and \code{\link[=get_record_table]{get_record_table()}} functions.
-
 If the camera operation matrix (\code{camOp}) was created for a multi-season study
 (via argument \code{session_col} in \code{get_cam_op()}), the session will be detected
 automatically. You can then set \code{unmarkedMultFrameInput} = \code{TRUE} to generate

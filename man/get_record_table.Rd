@@ -82,7 +82,7 @@ Nouvellet et al. (2012) \doi{10.1111/j.1469-7998.2011.00864.x}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-This function is superseded because camtrapR now supports reading Camera Trap
+This function is superseded because camtrapR supports reading Camera Trap
 Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and \code{\link[camtrapR:recordTable]{camtrapR::recordTable()}}
 instead.
 

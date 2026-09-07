@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("superseded")`
 #' 
-#' This function is superseded because camtrapR now supports reading Camera Trap
+#' This function is superseded because camtrapR supports reading Camera Trap
 #' Data Packages. Use [camtrapR::readCamtrapDP()] and
 #' [camtrapR::cameraOperation()] instead.
 #' 

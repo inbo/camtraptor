@@ -70,7 +70,7 @@ A list with three elements:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-This function is superseded because camtrapR now supports reading Camera Trap
+This function is superseded because camtrapR supports reading Camera Trap
 Data Packages. Use \code{\link[camtrapR:readCamtrapDP]{camtrapR::readCamtrapDP()}} and
 \code{\link[camtrapR:detectionHistory]{camtrapR::detectionHistory()}} instead.
 

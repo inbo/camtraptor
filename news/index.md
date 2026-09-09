@@ -1,5 +1,7 @@
 # Changelog
 
+## camtraptor (development version)
+
 ## camtraptor 1.0.0
 
 This major release updates the internal data model of camtraptor to

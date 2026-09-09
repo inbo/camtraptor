@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.6.0 (2026-04-24 ucrt)",
+  "runtimePlatform": "R version 4.6.1 (2026-06-24 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -62,6 +62,19 @@
     },
     {
       "@type": "Person",
+      "givenName": "Jim",
+      "familyName": "Casaer",
+      "email": "jim.casaer@inbo.be",
+      "@id": "https://orcid.org/0000-0001-6788-5876"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Nele",
+      "familyName": "Mullens",
+      "@id": "https://orcid.org/0000-0002-3054-9665"
+    },
+    {
+      "@type": "Person",
       "givenName": "Raphaël",
       "familyName": "Nussbaumer",
       "email": "rafnuss@gmail.com",
@@ -76,23 +89,10 @@
     },
     {
       "@type": "Person",
-      "givenName": "Jim",
-      "familyName": "Casaer",
-      "email": "jim.casaer@inbo.be",
-      "@id": "https://orcid.org/0000-0001-6788-5876"
-    },
-    {
-      "@type": "Person",
       "givenName": "Lynn",
       "familyName": "Pallemaerts",
       "email": "lynn.pallemaerts@inbo.be",
       "@id": "https://orcid.org/0000-0002-5034-5416"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Nele",
-      "familyName": "Mullens",
-      "@id": "https://orcid.org/0000-0002-3054-9665"
     }
   ],
   "copyrightHolder": [
@@ -117,6 +117,18 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "camtrapR",
+      "name": "camtrapR",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=camtrapR"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "cli",
@@ -189,6 +201,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "unmarked",
+      "name": "unmarked",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=unmarked"
     },
     {
       "@type": "SoftwareApplication",
@@ -422,7 +446,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1708.043KB",
+  "fileSize": "1675.021KB",
   "releaseNotes": "https://github.com/inbo/camtraptor/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/camtraptor/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/camtraptor/actions/workflows/R-CMD-check.yaml", "https://github.com/inbo/camtraptor/actions/workflows/pkgcheck.yaml", "https://app.codecov.io/gh/inbo/camtraptor", "https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml"],

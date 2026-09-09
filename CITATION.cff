@@ -1,7 +1,7 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "camtraptor" in publications use:'
@@ -41,9 +41,10 @@ authors:
   email: wolfmissotten@gmail.com
   orcid: https://orcid.org/0009-0006-4069-0685
   affiliation: Ghent University
-repository: https://inbo.r-universe.dev/src/contrib/camtraptor_0.28.0.tar.gz?sha256=0599a6cf24575856d191ab596e931f057c2a9bb862aab42822f53a45936f229e&file=
+repository: https://inbo.r-universe.dev/src/contrib/camtraptor_0.28.0.tar.gz?sha256=e91441d7ccc54466d3d81ce688debd81784f6cce85ee24bd3fb952521b014bb8&file=
 repository-code: https://github.com/inbo/camtraptor
 url: https://inbo.github.io/camtraptor/
+date-released: '2026-09-09'
 contact:
 - family-names: Oldoni
   given-names: Damiano
@@ -97,7 +98,7 @@ references:
   abstract: 'camtrapdp: Read and Manipulate Camera Trap Data Packages'
   notes: Imports
   url: https://inbo.github.io/camtrapdp/
-  repository: https://inbo.r-universe.dev
+  repository: https://CRAN.R-project.org/package=camtrapdp
   authors:
   - family-names: Desmet
     given-names: Peter
@@ -375,6 +376,25 @@ references:
   year: '2026'
   doi: 10.32614/R.manuals
 - type: software
+  title: camtrapR
+  abstract: 'camtrapR: Camera Trap Data Management and Analysis Framework'
+  notes: Suggests
+  url: https://groups.google.com/forum/#!forum/camtrapr
+  repository: https://CRAN.R-project.org/package=camtrapR
+  authors:
+  - family-names: Niedballa
+    given-names: Juergen
+    email: camtrapr@gmail.com
+    orcid: https://orcid.org/0000-0002-9187-2116
+  - family-names: Courtiol
+    given-names: Alexandre
+    orcid: https://orcid.org/0000-0003-0637-2959
+  - family-names: Sollmann
+    given-names: Rahel
+    orcid: https://orcid.org/0000-0002-1607-2039
+  year: '2026'
+  doi: 10.32614/CRAN.package.camtrapR
+- type: software
   title: cli
   abstract: 'cli: Helpers for Developing Command Line Interfaces'
   notes: Suggests
@@ -403,7 +423,7 @@ references:
   abstract: 'frictionless: Read and Write Frictionless Data Packages'
   notes: Suggests
   url: https://docs.ropensci.org/frictionless/
-  repository: https://inbo.r-universe.dev/src/contrib/frictionless_1.2.1.9000.tar.gz?sha256=95c8d55d5471cfd9613364ca895b74515ec851536993e24d846d31f3d9ea66af&file=
+  repository: https://CRAN.R-project.org/package=frictionless
   authors:
   - family-names: Desmet
     given-names: Peter
@@ -497,6 +517,34 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
+- type: software
+  title: unmarked
+  abstract: 'unmarked: Models for Data from Unmarked Animals'
+  notes: Suggests
+  url: https://groups.google.com/d/forum/unmarked
+  repository: https://CRAN.R-project.org/package=unmarked
+  authors:
+  - family-names: Chandler
+    given-names: Richard
+  - family-names: Kellner
+    given-names: Ken
+    email: contact@kenkellner.com
+  - family-names: Fiske
+    given-names: Ian
+  - family-names: Miller
+    given-names: David
+  - family-names: Royle
+    given-names: Andy
+  - family-names: Hostetler
+    given-names: Jeff
+  - family-names: Hutchinson
+    given-names: Rebecca
+  - family-names: Smith
+    given-names: Adam
+  - family-names: Pautrel
+    given-names: Lea
+  year: '2026'
+  doi: 10.32614/CRAN.package.unmarked
 - type: software
   title: xml2
   abstract: 'xml2: Parse XML'

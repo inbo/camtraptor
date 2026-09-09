@@ -8,7 +8,7 @@ camtraptor now offers a step-by-step workflow to explore and visualize data:
 
 1. **Read** Camtrap DP files with `read_camtrapdp()` (reexported from `camtrapdp::read_camtrapdp()`). This function supports Camtrap DP 1.0 or higher.
 2. **Filter** the data with `filter_deployments()`, `filter_media()` and `filter_observations()` (also reexported from `{camtrapdp}`). These functions replace the predicate functions (which only worked on deployments) and filter arguments in `get_` functions.
-3. **Summarize** deployments and observations with `summarize_deployments()` and `summarize_observations()`. These calculate features (e.g. `"effort_duration"` or `"n_events"`) grouped by fields and temporal levels of your choice.
+3. **Summarize** deployments and observations with `summarize_deployments()` and `summarize_observations()`. These calculate features (e.g. `"effort_duration"` or `"n_events"`) grouped by fields (e.g. `"deploymentID"`, `"latitude"` and `"longitude"`) and temporal levels (e.g. `"month"`) of your choice.
 4. **Visualize** those summary tables using `map_summary()`, which creates a Leaflet map for the desired feature. This function replaces `map_dep()`.
 
 Here's an example where you read files, filter on coordinates and adult animals, calculate observation-level summaries, and create a map showing the number of individuals:

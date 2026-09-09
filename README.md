@@ -17,6 +17,7 @@ commit](https://img.shields.io/github/last-commit/inbo/camtraptor)
 [![Codecov test
 coverage](https://codecov.io/gh/inbo/camtraptor/graph/badge.svg)](https://app.codecov.io/gh/inbo/camtraptor)
 [![test-coverage](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/inbo/camtraptor/actions/workflows/test-coverage.yaml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22672653.svg)](https://doi.org/10.5281/zenodo.22672653)
 <!-- badges: end -->
 
 camtraptor is an R package to explore and visualize Camera Trap Data

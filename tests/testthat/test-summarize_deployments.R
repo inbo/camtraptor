@@ -38,10 +38,7 @@ test_that(
     # The returned summary is of type list
     expect_type(summary, "list")
     # The returned summary is a tibble data.frame
-    expect_equal(
-      class(summary),
-      c("grouped_df", "tbl_df", "tbl", "data.frame")
-    )
+    expect_s3_class(summary, c("grouped_df", "tbl_df", "tbl", "data.frame"))
     # Check that the `summary` has the expected columns
     expect_equal(
       c("deploymentID", "latitude", "longitude", "effort_duration"),
@@ -119,9 +116,7 @@ test_that(
     )
     
     # The summary has the expected columns
-    expect_identical(
-      names(summary_location_id), c("locationID", "effort_duration")
-    )
+    expect_named(summary_location_id, c("locationID", "effort_duration"))
     # The summary has two rows less than the deployments
     expect_equal(
       nrow(summary_location_id), nrow(deployments(x)) - 2
@@ -150,15 +145,12 @@ test_that(
     # The returned summary is of type list
     expect_type(summary, "list")
     # The returned summary is a tibble data.frame
-    expect_equal(
-      class(summary),
-      c("grouped_df", "tbl_df", "tbl", "data.frame")
-    )
+    expect_s3_class(summary, c("grouped_df", "tbl_df", "tbl", "data.frame"))
     
     # Check that the `summary` has the expected columns
-    expect_equal(
-      c("deploymentID", "latitude", "longitude", "day", "effort_duration"),
-      names(summary)
+    expect_named(
+      summary,
+      c("deploymentID", "latitude", "longitude", "day", "effort_duration")
     )
     
     # Check that `effort_duration` is a duration object from lubridate
@@ -270,10 +262,7 @@ test_that("get_effort() returns the right output", {
   x <- example_dataset()
   summary_effort <- get_effort(x, unit = NULL)
   # Right columns
-  expect_equal(
-    names(summary_effort),
-    c("deploymentID", "effort_duration")
-  )
+  expect_named(summary_effort, c("deploymentID", "effort_duration"))
   # Right types
   expect_type(summary_effort$deploymentID, "character")
   expect_true(lubridate::is.duration(summary_effort$effort_duration))
@@ -336,8 +325,8 @@ test_that("get_custom_effort() returns the right output", {
     x, group_by = "month", unit = NULL
   )
   # Right columns
-  expect_equal(
-    names(summary_custom_effort),
+  expect_named(
+    summary_custom_effort,
     c("deploymentID", "month", "effort_duration")
   )
   # Right types

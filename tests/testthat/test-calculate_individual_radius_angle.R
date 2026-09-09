@@ -89,7 +89,7 @@ test_that("Right output", {
                                               calibration_models
   )
   # right class
-  expect_true(inherits(output, c("tbl_df", "tbl", "data.frame")))
+  expect_s3_class(output, c("tbl_df", "tbl", "data.frame"))
   # right number of rows
   expect_true(nrow(output) == nrow(animal_positions))
   # right number of columns

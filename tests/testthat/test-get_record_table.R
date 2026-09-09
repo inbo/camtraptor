@@ -243,7 +243,7 @@ test_that(paste0(
     )
   )
   # Same columns
-  expect_identical(names(rec_last_indep), names(rec_last))
+  expect_named(rec_last_indep, names(rec_last))
   # One row less
   expect_identical(nrow(rec_last), nrow(rec_last_indep) - 1L)
 })
@@ -344,7 +344,7 @@ test_that(paste(
     nrow()
   expect_identical(nrow(rec_table), n_obs_no_dup)
   expect_gt(nrow(rec_table_dup), nrow(rec_table))
-  expect_identical(names(rec_table_dup), names(rec_table))
+  expect_named(rec_table_dup, names(rec_table))
   expect_identical(
     nrow(rec_table_dup),
     nrow(observations(x) %>%

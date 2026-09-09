@@ -2,22 +2,17 @@
 
 **\[superseded\]**
 
-This function is superseded because camtrapR now supports reading Camera
+This function is superseded because camtrapR supports reading Camera
 Trap Data Packages. Use
 [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
 and
 [`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html)
 instead.
 
-Creates the record table from a Camera Trap Data Package and so
-tabulating species records. Only event-based observations and their
-corresponding media are taken into account. The record table is a
-concept developed within the camtrapR package, see [this
-article](https://jniedballa.github.io/camtrapR/articles/camtrapr3.html).
-See also the function documentation for
-[`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html).
-
-**Note**: All dates and times are expressed in UTC format.
+Creates a record table. All dates and times are expressed in UTC format.
+See
+[`vignette("record-table")`](https://inbo.github.io/camtraptor/articles/record-table.md)
+for more details on how to use this function.
 
 ## Usage
 
@@ -191,8 +186,8 @@ get_record_table(
 #> #   delta.time.days <dbl>, Directory <list>, FileName <list>, latitude <dbl>,
 #> #   longitude <dbl>, clock <dbl>, solar <dbl>
 
-# Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
-# `"lastIndependentRecord"`
+# Differences can occur between `deltaTimeCoparedTo` = "lastRecord" and
+# "lastIndependentRecord"
 obs <- observations(x)
 obs[obs$eventID == "02ae9f43", "eventStart"] <- 
   as_datetime("2020-08-02 05:10:20")

@@ -1,8 +1,11 @@
 # Detection history matrix
 
-This functionality has been superseded because camtrapR supports reading
-Camera Trap Data Packages, see the function
-[`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html).
+This functionality is superseded because camtrapR supports reading
+Camera Trap Data Packages. Use
+[`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
+and
+[`camtrapR::detectionHistory()`](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html)
+instead.
 
 This vignette shows how to get a **detection history matrix** from a
 Camera Trap Data Package dataset, equivalent to the matrix returned by
@@ -221,7 +224,7 @@ det_hist_n_obs$detection_history
 #> B_DM_val 4_'t WAD              NA  NA  NA  NA  NA  NA  NA
 ```
 
-To allow counts above 1 for `"n_observations"`, build a record table
+To allow counts above 1 for `n_observations`, build a record table
 without removing duplicates:
 
 ``` r

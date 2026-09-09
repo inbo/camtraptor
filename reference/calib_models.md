@@ -9,7 +9,7 @@ These datasets are deprecated:
   instead of `mica`.
 
 - Use `animal_positions` instead of `animal_pos`. Note that the column
-  `"sequenceID"` has been renamed to `"eventID"`.
+  `sequenceID` has been renamed to `eventID`.
 
 - Use `calibration_models` instead of `calib_models`.
 

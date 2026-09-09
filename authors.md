@@ -53,7 +53,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/inbo/camtraptor/blob/superseded/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/inbo/camtraptor/blob/main/DESCRIPTION)
 
 Oldoni D, Desmet P, Govaert S, Huybrechts P, Missotten W (2026).
 *camtraptor: Explore and Visualize Camera Trap Data Packages*. R package

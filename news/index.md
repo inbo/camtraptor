@@ -29,8 +29,9 @@ data:
     [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md)
     and
     [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md).
-    These calculate features (e.g. `"effort_duration"` or `"n_events"`)
-    grouped by fields and temporal levels of your choice.
+    These calculate features (e.g. `effort_duration` or `n_events`)
+    grouped by fields (e.g. `deploymentID`, `latitude` and `longitude`)
+    and temporal levels (e.g. `"month"`) of your choice.
 4.  **Visualize** those summary tables using
     [`map_summary()`](https://inbo.github.io/camtraptor/reference/map_summary.md),
     which creates a Leaflet map for the desired feature. This function
@@ -105,7 +106,7 @@ More details about the new workflow can be found in the vignette
 - New
   [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md)
   calculates the duration effort. Users can define the grouping field(s)
-  (e.g. `"locationID"`) and temporal level (e.g. `"month"`)
+  (e.g. `locationID`) and temporal level (e.g. `month`)
   ([\#366](https://github.com/inbo/camtraptor/issues/366)).
 - New
   [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md)
@@ -163,15 +164,15 @@ The following functions are reexported from
 
 ### Superseded functionality
 
-The following functions still work, but are superseded in favor of
-correspondent [camtrapR](https://github.com/jniedballa/camtrapR)
+The following functions will continue to work, but are superseded in
+favour of equivalent [camtrapR](https://github.com/jniedballa/camtrapR)
 functions:
 
-| camtraptor | camtrapR |
+| Before | Now |
 |----|----|
-| [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md) | [`camtrapR::cameraOperation()`](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
-| [`get_detection_history()`](https://inbo.github.io/camtraptor/reference/get_detection_history.md) | [`camtrapR::detectionHistory()`](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
-| [`get_record_table()`](https://inbo.github.io/camtraptor/reference/get_record_table.md) | [`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
+| [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md) | [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html) and [`camtrapR::cameraOperation()`](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
+| [`get_detection_history()`](https://inbo.github.io/camtraptor/reference/get_detection_history.md) | [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html) and [`camtrapR::detectionHistory()`](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
+| [`get_record_table()`](https://inbo.github.io/camtraptor/reference/get_record_table.md) | [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html) and [`camtrapR::recordTable()`](https://jniedballa.github.io/camtrapR/reference/recordTable.html) ([\#419](https://github.com/inbo/camtraptor/issues/419)) |
 
 ### Deprecated functionality
 
@@ -180,54 +181,20 @@ future version**:
 
 | Before | Now |
 |----|----|
-| `animal_pos` | `animal_positions`, with the column `"sequenceID"` renamed to `"eventID"` ([\#402](https://github.com/inbo/camtraptor/issues/402), [\#242](https://github.com/inbo/camtraptor/issues/242)) |
+| `animal_pos` | `animal_positions`, with the column `sequenceID` renamed to `eventID` ([\#402](https://github.com/inbo/camtraptor/issues/402), [\#242](https://github.com/inbo/camtraptor/issues/242)) |
 | [`calc_animal_pos()`](https://inbo.github.io/camtraptor/reference/calc_animal_pos.md) | [`calculate_individual_radius_angle()`](https://inbo.github.io/camtraptor/reference/calculate_individual_radius_angle.md) ([\#242](https://github.com/inbo/camtraptor/issues/242)) |
 | `calib_models` | `calibration_models` ([\#402](https://github.com/inbo/camtraptor/issues/402), [\#242](https://github.com/inbo/camtraptor/issues/242)) |
-| [`get_custom_effort()`](https://inbo.github.io/camtraptor/reference/get_custom_effort.md) | [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md), column `"effort_duration"` ([\#366](https://github.com/inbo/camtraptor/issues/366)) |
-
-[`get_effort()`](https://inbo.github.io/camtraptor/reference/get_effort.md)
-\|
-[`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md),
-column `"effort_duration"`
-([\#366](https://github.com/inbo/camtraptor/issues/366))
-[`get_n_individuals()`](https://inbo.github.io/camtraptor/reference/get_n_individuals.md)
-\|
-[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md),
-column `"sum_count"`
-([\#367](https://github.com/inbo/camtraptor/issues/367))
-[`get_n_obs()`](https://inbo.github.io/camtraptor/reference/get_n_obs.md)
-\|
-[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md),
-column `"n_observations"`
-([\#367](https://github.com/inbo/camtraptor/issues/367))
-[`get_n_species()`](https://inbo.github.io/camtraptor/reference/get_n_species.md)
-\|
-[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md),
-column `"n_scientificName"`
-([\#243](https://github.com/inbo/camtraptor/issues/243))
-[`get_rai()`](https://inbo.github.io/camtraptor/reference/get_rai.md) \|
-[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md),
-column `"rai_observations"`
-([\#243](https://github.com/inbo/camtraptor/issues/243))
-[`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md)
-\|
-[`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md),
-column `"rai_count"`
-([\#243](https://github.com/inbo/camtraptor/issues/243))
-[`get_species()`](https://inbo.github.io/camtraptor/reference/get_species.md)
-\| [`taxa()`](https://inbo.github.io/camtraptor/reference/taxa.md)
-([\#343](https://github.com/inbo/camtraptor/issues/343))
-[`map_dep()`](https://inbo.github.io/camtraptor/reference/map_dep.md) \|
-[`map_summary()`](https://inbo.github.io/camtraptor/reference/map_summary.md)
-([\#231](https://github.com/inbo/camtraptor/issues/231),
-[\#91](https://github.com/inbo/camtraptor/issues/91)) `mica` \|
-[`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md)
-([\#402](https://github.com/inbo/camtraptor/issues/402))
-[`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md)
-\|
-[`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md)
-(without underscore)
-([\#298](https://github.com/inbo/camtraptor/issues/298))
+| [`get_custom_effort()`](https://inbo.github.io/camtraptor/reference/get_custom_effort.md) | [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md), column `effort_duration` ([\#366](https://github.com/inbo/camtraptor/issues/366)) |
+| [`get_effort()`](https://inbo.github.io/camtraptor/reference/get_effort.md) | [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md), column `effort_duration` ([\#366](https://github.com/inbo/camtraptor/issues/366)) |
+| [`get_n_individuals()`](https://inbo.github.io/camtraptor/reference/get_n_individuals.md) | [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md), column `sum_count` ([\#367](https://github.com/inbo/camtraptor/issues/367)) |
+| [`get_n_obs()`](https://inbo.github.io/camtraptor/reference/get_n_obs.md) | [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md), column `n_observations` ([\#367](https://github.com/inbo/camtraptor/issues/367)) |
+| [`get_n_species()`](https://inbo.github.io/camtraptor/reference/get_n_species.md) | [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md), column `n_scientificName` ([\#243](https://github.com/inbo/camtraptor/issues/243)) |
+| [`get_rai()`](https://inbo.github.io/camtraptor/reference/get_rai.md) | [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md), column `rai_observations` ([\#243](https://github.com/inbo/camtraptor/issues/243)) |
+| [`get_rai_individuals()`](https://inbo.github.io/camtraptor/reference/get_rai_individuals.md) | [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md), column `rai_count` ([\#243](https://github.com/inbo/camtraptor/issues/243)) |
+| [`get_species()`](https://inbo.github.io/camtraptor/reference/get_species.md) | [`taxa()`](https://inbo.github.io/camtraptor/reference/taxa.md) ([\#343](https://github.com/inbo/camtraptor/issues/343)) |
+| [`map_dep()`](https://inbo.github.io/camtraptor/reference/map_dep.md) | [`map_summary()`](https://inbo.github.io/camtraptor/reference/map_summary.md) ([\#231](https://github.com/inbo/camtraptor/issues/231), [\#91](https://github.com/inbo/camtraptor/issues/91)) |
+| `mica` | [`example_dataset()`](https://inbo.github.io/camtraptor/reference/example_dataset.md) ([\#402](https://github.com/inbo/camtraptor/issues/402)) |
+| [`read_camtrap_dp()`](https://inbo.github.io/camtraptor/reference/read_camtrap_dp.md) | [`read_camtrapdp()`](https://inbo.github.io/camtraptor/reference/read_camtrapdp.md) (without underscore) ([\#298](https://github.com/inbo/camtraptor/issues/298)) |
 
 The following functions and objects **no longer work**:
 

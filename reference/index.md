@@ -56,8 +56,8 @@
 
 ## Create outputs for camtrapR
 
-These functions are deprecated because camtrapR now supports reading
-Camera Trap Data Packages.
+These functions are superseded because camtrapR supports reading Camera
+Trap Data Packages.
 
 - [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md)
   **\[superseded\]** : Get the camera operation matrix

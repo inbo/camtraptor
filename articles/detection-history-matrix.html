@@ -73,18 +73,18 @@
                         <h4 data-toc-skip class="author">Wolf
 Missotten</h4>
             
-            <h4 data-toc-skip class="date">2026-09-02</h4>
+            <h4 data-toc-skip class="date">2026-09-09</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/superseded/vignettes/detection-history-matrix.Rmd" class="external-link"><code>vignettes/detection-history-matrix.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/inbo/camtraptor/blob/main/vignettes/detection-history-matrix.Rmd" class="external-link"><code>vignettes/detection-history-matrix.Rmd</code></a></small>
       <div class="d-none name"><code>detection-history-matrix.Rmd</code></div>
     </div>
 
     
     
 <div class="callout-note">
-<p>This functionality has been superseded because camtrapR supports
-reading Camera Trap Data Packages, see the function
-<code><a href="https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html" class="external-link">camtrapR::readCamtrapDP()</a></code>.</p>
+<p>This functionality is superseded because camtrapR supports reading
+Camera Trap Data Packages. Use <code><a href="https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html" class="external-link">camtrapR::readCamtrapDP()</a></code>
+and <code><a href="https://jniedballa.github.io/camtrapR/reference/detectionHistory.html" class="external-link">camtrapR::detectionHistory()</a></code> instead.</p>
 </div>
 <p>This vignette shows how to get a <strong>detection history
 matrix</strong> from a Camera Trap Data Package dataset, equivalent to
@@ -279,7 +279,7 @@ shown here:</p>
 <span><span class="co">#&gt; B_DL_val 5_beek kleine vijver  NA  NA  NA  NA  NA  NA  NA</span></span>
 <span><span class="co">#&gt; B_DL_val 3_dikke boom          NA  NA  NA  NA  NA  NA  NA</span></span>
 <span><span class="co">#&gt; B_DM_val 4_'t WAD              NA  NA  NA  NA  NA  NA  NA</span></span></code></pre></div>
-<p>To allow counts above 1 for <code>"n_observations"</code>, build a
+<p>To allow counts above 1 for <code>n_observations</code>, build a
 record table without removing duplicates:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">recordTable_multiple</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_record_table.html">get_record_table</a></span><span class="op">(</span><span class="va">x</span>, removeDuplicateRecords <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>

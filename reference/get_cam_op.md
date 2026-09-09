@@ -2,15 +2,16 @@
 
 **\[superseded\]**
 
-This function is superseded because camtrapR now supports reading Camera
+This function is superseded because camtrapR supports reading Camera
 Trap Data Packages. Use
 [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
 and
 [`camtrapR::cameraOperation()`](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
 instead.
 
-Creates the camera operation matrix as returned by
-[`camtrapR::cameraOperation()`](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html).
+Creates a camera operation matrix. See
+[`vignette("camera-operation-matrix")`](https://inbo.github.io/camtraptor/articles/camera-operation-matrix.md)
+for more details on how to use this function.
 
 ## Usage
 
@@ -54,12 +55,12 @@ get_cam_op(
 
 ## Value
 
-A matrix. Row names always indicate the station ID. Column names are
-dates.
+A matrix. Rows are camera stations and columns are occassions (dates).
+Values indicate whether a camera was operational.
 
 ## Details
 
-The deployment data are by default grouped by `locationName` (station ID
+The deployment data are by default grouped by `locationName` (Station ID
 in camtrapR jargon) or another column specified by the user via the
 `station_col` argument. If multiple deployments are linked to the same
 location, daily efforts higher than 1 occur.

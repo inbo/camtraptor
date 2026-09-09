@@ -1,8 +1,11 @@
 # Camera operation matrix
 
-This functionality has been superseded because camtrapR supports reading
-Camera Trap Data Packages, see the function
-[`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html).
+This functionality is superseded because camtrapR supports reading
+Camera Trap Data Packages. Use
+[`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
+and
+[`camtrapR::cameraOperation()`](https://jniedballa.github.io/camtrapR/reference/cameraOperation.html)
+instead.
 
 This vignette shows how to get a **camera operation matrix** from a
 Camera Trap Data Package dataset, equivalent to the matrix returned by

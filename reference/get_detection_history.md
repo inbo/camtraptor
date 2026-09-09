@@ -2,26 +2,16 @@
 
 **\[superseded\]**
 
-This function is superseded because camtrapR now supports reading Camera
+This function is superseded because camtrapR supports reading Camera
 Trap Data Packages. Use
 [`camtrapR::readCamtrapDP()`](https://jniedballa.github.io/camtrapR/reference/readCamtrapDP.html)
 and
 [`camtrapR::detectionHistory()`](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html)
 instead.
 
-Creates the detection history matrix of a species based on the record
-table and the camera operation matrix. The detection history is a
-concept developed within the camtrapR package, see the function
-documentation for
-[`camtrapR::detectionHistory()`](https://jniedballa.github.io/camtrapR/reference/detectionHistory.html).
-
-The detection history matrix is a binary matrix where rows represent
-camera stations and columns represent occasions. The matrix is filled
-with 1s and 0s, where 1 indicates that the species was detected at a
-station on a given occasion and 0 indicates that the species was not
-detected. The function also returns the effort matrix, which contains
-the number of days that each station was active on each occasion, and
-the dates matrix, which contains the dates of the occasions.
+Creates species detection matrices. See
+[`vignette("detection-history-matrix")`](https://inbo.github.io/camtraptor/articles/detection-history-matrix.md)
+for more details on how to use this function.
 
 ## Usage
 
@@ -44,17 +34,13 @@ get_detection_history(
 
 - recordTable:
 
-  A data frame with the camera trap records. The data frame should
-  contain the columns 'Station', 'Date', 'Species' and 'n'. 'Station' is
-  the camera station ID, 'Date' is the date of the record, 'Species' is
-  the species name, 'n' is the number of observations, and 'n_ind' is
-  the number of individuals detected.
+  A record table created by
+  [`get_record_table()`](https://inbo.github.io/camtraptor/reference/get_record_table.md).
 
 - camOp:
 
-  A matrix with camera operation data. Rows represent camera stations
-  and columns represent occasions. The matrix should contain the number
-  of days that each station was active on each occasion.
+  A camera operation matrix created by
+  [`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md).
 
 - species:
 
@@ -86,7 +72,7 @@ get_detection_history(
   Character. Day occasions should begin: station setup date
   (`"station"`) or a specific date (e.g. `"2015-12-31"`). For
   multi-season detection history (`unmarkedMultFrameInput` = `TRUE`),
-  only `day1` = `"station"` is allowed. Default: "station".
+  only `day1` = `"station"` is allowed. Default: `"station"`.
 
 - buffer:
 
@@ -113,15 +99,6 @@ A list with three elements:
 - `dates`: the dates matrix
 
 ## Details
-
-This function doesn't take as input a Camera Trap Data Package object,
-but a camera operation matrix and a record table, which are both
-calculated based on a Camera Trap Data Package object. For more
-information, see the
-[`get_cam_op()`](https://inbo.github.io/camtraptor/reference/get_cam_op.md)
-and
-[`get_record_table()`](https://inbo.github.io/camtraptor/reference/get_record_table.md)
-functions.
 
 If the camera operation matrix (`camOp`) was created for a multi-season
 study (via argument `session_col` in

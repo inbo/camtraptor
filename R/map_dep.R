@@ -118,7 +118,7 @@ map_dep <- function(
   hover_columns[hover_columns == "start"] <- "deploymentStart"
   hover_columns[hover_columns == "end"] <- "deploymentEnd"
   if (feature == "effort_duration") {
-    # Remove `"scientificName"` from `hover_columns` if present as it is not
+    # Remove `scientificName` from `hover_columns` if present as it is not
     # available in deployments summary
     hover_columns <- hover_columns[hover_columns != "scientificName"]
   }

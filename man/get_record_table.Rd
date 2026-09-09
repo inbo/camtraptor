@@ -109,8 +109,8 @@ get_record_table(
   deltaTimeComparedTo = "lastRecord"
 )
 
-# Differences can occur between `deltaTimeCoparedTo` = `"lastRecord"` and
-# `"lastIndependentRecord"`
+# Differences can occur between `deltaTimeCoparedTo` = "lastRecord" and
+# "lastIndependentRecord"
 obs <- observations(x)
 obs[obs$eventID == "02ae9f43", "eventStart"] <- 
   as_datetime("2020-08-02 05:10:20")

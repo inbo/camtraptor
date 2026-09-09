@@ -41,7 +41,7 @@ Default: \code{NULL}. If used, it must be greater than or equal to
 \item{day1}{Character. Day occasions should begin: station setup date
 (\code{"station"}) or a specific date (e.g. \code{"2015-12-31"}). For multi-season
 detection history (\code{unmarkedMultFrameInput} = \code{TRUE}), only \code{day1} =
-\code{"station"} is allowed. Default: "station".}
+\code{"station"} is allowed. Default: \code{"station"}.}
 
 \item{buffer}{Integer. It makes the first occasion begin a number of days
 after station setup. \code{buffer} can be used only in combination with \code{day1} =

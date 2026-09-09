@@ -10,7 +10,7 @@ These datasets are deprecated:
 \itemize{
 \item Use \code{\link[=example_dataset]{example_dataset()}} instead of \code{mica}.
 \item Use \code{animal_positions} instead of \code{animal_pos}. Note that the column
-\code{"sequenceID"} has been renamed to \code{"eventID"}.
+\code{sequenceID} has been renamed to \code{eventID}.
 \item Use \code{calibration_models} instead of \code{calib_models}.
 }
 }

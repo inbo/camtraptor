@@ -35,7 +35,7 @@
 #' @param day1 Character. Day occasions should begin: station setup date
 #'   (`"station"`) or a specific date (e.g. `"2015-12-31"`). For multi-season
 #'   detection history (`unmarkedMultFrameInput` = `TRUE`), only `day1` =
-#'   `"station"` is allowed. Default: "station".
+#'   `"station"` is allowed. Default: `"station"`.
 #' @param buffer Integer. It makes the first occasion begin a number of days
 #'   after station setup. `buffer` can be used only in combination with `day1` =
 #'   `"station"`. Default: `NULL`. A warning is returned if some records are

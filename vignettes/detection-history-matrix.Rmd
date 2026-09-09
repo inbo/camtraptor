@@ -82,8 +82,7 @@ For readability, only the `detection_history` element is shown here:
 det_hist_n_obs$detection_history
 ```
 
-
-To allow counts above 1 for `"n_observations"`, build a record table without removing duplicates:
+To allow counts above 1 for `n_observations`, build a record table without removing duplicates:
 
 ```{r n_obs_multiple}
 recordTable_multiple <- get_record_table(x, removeDuplicateRecords = FALSE)

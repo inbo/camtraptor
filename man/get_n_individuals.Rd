@@ -4,38 +4,36 @@
 \alias{get_n_individuals}
 \title{Get number of individuals for each deployment}
 \usage{
-get_n_individuals(
-  package = NULL,
-  ...,
-  species = "all",
-  sex = NULL,
-  life_stage = NULL,
-  datapkg = lifecycle::deprecated()
-)
+get_n_individuals(x, ..., species = "all", sex = NULL, life_stage = NULL)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{...}{filter predicates for filtering on deployments}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
 
-\item{species}{Character with scientific names or common names (case
-insensitive).
+\item{species}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character with scientific
+names. Common names are not supported anymore as of camtraptor 1.0.0.
+Please, check \code{filter_observations()} to know how to filter by
+\code{scientificName}.
 If \code{"all"} (default) all scientific names are automatically selected.
 If \code{NULL} all observations of all species are taken into account.}
 
-\item{sex}{Character defining the sex class to filter on, e.g. \code{"female"}
-or \code{c("male", "unknown")}.
+\item{sex}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character defining the sex
+class to filter on, e.g. \code{"female"} or \code{c("male", "unknown")}.
 If \code{NULL} (default) all observations of all sex classes are taken into
-account.}
+account. Please, check
+\code{filter_observations()} to know how to filter by \code{sex}.}
 
-\item{life_stage}{Character vector defining the life stage class to filter
-on, e.g. \code{"adult"} or \code{c("subadult", "adult")}.
+\item{life_stage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Character vector
+defining the life stage class to filter on,
+e.g. \code{"adult"} or \code{c("subadult", "adult")}.
 If \code{NULL} (default) all observations of all life stage classes are taken
-into account.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+into account. Please, check \code{filter_observations()} to know how to filter
+by \code{lifeStage}.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -43,55 +41,41 @@ A tibble data frame with the following columns:
 \item \code{deploymentID}: Deployment unique identifier.
 \item \code{scientificName}: Scientific name of the species.
 This column is omitted if parameter \code{species = NULL}.
-\item \code{n}: Number of individuals.
+\item \code{n}: Number of observations.
 }
 }
 \description{
-Gets the number of individuals (of a subset of species) per deployment.
-The number of observed individuals is stored in field \code{count} of
-\code{observations}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Use \code{\link[=summarize_observations]{summarize_observations()}} instead.
+
+Gets the number of individuals per deployment.
 }
 \examples{
-# Get number of observations for each species
-get_n_individuals(mica)
+x <- example_dataset()
 
-# Get number of obs of all species, not identified individuals as well
-get_n_individuals(mica, species = NULL)
+# Get sum of `individualCount` for each species
+get_n_individuals(x)
 
-# Get number of observations of Anas platyrhynchos
-get_n_individuals(mica, species = "Anas platyrhynchos")
-
-# Get number of observations of eurasian beaver (vernacular name)
-get_n_individuals(mica, species = "eurasian beaver")
-
-# Mix scientific and vernacular names
-get_n_individuals(mica, species = c("Anas platyrhynchos", "eurasian beaver"))
-
-# Case insensitive
-get_n_individuals(mica, species = "AnAS PLatyrhyncHOS")
-get_n_individuals(mica, species = "eurasian BEAVER")
-
-# Specify life stage
-get_n_individuals(mica, life_stage = "adult")
+# Get sum of `individualCount` of all species (unidentified included)
+get_n_individuals(x, species = NULL)
+ 
+# Get number of observations of some species only, e.g. Anas platyrhynchos
+get_n_individuals(x, species = "Anas platyrhynchos")
 
 # Specify sex
-get_n_individuals(mica, sex = "female")
+get_n_individuals(x, sex = "female")
 
-# Specify both sex and life stage
-get_n_individuals(mica, sex = "unknown", life_stage = "adult")
-
-# Apply filter(s), e.g. deployments with latitude >= 51.18
-get_n_individuals(mica, pred_gte("latitude", 51.18))
+# Specify life stage
+get_n_individuals(x, life_stage = c("subadult", "adult"))
 }
 \seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_n_species}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+Other deprecated exploration functions:
+\code{\link[=get_custom_effort]{get_custom_effort()}},
+\code{\link[=get_effort]{get_effort()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_n_species]{get_n_species()}},
+\code{\link[=get_rai]{get_rai()}},
+\code{\link[=get_rai_individuals]{get_rai_individuals()}}
 }
-\concept{exploration functions}
+\concept{deprecated exploration functions}

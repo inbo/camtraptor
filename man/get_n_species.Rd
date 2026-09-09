@@ -4,16 +4,16 @@
 \alias{get_n_species}
 \title{Get number of identified species for each deployment}
 \usage{
-get_n_species(package = NULL, ..., datapkg = lifecycle::deprecated())
+get_n_species(x, ...)
 }
 \arguments{
-\item{package}{Camera trap data package object, as returned by
-\code{read_camtrap_dp()}.}
+\item{x}{Camera trap data package object, as returned by
+\code{\link[camtrapdp:read_camtrapdp]{camtrapdp::read_camtrapdp()}}.}
 
-\item{...}{Filter predicates for filtering on deployments.}
-
-\item{datapkg}{Deprecated.
-Use \code{package} instead.}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} filter predicates for filtering
+on deployments are not supported anymore and an error is returned. Anything
+else throws a deprecation warning and will be ignored. Please use
+\code{filter_deployments()} to filter on deployments.}
 }
 \value{
 A tibble data frame with the following columns:
@@ -23,24 +23,22 @@ A tibble data frame with the following columns:
 }
 }
 \description{
-Gets the number of identified species per deployment.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Use \code{\link[=summarize_observations]{summarize_observations()}} instead.
 }
 \examples{
+x <- example_dataset()
 # Get number of species
-get_n_species(mica)
-
-# Get number of species for deployments with latitude >= 51.18
-get_n_species(mica, pred_gte("latitude", 51.18))
+get_n_species(x)
 }
 \seealso{
-Other exploration functions: 
-\code{\link{get_custom_effort}()},
-\code{\link{get_effort}()},
-\code{\link{get_n_individuals}()},
-\code{\link{get_n_obs}()},
-\code{\link{get_rai}()},
-\code{\link{get_rai_individuals}()},
-\code{\link{get_scientific_name}()},
-\code{\link{get_species}()}
+Other deprecated exploration functions:
+\code{\link[=get_custom_effort]{get_custom_effort()}},
+\code{\link[=get_effort]{get_effort()}},
+\code{\link[=get_n_individuals]{get_n_individuals()}},
+\code{\link[=get_n_obs]{get_n_obs()}},
+\code{\link[=get_rai]{get_rai()}},
+\code{\link[=get_rai_individuals]{get_rai_individuals()}}
 }
-\concept{exploration functions}
+\concept{deprecated exploration functions}

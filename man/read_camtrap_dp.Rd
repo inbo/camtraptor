@@ -2,64 +2,103 @@
 % Please edit documentation in R/read_camtrap_dp.R
 \name{read_camtrap_dp}
 \alias{read_camtrap_dp}
-\title{Read a Camtrap DP}
+\title{Read a Camera Trap Data Package}
 \usage{
-read_camtrap_dp(file = NULL, media = TRUE, path = lifecycle::deprecated())
+read_camtrap_dp(file)
 }
 \arguments{
 \item{file}{Path or URL to a \code{datapackage.json} file.}
-
-\item{media}{If \code{TRUE} (default), read media records into memory. If \code{FALSE},
-ignore media file to speed up reading larger Camtrap DP packages.}
-
-\item{path}{Path to the directory containing the datapackage. Use  \code{file}
-with path or URL to a \code{datapackage.json} file instead.}
 }
 \value{
-List describing a Data Package (as returned by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}) containing the original metadata, as well
-as a property \code{data} containing the data as three data frames:
-\enumerate{
-\item \code{deployments}
-\item \code{media}
-\item \code{observations}
-}
+Camera Trap Data Package object.
 }
 \description{
-Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package} into memory.
-All datetime information is automatically transformed to Coordinated
-Universal Time (UTC).
-Vernacular names found in the metadata (\code{package$taxonomic}) are added to the
-\code{observations} data frame.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated. Use \code{\link[=read_camtrapdp]{read_camtrapdp()}} instead.
+
+Reads files from a \href{https://camtrap-dp.tdwg.org}{Camera Trap Data Package (Camtrap DP)} into memory.
 }
+\section{Older versions}{
+
+
+
+The \code{read_camtrapdp()} function supports older versions of Camtrap DP and
+will automatically \strong{upgrade} such datasets to the latest version of the
+standard.
+It currently supports versions 1.0, 1.0.1 and 1.0.2 (latest).
+
+}
+
+\section{Events}{
+
+
+
+Observations can contain classifications at two levels:
+\itemize{
+\item \strong{Media-based} observations (\code{observationLevel = "media"}) are based on a
+single media file and are directly linked to it via \code{mediaID}.
+\item \strong{Event-based} observations (\code{observationLevel = "event"}) are based on an
+event, defined as a combination of \code{eventID}, \code{eventStart} and \code{eventEnd}.
+This event can consist of one or more media files, but is not directly linked
+to these.
+}
+
+The \code{read_camtrapdp()} function \strong{will automatically assign \code{eventID}s to
+media}, using \code{media.deploymentID = observations.deploymentID} and
+\verb{observations.eventStart <= media.timestamp <= observations.eventEnd}.
+Note that this can result in media being linked to multiple events (and thus
+being duplicated), for example when events and sub-events were defined.
+
+}
+
+\section{Taxonomic information}{
+
+
+
+Camtrap DP metadata has a \code{taxonomic} property that can contain extra
+information for each \code{scientificName} found in observations.
+Such information can include higher taxonomy (\code{family}, \code{order}, etc.) and
+vernacular names in multiple languages.
+
+The \code{read_camtrapdp()} function \strong{will automatically include this taxonomic
+information in observations}, as extra columns starting with \code{taxon.}.
+It will then update the \code{taxonomic} scope in the metadata to the unique
+\code{\link[camtrapdp:taxa]{taxa()}} found in the data.
+
+}
+
+\section{Spatial/temporal coverage}{
+
+
+
+Camtrap DP metadata has a \code{spatial} and \code{temporal} property that contains the
+spatial and temporal coverage of the package respectively.
+
+The \code{read_camtrapdp()} function \strong{will automatically update (or create) the
+spatial and temporal scopes} in the metadata based on the data.
+It also does this for the taxonomic scope (see higher).
+
+}
+
+\section{Additional resources}{
+
+
+
+A Camtrap DP can contain Data Resources not described by the standard.
+Those are listed with the tables supported by the standard (i.e. deployments,
+media, observations) in the \code{resources} property.
+
+The \code{read_camtrapdp()} function will \strong{ignore these additional resources}
+and only read the tables described by the standard.
+Additional resources can be read with \code{\link[frictionless:read_resource]{frictionless::read_resource()}} if they
+are tabular.
+
+}
+
 \examples{
-\dontrun{
-# Read Camtrap DP package
-camtrap_dp_file <- system.file(
-  "extdata", "mica", "datapackage.json", 
-  package = "camtraptor"
-)
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file)
-
-# Read Camtrap DP package and ignore media file
-muskrat_coypu <- read_camtrap_dp(camtrap_dp_file, media = FALSE)
-
-# If parsing issues while reading deployments, observations or media arise,
-# use readr::problems()
-camtrap_dp_file_with_issues <- system.file(
-  "extdata",
-  "mica_parsing_issues",
-  "datapackage_for_parsing_issues.json",
-  package = "camtraptor"
-)
-muskrat_coypu_with_issues <- read_camtrap_dp(camtrap_dp_file_with_issues, media = TRUE)
-readr::problems(muskrat_coypu_with_issues$data$deployments)
-readr::problems(muskrat_coypu_with_issues$data$observations)
-readr::problems(muskrat_coypu_with_issues$data$media)
+file <- "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.2/example/datapackage.json"
+x <- read_camtrapdp(file)
+x
 }
-}
-\seealso{
-Other read functions: 
-\code{\link{read_wi}()}
-}
-\concept{read functions}
+\concept{deprecated read functions}

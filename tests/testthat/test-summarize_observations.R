@@ -516,6 +516,51 @@ testthat::test_that(
   }
 )
 
+test_that(
+  paste0("summarize_observations() assigns observations on a calendar ",
+         "boundary to one time group"
+  ), {
+    skip_if_offline()
+    x <- example_dataset() %>%
+      filter_deployments(deploymentID == "00a2c20d")
+    boundary <- lubridate::ceiling_date(deployments(x)$deploymentStart, "day")
+    deployment_end <- lubridate::ceiling_date(
+      deployments(x)$deploymentEnd, "day"
+    )
+    deployments(x)$deploymentEnd <- deployment_end
+    obs <- observations(x)
+    obs$eventStart[obs$observationID == "705e6036"] <- boundary
+    obs$eventStart[obs$observationID == "d3cb3c74"] <- deployment_end
+    observations(x) <- obs
+    summary <- summarize_observations(x, group_by = "deploymentID")
+    summary_day <- summarize_observations(
+      x, group_by = "deploymentID", group_time_by = "day"
+    )
+
+    # Total number of observations is preserved
+    expect_identical(
+      sum(summary_day$n_observations),
+      sum(summary$n_observations)
+    )
+    # An observation on a boundary belongs to the time group starting there
+    n_observations_boundary_day <- observations(x) %>%
+      dplyr::filter(
+        .data$observationLevel == "event",
+        .data$eventStart >= boundary,
+        .data$eventStart < boundary + lubridate::days(1)
+      ) %>%
+      nrow()
+    expect_identical(
+      summary_day$n_observations[summary_day$day == boundary],
+      n_observations_boundary_day
+    )
+    # An observation at `deploymentEnd` belongs to the last time group
+    expect_identical(
+      max(summary_day$day),
+      deployment_end - lubridate::days(1)
+    )
+  })
+
 test_that("extending summary works well with dep-obs variables", {
   skip_if_offline()
   x <- example_dataset()

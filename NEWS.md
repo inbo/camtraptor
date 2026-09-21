@@ -1,5 +1,7 @@
 # camtraptor (development version)
 
+- `summarize_observations()` counts a scientific name once per group in `n_scientificName`, also when it is observed in more than one deployment of that group. Before, it was counted once per deployment when `group_by` did not contain `deploymentID` (#432).
+
 # camtraptor 1.0.0
 
 This major release updates the internal data model of camtraptor to Camtrap DP 1.0, drops support for Camtrap DP 0.1.6 and facilitates a step-by-step exploration workflow with new functions.

@@ -1,4 +1,12 @@
-# camtraptor (development version)
+# camtraptor 1.0.1
+
+## Bug fixes
+
+- Fixed an issue where `summarize_observations()` counted a scientific name once per deployment when `group_by` did not contain `deploymentID` (#432).
+
+## Other changes
+
+-  Add [northfox](https://github.com/northfox) as contributor. Welcome northfox!
 
 # camtraptor 1.0.0
 

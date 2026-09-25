@@ -1,6 +1,6 @@
 Package: camtraptor
 Title: Explore and Visualize Camera Trap Data Packages
-Version: 1.0.0.9000
+Version: 1.0.1
 Date: 2026-09-09
 Authors@R: c(
     person("Damiano", "Oldoni", , "damiano.oldoni@inbo.be", role = c("aut", "cre"),
@@ -19,6 +19,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-6788-5876", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Nele", "Mullens", role = "ctb",
            comment = c(ORCID = "0000-0002-3054-9665", affiliation = "Regionaal Landschap Dijleland vzw")),
+    person("northfox", , , "vulpes.engineer@gmail.com", role = "ctb"),
     person("Raphaël", "Nussbaumer", , "rafnuss@gmail.com", role = "ctb",
            comment = c(ORCID = "0000-0002-8185-1020", affilication = "Swiss Ornithological Institute")),
     person("Thierry", "Onkelinx", , "thierry.onkelinx@inbo.be", role = "ctb",

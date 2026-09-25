@@ -110,18 +110,36 @@ summarize_observations <- function(
   formula_n_species <- rlang::expr(
     "n_scientificName" := sum(.data$n_scientificName, na.rm = TRUE)
   )
-  # Calculate n_scientificName
+  # Calculate n_scientificName. The number of distinct scientific names is not
+  # additive across deployments: a scientific name observed in more than one
+  # deployment would be counted more than once. So, retain the scientific names
+  # by grouping by `scientificName` as well and count the distinct scientific
+  # names over all deployments afterwards.
   n_species_df <- calc_obs_feature(
     deployment_ids = deployment_ids,
     deployments = deployments,
     observations = observations,
     group_by_deployments = group_by_deployments,
-    group_by_observations = group_by_observations,
+    group_by_observations = union(group_by_observations, "scientificName"),
     group_time_by = group_time_by,
     col_obs_for_feature = "scientificName",
     formula_per_deployment = formula_n_species_per_dep,
     formula_total = formula_n_species
-  )
+  ) %>%
+    dplyr::group_by(
+      dplyr::across(dplyr::all_of(c(
+        group_by_deployments,
+        group_by_observations,
+        group_time_by
+      )))
+    ) %>%
+    dplyr::summarise(
+      "n_scientificName" := dplyr::n_distinct(
+        .data$scientificName,
+        na.rm = TRUE
+      ),
+      .groups = "keep"
+    )
   # Define the formula for the number of events per deployment
   formula_n_events_per_dep <- rlang::expr(
     "n_events" := dplyr::n_distinct(.data$eventID, na.rm = TRUE)

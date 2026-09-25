@@ -217,6 +217,58 @@ test_that("summarize_observations() returns correct summary for grouping by
                    rai_sum_count_df$rai_count)
 })
 
+test_that(
+  paste0("summarize_observations() returns n_scientificName equal to 1 or 0 ",
+         "when grouping by scientificName"
+  ), {
+    skip_if_offline()
+    x <- example_dataset()
+    summary <- summarize_observations(x, group_by = "scientificName")
+    # A scientific name observed in more than one deployment is counted once
+    expect_identical(
+      summary$n_scientificName,
+      dplyr::if_else(is.na(summary$scientificName), 0L, 1L)
+    )
+  })
+
+test_that(
+  paste0("summarize_observations() counts distinct scientific names over ",
+         "all deployments of a group"
+  ), {
+    skip_if_offline()
+    x <- example_dataset()
+    # Group all deployments in one location
+    deployments(x) <- deployments(x) %>%
+      dplyr::mutate(locationName = "location")
+    summary <- summarize_observations(x, group_by = "locationName")
+
+    # Scientific names observed in more than one deployment are counted once
+    n_species <- x %>%
+      filter_observations(.data$observationLevel == "event") %>%
+      observations() %>%
+      dplyr::pull("scientificName") %>%
+      dplyr::n_distinct(na.rm = TRUE)
+    expect_identical(summary$n_scientificName, n_species)
+
+    # Same with time grouping
+    summary_year <- summarize_observations(
+      x, group_by = "locationName", group_time_by = "year"
+    )
+    n_species_year <- x %>%
+      filter_observations(.data$observationLevel == "event") %>%
+      observations() %>%
+      dplyr::group_by(
+        year = lubridate::floor_date(.data$eventStart, "year")
+      ) %>%
+      dplyr::summarise(
+        n_scientificName = dplyr::n_distinct(.data$scientificName, na.rm = TRUE)
+      )
+    expect_identical(
+      summary_year$n_scientificName,
+      n_species_year$n_scientificName
+    )
+  })
+
 testthat::test_that(
   "Deployments without observations are not included in the summary", {
     skip_if_offline()

@@ -58,6 +58,8 @@ Other contributors:
 - Nele Mullens ([ORCID](https://orcid.org/0000-0002-3054-9665))
   (affiliation: Regionaal Landschap Dijleland vzw) \[contributor\]
 
+- northfox <vulpes.engineer@gmail.com> \[contributor\]
+
 - Raphaël Nussbaumer <rafnuss@gmail.com>
   ([ORCID](https://orcid.org/0000-0002-8185-1020)) (affilication: Swiss
   Ornithological Institute) \[contributor\]

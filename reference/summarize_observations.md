@@ -176,13 +176,13 @@ summarize_observations(x, group_by = c("scientificName", "sex"))
 #> # Groups:   scientificName, sex [12]
 #>    scientificName     sex    n_scientificName n_events n_observations sum_count
 #>    <chr>              <fct>             <int>    <int>          <int>     <int>
-#>  1 Anas platyrhynchos female                2        7              7        11
+#>  1 Anas platyrhynchos female                1        7              7        11
 #>  2 Anas platyrhynchos male                  1        3              3         6
-#>  3 Anas platyrhynchos NA                    2        5              5        23
+#>  3 Anas platyrhynchos NA                    1        5              5        23
 #>  4 Anas strepera      NA                    1        2              2         4
 #>  5 Ardea              NA                    1        2              2         2
 #>  6 Ardea cinerea      NA                    1        1              1         1
-#>  7 Aves               NA                    2        2              2         2
+#>  7 Aves               NA                    1        2              2         2
 #>  8 Martes foina       NA                    1        1              1         1
 #>  9 Mustela putorius   NA                    1        3              3         3
 #> 10 Rattus norvegicus  NA                    1        2              2         2

@@ -32,6 +32,8 @@
   [](https://orcid.org/0000-0002-3054-9665)  
   Regionaal Landschap Dijleland vzw
 
+- **northfox**. Contributor.
+
 - **Raphaël Nussbaumer**. Contributor.
   [](https://orcid.org/0000-0002-8185-1020)  
   Swiss Ornithological Institute
@@ -57,12 +59,12 @@ Source:
 
 Oldoni D, Desmet P, Govaert S, Huybrechts P, Missotten W (2026).
 *camtraptor: Explore and Visualize Camera Trap Data Packages*. R package
-version 1.0.0.9000, <https://github.com/inbo/camtraptor>.
+version 1.0.1, <https://github.com/inbo/camtraptor>.
 
     @Manual{,
       title = {camtraptor: Explore and Visualize Camera Trap Data Packages},
       author = {Damiano Oldoni and Peter Desmet and Sanne Govaert and Pieter Huybrechts and Wolf Missotten},
       year = {2026},
-      note = {R package version 1.0.0.9000},
+      note = {R package version 1.0.1},
       url = {https://github.com/inbo/camtraptor},
     }

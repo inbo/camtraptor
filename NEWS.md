@@ -1,6 +1,12 @@
-# camtraptor (development version)
+# camtraptor 1.0.1
 
-- `summarize_observations()` counts a scientific name once per group in `n_scientificName`, also when it is observed in more than one deployment of that group. Before, it was counted once per deployment when `group_by` did not contain `deploymentID` (#432).
+## Bug fixes
+
+- Fixed an issue where `summarize_observations()` counted a scientific name once per deployment when `group_by` did not contain `deploymentID` (#432).
+
+## Other changes
+
+-  Add [northfox](https://github.com/northfox) as contributor. Welcome northfox!
 
 # camtraptor 1.0.0
 

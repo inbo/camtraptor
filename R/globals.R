@@ -6,7 +6,7 @@
 # via `.data$`. For packages the only solution at the moment is to declare those
 # variables with `utils::globalVariables()`. More information can be found at
 # https://dplyr.tidyverse.org/articles/in-packages.html#join-helpers.
-utils::globalVariables(c("deploymentID", "x", "y"))
+utils::globalVariables(c("closest", "deploymentID", "x", "y"))
 
 
 #' Define internal vectors with possible `group_by` values, to be used in

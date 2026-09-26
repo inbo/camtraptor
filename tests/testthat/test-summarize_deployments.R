@@ -207,6 +207,51 @@ test_that(
                                summary_effort_start)
   })
 
+test_that(
+  paste0("summarize_deployments() returns correct effort for deployments ",
+         "starting or ending on a calendar boundary"
+  ), {
+    skip_if_offline()
+    x <- example_dataset() %>%
+      filter_deployments(deploymentID == "00a2c20d")
+    start <- deployments(x)$deploymentStart
+    end <- deployments(x)$deploymentEnd
+    for (period in .group_time_bys) {
+      start_on_boundary <- lubridate::floor_date(start, period)
+      end_on_boundary <- lubridate::ceiling_date(end, period)
+      start_end_pairs <- list(
+        c(start_on_boundary, end),
+        c(start, end_on_boundary),
+        c(start_on_boundary, end_on_boundary)
+      )
+      for (dates in start_end_pairs) {
+        deployments(x)$deploymentStart <- dates[1]
+        deployments(x)$deploymentEnd <- dates[2]
+        summary <- summarize_deployments(
+          x, group_by = "deploymentID", group_time_by = period
+        )
+        # Total effort is equal to the deployment duration
+        expect_equal(
+          sum(summary$effort_duration),
+          lubridate::as.duration(dates[2] - dates[1])
+        )
+        # No time group without effort is returned
+        expect_true(all(summary$effort_duration > 0))
+      }
+    }
+
+    # A deployment of zero duration on a boundary returns one time group with
+    # zero effort
+    start_on_day_boundary <- lubridate::floor_date(start, "day")
+    deployments(x)$deploymentStart <- start_on_day_boundary
+    deployments(x)$deploymentEnd <- start_on_day_boundary
+    summary <- summarize_deployments(
+      x, group_by = "deploymentID", group_time_by = "day"
+    )
+    expect_equal(summary$day, start_on_day_boundary)
+    expect_equal(summary$effort_duration, lubridate::duration(0))
+  })
+
 # Check that output of `summarise_deployments()` is the same as
 # `summarize_deployments()`
 test_that(

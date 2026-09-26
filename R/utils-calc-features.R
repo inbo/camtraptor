@@ -217,13 +217,11 @@ enrich_observations <- function(deployment_id,
           group_by = group_by_deployments,
           group_time_by = group_time_by
         ),
+        # Half-open [start, next start); the last group also includes its end
         by = dplyr::join_by(
           deploymentID,
-          dplyr::between(
-            x = x$eventStart,
-            y$start,
-            y$end
-          )
+          closest(x$eventStart >= y$start),
+          x$eventStart <= y$end
         )
       )
   } else {

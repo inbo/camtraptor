@@ -482,8 +482,7 @@ testthat::test_that(
       nrow(s_extended),
       length(sex_values) * length(life_stage_values)
     )
-  }
-)
+})
 
 testthat::test_that(
   "extending summary works well with time grouping and deployments variables", {
@@ -513,8 +512,7 @@ testthat::test_that(
       group_time_by = "week"
     )
     expect_identical(nrow(s_extended), nrow(summary_deployments))
-  }
-)
+})
 
 test_that(
   paste0("summarize_observations() assigns observations on a calendar ",
@@ -559,7 +557,7 @@ test_that(
       max(summary_day$day),
       deployment_end - lubridate::days(1)
     )
-  })
+})
 
 test_that("extending summary works well with dep-obs variables", {
   skip_if_offline()

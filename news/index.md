@@ -9,6 +9,14 @@
   counted a scientific name once per deployment when `group_by` did not
   contain `deploymentID`
   ([\#432](https://github.com/inbo/camtraptor/issues/432)).
+- Fixed an issue where
+  [`summarize_deployments()`](https://inbo.github.io/camtraptor/reference/summarize_deployments.md)
+  and
+  [`summarize_observations()`](https://inbo.github.io/camtraptor/reference/summarize_observations.md)
+  returned wrong time groups when `group_time_by` is used and a
+  `deploymentStart`, `deploymentEnd` or `eventStart` falls exactly on a
+  calendar boundary
+  ([\#433](https://github.com/inbo/camtraptor/issues/433)).
 
 ### Other changes
 

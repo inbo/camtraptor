@@ -49,6 +49,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-1-0-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-1"></a></h3>
 <ul><li>Fixed an issue where <code><a href="../reference/summarize_observations.html">summarize_observations()</a></code> counted a scientific name once per deployment when <code>group_by</code> did not contain <code>deploymentID</code> (<a href="https://github.com/inbo/camtraptor/issues/432" class="external-link">#432</a>).</li>
+<li>Fixed an issue where <code><a href="../reference/summarize_deployments.html">summarize_deployments()</a></code> and <code><a href="../reference/summarize_observations.html">summarize_observations()</a></code> returned wrong time groups when <code>group_time_by</code> is used and a <code>deploymentStart</code>, <code>deploymentEnd</code> or <code>eventStart</code> falls exactly on a calendar boundary (<a href="https://github.com/inbo/camtraptor/issues/433" class="external-link">#433</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="other-changes-1-0-1">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-1-0-1"></a></h3>

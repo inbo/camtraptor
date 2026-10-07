@@ -3,6 +3,7 @@
 ## Bug fixes
 
 - Fixed an issue where `summarize_observations()` counted a scientific name once per deployment when `group_by` did not contain `deploymentID` (#432).
+- Fixed an issue where `summarize_deployments()` and `summarize_observations()` returned wrong time groups when `group_time_by` is used and a `deploymentStart`, `deploymentEnd` or `eventStart` falls exactly on a calendar boundary (#433).
 
 ## Other changes
 

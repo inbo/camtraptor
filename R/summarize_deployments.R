@@ -218,35 +218,26 @@ create_date_series <- function(deployment_id, deployments, group_time_by) {
   # Get start datetimes of the deployment
   start_date <- deployment %>%
     dplyr::pull("deploymentStart")
-  # Calculate floor/ceiling start dates, based on the time grouping
-  start_floor_date <- calendar_floor_date(start_date, group_time_by)
-  start_ceiling_date <- calendar_ceiling_date(start_date, group_time_by)
   # Get end datetimes of the deployment
-  end_date <- deployments %>%
-    dplyr::filter(.data$deploymentID == deployment_id) %>%
+  end_date <- deployment %>%
     dplyr::pull("deploymentEnd")
-  # Calculate floor/ceiling end dates, based on the time grouping
-  end_floor_date <- calendar_floor_date(end_date, group_time_by)
-  end_ceiling_date <- calendar_ceiling_date(end_date, group_time_by)
   # Create a vector with all datetimes the time groups start and end
   if (is.null(group_time_by)) {
     start_date_series <- start_date
     end_date_series <- end_date
   } else {
-    start_date_series <- lubridate::as_datetime(
+    boundaries <- lubridate::as_datetime(
       seq.Date(
-        from = lubridate::date(start_floor_date),
-        to = lubridate::date(end_floor_date),
+        from = lubridate::date(calendar_floor_date(start_date, group_time_by)),
+        to = lubridate::date(calendar_ceiling_date(end_date, group_time_by)),
         by = group_time_by
       )
     )
-    end_date_series <- lubridate::as_datetime(
-      seq.Date(
-        from = lubridate::date(start_ceiling_date),
-        to = lubridate::date(end_ceiling_date),
-        by = group_time_by
-      )
-    )
+    if (length(boundaries) == 1) {
+      boundaries <- rep(boundaries, 2)
+    }
+    start_date_series <- utils::head(boundaries, -1)
+    end_date_series <- utils::tail(boundaries, -1)
   }
   # Return a tibble dataframe with the deployment ID
   # and the start/end date series

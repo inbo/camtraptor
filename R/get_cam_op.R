@@ -209,10 +209,20 @@ get_cam_op <- function(x,
       deploy_df <-
         deploys %>%
         dplyr::filter(.data$deploymentID == x)
-      daily_effort_start <- daily_effort(deploy_df, calc_start = TRUE)
-      daily_effort_end <- daily_effort(deploy_df, calc_end = TRUE)
-      operational[days_operations == start_day] <- daily_effort_start
-      operational[days_operations == end_day] <- daily_effort_end
+      
+      # Handle single-day deployments
+      if (start_day == end_day) {
+        single_day_effort <- lubridate::as.duration(
+          deploy_df$deploymentEnd - deploy_df$deploymentStart
+        ) / lubridate::ddays(1)
+        operational[days_operations == start_day] <- single_day_effort
+      } else {
+        daily_effort_start <- daily_effort(deploy_df, calc_start = TRUE)
+        daily_effort_end <- daily_effort(deploy_df, calc_end = TRUE)
+        operational[days_operations == start_day] <- daily_effort_start
+        operational[days_operations == end_day] <- daily_effort_end
+      }
+      
       operational <- dplyr::as_tibble(operational)
       names(operational) <- x
       return(operational)

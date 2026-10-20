@@ -256,6 +256,28 @@ get_record_table <- function(x,
       by = "eventID"
     )
   
+  # Validate: when deltaTimeComparedTo = "lastRecord", all events must have media
+  if (minDeltaTime > 0 && deltaTimeComparedTo == "lastRecord") {
+    events_without_media <- obs %>%
+      dplyr::filter(is.na(.data$last_timestamp)) %>%
+      dplyr::pull(.data$eventID) %>%
+      unique()
+    
+    if (length(events_without_media) > 0) {
+      assertthat::assert_that(
+        FALSE,
+        msg = glue::glue(
+          "deltaTimeComparedTo = \"lastRecord\" requires all events to have ",
+          "associated media with timestamps. Found ",
+          "{length(events_without_media)} event(s) without media: ",
+          "{paste(events_without_media, collapse = ', ')}. Consider using ",
+          "deltaTimeComparedTo = \"lastIndependentRecord\" instead, or ensure ",
+          "all events have associated media."
+        )
+      )
+    }
+  }
+  
   # Get record table
   record_table <-
     obs %>%

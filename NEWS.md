@@ -1,3 +1,9 @@
+# camtraptor 1.0.2
+
+## Bug fixes
+
+- Fixed an issue where `get_cam_op()` returned a wrong daily effort for single-day deployments (deployment start and end on the same calendar day). The function now correctly returns the active fraction (setup → retrieval) instead of the end-day fraction (midnight → retrieval) (#437).
+
 # camtraptor 1.0.1
 
 ## Bug fixes

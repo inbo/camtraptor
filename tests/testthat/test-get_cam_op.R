@@ -358,3 +358,29 @@ test_that(paste0(
     cam_op_matrix[2, col_idx_start2:col_idx_end2]))
   }
 )
+
+test_that(
+  "single-day deployment returns correct active fraction, not end-day fraction",
+  {
+    skip_if_offline()
+    x <- example_dataset()
+    deps <- deployments(x)
+    
+    # Make deployment 1 single-day: active 10:00-14:00 on its start date (4
+    # hours)
+    d1 <- deps$deploymentID[1]
+    day1 <- as.Date(deps$deploymentStart[1])  # 2020-05-30
+    deps$deploymentStart[1] <- 
+      lubridate::as_datetime(paste(day1, "10:00:00"))
+    deps$deploymentEnd[1] <- 
+      lubridate::as_datetime(paste(day1, "14:00:00"))
+    deployments(x) <- deps
+    
+    co <- get_cam_op(x, station_col = "deploymentID")
+    effort_value <- co[d1, as.character(day1)]
+    
+    # Correct active fraction: 4 hours / 24 hours
+    expect_identical(effort_value, 4/24)
+  }
+)
+

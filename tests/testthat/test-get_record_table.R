@@ -373,3 +373,134 @@ test_that("solar is always in the range [0, 2*pi]", {
   expect_true(all(solar_values >= 0))
   expect_true(all(solar_values <= 2 * pi))
 })
+
+test_that(
+  "records exactly minDeltaTime minutes apart are considered independent",
+  {
+  skip_if_offline()
+  x <- example_dataset()
+  obs0 <- observations(x)
+  
+  # Get Anas events
+  ev_counts <- obs0 %>%
+    dplyr::filter(observationLevel == "event") %>%
+    dplyr::count(eventID)
+  sp_events <- obs0 %>%
+    dplyr::filter(
+      observationLevel == "event",
+      scientificName == "Anas platyrhynchos"
+    ) %>%
+    dplyr::inner_join(ev_counts, by = "eventID") %>%
+    dplyr::filter(n == 1)
+  
+  anas_deps <- unique(obs0$deploymentID[
+    obs0$scientificName == "Anas platyrhynchos" & !is.na(obs0$scientificName)
+  ])
+  target_dep <- setdiff(unique(deployments(x)$deploymentID), anas_deps)[1]
+  
+  move_chain <- function(x, ev_ids, times) {
+    obs <- observations(x); med <- media(x)
+    for (i in seq_along(ev_ids)) {
+      oi <- which(obs$eventID == ev_ids[i])
+      obs$eventStart[oi] <- times[i]; obs$eventEnd[oi] <- times[i]
+      obs$deploymentID[oi] <- target_dep
+      mi <- which(med$eventID == ev_ids[i])
+      med$timestamp[mi] <- times[i]; med$deploymentID[mi] <- target_dep
+    }
+    observations(x) <- obs; media(x) <- med
+    x
+  }
+  
+  base_t <- lubridate::as_datetime("2020-07-01 12:00:00")
+  # Two records exactly 10 min apart; minDeltaTime = 10
+  xC <- move_chain(
+    x,
+    sp_events$eventID[1:2],
+    base_t + lubridate::minutes(c(0, 10))
+  )
+  
+  rtC <- get_record_table(
+    xC,
+    minDeltaTime = 10,
+    deltaTimeComparedTo = "lastIndependentRecord"
+  )
+  
+  station <- deployments(xC)$locationName[
+    deployments(xC)$deploymentID == target_dep
+  ]
+  n_anas_records <- rtC %>%
+    dplyr::filter(Species == "Anas platyrhynchos", Station == station) %>%
+    nrow()
+  
+  # Both records should be present (not dropped at exact boundary)
+  expect_identical(n_anas_records, 2L)
+})
+
+test_that(paste(
+  "error when independent event without media and ",
+  "deltaTimeComparedTo = 'lastRecord'"
+  ), {
+  skip_if_offline()
+  x <- example_dataset()
+  obs0 <- observations(x)
+  
+  # Get Anas events
+  ev_counts <- obs0 %>% 
+    dplyr::filter(observationLevel == "event") %>% 
+    dplyr::count(eventID)
+  sp_events <- obs0 %>%
+    dplyr::filter(
+      observationLevel == "event",
+      scientificName == "Anas platyrhynchos") %>%
+    dplyr::inner_join(ev_counts, by = "eventID") %>%
+    dplyr::filter(n == 1)
+  
+  anas_deps <- unique(obs0$deploymentID[
+    obs0$scientificName == "Anas platyrhynchos" & !is.na(obs0$scientificName)
+  ])
+  target_dep <- setdiff(unique(deployments(x)$deploymentID), anas_deps)[1]
+  
+  move_chain <- function(x, ev_ids, times) {
+    obs <- observations(x)
+    med <- media(x)
+    for (i in seq_along(ev_ids)) {
+      oi <- which(obs$eventID == ev_ids[i])
+      obs$eventStart[oi] <- times[i]
+      obs$eventEnd[oi] <- times[i]
+      obs$deploymentID[oi] <- target_dep
+      mi <- which(med$eventID == ev_ids[i])
+      med$timestamp[mi] <- times[i]
+      med$deploymentID[mi] <- target_dep
+    }
+    observations(x) <- obs
+    media(x) <- med
+    x
+  }
+  
+  base_t <- lubridate::as_datetime("2020-07-01 12:00:00")
+  # Independent event without media + lastRecord
+  xD <- move_chain(
+    x,
+    sp_events$eventID[1:2],
+    base_t + lubridate::minutes(c(0, 30))
+  )
+  media(xD) <- media(xD) %>% dplyr::filter(eventID != sp_events$eventID[1])
+  
+  # Should error with informative message, not crash
+  expect_error(
+    get_record_table(xD, minDeltaTime = 10, deltaTimeComparedTo = "lastRecord"),
+    paste0(
+      "When deltaTimeComparedTo = \"lastRecord\", all events must have ",
+      "associated media"
+    )
+  )
+  
+  # It works fine with `lastIndependentRecord`
+  expect_no_error(
+    get_record_table(
+      xD,
+      minDeltaTime = 10,
+      deltaTimeComparedTo = "lastIndependentRecord"
+    )
+  )
+})

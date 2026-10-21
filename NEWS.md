@@ -2,10 +2,15 @@
 
 ## Bug fixes
 
+### Camera operation matrix
+
 - Fixed an issue where `get_cam_op()` returned a wrong daily effort for single-day deployments (deployment start and end on the same calendar day). The function now correctly returns the active fraction (setup → retrieval) instead of the end-day fraction (midnight → retrieval) (#437).
+
+### Record table
 
 - Fixed an issue where `get_record_table()` with `deltaTimeComparedTo = "lastRecord"` crashed when an independent event had no associated media. Now raises an informative error message early (#436).
 - Fixed an issue where `get_record_table()` would drop records that are exactly `minDeltaTime` minutes after the last independent record. Changed comparison from `>` to `>=` to match camtrapR behavior and the documented "at least" semantics (#436).
+
 # camtraptor 1.0.1
 
 ## Bug fixes
